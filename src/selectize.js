@@ -134,10 +134,15 @@ $.extend(Selectize.prototype, {
 
 		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
-		$control_input    = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+
+		if( settings.controlInput ){
+			$control_input    = $(settings.controlInput);
+		}else{
+			$control_input    = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+		}
 
 		if(inputId = $input.attr('id')) {
 			$control_input.attr('id', inputId + '-selectized');
@@ -2002,7 +2007,7 @@ $.extend(Selectize.prototype, {
 			i = Math.max(0, Math.min(self.items.length, i));
 		}
 
-		if(!self.isPending) {
+		if (!self.settings.controlInput && !self.isPending) {
 			// the input must be moved by leaving it in place and moving the
 			// siblings, due to the fact that focus cannot be restored once lost
 			// on mobile webkit devices
