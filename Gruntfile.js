@@ -65,7 +65,7 @@ module.exports = function(grunt) {
 		modules.push(source);
 
 		// write output
-		path = 'dist/js/standalone/selectize.js';
+		path = 'dist/js/selectize.standalone.js';
 		grunt.file.write(path, modules.join('\n\n'));
 		grunt.log.writeln('Built "' + path + '".');
 	});
@@ -221,7 +221,7 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'dist/js/selectize.min.js': ['dist/js/selectize.js'],
-					'dist/js/standalone/selectize.min.js': ['dist/js/standalone/selectize.js']
+					'dist/js/selectize.standalone.min.js': ['dist/js/selectize.standalone.js']
 				}
 			}
 		},
