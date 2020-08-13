@@ -196,6 +196,12 @@ $(function() {
 		<td valign="top"><code>true</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>controlInput</code></td>
+		<td valign="top">Supply a custom &lt;input&gt; element</td>
+		<td valign="top"><code>&lt;input&gt; element</code></td>
+		<td valign="top"><code>null</code></td>
+	</tr>
+	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
 	</tr>
 	<tr>
@@ -406,39 +412,32 @@ $(function() {
 	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#rendering" name="rendering">Rendering</a></th>
 	</tr>
+	<tr><td colspan=4>
+		Custom rendering functions. Each function should accept two
+		arguments: <code>data</code> and <code>escape</code> and return HTML (string
+		or DOM element) with a single root element.
+		The <code>escape</code> argument is a function that takes a string and
+		escapes all special HTML characters.
+		This is very important to use to prevent XSS vulnerabilities.
+	</td></tr>
 	<tr>
-		<td valign="top"><code>render</code></td>
-		<td valign="top">
-			Custom rendering functions. Each function should accept two
-			arguments: <code>data</code> and <code>escape</code> and return HTML (string
-			or DOM element) with a single root element.
-			The <code>escape</code> argument is a function that takes a string and
-			escapes all special HTML characters.
-			This is very important to use to prevent XSS vulnerabilities.
-			<table width="100%">
-				<tr>
-					<td valign="top"><code>option</code></td>
-					<td valign="top">An option in the dropdown list of available options.</td>
-				</tr>
-				<tr>
-					<td valign="top"><code>item</code></td>
-					<td valign="top">An item the user has selected.</td>
-				</tr>
-				<tr>
-					<td valign="top"><code>option_create</code></td>
-					<td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: <code>input</code> (which is what the user has typed).</td>
-				</tr>
-				<tr>
-					<td valign="top"><code>optgroup_header</code></td>
-					<td valign="top">The header of an option group.</td>
-				</tr>
-				<tr>
-					<td valign="top"><code>optgroup</code></td>
-					<td valign="top">The wrapper for an optgroup. The <code>html</code> property in the data will be the raw html of the optgroup's header and options.</td>
-				</tr>
-			</table>
-		</td>
-		<td valign="top"><code>object</code></td>
-		<td valign="top"></td>
+		<td valign="top"><code>render.option</code></td>
+		<td valign="top">An option in the dropdown list of available options.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>render.item</code></td>
+		<td valign="top">An item the user has selected.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>render.option_create</code></td>
+		<td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: <code>input</code> (which is what the user has typed).</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>render.optgroup_header</code></td>
+		<td valign="top">The header of an option group.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>render.optgroup</code></td>
+		<td valign="top">The wrapper for an optgroup. The <code>html</code> property in the data will be the raw html of the optgroup's header and options.</td>
 	</tr>
 </table>
