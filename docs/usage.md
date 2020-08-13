@@ -421,23 +421,39 @@ $(function() {
 		This is very important to use to prevent XSS vulnerabilities.
 	</td></tr>
 	<tr>
+		<th valign="top" align="left">Setting</th>
+		<th valign="top" align="left">Description</th>
+		<th valign="top" align="left">Type</th>
+		<th valign="top" align="left">Default</th>
+	</tr>
+	<tr>
 		<td valign="top"><code>render.option</code></td>
 		<td valign="top">An option in the dropdown list of available options.</td>
+		<td valign="top"><code>function</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>render.item</code></td>
 		<td valign="top">An item the user has selected.</td>
+		<td valign="top"><code>function</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>render.option_create</code></td>
 		<td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: <code>input</code> (which is what the user has typed).</td>
+		<td valign="top"><code>function</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>render.optgroup_header</code></td>
 		<td valign="top">The header of an option group.</td>
+		<td valign="top"><code>function</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>render.optgroup</code></td>
 		<td valign="top">The wrapper for an optgroup. The <code>html</code> property in the data will be the raw html of the optgroup's header and options.</td>
+		<td valign="top"><code>function</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 </table>
