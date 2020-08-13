@@ -705,7 +705,6 @@ $.extend(Selectize.prototype, {
 			value = $target.attr('data-value');
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
-				self.setTextboxValue('');
 				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
