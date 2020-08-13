@@ -1809,9 +1809,23 @@ $.extend(Selectize.prototype, {
 	 * position of the dropdown.
 	 */
 	positionDropdown: function() {
-		var $control = this.$control;
-		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
-		offset.top += $control.outerHeight(true);
+		var offset, $control;
+
+		if( this.settings.dropdownParent === 'body' ){
+			$control		= this.$control;
+			offset			= $control.offset();
+			offset.top		+= $control.outerHeight(true);
+
+		}else if( this.settings.dropdownParent ){
+			$control		= this.settings.dropdownParent;
+			offset			= {top:$control.outerHeight(),left:0}
+
+		}else{
+			$control		= this.$control;
+			offset			= $control.position();
+			offset.top		+= $control.outerHeight(true);
+			
+		}
 
 		this.$dropdown.css({
 			width : $control[0].getBoundingClientRect().width,
