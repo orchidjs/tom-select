@@ -820,6 +820,10 @@ $.extend(Selectize.prototype, {
 	 * @param {object} e (optional)
 	 */
 	setActiveItem: function($item, e) {
+
+		// this prevents removing items with backspace
+		if( this.settings.disableActiveItems ) return;
+
 		var self = this;
 		var eventName;
 		var i, idx, begin, end, item, swap;

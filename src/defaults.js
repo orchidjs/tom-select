@@ -21,6 +21,7 @@ Selectize.defaults = {
 	preload: false,
 	allowEmptyOption: false,
 	closeAfterSelect: false,
+	disableActiveItems: false,
 
 	scrollDuration: 60,
 	loadThrottle: 300,

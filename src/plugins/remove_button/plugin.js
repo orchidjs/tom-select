@@ -105,11 +105,8 @@ Selectize.define('remove_button', function(options) {
 						e.stopPropagation();
 						if (self.isLocked) return;
 
-						var $item = $(e.currentTarget).parent();
-						self.setActiveItem($item);
-						if (self.deleteSelection()) {
-							self.setCaret(self.items.length);
-						}
+						var value = e.currentTarget.parentNode.dataset.value;
+						self.removeItem(value);
 					});
 
 				};
