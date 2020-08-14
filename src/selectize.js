@@ -1932,7 +1932,7 @@ $.extend(Selectize.prototype, {
 
 		self.showInput();
 		self.positionDropdown();
-		self.refreshOptions(true);
+		self.refreshOptions(false);
 
 		// select previous option
 		if (option_select) {
