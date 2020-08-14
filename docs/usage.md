@@ -368,8 +368,8 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>onDelete(values)</code></td>
-		<td valign="top">Invoked when the user attempts to delete the current selection.</td>
+		<td valign="top"><code>onDelete(values, event)</code></td>
+		<td valign="top">Invoked when the user attempts to delete the current selection. Selected items will not be deleted if the callback returns <code>false</code>.</td>
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
