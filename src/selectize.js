@@ -28,9 +28,7 @@ var Selectize = function($input, settings) {
 		isFocused        : false,
 		isInputHidden    : false,
 		isSetup          : false,
-		isShiftDown      : false,
-		isCmdDown        : false,
-		isCtrlDown       : false,
+		keysDown         : {},
 		ignoreFocus      : false,
 		ignoreBlur       : false,
 		ignoreHover      : false,
@@ -215,15 +213,24 @@ $.extend(Selectize.prototype, {
 		});
 
 		$document.on('keydown' + eventNS, function(e) {
-			self.isCmdDown = e[IS_MAC ? 'metaKey' : 'ctrlKey'];
-			self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
-			self.isShiftDown = e.shiftKey;
+
+			switch( e.keyCode ){
+				case KEY_CTRL:
+				case KEY_SHIFT:
+				case KEY_CMD:
+					self.keysDown[e.keyCode] = true;
+			}
 		});
 
 		$document.on('keyup' + eventNS, function(e) {
-			if (e.keyCode === KEY_CTRL) self.isCtrlDown = false;
-			if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
-			if (e.keyCode === KEY_CMD) self.isCmdDown = false;
+
+			switch( e.keyCode ){
+				case KEY_CTRL:
+				case KEY_SHIFT:
+				case KEY_CMD:
+					delete self.keysDown[e.keyCode];
+			}
+
 		});
 
 		$document.on('mousedown' + eventNS, function(e) {
@@ -486,7 +493,7 @@ $.extend(Selectize.prototype, {
 
 		switch (e.keyCode) {
 			case KEY_A:
-				if (self.isCmdDown) {
+				if (self.isKeyDown(KEY_CMD,e) ) {
 					self.selectAll();
 					return;
 				}
@@ -834,7 +841,7 @@ $.extend(Selectize.prototype, {
 		// modify selection
 		eventName = e && e.type.toLowerCase();
 
-		if (eventName === 'mousedown' && self.isShiftDown && self.$activeItems.length) {
+		if (eventName === 'mousedown' && self.isKeyDown(KEY_SHIFT,e) && self.$activeItems.length) {
 			$last = self.$control.children('.active:last');
 			begin = Array.prototype.indexOf.apply(self.$control[0].childNodes, [$last[0]]);
 			end   = Array.prototype.indexOf.apply(self.$control[0].childNodes, [$item[0]]);
@@ -851,7 +858,7 @@ $.extend(Selectize.prototype, {
 				}
 			}
 			e.preventDefault();
-		} else if ((eventName === 'mousedown' && self.isCtrlDown) || (eventName === 'keydown' && this.isShiftDown)) {
+		} else if ((eventName === 'mousedown' && self.isKeyDown(KEY_CTRL,e) ) || (eventName === 'keydown' && this.isKeyDown(KEY_SHIFT,e))) {
 			if ($item.hasClass('active')) {
 				idx = self.$activeItems.indexOf($item[0]);
 				self.$activeItems.splice(idx, 1);
@@ -1996,7 +2003,7 @@ $.extend(Selectize.prototype, {
 		if (direction === 0) return;
 
 		fn = direction > 0 ? 'next' : 'prev';
-		if (self.isShiftDown) {
+		if ( self.isKeyDown(KEY_SHIFT,e) ) {
 			$adj = self.$control_input[fn]();
 			if ($adj.length) {
 				self.hideInput();
@@ -2210,6 +2217,40 @@ $.extend(Selectize.prototype, {
 			&& (typeof filter !== 'function' || filter.apply(self, [input]))
 			&& (typeof filter !== 'string' || new RegExp(filter).test(input))
 			&& (!(filter instanceof RegExp) || filter.test(input));
+	},
+
+
+	/**
+	 * Return true if the requested key is down
+	 * 
+	 */
+	isKeyDown: function( key_code, evt ){
+
+		var key_cmd		= IS_MAC ? 'metaKey' : 'ctrlKey';
+		var key_ctrl	= IS_MAC ? 'altKey' : 'ctrlKey';
+
+		if( key_code in this.keysDown ){
+			return true;
+		}
+
+		if( evt ){
+			if( key_code == KEY_CTRL && evt[key_ctrl] ){
+				return true;
+			}
+
+			if( key_code == KEY_CMD && evt[key_cmd] ){
+				return true;
+			}
+
+			if( key_code == KEY_SHIFT && evt.shiftKey ){
+				return true;
+			}
+		}
+
+		return false;
 	}
+
+
+
 
 });
