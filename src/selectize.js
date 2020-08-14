@@ -930,11 +930,12 @@ $.extend(Selectize.prototype, {
 	 * retaining its focus.
 	 */
 	hideInput: function() {
-		var self = this;
+		
+		if( this.settings.controlInput ) return;
 
-		self.setTextboxValue('');
-		self.$control_input.css({opacity: 0, position: 'absolute', left: self.rtl ? 10000 : -10000});
-		self.isInputHidden = true;
+		this.setTextboxValue('');
+		this.$control_input.css({opacity: 0, position: 'absolute', left: this.rtl ? 10000 : -10000});
+		this.isInputHidden = true;
 	},
 
 	/**
