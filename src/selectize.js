@@ -925,8 +925,11 @@ $.extend(Selectize.prototype, {
 	 * Selects all items (CTRL + A).
 	 */
 	selectAll: function() {
+
 		var self = this;
 		if (self.settings.mode === 'single') return;
+		if (this.settings.disableActiveItems) return;
+
 
 		self.$activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass('active'));
 		if (self.$activeItems.length) {
