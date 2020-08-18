@@ -222,42 +222,6 @@ var transferStyles = function($from, $to, properties) {
 	$to.css(styles);
 };
 
-/**
- * Measures the width of a string within a
- * parent element (in pixels).
- *
- * @param {string} str
- * @param {object} $parent
- * @returns {int}
- */
-var measureString = function(str, $parent) {
-	if (!str) {
-		return 0;
-	}
-
-	if (!Selectize.$testInput) {
-		Selectize.$testInput = $('<span />').css({
-			position: 'absolute',
-			top: -99999,
-			left: -99999,
-			width: 'auto',
-			padding: 0,
-			whiteSpace: 'pre'
-		}).appendTo('body');
-	}
-
-	Selectize.$testInput.text(str);
-
-	transferStyles($parent, Selectize.$testInput, [
-		'letterSpacing',
-		'fontSize',
-		'fontFamily',
-		'fontWeight',
-		'textTransform'
-	]);
-
-	return Selectize.$testInput.width();
-};
 
 
 var domToString = function(d) {
