@@ -72,6 +72,7 @@ module.exports = function(config) {
 			'src/contrib/*.js',
 			'src/constants.js',
 			'src/utils.js',
+			'src/vanilla.js',
 			'src/selectize.js',
 			'src/defaults.js',
 			'src/selectize.jquery.js',
