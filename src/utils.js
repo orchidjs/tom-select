@@ -213,7 +213,7 @@ var getSelection = function(input) {
  */
 var htmlToElement = function( html ){
 	
-	if( html instanceof jQuery){
+	if( html.jquery ){
 		return html[0];
 	}
 
@@ -233,7 +233,7 @@ var htmlToElement = function( html ){
  */
 var getDom = function( query ){
 
-	if( query instanceof jQuery){
+	if( query.jquery ){
 		return query[0];
 	}
 
@@ -243,6 +243,26 @@ var getDom = function( query ){
 
 	return document.querySelector(query);
 };
+
+/**
+ * Dispatch an event
+ * 
+ */
+var triggerEvent = function( dom_el, event_name ){
+	var event = document.createEvent('HTMLEvents');
+	event.initEvent(event_name, true, false);
+	dom_el.dispatchEvent(event)
+};
+
+/**
+ * Apply CSS rules to a dom element
+ *
+ */
+var applyCSS = function( dom_el, css){
+	Object.keys(css).forEach(function(name){
+		dom_el.style[name] = css[name];
+	});
+}
 
 
 var domToString = function(d) {

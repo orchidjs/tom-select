@@ -7,11 +7,11 @@
 
 			before(function() {
 				test = setup_test('<select tabindex="4">', {});
-				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('4');
+				expect(String(test.selectize.control_input.tabIndex)).to.be.equal('4');
 				test.selectize.disable();
 			});
 			it('should set "tabindex" prop to -1', function() {
-				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('-1');
+				expect(String(test.selectize.control_input.tabIndex)).to.be.equal('-1');
 			});
 			it('should set "disabled" class', function() {
 				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(true);
@@ -21,7 +21,7 @@
 			});
 			it('should add "disabled" attribute on inputs', function() {
 				expect(test.selectize.$input.is(':disabled')).to.be.equal(true);
-				expect(test.selectize.$control_input.is(':disabled')).to.be.equal(true);
+				expect( $(test.selectize.control_input).is(':disabled')).to.be.equal(true);
 			});
 		});
 
@@ -30,11 +30,11 @@
 
 			before(function() {
 				test = setup_test('<select disabled tabindex="2">', {});
-				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('-1');
+				expect(String(test.selectize.control_input.tabIndex)).to.be.equal('-1');
 				test.selectize.enable();
 			});
 			it('should restore original "tabindex" prop', function() {
-				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('2');
+				expect(String(test.selectize.control_input.tabIndex)).to.be.equal('2');
 			});
 			it('should remove "disabled" class', function() {
 				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(false);
@@ -44,7 +44,7 @@
 			});
 			it('should remove "disabled" attribute on inputs', function() {
 				expect(test.selectize.$input.is(':disabled')).to.be.equal(false);
-				expect(test.selectize.$control_input.is(':disabled')).to.be.equal(false);
+				expect( $(test.selectize.control_input).is(':disabled')).to.be.equal(false);
 			});
 		});
 
@@ -61,7 +61,7 @@
 				expect(test.selectize.isFocused).to.be.equal(true);
 			});
 			it('should give the control focus', function() {
-				expect(has_focus(test.selectize.$control_input[0])).to.be.equal(true);
+				expect(has_focus(test.selectize.control_input)).to.be.equal(true);
 			});
 		});
 
@@ -80,7 +80,7 @@
 				expect(test.selectize.isFocused).to.be.equal(false);
 			});
 			it('should remove focus from the control', function() {
-				expect(has_focus(test.selectize.$control_input[0])).to.be.equal(false);
+				expect(has_focus(test.selectize.control_input)).to.be.equal(false);
 			});
 		});
 
@@ -94,7 +94,7 @@
 					}
 				});
 
-				test.selectize.$control_input.val('test');
+				test.selectize.control_input.value = 'test';
 				test.selectize.createItem();
 				expect(test.selectize.items.length).to.be.equal(0);
 
@@ -106,7 +106,7 @@
 					}
 				});
 
-				test.selectize.$control_input.val('test');
+				test.selectize.control_input.value = 'test';
 				test.selectize.createItem();
 				expect(test.selectize.items.length).to.be.equal(0);
 			});
@@ -119,7 +119,7 @@
 					}
 				});
 
-				test.selectize.$control_input.val('test');
+				test.selectize.control_input.value = 'test';
 				test.selectize.createItem();
 				expect(test.selectize.options).to.have.property('test');
 			});
@@ -136,7 +136,7 @@
 					}
 				});
 
-				test.selectize.$control_input.val('test');
+				test.selectize.control_input.value = 'test';
 				test.selectize.createItem();
 			});
 		});

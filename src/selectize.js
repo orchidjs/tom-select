@@ -116,7 +116,7 @@ $.extend(Selectize.prototype, {
 
 		var $wrapper;
 		var $control;
-		var $control_input;
+		var control_input;
 		var $dropdown;
 		var $dropdown_content;
 		var inputMode;
@@ -136,15 +136,17 @@ $.extend(Selectize.prototype, {
 
 		getDom( settings.dropdownParent || $wrapper ).appendChild( $dropdown[0] );
 
-
-		if( settings.controlInput ){
-			$control_input    = $(settings.controlInput);
-		}else{
-			$control_input    = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+		control_input		= htmlToElement( settings.controlInput || '<input type="text" autocomplete="off" />' );
+	
+		if( !settings.controlInput ){
+			control_input.setAttribute('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+			$control[0].appendChild( control_input );
 		}
 
+
+
 		if(inputId = $input.attr('id')) {
-			$control_input.attr('id', inputId + '-selectized');
+			control_input.setAttribute('id', inputId + '-selectized');
 			$("label[for='"+inputId+"']").attr('for', inputId + '-selectized');
 		}
 
@@ -167,7 +169,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		if (self.settings.placeholder) {
-			$control_input.attr('placeholder', settings.placeholder);
+			control_input.setAttribute('placeholder', settings.placeholder);
 		}
 
 		// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
@@ -177,17 +179,17 @@ $.extend(Selectize.prototype, {
 		}
 
 		if ($input.attr('autocorrect')) {
-			$control_input.attr('autocorrect', $input.attr('autocorrect'));
+			control_input.setAttribute('autocorrect', $input.attr('autocorrect'));
 		}
 
 		if ($input.attr('autocapitalize')) {
-			$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
+			control_input.setAttribute('autocapitalize', $input.attr('autocapitalize'));
 		}
-		$control_input[0].type = $input[0].type;
+		control_input.type		= $input[0].type;
 
 		self.$wrapper          = $wrapper;
 		self.$control          = $control;
-		self.$control_input    = $control_input;
+		self.control_input		= control_input;
 		self.$dropdown         = $dropdown;
 		self.$dropdown_content = $dropdown_content;
 
@@ -202,16 +204,18 @@ $.extend(Selectize.prototype, {
 			click     : function() { return self.onClick.apply(self, arguments); }
 		});
 
-		$control_input.on({
-			mousedown : function(e) { e.stopPropagation(); },
-			keydown   : function() { return self.onKeyDown.apply(self, arguments); },
-			keyup     : function() { return self.onKeyUp.apply(self, arguments); },
-			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
-			resize    : function() { self.positionDropdown.apply(self, []); },
-			blur      : function() { return self.onBlur.apply(self, arguments); },
-			focus     : function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); },
-			paste     : function() { return self.onPaste.apply(self, arguments); }
-		});
+
+		control_input.addEventListener('mousedown', function(e) { e.stopPropagation(); });
+		control_input.addEventListener('keydown', function() { return self.onKeyDown.apply(self, arguments); });
+		control_input.addEventListener('keyup', function() { return self.onKeyUp.apply(self, arguments); });
+		control_input.addEventListener('keypress', function() { return self.onKeyPress.apply(self, arguments); });
+		control_input.addEventListener('resize', function() { self.positionDropdown.apply(self, []); });
+		control_input.addEventListener('blur', function() { return self.onBlur.apply(self, arguments); });
+		control_input.addEventListener('focus', function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); });
+		control_input.addEventListener('paste', function() { return self.onPaste.apply(self, arguments); });
+
+
+
 
 		$document.on('keydown' + eventNS, function(e) {
 
@@ -282,7 +286,6 @@ $.extend(Selectize.prototype, {
 		self.updateOriginalInput();
 		self.refreshItems();
 		self.refreshState();
-		self.updatePlaceholder();
 		self.isSetup = true;
 
 		if ($input.is(':disabled')) {
@@ -400,7 +403,7 @@ $.extend(Selectize.prototype, {
 			// retain focus by preventing native handling. if the
 			// event target is the input it should not be modified.
 			// otherwise, text selection within the input won't work.
-			if (e.target !== self.$control_input[0]) {
+			if (e.target !== self.control_input) {
 				if (self.settings.mode === 'single') {
 					// toggle dropdown
 					self.isOpen ? self.close() : self.open();
@@ -448,7 +451,7 @@ $.extend(Selectize.prototype, {
 
 			// Wait for pasted text to be recognized in value
 			setTimeout(function() {
-				var pastedText = self.$control_input.val();
+				var pastedText = self.control_input.value;
 				if(!pastedText.match(self.settings.splitOn)){ return }
 
 				var splitInput = $.trim(pastedText).split(self.settings.splitOn);
@@ -482,7 +485,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onKeyDown: function(e) {
-		var isInput = e.target === this.$control_input[0];
+		var isInput = e.target === this.control_input;
 		var self = this;
 
 		if (self.isLocked) {
@@ -576,7 +579,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		if (self.isLocked) return e && e.preventDefault();
-		var value = self.$control_input.val() || '';
+		var value = self.control_input.value || '';
 		if (self.lastValue !== value) {
 			self.lastValue = value;
 			self.onSearchChange(value);
@@ -776,10 +779,11 @@ $.extend(Selectize.prototype, {
 	 * @param {string} value
 	 */
 	setTextboxValue: function(value) {
-		var $input = this.$control_input;
-		var changed = $input.val() !== value;
+		var input = this.control_input;
+		var changed = input.value !== value;
 		if (changed) {
-			$input.val(value).triggerHandler('update');
+			input.value = value;
+			triggerEvent(input,'update');
 			this.lastValue = value;
 		}
 	},
@@ -949,7 +953,7 @@ $.extend(Selectize.prototype, {
 		if( this.settings.controlInput ) return;
 
 		this.setTextboxValue('');
-		this.$control_input.css({opacity: 0, position: 'absolute', left: this.rtl ? 10000 : -10000});
+		applyCSS(this.control_input, {opacity: 0, position: 'absolute', left: this.rtl ? 10000 : -10000} );
 		this.isInputHidden = true;
 	},
 
@@ -957,7 +961,10 @@ $.extend(Selectize.prototype, {
 	 * Restores input visibility.
 	 */
 	showInput: function() {
-		this.$control_input.css({opacity: 1, position: 'relative', left: 0});
+
+		if( this.settings.controlInput ) return;
+
+		applyCSS(this.control_input, {opacity: 1, position: 'relative', left: 0} );
 		this.isInputHidden = false;
 	},
 
@@ -969,7 +976,7 @@ $.extend(Selectize.prototype, {
 		if (self.isDisabled) return;
 
 		self.ignoreFocus = true;
-		self.$control_input[0].focus();
+		self.control_input.focus();
 		window.setTimeout(function() {
 			self.ignoreFocus = false;
 			self.onFocus();
@@ -982,7 +989,7 @@ $.extend(Selectize.prototype, {
 	 * @param {Element} dest
 	 */
 	blur: function(dest) {
-		this.$control_input[0].blur();
+		this.control_input.blur();
 		this.onBlur(null, dest);
 	},
 
@@ -1085,7 +1092,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		var self              = this;
-		var query             = $.trim(self.$control_input.val());
+		var query             = self.control_input.value.trim();
 		var results           = self.search(query);
 		var $dropdown_content = self.$dropdown_content;
 		var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
@@ -1542,7 +1549,6 @@ $.extend(Selectize.prototype, {
 					self.positionDropdown();
 				}
 
-				self.updatePlaceholder();
 				self.trigger('item_add', value, $item);
 
 				if (!self.isPending) {
@@ -1585,7 +1591,6 @@ $.extend(Selectize.prototype, {
 			}
 
 			self.refreshState();
-			self.updatePlaceholder();
 			self.updateOriginalInput({silent: silent});
 			self.positionDropdown();
 			self.trigger('item_remove', value, $item);
@@ -1608,7 +1613,7 @@ $.extend(Selectize.prototype, {
 	createItem: function(input, triggerDropdown) {
 		var self  = this;
 		var caret = self.caretPos;
-		input = input || $.trim(self.$control_input.val() || '');
+		input = input || self.control_input.value.trim() || '';
 
 		var callback = arguments[arguments.length - 1];
 		if (typeof callback !== 'function') callback = function() {};
@@ -1691,7 +1696,7 @@ $.extend(Selectize.prototype, {
 		var invalid = !this.items.length;
 
 		this.isInvalid = invalid;
-		this.$control_input.prop('required', invalid);
+		this.control_input.required = invalid;
 		this.$input.prop('required', !invalid);
 	},
 
@@ -1761,22 +1766,6 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Shows/hide the input placeholder depending
-	 * on if there items in the list already.
-	 */
-	updatePlaceholder: function() {
-		if (!this.settings.placeholder) return;
-		var $input = this.$control_input;
-
-		if (this.items.length) {
-			$input.removeAttr('placeholder');
-		} else {
-			$input.attr('placeholder', this.settings.placeholder);
-		}
-		$input.triggerHandler('update', {force: true});
-	},
-
-	/**
 	 * Shows the autocomplete dropdown containing
 	 * the available options.
 	 */
@@ -1807,7 +1796,7 @@ $.extend(Selectize.prototype, {
 			// this fixes some weird tabbing behavior in FF and IE.
 			// See #1164
 			if (!self.isBlurring) {
-				self.$control_input.blur(); // close keyboard on iOS
+				self.control_input.blur(); // close keyboard on iOS
 			}
 		}
 
@@ -1865,7 +1854,6 @@ $.extend(Selectize.prototype, {
 		self.lastQuery = null;
 		self.setCaret(0);
 		self.setActiveItem(null);
-		self.updatePlaceholder();
 		self.updateOriginalInput({silent: silent});
 		self.refreshState();
 		self.showInput();
@@ -1903,7 +1891,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
-		selection = getSelection(self.$control_input[0]);
+		selection = getSelection(self.control_input);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
 			option_select = self.getAdjacentOption(self.$activeOption, -1).attr('data-value');
@@ -1927,7 +1915,7 @@ $.extend(Selectize.prototype, {
 		} else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
 			if (direction < 0 && selection.start === 0 && selection.length === 0) {
 				values.push(self.items[self.caretPos - 1]);
-			} else if (direction > 0 && selection.start === self.$control_input.val().length) {
+			} else if (direction > 0 && selection.start === self.control_input.value.length) {
 				values.push(self.items[self.caretPos]);
 			}
 		}
@@ -1978,10 +1966,10 @@ $.extend(Selectize.prototype, {
 		if (self.rtl) direction *= -1;
 
 		tail = direction > 0 ? 'last' : 'first';
-		selection = getSelection(self.$control_input[0]);
+		selection = getSelection(self.control_input);
 
 		if (self.isFocused && !self.isInputHidden) {
-			valueLength = self.$control_input.val().length;
+			valueLength = self.control_input.value.length;
 			cursorAtEdge = direction < 0
 				? selection.start === 0 && selection.length === 0
 				: selection.start === valueLength;
@@ -2006,14 +1994,14 @@ $.extend(Selectize.prototype, {
 	 * @param {object} e (optional)
 	 */
 	advanceCaret: function(direction, e) {
-		var self = this, fn, $adj;
+		var self = this, fn, adj;
 
 		if (direction === 0) return;
 
-		fn = direction > 0 ? 'next' : 'prev';
+		fn = direction > 0 ? 'nextElementSibling' : 'previousElementSibling';
 		if ( self.isKeyDown(KEY_SHIFT,e) ) {
-			$adj = self.$control_input[fn]();
-			if ($adj.length) {
+			adj = self.control_input[fn]();
+			if (adj.length) {
 				self.hideInput();
 				self.setActiveItem($adj);
 				e && e.preventDefault();
@@ -2046,7 +2034,7 @@ $.extend(Selectize.prototype, {
 			for (j = 0, n = $children.length; j < n; j++) {
 				$child = $($children[j]).detach();
 				if (j <  i) {
-					self.$control_input.before($child);
+					self.control_input.insertAdjacentElement('beforebegin', $child[0] );
 				} else {
 					self.$control.append($child);
 				}
@@ -2081,7 +2069,9 @@ $.extend(Selectize.prototype, {
 	disable: function() {
 		var self = this;
 		self.$input.prop('disabled', true);
-		self.$control_input.prop('disabled', true).prop('tabindex', -1);
+		self.control_input.disabled = true;
+		self.control_input.tabIndex = -1;
+
 		self.isDisabled = true;
 		self.lock();
 	},
@@ -2093,7 +2083,8 @@ $.extend(Selectize.prototype, {
 	enable: function() {
 		var self = this;
 		self.$input.prop('disabled', false);
-		self.$control_input.prop('disabled', false).prop('tabindex', self.tabIndex);
+		self.control_input.disabled = false;
+		self.control_input.tabIndex = self.tabIndex;
 		self.isDisabled = false;
 		self.unlock();
 	},
