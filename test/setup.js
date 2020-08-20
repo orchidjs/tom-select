@@ -48,13 +48,13 @@
 			describe('<input type="text" attributes>', function() {
 				it('should propagate original input attributes to the generated input', function() {
 					var test = setup_test('<input type="text" autocorrect="off" autocapitalize="none">', {});
-					expect(test.selectize.$control_input.attr('autocorrect')).to.be.equal('off');
-					expect(test.selectize.$control_input.attr('autocapitalize')).to.be.equal('none');
+					expect(test.selectize.control_input.getAttribute('autocorrect')).to.be.equal('off');
+					expect(test.selectize.control_input.getAttribute('autocapitalize')).to.be.equal('none');
 				});
 				it('should not add attributes if not present in the original', function() {
 					var test = setup_test('<input type="text">', {});
-					expect(test.selectize.$control_input.attr('autocorrect')).to.be.equal(undefined);
-					expect(test.selectize.$control_input.attr('autocapitalize')).to.be.equal(undefined);
+					expect(test.selectize.control_input.getAttribute('autocorrect')).to.be.equal(null);
+					expect(test.selectize.control_input.getAttribute('autocapitalize')).to.be.equal(null);
 				});
 			});
 		});
@@ -63,7 +63,7 @@
 			it('should complete without exceptions', function(done) {
 				var test = setup_test('<input type="number">', {});
 				window.setTimeout(function() {
-					assert.equal(test.selectize.$control_input.attr('type'), 'number');
+					assert.equal(test.selectize.control_input.getAttribute('type'), 'number');
 					done();
 				}, 0);
 			});
