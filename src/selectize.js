@@ -2164,31 +2164,31 @@ $.extend(Selectize.prototype, {
 		}
 
 		// render markup
-		html = $(self.settings.render[templateName].apply(this, [data, escape_html]));
+		html = htmlToElement( self.settings.render[templateName].apply(this, [data, escape_html]) );
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
 			if (!data[self.settings.disabledField]) {
-				html.attr('data-selectable', '');
+				html.setAttribute('data-selectable', '');
 			}
 		}
 		else if (templateName === 'optgroup') {
 			id = data[self.settings.optgroupValueField] || '';
-			html.attr('data-group', id);
+			html.setAttribute('data-group', id);
 			if(data[self.settings.disabledField]) {
-				html.attr('data-disabled', '');
+				html.setAttribute('data-disabled', '');
 			}
 		}
 		if (templateName === 'option' || templateName === 'item') {
-			html.attr('data-value', value || '');
+			html.setAttribute('data-value', value || '');
 		}
 
 		// update cache
 		if (cache) {
-			self.renderCache[templateName][value] = html[0];
+			self.renderCache[templateName][value] = html;
 		}
 
-		return html[0];
+		return html;
 	},
 
 	/**

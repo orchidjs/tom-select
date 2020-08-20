@@ -403,6 +403,33 @@
 			});
 		});
 
+		describe('<select> (custom jquery render)', function() {
+			var test;
+
+			beforeEach(function() {
+				test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+				'</select>', {
+					render: {
+						option: function(item, escape) {
+							return $('<div class="option custom-option">').text(item.text);
+						}
+					}
+				});
+			});
+
+			it('should render the custom option element', function(done) {
+				test.selectize.focus();
+
+				window.setTimeout(function() {
+					expect(test.selectize.$dropdown_content.find('.custom-option').length).to.be.equal(1);
+					done();
+				}, 0);
+			});
+		});
+
+
 	});
 
 })();

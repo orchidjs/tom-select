@@ -204,7 +204,27 @@ var getSelection = function(input) {
 };
 
 
+/**
+ * Create a new DOM element from an HTML string
+ * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 
+ * @param {String} html representing a single element
+ * @return {Element}
+ */
+function htmlToElement( html ) {
+	
+	if( html instanceof jQuery){
+		return html[0];
+	}
+
+	if( html instanceof HTMLElement ){
+		return html;
+	}
+
+	var div = document.createElement('div');
+	div.innerHTML = html.trim(); // Never return a text node of whitespace as the result
+	return div.firstChild; 
+}
 
 var domToString = function(d) {
 	var tmp = document.createElement('div');
