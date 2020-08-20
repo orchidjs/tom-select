@@ -217,7 +217,7 @@
 				'</select>', {});
 
 				click(test.selectize.$control, function() {
-					syn.type('a', test.selectize.$control_input)
+					syn.type('a', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect($('[data-value="a"]', test.selectize.$dropdown).length).to.be.equal(1);
 						expect($('[data-value="b"]', test.selectize.$dropdown).length).to.be.equal(0);
@@ -234,7 +234,7 @@
 				'</select>', {});
 
 				click(test.selectize.$control, function() {
-					syn.type('awaw', test.selectize.$control_input)
+					syn.type('awaw', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(false);
 						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
@@ -251,7 +251,7 @@
 				'</select>', {create: true});
 
 				click(test.selectize.$control, function() {
-					syn.type('awaw', test.selectize.$control_input)
+					syn.type('awaw', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
@@ -268,8 +268,8 @@
 				'</select>', {});
 
 				click(test.selectize.$control, function() {
-					syn.type('awf', test.selectize.$control_input)
-					.type('\b\b\b', test.selectize.$control_input)
+					syn.type('awf', $(test.selectize.control_input))
+					.type('\b\b\b', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
@@ -282,7 +282,7 @@
 				var test = setup_test('<input type="text" value="a,b,c,d">', {create: true});
 
 				click(test.selectize.$control, function() {
-					syn.type('[left][left]whatt', test.selectize.$control_input)
+					syn.type('[left][left]whatt', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect(test.selectize.caretPos).to.be.equal(2);
 						done();
@@ -298,7 +298,7 @@
 				'</select>', {create: true});
 
 				click(test.selectize.$control, function() {
-					syn.type('asdf,asdf', test.selectize.$control_input)
+					syn.type('asdf,asdf', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect(test.selectize.options).to.not.have.property('asdf');
@@ -316,7 +316,7 @@
 
 				click(test.selectize.$control, function() {
 					// Here, the 'S' in St will also match the 's' in Isabel (a duplicate match)
-					syn.type('Isabel St', test.selectize.$control_input)
+					syn.type('Isabel St', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect(test.selectize.$dropdown_content.find('.option[data-value=b]').text()).to.be.equal('Isabel Street');
 						done();
@@ -344,7 +344,7 @@
 
 				click(test.selectize.$control, function() {
 					syn
-						.type('fooo', test.selectize.$control_input)
+						.type('fooo', $(test.selectize.control_input))
 						.delay(0, function() {
 							expect(test.selectize.isOpen).to.be.equal(true);
 							expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
@@ -373,8 +373,8 @@
 				var selectize = test.selectize;
 				click(selectize.$control, function() {
 					syn
-						.type(text, selectize.$control_input)
-						.type(selectize.settings.delimiter, selectize.$control_input)
+						.type(text, $(selectize.control_input))
+						.type(selectize.settings.delimiter, $(selectize.control_input) )
 						.delay(0, function() {
 							expectation(selectize);
 							done();
