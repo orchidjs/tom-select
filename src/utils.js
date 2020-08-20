@@ -203,24 +203,6 @@ var getSelection = function(input) {
 	return result;
 };
 
-/**
- * Copies CSS properties from one element to another.
- *
- * @param {object} $from
- * @param {object} $to
- * @param {array} properties
- */
-var transferStyles = function($from, $to, properties) {
-	var i, n, styles = {};
-	if (properties) {
-		for (i = 0, n = properties.length; i < n; i++) {
-			styles[properties[i]] = $from.css(properties[i]);
-		}
-	} else {
-		styles = $from.css();
-	}
-	$to.css(styles);
-};
 
 
 

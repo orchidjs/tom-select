@@ -194,7 +194,7 @@ $.extend(Selectize.prototype, {
 		$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
 		$dropdown.on('mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
-		//autoGrow($control_input);
+
 
 		$control.on({
 			mousedown : function() { return self.onMouseDown.apply(self, arguments); },
@@ -1717,7 +1717,6 @@ $.extend(Selectize.prototype, {
 			.toggleClass('has-options', !$.isEmptyObject(self.options))
 			.toggleClass('has-items', self.items.length > 0);
 
-		self.$control_input.data('grow', !isFull && !isLocked);
 	},
 
 	/**
@@ -2120,7 +2119,6 @@ $.extend(Selectize.prototype, {
 			.attr({tabindex: revertSettings.tabindex})
 			.show();
 
-		self.$control_input.removeData('grow');
 		self.$input.removeData('selectize');
 
 		if (--Selectize.count == 0 && Selectize.$testInput) {
