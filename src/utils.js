@@ -207,11 +207,11 @@ var getSelection = function(input) {
 /**
  * Create a new DOM element from an HTML string
  * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
-
+ *
  * @param {String} html representing a single element
  * @return {Element}
  */
-function htmlToElement( html ) {
+var htmlToElement = function( html ){
 	
 	if( html instanceof jQuery){
 		return html[0];
@@ -224,7 +224,26 @@ function htmlToElement( html ) {
 	var div = document.createElement('div');
 	div.innerHTML = html.trim(); // Never return a text node of whitespace as the result
 	return div.firstChild; 
-}
+};
+
+
+/**
+ * Return a dom element from either a dom query string, jQuery object or a dom element
+ *
+ */
+var getDom = function( query ){
+
+	if( query instanceof jQuery){
+		return query[0];
+	}
+
+	if( query instanceof HTMLElement ){
+		return query;
+	}
+
+	return document.querySelector(query);
+};
+
 
 var domToString = function(d) {
 	var tmp = document.createElement('div');

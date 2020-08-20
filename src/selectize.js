@@ -119,7 +119,6 @@ $.extend(Selectize.prototype, {
 		var $control_input;
 		var $dropdown;
 		var $dropdown_content;
-		var $dropdown_parent;
 		var inputMode;
 		var timeout_blur;
 		var timeout_focus;
@@ -132,9 +131,11 @@ $.extend(Selectize.prototype, {
 
 		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
-		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
-		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
+		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide();
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+
+		getDom( settings.dropdownParent || $wrapper ).appendChild( $dropdown[0] );
+
 
 		if( settings.controlInput ){
 			$control_input    = $(settings.controlInput);
@@ -1823,26 +1824,27 @@ $.extend(Selectize.prototype, {
 	 * position of the dropdown.
 	 */
 	positionDropdown: function() {
-		var offset, $control;
+		var offset, $control, control;
 
 		if( this.settings.dropdownParent === 'body' ){
 			$control		= this.$control;
 			offset			= $control.offset();
 			offset.top		+= $control.outerHeight(true);
+			control			= $control[0];
 
 		}else if( this.settings.dropdownParent ){
-			$control		= this.settings.dropdownParent;
-			offset			= {top:$control.outerHeight(),left:0}
+			control			= getDom(this.settings.dropdownParent);
+			offset			= {top:control.offsetHeight,left:0}
 
 		}else{
 			$control		= this.$control;
 			offset			= $control.position();
 			offset.top		+= $control.outerHeight(true);
-			
+			control			= $control[0];
 		}
 
 		this.$dropdown.css({
-			width : $control[0].getBoundingClientRect().width,
+			width : control.getBoundingClientRect().width,
 			top   : offset.top,
 			left  : offset.left
 		});
