@@ -147,7 +147,8 @@ $.extend(Selectize.prototype, {
 
 		if(inputId = $input.attr('id')) {
 			control_input.setAttribute('id', inputId + '-selectized');
-			$("label[for='"+inputId+"']").attr('for', inputId + '-selectized');
+			var label = document.querySelector("label[for='"+inputId+"']");
+			if( label ) label.setAttribute('for', inputId + '-selectized');
 		}
 
 		if(self.settings.copyClassesToDropdown) {
