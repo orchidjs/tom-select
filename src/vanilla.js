@@ -156,7 +156,7 @@ var extend = function() {
 					copyIsArray = false;
 
 					// Never move original objects, clone them
-					target[ name ] = jqExtend( deep, clone, copy );
+					target[ name ] = extend( deep, clone, copy );
 
 				// Don't bring in undefined values
 				} else if ( copy !== undefined ) {
