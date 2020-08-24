@@ -75,6 +75,11 @@ var Selectize = function($input, settings) {
 		self.settings.hideSelected = self.settings.mode === 'multi';
 	}
 
+	// create filter regex
+	if( typeof self.settings.createFilter === 'string' ){
+		self.settings.createFilter = new RegExp(self.settings.createFilter);
+	}
+
 	self.initializePlugins(self.settings.plugins);
 	self.setupCallbacks();
 	self.setupTemplates();
@@ -1064,7 +1069,7 @@ Object.assign(Selectize.prototype, {
 			result					= self.sifter.search(query, Object.assign(options, {score: calculateScore}));
 			self.currentResults		= result;
 		} else {
-			result = $.extend(true, {}, self.currentResults);
+			result = extend( {}, self.currentResults);
 		}
 
 		// filter out selected items
@@ -2211,12 +2216,11 @@ Object.assign(Selectize.prototype, {
 	 * @return {boolean}
 	 */
 	canCreate: function(input) {
-		var self = this;
-		if (!self.settings.create) return false;
-		var filter = self.settings.createFilter;
+		if (!this.settings.create) return false;
+		var filter = this.settings.createFilter;
+
 		return input.length
-			&& (typeof filter !== 'function' || filter.apply(self, [input]))
-			&& (typeof filter !== 'string' || new RegExp(filter).test(input))
+			&& (typeof filter !== 'function' || filter.apply(this, [input]))
 			&& (!(filter instanceof RegExp) || filter.test(input));
 	},
 
