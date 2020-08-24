@@ -11,17 +11,17 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-replace');
 
-	grunt.registerTask('configure', [
+	require('load-grunt-tasks')(grunt);
+
+	grunt.registerTask('default', [
 		'clean:pre',
 		'bower:install',
-	]);
-
-	grunt.registerTask('compile', [
 		'copy:less',
 		'copy:less_plugins',
 		'concat:less_theme_dependencies',
 		'concat:less_plugins',
 		'concat:js',
+		'babel',
 		'less:uncompressed',
 		'replace',
 		'build_standalone',
@@ -29,10 +29,7 @@ module.exports = function(grunt) {
 		'clean:post',
 	]);
 
-	grunt.registerTask('default', [
-		'configure',
-		'compile'
-	]);
+	//grunt.registerTask("default", ["babel"]);
 
 	grunt.registerTask('serve', [
 			'connect',
@@ -195,6 +192,16 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		babel: {
+			options: {
+				sourceMap: true
+			},
+			dist: {
+				files: {
+					'dist/js/selectize.js': ['dist/js/selectize.js']
+				}
+			}
+		},
 		connect: {
 			keepalive: true
 		},
@@ -219,6 +226,6 @@ module.exports = function(grunt) {
 				'concat:js',
 				'build_standalone'
 			]
-		},
+		}
 	});
 };
