@@ -15,7 +15,7 @@
  */
 
 Selectize.define('remove_button', function(options) {
-	options = $.extend({
+	options = Object.assign({
 			label     : '&times;',
 			title     : 'Remove',
 			className : 'remove',

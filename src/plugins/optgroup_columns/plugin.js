@@ -17,7 +17,7 @@
 Selectize.define('optgroup_columns', function(options) {
 	var self = this;
 
-	options = $.extend({
+	options = Object.assign({
 		equalizeWidth  : true,
 		equalizeHeight : true
 	}, options);

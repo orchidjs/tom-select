@@ -96,7 +96,7 @@ var deepAssign = function(obj1){
 			// deep copy if object
 			if( typeof(obj[prop]) === 'object' ){
 				if( obj[prop].jquery ){
-					extended[prop] = obj[prop];
+					extended[prop] = obj[prop].clone();
 				}else{
 					extended[prop] = deepAssign( extended[prop], obj[prop] );
 				}

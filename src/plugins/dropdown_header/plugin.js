@@ -17,7 +17,7 @@
 Selectize.define('dropdown_header', function(options) {
 	var self = this;
 
-	options = $.extend({
+	options = Object.assign({
 		title         : 'Untitled',
 		headerClass   : 'selectize-dropdown-header',
 		titleRowClass : 'selectize-dropdown-header-title',
