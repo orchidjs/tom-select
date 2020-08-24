@@ -363,14 +363,14 @@
 		});
 
 		describe('filtering created items', function() {
-			function createFilterTest(createFilter) {
-				return setup_test('<select multiple="multiple"></select>', {create: true, createFilter: createFilter});
-			}
 
 			var text = 'abc';
 
-			function execFilterTest(test, done, expectation) {
-				var selectize = test.selectize;
+			function execFilterTest(filter, done, expectation) {
+
+				var test		= setup_test('<select multiple="multiple"></select>', {create: true, createFilter: filter});
+				var selectize	= test.selectize;
+
 				click(selectize.$control, function() {
 					syn
 						.type(text, $(selectize.control_input))
@@ -386,7 +386,7 @@
 				for (var i = 0; i < filters.length; i++) {
 					(function(filter) {
 						it(heading, function(done) {
-							execFilterTest(createFilterTest(filter), done, expectation);
+							execFilterTest(filter, done, expectation);
 						});
 					})(filters[i]);
 				}
@@ -400,10 +400,14 @@
 				expect(selectize.getItem(text).length).to.be.equal(1);
 			});
 
-			execFilterTests('should not add an item or display the create label if the input does not match the createFilter', ['foo', /foo/, function() { return false; }], function(selectize) {
+			execFilterTests('should not add an item or display the create label if the input does not match the createFilter (A)', ['foo', /foo/, function() { return false; }], function(selectize) {
 				expect(selectize.getItem(text).length).to.be.equal(0);
+			});
+
+			execFilterTests('should not add an item or display the create label if the input does not match the createFilter (B)', ['foo', /foo/, function() { return false; }], function(selectize) {
 				expect($(selectize.$dropdown_content).filter('.create').length).to.be.equal(0);
 			});
+
 		});
 
 	});
