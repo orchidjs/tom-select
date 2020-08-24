@@ -4,6 +4,26 @@
 		syn.click(el).delay(350, cb);
 	};
 
+	var ABTest = function(options){
+
+		return setup_test('<select multiple>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', options);
+
+	};
+
+	var ABTestSingle = function(options){
+
+		return setup_test('<select>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', options);
+
+	};
+
+
+
 	// These tests are functional simulations of
 	// user interaction, using syn.js. For more information:
 	//
@@ -13,28 +33,24 @@
 	describe('Interaction', function() {
 
 		it('should keep dropdown open after selection made if closeAfterSelect: false', function(done) {
-			var test = setup_test('<select multiple>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {});
 
-				click(test.selectize.$control, function() {
-					click($('[data-value=a]', test.selectize.$dropdown_content), function() {
-						expect(test.selectize.isOpen).to.be.equal(true);
-						expect(test.selectize.isFocused).to.be.equal(true);
-						done();
-					});
-				});
-		});
-
-		it('should close dropdown after selection made if closeAfterSelect: true', function(done) {
-			var test = setup_test('<select multiple>' +
-				'<option value="a">A</option>' +
-				'<option value="b">B</option>' +
-				'</select>', {closeAfterSelect: true});
+			var test = ABTest({});
 
 			click(test.selectize.$control, function() {
 				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+					expect(test.selectize.isOpen).to.be.equal(true);
+					expect(test.selectize.isFocused).to.be.equal(true);
+					done();
+				});
+			});
+		});
+
+		it('should close dropdown after selection made if closeAfterSelect: true', function(done) {
+
+			var test = ABTest({closeAfterSelect: true});
+
+			click(test.selectize.$control, function() {
+				click( $('[data-value=a]', test.selectize.$dropdown_content), function() {
 					expect(test.selectize.isOpen).to.be.equal(false);
 					expect(test.selectize.isFocused).to.be.equal(true);
 					done();
@@ -42,47 +58,55 @@
 			});
 		});
     
-    it('should reopen dropdown if clicked after being closed by closeAfterSelect: true', function(done) {
-      var test = setup_test('<select multiple>' +
-				'<option value="a">A</option>' +
-				'<option value="b">B</option>' +
-				'</select>', {closeAfterSelect: true});
+		it('should reopen dropdown if clicked after being closed by closeAfterSelect: true', function(done) {
+
+			var test = ABTest({closeAfterSelect: true});
 
 			click(test.selectize.$control, function() {
 				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
-          click(test.selectize.$control, function () {
-  					expect(test.selectize.isOpen).to.be.equal(true);
-  					expect(test.selectize.isFocused).to.be.equal(true);
-  					done();
-          });
+					click(test.selectize.$control, function () {
+							expect(test.selectize.isOpen).to.be.equal(true);
+							expect(test.selectize.isFocused).to.be.equal(true);
+							done();
+					});
 				});
 			});
-    });
+		});
 
-		it('should close and blur dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
-			var test = setup_test('<select>' +
-				'<option value="a">A</option>' +
-				'<option value="b">B</option>' +
-				'</select>', {closeAfterSelect: true});
+
+		it('should close dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
+
+			var test = ABTestSingle({closeAfterSelect: true});
 
 			click(test.selectize.$control, function() {
 				expect(test.selectize.isOpen).to.be.equal(true);
-				expect(test.selectize.isFocused).to.be.equal(true);
 				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
 					expect(test.selectize.isOpen).to.be.equal(false);
+					done();
+				});
+			});
+		});
+
+
+		it('should blur dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
+
+			var test = ABTestSingle({closeAfterSelect: true});
+
+			click(test.selectize.$control, function() {
+				expect(test.selectize.isFocused).to.be.equal(true);
+				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
 					expect(test.selectize.isFocused).to.be.equal(false);
 					done();
 				});
 			});
 		});
 
+
 		describe('clicking control', function() {
 
 			it('should give it focus', function(done) {
-				var test = setup_test('<select>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {});
+
+				var test = ABTestSingle({});
 
 				click(test.selectize.$control, function() {
 					expect(test.selectize.isFocused).to.be.equal(true);
@@ -93,10 +117,8 @@
 			it('should start loading results if preload:"focus"', function(done) {
 				var calls_focus = 0;
 				var calls_load = 0;
-				var test = setup_test('<select>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {
+
+				var test = ABTestSingle({
 					preload: 'focus',
 					load: function(query, done) {
 						calls_load++;
@@ -120,10 +142,7 @@
 			});
 
 			it('should open dropdown menu', function(done) {
-				var test = setup_test('<select>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {});
+				var test = ABTestSingle({});
 
 				click(test.selectize.$control, function() {
 					expect(test.selectize.isOpen).to.be.equal(true);
@@ -328,11 +347,8 @@
 
 		describe('blurring the input', function() {
 			it('should close dropdown when createOnBlur is true', function(done) {
-				var test = setup_test('<select multiple="multiple">' +
-					'<option></option>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {
+
+				var test = ABTest({
 					createOnBlur: true,
 					create: function(value){
 						return {
