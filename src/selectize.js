@@ -9,7 +9,7 @@ var Selectize = function($input, settings) {
 	dir = dir || $input.parents('[dir]:first').attr('dir') || '';
 
 	// setup default state
-	$.extend(self, {
+	Object.assign(self, {
 		order            : 0,
 		settings         : settings,
 		$input           : $input,
@@ -101,7 +101,7 @@ if(typeof MicroPlugin !== "undefined"){
 // methods
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$.extend(Selectize.prototype, {
+Object.assign(Selectize.prototype, {
 
 	/**
 	 * Creates all elements and sets up event bindings.
@@ -332,7 +332,8 @@ $.extend(Selectize.prototype, {
 			}
 		};
 
-		self.settings.render = $.extend({}, templates, self.settings.render);
+	
+		self.settings.render = Object.assign({}, templates, self.settings.render);
 	},
 
 	/**
@@ -1059,9 +1060,9 @@ $.extend(Selectize.prototype, {
 
 		// perform search
 		if (query !== self.lastQuery) {
-			self.lastQuery = query;
-			result = self.sifter.search(query, $.extend(options, {score: calculateScore}));
-			self.currentResults = result;
+			self.lastQuery			= query;
+			result					= self.sifter.search(query, Object.assign(options, {score: calculateScore}));
+			self.currentResults		= result;
 		} else {
 			result = $.extend(true, {}, self.currentResults);
 		}
@@ -1147,7 +1148,8 @@ $.extend(Selectize.prototype, {
 				html_children.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
 				html_children.appendChild(groups[optgroup]);
 
-				html.appendChild(self.render('optgroup', $.extend({}, self.optgroups[optgroup], {
+
+				html.appendChild(self.render('optgroup', Object.assign({}, self.optgroups[optgroup], {
 					html: domToString(html_children),
 					dom:  html_children
 				})));

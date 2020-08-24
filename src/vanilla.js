@@ -58,3 +58,60 @@ var applyCSS = function( dom_el, css){
 		dom_el.style[name] = css[name];
 	});
 }
+
+
+/**
+ * Merge the contents of two or more objects together into the first object.
+ *
+ */
+var deepAssign = function(obj1){
+	var extended = {};
+	var i;
+
+	if( Array.isArray(obj1) ){
+		extended = [];
+	}
+
+
+	// Merge the object into the extended object
+	// If deep merge and property is an object, merge properties
+	var merge = function (obj) {
+
+		var prop;
+		for ( prop in obj ) {
+
+			if( !obj.hasOwnProperty(prop) ){
+				continue;
+			}
+
+			if( obj[prop] === null ){ 
+				continue;
+			}
+
+			// create array
+			if( !(prop in extended) && Array.isArray(obj[prop]) ){
+				extended[prop] = [];
+			}
+
+			// deep copy if object
+			if( typeof(obj[prop]) === 'object' ){
+				if( obj[prop].jquery ){
+					extended[prop] = obj[prop];
+				}else{
+					extended[prop] = deepAssign( extended[prop], obj[prop] );
+				}
+			}else{
+				extended[prop] = obj[prop];
+			}
+
+		}
+	};
+
+	// Loop through each object and conduct a merge
+	for( i = 0; i < arguments.length; i++){
+		merge(arguments[i]);
+	}
+
+	return extended;
+
+};

@@ -1,6 +1,6 @@
 $.fn.selectize = function(settings_user) {
 	var defaults             = $.fn.selectize.defaults;
-	var settings             = $.extend({}, defaults, settings_user);
+	var settings			= Object.assign({},defaults, settings_user);
 	var attr_data            = settings.dataAttr;
 	var field_label          = settings.labelField;
 	var field_value          = settings.valueField;
@@ -153,7 +153,10 @@ $.fn.selectize = function(settings_user) {
 			init_textbox($input, settings_element);
 		}
 
+
 		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
+		//instance = new Selectize($input, deepAssign( {}, defaults, settings_element, settings_user));
+		
 	});
 };
 
