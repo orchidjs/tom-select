@@ -48,8 +48,7 @@ dependencies – also available un-minified for debugging, just remove the
 Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 
 - [**js/**](dist/js)
-	- [**standalone/**](dist/js/standalone)
-		- [selectize.js](dist/js/standalone/selectize.js) — With dependencies, minus jquery
+	- [selectize.js](dist/js/selectize.standalone.js) — With dependencies, minus jquery
 	- [selectize.js](dist/js/selectize.js) — Without dependencies
 - [**less/**](dist/less)
 	- [selectize.less](dist/less/selectize.less) — Core styles
