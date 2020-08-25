@@ -1,7 +1,7 @@
 (function() {
 
 	var click = function(el, cb) {
-		syn.click(el).delay(350, cb);
+		syn.click(el).delay(100, cb);
 	};
 
 	var ABTest = function(options){
