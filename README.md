@@ -121,7 +121,7 @@ is to erase things/changes.**
 Please ensure all the tests pass:
 
 ```sh
-$ npm test # phantomjs
+$ npm test # headless Firefox
 $ BROWSERS=Firefox npm test
 $ BROWSERS=Firefox,Chrome npm test
 $ BROWSERS=Firefox,Chrome,Safari npm test
