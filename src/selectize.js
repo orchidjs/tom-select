@@ -3,6 +3,8 @@ var Selectize = function($input, settings) {
 	input = $input[0];
 	input.selectize = self;
 
+	
+
 	// detect rtl environment
 	var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
 	dir = computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
@@ -281,7 +283,7 @@ Object.assign(Selectize.prototype, {
 		}
 
 		// feature detect for the validation API
-		if (SUPPORTS_VALIDITY_API) {
+		if( self.supportsValidity() ){
 			$input.on('invalid' + eventNS, function(e) {
 				e.preventDefault();
 				self.isInvalid = true;
@@ -309,6 +311,10 @@ Object.assign(Selectize.prototype, {
 			self.onSearchChange('');
 		}
 
+	},
+
+	supportsValidity: function(){
+		return !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;
 	},
 
 	/**

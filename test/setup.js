@@ -288,7 +288,7 @@
 				syn.click($button);
 			});
 
-			if ($.fn.selectize.support.validity) {
+			if( Selectize.prototype.supportsValidity() ){
 				it('should not pass validation if no element is selected',
 				function(done) {
 					$form.one('submit.test_required', function(e) {

@@ -159,6 +159,3 @@ $.fn.selectize = function(settings_user) {
 	});
 };
 
-$.fn.selectize.support = {
-	validity: SUPPORTS_VALIDITY_API
-};
