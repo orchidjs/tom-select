@@ -127,7 +127,7 @@ Object.assign(Selectize.prototype, {
 		var $window   = $(window);
 		var $document = $(document);
 
-		var $wrapper;
+		var wrapper;
 		var $control;
 		var control_input;
 		var $dropdown;
@@ -142,12 +142,14 @@ Object.assign(Selectize.prototype, {
 		inputMode         = self.settings.mode;
 		classes           = self.input.getAttribute('class') || '';
 
-		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
-		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
+		wrapper				= htmlToElement('<div>');
+		addClasses( wrapper, settings.wrapperClass, classes, inputMode);
+
+		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo(wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide();
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
-		getDom( settings.dropdownParent || $wrapper ).appendChild( $dropdown[0] );
+		getDom( settings.dropdownParent || wrapper ).appendChild( $dropdown[0] );
 
 		control_input		= htmlToElement( settings.controlInput || '<input type="text" autocomplete="off" />' );
 	
@@ -168,13 +170,11 @@ Object.assign(Selectize.prototype, {
 			$dropdown.addClass(classes);
 		}
 
-		$wrapper.css({
-			width: self.input.style.width
-		});
+		wrapper.style.width = self.input.style.width;
 
 		if (self.plugins.names.length) {
 			classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
-			$wrapper.addClass(classes_plugins);
+			addClasses( wrapper, classes_plugins);
 			$dropdown.addClass(classes_plugins);
 		}
 
@@ -201,7 +201,7 @@ Object.assign(Selectize.prototype, {
 		}
 		control_input.type		= self.input.type;
 
-		self.$wrapper          = $wrapper;
+		self.wrapper			= wrapper;
 		self.$control          = $control;
 		self.control_input		= control_input;
 		self.$dropdown         = $dropdown;
@@ -289,7 +289,7 @@ Object.assign(Selectize.prototype, {
 
 		self.input.setAttribute('tabindex',-1)
 		self.input.setAttribute('hidden','hidden');
-		self.input.insertAdjacentElement('afterend', self.$wrapper[0]);
+		self.input.insertAdjacentElement('afterend', self.wrapper);
 
 		if (Array.isArray(settings.items)) {
 			self.setValue(settings.items);
@@ -784,7 +784,7 @@ Object.assign(Selectize.prototype, {
 	 */
 	load: function(fn) {
 		var self = this;
-		var $wrapper = self.$wrapper.addClass(self.settings.loadingClass);
+		self.wrapper.classList.add(self.settings.loadingClass);
 
 		self.loading++;
 		fn.apply(self, [function(results) {
@@ -794,7 +794,7 @@ Object.assign(Selectize.prototype, {
 				self.refreshOptions(self.isFocused && !self.isInputHidden);
 			}
 			if (!self.loading) {
-				$wrapper.removeClass(self.settings.loadingClass);
+				self.wrapper.classList.remove(self.settings.loadingClass);
 			}
 			self.trigger('load', results);
 		}]);
@@ -1734,10 +1734,10 @@ Object.assign(Selectize.prototype, {
 	refreshClasses: function() {
 		var self     = this;
 		var isFull   = self.isFull();
+
 		var isLocked = self.isLocked;
 
-		self.$wrapper
-			.toggleClass('rtl', self.rtl);
+		self.wrapper.classList.toggle('rtl',self.rtl);
 
 		self.$control
 			.toggleClass('focus', self.isFocused)
@@ -2125,7 +2125,7 @@ Object.assign(Selectize.prototype, {
 
 		this.trigger('destroy');
 		this.off();
-		this.$wrapper.remove();
+		this.wrapper.remove();
 		this.$dropdown.remove();
 
 		this.input.innerHTML = '';

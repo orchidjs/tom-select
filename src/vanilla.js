@@ -70,6 +70,22 @@ var matchingParent = function( elem, selector){
     return null;
 };
 
+
+/**
+ * Add classes 
+ *
+ */
+var addClasses = function( el ){
+	for( let i = 1; i < arguments.length; i++ ){
+		let classes = arguments[i];
+		if( !Array.isArray(classes) ){
+			classes = classes.trim().split(/[\11\12\14\15\40]/);
+		}
+		classes = classes.filter(Boolean);
+		el.classList.add( ...classes );
+	}
+}
+
 /**
  * Copied from jQuery source
  *

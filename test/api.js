@@ -640,7 +640,7 @@
 			it_n('should remove control from DOM', function() {
 				var test = setup_test('<select>', {});
 				test.selectize.destroy();
-				expect($.contains(document.documentElement, test.selectize.$wrapper[0])).to.be.equal(false);
+				expect($.contains(document.documentElement, test.selectize.wrapper)).to.be.equal(false);
 			});
 			it_n('should delete "selectize" reference on original input element', function() {
 				var test = setup_test('<select>', {});
