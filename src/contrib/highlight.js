@@ -45,13 +45,13 @@ var highlight = function($element, pattern) {
 
 /**
  * removeHighlight fn copied from highlight v5 and
- * edited to remove with() and pass js strict mode
+ * edited to remove with(), pass js strict mode, and use without jquery
  */
-$.fn.removeHighlight = function() {
-	return this.find("span.highlight").each(function() {
-		this.parentNode.firstChild.nodeName;
-		var parent = this.parentNode;
-		parent.replaceChild(this.firstChild, this);
+var removeHighlight = function(el) {
+	var elements = document.querySelectorAll("span.highlight");
+	Array.prototype.forEach.call(elements, function(el, i){
+		var parent = el.parentNode;
+		parent.replaceChild(el.firstChild, el);
 		parent.normalize();
-	}).end();
+	});
 };

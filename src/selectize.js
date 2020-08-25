@@ -1167,7 +1167,7 @@ Object.assign(Selectize.prototype, {
 
 		// highlight matching terms inline
 		if (self.settings.highlight) {
-			$dropdown_content.removeHighlight();
+			removeHighlight( $dropdown_content[0] );
 			if (results.query.length && results.tokens.length) {
 				for (i = 0, n = results.tokens.length; i < n; i++) {
 					highlight($dropdown_content, results.tokens[i].regex);
