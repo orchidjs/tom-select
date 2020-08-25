@@ -20,7 +20,7 @@
 				expect(test.selectize.isDisabled).to.be.equal(true);
 			});
 			it_n('should add "disabled" attribute on inputs', function() {
-				expect(test.selectize.$input.is(':disabled')).to.be.equal(true);
+				expect(test.selectize.input.disabled).to.be.equal(true);
 				expect( $(test.selectize.control_input).is(':disabled')).to.be.equal(true);
 			});
 		});
@@ -43,7 +43,7 @@
 				expect(test.selectize.isDisabled).to.be.equal(false);
 			});
 			it_n('should remove "disabled" attribute on inputs', function() {
-				expect(test.selectize.$input.is(':disabled')).to.be.equal(false);
+				expect(test.selectize.input.disabled).to.be.equal(false);
 				expect( $(test.selectize.control_input).is(':disabled')).to.be.equal(false);
 			});
 		});
@@ -645,7 +645,7 @@
 			it_n('should delete "selectize" reference on original input element', function() {
 				var test = setup_test('<select>', {});
 				test.selectize.destroy();
-				expect(test.selectize.$input[0].selectize).to.be.equal(undefined);
+				expect(test.selectize.input.selectize).to.be.equal(undefined);
 			});
 			it_n('should unbind events on window', function() {
 				var test = setup_test('<select>', {});
@@ -673,8 +673,8 @@
 				'</optgroup>';
 				var test = setup_test('<select tabindex="9999">' + children + '</select>', {});
 				test.selectize.destroy();
-				expect(test.$select.html()).to.be.equal(children);
-				expect(test.$select.attr('tabindex')).to.be.equal('9999');
+				expect(test.$select.html(),'restoring children failed').to.be.equal(children);
+				expect(test.$select.attr('tabindex'),'restoring tabindex failed').to.be.equal('9999');
 			});
 			it_n('should remove tabindex if it was originally undefined', function() {
 				var test = setup_test('<select>', {});

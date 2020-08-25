@@ -1,22 +1,26 @@
 var Selectize = function( input, settings ){
-	var key, i, n, dir, $input, self = this;
+	var i, n, dir, self = this;
 
 	input				= getDom( input );
 	input.selectize		= self;
-	$input				= $(input);
 	settings			= getSettings( input, settings );
 	
 
 	// detect rtl environment
-	var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
-	dir = computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
-	dir = dir || $input.parents('[dir]:first').attr('dir') || '';
+	var computedStyle	= window.getComputedStyle && window.getComputedStyle(input, null);
+	dir					= computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
+	if( !dir ){
+		var parent = input.matchingParent('[dir]');
+		if( parent ){
+			dir = parent.getAttribute('dir');
+		}
+	}
 
 	// setup default state
 	Object.assign(self, {
 		order            : 0,
 		settings         : settings,
-		$input           : $input,
+		input            : input,
 		tabIndex         : input.getAttribute('tabindex') || '',
 		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
 		rtl              : /rtl/i.test(dir),
@@ -26,7 +30,7 @@ var Selectize = function( input, settings ){
 		isBlurring       : false,
 		isOpen           : false,
 		isDisabled       : false,
-		isRequired       : $input.is('[required]'),
+		isRequired       : input.required,
 		isInvalid        : false,
 		isLocked         : false,
 		isFocused        : false,
@@ -122,7 +126,6 @@ Object.assign(Selectize.prototype, {
 		var eventNS   = self.eventNS;
 		var $window   = $(window);
 		var $document = $(document);
-		var $input    = self.$input;
 
 		var $wrapper;
 		var $control;
@@ -137,7 +140,7 @@ Object.assign(Selectize.prototype, {
 		var inputId;
 
 		inputMode         = self.settings.mode;
-		classes           = $input.attr('class') || '';
+		classes           = self.input.getAttribute('class') || '';
 
 		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
@@ -149,13 +152,13 @@ Object.assign(Selectize.prototype, {
 		control_input		= htmlToElement( settings.controlInput || '<input type="text" autocomplete="off" />' );
 	
 		if( !settings.controlInput ){
-			control_input.setAttribute('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+			control_input.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex);
 			$control[0].appendChild( control_input );
 		}
 
 
 
-		if(inputId = $input.attr('id')) {
+		if( inputId = self.input.getAttribute('id') ){
 			control_input.setAttribute('id', inputId + '-selectized');
 			var label = document.querySelector("label[for='"+inputId+"']");
 			if( label ) label.setAttribute('for', inputId + '-selectized');
@@ -166,7 +169,7 @@ Object.assign(Selectize.prototype, {
 		}
 
 		$wrapper.css({
-			width: $input[0].style.width
+			width: self.input.style.width
 		});
 
 		if (self.plugins.names.length) {
@@ -176,7 +179,7 @@ Object.assign(Selectize.prototype, {
 		}
 
 		if ((settings.maxItems === null || settings.maxItems > 1) && self.tagType === TAG_SELECT) {
-			$input.attr('multiple', 'multiple');
+			self.input.setAttribute('multiple','multiple');
 		}
 
 		if (self.settings.placeholder) {
@@ -189,14 +192,14 @@ Object.assign(Selectize.prototype, {
 			self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
 		}
 
-		if ($input.attr('autocorrect')) {
-			control_input.setAttribute('autocorrect', $input.attr('autocorrect'));
+		if( self.input.getAttribute('autocorrect') ){
+			control_input.setAttribute('autocorrect', self.input.getAttribute('autocorrect') );
 		}
 
-		if ($input.attr('autocapitalize')) {
-			control_input.setAttribute('autocapitalize', $input.attr('autocapitalize'));
+		if( self.input.getAttribute('autocapitalize') ){
+			control_input.setAttribute('autocapitalize', self.input.getAttribute('autocapitalize'));
 		}
-		control_input.type		= $input[0].type;
+		control_input.type		= self.input.type;
 
 		self.$wrapper          = $wrapper;
 		self.$control          = $control;
@@ -273,12 +276,20 @@ Object.assign(Selectize.prototype, {
 
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
+		var children = [];
+		while( self.input.children.length > 0 ){
+			children.push( self.input.children[0] );
+			self.input.children[0].remove();
+		}
 		this.revertSettings = {
-			$children : $input.children().detach(),
-			tabindex  : $input.attr('tabindex')
+			children : children,
+			tabindex  : self.input.getAttribute('tabindex')
 		};
 
-		$input.attr('tabindex', -1).hide().after(self.$wrapper);
+
+		self.input.setAttribute('tabindex',-1)
+		self.input.setAttribute('hidden','hidden');
+		self.input.insertAdjacentElement('afterend', self.$wrapper[0]);
 
 		if (Array.isArray(settings.items)) {
 			self.setValue(settings.items);
@@ -287,7 +298,7 @@ Object.assign(Selectize.prototype, {
 
 		// feature detect for the validation API
 		if( self.supportsValidity() ){
-			$input.on('invalid' + eventNS, function(e) {
+			self.input.addEventListener('invalid' + eventNS, function(e) {
 				e.preventDefault();
 				self.isInvalid = true;
 				self.refreshState();
@@ -299,14 +310,14 @@ Object.assign(Selectize.prototype, {
 		self.refreshState();
 		self.isSetup = true;
 
-		if ($input.is(':disabled')) {
+		if( self.input.disabled ){
 			self.disable();
 		}
 
 		self.on('change', this.onChange);
 
-		$input.data('selectize', self);
-		$input.addClass('selectized');
+		self.input.dataset.selectize = self;
+		self.input.classList.add('selectized');
 		self.trigger('initialize');
 
 		// preload options
@@ -444,7 +455,7 @@ Object.assign(Selectize.prototype, {
 	 * input / select element.
 	 */
 	onChange: function() {
-		this.$input.trigger('change');
+		triggerEvent(this.input, 'change');
 	},
 
 	/**
@@ -813,7 +824,7 @@ Object.assign(Selectize.prototype, {
 	 * @returns {mixed}
 	 */
 	getValue: function() {
-		if (this.tagType === TAG_SELECT && this.$input.attr('multiple')) {
+		if (this.tagType === TAG_SELECT && this.input.hasAttribute('multiple')) {
 			return this.items;
 		} else {
 			return this.items.join(this.settings.delimiter);
@@ -1714,7 +1725,7 @@ Object.assign(Selectize.prototype, {
 
 		this.isInvalid = invalid;
 		this.control_input.required = invalid;
-		this.$input.prop('required', !invalid);
+		this.input.required = !invalid;
 	},
 
 	/**
@@ -1766,18 +1777,18 @@ Object.assign(Selectize.prototype, {
 				label = self.options[self.items[i]][self.settings.labelField] || '';
 				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
 			}
-			if (!options.length && !this.$input.attr('multiple')) {
+			if (!options.length && !this.input.hasAttribute('multiple')) {
 				options.push('<option value="" selected="selected"></option>');
 			}
-			self.$input.html(options.join(''));
+			self.input.innerHTML = options.join('');
 		} else {
-			self.$input.val(self.getValue());
-			self.$input.attr('value',self.$input.val());
+			self.input.value = self.getValue();
+			self.input.setAttribute('value',self.input.value);
 		}
 
 		if (self.isSetup) {
 			if (!opts.silent) {
-				self.trigger('change', self.$input.val());
+				self.trigger('change', self.input.value );
 			}
 		}
 	},
@@ -2084,13 +2095,11 @@ Object.assign(Selectize.prototype, {
 	 * While disabled, it cannot receive focus.
 	 */
 	disable: function() {
-		var self = this;
-		self.$input.prop('disabled', true);
-		self.control_input.disabled = true;
-		self.control_input.tabIndex = -1;
-
-		self.isDisabled = true;
-		self.lock();
+		this.input.disabled				= true;
+		this.control_input.disabled		= true;
+		this.control_input.tabIndex		= -1;
+		this.isDisabled					= true;
+		this.lock();
 	},
 
 	/**
@@ -2098,12 +2107,11 @@ Object.assign(Selectize.prototype, {
 	 * to focus and user input.
 	 */
 	enable: function() {
-		var self = this;
-		self.$input.prop('disabled', false);
-		self.control_input.disabled = false;
-		self.control_input.tabIndex = self.tabIndex;
-		self.isDisabled = false;
-		self.unlock();
+		this.input.disabled				= false;
+		this.control_input.disabled		= false;
+		this.control_input.tabIndex		= this.tabIndex;
+		this.isDisabled					= false;
+		this.unlock();
 	},
 
 	/**
@@ -2112,24 +2120,29 @@ Object.assign(Selectize.prototype, {
 	 * be garbage collected.
 	 */
 	destroy: function() {
-		var self = this;
-		var eventNS = self.eventNS;
-		var revertSettings = self.revertSettings;
+		var eventNS = this.eventNS;
+		var revertSettings = this.revertSettings;
 
-		self.trigger('destroy');
-		self.off();
-		self.$wrapper.remove();
-		self.$dropdown.remove();
+		this.trigger('destroy');
+		this.off();
+		this.$wrapper.remove();
+		this.$dropdown.remove();
 
-		self.$input
-			.html('')
-			.append(revertSettings.$children)
-			.removeAttr('tabindex')
-			.removeClass('selectized')
-			.attr({tabindex: revertSettings.tabindex})
-			.show();
+		this.input.innerHTML = '';
+		if( revertSettings.tabindex ){
+			this.input.setAttribute('tabindex', revertSettings.tabindex );
+		}else{
+			this.input.removeAttribute('tabindex' );
+		}
+		
+		this.input.classList.remove('selectized');
+		this.input.removeAttribute('hidden');
 
-		self.$input.removeData('selectize');
+		for( let i = 0; i < revertSettings.children.length; i++ ){
+			this.input.appendChild( revertSettings.children[i] );
+		}
+
+		this.input.removeAttribute('data-selectize');
 
 		if (--Selectize.count == 0 && Selectize.$testInput) {
 			Selectize.$testInput.remove();
@@ -2140,7 +2153,7 @@ Object.assign(Selectize.prototype, {
 		$(document).off(eventNS);
 		$(document.body).off(eventNS);
 
-		delete self.$input[0].selectize;
+		delete this.input.selectize;
 	},
 
 	/**
