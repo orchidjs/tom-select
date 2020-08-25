@@ -529,9 +529,9 @@
 					test.selectize.clear();
 					test.selectize.focus();
 					window.setTimeout(function() {
-						expect(test.selectize.$dropdown_content.find('[data-value=1]').length).to.be.equal(1);
-						expect(test.selectize.$dropdown_content.find('[data-value=2]').length).to.be.equal(1);
-						expect(test.selectize.$dropdown_content.find('[data-value=3]').length).to.be.equal(1);
+						expect($(test.selectize.dropdown_content).find('[data-value=1]').length).to.be.equal(1);
+						expect($(test.selectize.dropdown_content).find('[data-value=2]').length).to.be.equal(1);
+						expect($(test.selectize.dropdown_content).find('[data-value=3]').length).to.be.equal(1);
 						done();
 					}, 0);
 				}, 0);

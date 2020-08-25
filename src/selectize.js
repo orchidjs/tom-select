@@ -128,10 +128,10 @@ Object.assign(Selectize.prototype, {
 		var $document = $(document);
 
 		var wrapper;
-		var $control;
+		var $control; // watchChildEvent
 		var control_input;
 		var $dropdown;
-		var $dropdown_content;
+		var dropdown_content;
 		var inputMode;
 		var timeout_blur;
 		var timeout_focus;
@@ -147,7 +147,10 @@ Object.assign(Selectize.prototype, {
 
 		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo(wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide();
-		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+
+		dropdown_content	= htmlToElement('<div style="scroll-behavior: smooth;">')
+		addClasses(dropdown_content, settings.dropdownContentClass);
+		$dropdown[0].append(dropdown_content);
 
 		getDom( settings.dropdownParent || wrapper ).appendChild( $dropdown[0] );
 
@@ -205,7 +208,7 @@ Object.assign(Selectize.prototype, {
 		self.$control          = $control;
 		self.control_input		= control_input;
 		self.$dropdown         = $dropdown;
-		self.$dropdown_content = $dropdown_content;
+		self.dropdown_content	= dropdown_content;
 
 		$dropdown.on('mouseenter mousedown click', '[data-disabled]>[data-selectable]', function(e) { e.stopImmediatePropagation(); });
 		$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
@@ -544,7 +547,7 @@ Object.assign(Selectize.prototype, {
 				} else if (self.$activeOption) {
 					self.ignoreHover = true;
 					var $next = self.getAdjacentOption(self.$activeOption, 1);
-					if ($next.length) self.setActiveOption($next, true, true);
+					if ($next.length) self.setActiveOption($next, true );
 				}
 				e.preventDefault();
 				return;
@@ -554,7 +557,7 @@ Object.assign(Selectize.prototype, {
 				if (self.$activeOption) {
 					self.ignoreHover = true;
 					var $prev = self.getAdjacentOption(self.$activeOption, -1);
-					if ($prev.length) self.setActiveOption($prev, true, true);
+					if ($prev.length) self.setActiveOption($prev, true);
 				}
 				e.preventDefault();
 				return;
@@ -678,7 +681,7 @@ Object.assign(Selectize.prototype, {
 
 		if (self.ignoreFocus) {
 			return;
-		} else if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
+		} else if (!self.ignoreBlur && document.activeElement === self.dropdown_content) {
 			// necessary to prevent IE closing the dropdown when the scrollbar is clicked
 			self.ignoreBlur = true;
 			self.onFocus(e);
@@ -922,33 +925,32 @@ Object.assign(Selectize.prototype, {
 	 * @param {boolean} scroll
 	 * @param {boolean} animate
 	 */
-	setActiveOption: function($option, scroll, animate) {
+	setActiveOption: function($option, scroll ) {
 		var height_menu, height_item, y;
-		var scroll_top, scroll_bottom;
-		var self = this;
 
-		if (self.$activeOption) self.$activeOption.removeClass('active');
-		self.$activeOption = null;
+		if (this.$activeOption) this.$activeOption.removeClass('active');
+		this.$activeOption = null;
 
 		$option = $($option);
 		if (!$option.length) return;
 
-		self.$activeOption = $option.addClass('active');
+		this.$activeOption = $option.addClass('active');
 
 		if (scroll || !isset(scroll)) {
 
-			height_menu   = self.$dropdown_content.height();
-			height_item   = self.$activeOption.outerHeight(true);
-			scroll        = self.$dropdown_content.scrollTop() || 0;
-			y             = self.$activeOption.offset().top - self.$dropdown_content.offset().top + scroll;
-			scroll_top    = y;
-			scroll_bottom = y - height_menu + height_item;
+			height_menu		= this.dropdown_content.clientHeight;
+			scroll			= this.dropdown_content.scrollTop || 0;
+
+			height_item		= this.$activeOption.outerHeight(true);
+			y				= this.$activeOption.offset().top - this.dropdown_content.getBoundingClientRect().top + scroll;
 
 			if (y + height_item > height_menu + scroll) {
-				self.$dropdown_content.stop().animate({scrollTop: scroll_bottom}, animate ? self.settings.scrollDuration : 0);
+				this.dropdown_content.scrollTop = y - height_menu + height_item;
+			
 			} else if (y < scroll) {
-				self.$dropdown_content.stop().animate({scrollTop: scroll_top}, animate ? self.settings.scrollDuration : 0);
+				this.dropdown_content.scrollTop = y;
 			}
+
 
 		}
 	},
@@ -1112,7 +1114,7 @@ Object.assign(Selectize.prototype, {
 	 */
 	refreshOptions: function(triggerDropdown) {
 		var i, j, k, n, groups, groups_order, option, option_html, optgroup, optgroups, html, html_children, has_create_option;
-		var $active, $active_before, $create;
+		var $active, $active_before, create;
 
 		if (typeof triggerDropdown === 'undefined') {
 			triggerDropdown = true;
@@ -1121,7 +1123,6 @@ Object.assign(Selectize.prototype, {
 		var self              = this;
 		var query             = self.control_input.value.trim();
 		var results           = self.search(query);
-		var $dropdown_content = self.$dropdown_content;
 		var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
 
 		// build markup
@@ -1163,7 +1164,7 @@ Object.assign(Selectize.prototype, {
 		}
 
 		// render optgroup headers & join groups
-		html = document.createDocumentFragment();
+		html = htmlToElement('<div>');
 		for (i = 0, n = groups_order.length; i < n; i++) {
 			optgroup = groups_order[i];
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].childNodes.length) {
@@ -1183,14 +1184,14 @@ Object.assign(Selectize.prototype, {
 			}
 		}
 
-		$dropdown_content.html(html);
+		self.dropdown_content.innerHTML = html.innerHTML;
 
 		// highlight matching terms inline
 		if (self.settings.highlight) {
-			removeHighlight( $dropdown_content[0] );
+			removeHighlight( self.dropdown_content );
 			if (results.query.length && results.tokens.length) {
 				for (i = 0, n = results.tokens.length; i < n; i++) {
-					highlight($dropdown_content, results.tokens[i].regex);
+					highlight( self.dropdown_content, results.tokens[i].regex);
 				}
 			}
 		}
@@ -1205,8 +1206,8 @@ Object.assign(Selectize.prototype, {
 		// add create option
 		has_create_option = self.canCreate(query);
 		if (has_create_option) {
-			$dropdown_content.prepend(self.render('option_create', {input: query}));
-			$create = $($dropdown_content[0].childNodes[0]);
+			create = self.render('option_create', {input: query});
+			self.dropdown_content.insertBefore(create, self.dropdown_content.firstChild);
 		}
 
 		// activate
@@ -1220,14 +1221,14 @@ Object.assign(Selectize.prototype, {
 					$active = self.getOption(self.items[0]);
 				}
 				if (!$active || !$active.length) {
-					if ($create && !self.settings.addPrecedence) {
-						$active = self.getAdjacentOption($create, 1);
+					if ( create && !self.settings.addPrecedence) {
+						$active = self.getAdjacentOption(create, 1);
 					} else {
-						$active = $dropdown_content.find('[data-selectable]:first');
+						$active = self.selectable()[0];
 					}
 				}
 			} else {
-				$active = $create;
+				$active = create;
 			}
 			self.setActiveOption($active);
 			if (triggerDropdown && !self.isOpen) { self.open(); }
@@ -1236,6 +1237,16 @@ Object.assign(Selectize.prototype, {
 			if (triggerDropdown && self.isOpen) { self.close(); }
 		}
 	},
+	
+	/**
+	 * Return list of selectable options
+	 *
+	 */
+	selectable: function(){
+		return this.dropdown_content.querySelectorAll('[data-selectable]');
+	},
+
+
 
 	/**
 	 * Adds an available option. If it already exists,
@@ -1445,7 +1456,7 @@ Object.assign(Selectize.prototype, {
 	 * @returns {object}
 	 */
 	getOption: function(value) {
-		return this.getElementWithValue(value, this.$dropdown_content.find('[data-selectable]'));
+		return this.getElementWithValue(value, this.selectable());
 	},
 
 	/**
@@ -1468,16 +1479,16 @@ Object.assign(Selectize.prototype, {
 	 * that matches the given value.
 	 *
 	 * @param {mixed} value
-	 * @param {object} $els
+	 * @param {object} els
 	 * @return {object}
 	 */
-	getElementWithValue: function(value, $els) {
+	getElementWithValue: function(value, els) {
 		value = hash_key(value);
 
 		if (typeof value !== 'undefined' && value !== null) {
-			for (var i = 0, n = $els.length; i < n; i++) {
-				if ($els[i].getAttribute('data-value') === value) {
-					return $($els[i]);
+			for (var i = 0, n = els.length; i < n; i++) {
+				if (els[i].getAttribute('data-value') === value) {
+					return $(els[i]);
 				}
 			}
 		}
@@ -1534,7 +1545,7 @@ Object.assign(Selectize.prototype, {
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
-			var $item, $option, $options;
+			var $item, $option;
 			var self = this;
 			var inputMode = self.settings.mode;
 			var i, active, value_next, wasFull;
@@ -1558,7 +1569,7 @@ Object.assign(Selectize.prototype, {
 			}
 
 			if (self.isSetup) {
-				$options = self.$dropdown_content.find('[data-selectable]');
+				let options = self.selectable();
 
 				// update menu / remove the option (if this is not one item being added as part of series)
 				if (!self.isPending) {
@@ -1571,7 +1582,7 @@ Object.assign(Selectize.prototype, {
 				}
 
 				// hide the menu if the maximum number of items have been selected or no options are left
-				if (!$options.length || self.isFull()) {
+				if ( !options.length || self.isFull()) {
 					self.close();
 				} else if (!self.isPending) {
 					self.positionDropdown();

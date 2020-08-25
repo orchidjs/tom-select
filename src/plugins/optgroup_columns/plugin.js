@@ -76,9 +76,10 @@ Selectize.define('optgroup_columns', function(options) {
 	var equalizeSizes = function() {
 		var i, n, height_max, width, width_last, width_parent, $optgroups;
 
-		$optgroups = $('[data-group]', self.$dropdown_content);
+		$optgroups = $('[data-group]', self.dropdown_content);
 		n = $optgroups.length;
-		if (!n || !self.$dropdown_content.width()) return;
+		 
+		if (!n || !self.dropdown_content.clientWidth ) return;
 
 		if (options.equalizeHeight) {
 			height_max = 0;
@@ -89,7 +90,7 @@ Selectize.define('optgroup_columns', function(options) {
 		}
 
 		if (options.equalizeWidth) {
-			width_parent = self.$dropdown_content.innerWidth() - getScrollbarWidth();
+			width_parent = self.dropdown_content.clientWidth - getScrollbarWidth();
 			width = Math.round(width_parent / n);
 			$optgroups.css({width: width});
 			if (n > 1) {

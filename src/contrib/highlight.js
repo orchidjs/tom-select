@@ -6,7 +6,7 @@
  * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
 
-var highlight = function($element, pattern) {
+var highlight = function(element, pattern) {
 	if (typeof pattern === 'string' && !pattern.length) return;
 	var regex = (typeof pattern === 'string') ? new RegExp(pattern, 'i') : pattern;
 
@@ -38,9 +38,7 @@ var highlight = function($element, pattern) {
 		return skip;
 	};
 
-	return $element.each(function() {
-		highlight(this);
-	});
+	highlight( element );
 };
 
 /**

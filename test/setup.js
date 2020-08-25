@@ -397,7 +397,7 @@
 				test.selectize.focus();
 
 				window.setTimeout(function() {
-					expect(test.selectize.$dropdown_content.find('.custom-option').length).to.be.equal(1);
+					expect($(test.selectize.dropdown_content).find('.custom-option').length).to.be.equal(1);
 					done();
 				}, 0);
 			});
@@ -423,7 +423,7 @@
 				test.selectize.focus();
 
 				window.setTimeout(function() {
-					expect(test.selectize.$dropdown_content.find('.custom-option').length).to.be.equal(1);
+					expect($(test.selectize.dropdown_content).find('.custom-option').length).to.be.equal(1);
 					done();
 				}, 0);
 			});

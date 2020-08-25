@@ -37,7 +37,7 @@
 			var test = ABTest({});
 
 			click(test.selectize.$control, function() {
-				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+				click($('[data-value=a]', $(test.selectize.dropdown_content)), function() {
 					expect(test.selectize.isOpen).to.be.equal(true);
 					expect(test.selectize.isFocused).to.be.equal(true);
 					done();
@@ -50,7 +50,7 @@
 			var test = ABTest({closeAfterSelect: true});
 
 			click(test.selectize.$control, function() {
-				click( $('[data-value=a]', test.selectize.$dropdown_content), function() {
+				click( $('[data-value=a]', $(test.selectize.dropdown_content)), function() {
 					expect(test.selectize.isOpen).to.be.equal(false);
 					expect(test.selectize.isFocused).to.be.equal(true);
 					done();
@@ -63,7 +63,7 @@
 			var test = ABTest({closeAfterSelect: true});
 
 			click(test.selectize.$control, function() {
-				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+				click($('[data-value=a]', $(test.selectize.dropdown_content)), function() {
 					click(test.selectize.$control, function () {
 							expect(test.selectize.isOpen).to.be.equal(true);
 							expect(test.selectize.isFocused).to.be.equal(true);
@@ -80,7 +80,7 @@
 
 			click(test.selectize.$control, function() {
 				expect(test.selectize.isOpen).to.be.equal(true);
-				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+				click($('[data-value=a]', $(test.selectize.dropdown_content)), function() {
 					expect(test.selectize.isOpen).to.be.equal(false);
 					done();
 				});
@@ -94,7 +94,7 @@
 
 			click(test.selectize.$control, function() {
 				expect(test.selectize.isFocused).to.be.equal(true);
-				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+				click($('[data-value=a]', $(test.selectize.dropdown_content)), function() {
 					expect(test.selectize.isFocused).to.be.equal(false);
 					done();
 				});
@@ -337,7 +337,7 @@
 					// Here, the 'S' in St will also match the 's' in Isabel (a duplicate match)
 					syn.type('Isabel St', $(test.selectize.control_input))
 					.delay(0, function() {
-						expect(test.selectize.$dropdown_content.find('.option[data-value=b]').text()).to.be.equal('Isabel Street');
+						expect($(test.selectize.dropdown_content).find('.option[data-value=b]').text()).to.be.equal('Isabel Street');
 						done();
 					});
 				});
@@ -421,7 +421,7 @@
 			});
 
 			execFilterTests('should not add an item or display the create label if the input does not match the createFilter (B)', ['foo', /foo/, function() { return false; }], function(selectize) {
-				expect($(selectize.$dropdown_content).filter('.create').length).to.be.equal(0);
+				expect($(selectize.dropdown_content).filter('.create').length).to.be.equal(0);
 			});
 
 		});
