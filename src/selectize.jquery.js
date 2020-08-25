@@ -1,5 +1,5 @@
 $.fn.selectize = function(settings_user) {
-	var defaults             = $.fn.selectize.defaults;
+	var defaults             = Selectize.defaults;
 	var settings			= Object.assign({},defaults, settings_user);
 	var attr_data            = settings.dataAttr;
 	var field_label          = settings.labelField;
@@ -159,7 +159,6 @@ $.fn.selectize = function(settings_user) {
 	});
 };
 
-$.fn.selectize.defaults = Selectize.defaults;
 $.fn.selectize.support = {
 	validity: SUPPORTS_VALIDITY_API
 };
