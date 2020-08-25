@@ -1,8 +1,10 @@
-var Selectize = function($input, settings) {
-	var key, i, n, dir, input, self = this;
-	input = $input[0];
-	input.selectize = self;
+var Selectize = function( input, settings ){
+	var key, i, n, dir, $input, self = this;
 
+	input				= getDom( input );
+	input.selectize		= self;
+	$input				= $(input);
+	settings			= getSettings( input, settings );
 	
 
 	// detect rtl environment
@@ -15,7 +17,7 @@ var Selectize = function($input, settings) {
 		order            : 0,
 		settings         : settings,
 		$input           : $input,
-		tabIndex         : $input.attr('tabindex') || '',
+		tabIndex         : input.getAttribute('tabindex') || '',
 		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
 		rtl              : /rtl/i.test(dir),
 
@@ -112,6 +114,7 @@ Object.assign(Selectize.prototype, {
 
 	/**
 	 * Creates all elements and sets up event bindings.
+	 * 
 	 */
 	setup: function() {
 		var self      = this;
