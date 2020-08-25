@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-replace');
 
-	require('load-grunt-tasks')(grunt);
+	require('load-grunt-tasks')(grunt); //babel
 
 	grunt.registerTask('default', [
 		'clean:pre',
@@ -39,8 +39,6 @@ module.exports = function(grunt) {
 		'uglify',
 		'clean:post',
 	]);
-
-	//grunt.registerTask("default", ["babel"]);
 
 	grunt.registerTask('serve', [
 			'connect',
@@ -137,37 +135,25 @@ module.exports = function(grunt) {
 			}
 		},
 		replace: {
-			options: {prefix: '@@'},
-			main: {
-				options: {
-					variables: {
-						'version': '<%= pkg.version %>',
-						'js': '<%= grunt.file.read("dist/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
-						'css': '<%= grunt.file.read("dist/css/selectize.css") %>',
-					},
+			options: {
+				prefix: '@@',
+				variables: {
+					'version': '<%= pkg.version %>',
+					'js': '<%= grunt.file.read("dist/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
+					'css': '<%= grunt.file.read("dist/css/selectize.css") %>',
 				},
+			},
+			main: {
 				files: [
-					{src: ['src/.wrapper.js'], dest: 'dist/js/selectize.js'},
 					{src: ['src/less/.wrapper.css'], dest: 'dist/css/selectize.css'}
 				]
 			},
 			js: {
-				options: {
-					variables: {
-						'version': '<%= pkg.version %>',
-						'js': '<%= grunt.file.read("dist/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
-					},
-				},
 				files: [
 					{src: ['src/.wrapper.js'], dest: 'dist/js/selectize.js'},
 				]
 			},
 			css_post: {
-				options: {
-					variables: {
-						'version': '<%= pkg.version %>'
-					},
-				},
 				files: [
 					{expand: true, flatten: false, src: ['dist/css/*.css'], dest: ''},
 					{expand: true, flatten: false, src: ['dist/less/*.less'], dest: ''},
