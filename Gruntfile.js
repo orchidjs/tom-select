@@ -29,6 +29,17 @@ module.exports = function(grunt) {
 		'clean:post',
 	]);
 
+	grunt.registerTask('js', [
+		'clean:js',
+		'bower:install',
+		'concat:js',
+		'babel',
+		'replace:js',
+		'build_standalone',
+		'uglify',
+		'clean:post',
+	]);
+
 	//grunt.registerTask("default", ["babel"]);
 
 	grunt.registerTask('serve', [
@@ -114,7 +125,8 @@ module.exports = function(grunt) {
 		},
 		clean: {
 			pre: ['dist'],
-			post: ['**/*.tmp*']
+			post: ['**/*.tmp*'],
+			js: ['dist/*.js']
 		},
 		copy: {
 			less: {
@@ -137,6 +149,17 @@ module.exports = function(grunt) {
 				files: [
 					{src: ['src/.wrapper.js'], dest: 'dist/js/selectize.js'},
 					{src: ['src/less/.wrapper.css'], dest: 'dist/css/selectize.css'}
+				]
+			},
+			js: {
+				options: {
+					variables: {
+						'version': '<%= pkg.version %>',
+						'js': '<%= grunt.file.read("dist/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
+					},
+				},
+				files: [
+					{src: ['src/.wrapper.js'], dest: 'dist/js/selectize.js'},
 				]
 			},
 			css_post: {
