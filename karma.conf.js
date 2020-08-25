@@ -31,6 +31,7 @@ module.exports = function(config) {
 		{platform: 'Windows 8', browserName: 'iexplore', version: 10},
 		{platform: 'Windows 8.1', browserName: 'iexplore', version: 11},
 		{platform: 'Windows 7', browserName: 'iexplore', version: 9}
+
 	];
 
 	if (process.env.TARGET === 'saucelabs') {
@@ -44,6 +45,14 @@ module.exports = function(config) {
 		customLaunchers['SL_' + i] = browser;
 	});
 
+	customLaunchers['Headless'] = {
+									base: 'Firefox',
+									flags: [
+										'-headless',
+									]
+								
+								};
+
 	var targets = {
 		'saucelabs': Object.keys(customLaunchers),
 		'phantomjs': ['PhantomJS']
@@ -56,7 +65,7 @@ module.exports = function(config) {
 			: ['mocha', 'coverage', 'coveralls']
 	}
 
-	var browsers = targets[process.env.TARGET || 'phantomjs'];
+	var browsers = ['Headless'];//targets[process.env.TARGET || 'phantomjs'];
 	if (process.env.BROWSERS) {
 		browsers = process.env.BROWSERS.split(',');
 	}
@@ -73,6 +82,7 @@ module.exports = function(config) {
 			'src/constants.js',
 			'src/utils.js',
 			'src/vanilla.js',
+			'src/create.js',
 			'src/selectize.js',
 			'src/defaults.js',
 			'src/selectize.jquery.js',
