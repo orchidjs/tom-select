@@ -1,6 +1,6 @@
 describe('DOM Events', function() {
 	describe('"change"', function() {
-		it('should be triggered once by addItem()', function(done) {
+		it_n('should be triggered once by addItem()', function(done) {
 			var test = setup_test('<select>', {
 				valueField: 'value',
 				labelField: 'value',
@@ -20,7 +20,7 @@ describe('DOM Events', function() {
 				done();
 			}, 0);
 		});
-		it('should be triggered once by removeItem()', function(done) {
+		it_n('should be triggered once by removeItem()', function(done) {
 			var test = setup_test('<select multiple>', {
 				valueField: 'value',
 				labelField: 'value',
@@ -40,7 +40,7 @@ describe('DOM Events', function() {
 				done();
 			}, 0);
 		});
-		it('should be triggered once by clear()', function(done) {
+		it_n('should be triggered once by clear()', function(done) {
 			var test = setup_test('<select multiple>', {
 				valueField: 'value',
 				labelField: 'value',

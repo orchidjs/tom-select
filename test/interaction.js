@@ -32,7 +32,7 @@
 
 	describe('Interaction', function() {
 
-		it('should keep dropdown open after selection made if closeAfterSelect: false', function(done) {
+		it_n('should keep dropdown open after selection made if closeAfterSelect: false', function(done) {
 
 			var test = ABTest({});
 
@@ -45,7 +45,7 @@
 			});
 		});
 
-		it('should close dropdown after selection made if closeAfterSelect: true', function(done) {
+		it_n('should close dropdown after selection made if closeAfterSelect: true', function(done) {
 
 			var test = ABTest({closeAfterSelect: true});
 
@@ -58,7 +58,7 @@
 			});
 		});
     
-		it('should reopen dropdown if clicked after being closed by closeAfterSelect: true', function(done) {
+		it_n('should reopen dropdown if clicked after being closed by closeAfterSelect: true', function(done) {
 
 			var test = ABTest({closeAfterSelect: true});
 
@@ -74,7 +74,7 @@
 		});
 
 
-		it('should close dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
+		it_n('should close dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
 
 			var test = ABTestSingle({closeAfterSelect: true});
 
@@ -88,7 +88,7 @@
 		});
 
 
-		it('should blur dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
+		it_n('should blur dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
 
 			var test = ABTestSingle({closeAfterSelect: true});
 
@@ -104,7 +104,7 @@
 
 		describe('clicking control', function() {
 
-			it('should give it focus', function(done) {
+			it_n('should give it focus', function(done) {
 
 				var test = ABTestSingle({});
 
@@ -114,7 +114,7 @@
 				});
 			});
 
-			it('should start loading results if preload:"focus"', function(done) {
+			it_n('should start loading results if preload:"focus"', function(done) {
 				var calls_focus = 0;
 				var calls_load = 0;
 
@@ -141,7 +141,7 @@
 				});
 			});
 
-			it('should open dropdown menu', function(done) {
+			it_n('should open dropdown menu', function(done) {
 				var test = ABTestSingle({});
 
 				click(test.selectize.$control, function() {
@@ -155,7 +155,7 @@
 
 		describe('clicking label', function() {
 
-			it('should give it focus to select', function(done) {
+			it_n('should give it focus to select', function(done) {
 				var inputId = "labeledSelect";
 				var label =
 					$('<label for="'+inputId+'">select</label>').appendTo('form');
@@ -173,7 +173,7 @@
 					});
 			});
 
-			it('should give it focus to input', function(done) {
+			it_n('should give it focus to input', function(done) {
 				var inputId = "labeledInput";
 				var label =
 					$('<label for="'+inputId+'">input</label>').appendTo('form');
@@ -192,7 +192,7 @@
 
 		describe('clicking option', function() {
 
-			it('should select it', function(done) {
+			it_n('should select it', function(done) {
 				var test = setup_test('<select>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -208,7 +208,7 @@
 				});
 			});
 
-			it('should close dropdown', function(done) {
+			it_n('should close dropdown', function(done) {
 				var test = setup_test('<select>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -228,7 +228,7 @@
 
 		describe('typing in input', function() {
 
-			it('should filter results', function(done) {
+			it_n('should filter results', function(done) {
 				var test = setup_test('<select>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -245,7 +245,7 @@
 				});
 			});
 
-			it('should hide dropdown if no results present', function(done) {
+			it_n('should hide dropdown if no results present', function(done) {
 				var test = setup_test('<select>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -262,7 +262,7 @@
 				});
 			});
 
-			it('should not hide dropdown if "create" option enabled and no results present', function(done) {
+			it_n('should not hide dropdown if "create" option enabled and no results present', function(done) {
 				var test = setup_test('<select>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -279,7 +279,7 @@
 				});
 			});
 
-			it('should restore dropdown visibility when backing out of a query without results (backspace)', function(done) {
+			it_n('should restore dropdown visibility when backing out of a query without results (backspace)', function(done) {
 				var test = setup_test('<select>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -297,7 +297,7 @@
 				});
 			});
 
-			it('should move caret when [left] or [right] pressed', function(done) {
+			it_n('should move caret when [left] or [right] pressed', function(done) {
 				var test = setup_test('<input type="text" value="a,b,c,d">', {create: true});
 
 				click(test.selectize.$control, function() {
@@ -309,7 +309,7 @@
 				});
 			});
 
-			it('should not create input if comma entered in single select mode', function(done) {
+			it_n('should not create input if comma entered in single select mode', function(done) {
 				var test = setup_test('<select>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -326,7 +326,7 @@
 				});
 			});
 
-			it('should not delete any dropdown option text if duplicate match occurs', function(done) {
+			it_n('should not delete any dropdown option text if duplicate match occurs', function(done) {
 				var test = setup_test('<select>' +
 					'<option></option>' +
 					'<option value="a"></option>' +
@@ -346,7 +346,7 @@
 		});
 
 		describe('blurring the input', function() {
-			it('should close dropdown when createOnBlur is true', function(done) {
+			it_n('should close dropdown when createOnBlur is true', function(done) {
 
 				var test = ABTest({
 					createOnBlur: true,
@@ -401,7 +401,7 @@
 			function execFilterTests(heading, filters, expectation) {
 				for (var i = 0; i < filters.length; i++) {
 					(function(filter) {
-						it(heading, function(done) {
+						it_n(heading, function(done) {
 							execFilterTest(filter, done, expectation);
 						});
 					})(filters[i]);

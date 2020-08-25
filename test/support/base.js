@@ -6,6 +6,7 @@ window.has_focus = function(elem) {
 
 var sandbox = document.createElement('form');
 document.body.appendChild(sandbox);
+var test_number = 0;
 
 window.setup_test = function(html, options, callback) {
 	if (window.test_last) window.test_last.teardown();
@@ -31,5 +32,11 @@ after(function() {
 		window.test_last.teardown();
 	}
 });
+
+
+var it_n = function(){
+	arguments[0] = (test_number++) + ' - ' + arguments[0];
+	it.apply( this, arguments);
+}
 
 $(sandbox).on('submit', function(e) { e.preventDefault(); });
