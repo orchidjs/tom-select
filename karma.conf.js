@@ -50,12 +50,12 @@ module.exports = function(config) {
 									flags: [
 										'-headless',
 									]
-								
+
 								};
 
 	var targets = {
 		'saucelabs': Object.keys(customLaunchers),
-		'phantomjs': ['PhantomJS']
+		'Headless': ['Headless']
 	};
 
 	var reporters = ['mocha'];
@@ -65,7 +65,7 @@ module.exports = function(config) {
 			: ['mocha', 'coverage', 'coveralls']
 	}
 
-	var browsers = ['Headless'];//targets[process.env.TARGET || 'phantomjs'];
+	var browsers = targets[process.env.TARGET || 'Headless'];
 	if (process.env.BROWSERS) {
 		browsers = process.env.BROWSERS.split(',');
 	}

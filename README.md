@@ -75,7 +75,7 @@ By default, all [plugins](src/plugins) are included. To hand-pick what plugins (
 
 ```sh
 # dependencies
-npm install
+yarn install --production=false
 
 # build selectize
 grunt --plugins=
@@ -114,17 +114,17 @@ is to erase things/changes.**
 Please ensure all the tests pass:
 
 ```sh
-$ npm test # headless Firefox
-$ BROWSERS=Firefox npm test
-$ BROWSERS=Firefox,Chrome npm test
-$ BROWSERS=Firefox,Chrome,Safari npm test
+$ yarn test # headless Firefox
+$ BROWSERS=Firefox yarn test
+$ BROWSERS=Firefox,Chrome yarn test
+$ BROWSERS=Firefox,Chrome,Safari yarn test
 ```
 
 #### Local environment
 To run Selectize locally:
 
 ```sh
-$ npm start
+$ yarn start
 ```
 
 You can then run the examples in `http://localhost:8000/examples/`.
