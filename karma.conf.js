@@ -58,7 +58,7 @@ module.exports = function(config) {
 		'Headless': ['Headless']
 	};
 
-	var reporters = ['mocha'];
+	var reporters = ['mocha','coverage'];
 	if( process.env.TRAVIS_CI ){
 
 		if( process.env.TARGET === 'saucelabs' ){
