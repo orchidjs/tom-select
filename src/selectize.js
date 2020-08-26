@@ -549,8 +549,8 @@ Object.assign(Selectize.prototype, {
 					self.open();
 				} else if (self.$activeOption) {
 					self.ignoreHover = true;
-					var $next = self.getAdjacentOption(self.$activeOption, 1);
-					if ($next.length) self.setActiveOption($next, true );
+					let next = self.getAdjacentOption(self.$activeOption, 1);
+					if (next) self.setActiveOption(next, true );
 				}
 				e.preventDefault();
 				return;
@@ -559,8 +559,8 @@ Object.assign(Selectize.prototype, {
 			case KEY_UP:
 				if (self.$activeOption) {
 					self.ignoreHover = true;
-					var $prev = self.getAdjacentOption(self.$activeOption, -1);
-					if ($prev.length) self.setActiveOption($prev, true);
+					let prev = self.getAdjacentOption(self.$activeOption, -1);
+					if (prev) self.setActiveOption(prev, true);
 				}
 				e.preventDefault();
 				return;
@@ -1475,20 +1475,20 @@ Object.assign(Selectize.prototype, {
 	 *
 	 * @param {object} $option
 	 * @param {int} direction  can be 1 for next or -1 for previous
-	 * @return {object}
+	 * @return {object|null}
 	 */
 	getAdjacentOption: function($option, direction) {
 		var dom_el		= getDom($option);
 
 		if( !dom_el ){
-			return $();
+			return;
 		}
 
 		if( direction > 0 ){
-			return $(dom_el.nextElementSibling);
+			return dom_el.nextElementSibling;
 		}
 
-		return $(dom_el.previousElementSibling);
+		return dom_el.previousElementSibling;
 	},
 
 	/**
@@ -1565,7 +1565,7 @@ Object.assign(Selectize.prototype, {
 			var $item, $option;
 			var self = this;
 			var inputMode = self.settings.mode;
-			var i, active, value_next, wasFull;
+			var i, active, wasFull;
 			value = hash_key(value);
 
 			if (self.items.indexOf(value) !== -1) {
@@ -1591,10 +1591,10 @@ Object.assign(Selectize.prototype, {
 				// update menu / remove the option (if this is not one item being added as part of series)
 				if (!self.isPending) {
 					$option = self.getOption(value);
-					value_next = self.getAdjacentOption($option, 1).attr('data-value');
+					let next = self.getAdjacentOption($option, 1);
 					self.refreshOptions(self.isFocused && inputMode !== 'single');
-					if (value_next) {
-						self.setActiveOption(self.getOption(value_next));
+					if( next ){
+						self.setActiveOption(next);
 					}
 				}
 
@@ -1951,7 +1951,10 @@ Object.assign(Selectize.prototype, {
 		selection = getSelection(self.control_input);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
-			option_select = self.getAdjacentOption(self.$activeOption, -1).attr('data-value');
+			let option = self.getAdjacentOption(self.$activeOption, -1);
+			if( option ){
+				option_select = option.dataset.value;
+			}
 		}
 
 		// determine items that will be removed
