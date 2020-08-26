@@ -1958,18 +1958,22 @@ Object.assign(Selectize.prototype, {
 	 * @param {boolean} silent
 	 */
 	clear: function(silent) {
-		var self = this;
 
-		if (!self.items.length) return;
-		self.$control.children(':not(input)').remove();
-		self.items = [];
-		self.lastQuery = null;
-		self.setCaret(0);
-		self.setActiveItem(null);
-		self.updateOriginalInput({silent: silent});
-		self.refreshState();
-		self.showInput();
-		self.trigger('clear');
+		if (!this.items.length) return;
+
+		var items = this.controlChildren();
+		for( let i = 0; i < items.length; i++){
+			items[i].remove();
+		}
+
+		this.items = [];
+		this.lastQuery = null;
+		this.setCaret(0);
+		this.setActiveItem(null);
+		this.updateOriginalInput({silent: silent});
+		this.refreshState();
+		this.showInput();
+		this.trigger('clear');
 	},
 
 	/**
