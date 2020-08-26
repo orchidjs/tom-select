@@ -47,7 +47,7 @@ var Selectize = function( input, settings ){
 		loading          : 0,
 		loadedSearches   : {},
 
-		$activeOption    : null,
+		activeOption     : null,
 		activeItems      : [],
 
 		optgroups        : {},
@@ -329,7 +329,7 @@ Object.assign(Selectize.prototype, {
 		self.on('change', this.onChange);
 
 		self.input.dataset.selectize = self;
-		self.input.classList.add('selectized');
+		addClasses(self.input,'selectized');
 		self.trigger('initialize');
 
 		// preload options
@@ -552,9 +552,9 @@ Object.assign(Selectize.prototype, {
 			case KEY_DOWN:
 				if (!self.isOpen && self.hasOptions) {
 					self.open();
-				} else if (self.$activeOption) {
+				} else if (self.activeOption) {
 					self.ignoreHover = true;
-					let next = self.getAdjacent(self.$activeOption, 1);
+					let next = self.getAdjacent(self.activeOption, 1);
 					if (next) self.setActiveOption(next, true );
 				}
 				e.preventDefault();
@@ -562,16 +562,16 @@ Object.assign(Selectize.prototype, {
 			case KEY_P:
 				if (!e.ctrlKey || e.altKey) break;
 			case KEY_UP:
-				if (self.$activeOption) {
+				if (self.activeOption) {
 					self.ignoreHover = true;
-					let prev = self.getAdjacent(self.$activeOption, -1);
+					let prev = self.getAdjacent(self.activeOption, -1);
 					if (prev) self.setActiveOption(prev, true);
 				}
 				e.preventDefault();
 				return;
 			case KEY_RETURN:
-				if (self.isOpen && self.$activeOption) {
-					self.onOptionSelect({delegateTarget: self.$activeOption[0]});
+				if (self.isOpen && self.activeOption) {
+					self.onOptionSelect({delegateTarget: self.activeOption});
 					e.preventDefault();
 				}
 				return;
@@ -582,8 +582,8 @@ Object.assign(Selectize.prototype, {
 				self.advanceSelection(1, e);
 				return;
 			case KEY_TAB:
-				if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
-					self.onOptionSelect({delegateTarget: self.$activeOption[0]});
+				if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
+					self.onOptionSelect({delegateTarget: self.activeOption});
 
 					// Default behaviour is to jump to the next field, we only want this
 					// if the current field doesn't accept any more entries
@@ -964,28 +964,28 @@ Object.assign(Selectize.prototype, {
 	 * Sets the selected item in the dropdown menu
 	 * of available options.
 	 *
-	 * @param {object} $object
+	 * @param {object} option
 	 * @param {boolean} scroll
 	 * @param {boolean} animate
 	 */
-	setActiveOption: function($option, scroll ) {
+	setActiveOption: function(option, scroll ) {
 		var height_menu, height_item, y;
 
-		if (this.$activeOption) this.$activeOption.removeClass('active');
-		this.$activeOption = null;
+		if (this.activeOption) this.activeOption.classList.remove('active');
+		this.activeOption = null;
 
-		$option = $($option);
-		if (!$option.length) return;
+		if( !option ) return;
 
-		this.$activeOption = $option.addClass('active');
+		this.activeOption = option;
+		addClasses(this.activeOption,'active');
 
 		if (scroll || !isset(scroll)) {
 
 			height_menu		= this.dropdown_content.clientHeight;
 			scroll			= this.dropdown_content.scrollTop || 0;
 
-			height_item		= this.$activeOption.outerHeight(true);
-			y				= this.$activeOption.offset().top - this.dropdown_content.getBoundingClientRect().top + scroll;
+			height_item		= this.activeOption.offsetHeight;
+			y				= this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scroll;
 
 			if (y + height_item > height_menu + scroll) {
 				this.dropdown_content.scrollTop = y - height_menu + height_item;
@@ -1166,7 +1166,7 @@ Object.assign(Selectize.prototype, {
 		var self					= this;
 		var query					= self.control_input.value.trim();
 		var results					= self.search(query);
-		var active_before_hash		= self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
+		var active_before_hash		= self.activeOption && hash_key(self.activeOption.dataset.value);
 
 
 		// build markup
@@ -2004,8 +2004,8 @@ Object.assign(Selectize.prototype, {
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
 		selection = getSelection(self.control_input);
 
-		if (self.$activeOption && !self.settings.hideSelected) {
-			let option = self.getAdjacent(self.$activeOption, -1);
+		if (self.activeOption && !self.settings.hideSelected) {
+			let option = self.getAdjacent(self.activeOption, -1);
 			if( option ){
 				option_select = option.dataset.value;
 			}
