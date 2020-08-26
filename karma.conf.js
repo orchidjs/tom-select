@@ -59,10 +59,13 @@ module.exports = function(config) {
 	};
 
 	var reporters = ['mocha'];
-	if (process.env.TRAVIS_CI) {
-		reporters = process.env.TARGET === 'saucelabs'
-			? ['saucelabs', 'mocha']
-			: ['mocha', 'coverage', 'coveralls']
+	if( process.env.TRAVIS_CI ){
+
+		if( process.env.TARGET === 'saucelabs' ){
+			reporters = ['saucelabs', 'mocha']
+		}else{
+			reporters = ['mocha', 'coverage', 'coveralls']
+		}
 	}
 
 	var browsers = targets[process.env.TARGET || 'Headless'];
