@@ -7,7 +7,7 @@
  * @return {Element}
  */
 var htmlToElement = function( html ){
-	
+
 	if( html.jquery ){
 		return html[0];
 	}
@@ -18,7 +18,7 @@ var htmlToElement = function( html ){
 
 	var div = document.createElement('div');
 	div.innerHTML = html.trim(); // Never return a text node of whitespace as the result
-	return div.firstChild; 
+	return div.firstChild;
 };
 
 
@@ -41,7 +41,7 @@ var getDom = function( query ){
 
 /**
  * Dispatch an event
- * 
+ *
  */
 var triggerEvent = function( dom_el, event_name ){
 	var event = document.createEvent('HTMLEvents');
@@ -72,7 +72,7 @@ var matchingParent = function( elem, selector){
 
 
 /**
- * Add classes 
+ * Add classes
  *
  */
 var addClasses = function( el ){
@@ -85,6 +85,33 @@ var addClasses = function( el ){
 		el.classList.add( ...classes );
 	}
 }
+
+/**
+ * Delegate Event
+ *
+ */
+var onEvent = function( el, eventName, elementSelector, handler ){
+
+	let event_names	= eventName.split(/\s/);
+
+	// create intermediate handler that can be used for all event names
+	// loop parent nodes from the target to the delegation node
+	let _handler = function(e) {
+	    for (var target = e.target; target && target != this; target = target.parentNode) {
+	        if (target.matches(elementSelector)) {
+				e.delegateTarget = target;
+				handler.call(target, e);
+	            break;
+	        }
+	    }
+	};
+
+	for( let i = 0; i<event_names.length; i++){
+		el.addEventListener(event_names[i], _handler, false);
+	}
+
+};
+
 
 /**
  * Copied from jQuery source

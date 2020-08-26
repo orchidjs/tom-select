@@ -4,7 +4,7 @@ var Selectize = function( input, settings ){
 	input				= getDom( input );
 	input.selectize		= self;
 	settings			= getSettings( input, settings );
-	
+
 
 	// detect rtl environment
 	var computedStyle	= window.getComputedStyle && window.getComputedStyle(input, null);
@@ -118,7 +118,7 @@ Object.assign(Selectize.prototype, {
 
 	/**
 	 * Creates all elements and sets up event bindings.
-	 * 
+	 *
 	 */
 	setup: function() {
 		var self      = this;
@@ -130,7 +130,7 @@ Object.assign(Selectize.prototype, {
 		var wrapper;
 		var $control; // watchChildEvent
 		var control_input;
-		var $dropdown;
+		var dropdown;
 		var dropdown_content;
 		var inputMode;
 		var timeout_blur;
@@ -146,16 +146,19 @@ Object.assign(Selectize.prototype, {
 		addClasses( wrapper, settings.wrapperClass, classes, inputMode);
 
 		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo(wrapper);
-		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide();
+
+		dropdown			= htmlToElement('<div style="display:none">');
+		addClasses(dropdown, settings.dropdownClass, inputMode);
+
 
 		dropdown_content	= htmlToElement('<div style="scroll-behavior: smooth;">')
 		addClasses(dropdown_content, settings.dropdownContentClass);
-		$dropdown[0].append(dropdown_content);
+		dropdown.append(dropdown_content);
 
-		getDom( settings.dropdownParent || wrapper ).appendChild( $dropdown[0] );
+		getDom( settings.dropdownParent || wrapper ).appendChild( dropdown );
 
 		control_input		= htmlToElement( settings.controlInput || '<input type="text" autocomplete="off" />' );
-	
+
 		if( !settings.controlInput ){
 			control_input.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex);
 			$control[0].appendChild( control_input );
@@ -170,7 +173,7 @@ Object.assign(Selectize.prototype, {
 		}
 
 		if(self.settings.copyClassesToDropdown) {
-			$dropdown.addClass(classes);
+			addClasses( dropdown, classes);
 		}
 
 		wrapper.style.width = self.input.style.width;
@@ -178,7 +181,7 @@ Object.assign(Selectize.prototype, {
 		if (self.plugins.names.length) {
 			classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
 			addClasses( wrapper, classes_plugins);
-			$dropdown.addClass(classes_plugins);
+			addClasses( dropdown, classes_plugins );
 		}
 
 		if ((settings.maxItems === null || settings.maxItems > 1) && self.tagType === TAG_SELECT) {
@@ -204,15 +207,16 @@ Object.assign(Selectize.prototype, {
 		}
 		control_input.type		= self.input.type;
 
-		self.wrapper			= wrapper;
 		self.$control          = $control;
+
 		self.control_input		= control_input;
-		self.$dropdown         = $dropdown;
+		self.wrapper			= wrapper;
+		self.dropdown			= dropdown;
 		self.dropdown_content	= dropdown_content;
 
-		$dropdown.on('mouseenter mousedown click', '[data-disabled]>[data-selectable]', function(e) { e.stopImmediatePropagation(); });
-		$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
-		$dropdown.on('mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
+
+		onEvent(dropdown, 'mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
+		onEvent(dropdown, 'mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 
 
@@ -258,7 +262,7 @@ Object.assign(Selectize.prototype, {
 		$document.on('mousedown' + eventNS, function(e) {
 			if (self.isFocused) {
 				// prevent events on the dropdown scrollbar from causing the control to blur
-				if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
+				if (e.target === self.dropdown || e.target.parentNode === self.dropdown) {
 					return false;
 				}
 				// blur on click outside
@@ -360,7 +364,7 @@ Object.assign(Selectize.prototype, {
 			}
 		};
 
-	
+
 		self.settings.render = Object.assign({}, templates, self.settings.render);
 	},
 
@@ -563,7 +567,7 @@ Object.assign(Selectize.prototype, {
 				return;
 			case KEY_RETURN:
 				if (self.isOpen && self.$activeOption) {
-					self.onOptionSelect({currentTarget: self.$activeOption});
+					self.onOptionSelect({delegateTarget: self.$activeOption});
 					e.preventDefault();
 				}
 				return;
@@ -575,7 +579,7 @@ Object.assign(Selectize.prototype, {
 				return;
 			case KEY_TAB:
 				if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
-					self.onOptionSelect({currentTarget: self.$activeOption});
+					self.onOptionSelect({delegateTarget: self.$activeOption});
 
 					// Default behaviour is to jump to the next field, we only want this
 					// if the current field doesn't accept any more entries
@@ -740,7 +744,13 @@ Object.assign(Selectize.prototype, {
 			e.stopPropagation();
 		}
 
-		$target = $(e.currentTarget);
+
+		// should not be possible to trigger a option under a disabled optgroup
+		if( e.delegateTarget.parentNode.matches('[data-disabled]') ){
+			return;
+		}
+
+		$target = $(e.delegateTarget);
 		if ($target.hasClass('create')) {
 			self.createItem(null, function() {
 				if (self.settings.closeAfterSelect) {
@@ -946,7 +956,7 @@ Object.assign(Selectize.prototype, {
 
 			if (y + height_item > height_menu + scroll) {
 				this.dropdown_content.scrollTop = y - height_menu + height_item;
-			
+
 			} else if (y < scroll) {
 				this.dropdown_content.scrollTop = y;
 			}
@@ -978,11 +988,11 @@ Object.assign(Selectize.prototype, {
 	 * retaining its focus.
 	 */
 	hideInput: function() {
-		
+
 		if( this.settings.controlInput ) return;
 
 		this.setTextboxValue('');
-		applyCSS(this.control_input, {opacity: 0, position: 'absolute', left: this.rtl ? 10000 : -10000} );
+		applyCSS(this.control_input, {opacity: 0, position: 'absolute', left: (this.rtl ? 10000 : -10000)+'px'} );
 		this.isInputHidden = true;
 	},
 
@@ -1237,7 +1247,7 @@ Object.assign(Selectize.prototype, {
 			if (triggerDropdown && self.isOpen) { self.close(); }
 		}
 	},
-	
+
 	/**
 	 * Return list of selectable options
 	 *
@@ -1468,10 +1478,17 @@ Object.assign(Selectize.prototype, {
 	 * @return {object}
 	 */
 	getAdjacentOption: function($option, direction) {
-		var $options = this.$dropdown.find('[data-selectable]');
-		var index    = $options.index($option) + direction;
+		var dom_el		= getDom($option);
 
-		return index >= 0 && index < $options.length ? $options.eq(index) : $();
+		if( !dom_el ){
+			return $();
+		}
+
+		if( direction > 0 ){
+			return $(dom_el.nextElementSibling);
+		}
+
+		return $(dom_el.previousElementSibling);
 	},
 
 	/**
@@ -1815,10 +1832,10 @@ Object.assign(Selectize.prototype, {
 		self.focus();
 		self.isOpen = true;
 		self.refreshState();
-		self.$dropdown.css({visibility: 'hidden', display: 'block'});
+		applyCSS(self.dropdown,{visibility: 'hidden', display: 'block'});
 		self.positionDropdown();
-		self.$dropdown.css({visibility: 'visible'});
-		self.trigger('dropdown_open', self.$dropdown);
+		applyCSS(self.dropdown,{visibility: 'visible', display: 'block'});
+		self.trigger('dropdown_open', self.dropdown);
 	},
 
 	/**
@@ -1840,11 +1857,11 @@ Object.assign(Selectize.prototype, {
 		}
 
 		self.isOpen = false;
-		self.$dropdown.hide();
+		applyCSS(self.dropdown,{display: 'none'});
 		self.setActiveOption(null);
 		self.refreshState();
 
-		if (trigger) self.trigger('dropdown_close', self.$dropdown);
+		if (trigger) self.trigger('dropdown_close', self.dropdown);
 	},
 
 	/**
@@ -1871,11 +1888,12 @@ Object.assign(Selectize.prototype, {
 			control			= $control[0];
 		}
 
-		this.$dropdown.css({
-			width : control.getBoundingClientRect().width,
-			top   : offset.top,
-			left  : offset.left
+		applyCSS(this.dropdown,{
+			width : control.getBoundingClientRect().width + 'px',
+			top   : offset.top + 'px',
+			left  : offset.left + 'px'
 		});
+
 	},
 
 	/**
@@ -2137,7 +2155,7 @@ Object.assign(Selectize.prototype, {
 		this.trigger('destroy');
 		this.off();
 		this.wrapper.remove();
-		this.$dropdown.remove();
+		this.dropdown.remove();
 
 		this.input.innerHTML = '';
 		if( revertSettings.tabindex ){
@@ -2145,7 +2163,7 @@ Object.assign(Selectize.prototype, {
 		}else{
 			this.input.removeAttribute('tabindex' );
 		}
-		
+
 		this.input.classList.remove('selectized');
 		this.input.removeAttribute('hidden');
 
@@ -2260,7 +2278,7 @@ Object.assign(Selectize.prototype, {
 
 	/**
 	 * Return true if the requested key is down
-	 * 
+	 *
 	 */
 	isKeyDown: function( key_code, evt ){
 

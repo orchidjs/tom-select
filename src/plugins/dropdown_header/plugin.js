@@ -41,7 +41,7 @@ Selectize.define('dropdown_header', function(options) {
 		return function() {
 			original.apply(self, arguments);
 			self.$dropdown_header = $(options.html(options));
-			self.$dropdown.prepend(self.$dropdown_header);
+			self.dropdown.insertBefore(self.$dropdown_header[0], self.dropdown.firstChild);
 		};
 	})();
 

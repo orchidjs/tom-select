@@ -65,8 +65,8 @@ Selectize.defaults = {
 	onOptionGroupAdd     : null, // function(id, data) { ... }
 	onOptionGroupRemove  : null, // function(id) { ... }
 	onOptionGroupClear   : null, // function() { ... }
-	onDropdownOpen       : null, // function($dropdown) { ... }
-	onDropdownClose      : null, // function($dropdown) { ... }
+	onDropdownOpen       : null, // function(dropdown) { ... }
+	onDropdownClose      : null, // function(dropdown) { ... }
 	onType               : null, // function(str) { ... }
 	onDelete             : null, // function(values) { ... }
 	*/

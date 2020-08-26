@@ -146,7 +146,7 @@
 
 				click(test.selectize.$control, function() {
 					expect(test.selectize.isOpen).to.be.equal(true);
-					expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
+					expect($(test.selectize.dropdown).is(':visible')).to.be.equal(true);
 					done();
 				});
 			});
@@ -200,7 +200,7 @@
 				'</select>', {});
 
 				click(test.selectize.$control, function() {
-					click($('[data-value="b"]', test.selectize.$dropdown), function() {
+					click($('[data-value="b"]', $(test.selectize.dropdown)), function() {
 						expect(test.selectize.input.value).to.be.equal('b');
 						expect(test.selectize.input.textContent).to.be.equal('B');
 						done();
@@ -216,9 +216,9 @@
 				'</select>', {});
 
 				click(test.selectize.$control, function() {
-					click($('[data-value="b"]', test.selectize.$dropdown), function() {
+					click($('[data-value="b"]', $(test.selectize.dropdown)), function() {
 						expect(test.selectize.isOpen).to.be.equal(false);
-						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
+						expect($(test.selectize.dropdown).is(':visible')).to.be.equal(false);
 						done();
 					});
 				});
@@ -238,8 +238,8 @@
 				click(test.selectize.$control, function() {
 					syn.type('a', $(test.selectize.control_input))
 					.delay(0, function() {
-						expect($('[data-value="a"]', test.selectize.$dropdown).length).to.be.equal(1);
-						expect($('[data-value="b"]', test.selectize.$dropdown).length).to.be.equal(0);
+						expect($('[data-value="a"]', $(test.selectize.dropdown)).length).to.be.equal(1);
+						expect($('[data-value="b"]', $(test.selectize.dropdown)).length).to.be.equal(0);
 						done();
 					});
 				});
@@ -256,7 +256,7 @@
 					syn.type('awaw', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(false);
-						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
+						expect($(test.selectize.dropdown).is(':visible')).to.be.equal(false);
 						done();
 					});
 				});
@@ -273,7 +273,7 @@
 					syn.type('awaw', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
-						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
+						expect($(test.selectize.dropdown).is(':visible')).to.be.equal(true);
 						done();
 					});
 				});
@@ -291,7 +291,7 @@
 					.type('\b\b\b', $(test.selectize.control_input))
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
-						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
+						expect($(test.selectize.dropdown).is(':visible')).to.be.equal(true);
 						done();
 					});
 				});
@@ -363,13 +363,13 @@
 						.type('fooo', $(test.selectize.control_input))
 						.delay(0, function() {
 							expect(test.selectize.isOpen).to.be.equal(true);
-							expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
+							expect($(test.selectize.dropdown).is(':visible')).to.be.equal(true);
 
 							syn
 								.click($("body"))
 								.delay(5, function() {
 									expect(test.selectize.isOpen).to.be.equal(false);
-									expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
+									expect($(test.selectize.dropdown).is(':visible')).to.be.equal(false);
 									done();
 								});
 						});

@@ -62,7 +62,7 @@ describe('Events', function() {
 
 			syn.click(test.selectize.$control).delay(0, function() {
 				syn
-					.click($('[data-value="a"]', test.selectize.$dropdown))
+					.click($('[data-value="a"]', $(test.selectize.dropdown)))
 					.delay(0, function() {
 						expect(counter).to.be.equal(0);
 						done();
@@ -81,7 +81,7 @@ describe('Events', function() {
 
 			syn.click(test.selectize.$control).delay(0, function() {
 				syn
-					.click($('[data-value="a"]', test.selectize.$dropdown))
+					.click($('[data-value="a"]', $(test.selectize.dropdown)))
 					.delay(0, function() {
 						expect(counter).to.be.equal(0);
 						done();
@@ -104,7 +104,7 @@ describe('Events', function() {
 
 			syn.click(test.selectize.$control).delay(0, function() {
 				syn
-					.click($('[data-value="c"]', test.selectize.$dropdown))
+					.click($('[data-value="c"]', $(test.selectize.dropdown)))
 					.delay(0, function() {
 						expect(counter).to.be.equal(0);
 						done();
