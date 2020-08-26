@@ -431,7 +431,6 @@ Object.assign(Selectize.prototype, {
 	onMouseDown: function(e) {
 		var self = this;
 		var defaultPrevented = e.isDefaultPrevented();
-		var $target = $(e.target);
 
 		if (self.isFocused) {
 			// retain focus by preventing native handling. if the
@@ -488,7 +487,7 @@ Object.assign(Selectize.prototype, {
 				var pastedText = self.control_input.value;
 				if(!pastedText.match(self.settings.splitOn)){ return }
 
-				var splitInput = $.trim(pastedText).split(self.settings.splitOn);
+				var splitInput = pastedText.trim().split(self.settings.splitOn);
 				for (var i = 0, n = splitInput.length; i < n; i++) {
 					self.createItem(splitInput[i]);
 				}
