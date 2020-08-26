@@ -1,5 +1,5 @@
 {
-  "name": "Orchid Select",
+  "name": "Orchid-Select",
   "keywords": [
     "select",
     "ui",
@@ -15,7 +15,7 @@
   "version": "1.0.0-beta",
   "author": "Josh Schmidt (https://github.com/oyejorge)",
   "contributors":[
-	  "Brian Reavis <brian@thirdroute.com>",
+	  "Brian Reavis <brian@thirdroute.com>"
   ],
   "license": "Apache-2.0",
   "repository": {
