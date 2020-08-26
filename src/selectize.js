@@ -2344,19 +2344,16 @@ Object.assign(Selectize.prototype, {
 	 */
 	isKeyDown: function( key_code, evt ){
 
-		var key_cmd		= IS_MAC ? 'metaKey' : 'ctrlKey';
-		var key_ctrl	= IS_MAC ? 'altKey' : 'ctrlKey';
-
 		if( key_code in this.keysDown ){
 			return true;
 		}
 
 		if( evt ){
-			if( key_code == KEY_CTRL && evt[key_ctrl] ){
+			if( key_code == KEY_CTRL && evt[KEY_CTRL_NAME] ){
 				return true;
 			}
 
-			if( key_code == KEY_CMD && evt[key_cmd] ){
+			if( key_code == KEY_CMD && evt[KEY_CMD_NAME] ){
 				return true;
 			}
 
