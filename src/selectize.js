@@ -1518,33 +1518,27 @@ Object.assign(Selectize.prototype, {
 	/**
 	 * Returns the dom element of the next or previous dom element of the same type
 	 *
-	 * @param {object} $option
+	 * @param {object} option
 	 * @param {int} direction  can be 1 for next or -1 for previous
 	 * @return {object|undefined}
 	 */
-	getAdjacent: function($option, direction) {
+	getAdjacent: function( option, direction) {
 
-		if( !$option ){
-			return;
-		}
-
-		var dom_el		= getDom($option);
-
-		if( !dom_el ){
+		if( !option ){
 			return;
 		}
 
 		const fn			= direction > 0 ? 'nextElementSibling' : 'previousElementSibling';
-		const node_name		= dom_el.nodeName;
+		const node_name		= option.nodeName;
 
 		do{
-			dom_el = dom_el[fn];
+			option = option[fn];
 
-			if( dom_el && dom_el.nodeName === node_name ){
-				return dom_el;
+			if( option && option.nodeName === node_name ){
+				return option;
 			}
 
-		}while( dom_el );
+		}while( option );
 	},
 
 	/**
