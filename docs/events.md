@@ -43,7 +43,7 @@ selectize.off('event_name', handler);
 	</tr>
 	<tr>
 		<td valign="top"><code>"item_add"</code></td>
-		<td valign="top"><code>value</code>, <code>$item</code></td>
+		<td valign="top"><code>value</code>, <code>item</code></td>
 		<td valign="top">Invoked when an item is selected.</td>
 	</tr>
 	<tr>

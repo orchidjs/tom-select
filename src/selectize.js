@@ -1576,7 +1576,7 @@ Object.assign(Selectize.prototype, {
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
-			var $item;
+			var item;
 			var self = this;
 			var inputMode = self.settings.mode;
 			var i, active, wasFull;
@@ -1591,10 +1591,10 @@ Object.assign(Selectize.prototype, {
 			if (inputMode === 'single') self.clear(silent);
 			if (inputMode === 'multi' && self.isFull()) return;
 
-			$item = $(self.render('item', self.options[value]));
+			item = self.render('item', self.options[value]);
 			wasFull = self.isFull();
 			self.items.splice(self.caretPos, 0, value);
-			self.insertAtCaret($item);
+			self.insertAtCaret(item);
 			if (!self.isPending || (!wasFull && self.isFull())) {
 				self.refreshState();
 			}
@@ -1619,7 +1619,7 @@ Object.assign(Selectize.prototype, {
 					self.positionDropdown();
 				}
 
-				self.trigger('item_add', value, $item);
+				self.trigger('item_add', value, item);
 
 				if (!self.isPending) {
 					self.updateOriginalInput({silent: silent});
@@ -1934,12 +1934,11 @@ Object.assign(Selectize.prototype, {
 	 * A helper method for inserting an element
 	 * at the current caret position.
 	 *
-	 * @param {object} $el
+	 * @param {object} el
 	 */
-	insertAtCaret: function($el) {
-		var caret = Math.min(this.caretPos, this.items.length);
-		var el = $el[0];
-		var target = this.buffer || this.$control[0];
+	insertAtCaret: function(el) {
+		var caret	= Math.min(this.caretPos, this.items.length);
+		var target	= this.buffer || this.$control[0];
 
 		if (caret === 0) {
 			target.insertBefore(el, target.firstChild);

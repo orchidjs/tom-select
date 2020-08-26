@@ -123,9 +123,9 @@ describe('Events', function() {
 		});
 		it_n('should contain item\'s value and element', function(done) {
 			var test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
-			test.selectize.on('item_add', function(value, $item) {
+			test.selectize.on('item_add', function(value, item) {
 				expect(value).to.be.equal('b');
-				assert.equal($item.length, 1);
+				assert.equal(item.dataset.value, 'b');
 				done();
 			});
 			test.selectize.addItem('b');
