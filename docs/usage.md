@@ -386,13 +386,13 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>onDropdownOpen($dropdown)</code></td>
+		<td valign="top"><code>onDropdownOpen(dropdown)</code></td>
 		<td valign="top">Invoked when the dropdown opens.</td>
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>onDropdownClose($dropdown)</code></td>
+		<td valign="top"><code>onDropdownClose(dropdown)</code></td>
 		<td valign="top">Invoked when the dropdown closes.</td>
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>

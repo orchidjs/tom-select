@@ -88,12 +88,12 @@ selectize.off('event_name', handler);
     </tr>
 	<tr>
 		<td valign="top"><code>"dropdown_open"</code></td>
-		<td valign="top"><code>$dropdown</code></td>
+		<td valign="top"><code>dropdown</code></td>
 		<td valign="top">Invoked when the dropdown opens.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>"dropdown_close"</code></td>
-		<td valign="top"><code>$dropdown</code></td>
+		<td valign="top"><code>dropdown</code></td>
 		<td valign="top">Invoked when the dropdown closes.</td>
 	</tr>
 	<tr>
