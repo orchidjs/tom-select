@@ -92,7 +92,7 @@ module.exports = function(config) {
 			'src/*.js': ['coverage']
 		},
 		coverageReporter: {
-			type: process.env.TRAVIS_CI && process.env.TARGET === 'phantomjs' ? 'lcov' : 'text-summary',
+			type: process.env.TRAVIS_CI ? 'lcov' : 'text-summary',
 			dir: 'coverage/'
 		},
 		sauceLabs: {
