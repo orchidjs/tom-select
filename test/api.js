@@ -405,35 +405,24 @@
 			});
 			it_n('should allow string values', function() {
 				expect(test.selectize.getOption('a')).to.be.ok;
-				expect(test.selectize.getOption('a').length).to.be.equal(1);
 				expect(test.selectize.getOption('b')).to.be.ok;
-				expect(test.selectize.getOption('b').length).to.be.equal(1);
 			});
 			it_n('should allow integer values', function() {
 				expect(test.selectize.getOption(0)).to.be.ok;
-				expect(test.selectize.getOption(0).length).to.be.equal(1);
 				expect(test.selectize.getOption(1)).to.be.ok;
-				expect(test.selectize.getOption(1).length).to.be.equal(1);
 			});
 			it_n('should allow values with quotation marks', function() {
 				expect(test.selectize.getOption('\'')).to.be.ok;
-				expect(test.selectize.getOption('\'').length).to.be.equal(1);
 				expect(test.selectize.getOption('"')).to.be.ok;
-				expect(test.selectize.getOption('"').length).to.be.equal(1);
 			});
 			it_n('should allow values with backslashes', function() {
 				expect(test.selectize.getOption('\\')).to.be.ok;
-				expect(test.selectize.getOption('\\').length).to.be.equal(1);
 				expect(test.selectize.getOption('\\\'')).to.be.ok;
-				expect(test.selectize.getOption('\\\'').length).to.be.equal(1);
 				expect(test.selectize.getOption('\\"')).to.be.ok;
-				expect(test.selectize.getOption('\\"').length).to.be.equal(1);
 			});
 			it_n('should not allow undefined / null values', function() {
-				expect(test.selectize.getOption(null)).to.be.ok;
-				expect(test.selectize.getOption(null).length).to.be.equal(0);
-				expect(test.selectize.getOption(undefined)).to.be.ok;
-				expect(test.selectize.getOption(undefined).length).to.be.equal(0);
+				expect(test.selectize.getOption(null)).to.be.equal(undefined);
+				expect(test.selectize.getOption(undefined)).to.be.equal(undefined);
 			});
 		});
 

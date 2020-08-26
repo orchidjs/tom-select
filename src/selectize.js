@@ -1124,16 +1124,17 @@ Object.assign(Selectize.prototype, {
 	 */
 	refreshOptions: function(triggerDropdown) {
 		var i, j, k, n, groups, groups_order, option, option_html, optgroup, optgroups, html, html_children, has_create_option;
-		var $active, $active_before, create;
+		var active, active_before, create;
 
 		if (typeof triggerDropdown === 'undefined') {
 			triggerDropdown = true;
 		}
 
-		var self              = this;
-		var query             = self.control_input.value.trim();
-		var results           = self.search(query);
-		var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
+		var self					= this;
+		var query					= self.control_input.value.trim();
+		var results					= self.search(query);
+		var active_before_hash		= self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
+
 
 		// build markup
 		n = results.items.length;
@@ -1209,7 +1210,10 @@ Object.assign(Selectize.prototype, {
 		// add "selected" class to selected options
 		if (!self.settings.hideSelected) {
 			for (i = 0, n = self.items.length; i < n; i++) {
-				self.getOption(self.items[i]).addClass('selected');
+				let option = self.getOption(self.items[i])
+				if( option ){
+					option.classList.add('selected');
+				}
 			}
 		}
 
@@ -1224,27 +1228,32 @@ Object.assign(Selectize.prototype, {
 		self.hasOptions = results.items.length > 0 || has_create_option;
 		if (self.hasOptions) {
 			if (results.items.length > 0) {
-				$active_before = active_before && self.getOption(active_before);
-				if ($active_before && $active_before.length) {
-					$active = $active_before;
-				} else if (self.settings.mode === 'single' && self.items.length) {
-					$active = self.getOption(self.items[0]);
+				active_before = active_before_hash && self.getOption(active_before_hash);
+
+				if( active_before ){
+					active = active_before;
+				}else if (self.settings.mode === 'single' && self.items.length ){
+					active = self.getOption(self.items[0]);
 				}
-				if (!$active || !$active.length) {
-					if ( create && !self.settings.addPrecedence) {
-						$active = self.getAdjacentOption(create, 1);
-					} else {
-						$active = self.selectable()[0];
+
+				if( !active ){
+					if( create && !self.settings.addPrecedence ){
+						active = self.getAdjacentOption(create, 1);
+					}else{
+						active = self.selectable()[0];
 					}
 				}
-			} else {
-				$active = create;
+
+			}else{
+				active = create;
 			}
-			self.setActiveOption($active);
-			if (triggerDropdown && !self.isOpen) { self.open(); }
-		} else {
+
+			self.setActiveOption(active);
+			if( triggerDropdown && !self.isOpen ){ self.open(); }
+
+		}else{
 			self.setActiveOption(null);
-			if (triggerDropdown && self.isOpen) { self.close(); }
+			if( triggerDropdown && self.isOpen ){ self.close(); }
 		}
 	},
 
@@ -1478,6 +1487,10 @@ Object.assign(Selectize.prototype, {
 	 * @return {object|null}
 	 */
 	getAdjacentOption: function($option, direction) {
+		if( !$option ){
+			return;
+		}
+		
 		var dom_el		= getDom($option);
 
 		if( !dom_el ){
@@ -1505,12 +1518,10 @@ Object.assign(Selectize.prototype, {
 		if (typeof value !== 'undefined' && value !== null) {
 			for (var i = 0, n = els.length; i < n; i++) {
 				if (els[i].getAttribute('data-value') === value) {
-					return $(els[i]);
+					return els[i];
 				}
 			}
 		}
-
-		return $();
 	},
 
 	/**
@@ -1521,7 +1532,7 @@ Object.assign(Selectize.prototype, {
 	 * @returns {object}
 	 */
 	getItem: function(value) {
-		return this.getElementWithValue(value, this.$control.children());
+		return $(this.getElementWithValue(value, this.$control.children()));
 	},
 
 	/**
@@ -1562,7 +1573,7 @@ Object.assign(Selectize.prototype, {
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
-			var $item, $option;
+			var $item;
 			var self = this;
 			var inputMode = self.settings.mode;
 			var i, active, wasFull;
@@ -1590,8 +1601,8 @@ Object.assign(Selectize.prototype, {
 
 				// update menu / remove the option (if this is not one item being added as part of series)
 				if (!self.isPending) {
-					$option = self.getOption(value);
-					let next = self.getAdjacentOption($option, 1);
+					let option = self.getOption(value);
+					let next = self.getAdjacentOption(option, 1);
 					self.refreshOptions(self.isFocused && inputMode !== 'single');
 					if( next ){
 						self.setActiveOption(next);
@@ -1944,7 +1955,7 @@ Object.assign(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	deleteSelection: function(e) {
-		var i, n, direction, selection, values, caret, option_select, $option_select, $tail;
+		var i, n, direction, selection, values, caret, option_select, $tail;
 		var self = this;
 
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
@@ -1999,9 +2010,9 @@ Object.assign(Selectize.prototype, {
 
 		// select previous option
 		if (option_select) {
-			$option_select = self.getOption(option_select);
-			if ($option_select.length) {
-				self.setActiveOption($option_select);
+			let option = self.getOption(option_select);
+			if( option ){
+				self.setActiveOption(option_select);
 			}
 		}
 
