@@ -8,8 +8,17 @@ var sandbox = document.createElement('form');
 document.body.appendChild(sandbox);
 var test_number = 0;
 
+var test_html = {
+	AB_Multi			: '<select multiple><option value="a"></option><option value="b"></option><option value="c"></option></select>',
+	AB_Single			: '<select><option value="a"></option><option value="b"></option><option value="c"></option></select>',
+}
+
 window.setup_test = function(html, options, callback) {
 	if (window.test_last) window.test_last.teardown();
+
+	if( html in test_html ){
+		html = test_html[html];
+	}
 
 	var $select = $(html).appendTo(sandbox).selectize(options);
 	var instance = $select[0].selectize;
@@ -26,6 +35,15 @@ window.setup_test = function(html, options, callback) {
 
 	return test;
 };
+
+/**
+ * Create a test with two options
+ *
+ */
+window.ABTestSingle = function(options){
+	return setup_test('ABTestSingle', options);
+};
+
 
 after(function() {
 	if (window.test_last) {

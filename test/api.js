@@ -189,6 +189,27 @@
 			});
 		});
 
+		describe('clearOptions()', function() {
+
+			it_n('options should be empty', function(done) {
+				var test = setup_test('AB_Multi', {});
+				assert.equal( Object.keys(test.selectize.options).length, 3);
+				test.selectize.clearOptions();
+				assert.equal( Object.keys(test.selectize.options).length, 0);
+				done();
+			});
+
+			it_n('options should not be empty', function(done) {
+				var test = setup_test('AB_Multi', {});
+				assert.equal( Object.keys(test.selectize.options).length, 3);
+				test.selectize.addItem('b');
+				test.selectize.clearOptions();
+				assert.equal( Object.keys(test.selectize.options).length, 1);
+				done();
+			});
+		});
+
+
 		describe('addOption()', function() {
 			var test;
 			before(function() {

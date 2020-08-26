@@ -58,6 +58,7 @@ var Selectize = function( input, settings ){
 		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
 	});
 
+
 	// search system
 	self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
 
@@ -1487,20 +1488,20 @@ Object.assign(Selectize.prototype, {
 	 * Clears all options.
 	 */
 	clearOptions: function() {
-		var self = this;
 
-		self.loadedSearches = {};
-		self.userOptions = {};
-		self.renderCache = {};
-		var options = self.options;
-		$.each(self.options, function(key, value) {
-			if(self.items.indexOf(key) == -1) {
-				delete options[key];
+		this.loadedSearches		= {};
+		this.userOptions		= {};
+		this.renderCache		= {};
+		var selected			= {};
+		for( key in this.options){
+    		if( this.options.hasOwnProperty(key) && this.items.indexOf(key) >= 0 ){
+				selected[key] = this.options[key];
 			}
-		});
-		self.options = self.sifter.items = options;
-		self.lastQuery = null;
-		self.trigger('option_clear');
+		}
+
+		this.options = this.sifter.items = selected;
+		this.lastQuery = null;
+		this.trigger('option_clear');
 	},
 
 	/**
