@@ -1,16 +1,15 @@
-→ Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/issues/752)!
-
-# selectize.js
+# Orchid Select
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
 [![Build Status](http://img.shields.io/travis/selectize/selectize.js/master.svg?style=flat)](https://travis-ci.org/selectize/selectize.js)
-[![Coverage Status](http://img.shields.io/coveralls/selectize/selectize.js/master.svg?style=flat)](https://coveralls.io/r/selectize/selectize.js)
+[![Coverage Status](https://coveralls.io/repos/github/OrchidJS/Select/badge.svg?branch=master)](https://coveralls.io/github/OrchidJS/Select?branch=master)
 
-Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
+Orchid Select is an extensible and dynamic &lt;select&gt; UI control.
+With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
+Orchid Select was forked from [Selectize.js](https://github.com/selectize/selectize.js) to provide the same powerful UI and API but with a framework agnostic approach.
 
 - [Demos](http://selectize.github.io/selectize.js/)
-- [Changelog](https://github.com/selectize/selectize.js/releases)
 - [Examples](examples/)
 - [Usage Documentation](docs/usage.md)
 - [API Documentation](docs/api.md)
@@ -31,24 +30,23 @@ Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&
 
 ### Dependencies
 
-- [jquery](https://github.com/jquery/jquery) (1.7 and greater)
 - [sifter](https://github.com/brianreavis/sifter.js) (bundled in ["standalone" build](dist/js/standalone))
 - [microplugin](https://github.com/brianreavis/microplugin.js) (bundled in ["standalone" build](dist/js/standalone))
 
 ### Installation and files
 
-All pre-built files needed to use Selectize can be found in the
+All pre-built files needed to use Orchid Select can be found in the
 ["dist"](dist/) folder.
 
 If you're looking to get started with minimal fuss, include
-`standalone/selectize.min.js` (bundles Sifter and Microplugin
+`selectize.standalone.min.js` (bundles Sifter and Microplugin
 dependencies – also available un-minified for debugging, just remove the
 `.min` part) and `css/selectize.default.css`.
 
 Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 
 - [**js/**](dist/js)
-	- [selectize.js](dist/js/selectize.standalone.js) — With dependencies, minus jquery
+	- [selectize.js](dist/js/selectize.standalone.js) — With dependencies
 	- [selectize.js](dist/js/selectize.js) — Without dependencies
 - [**less/**](dist/less)
 	- [selectize.less](dist/less/selectize.less) — Core styles
