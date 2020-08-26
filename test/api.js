@@ -448,33 +448,33 @@
 			});
 			it_n('should allow string values', function() {
 				expect(test.selectize.getItem('a')).to.be.ok;
-				expect(test.selectize.getItem('a').length).to.be.equal(1);
+				//expect(test.selectize.getItem('a').length).to.be.equal(1);
 				expect(test.selectize.getItem('b')).to.be.ok;
-				expect(test.selectize.getItem('b').length).to.be.equal(1);
+				//expect(test.selectize.getItem('b').length).to.be.equal(1);
 			});
 			it_n('should allow integer values', function() {
 				expect(test.selectize.getItem(0)).to.be.ok;
-				expect(test.selectize.getItem(0).length).to.be.equal(1);
+				//expect(test.selectize.getItem(0).length).to.be.equal(1);
 				expect(test.selectize.getItem(1)).to.be.ok;
-				expect(test.selectize.getItem(1).length).to.be.equal(1);
+				//expect(test.selectize.getItem(1).length).to.be.equal(1);
 			});
 			it_n('should allow values with quotation marks', function() {
 				expect(test.selectize.getItem('\'')).to.be.ok;
-				expect(test.selectize.getItem('\'').length).to.be.equal(1);
+				//expect(test.selectize.getItem('\'').length).to.be.equal(1);
 				expect(test.selectize.getItem('"')).to.be.ok;
-				expect(test.selectize.getItem('"').length).to.be.equal(1);
+				//expect(test.selectize.getItem('"').length).to.be.equal(1);
 			});
 			it_n('should allow values with backslashes', function() {
 				expect(test.selectize.getItem('\\\'')).to.be.ok;
-				expect(test.selectize.getItem('\\\'').length).to.be.equal(1);
+				//expect(test.selectize.getItem('\\\'').length).to.be.equal(1);
 				expect(test.selectize.getItem('\\"')).to.be.ok;
-				expect(test.selectize.getItem('\\"').length).to.be.equal(1);
+				//expect(test.selectize.getItem('\\"').length).to.be.equal(1);
 			});
 			it_n('should not allow undefined / null values', function() {
-				expect(test.selectize.getItem(null)).to.be.ok;
-				expect(test.selectize.getItem(null).length).to.be.equal(0);
-				expect(test.selectize.getItem(undefined)).to.be.ok;
-				expect(test.selectize.getItem(undefined).length).to.be.equal(0);
+				expect(test.selectize.getItem(null)).to.be.equal(undefined);
+				//expect(test.selectize.getItem(null).length).to.be.equal(0);
+				expect(test.selectize.getItem(undefined)).to.be.equal(undefined);
+				//expect(test.selectize.getItem(undefined).length).to.be.equal(0);
 			});
 		});
 

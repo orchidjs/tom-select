@@ -57,7 +57,7 @@
 				});
 			});
 		});
-    
+
 		it_n('should reopen dropdown if clicked after being closed by closeAfterSelect: true', function(done) {
 
 			var test = ABTest({closeAfterSelect: true});
@@ -409,15 +409,15 @@
 			}
 
 			execFilterTests('should add an item  normally if there is no createFilter', [undefined, null, ''], function(selectize) {
-				expect(selectize.getItem(text).length).to.be.equal(1);
+				expect(selectize.getItem(text)).to.be.ok;
 			});
 
 			execFilterTests('should add an item if the input matches the createFilter', ['a', /a/, function() { return true; }], function(selectize) {
-				expect(selectize.getItem(text).length).to.be.equal(1);
+				expect(selectize.getItem(text)).to.be.ok;
 			});
 
 			execFilterTests('should not add an item or display the create label if the input does not match the createFilter (A)', ['foo', /foo/, function() { return false; }], function(selectize) {
-				expect(selectize.getItem(text).length).to.be.equal(0);
+				expect(selectize.getItem(text)).to.be.equal(undefined);
 			});
 
 			execFilterTests('should not add an item or display the create label if the input does not match the createFilter (B)', ['foo', /foo/, function() { return false; }], function(selectize) {

@@ -1371,7 +1371,7 @@ Object.assign(Selectize.prototype, {
 	 */
 	updateOption: function(value, data) {
 		var self = this;
-		var $item, $item_new;
+		var item, item_new;
 		var value_new, index_item, cache_items, cache_options, order_old;
 
 		value     = hash_key(value);
@@ -1410,10 +1410,13 @@ Object.assign(Selectize.prototype, {
 
 		// update the item if it's selected
 		if (self.items.indexOf(value_new) !== -1) {
-			$item = self.getItem(value);
-			$item_new = $(self.render('item', data));
-			if ($item.hasClass('active')) $item_new.addClass('active');
-			$item.replaceWith($item_new);
+			item		= self.getItem(value);
+			item_new	= self.render('item', data);
+
+			if( item.classList.contains('active') ) item_new.classList.add('active');
+
+			item.parentNode.insertBefore(item_new, item);
+			item.remove();
 		}
 
 		// invalidate last query because we might have updated the sortField
@@ -1532,7 +1535,7 @@ Object.assign(Selectize.prototype, {
 	 * @returns {object}
 	 */
 	getItem: function(value) {
-		return $(this.getElementWithValue(value, this.$control.children()));
+		return this.getElementWithValue(value, this.$control.children());
 	},
 
 	/**
@@ -1632,36 +1635,34 @@ Object.assign(Selectize.prototype, {
 	 * @param {string} value
 	 */
 	removeItem: function(value, silent) {
-		var self = this;
-		var $item, i, idx;
+		var i, idx;
 
-		$item = self.getItem(value);
-		var item = $item[0];
+		var item = this.getItem(value);
 		value = hash_key(item.dataset.value);
-		i = self.items.indexOf(value);
+		i = this.items.indexOf(value);
 
 		if (i !== -1) {
 			item.remove();
 			if( item.classList.contains('active') ){
-				idx = self.$activeItems.indexOf(item);
-				self.$activeItems.splice(idx, 1);
+				idx = this.$activeItems.indexOf(item);
+				this.$activeItems.splice(idx, 1);
 				item.classList.remove('active');
 			}
 
-			self.items.splice(i, 1);
-			self.lastQuery = null;
-			if (!self.settings.persist && self.userOptions.hasOwnProperty(value)) {
-				self.removeOption(value, silent);
+			this.items.splice(i, 1);
+			this.lastQuery = null;
+			if (!this.settings.persist && this.userOptions.hasOwnProperty(value)) {
+				this.removeOption(value, silent);
 			}
 
-			if (i < self.caretPos) {
-				self.setCaret(self.caretPos - 1);
+			if (i < this.caretPos) {
+				this.setCaret(this.caretPos - 1);
 			}
 
-			self.refreshState();
-			self.updateOriginalInput({silent: silent});
-			self.positionDropdown();
-			self.trigger('item_remove', value, item);
+			this.refreshState();
+			this.updateOriginalInput({silent: silent});
+			this.positionDropdown();
+			this.trigger('item_remove', value, item);
 		}
 	},
 
