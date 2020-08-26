@@ -2,7 +2,7 @@
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
-[![Build Status](http://img.shields.io/travis/selectize/selectize.js/master.svg?style=flat)](https://travis-ci.org/selectize/selectize.js)
+[![Build Status](https://travis-ci.org/OrchidJS/Select.svg?branch=master)](https://travis-ci.org/OrchidJS/Select)
 [![Coverage Status](https://coveralls.io/repos/github/OrchidJS/Select/badge.svg?branch=master)](https://coveralls.io/github/OrchidJS/Select?branch=master)
 
 Orchid Select is an extensible and dynamic &lt;select&gt; UI control.
