@@ -112,6 +112,54 @@ var onEvent = function( el, eventName, elementSelector, handler ){
 
 };
 
+/**
+ * Get the first or last item from a querySelectorAll result
+ *
+ * > 0 - right (last)
+ * < 0 - left (first)
+ *
+ */
+var querySelectorEnd = function( el, query, direction){
+	var result = el.querySelectorAll(query);
+	if( !result ){
+		return;
+	}
+
+	if( direction > 0 ){
+		return result[result.length-1];
+	}
+
+	return result[0];
+};
+
+
+/**
+ * Return true if an object is empty
+ *
+ */
+var isEmptyObject = function(obj){
+	return (Object.keys(obj).length === 0);
+}
+
+
+/**
+ * Get the index of an element amongst sibling nodes of the same type
+ *
+ */
+var nodeIndex = function(el) {
+	if (!el) return -1;
+
+	const nodeName = el.nodeName;
+	var i = 0;
+	do{
+		if( el.nodeName === nodeName ){
+			i++;
+		}
+	} while (el = el.previousElementSibling);
+	return i;
+}
+
+
 
 /**
  * Copied from jQuery source

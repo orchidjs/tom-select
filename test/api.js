@@ -494,11 +494,11 @@
 					items: ['1','2','3']
 				});
 			});
-			it_n('should empty "$activeItems" array', function() {
+			it_n('should empty "activeItems" array', function() {
 				test.selectize.setActiveItem(test.selectize.getItem('1'));
-				expect(test.selectize.$activeItems.length).to.be.equal(1);
+				expect(test.selectize.activeItems.length).to.be.equal(1);
 				test.selectize.clear();
-				expect(test.selectize.$activeItems.length).to.be.equal(0);
+				expect(test.selectize.activeItems.length).to.be.equal(0);
 			});
 			it_n('should refresh option list (dropdown)', function(done) {
 				// test = setup_test('<select multiple>', {

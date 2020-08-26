@@ -22,9 +22,10 @@ Selectize.define('optgroup_columns', function(options) {
 		equalizeHeight : true
 	}, options);
 
-	this.getAdjacentOption = function($option, direction) {
-		var $options = $option.closest('[data-group]').find('[data-selectable]');
-		var index    = $options.index($option) + direction;
+	this.getAdjacent = function(option, direction) {
+		var $option		= $(option);
+		var $options	= $option.closest('[data-group]').find('[data-selectable]');
+		var index		= $options.index($option) + direction;
 
 		return index >= 0 && index < $options.length ? $options.eq(index) : $();
 	};
@@ -78,7 +79,7 @@ Selectize.define('optgroup_columns', function(options) {
 
 		$optgroups = $('[data-group]', self.dropdown_content);
 		n = $optgroups.length;
-		 
+
 		if (!n || !self.dropdown_content.clientWidth ) return;
 
 		if (options.equalizeHeight) {

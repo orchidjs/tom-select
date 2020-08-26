@@ -48,7 +48,7 @@ var Selectize = function( input, settings ){
 		loadedSearches   : {},
 
 		$activeOption    : null,
-		$activeItems     : [],
+		activeItems      : [],
 
 		optgroups        : {},
 		options          : {},
@@ -244,6 +244,7 @@ Object.assign(Selectize.prototype, {
 				case KEY_CTRL:
 				case KEY_SHIFT:
 				case KEY_CMD:
+					self.hideInput();
 					self.keysDown[e.keyCode] = true;
 			}
 		});
@@ -255,6 +256,10 @@ Object.assign(Selectize.prototype, {
 				case KEY_SHIFT:
 				case KEY_CMD:
 					delete self.keysDown[e.keyCode];
+			}
+
+			if( isEmptyObject(self.keysDown) ){
+				self.showInput();
 			}
 
 		});
@@ -549,7 +554,7 @@ Object.assign(Selectize.prototype, {
 					self.open();
 				} else if (self.$activeOption) {
 					self.ignoreHover = true;
-					let next = self.getAdjacentOption(self.$activeOption, 1);
+					let next = self.getAdjacent(self.$activeOption, 1);
 					if (next) self.setActiveOption(next, true );
 				}
 				e.preventDefault();
@@ -559,14 +564,14 @@ Object.assign(Selectize.prototype, {
 			case KEY_UP:
 				if (self.$activeOption) {
 					self.ignoreHover = true;
-					let prev = self.getAdjacentOption(self.$activeOption, -1);
+					let prev = self.getAdjacent(self.$activeOption, -1);
 					if (prev) self.setActiveOption(prev, true);
 				}
 				e.preventDefault();
 				return;
 			case KEY_RETURN:
 				if (self.isOpen && self.$activeOption) {
-					self.onOptionSelect({delegateTarget: self.$activeOption});
+					self.onOptionSelect({delegateTarget: self.$activeOption[0]});
 					e.preventDefault();
 				}
 				return;
@@ -578,7 +583,7 @@ Object.assign(Selectize.prototype, {
 				return;
 			case KEY_TAB:
 				if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
-					self.onOptionSelect({delegateTarget: self.$activeOption});
+					self.onOptionSelect({delegateTarget: self.$activeOption[0]});
 
 					// Default behaviour is to jump to the next field, we only want this
 					// if the current field doesn't accept any more entries
@@ -662,7 +667,7 @@ Object.assign(Selectize.prototype, {
 
 		if (!wasFocused) self.trigger('focus');
 
-		if (!self.$activeItems.length) {
+		if (!self.activeItems.length) {
 			self.showInput();
 			self.setActiveItem(null);
 			self.refreshOptions(!!self.settings.openOnFocus);
@@ -745,8 +750,12 @@ Object.assign(Selectize.prototype, {
 
 		var target = e.delegateTarget;
 
+		if( !target ){
+			return;
+		}
+
 		// should not be possible to trigger a option under a disabled optgroup
-		if( target.parentNode.matches('[data-disabled]') ){
+		if( target.parentNode && target.parentNode.matches('[data-disabled]') ){
 			return;
 		}
 
@@ -871,7 +880,7 @@ Object.assign(Selectize.prototype, {
 
 		var self = this;
 		var eventName;
-		var i, idx, begin, end, item, swap;
+		var i, begin, end, item, swap;
 		var $last;
 
 		if (self.settings.mode === 'single') return;
@@ -879,8 +888,8 @@ Object.assign(Selectize.prototype, {
 
 		// clear the active selection
 		if (!$item.length) {
-			$(self.$activeItems).removeClass('active');
-			self.$activeItems = [];
+			$(self.activeItems).removeClass('active');
+			self.activeItems = [];
 			if (self.isFocused) {
 				self.showInput();
 			}
@@ -890,7 +899,7 @@ Object.assign(Selectize.prototype, {
 		// modify selection
 		eventName = e && e.type.toLowerCase();
 
-		if (eventName === 'mousedown' && self.isKeyDown(KEY_SHIFT,e) && self.$activeItems.length) {
+		if (eventName === 'mousedown' && self.isKeyDown(KEY_SHIFT,e) && self.activeItems.length) {
 			$last = self.$control.children('.active:last');
 			begin = Array.prototype.indexOf.apply(self.$control[0].childNodes, [$last[0]]);
 			end   = Array.prototype.indexOf.apply(self.$control[0].childNodes, [$item[0]]);
@@ -901,23 +910,21 @@ Object.assign(Selectize.prototype, {
 			}
 			for (i = begin; i <= end; i++) {
 				item = self.$control[0].childNodes[i];
-				if (self.$activeItems.indexOf(item) === -1) {
-					$(item).addClass('active');
-					self.$activeItems.push(item);
+				if (self.activeItems.indexOf(item) === -1) {
+					self.setActiveItemClass($item[0]);
 				}
 			}
 			e.preventDefault();
 		} else if ((eventName === 'mousedown' && self.isKeyDown(KEY_CTRL,e) ) || (eventName === 'keydown' && this.isKeyDown(KEY_SHIFT,e))) {
 			if ($item.hasClass('active')) {
-				idx = self.$activeItems.indexOf($item[0]);
-				self.$activeItems.splice(idx, 1);
-				$item.removeClass('active');
+				this.removeActiveItem( $item[0] );
 			} else {
-				self.$activeItems.push($item.addClass('active')[0]);
+				self.setActiveItemClass($item[0]);
 			}
 		} else {
-			$(self.$activeItems).removeClass('active');
-			self.$activeItems = [$item.addClass('active')[0]];
+			$(self.activeItems).removeClass('active');
+			self.activeItems = [];
+			self.setActiveItemClass($item[0]);
 		}
 
 		// ensure control has focus
@@ -926,6 +933,32 @@ Object.assign(Selectize.prototype, {
 			self.focus();
 		}
 	},
+
+	/**
+	 * Set the active and last-active classes
+	 *
+	 */
+	setActiveItemClass: function( item ){
+
+		var last_active = this.$control[0].querySelector('.last-active');
+		if( last_active ) last_active.classList.remove('last-active');
+
+		addClasses(item,'active last-active');
+		if( !(item in this.activeItems) ){
+			this.activeItems.push( item );
+		}
+	},
+
+	/**
+	 * Remove active item
+	 *
+	 */
+	removeActiveItem: function( item ){
+		var idx = this.activeItems.indexOf(item);
+		this.activeItems.splice(idx, 1);
+		item.classList.remove('active');
+	},
+
 
 	/**
 	 * Sets the selected item in the dropdown menu
@@ -975,8 +1008,8 @@ Object.assign(Selectize.prototype, {
 		if (this.settings.disableActiveItems) return;
 
 
-		self.$activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass('active'));
-		if (self.$activeItems.length) {
+		self.activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass('active'));
+		if (self.activeItems.length) {
 			self.hideInput();
 			self.close();
 		}
@@ -1238,7 +1271,7 @@ Object.assign(Selectize.prototype, {
 
 				if( !active ){
 					if( create && !self.settings.addPrecedence ){
-						active = self.getAdjacentOption(create, 1);
+						active = self.getAdjacent(create, 1);
 					}else{
 						active = self.selectable()[0];
 					}
@@ -1482,14 +1515,14 @@ Object.assign(Selectize.prototype, {
 	},
 
 	/**
-	 * Returns the jQuery element of the next or
-	 * previous selectable option.
+	 * Returns the dom element of the next or previous dom element of the same type
 	 *
 	 * @param {object} $option
 	 * @param {int} direction  can be 1 for next or -1 for previous
-	 * @return {object|null}
+	 * @return {object|undefined}
 	 */
-	getAdjacentOption: function($option, direction) {
+	getAdjacent: function($option, direction) {
+
 		if( !$option ){
 			return;
 		}
@@ -1500,11 +1533,17 @@ Object.assign(Selectize.prototype, {
 			return;
 		}
 
-		if( direction > 0 ){
-			return dom_el.nextElementSibling;
-		}
+		const fn			= direction > 0 ? 'nextElementSibling' : 'previousElementSibling';
+		const node_name		= dom_el.nodeName;
 
-		return dom_el.previousElementSibling;
+		do{
+			dom_el = dom_el[fn];
+
+			if( dom_el && dom_el.nodeName === node_name ){
+				return dom_el;
+			}
+
+		}while( dom_el );
 	},
 
 	/**
@@ -1605,7 +1644,7 @@ Object.assign(Selectize.prototype, {
 				// update menu / remove the option (if this is not one item being added as part of series)
 				if (!self.isPending) {
 					let option = self.getOption(value);
-					let next = self.getAdjacentOption(option, 1);
+					let next = self.getAdjacent(option, 1);
 					self.refreshOptions(self.isFocused && inputMode !== 'single');
 					if( next ){
 						self.setActiveOption(next);
@@ -1637,15 +1676,18 @@ Object.assign(Selectize.prototype, {
 	removeItem: function(value, silent) {
 		var i, idx;
 
-		var item = this.getItem(value);
-		value = hash_key(item.dataset.value);
-		i = this.items.indexOf(value);
+		var item	= this.getItem(value);
+
+		if( !item ) return;
+
+		value		= hash_key(item.dataset.value);
+		i			= this.items.indexOf(value);
 
 		if (i !== -1) {
 			item.remove();
 			if( item.classList.contains('active') ){
-				idx = this.$activeItems.indexOf(item);
-				this.$activeItems.splice(idx, 1);
+				idx = this.activeItems.indexOf(item);
+				this.activeItems.splice(idx, 1);
 				item.classList.remove('active');
 			}
 
@@ -1789,7 +1831,7 @@ Object.assign(Selectize.prototype, {
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
 			.toggleClass('input-active', self.isFocused && !self.isInputHidden)
 			.toggleClass('dropdown-active', self.isOpen)
-			.toggleClass('has-options', (Object.keys(self.options) === 0) )
+			.toggleClass('has-options', isEmptyObject(self.options) )
 			.toggleClass('has-items', self.items.length > 0);
 
 	},
@@ -1963,7 +2005,7 @@ Object.assign(Selectize.prototype, {
 		selection = getSelection(self.control_input);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
-			let option = self.getAdjacentOption(self.$activeOption, -1);
+			let option = self.getAdjacent(self.$activeOption, -1);
 			if( option ){
 				option_select = option.dataset.value;
 			}
@@ -1972,13 +2014,13 @@ Object.assign(Selectize.prototype, {
 		// determine items that will be removed
 		values = [];
 
-		if (self.$activeItems.length) {
+		if (self.activeItems.length) {
 			$tail = self.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
 			caret = self.$control.children(':not(input)').index($tail);
 			if (direction > 0) { caret++; }
 
-			for (i = 0, n = self.$activeItems.length; i < n; i++) {
-				values.push($(self.$activeItems[i]).attr('data-value'));
+			for (i = 0, n = self.activeItems.length; i < n; i++) {
+				values.push($(self.activeItems[i]).attr('data-value'));
 			}
 			if (e) {
 				e.preventDefault();
@@ -2021,8 +2063,7 @@ Object.assign(Selectize.prototype, {
 	},
 
 	/**
-	 * Selects the previous / next item (depending
-	 * on the `direction` argument).
+	 * Selects the previous / next item (depending on the `direction` argument).
 	 *
 	 * > 0 - right
 	 * < 0 - left
@@ -2031,57 +2072,63 @@ Object.assign(Selectize.prototype, {
 	 * @param {object} e (optional)
 	 */
 	advanceSelection: function(direction, e) {
-		var tail, selection, idx, valueLength, cursorAtEdge, $tail;
-		var self = this;
+		var selection, idx, valueLength, cursorAtEdge, last_active;
 
 		if (direction === 0) return;
-		if (self.rtl) direction *= -1;
+		if (this.rtl) direction *= -1;
 
-		tail = direction > 0 ? 'last' : 'first';
-		selection = getSelection(self.control_input);
+		selection = getSelection(this.control_input);
 
-		if (self.isFocused && !self.isInputHidden) {
-			valueLength = self.control_input.value.length;
+
+		// add or remove to active items
+		if( this.isKeyDown(KEY_CTRL,e) || this.isKeyDown(KEY_SHIFT,e) ){
+
+			last_active			= this.getLastActive(direction);
+			let adjacent		= this.getAdjacent(last_active,direction);
+			if( adjacent ){
+				if( adjacent.classList.contains('active') ){
+					this.removeActiveItem(last_active);
+				}
+				this.setActiveItemClass(adjacent); // mark as last_active !! after removeActiveItem() on last_active
+			}
+
+		// move caret to the left or right
+		}else if (this.isFocused && !this.isInputHidden) {
+			valueLength = this.control_input.value.length;
 			cursorAtEdge = direction < 0
 				? selection.start === 0 && selection.length === 0
 				: selection.start === valueLength;
 
 			if (cursorAtEdge && !valueLength) {
-				self.advanceCaret(direction, e);
+				this.setCaret(this.caretPos + direction);
 			}
+
+		// move caret before or after selected items
 		} else {
-			$tail = self.$control.children('.active:' + tail);
-			if ($tail.length) {
-				idx = self.$control.children(':not(input)').index($tail);
-				self.setActiveItem(null);
-				self.setCaret(direction > 0 ? idx + 1 : idx);
+
+			last_active		= this.getLastActive(direction);
+			if( last_active ){
+				idx = nodeIndex(last_active);
+				this.setCaret(direction > 0 ? idx : idx-1);
+				this.setActiveItem(null);
 			}
 		}
 	},
 
 	/**
-	 * Moves the caret left / right.
+	 * Get the last active item
 	 *
-	 * @param {int} direction
-	 * @param {object} e (optional)
 	 */
-	advanceCaret: function(direction, e) {
-		var self = this, fn, adj;
+	getLastActive: function(direction){
 
-		if (direction === 0) return;
-
-		fn = direction > 0 ? 'nextElementSibling' : 'previousElementSibling';
-		if ( self.isKeyDown(KEY_SHIFT,e) ) {
-			adj = self.control_input[fn]();
-			if (adj.length) {
-				self.hideInput();
-				self.setActiveItem($adj);
-				e && e.preventDefault();
-			}
-		} else {
-			self.setCaret(self.caretPos + direction);
+		let last_active = this.$control[0].querySelector('.last-active');
+		if( last_active ){
+			return last_active;
 		}
+
+		return querySelectorEnd(this.$control[0],'.active',direction);
 	},
+
 
 	/**
 	 * Moves the caret to the specified index.

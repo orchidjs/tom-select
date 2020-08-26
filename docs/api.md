@@ -69,8 +69,8 @@ var selectize = $select[0].selectize;
 		<td valign="top">Retrieves the jQuery element for the option identified by the given value.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>getAdjacentOption(value, direction)</code></td>
-		<td valign="top">Retrieves the jQuery element for the previous or next option, relative to the currently highlighted option. The <code>direction</code> argument should be 1 for "next" or -1 for "previous".</td>
+		<td valign="top"><code>getAdjacent(dom_element, direction)</code></td>
+		<td valign="top">Retrieves the dom element for the previous or next option, relative to the currently highlighted option. The <code>direction</code> argument should be 1 for "next" or -1 for "previous".</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>refreshOptions(triggerDropdown)</code></td>
