@@ -737,28 +737,29 @@ Object.assign(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onOptionSelect: function(e) {
-		var value, $target, $option, self = this;
+		var value, self = this;
 
 		if (e.preventDefault) {
 			e.preventDefault();
 			e.stopPropagation();
 		}
 
+		var target = e.delegateTarget;
 
 		// should not be possible to trigger a option under a disabled optgroup
-		if( e.delegateTarget.parentNode.matches('[data-disabled]') ){
+		if( target.parentNode.matches('[data-disabled]') ){
 			return;
 		}
 
-		$target = $(e.delegateTarget);
-		if ($target.hasClass('create')) {
+
+		if( target.classList.contains('create') ){
 			self.createItem(null, function() {
 				if (self.settings.closeAfterSelect) {
 					self.close();
 				}
 			});
 		} else {
-			value = $target.attr('data-value');
+			value = target.dataset.value;
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.addItem(value);
