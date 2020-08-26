@@ -210,6 +210,21 @@
 		});
 
 
+		describe('selectAll()', function() {
+
+			it_n('should select all', function(done) {
+				var test = setup_test('AB_Multi', {});
+				assert.equal( test.selectize.activeItems.length, 0 );
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				assert.equal( test.selectize.activeItems.length, 0 );
+				test.selectize.selectAll();
+				assert.equal( test.selectize.activeItems.length, 2 );
+				done();
+			});
+
+		});
+
 		describe('addOption()', function() {
 			var test;
 			before(function() {

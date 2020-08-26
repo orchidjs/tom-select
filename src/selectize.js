@@ -1003,18 +1003,23 @@ Object.assign(Selectize.prototype, {
 	 * Selects all items (CTRL + A).
 	 */
 	selectAll: function() {
+		var i,n;
 
-		var self = this;
-		if (self.settings.mode === 'single') return;
+		if (this.settings.mode === 'single') return;
 		if (this.settings.disableActiveItems) return;
 
+		this.activeItems = this.controlChildren();
+		n = this.activeItems.length;
 
-		self.activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass('active'));
-		if (self.activeItems.length) {
-			self.hideInput();
-			self.close();
+		if( n ){
+			for( i = 0; i < n; i++){
+				addClasses( this.activeItems[i], 'active' );
+			}
+
+			this.hideInput();
+			this.close();
 		}
-		self.focus();
+		this.focus();
 	},
 
 	/**
@@ -1993,7 +1998,7 @@ Object.assign(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	deleteSelection: function(e) {
-		var i, n, direction, selection, values, caret, option_select, $tail;
+		var i, n, direction, selection, values, caret, option_select, tail;
 		var self = this;
 
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
@@ -2010,8 +2015,8 @@ Object.assign(Selectize.prototype, {
 		values = [];
 
 		if (self.activeItems.length) {
-			$tail = self.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
-			caret = self.$control.children(':not(input)').index($tail);
+			tail = self.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
+			caret = self.$control.children(':not(input)').index(tail);
 			if (direction > 0) { caret++; }
 
 			for (i = 0, n = self.activeItems.length; i < n; i++) {
@@ -2143,19 +2148,30 @@ Object.assign(Selectize.prototype, {
 			// the input must be moved by leaving it in place and moving the
 			// siblings, due to the fact that focus cannot be restored once lost
 			// on mobile webkit devices
-			var j, n, fn, $children, $child;
-			$children = self.$control.children(':not(input)');
-			for (j = 0, n = $children.length; j < n; j++) {
-				$child = $($children[j]).detach();
-				if (j <  i) {
-					self.control_input.insertAdjacentElement('beforebegin', $child[0] );
+			var j, child,
+			children = this.controlChildren(),
+			n = children.length;
+
+			for( j = 0; j < n; j++ ){
+				child = children[j];
+
+				if( j < i ){
+					self.control_input.insertAdjacentElement('beforebegin', child );
 				} else {
-					self.$control.append($child);
+					self.$control[0].appendChild(child);
 				}
 			}
 		}
 
 		self.caretPos = i;
+	},
+
+	/**
+	 * Return list of item dom elements
+	 *
+	 */
+	controlChildren: function(){
+		return Array.prototype.filter.call( this.$control[0].children, node => node.nodeName !== 'INPUT' );
 	},
 
 	/**
