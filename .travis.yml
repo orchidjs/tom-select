@@ -8,10 +8,9 @@ env:
     - secure: FI6ATM3Pngx0bowuYi5WHIDCe0R5ORlJWNsFxJyZLEusie+wZrRy9QbZsVvJGVYZJKAR9MFT3Ks494ou85lyfUnfvEnn+lX2DQ3Hsyz0xyBNoSvNkQbhZEsUr0TV+UGpCvSwYr6lYqXsBy6VxqyAkXDkqdVTAzMydq5ttGxszPU=
     - secure: "ctyTk+LdMsch1jTRLLTboJW2TsJCIRtXktEQ86JdGteg0YSvsqDj/LndUaaGZ2ZSR3sSJ1Q/YV1X0M0VizrzX5I7/3WnKViyeKygJ5sSbTuqkjwFa2sAAmrnmBv9JWofIc2XuRG3tfZv2fX6QMDy5PA72KGPBmGAw4S8WTxGkHQ="
 node_js:
-  - '6'
-  - '8'
-  - '9'
-  - '10'
+  - 10
+  - 12
+  - 14
 before_script:
   - npm install -g bower
   - npm install -g grunt-cli
