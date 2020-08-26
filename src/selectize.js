@@ -1789,7 +1789,7 @@ Object.assign(Selectize.prototype, {
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
 			.toggleClass('input-active', self.isFocused && !self.isInputHidden)
 			.toggleClass('dropdown-active', self.isOpen)
-			.toggleClass('has-options', !$.isEmptyObject(self.options))
+			.toggleClass('has-options', (Object.keys(self.options) === 0) )
 			.toggleClass('has-items', self.items.length > 0);
 
 	},
