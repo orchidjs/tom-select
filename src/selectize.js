@@ -1490,7 +1490,7 @@ Object.assign(Selectize.prototype, {
 		if( !$option ){
 			return;
 		}
-		
+
 		var dom_el		= getDom($option);
 
 		if( !dom_el ){
@@ -1635,16 +1635,17 @@ Object.assign(Selectize.prototype, {
 		var self = this;
 		var $item, i, idx;
 
-		$item = (value instanceof $) ? value : self.getItem(value);
-		value = hash_key($item.attr('data-value'));
+		$item = self.getItem(value);
+		var item = $item[0];
+		value = hash_key(item.dataset.value);
 		i = self.items.indexOf(value);
 
 		if (i !== -1) {
-			$item.remove();
-			if ($item.hasClass('active')) {
-				idx = self.$activeItems.indexOf($item[0]);
+			item.remove();
+			if( item.classList.contains('active') ){
+				idx = self.$activeItems.indexOf(item);
 				self.$activeItems.splice(idx, 1);
-				$item.removeClass('active');
+				item.classList.remove('active');
 			}
 
 			self.items.splice(i, 1);
@@ -1660,7 +1661,7 @@ Object.assign(Selectize.prototype, {
 			self.refreshState();
 			self.updateOriginalInput({silent: silent});
 			self.positionDropdown();
-			self.trigger('item_remove', value, $item);
+			self.trigger('item_remove', value, item);
 		}
 	},
 

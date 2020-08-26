@@ -142,9 +142,9 @@ describe('Events', function() {
 		});
 		it_n('should contain item\'s value and element', function(done) {
 			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-			test.selectize.on('item_remove', function(value, $item) {
+			test.selectize.on('item_remove', function(value, item) {
 				expect(value).to.be.equal('b');
-				assert.equal($item.length, 1);
+				expect(item.dataset.value).to.be.equal('b');
 				done();
 			});
 			test.selectize.removeItem('b');
