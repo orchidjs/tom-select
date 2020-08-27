@@ -123,7 +123,7 @@ Object.assign(Selectize.prototype, {
 		var $document = $(document);
 
 		var wrapper;
-		var $control; // watchChildEvent
+		var control;
 		var control_input;
 		var dropdown;
 		var dropdown_content;
@@ -140,7 +140,12 @@ Object.assign(Selectize.prototype, {
 		wrapper				= htmlToElement('<div>');
 		addClasses( wrapper, settings.wrapperClass, classes, inputMode);
 
-		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo(wrapper);
+
+		control				= htmlToElement('<div class="items">');
+		addClasses(control,settings.inputClass);
+		wrapper.append(control);
+
+
 
 		dropdown			= htmlToElement('<div style="display:none">');
 		addClasses(dropdown, settings.dropdownClass, inputMode);
@@ -156,7 +161,7 @@ Object.assign(Selectize.prototype, {
 
 		if( !settings.controlInput ){
 			control_input.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex);
-			$control[0].appendChild( control_input );
+			control.appendChild( control_input );
 		}
 
 
@@ -202,8 +207,9 @@ Object.assign(Selectize.prototype, {
 		}
 		control_input.type		= self.input.type;
 
-		self.$control          = $control;
+		self.$control          = $(control);
 
+		self.control			= control;
 		self.control_input		= control_input;
 		self.wrapper			= wrapper;
 		self.dropdown			= dropdown;
@@ -212,13 +218,18 @@ Object.assign(Selectize.prototype, {
 
 		onEvent(dropdown, 'mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
 		onEvent(dropdown, 'mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
-		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 
+		control.addEventListener('mousedown', function(evt){
 
-		$control.on({
-			mousedown : function() { return self.onMouseDown.apply(self, arguments); },
-			click     : function() { return self.onClick.apply(self, arguments); }
+			var target_match = targetMatch( evt, '.item', control);
+			if( target_match ){
+				evt.delegateTarget = target_match;
+				return self.onItemSelect.call(self, evt);
+			}
+			return self.onMouseDown.call(self, evt);
 		});
+
+		control.addEventListener('click', function() { return self.onClick.apply(self, arguments); });
 
 
 		control_input.addEventListener('mousedown', function(e) { e.stopPropagation(); });
@@ -266,7 +277,7 @@ Object.assign(Selectize.prototype, {
 					return false;
 				}
 				// blur on click outside
-				if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
+				if (!self.$control.has(e.target).length && e.target !== self.control ){
 					self.blur(e.target);
 				}
 			}
@@ -430,7 +441,8 @@ Object.assign(Selectize.prototype, {
 	 */
 	onMouseDown: function(e) {
 		var self = this;
-		var defaultPrevented = e.isDefaultPrevented();
+		var defaultPrevented = false; //e.isDefaultPrevented();
+		//console.log('default prevented',defaultPrevented);
 
 		if (self.isFocused) {
 			// retain focus by preventing native handling. if the
@@ -788,7 +800,7 @@ Object.assign(Selectize.prototype, {
 		if (self.isLocked) return;
 		if (self.settings.mode === 'multi') {
 			e.preventDefault();
-			self.setActiveItem(e.currentTarget, e);
+			self.setActiveItem(e.delegateTarget, e);
 		}
 	},
 
@@ -895,15 +907,15 @@ Object.assign(Selectize.prototype, {
 
 		if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT,e) && this.activeItems.length) {
 			$last = this.$control.children('.active:last');
-			begin = Array.prototype.indexOf.apply(this.$control[0].children, [$last[0]]);
-			end   = Array.prototype.indexOf.apply(this.$control[0].children, [item]);
+			begin = Array.prototype.indexOf.apply(this.control.children, [$last[0]]);
+			end   = Array.prototype.indexOf.apply(this.control.children, [item]);
 			if (begin > end) {
 				swap  = begin;
 				begin = end;
 				end   = swap;
 			}
 			for (i = begin; i <= end; i++) {
-				item = this.$control[0].children[i];
+				item = this.control.children[i];
 				if (this.activeItems.indexOf(item) === -1) {
 					this.setActiveItemClass(item);
 				}
@@ -934,7 +946,7 @@ Object.assign(Selectize.prototype, {
 	 */
 	setActiveItemClass: function( item ){
 
-		var last_active = this.$control[0].querySelector('.last-active');
+		var last_active = this.control.querySelector('.last-active');
 		if( last_active ) last_active.classList.remove('last-active');
 
 		addClasses(item,'active last-active');
@@ -1567,7 +1579,7 @@ Object.assign(Selectize.prototype, {
 	 * @returns {object}
 	 */
 	getItem: function(value) {
-		return this.getElementWithValue(value, this.$control.children());
+		return this.getElementWithValue(value, this.control.children);
 	},
 
 	/**
@@ -1580,7 +1592,7 @@ Object.assign(Selectize.prototype, {
 	addItems: function(values, silent) {
 		this.buffer = document.createDocumentFragment();
 
-		var children = this.$control[0].children;
+		var children = this.control.children;
 		for (var i = 0; i < children.length; i++) {
 			this.buffer.appendChild(children[i]);
 		}
@@ -1591,7 +1603,7 @@ Object.assign(Selectize.prototype, {
 			this.addItem(items[i], silent);
 		}
 
-		var control = this.$control[0];
+		var control = this.control;
 		control.insertBefore(this.buffer, control.firstChild);
 
 		this.buffer = null;
@@ -1977,7 +1989,7 @@ Object.assign(Selectize.prototype, {
 	 */
 	insertAtCaret: function(el) {
 		var caret	= Math.min(this.caretPos, this.items.length);
-		var target	= this.buffer || this.$control[0];
+		var target	= this.buffer || this.control;
 
 		if (caret === 0) {
 			target.insertBefore(el, target.firstChild);
@@ -2120,12 +2132,12 @@ Object.assign(Selectize.prototype, {
 	 */
 	getLastActive: function(direction){
 
-		let last_active = this.$control[0].querySelector('.last-active');
+		let last_active = this.control.querySelector('.last-active');
 		if( last_active ){
 			return last_active;
 		}
 
-		return querySelectorEnd(this.$control[0],'.active',direction);
+		return querySelectorEnd(this.control,'.active',direction);
 	},
 
 
@@ -2157,7 +2169,7 @@ Object.assign(Selectize.prototype, {
 				if( j < i ){
 					self.control_input.insertAdjacentElement('beforebegin', child );
 				} else {
-					self.$control[0].appendChild(child);
+					self.control.appendChild(child);
 				}
 			}
 		}
@@ -2170,7 +2182,7 @@ Object.assign(Selectize.prototype, {
 	 *
 	 */
 	controlChildren: function(){
-		return Array.prototype.filter.call( this.$control[0].children, node => node.nodeName !== 'INPUT' );
+		return Array.prototype.filter.call( this.control.children, node => node.nodeName !== 'INPUT' );
 	},
 
 	/**
@@ -2305,6 +2317,10 @@ Object.assign(Selectize.prototype, {
 		}
 		if (templateName === 'option' || templateName === 'item') {
 			html.setAttribute('data-value', value || '');
+		}
+
+		if( templateName === 'item' ){ // make sure we have an item class even if the item template is overwritten
+			html.classList.add('item');
 		}
 
 		// update cache

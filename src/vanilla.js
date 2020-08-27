@@ -86,13 +86,11 @@ var onEvent = function( el, eventName, elementSelector, handler ){
 	// create intermediate handler that can be used for all event names
 	// loop parent nodes from the target to the delegation node
 	let _handler = function(e) {
-	    for (var target = e.target; target && target != this; target = target.parentNode) {
-	        if (target.matches(elementSelector)) {
-				e.delegateTarget = target;
-				handler.call(target, e);
-	            break;
-	        }
-	    }
+		var target_match = targetMatch(e, elementSelector, el);
+		if( target_match ){
+			e.delegateTarget = target_match;
+			handler.call(target_match, e);
+		}
 	};
 
 	for( let i = 0; i<event_names.length; i++){
@@ -100,6 +98,21 @@ var onEvent = function( el, eventName, elementSelector, handler ){
 	}
 
 };
+
+
+/**
+ * Get the closest node to the evt.target matching the selector
+ * Stops at el
+ *
+ */
+var targetMatch = function(evt, selector, el ){
+
+	for( var target = evt.target; target && target != el; target = target.parentNode ){
+		if( target.matches(selector) ){
+			return target;
+		}
+	}
+}
 
 /**
  * Get the first or last item from a querySelectorAll result
