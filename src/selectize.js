@@ -1506,7 +1506,7 @@ Object.assign(Selectize.prototype, {
 	},
 
 	/**
-	 * Returns the jQuery element of the option
+	 * Returns the dom element of the option
 	 * matching the given value.
 	 *
 	 * @param {string} value
@@ -1563,7 +1563,7 @@ Object.assign(Selectize.prototype, {
 	},
 
 	/**
-	 * Returns the jQuery element of the item
+	 * Returns the dom element of the item
 	 * matching the given value.
 	 *
 	 * @param {string} value
