@@ -883,7 +883,7 @@ Object.assign(Selectize.prototype, {
 		var self = this;
 		var eventName;
 		var i, begin, end, item, swap;
-		var $last;
+		var last;
 
 		if (this.settings.mode === 'single') return;
 
