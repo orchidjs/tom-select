@@ -52,7 +52,7 @@ Selectize.define('drag_drop', function(options) {
 				},
 				stop: function() {
 					$control.css({overflow: 'hidden'});
-					var active = self.$activeItems ? self.$activeItems.slice() : null;
+					var active = self.activeItems ? self.activeItems.slice() : null;
 					var values = [];
 					$control.children('[data-value]').each(function() {
 						values.push($(this).attr('data-value'));

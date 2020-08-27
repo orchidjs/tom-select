@@ -25,7 +25,7 @@ Selectize.define('restore_on_backspace', function(options) {
 		var original = self.onKeyDown;
 		return function(e) {
 			var index, option;
-			if (e.keyCode === KEY_BACKSPACE && this.control_input.value === '' && !this.$activeItems.length) {
+			if (e.keyCode === KEY_BACKSPACE && this.control_input.value === '' && !this.activeItems.length) {
 				index = this.caretPos - 1;
 				if (index >= 0 && index < this.items.length) {
 					option = this.options[this.items[index]];
