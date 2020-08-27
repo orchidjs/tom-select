@@ -278,6 +278,7 @@ Object.assign(Selectize.prototype, {
 				}
 				// blur on click outside
 				if (!self.$control.has(e.target).length && e.target !== self.control ){
+					console.log('here');
 					self.blur(e.target);
 				}
 			}
@@ -906,9 +907,10 @@ Object.assign(Selectize.prototype, {
 		eventName = e && e.type.toLowerCase();
 
 		if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT,e) && this.activeItems.length) {
-			$last = this.$control.children('.active:last');
-			begin = Array.prototype.indexOf.apply(this.control.children, [$last[0]]);
-			end   = Array.prototype.indexOf.apply(this.control.children, [item]);
+			last	= this.getLastActive();
+			begin	= Array.prototype.indexOf.apply(this.control.children, [last]);
+			end		= Array.prototype.indexOf.apply(this.control.children, [item]);
+
 			if (begin > end) {
 				swap  = begin;
 				begin = end;
@@ -1818,6 +1820,7 @@ Object.assign(Selectize.prototype, {
 
 	/**
 	 * Updates all state-dependent CSS classes.
+	 *
 	 */
 	refreshClasses: function() {
 		var self     = this;
@@ -1827,18 +1830,17 @@ Object.assign(Selectize.prototype, {
 
 		self.wrapper.classList.toggle('rtl',self.rtl);
 
-		self.$control
-			.toggleClass('focus', self.isFocused)
-			.toggleClass('disabled', self.isDisabled)
-			.toggleClass('required', self.isRequired)
-			.toggleClass('invalid', self.isInvalid)
-			.toggleClass('locked', isLocked)
-			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
-			.toggleClass('input-active', self.isFocused && !self.isInputHidden)
-			.toggleClass('dropdown-active', self.isOpen)
-			.toggleClass('has-options', isEmptyObject(self.options) )
-			.toggleClass('has-items', self.items.length > 0);
-
+		self.control.classList.toggle('focus', self.isFocused)
+		self.control.classList.toggle('disabled', self.isDisabled)
+		self.control.classList.toggle('required', self.isRequired)
+		self.control.classList.toggle('invalid', self.isInvalid)
+		self.control.classList.toggle('locked', isLocked)
+		self.control.classList.toggle('full', isFull)
+		self.control.classList.toggle('not-full', !isFull)
+		self.control.classList.toggle('input-active', self.isFocused && !self.isInputHidden)
+		self.control.classList.toggle('dropdown-active', self.isOpen)
+		self.control.classList.toggle('has-options', isEmptyObject(self.options) )
+		self.control.classList.toggle('has-items', self.items.length > 0);
 	},
 
 	/**
