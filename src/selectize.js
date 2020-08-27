@@ -8,13 +8,7 @@ var Selectize = function( input, settings ){
 
 	// detect rtl environment
 	var computedStyle	= window.getComputedStyle && window.getComputedStyle(input, null);
-	dir					= computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
-	if( !dir ){
-		var parent = input.matchingParent('[dir]');
-		if( parent ){
-			dir = parent.getAttribute('dir');
-		}
-	}
+	dir					= computedStyle.getPropertyValue('direction');
 
 	// setup default state
 	Object.assign(self, {

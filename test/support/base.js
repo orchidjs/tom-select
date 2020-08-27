@@ -20,7 +20,13 @@ window.setup_test = function(html, options, callback) {
 		html = test_html[html];
 	}
 
-	var $select = $(html).appendTo(sandbox).selectize(options);
+	var $html			= $(html).appendTo(sandbox);
+	var $select			= $html.find('.setup-here');
+	if( $select.length === 0 ){
+		$select = $html;
+	}
+
+	$select.selectize(options);
 	var instance = $select[0].selectize;
 	var test = window.test_last = {
 		$select: $select,
@@ -29,6 +35,7 @@ window.setup_test = function(html, options, callback) {
 		teardown: function() {
 			instance.destroy();
 			$select.remove();
+			form.innerHTML = '';
 			window.test_last = null;
 		}
 	};

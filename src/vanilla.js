@@ -59,17 +59,6 @@ var applyCSS = function( dom_el, css){
 	});
 }
 
-/**
- * Get first matching parent
- *
- */
-var matchingParent = function( elem, selector){
-    for ( ; elem && elem !== document; elem = elem.parentNode ) {
-        if ( elem.matches( selector ) ) return elem;
-    }
-    return null;
-};
-
 
 /**
  * Add classes

@@ -430,6 +430,26 @@
 		});
 
 
+		describe('rtl detection', function() {
+
+			it_n('should not be rtl', function() {
+				test = setup_test('<select>', {});
+				expect(test.selectize.rtl).to.be.equal(false);
+			});
+
+			it_n('should detect rtl', function() {
+				test = setup_test('<select dir="rtl">', {});
+				expect(test.selectize.rtl).to.be.equal(true);
+			});
+
+			it_n('should detect parent rtl', function() {
+				test = setup_test('<div dir="rtl"><select class="setup-here"></select></div>', {});
+				expect(test.selectize.rtl).to.be.equal(true);
+			});
+
+		});
+
+
 	});
 
 })();
