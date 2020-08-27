@@ -865,10 +865,10 @@ Object.assign(Selectize.prototype, {
 	/**
 	 * Sets the selected item.
 	 *
-	 * @param {object} $item
+	 * @param {object} item
 	 * @param {object} e (optional)
 	 */
-	setActiveItem: function($item, e) {
+	setActiveItem: function( item, e) {
 
 		// this prevents removing items with backspace
 		if( this.settings.disableActiveItems ) return;
@@ -878,15 +878,14 @@ Object.assign(Selectize.prototype, {
 		var i, begin, end, item, swap;
 		var $last;
 
-		if (self.settings.mode === 'single') return;
-		$item = $($item);
+		if (this.settings.mode === 'single') return;
 
 		// clear the active selection
-		if (!$item.length) {
-			$(self.activeItems).removeClass('active');
-			self.activeItems = [];
-			if (self.isFocused) {
-				self.showInput();
+		if( !item ){
+			$(this.activeItems).removeClass('active');
+			this.activeItems = [];
+			if (this.isFocused) {
+				this.showInput();
 			}
 			return;
 		}
@@ -894,38 +893,38 @@ Object.assign(Selectize.prototype, {
 		// modify selection
 		eventName = e && e.type.toLowerCase();
 
-		if (eventName === 'mousedown' && self.isKeyDown(KEY_SHIFT,e) && self.activeItems.length) {
-			$last = self.$control.children('.active:last');
-			begin = Array.prototype.indexOf.apply(self.$control[0].childNodes, [$last[0]]);
-			end   = Array.prototype.indexOf.apply(self.$control[0].childNodes, [$item[0]]);
+		if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT,e) && this.activeItems.length) {
+			$last = this.$control.children('.active:last');
+			begin = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$last[0]]);
+			end   = Array.prototype.indexOf.apply(this.$control[0].childNodes, [item]);
 			if (begin > end) {
 				swap  = begin;
 				begin = end;
 				end   = swap;
 			}
 			for (i = begin; i <= end; i++) {
-				item = self.$control[0].childNodes[i];
-				if (self.activeItems.indexOf(item) === -1) {
-					self.setActiveItemClass($item[0]);
+				item = this.$control[0].childNodes[i];
+				if (this.activeItems.indexOf(item) === -1) {
+					this.setActiveItemClass(item);
 				}
 			}
 			e.preventDefault();
-		} else if ((eventName === 'mousedown' && self.isKeyDown(KEY_CTRL,e) ) || (eventName === 'keydown' && this.isKeyDown(KEY_SHIFT,e))) {
-			if ($item.hasClass('active')) {
-				this.removeActiveItem( $item[0] );
+		} else if ((eventName === 'mousedown' && this.isKeyDown(KEY_CTRL,e) ) || (eventName === 'keydown' && this.isKeyDown(KEY_SHIFT,e))) {
+			if( item.classList.contains('active') ){
+				this.removeActiveItem( item );
 			} else {
-				self.setActiveItemClass($item[0]);
+				this.setActiveItemClass(item);
 			}
 		} else {
-			$(self.activeItems).removeClass('active');
-			self.activeItems = [];
-			self.setActiveItemClass($item[0]);
+			$(this.activeItems).removeClass('active');
+			this.activeItems = [];
+			this.setActiveItemClass(item);
 		}
 
 		// ensure control has focus
-		self.hideInput();
+		this.hideInput();
 		if (!this.isFocused) {
-			self.focus();
+			this.focus();
 		}
 	},
 
