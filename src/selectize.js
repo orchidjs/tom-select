@@ -895,15 +895,15 @@ Object.assign(Selectize.prototype, {
 
 		if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT,e) && this.activeItems.length) {
 			$last = this.$control.children('.active:last');
-			begin = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$last[0]]);
-			end   = Array.prototype.indexOf.apply(this.$control[0].childNodes, [item]);
+			begin = Array.prototype.indexOf.apply(this.$control[0].children, [$last[0]]);
+			end   = Array.prototype.indexOf.apply(this.$control[0].children, [item]);
 			if (begin > end) {
 				swap  = begin;
 				begin = end;
 				end   = swap;
 			}
 			for (i = begin; i <= end; i++) {
-				item = this.$control[0].childNodes[i];
+				item = this.$control[0].children[i];
 				if (this.activeItems.indexOf(item) === -1) {
 					this.setActiveItemClass(item);
 				}
@@ -1210,7 +1210,7 @@ Object.assign(Selectize.prototype, {
 		html = htmlToElement('<div>');
 		for (i = 0, n = groups_order.length; i < n; i++) {
 			optgroup = groups_order[i];
-			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].childNodes.length) {
+			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 				// render the optgroup header and options within it,
 				// then pass it to the wrapper template
 				html_children = document.createDocumentFragment();
@@ -1580,9 +1580,9 @@ Object.assign(Selectize.prototype, {
 	addItems: function(values, silent) {
 		this.buffer = document.createDocumentFragment();
 
-		var childNodes = this.$control[0].childNodes;
-		for (var i = 0; i < childNodes.length; i++) {
-			this.buffer.appendChild(childNodes[i]);
+		var children = this.$control[0].children;
+		for (var i = 0; i < children.length; i++) {
+			this.buffer.appendChild(children[i]);
 		}
 
 		var items = Array.isArray(values) ? values : [values];
@@ -1982,7 +1982,7 @@ Object.assign(Selectize.prototype, {
 		if (caret === 0) {
 			target.insertBefore(el, target.firstChild);
 		} else {
-			target.insertBefore(el, target.childNodes[caret]);
+			target.insertBefore(el, target.children[caret]);
 		}
 
 		this.setCaret(caret + 1);
