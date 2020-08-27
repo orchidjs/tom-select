@@ -8,13 +8,22 @@ var sandbox = document.createElement('form');
 document.body.appendChild(sandbox);
 var test_number = 0;
 
+var teardownLast = function(){
+	if( window.test_last ){
+		window.test_last.selectize.destroy();
+		window.test_last.$select.remove();
+		//sandbox.innerHTML = '';
+		window.test_last = null;
+	}
+}
+
 var test_html = {
 	AB_Multi			: '<select multiple><option value="a"></option><option value="b"></option><option value="c"></option></select>',
 	AB_Single			: '<select><option value="a"></option><option value="b"></option><option value="c"></option></select>',
 }
 
 window.setup_test = function(html, options, callback) {
-	if (window.test_last) window.test_last.teardown();
+	teardownLast();
 
 	if( html in test_html ){
 		html = test_html[html];
@@ -26,18 +35,11 @@ window.setup_test = function(html, options, callback) {
 		$select = $html;
 	}
 
-	$select.selectize(options);
-	var instance = $select[0].selectize;
+	var instance = new Selectize($select,options);
 	var test = window.test_last = {
 		$select: $select,
 		callback: callback,
-		selectize: instance,
-		teardown: function() {
-			instance.destroy();
-			$select.remove();
-			form.innerHTML = '';
-			window.test_last = null;
-		}
+		selectize: instance
 	};
 
 	return test;
@@ -53,9 +55,7 @@ window.ABTestSingle = function(options){
 
 
 after(function() {
-	if (window.test_last) {
-		window.test_last.teardown();
-	}
+	window.teardownLast();
 });
 
 
