@@ -945,7 +945,7 @@ Object.assign(Selectize.prototype, {
 		if( last_active ) last_active.classList.remove('last-active');
 
 		addClasses(item,'active last-active');
-		if( !(item in this.activeItems) ){
+		if( this.activeItems.indexOf(item) == -1 ){
 			this.activeItems.push( item );
 		}
 	},
