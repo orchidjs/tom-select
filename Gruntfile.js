@@ -167,7 +167,6 @@ module.exports = function(grunt) {
 				files: {
 					'dist/css/selectize.css': ['dist/less/selectize.less'],
 					'dist/css/selectize.default.css': ['dist/less/selectize.default.less'],
-					'dist/css/selectize.legacy.css': ['dist/less/selectize.legacy.less'],
 					'dist/css/selectize.bootstrap3.css': ['dist/less/selectize.bootstrap3.tmp.less']
 				}
 			}
