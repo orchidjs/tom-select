@@ -2055,7 +2055,7 @@ Object.assign(Selectize.prototype, {
 		if (option_select) {
 			let option = self.getOption(option_select);
 			if( option ){
-				self.setActiveOption(option_select);
+				self.setActiveOption(option);
 			}
 		}
 
