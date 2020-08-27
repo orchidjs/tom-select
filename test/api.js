@@ -225,6 +225,26 @@
 
 		});
 
+		describe('deleteSelection()', function() {
+
+			it_n('should select then delete two items', function(done) {
+				var test = setup_test('AB_Multi', {});
+				assert.equal( test.selectize.activeItems.length, 0 );
+				assert.equal( test.selectize.items.length, 0 );
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				assert.equal( test.selectize.items.length, 2 );
+				assert.equal( test.selectize.activeItems.length, 0 );
+				test.selectize.selectAll();
+				assert.equal( test.selectize.activeItems.length, 2 );
+				test.selectize.deleteSelection();
+				assert.equal( test.selectize.activeItems.length, 0 );
+				assert.equal( test.selectize.items.length, 0 );
+				done();
+			});
+
+		});
+
 		describe('addOption()', function() {
 			var test;
 			before(function() {

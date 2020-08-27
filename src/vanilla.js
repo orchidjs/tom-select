@@ -125,13 +125,22 @@ var querySelectorEnd = function( el, query, direction){
 		return;
 	}
 
-	if( direction > 0 ){
-		return result[result.length-1];
-	}
-
-	return result[0];
+	return getTail(result,direction);
 };
 
+
+/**
+ * Get the first or last item from an array
+ *
+ */
+var getTail = function( array, direction ){
+
+	if( direction > 0 ){
+		return array[array.length-1];
+	}
+
+	return array[0];
+}
 
 /**
  * Return true if an object is empty
@@ -151,11 +160,11 @@ var nodeIndex = function(el) {
 
 	const nodeName = el.nodeName;
 	var i = 0;
-	do{
+	while( el = el.previousElementSibling ){
 		if( el.nodeName === nodeName ){
 			i++;
 		}
-	} while (el = el.previousElementSibling);
+	}
 	return i;
 }
 

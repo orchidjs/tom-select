@@ -2019,8 +2019,10 @@ Object.assign(Selectize.prototype, {
 		values = [];
 
 		if (self.activeItems.length) {
-			tail = self.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
-			caret = self.$control.children(':not(input)').index(tail);
+
+			tail = getTail(self.activeItems, direction);
+			caret = nodeIndex(tail);
+
 			if (direction > 0) { caret++; }
 
 			for (i = 0, n = self.activeItems.length; i < n; i++) {
@@ -2113,7 +2115,7 @@ Object.assign(Selectize.prototype, {
 			last_active		= this.getLastActive(direction);
 			if( last_active ){
 				idx = nodeIndex(last_active);
-				this.setCaret(direction > 0 ? idx : idx-1);
+				this.setCaret(direction > 0 ? idx + 1: idx);
 				this.setActiveItem(null);
 			}
 		}
