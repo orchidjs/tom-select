@@ -250,7 +250,6 @@ Object.assign(Selectize.prototype, {
 				case KEY_CTRL:
 				case KEY_SHIFT:
 				case KEY_CMD:
-					self.hideInput();
 					self.keysDown[e.keyCode] = true;
 			}
 		});
@@ -262,10 +261,6 @@ Object.assign(Selectize.prototype, {
 				case KEY_SHIFT:
 				case KEY_CMD:
 					delete self.keysDown[e.keyCode];
-			}
-
-			if( isEmptyObject(self.keysDown) ){
-				self.showInput();
 			}
 
 		});
