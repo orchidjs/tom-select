@@ -596,7 +596,7 @@ Object.assign(Selectize.prototype, {
 				return;
 		}
 
-		if ((self.isFull() || self.isInputHidden) && !(IS_MAC ? e.metaKey : e.ctrlKey)) {
+		if( self.isInputHidden && !(IS_MAC ? e.metaKey : e.ctrlKey)) {
 			e.preventDefault();
 			return;
 		}
