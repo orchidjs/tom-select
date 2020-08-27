@@ -106,11 +106,14 @@ var onEvent = function( el, eventName, elementSelector, handler ){
  *
  */
 var targetMatch = function(evt, selector, el ){
+	var target = evt.target;
+	while( target && target.matches && target != el ){
 
-	for( var target = evt.target; target && target.matches && target != el; target = target.parentNode ){
 		if( target.matches(selector) ){
 			return target;
 		}
+
+		target = target.parentNode;
 	}
 }
 

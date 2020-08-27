@@ -271,8 +271,9 @@ Object.assign(Selectize.prototype, {
 				if (e.target === self.dropdown || e.target.parentNode === self.dropdown) {
 					return false;
 				}
+
 				// blur on click outside
-				if( e.target !== self.control && !targetMatch(e, '.items', self.control) ){
+				if( !targetMatch(e, '.items', self.wrapper) ){
 					self.blur(e.target);
 				}
 			}
