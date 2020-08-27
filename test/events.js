@@ -5,32 +5,33 @@ describe('Events', function() {
 			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
 			var counter = 0;
 			test.selectize.on('focus', function() { counter++; });
-			test.selectize.focus();
 
-			syn.click(test.selectize.$control).delay(0, function() {
-				window.setTimeout(function() {
-					expect(counter).to.be.equal(1);
-					done();
-				}, 0);
+			syn.click(test.selectize.$control).delay(1, function() {
+
+				expect(counter).to.be.equal(1);
+				done();
+
 			});
 		});
 	});
 
 	describe('blur', function() {
-		it_n('should work as expected', function(done) {
-			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
+		it_n('blur event should be called when clicking on body', function(done) {
+			var test = setup_test('<select id="blur-test"><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
 			var counter = 0;
 			test.selectize.on('blur', function() { counter++; });
-			test.selectize.focus();
 
 			syn.click(test.selectize.$control).delay(0, function() {
-				syn.click($('body')).delay(0, function() {
-					window.setTimeout(function() {
-						expect(counter).to.be.equal(1);
-						done();
-					}, 0);
+
+				expect(test.selectize.isFocused,'should be focused (2)').to.be.equal(true);
+
+				syn.click($('body')).delay(1, function() {
+
+					expect(counter,'onblur event not fired').to.be.equal(1);
+					done();
 				});
 			});
+
 		});
 	});
 

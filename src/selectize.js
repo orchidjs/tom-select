@@ -277,7 +277,7 @@ Object.assign(Selectize.prototype, {
 					return false;
 				}
 				// blur on click outside
-				if (!self.$control.has(e.target).length && e.target !== self.control ){
+				if( e.target !== self.control && !targetMatch(e, '.items', self.control) ){
 					self.blur(e.target);
 				}
 			}
@@ -441,8 +441,7 @@ Object.assign(Selectize.prototype, {
 	 */
 	onMouseDown: function(e) {
 		var self = this;
-		var defaultPrevented = false; //e.isDefaultPrevented();
-		//console.log('default prevented',defaultPrevented);
+
 
 		if (self.isFocused) {
 			// retain focus by preventing native handling. if the
@@ -452,18 +451,16 @@ Object.assign(Selectize.prototype, {
 				if (self.settings.mode === 'single') {
 					// toggle dropdown
 					self.isOpen ? self.close() : self.open();
-				} else if (!defaultPrevented) {
+				} else {
 					self.setActiveItem(null);
 				}
 				return false;
 			}
 		} else {
 			// give control focus
-			if (!defaultPrevented) {
-				window.setTimeout(function() {
-					self.focus();
-				}, 0);
-			}
+			window.setTimeout(function() {
+				self.focus();
+			}, 0);
 		}
 	},
 
@@ -693,10 +690,10 @@ Object.assign(Selectize.prototype, {
 		var self = this;
 		if (!self.isFocused) return;
 		self.isFocused = false;
+		self.ignoreFocus = false;
 
-		if (self.ignoreFocus) {
-			return;
-		} else if (!self.ignoreBlur && document.activeElement === self.dropdown_content) {
+
+		if (!self.ignoreBlur && document.activeElement === self.dropdown_content) {
 			// necessary to prevent IE closing the dropdown when the scrollbar is clicked
 			self.ignoreBlur = true;
 			self.onFocus(e);
@@ -715,12 +712,10 @@ Object.assign(Selectize.prototype, {
 			dest && dest.focus && dest.focus();
 
 			self.isBlurring = false;
-			self.ignoreFocus = false;
 			self.trigger('blur');
 		};
 
 		self.isBlurring = true;
-		self.ignoreFocus = true;
 		if (self.settings.create && self.settings.createOnBlur) {
 			self.createItem(null, false, deactivate);
 		} else {
@@ -1820,7 +1815,7 @@ Object.assign(Selectize.prototype, {
 		classList.toggle('has-items', self.items.length > 0);
 
 	},
-	
+
 
 	/**
 	 * Update the `required` attribute of both input and control input.
