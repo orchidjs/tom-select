@@ -2,6 +2,11 @@ var Selectize = function( input, settings ){
 	var i, n, dir, self = this;
 
 	input				= getDom( input );
+
+	if( input.selectize ){
+		throw new Error('Selectize already initialized on this element');
+	}
+
 	input.selectize		= self;
 	settings			= getSettings( input, settings );
 
