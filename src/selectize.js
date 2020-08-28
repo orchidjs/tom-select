@@ -1919,29 +1919,30 @@ Object.assign(Selectize.prototype, {
 	 * position of the dropdown.
 	 */
 	positionDropdown: function() {
-		var offset, $control, control;
+		var left			= 0;
+		var context			= this.control;
+		var top				= context.offsetHeight;
 
 		if( this.settings.dropdownParent === 'body' ){
-			$control		= this.$control;
-			offset			= $control.offset();
-			offset.top		+= $control.outerHeight(true);
-			control			= $control[0];
+
+			let rect		= context.getBoundingClientRect();
+			top				+= rect.top  + window.scrollY;
+			left			= rect.left + window.scrollX;
+
 
 		}else if( this.settings.dropdownParent ){
-			control			= getDom(this.settings.dropdownParent);
-			offset			= {top:control.offsetHeight,left:0}
+			context			= getDom(this.settings.dropdownParent);
+			top				= context.offsetHeight;
 
 		}else{
-			$control		= this.$control;
-			offset			= $control.position();
-			offset.top		+= $control.outerHeight(true);
-			control			= $control[0];
+			top				+= context.offsetTop;
+			left			= context.offsetLeft;
 		}
 
 		applyCSS(this.dropdown,{
-			width : control.getBoundingClientRect().width + 'px',
-			top   : offset.top + 'px',
-			left  : offset.left + 'px'
+			width : context.getBoundingClientRect().width + 'px',
+			top   : top + 'px',
+			left  : left + 'px'
 		});
 
 	},
