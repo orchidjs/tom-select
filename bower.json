@@ -32,7 +32,6 @@
     "test",
     ".travis.yml",
     "testem.json",
-    "selectize.jquery.json",
     "*.sh",
     "package.json"
   ],

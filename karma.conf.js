@@ -88,7 +88,6 @@ module.exports = function(config) {
 			'src/settings.js',
 			'src/selectize.js',
 			'src/defaults.js',
-			'src/selectize.jquery.js',
 			'test/*.js'
 		],
 		preprocessors: {
