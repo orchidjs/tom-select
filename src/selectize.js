@@ -119,8 +119,7 @@ Object.assign(Selectize.prototype, {
 		var self      = this;
 		var settings  = self.settings;
 		var eventNS   = self.eventNS;
-		var $window   = $(window);
-		var $document = $(document);
+
 
 		var wrapper;
 		var control;
@@ -241,7 +240,7 @@ Object.assign(Selectize.prototype, {
 
 
 
-		$document.on('keydown' + eventNS, function(e) {
+		var doc_keydown = function(e) {
 
 			switch( e.keyCode ){
 				case KEY_CTRL:
@@ -249,9 +248,9 @@ Object.assign(Selectize.prototype, {
 				case KEY_CMD:
 					self.keysDown[e.keyCode] = true;
 			}
-		});
+		};
 
-		$document.on('keyup' + eventNS, function(e) {
+		var doc_keyup = function(e) {
 
 			switch( e.keyCode ){
 				case KEY_CTRL:
@@ -260,9 +259,9 @@ Object.assign(Selectize.prototype, {
 					delete self.keysDown[e.keyCode];
 			}
 
-		});
+		};
 
-		$document.on('mousedown' + eventNS, function(e) {
+		var doc_mousedown = function(e) {
 			if (self.isFocused) {
 				// prevent events on the dropdown scrollbar from causing the control to blur
 				if (e.target === self.dropdown || e.target.parentNode === self.dropdown) {
@@ -274,16 +273,32 @@ Object.assign(Selectize.prototype, {
 					self.blur(e.target);
 				}
 			}
-		});
+		};
 
-		$window.on(['scroll' + eventNS, 'resize' + eventNS].join(' '), function() {
+		var win_scroll = function() {
 			if (self.isOpen) {
 				self.positionDropdown.apply(self, arguments);
 			}
-		});
-		$window.on('mousemove' + eventNS, function() {
+		};
+
+		var win_hover = function() {
 			self.ignoreHover = false;
-		});
+		};
+
+		document.addEventListener('keydown',doc_keydown);
+		document.addEventListener('keyup',doc_keyup);
+		document.addEventListener('mousedown',doc_mousedown);
+		window.addEventListener('sroll',win_scroll);
+		window.addEventListener('resize',win_scroll);
+		window.addEventListener('mousemove',win_hover);
+		self._destroy = function(){
+			document.removeEventListener('keydown',doc_keydown);
+			document.removeEventListener('keyup',doc_keyup);
+			document.removeEventListener('mousedown',doc_mousedown);
+			window.removeEventListener('mousemove',win_hover);
+			window.removeEventListener('sroll',win_scroll);
+			window.removeEventListener('resize',win_scroll);
+		};
 
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
@@ -2243,9 +2258,7 @@ Object.assign(Selectize.prototype, {
 
 		this.input.removeAttribute('data-selectize');
 
-		$(window).off(eventNS);
-		$(document).off(eventNS);
-		$(document.body).off(eventNS);
+		this._destroy();
 
 		delete this.input.selectize;
 	},
@@ -2347,13 +2360,10 @@ Object.assign(Selectize.prototype, {
 
 	/**
 	 * Return true if the requested key is down
+	 * The current evt is not always
 	 *
 	 */
 	isKeyDown: function( key_code, evt ){
-
-		if( key_code in this.keysDown ){
-			return true;
-		}
 
 		if( evt ){
 			if( key_code == KEY_CTRL && evt[KEY_CTRL_NAME] ){
@@ -2367,7 +2377,14 @@ Object.assign(Selectize.prototype, {
 			if( key_code == KEY_SHIFT && evt.shiftKey ){
 				return true;
 			}
+		}else{
+			//throw new Error('evt not passed to isKeyDown');
 		}
+
+		if( key_code in this.keysDown ){
+			return true;
+		}
+
 
 		return false;
 	}
