@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
-<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
-<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+<html class="no-js">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -11,8 +8,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/stylesheet.css">
-		<!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
-		<script src="js/jquery.min.js"></script>
+
 		<script src="../dist/js/selectize.standalone.js"></script>
 		<script src="js/index.js"></script>
 	</head>
@@ -24,10 +20,10 @@
 				<h2>&lt;input type="text"&gt;</h2>
 				<div class="control-group">
 					<label for="input-tags">Tags:</label>
-					<input type="text" id="input-tags" class="demo-default" value="awesome,neat">
+					<input type="text" id="input-tags" class="demo-default" value="awesome,neat" autocomplete="off">
 				</div>
 				<script>
-				$('#input-tags').selectize({
+				new Selectize('#input-tags',{
 					persist: false,
 					createOnBlur: true,
 					create: true
@@ -39,7 +35,7 @@
 				<h2>&lt;select&gt;</h2>
 				<div class="control-group">
 					<label for="select-beast">Beast:</label>
-					<select id="select-beast" class="demo-default" placeholder="Select a person...">
+					<select id="select-beast" class="demo-default" placeholder="Select a person..." autocomplete="off">
 						<option value="">Select a person...</option>
 						<option value="4">Thomas Edison</option>
 						<option value="1">Nikola</option>
@@ -48,7 +44,7 @@
 					</select>
 				</div>
 				<script>
-				$('#select-beast').selectize({
+				new Selectize('#select-beast',{
 					create: true,
 					sortField: {
 						field: 'text',
@@ -63,7 +59,7 @@
 				<h2>&lt;select&gt; (allow empty)</h2>
 				<div class="control-group">
 					<label for="select-beast-empty">Beast:</label>
-					<select id="select-beast-empty" class="demo-default" data-placeholder="Select a person...">
+					<select id="select-beast-empty" class="demo-default" data-placeholder="Select a person..."  autocomplete="off">
 						<option value="">None</option>
 						<option value="4">Thomas Edison</option>
 						<option value="1">Nikola</option>
@@ -72,7 +68,7 @@
 					</select>
 				</div>
 				<script>
-				$('#select-beast-empty').selectize({
+				new Selectize('#select-beast-empty',{
 					allowEmptyOption: true,
 					create: true
 				});
@@ -83,7 +79,7 @@
 				<h2>&lt;select&gt; (disabled)</h2>
 				<div class="control-group">
 					<label for="select-beast-disabled">Beast:</label>
-					<select id="select-beast-disabled" class="demo-default" disabled placeholder="Select a person...">
+					<select id="select-beast-disabled" class="demo-default" disabled placeholder="Select a person..."  autocomplete="off">
 						<option value="">Select a person...</option>
 						<option value="4">Thomas Edison</option>
 						<option value="1">Nikola</option>
@@ -91,7 +87,7 @@
 					</select>
 				</div>
 				<script>
-					$('#select-beast-disabled').selectize({
+					new Selectize('#select-beast-disabled',{
 						create: true,
 						sortField: {field: 'text'}
 					});
@@ -102,7 +98,7 @@
 				<h2>&lt;select&gt; (&lt;option disabled&gt;)</h2>
 				<div class="control-group">
 					<label for="select-beast-single-disabled">Beast:</label>
-					<select id="select-beast-single-disabled" class="demo-default" placeholder="Select a person...">
+					<select id="select-beast-single-disabled" class="demo-default" placeholder="Select a person..." autocomplete="off">
 						<option value="">Select a person...</option>
 						<option value="4" disabled>Thomas Edison</option>
 						<option value="1">Nikola</option>
@@ -110,7 +106,7 @@
 					</select>
 				</div>
 				<script>
-					$('#select-beast-single-disabled').selectize({
+					new Selectize('#select-beast-single-disabled',{
 						create: true,
 						sortField: {field: 'text'}
 					});
@@ -121,7 +117,7 @@
 				<h2>&lt;select multiple&gt;</h2>
 				<div class="control-group">
 					<label for="select-state">States:</label>
-					<select id="select-state" name="state[]" multiple class="demo-default" style="width:50%" placeholder="Select a state...">
+					<select id="select-state" name="state[]" multiple class="demo-default" style="width:50%" placeholder="Select a state..." autocomplete="off">
 						<option value="">Select a state...</option>
 						<option value="AL">Alabama</option>
 						<option value="AK">Alaska</option>
@@ -177,7 +173,7 @@
 					</select>
 				</div>
 				<script>
-				$('#select-state').selectize({
+				new Selectize('#select-state',{
 					maxItems: 3
 				});
 				</script>
@@ -185,7 +181,7 @@
 			<div class="demo">
 				<div class="control-group">
 					<label for="select-country">Country:</label>
-					<select id="select-country" class="demo-default" placeholder="Select a country...">
+					<select id="select-country" class="demo-default" placeholder="Select a country..." autocomplete="off">
 					    <option value="">Select a country...</option>
 						<option value="AF">Afghanistan</option>
 					    <option value="AX">&Aring;land Islands</option>
@@ -436,7 +432,7 @@
 					</select>
 				</div>
 				<script>
-				$('#select-country').selectize();
+				new Selectize('#select-country');
 				</script>
 			</div>
 
@@ -445,7 +441,7 @@
 				<h2>&lt;select multiple&gt; (disabled)</h2>
 				<div class="control-group">
 					<label for="select-state-disabled">States:</label>
-					<select id="select-state-disabled" name="state[]" multiple disabled class="demo-default" style="width:50%" placeholder="Select a state...">
+					<select id="select-state-disabled" name="state[]" multiple disabled class="demo-default" style="width:50%" placeholder="Select a state..."  autocomplete="off">
 						<option value="">Select a state...</option>
 						<option value="AL">Alabama</option>
 						<option value="AK">Alaska</option>
@@ -501,7 +497,7 @@
 					</select>
 				</div>
 				<script>
-				$('#select-state-disabled').selectize({
+				new Selectize('#select-state-disabled',{
 					maxItems: 3
 				});
 				</script>
