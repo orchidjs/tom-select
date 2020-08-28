@@ -246,7 +246,7 @@
 				test = setup_test('<select disabled>', {});
 			});
 			it_n('should have "disabled" class', function() {
-				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(true);
+				expect(test.selectize.control.classList.contains('disabled')).to.be.equal(true);
 			});
 			it_n('should have isDisabled property set to true', function() {
 				expect(test.selectize.isDisabled).to.be.equal(true);
@@ -275,7 +275,7 @@
 			});
 
 			it_n('should have the required class', function() {
-				expect(test.selectize.$control.hasClass('required')).to.be.equal(true);
+				expect(test.selectize.control.classList.contains('required')).to.be.equal(true);
 			});
 
 			it_n('should pass validation if an element is selected',
@@ -304,7 +304,7 @@
 					test.$select[0].checkValidity();
 
 					window.setTimeout(function() {
-						expect(test.selectize.$control.hasClass('invalid')).
+						expect(test.selectize.control.classList.contains('invalid')).
 							to.be.true;
 						done();
 					}, 250);
@@ -314,7 +314,7 @@
 				function(done) {
 					syn.click($button).delay(0, function() {
 						test.selectize.addItem('a');
-						expect(test.selectize.$control.hasClass('invalid')).
+						expect(test.selectize.control.classList.contains('invalid')).
 							to.be.false;
 						done();
 					});
@@ -342,7 +342,7 @@
 				expect(test.selectize.isRequired).to.be.equal(false);
 			});
 			it_n('should not have the required class', function() {
-				expect(test.selectize.$control.hasClass('required')).to.be.equal(false);
+				expect(test.selectize.control.classList.contains('required')).to.be.equal(false);
 			});
 		});
 

@@ -14,7 +14,7 @@
 				expect(String(test.selectize.control_input.tabIndex)).to.be.equal('-1');
 			});
 			it_n('should set "disabled" class', function() {
-				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(true);
+				expect(test.selectize.control.classList.contains('disabled')).to.be.equal(true);
 			});
 			it_n('should set isDisabled property to true', function() {
 				expect(test.selectize.isDisabled).to.be.equal(true);
@@ -37,7 +37,7 @@
 				expect(String(test.selectize.control_input.tabIndex)).to.be.equal('2');
 			});
 			it_n('should remove "disabled" class', function() {
-				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(false);
+				expect(test.selectize.control.classList.contains('disabled')).to.be.equal(false);
 			});
 			it_n('should set isDisabled property to false', function() {
 				expect(test.selectize.isDisabled).to.be.equal(false);
@@ -352,11 +352,11 @@
 			});
 			it_n('should update DOM', function() {
 				test.selectize.addItem('c');
-				expect(test.selectize.$control.find('[data-value=c]').length).to.be.equal(1);
+				expect( $(test.selectize.control).find('[data-value=c]').length).to.be.equal(1);
 
 				test.selectize.addItem('$1');
 				var found = false;
-				test.selectize.$control.children().each(function() {
+				$(test.selectize.control).children().each(function() {
 					if (this.getAttribute('data-value') === '$1') {
 						found = true;
 						return false;
@@ -433,8 +433,8 @@
 			});
 			it_n('should update DOM', function() {
 				test.selectize.updateOption('f', {value: 'f_updated'});
-				expect(test.selectize.$control.find('[data-value=f]').length).to.be.equal(0);
-				expect(test.selectize.$control.find('[data-value=f_updated]').length).to.be.equal(1);
+				expect($(test.selectize.control).find('[data-value=f]').length).to.be.equal(0);
+				expect($(test.selectize.control).find('[data-value=f_updated]').length).to.be.equal(1);
 			});
 		});
 
@@ -587,9 +587,9 @@
 			});
 			it_n('should update DOM', function() {
 				test.selectize.clear();
-				expect(test.selectize.$control.find('[data-value=1]').length).to.be.equal(0);
-				expect(test.selectize.$control.find('[data-value=2]').length).to.be.equal(0);
-				expect(test.selectize.$control.find('[data-value=3]').length).to.be.equal(0);
+				expect($(test.selectize.control).find('[data-value=1]').length).to.be.equal(0);
+				expect($(test.selectize.control).find('[data-value=2]').length).to.be.equal(0);
+				expect($(test.selectize.control).find('[data-value=3]').length).to.be.equal(0);
 			});
 			it_n('should not fire "change" if silent is truthy', function(done) {
 				var watcher = function(e) { throw new Error('Change fired'); };

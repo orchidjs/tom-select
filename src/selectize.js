@@ -207,8 +207,6 @@ Object.assign(Selectize.prototype, {
 		}
 		control_input.type		= self.input.type;
 
-		self.$control          = $(control);
-
 		self.control			= control;
 		self.control_input		= control_input;
 		self.wrapper			= wrapper;
