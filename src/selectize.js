@@ -2243,11 +2243,6 @@ Object.assign(Selectize.prototype, {
 
 		this.input.removeAttribute('data-selectize');
 
-		if (--Selectize.count == 0 && Selectize.$testInput) {
-			Selectize.$testInput.remove();
-			Selectize.$testInput = undefined;
-		}
-
 		$(window).off(eventNS);
 		$(document).off(eventNS);
 		$(document.body).off(eventNS);
