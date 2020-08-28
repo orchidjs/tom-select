@@ -1,50 +1,76 @@
-$(function() {
-	var $wrapper = $('#wrapper');
+document.addEventListener('DOMContentLoaded', function() {
+
 
 	// theme switcher
-	var theme_match = String(window.location).match(/[?&]theme=([a-z0-9]+)/);
-	var theme = (theme_match && theme_match[1]) || 'default';
-	var themes = ['default','bootstrap3'];
-	$('head').append('<link rel="stylesheet" href="../dist/css/selectize.' + theme + '.css">');
+	var theme_match		= String(window.location).match(/[?&]theme=([a-z0-9]+)/);
+	var theme			= (theme_match && theme_match[1]) || 'default';
+	var themes			= ['default','bootstrap3'];
+	var link			= document.createElement('link');
+	link.setAttribute('rel','stylesheet');
+	link.setAttribute('href','../dist/css/selectize.' + theme + '.css');
+	document.getElementsByTagName('head')[0].appendChild(link);
 
-	var $themes = $('<div>').addClass('theme-selector').insertAfter('h1');
+
+	var themes_div	= document.createElement('div');
+	themes_div.classList.add('theme-selector')
+	document.getElementsByTagName('h1')[0].insertAdjacentElement('afterend', themes_div);
+
 	for (var i = 0; i < themes.length; i++) {
-		$themes.append('<a href="?theme=' + themes[i] + '"' + (themes[i] === theme ? ' class="active"' : '') + '>' + themes[i] + '</a>');
+
+		let a = document.createElement('a');
+		a.setAttribute('href','?theme=' + themes[i]);
+		a.textContent = themes[i];
+		if( themes[i] === theme ){
+			a.classList.add('active');
+		}
+		themes_div.appendChild(a);
 	}
 
 	// display scripts on the page
-	$('script', $wrapper).each(function() {
-		var code = this.text;
+	var scripts = document.querySelectorAll('script');
+	for(let i = 0; i < scripts.length; i++){
+		let script	= scripts[i];
+		let code = script.text;
 		if (code && code.length) {
-			var lines = code.split('\n');
-			var indent = null;
+			let lines = code.split('\n');
+			let indent = null;
 
-			for (var i = 0; i < lines.length; i++) {
-				if (/^[	 ]*$/.test(lines[i])) continue;
+			for (let j = 0; j < lines.length; j++) {
+				if (/^[	 ]*$/.test(lines[j])) continue;
 				if (!indent) {
-					var lineindent = lines[i].match(/^([ 	]+)/);
+					let lineindent = lines[j].match(/^([ 	]+)/);
 					if (!lineindent) break;
 					indent = lineindent[1];
 				}
-				lines[i] = lines[i].replace(new RegExp('^' + indent), '');
+				lines[j] = lines[j].replace(new RegExp('^' + indent), '');
 			}
 
-			var code = $.trim(lines.join('\n')).replace(/	/g, '    ');
-			var $pre = $('<pre>').addClass('js').text(code);
-			$pre.insertAfter(this);
+			code = lines.join('\n').trim().replace(/	/g, '    ');
+
+			let pre		= document.createElement('pre');
+			pre.classList.add('js');
+			pre.textContent = code;
+			script.insertAdjacentElement('afterend', pre);
 		}
-	});
+
+	}
+
 
 	// show current input values
-	$('select.selectized,input.selectized', $wrapper).each(function() {
-		var $container = $('<div>').addClass('value').html('Current Value: ');
-		var $value = $('<span>').appendTo($container);
-		var $input = $(this);
-		var update = function(e) { $value.text(JSON.stringify($input.val())); }
+	var selectized = document.querySelectorAll('select.selectized,input.selectized');
+	for(let i = 0; i < selectized.length; i++){
 
-		$(this).on('change', update);
+		let el		= selectized[i];
+		let div		= document.createElement('div');
+		div.classList.add('value');
+		let update	= function(){
+			div.textContent = 'Current Value new: ' + JSON.stringify(el.value);
+		};
+
+		el.addEventListener('change',update);
 		update();
+		el.insertAdjacentElement('afterend', div);
 
-		$container.insertAfter($input);
-	});
+	}
+
 });
