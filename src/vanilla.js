@@ -65,7 +65,7 @@ var applyCSS = function( dom_el, css){
  *
  */
 var addClasses = function( el ){
-	
+
 	var classes		= classesArray.apply(null,arguments);
 	el				= castAsArray(el);
 
@@ -219,6 +219,8 @@ var nodeIndex = function(el) {
  */
 var hasOwn 		= ( {} ).hasOwnProperty;
 var fnToString	= hasOwn.toString;
+var getProto	= Object.getPrototypeOf;
+var ObjectFunctionString = fnToString.call( Object );
 
 var isPlainObject = function( obj ) {
 	var proto, Ctor;
@@ -294,14 +296,14 @@ var extend = function() {
 				}
 
 				// Recurse if we're merging plain objects or arrays
-				if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
+				if ( deep && copy && ( isPlainObject( copy ) ||
 					( copyIsArray = Array.isArray( copy ) ) ) ) {
 					src = target[ name ];
 
 					// Ensure proper type for the source value
 					if ( copyIsArray && !Array.isArray( src ) ) {
 						clone = [];
-					} else if ( !copyIsArray && !jQuery.isPlainObject( src ) ) {
+					} else if ( !copyIsArray && !isPlainObject( src ) ) {
 						clone = {};
 					} else {
 						clone = src;
