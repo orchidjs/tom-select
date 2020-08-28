@@ -61,18 +61,56 @@ var applyCSS = function( dom_el, css){
 
 
 /**
- * Add classes
+ * Add css classes
  *
  */
 var addClasses = function( el ){
-	for( let i = 1; i < arguments.length; i++ ){
-		let classes = arguments[i];
-		if( !Array.isArray(classes) ){
-			classes = classes.trim().split(/[\11\12\14\15\40]/);
-		}
-		classes = classes.filter(Boolean);
-		el.classList.add( ...classes );
+	
+	var classes		= classesArray.apply(null,arguments);
+	el				= castAsArray(el);
+
+	for( let i = 0; i< el.length; i++){
+		el[i].classList.add( ...classes );
 	}
+}
+
+/**
+ * Remove css classes
+ *
+ */
+ var removeClasses = function( el ){
+
+ 	var classes 	= classesArray.apply(null,arguments);
+	el				= castAsArray(el);
+
+ 	for( let i =0; i< el.length; i++){
+ 		el[i].classList.remove( ...classes );
+ 	}
+ }
+
+
+/**
+ * Return arguments
+ *
+ */
+var classesArray = function(){
+	var classes = [];
+	for( let i = 1; i < arguments.length; i++ ){
+		let _classes = arguments[i];
+		if( !Array.isArray(_classes) ){
+			_classes = _classes.trim().split(/[\11\12\14\15\40]/);
+		}
+		classes = classes.concat(_classes);
+	}
+
+	return classes.filter(Boolean);
+}
+
+var castAsArray = function(arg){
+	if( !Array.isArray(arg) ){
+ 		arg = [arg];
+ 	}
+	return arg;
 }
 
 /**

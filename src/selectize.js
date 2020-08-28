@@ -180,8 +180,7 @@ Object.assign(Selectize.prototype, {
 
 		if (self.plugins.names.length) {
 			classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
-			addClasses( wrapper, classes_plugins);
-			addClasses( dropdown, classes_plugins );
+			addClasses( [wrapper,dropdown], classes_plugins);
 		}
 
 		if ((settings.maxItems === null || settings.maxItems > 1) && self.tagType === TAG_SELECT) {
@@ -802,7 +801,7 @@ Object.assign(Selectize.prototype, {
 	 */
 	load: function(fn) {
 		var self = this;
-		self.wrapper.classList.add(self.settings.loadingClass);
+		addClasses(self.wrapper,self.settings.loadingClass);
 
 		self.loading++;
 		fn.apply(self, [function(results) {
@@ -812,7 +811,7 @@ Object.assign(Selectize.prototype, {
 				self.refreshOptions(self.isFocused && !self.isInputHidden);
 			}
 			if (!self.loading) {
-				self.wrapper.classList.remove(self.settings.loadingClass);
+				removeClasses(self.wrapper,self.settings.loadingClass);
 			}
 			self.trigger('load', results);
 		}]);
@@ -883,7 +882,7 @@ Object.assign(Selectize.prototype, {
 
 		// clear the active selection
 		if( !item ){
-			$(this.activeItems).removeClass('active');
+			removeClasses(this.activeItems,'active');
 			this.activeItems = [];
 			if (this.isFocused) {
 				this.showInput();
@@ -918,7 +917,7 @@ Object.assign(Selectize.prototype, {
 				this.setActiveItemClass(item);
 			}
 		} else {
-			$(this.activeItems).removeClass('active');
+			removeClasses(this.activeItems,'active');
 			this.activeItems = [];
 			this.setActiveItemClass(item);
 		}
@@ -937,7 +936,7 @@ Object.assign(Selectize.prototype, {
 	setActiveItemClass: function( item ){
 
 		var last_active = this.control.querySelector('.last-active');
-		if( last_active ) last_active.classList.remove('last-active');
+		if( last_active ) removeClasses(last_active,'last-active');
 
 		addClasses(item,'active last-active');
 		if( this.activeItems.indexOf(item) == -1 ){
@@ -952,7 +951,7 @@ Object.assign(Selectize.prototype, {
 	removeActiveItem: function( item ){
 		var idx = this.activeItems.indexOf(item);
 		this.activeItems.splice(idx, 1);
-		item.classList.remove('active');
+		removeClasses(item,'active');
 	},
 
 
@@ -967,7 +966,7 @@ Object.assign(Selectize.prototype, {
 	setActiveOption: function(option, scroll ) {
 		var height_menu, height_item, y;
 
-		if (this.activeOption) this.activeOption.classList.remove('active');
+		if (this.activeOption) removeClasses(this.activeOption,'active');
 		this.activeOption = null;
 
 		if( !option ) return;
@@ -1007,9 +1006,7 @@ Object.assign(Selectize.prototype, {
 		n = this.activeItems.length;
 
 		if( n ){
-			for( i = 0; i < n; i++){
-				addClasses( this.activeItems[i], 'active' );
-			}
+			addClasses( this.activeItems, 'active' );
 
 			this.hideInput();
 			this.close();
@@ -1246,7 +1243,7 @@ Object.assign(Selectize.prototype, {
 			for (i = 0, n = self.items.length; i < n; i++) {
 				let option = self.getOption(self.items[i])
 				if( option ){
-					option.classList.add('selected');
+					addClasses(option,'selected');
 				}
 			}
 		}
@@ -1447,7 +1444,7 @@ Object.assign(Selectize.prototype, {
 			item		= self.getItem(value);
 			item_new	= self.render('item', data);
 
-			if( item.classList.contains('active') ) item_new.classList.add('active');
+			if( item.classList.contains('active') ) addClasses(item_new,'active');
 
 			item.parentNode.insertBefore(item_new, item);
 			item.remove();
@@ -1683,7 +1680,7 @@ Object.assign(Selectize.prototype, {
 			if( item.classList.contains('active') ){
 				idx = this.activeItems.indexOf(item);
 				this.activeItems.splice(idx, 1);
-				item.classList.remove('active');
+				removeClasses(item,'active');
 			}
 
 			this.items.splice(i, 1);
@@ -2020,7 +2017,7 @@ Object.assign(Selectize.prototype, {
 			if (direction > 0) { caret++; }
 
 			for (i = 0, n = self.activeItems.length; i < n; i++) {
-				values.push($(self.activeItems[i]).attr('data-value'));
+				values.push( self.activeItems[i].dataset.value );
 			}
 			if (e) {
 				e.preventDefault();
@@ -2237,7 +2234,7 @@ Object.assign(Selectize.prototype, {
 			this.input.removeAttribute('tabindex' );
 		}
 
-		this.input.classList.remove('selectized');
+		removeClasses(this.input,'selectized');
 		this.input.removeAttribute('hidden');
 
 		for( let i = 0; i < revertSettings.children.length; i++ ){
@@ -2309,7 +2306,7 @@ Object.assign(Selectize.prototype, {
 		}
 
 		if( templateName === 'item' ){ // make sure we have an item class even if the item template is overwritten
-			html.classList.add('item');
+			addClasses(html,'item');
 		}
 
 		// update cache
