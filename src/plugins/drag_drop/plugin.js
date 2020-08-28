@@ -22,7 +22,7 @@ Selectize.define('drag_drop', function(options) {
 	self.lock = (function() {
 		var original = self.lock;
 		return function() {
-			var sortable = self.$control.data('sortable');
+			var sortable = self.control.dataset.sortable;
 			if (sortable) sortable.disable();
 			return original.apply(self, arguments);
 		};
@@ -31,7 +31,7 @@ Selectize.define('drag_drop', function(options) {
 	self.unlock = (function() {
 		var original = self.unlock;
 		return function() {
-			var sortable = self.$control.data('sortable');
+			var sortable = self.control.dataset.sortable;
 			if (sortable) sortable.enable();
 			return original.apply(self, arguments);
 		};
@@ -42,7 +42,7 @@ Selectize.define('drag_drop', function(options) {
 		return function() {
 			original.apply(this, arguments);
 
-			var $control = self.$control.sortable({
+			var $control = $(self.control).sortable({
 				items: '[data-value]',
 				forcePlaceholderSize: true,
 				disabled: self.isLocked,
