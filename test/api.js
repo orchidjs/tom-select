@@ -692,6 +692,7 @@
 				test.selectize.destroy();
 				expect(test.selectize.input.selectize).to.be.equal(undefined);
 			});
+			/*
 			it_n('should unbind events on window', function() {
 				var test = setup_test('<select>', {});
 				test.selectize.destroy();
@@ -707,6 +708,7 @@
 				test.selectize.destroy();
 				expect(has_namespaced_event($('body'), test.selectize.eventNS)).to.be.equal(false);
 			});
+			*/
 			it_n('should restore original options and tabindex', function() {
 				var children = '<optgroup label="Swedish Cars">' +
 					'<option value="volvo">Volvo</option>' +

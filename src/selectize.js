@@ -19,7 +19,6 @@ var Selectize = function( input, settings ){
 		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
 		rtl              : /rtl/i.test(dir),
 
-		eventNS          : '.selectize' + (++Selectize.count),
 		highlightedValue : null,
 		isBlurring       : false,
 		isOpen           : false,
@@ -118,7 +117,6 @@ Object.assign(Selectize.prototype, {
 	setup: function() {
 		var self      = this;
 		var settings  = self.settings;
-		var eventNS   = self.eventNS;
 
 
 		var wrapper;
@@ -324,7 +322,7 @@ Object.assign(Selectize.prototype, {
 
 		// feature detect for the validation API
 		if( self.supportsValidity() ){
-			self.input.addEventListener('invalid' + eventNS, function(e) {
+			self.input.addEventListener('invalid', function(e) {
 				e.preventDefault();
 				self.isInvalid = true;
 				self.refreshState();
@@ -2234,7 +2232,6 @@ Object.assign(Selectize.prototype, {
 	 * be garbage collected.
 	 */
 	destroy: function() {
-		var eventNS = this.eventNS;
 		var revertSettings = this.revertSettings;
 
 		this.trigger('destroy');
