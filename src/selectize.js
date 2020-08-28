@@ -340,7 +340,6 @@ Object.assign(Selectize.prototype, {
 
 		self.on('change', this.onChange);
 
-		self.input.dataset.selectize = self;
 		addClasses(self.input,'selectized');
 		self.trigger('initialize');
 
