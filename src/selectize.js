@@ -220,7 +220,7 @@ Object.assign(Selectize.prototype, {
 
 		control.addEventListener('mousedown', function(evt){
 
-			var target_match = targetMatch( evt, '.item', control);
+			var target_match = targetMatch( evt, '.'+self.settings.itemClass, control);
 			if( target_match ){
 				evt.delegateTarget = target_match;
 				return self.onItemSelect.call(self, evt);
@@ -272,7 +272,7 @@ Object.assign(Selectize.prototype, {
 				}
 
 				// blur on click outside
-				if( !targetMatch(e, '.items', self.wrapper) ){
+				if( !targetMatch(e, '.'+self.settings.itemClass, self.wrapper) ){
 					self.blur(e.target);
 				}
 			}
@@ -375,7 +375,7 @@ Object.assign(Selectize.prototype, {
 				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 			},
 			'option': function(data, escape) {
-				return '<div class="option">' + escape(data[field_label]) + '</div>';
+				return '<div>' + escape(data[field_label]) + '</div>';
 			},
 			'item': function(data, escape) {
 				return '<div>' + escape(data[field_label]) + '</div>';
@@ -1536,23 +1536,33 @@ Object.assign(Selectize.prototype, {
 	 * @param {int} direction  can be 1 for next or -1 for previous
 	 * @return {object|undefined}
 	 */
-	getAdjacent: function( option, direction) {
+	getAdjacent: function( option, direction, type = 'option' ){
 
 		if( !option ){
 			return;
 		}
 
-		const fn			= direction > 0 ? 'nextElementSibling' : 'previousElementSibling';
-		const node_name		= option.nodeName;
+		var self		= this;
+		var type_class	= self.settings.optionClass;
+		var parent		= self.dropdown;
 
-		do{
-			option = option[fn];
+		if( type == 'item' ){
+			parent		= self.control;
+			type_class	= self.settings.itemClass;
+		}
 
-			if( option && option.nodeName === node_name ){
-				return option;
+		var all			= parent.querySelectorAll('.'+type_class);
+		for( let i = 0; i < all.length; i++ ){
+			if( all[i] != option ){
+				continue;
 			}
 
-		}while( option );
+			if( direction > 0 ){
+				return all[i+1];
+			}
+
+			return all[i-1];
+		}
 	},
 
 	/**
@@ -2098,7 +2108,7 @@ Object.assign(Selectize.prototype, {
 		if( this.isKeyDown(KEY_CTRL,e) || this.isKeyDown(KEY_SHIFT,e) ){
 
 			last_active			= this.getLastActive(direction);
-			let adjacent		= this.getAdjacent(last_active,direction);
+			let adjacent		= this.getAdjacent(last_active,direction,'item');
 			if( adjacent ){
 				if( adjacent.classList.contains('active') ){
 					this.removeActiveItem(last_active);
@@ -2314,8 +2324,11 @@ Object.assign(Selectize.prototype, {
 			html.setAttribute('data-value', value || '');
 		}
 
-		if( templateName === 'item' ){ // make sure we have an item class even if the item template is overwritten
-			addClasses(html,'item');
+		// make sure we have some classes if a template is overwritten
+		if( templateName === 'item' ){
+			addClasses(html,self.settings.itemClass);
+		}else if( templateName === 'option' ){
+			addClasses(html,self.settings.optionClass);
 		}
 
 		// update cache

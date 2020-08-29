@@ -45,6 +45,8 @@ Selectize.defaults = {
 	inputClass: 'selectize-input',
 	dropdownClass: 'selectize-dropdown',
 	dropdownContentClass: 'selectize-dropdown-content',
+	itemClass: 'item',
+	optionClass: 'option',
 
 	dropdownParent: null,
 	controlInput: null,
