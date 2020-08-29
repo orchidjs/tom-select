@@ -97,10 +97,12 @@ var classesArray = function(){
 	var classes = [];
 	for( let i = 1; i < arguments.length; i++ ){
 		let _classes = arguments[i];
-		if( !Array.isArray(_classes) ){
+		if( typeof _classes === 'string' ){
 			_classes = _classes.trim().split(/[\11\12\14\15\40]/);
 		}
-		classes = classes.concat(_classes);
+		if( Array.isArray(_classes) ){
+			classes = classes.concat(_classes);
+		}
 	}
 
 	return classes.filter(Boolean);
