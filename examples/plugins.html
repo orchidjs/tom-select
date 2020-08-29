@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
-<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
-<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+<html class="no-js">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -11,7 +8,6 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/stylesheet.css">
-		<!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/jqueryui.js"></script>
 		<script src="../dist/js/selectize.standalone.js"></script>
@@ -32,7 +28,7 @@
 					<input type="text" disabled id="input-tags2" class="input-tags demo-default" value="awesome,neat">
 				</div>
 				<script>
-				$('.input-tags').selectize({
+				new Selectize('.input-tags',{
 					plugins: ['remove_button'],
 					persist: false,
 					create: true,
@@ -55,7 +51,7 @@
 					<input type="text" id="input-tags6" class="demo-default" value="awesome,neat">
 				</div>
 				<script>
-				$('#input-tags6').selectize({
+				new Selectize('#input-tags6',{
 					plugins: ['restore_on_backspace'],
 					persist: false,
 					create: true
@@ -74,7 +70,7 @@
 					<input type="text" id="input-sortable2" disabled class="input-sortable demo-default" value="drag,these,items,around">
 				</div>
 				<script>
-				$('.input-sortable').selectize({
+				new Selectize('.input-sortable',{
 					plugins: ['drag_drop'],
 					persist: false,
 					create: true
@@ -102,7 +98,7 @@
 					</select>
 				</div>
 				<script>
-				$('.demo-code-language').selectize({
+				new Selectize('.demo-code-language',{
 					sortField: 'text',
 					hideSelected: false,
 					plugins: {

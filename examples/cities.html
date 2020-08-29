@@ -104,10 +104,9 @@
 				</div>
 				<script>
 				var xhr;
-				var select_state, $select_state;
-				var select_city, $select_city;
 
-				$select_state = $('#select-state').selectize({
+
+				var select_state = new Selectize('#select-state',{
 					onChange: function(value) {
 						if (!value.length) return;
 						select_city.disable();
@@ -121,6 +120,7 @@
 									callback(results);
 								},
 								error: function() {
+									alert('city data failed to load');
 									callback();
 								}
 							})
@@ -128,14 +128,11 @@
 					}
 				});
 
-				$select_city = $('#select-city').selectize({
+				var select_city = new Selectize('#select-city',{
 					valueField: 'name',
 					labelField: 'name',
 					searchField: ['name']
 				});
-
-				select_city  = $select_city[0].selectize;
-				select_state = $select_state[0].selectize;
 
 				select_city.disable();
 				</script>
