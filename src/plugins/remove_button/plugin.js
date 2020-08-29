@@ -22,99 +22,47 @@ Selectize.define('remove_button', function(options) {
 			append    : true
 		}, options);
 
-		var singleClose = function(thisRef, options) {
+	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
-			options.className = 'remove-single';
+	//options.className = 'remove-single';
+	var self			= this;
+	var orig_setup		= self.setup;
+	var orig_render		= self.render;
 
-			var self = thisRef;
-			var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
-			/**
-			 * Appends an element as a child (with raw HTML).
-			 *
-			 * @param {string} html_container
-			 * @param {string} html_element
-			 * @return {string}
-			 */
-			var append = function(html_container, html_element) {
-				return $('<span>').append(html_container)
-					.append(html_element);
-			};
+	self.setup = function() {
 
-			thisRef.setup = (function() {
-				var original = self.setup;
-				return function() {
-					// override the item rendering method to add the button to each
-					if (options.append) {
+		// override the render method to add remove button to each item
+		if (options.append) {
 
-						var render_item = self.settings.render.item;
-						self.settings.render.item = function(data) {
-							return append(render_item.apply(thisRef, arguments), html);
-						};
-					}
+			self.render = function(templateName, data) {
+				let rendered = orig_render.call(self,templateName,data);
 
-					original.apply(thisRef, arguments);
+				if( templateName == 'item' ){
+					var close_button = htmlToElement(html);
+					rendered.appendChild(close_button);
 
-					// add event listener
-					thisRef.$control.on('click', '.' + options.className, function(e) {
-						e.preventDefault();
+					close_button.addEventListener('click',function(evt){
+						evt.preventDefault();
+
+						// propagating will trigger the dropdown to show for single mode
+						if( self.settings.mode !== 'single' ){
+							evt.stopPropagation();
+						}
+
 						if (self.isLocked) return;
 
-						self.clear();
-					});
-
-				};
-			})();
-		};
-
-		var multiClose = function(thisRef, options) {
-
-			var self = thisRef;
-			var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
-
-			/**
-			 * Appends an element as a child (with raw HTML).
-			 *
-			 * @param {string} html_container
-			 * @param {string} html_element
-			 * @return {string}
-			 */
-			var append = function(html_container, html_element) {
-				var pos = html_container.search(/(<\/[^>]+>\s*)$/);
-				return html_container.substring(0, pos) + html_element + html_container.substring(pos);
-			};
-
-			thisRef.setup = (function() {
-				var original = self.setup;
-				return function() {
-					// override the item rendering method to add the button to each
-					if (options.append) {
-						var render_item = self.settings.render.item;
-						self.settings.render.item = function(data) {
-							return append(render_item.apply(thisRef, arguments), html);
-						};
-					}
-
-					original.apply(thisRef, arguments);
-
-					// add event listener
-					thisRef.$control.on('click', '.' + options.className, function(e) {
-						e.preventDefault();
-						e.stopPropagation();
-						if (self.isLocked) return;
-
-						var value = e.currentTarget.parentNode.dataset.value;
+						var value = rendered.dataset.value;
 						self.removeItem(value);
 					});
+				}
 
-				};
-			})();
-		};
+				return rendered;
+			};
 
-		if (this.settings.mode === 'single') {
-			singleClose(this, options);
-			return;
-		} else {
-			multiClose(this, options);
 		}
+
+		orig_setup.apply(self, arguments);
+	};
+
 });

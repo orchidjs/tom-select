@@ -26,51 +26,75 @@ document.addEventListener('DOMContentLoaded', function() {
 		themes_div.appendChild(a);
 	}
 
-	// display scripts on the page
-	var scripts = document.querySelectorAll('script');
-	for(let i = 0; i < scripts.length; i++){
-		let script	= scripts[i];
-		let code = script.text;
-		if (code && code.length) {
-			let lines = code.split('\n');
-			let indent = null;
 
-			for (let j = 0; j < lines.length; j++) {
-				if (/^[	 ]*$/.test(lines[j])) continue;
-				if (!indent) {
-					let lineindent = lines[j].match(/^([ 	]+)/);
-					if (!lineindent) break;
-					indent = lineindent[1];
-				}
-				lines[j] = lines[j].replace(new RegExp('^' + indent), '');
-			}
+	// add info about script and current value below each demo
+	var demos = document.querySelectorAll('.demo');
+	for(let i = 0; i < demos.length; i++){
 
-			code = lines.join('\n').trim().replace(/	/g, '    ');
-
-			let pre		= document.createElement('pre');
-			pre.classList.add('js');
-			pre.textContent = code;
-			script.insertAdjacentElement('afterend', pre);
-		}
+		ShowValue(demos[i]);
+		ShowScript(demos[i]);
 
 	}
 
 
-	// show current input values
-	var selectized = document.querySelectorAll('select.selectized,input.selectized');
-	for(let i = 0; i < selectized.length; i++){
+	/**
+	 * Display demo script
+	 *
+	 */
+	function ShowScript(demo){
 
-		let el		= selectized[i];
-		let div		= document.createElement('div');
-		div.classList.add('value');
-		let update	= function(){
-			div.textContent = 'Current Value new: ' + JSON.stringify(el.value);
-		};
+		var scripts = demo.querySelectorAll('script');
+		for(let i = 0; i < scripts.length; i++){
+			let script	= scripts[i];
+			let code = script.text;
+			if (code && code.length) {
+				let lines = code.split('\n');
+				let indent = null;
 
-		el.addEventListener('change',update);
-		update();
-		el.insertAdjacentElement('afterend', div);
+				for (let j = 0; j < lines.length; j++) {
+					if (/^[	 ]*$/.test(lines[j])) continue;
+					if (!indent) {
+						let lineindent = lines[j].match(/^([ 	]+)/);
+						if (!lineindent) break;
+						indent = lineindent[1];
+					}
+					lines[j] = lines[j].replace(new RegExp('^' + indent), '');
+				}
 
+				code = lines.join('\n').trim().replace(/	/g, '    ');
+
+				let pre		= document.createElement('pre');
+				pre.classList.add('js');
+				pre.textContent = code;
+				demo.appendChild(pre);
+				//script.insertAdjacentElement('afterend', pre);
+			}
+
+		}
+	}
+
+
+	/**
+	 * Show current input values
+	 *
+	 */
+	function ShowValue(demo){
+
+
+		var selectized = demo.querySelectorAll('select.selectized,input.selectized');
+		for(let i = 0; i < selectized.length; i++){
+
+			let el		= selectized[i];
+			let div		= document.createElement('div');
+			div.classList.add('value');
+			let update	= function(){
+				div.textContent = 'Current Value: ' + JSON.stringify(el.value);
+			};
+
+			el.addEventListener('change',update);
+			update();
+			demo.appendChild( div);
+		}
 	}
 
 });

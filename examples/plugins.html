@@ -21,22 +21,13 @@
 				<h2>Plugin: "remove_button"</h2>
 				<div class="control-group">
 					<label for="input-tags">Tags:</label>
-					<input type="text" id="input-tags" class="input-tags demo-default" value="awesome,neat">
-				</div>
-				<div class="control-group">
-					<label for="input-tags2">Tags:</label>
-					<input type="text" disabled id="input-tags2" class="input-tags demo-default" value="awesome,neat">
+					<input type="text" id="input-tags" class="input-tags demo-default" value="awesome,neat" autocomplete="off">
 				</div>
 				<script>
-				new Selectize('.input-tags',{
+				new Selectize('#input-tags',{
 					plugins: ['remove_button'],
 					persist: false,
 					create: true,
-					render: {
-						item: function(data, escape) {
-							return '<div>"' + escape(data.text) + '"</div>';
-						}
-					},
 					onDelete: function(values) {
 						return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
 					}
@@ -44,11 +35,33 @@
 				</script>
 			</div>
 
+
+			<div class="demo">
+				<h2>Plugin: "remove_button"</h2>
+				<div class="control-group">
+					<label for="input-tags">Tags:</label>
+					<select id="input-tags2" class="demo-default" value="awesome" autocomplete="off">
+						<option>awesome</option>
+						<option>neat</option>
+					</select>
+				</div>
+				<script>
+				new Selectize('#input-tags2',{
+					plugins: ['remove_button'],
+					persist: false,
+					create: true,
+					maxItems: 1,
+				});
+				</script>
+			</div>
+
+
+
 			<div class="demo">
 				<h2>Plugin: "restore_on_backspace"</h2>
 				<div class="control-group">
 					<label for="input-tags6">Tags:</label>
-					<input type="text" id="input-tags6" class="demo-default" value="awesome,neat">
+					<input type="text" id="input-tags6" class="demo-default" value="awesome,neat" autocomplete="off">
 				</div>
 				<script>
 				new Selectize('#input-tags6',{
@@ -63,14 +76,10 @@
 				<h2>Plugin: "drag_drop"</h2>
 				<div class="control-group">
 					<label for="input-sortable">Tags:</label>
-					<input type="text" id="input-sortable" class="input-sortable demo-default" value="drag,these,items,around">
-				</div>
-				<div class="control-group">
-					<label for="input-sortable2">Tags:</label>
-					<input type="text" id="input-sortable2" disabled class="input-sortable demo-default" value="drag,these,items,around">
+					<input type="text" id="input-sortable" class="input-sortable demo-default" value="drag,these,items,around" autocomplete="off">
 				</div>
 				<script>
-				new Selectize('.input-sortable',{
+				new Selectize('#input-sortable',{
 					plugins: ['drag_drop'],
 					persist: false,
 					create: true
@@ -82,7 +91,7 @@
 				<h2>Plugin: "dropdown_header"</h2>
 				<div class="control-group">
 					<label for="select-code-language">Single:</label>
-					<select id="select-code-language" class="demo-code-language" placeholder="Select a language...">
+					<select id="select-code-language" class="demo-code-language" placeholder="Select a language..." autocomplete="off">
 						<option value="txt">Text</option>
 						<option value="md">Markdown</option>
 						<option value="html">HTML</option>
@@ -98,7 +107,7 @@
 					</select>
 				</div>
 				<script>
-				new Selectize('.demo-code-language',{
+				new Selectize('#select-code-language',{
 					sortField: 'text',
 					hideSelected: false,
 					plugins: {

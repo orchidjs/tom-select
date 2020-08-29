@@ -378,7 +378,7 @@ Object.assign(Selectize.prototype, {
 				return '<div class="option">' + escape(data[field_label]) + '</div>';
 			},
 			'item': function(data, escape) {
-				return '<div class="item">' + escape(data[field_label]) + '</div>';
+				return '<div>' + escape(data[field_label]) + '</div>';
 			},
 			'option_create': function(data, escape) {
 				return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
@@ -2270,7 +2270,7 @@ Object.assign(Selectize.prototype, {
 	 *
 	 * @param {string} templateName
 	 * @param {object} data
-	 * @returns {string}
+	 * @returns {Element}
 	 */
 	render: function(templateName, data) {
 		var value, id, label;
