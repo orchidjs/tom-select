@@ -369,7 +369,7 @@ Object.assign(Selectize.prototype, {
 
 		var templates = {
 			'optgroup': function(data) {
-				return '<div class="optgroup">' + data.html + '</div>';
+				return '<div class="optgroup"></div>';
 			},
 			'optgroup_header': function(data, escape) {
 				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
@@ -788,6 +788,7 @@ Object.assign(Selectize.prototype, {
 				} else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
 					self.setActiveOption(self.getOption(value));
 				}
+
 			}
 		}
 	},
@@ -978,18 +979,23 @@ Object.assign(Selectize.prototype, {
 	 *
 	 * @param {object} option
 	 * @param {boolean} scroll
-	 * @param {boolean} animate
 	 */
 	setActiveOption: function(option, scroll ) {
 		var height_menu, height_item, y;
 
-		if (this.activeOption) removeClasses(this.activeOption,'active');
+		// don't replace the current active option with a duplicate of itself
+		// prevents losing 'active' class
+		if( option && this.activeOption	&& option.dataset.value === this.activeOption.dataset.value	){
+			return;
+		}
+
+		if( this.activeOption ) removeClasses(this.activeOption,'active');
 		this.activeOption = null;
 
 		if( !option ) return;
 
 		this.activeOption = option;
-		addClasses(this.activeOption,'active');
+		addClasses(option,'active');
 
 		if (scroll || !isset(scroll)) {
 
@@ -1171,7 +1177,7 @@ Object.assign(Selectize.prototype, {
 	 * @param {boolean} triggerDropdown
 	 */
 	refreshOptions: function(triggerDropdown) {
-		var i, j, k, n, groups, groups_order, option, option_html, optgroup, optgroups, html, html_children, has_create_option;
+		var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
 		var active, active_before, create;
 
 		if (typeof triggerDropdown === 'undefined') {
@@ -1195,8 +1201,16 @@ Object.assign(Selectize.prototype, {
 		groups_order = [];
 
 		for (i = 0; i < n; i++) {
-			option      = self.options[results.items[i].id];
-			option_html = self.render('option', option);
+
+			// get option dom element, don't re-render if we
+			let option			= self.options[results.items[i].id];
+			let opt_value		= hash_key(option[self.settings.valueField]);
+			let option_el		= self.getOption(opt_value);
+			if( !option_el ){
+				option_el = self.render('option', option);
+			}
+
+
 			optgroup    = option[self.settings.optgroupField] || '';
 			optgroups   = Array.isArray(optgroup) ? optgroup : [optgroup];
 
@@ -1209,7 +1223,7 @@ Object.assign(Selectize.prototype, {
 					groups[optgroup] = document.createDocumentFragment();
 					groups_order.push(optgroup);
 				}
-				groups[optgroup].appendChild(option_html);
+				groups[optgroup].appendChild(option_el);
 			}
 		}
 
@@ -1223,27 +1237,27 @@ Object.assign(Selectize.prototype, {
 		}
 
 		// render optgroup headers & join groups
-		html = htmlToElement('<div>');
+		html = document.createDocumentFragment();
 		for (i = 0, n = groups_order.length; i < n; i++) {
 			optgroup = groups_order[i];
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
-				// render the optgroup header and options within it,
-				// then pass it to the wrapper template
-				html_children = document.createDocumentFragment();
-				html_children.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
-				html_children.appendChild(groups[optgroup]);
 
+				// different from selectize.js
+				// in selectize.js, the optgroup header and options within it were created, converted to a string, then passed to the optgroup template
+				// to prevent creating duplicate dom elements for the same options (for performance and setActiveOption functionality), we append header and options to a rendered optgroup
+				let group_html = self.render('optgroup', self.optgroups[optgroup] );
+				group_html.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
+				group_html.appendChild(groups[optgroup]);
 
-				html.appendChild(self.render('optgroup', Object.assign({}, self.optgroups[optgroup], {
-					html: domToString(html_children),
-					dom:  html_children
-				})));
+				html.appendChild(group_html);
+
 			} else {
 				html.appendChild(groups[optgroup]);
 			}
 		}
 
-		self.dropdown_content.innerHTML = html.innerHTML;
+		self.dropdown_content.innerHTML = '';
+		self.dropdown_content.appendChild(html);
 
 		// highlight matching terms inline
 		if (self.settings.highlight) {

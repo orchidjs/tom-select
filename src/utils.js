@@ -186,14 +186,6 @@ var getSelection = function(input) {
 };
 
 
-var domToString = function(d) {
-	var tmp = document.createElement('div');
-
-	tmp.appendChild(d.cloneNode(true));
-
-	return tmp.innerHTML;
-};
-
 var logError = function(message, options){
 	if(!options) options = {};
 	var component = "Selectize";
