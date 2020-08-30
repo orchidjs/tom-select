@@ -756,12 +756,12 @@
 			});
 			it_n('should allow clearing just one template type from the renderCache', function () {
 				test.selectize.render('item', test.selectize.options[0]);
-				test.selectize.refreshOptions();
-				expect($.isEmptyObject(test.selectize.renderCache['option'])).to.be.equal(false);
-				expect($.isEmptyObject(test.selectize.renderCache['item'])).to.be.equal(false);
+				test.selectize.render('option', test.selectize.options[0]);
+				expect($.isEmptyObject(test.selectize.renderCache['option']),'option cache empty').to.be.equal(false);
+				expect($.isEmptyObject(test.selectize.renderCache['item']),'item cache empty').to.be.equal(false);
 				test.selectize.clearCache('option');
-				expect($.isEmptyObject(test.selectize.renderCache['option'])).to.be.equal(true);
-				expect($.isEmptyObject(test.selectize.renderCache['item'])).to.be.equal(false);
+				expect($.isEmptyObject(test.selectize.renderCache['option']),'option cache not emptied').to.be.equal(true);
+				expect($.isEmptyObject(test.selectize.renderCache['item']),'item cache emptied').to.be.equal(false);
 			});
 		});
 
