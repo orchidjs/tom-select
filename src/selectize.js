@@ -52,7 +52,7 @@ var Selectize = function( input, settings ){
 		options          : {},
 		userOptions      : {},
 		items            : [],
-		renderCache      : {},
+		renderCache      : {'item':{},'option':{}},
 		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
 	});
 
@@ -1409,7 +1409,7 @@ Object.assign(Selectize.prototype, {
 	removeOptionGroup: function(id) {
 		if (this.optgroups.hasOwnProperty(id)) {
 			delete this.optgroups[id];
-			this.renderCache = {};
+			this.clearCache();
 			this.trigger('optgroup_remove', id);
 		}
 	},
@@ -1419,7 +1419,7 @@ Object.assign(Selectize.prototype, {
 	 */
 	clearOptionGroups: function() {
 		this.optgroups = {};
-		this.renderCache = {};
+		this.clearCache();
 		this.trigger('optgroup_clear');
 	},
 
@@ -1519,7 +1519,7 @@ Object.assign(Selectize.prototype, {
 
 		this.loadedSearches		= {};
 		this.userOptions		= {};
-		this.renderCache		= {};
+		this.clearCache();
 		var selected			= {};
 		for( key in this.options){
     		if( this.options.hasOwnProperty(key) && this.items.indexOf(key) >= 0 ){
@@ -1540,7 +1540,21 @@ Object.assign(Selectize.prototype, {
 	 * @returns {object}
 	 */
 	getOption: function(value) {
-		return this.getElementWithValue(value, this.selectable());
+
+		// cached ?
+		if( this.renderCache['option'].hasOwnProperty(value) ){
+			return this.renderCache['option'][value];
+		}
+
+		if( typeof value !== 'undefined' && value !== null ){
+			return;
+		}
+
+		// from existing dropdown menu dom
+		var option = this.getElementWithValue(value, this.selectable());
+		if( option ){
+			return option;
+		}
 	},
 
 	/**
@@ -2311,9 +2325,6 @@ Object.assign(Selectize.prototype, {
 
 		// pull markup from cache if it exists
 		if (cache) {
-			if (!isset(self.renderCache[templateName])) {
-				self.renderCache[templateName] = {};
-			}
 			if (self.renderCache[templateName].hasOwnProperty(value)) {
 				return self.renderCache[templateName][value];
 			}
@@ -2364,9 +2375,9 @@ Object.assign(Selectize.prototype, {
 	clearCache: function(templateName) {
 		var self = this;
 		if (typeof templateName === 'undefined') {
-			self.renderCache = {};
+			self.renderCache = {'item':{},'option':{}};
 		} else {
-			delete self.renderCache[templateName];
+			self.renderCache[templateName] = {};
 		}
 	},
 
