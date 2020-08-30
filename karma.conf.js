@@ -50,6 +50,13 @@ module.exports = function(config) {
 									flags: [
 										'-headless',
 									]
+								};
+
+	customLaunchers['Headless'] = {
+									base: 'Chrome',
+									flags: [
+										'-headless',
+									]
 
 								};
 
