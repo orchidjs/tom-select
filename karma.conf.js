@@ -52,12 +52,11 @@ module.exports = function(config) {
 									]
 								};
 
-	customLaunchers['Headless'] = {
-									base: 'Chrome',
+	customLaunchers['ChromeHeadless'] = {
+									base: 'ChromeHeadless',
 									flags: [
-										'-headless',
+										'--disable-translate', '--disable-extensions', '--remote-debugging-port=9223'
 									]
-
 								};
 
 	var targets = {
@@ -75,7 +74,7 @@ module.exports = function(config) {
 		}
 	}
 
-	var browsers = targets[process.env.TARGET || 'Headless'];
+	var browsers = targets[process.env.TARGET || 'ChromeHeadless'];
 	if (process.env.BROWSERS) {
 		browsers = process.env.BROWSERS.split(',');
 	}
