@@ -126,7 +126,7 @@ var onEvent = function( el, eventName, elementSelector, handler ){
 	// create intermediate handler that can be used for all event names
 	// loop parent nodes from the target to the delegation node
 	let _handler = function(e) {
-		var target_match = targetMatch(e, elementSelector, el);
+		var target_match = parentMatch(e.target, elementSelector, el);
 		if( target_match ){
 			e.delegateTarget = target_match;
 			handler.call(target_match, e);
@@ -145,8 +145,7 @@ var onEvent = function( el, eventName, elementSelector, handler ){
  * Stops at el
  *
  */
-var targetMatch = function(evt, selector, el ){
-	var target = evt.target;
+var parentMatch = function(target, selector, el ){
 	while( target && target.matches && target != el ){
 
 		if( target.matches(selector) ){
@@ -200,13 +199,15 @@ var isEmptyObject = function(obj){
  * Get the index of an element amongst sibling nodes of the same type
  *
  */
-var nodeIndex = function(el) {
+var nodeIndex = function( el, amongst ){
 	if (!el) return -1;
 
-	const nodeName = el.nodeName;
+	amongst = amongst || el.nodeName;
+
 	var i = 0;
 	while( el = el.previousElementSibling ){
-		if( el.nodeName === nodeName ){
+
+		if( el.matches(amongst) ){
 			i++;
 		}
 	}

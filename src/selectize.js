@@ -220,7 +220,7 @@ Object.assign(Selectize.prototype, {
 
 		control.addEventListener('mousedown', function(evt){
 
-			var target_match = targetMatch( evt, '.'+self.settings.itemClass, control);
+			var target_match = parentMatch( evt.target, '.'+self.settings.itemClass, control);
 			if( target_match ){
 				evt.delegateTarget = target_match;
 				return self.onItemSelect.call(self, evt);
@@ -272,7 +272,7 @@ Object.assign(Selectize.prototype, {
 				}
 
 				// blur on click outside
-				if( !targetMatch(e, '.'+self.settings.itemClass, self.wrapper) ){
+				if( !parentMatch(e.target, '.'+self.settings.itemClass, self.wrapper) ){
 					self.blur(e.target);
 				}
 			}
@@ -1548,6 +1548,7 @@ Object.assign(Selectize.prototype, {
 	 *
 	 * @param {object} option
 	 * @param {int} direction  can be 1 for next or -1 for previous
+	 * @param {string} type
 	 * @return {object|undefined}
 	 */
 	getAdjacent: function( option, direction, type = 'option' ){
