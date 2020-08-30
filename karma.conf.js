@@ -61,7 +61,8 @@ module.exports = function(config) {
 
 	var targets = {
 		'saucelabs': Object.keys(customLaunchers),
-		'Headless': ['Headless']
+		'Headless': ['Headless'],
+		'ChromeHeadless': ['ChromeHeadless']
 	};
 
 	var reporters = ['mocha','coverage'];
