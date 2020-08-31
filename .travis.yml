@@ -3,7 +3,7 @@ env:
   matrix:
     #- TARGET=saucelabs
     #- TARGET=Headless
-    - TARGET=ChromeHeadless
+    - TARGET=HeadlessChrome
 node_js:
   - 10
   - 12
