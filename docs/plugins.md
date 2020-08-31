@@ -82,7 +82,7 @@ Selectize.define('plugin_name', function(options) {
 #### List (without options)
 
 ```js
-$('select').selectize({
+new Selectize('#select',{
 	plugins: ['plugin_a', 'plugin_b']
 });
 ```
@@ -90,7 +90,7 @@ $('select').selectize({
 #### List (with options)
 
 ```js
-$('select').selectize({
+new Selectize('#select',{
 	plugins: {
 		'plugin_a': { /* ... */ },
 		'plugin_b': { /* ... */ }

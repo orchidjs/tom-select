@@ -1,19 +1,18 @@
-## Selectize – Usage
+## Orchid Select – Usage
 
 ```html
 <script type="text/javascript" src="selectize.js"></script>
 <link rel="stylesheet" type="text/css" href="selectize.css" />
 <script>
-$(function() {
-	$('select').selectize(options);
+new Selectize('#select',config);
 });
 </script>
 ```
 
 ### Glossary
 
-- Config / configuration: the initial settings of Selectize, given at initialization.
-- Settings: the current settings of Selectize, might be updated. Accessible with the `setting` property of the Selectize object.
+- Config / configuration: settings passed to the object constructor
+- Settings: the current settings. Accessible with the `setting` property of the select object.
 - Options: the list of objects to display.
   Each object must have a property with an unique **value** to identify the option; the property name is defined by the `valueField` setting.
   Option objects must also have a property with the **label** to display (as tag, in the drop down, etc.); the property name is defined by the `labelField` setting.
@@ -35,15 +34,13 @@ $(function() {
 	<tr>
 		<td valign="top"><code>options</code></td>
 		<td valign="top">
+			An alternative to &lt;option&gt; tags.
 			An array of the initial options available to select; array
 			of objects.
 			By default this is populated from the original input
-			element.  If your element is a &lt;select&gt; with
+			element. If your element is a &lt;select&gt; with
 			&lt;option&gt;s specified this property gets populated
 			automatically.
-			Setting this property is convenient if you have your data as
-			an array and want to automatically generate the
-			&lt;option&gt;s.
 		</td>
 		<td valign="top"><code>array</code></td>
 		<td valign="top"><code>[]</code></td>
@@ -137,7 +134,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>allowEmptyOption</code></td>
-		<td valign="top">If true, Selectize will treat any options with a "" value like normal. This defaults to false to accomodate the common &lt;select&gt; practice of having the first empty option to act as a placeholder.</td>
+		<td valign="top">If true, any options with a "" value will be treated like normal. This defaults to false to accommodate the common &lt;select&gt; practice of having the first empty option to act as a placeholder.</td>
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
@@ -173,7 +170,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>dropdownParent</code></td>
-		<td valign="top">The element the dropdown menu is appended to. If null, the dropdown will be appended as a child of the Selectize control.</td>
+		<td valign="top">The element the dropdown menu is appended to. If null, the dropdown will be appended as a child of the control.</td>
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
@@ -294,7 +291,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>lockOptgroupOrder</td>
-		<td valign="top">If truthy, Selectize will make all optgroups be in the same order as they were added (by the `$order` property). Otherwise, it will order based on the score of the results in each.</td>
+		<td valign="top">If truthy, all optgroups will be displayed in the same order as they were added (by the `$order` property). Otherwise, it will order based on the score of the results in each.</td>
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>

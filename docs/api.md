@@ -7,10 +7,7 @@ property points to the underlying Selectize instance.
 
 ```js
 // initialize the Selectize control
-var $select = $('select').selectize(options);
-
-// fetch the instance
-var selectize = $select[0].selectize;
+var select = new Selectize('#select',options);
 ```
 
 #### Related Topics
