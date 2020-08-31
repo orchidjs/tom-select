@@ -45,7 +45,7 @@ module.exports = function(config) {
 		customLaunchers['SL_' + i] = browser;
 	});
 
-	customLaunchers['Headless'] = {
+	customLaunchers['HeadlessFirefox'] = {
 									base: 'Firefox',
 									flags: [
 										'-headless',
@@ -63,7 +63,7 @@ module.exports = function(config) {
 
 	var targets = {
 		'saucelabs': Object.keys(customLaunchers),
-		'Headless': ['Headless'],
+		'HeadlessFirefox': ['HeadlessFirefox'],
 		'HeadlessChrome': ['HeadlessChrome']
 	};
 
@@ -77,7 +77,7 @@ module.exports = function(config) {
 		}
 	}
 
-	var browsers = targets[process.env.TARGET || 'Headless'];
+	var browsers = targets[process.env.TARGET || 'HeadlessFirefox'];
 	if (process.env.BROWSERS) {
 		browsers = process.env.BROWSERS.split(',');
 	}
