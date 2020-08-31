@@ -52,17 +52,19 @@ module.exports = function(config) {
 									]
 								};
 
-	customLaunchers['ChromeHeadless'] = {
+	customLaunchers['HeadlessChrome'] = {
 									base: 'ChromeHeadless',
 									flags: [
-										'--disable-translate', '--disable-extensions', '--remote-debugging-port=9223'
+										'--disable-translate',
+										'--disable-extensions',
+										'--remote-debugging-port=9223'
 									]
 								};
 
 	var targets = {
 		'saucelabs': Object.keys(customLaunchers),
 		'Headless': ['Headless'],
-		'ChromeHeadless': ['ChromeHeadless']
+		'HeadlessChrome': ['HeadlessChrome']
 	};
 
 	var reporters = ['mocha','coverage'];
@@ -75,7 +77,7 @@ module.exports = function(config) {
 		}
 	}
 
-	var browsers = targets[process.env.TARGET || 'ChromeHeadless'];
+	var browsers = targets[process.env.TARGET || 'Headless'];
 	if (process.env.BROWSERS) {
 		browsers = process.env.BROWSERS.split(',');
 	}
