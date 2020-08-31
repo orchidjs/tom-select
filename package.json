@@ -20,7 +20,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/OrchidJS/Select.git"
+    "url": "https://github.com/OrchidJS/Orchid-Select.git"
   },
   "dependencies": {
     "microplugin": "0.0.3",
