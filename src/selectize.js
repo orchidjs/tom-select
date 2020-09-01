@@ -548,12 +548,16 @@ Object.assign(Selectize.prototype, {
 		}
 
 		switch (e.keyCode) {
+
+			// cmd+A: select all
 			case KEY_A:
 				if (self.isKeyDown(KEY_CMD,e) ) {
 					self.selectAll();
 					return;
 				}
 				break;
+
+			// esc: close dropdown
 			case KEY_ESC:
 				if (self.isOpen) {
 					e.preventDefault();
@@ -561,6 +565,8 @@ Object.assign(Selectize.prototype, {
 					self.close();
 				}
 				return;
+
+			// down: open dropdown or move selection down
 			case KEY_N:
 				if (!e.ctrlKey || e.altKey) break;
 			case KEY_DOWN:
@@ -573,6 +579,8 @@ Object.assign(Selectize.prototype, {
 				}
 				e.preventDefault();
 				return;
+
+			// up: move selection up
 			case KEY_P:
 				if (!e.ctrlKey || e.altKey) break;
 			case KEY_UP:
@@ -583,18 +591,26 @@ Object.assign(Selectize.prototype, {
 				}
 				e.preventDefault();
 				return;
+
+			// return: select active option
 			case KEY_RETURN:
 				if (self.isOpen && self.activeOption) {
 					self.onOptionSelect({delegateTarget: self.activeOption});
 					e.preventDefault();
 				}
 				return;
+
+			// left: modifiy item selection to the left
 			case KEY_LEFT:
 				self.advanceSelection(-1, e);
 				return;
+
+			// right: modifiy item selection to the right
 			case KEY_RIGHT:
 				self.advanceSelection(1, e);
 				return;
+
+			// tab: select active option and/or create item
 			case KEY_TAB:
 				if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
 					self.onOptionSelect({delegateTarget: self.activeOption});
@@ -609,6 +625,8 @@ Object.assign(Selectize.prototype, {
 					e.preventDefault();
 				}
 				return;
+
+			// delete|backspace: delete items
 			case KEY_BACKSPACE:
 			case KEY_DELETE:
 				self.deleteSelection(e);
