@@ -2,8 +2,8 @@
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
-[![Build Status](https://travis-ci.org/OrchidJS/Select.svg?branch=master)](https://travis-ci.org/OrchidJS/Select)
-[![Coverage Status](https://coveralls.io/repos/github/OrchidJS/Select/badge.svg?branch=master)](https://coveralls.io/github/OrchidJS/Select?branch=master)
+[![Build Status](https://travis-ci.org/OrchidJS/Orchid-Select.svg?branch=master)](https://travis-ci.org/OrchidJS/Orchid-Select)
+[![Coverage Status](https://coveralls.io/repos/github/OrchidJS/Orchid-Select/badge.svg?branch=master)](https://coveralls.io/github/OrchidJS/Orchid-Select?branch=master)
 
 Orchid Select is an extensible and dynamic &lt;select&gt; UI control.
 With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
