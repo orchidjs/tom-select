@@ -503,7 +503,7 @@ Object.assign(Selectize.prototype, {
 
 			// Wait for pasted text to be recognized in value
 			setTimeout(function() {
-				var pastedText = self.control_input.value;
+				var pastedText = self.inputValue();
 				if(!pastedText.match(self.settings.splitOn)){ return }
 
 				var splitInput = pastedText.trim().split(self.settings.splitOn);
@@ -631,7 +631,7 @@ Object.assign(Selectize.prototype, {
 		var self = this;
 
 		if (self.isLocked) return e && e.preventDefault();
-		var value = self.control_input.value || '';
+		var value = self.inputValue();
 		if (self.lastValue !== value) {
 			self.lastValue = value;
 			self.onSearchChange(value);
@@ -1062,6 +1062,13 @@ Object.assign(Selectize.prototype, {
 	},
 
 	/**
+	 * Get the input value
+	 */
+	inputValue: function(){
+		return this.control_input.value.trim();
+	},
+
+	/**
 	 * Gives the control focus.
 	 */
 	focus: function() {
@@ -1184,8 +1191,9 @@ Object.assign(Selectize.prototype, {
 			triggerDropdown = true;
 		}
 
+
 		var self					= this;
-		var query					= self.control_input.value.trim();
+		var query					= self.inputValue();
 		var results					= self.search(query);
 		var active_before_hash		= self.activeOption && hash_key(self.activeOption.dataset.value);
 
@@ -1772,7 +1780,7 @@ Object.assign(Selectize.prototype, {
 	createItem: function(input, triggerDropdown) {
 		var self  = this;
 		var caret = self.caretPos;
-		input = input || self.control_input.value.trim() || '';
+		input = input || self.inputValue();
 
 		var callback = arguments[arguments.length - 1];
 		if (typeof callback !== 'function') callback = function() {};
@@ -2082,7 +2090,7 @@ Object.assign(Selectize.prototype, {
 		} else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
 			if (direction < 0 && selection.start === 0 && selection.length === 0) {
 				values.push(self.items[self.caretPos - 1]);
-			} else if (direction > 0 && selection.start === self.control_input.value.length) {
+			} else if (direction > 0 && selection.start === self.inputValue().length) {
 				values.push(self.items[self.caretPos]);
 			}
 		}
@@ -2147,7 +2155,7 @@ Object.assign(Selectize.prototype, {
 
 		// move caret to the left or right
 		}else if (this.isFocused && !this.isInputHidden) {
-			valueLength = this.control_input.value.length;
+			valueLength = this.inputValue().length;
 			cursorAtEdge = direction < 0
 				? selection.start === 0 && selection.length === 0
 				: selection.start === valueLength;
