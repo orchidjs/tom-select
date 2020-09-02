@@ -558,12 +558,12 @@
 
 				assert.equal( test.selectize.activeItems.length, 0 );
 
-				// 1) activate itema
-				click(itema,function(){
-					assert.equal( test.selectize.activeItems.length, 1 );
+				// 1) hold ctrl down
+				syn.type('[ctrl]', test.selectize.control_input, function() {
 
-					// 2) hold ctrl down
-					syn.type('[ctrl]', test.selectize.control_input, function() {
+					// 2) activate itema
+					click(itema,function(){
+						assert.equal( test.selectize.activeItems.length, 1 );
 
 						// 3) de-activate itema with a click
 						click(itema,function(){
