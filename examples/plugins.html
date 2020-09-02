@@ -18,6 +18,20 @@
 			<h1>Selectize.js</h1>
 
 			<div class="demo">
+				<h2>Plugin: "input_autogrow"</h2>
+				<div class="control-group">
+					<label for="input-tags">Tags:</label>
+					<input type="text" id="input-autogrow" class="demo-default" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+				</div>
+				<script>
+				new Selectize('#input-autogrow',{
+					plugins: ['input_autogrow'],
+				});
+				</script>
+			</div>
+
+
+			<div class="demo">
 				<h2>Plugin: "remove_button"</h2>
 				<div class="control-group">
 					<label for="input-tags">Tags:</label>
