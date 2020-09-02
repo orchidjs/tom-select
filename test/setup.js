@@ -281,8 +281,7 @@
 				expect(test.selectize.control.classList.contains('required')).to.be.equal(true);
 			});
 
-			it_n('should pass validation if an element is selected',
-			function(done) {
+			it_n('should pass validation if an element is selected',function(done) {
 				test.selectize.addItem('a');
 				$form.one('submit.test_required', function(e) {
 					done();
@@ -292,18 +291,17 @@
 			});
 
 			if( Selectize.prototype.supportsValidity() ){
-				it_n('should not pass validation if no element is selected',
-				function(done) {
-					$form.one('submit.test_required', function(e) {
-						expect(e.isDefaultPrevented()).to.be.true;
+				it_n('should not pass validation if no element is selected',function(done) {
+
+					$button.one('click',function(){
+						expect($form[0].checkValidity()).to.be.false;
 						done();
 					});
 
 					syn.click($button);
 				});
 
-				it_n('should have "invalid" class when validation fails',
-			  function(done) {
+				it_n('should have "invalid" class when validation fails', function(done) {
 					test.$select[0].checkValidity();
 
 					window.setTimeout(function() {
@@ -313,8 +311,7 @@
 					}, 250);
 				});
 
-				it_n('should clear the invalid class after an item is selected',
-				function(done) {
+				it_n('should clear the invalid class after an item is selected',function(done) {
 					syn.click($button).delay(0, function() {
 						test.selectize.addItem('a');
 						expect(test.selectize.control.classList.contains('invalid')).

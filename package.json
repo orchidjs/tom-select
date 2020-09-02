@@ -14,8 +14,8 @@
   "description": "Orchid Select is a framework agnostic custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
   "version": "1.0.0-beta",
   "author": "Josh Schmidt (https://github.com/oyejorge)",
-  "contributors":[
-	  "Brian Reavis <brian@thirdroute.com>"
+  "contributors": [
+    "Brian Reavis <brian@thirdroute.com>"
   ],
   "license": "Apache-2.0",
   "repository": {
@@ -54,7 +54,8 @@
     "karma-safari-launcher": "^1.0.0",
     "karma-sauce-launcher": "^4.1.5",
     "load-grunt-tasks": "^5.1.0",
-    "mocha": "^8.1.1"
+    "mocha": "^8.1.1",
+    "syn": "^0.15.0"
   },
   "scripts": {
     "test": "karma start",
