@@ -382,7 +382,7 @@
 
 			});
 
-			it_n('should select next item when [ctrl][right] pressed', function(done) {
+			it_n('should select next item when [ctrl][right] pressed, then unselect when [ctrl][left] pressed', function(done) {
 				var test = setup_test('AB_Multi');
 
 				test.selectize.addItem('a');
@@ -393,7 +393,12 @@
 
 					syn.type('[ctrl][right][ctrl-up]', test.selectize.control_input, function() {
 						expect( test.selectize.activeItems.length ).to.be.equal(2);
-						done();
+
+						syn.type('[ctrl][left][ctrl-up]', test.selectize.control_input, function() {
+							expect( test.selectize.activeItems.length ).to.be.equal(1);
+							done();
+						});
+
 					});
 				});
 
@@ -486,6 +491,24 @@
 				});
 			});
 
+			it_n('should select all items when [ctrl-a] pressed', function(done) {
+
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+
+				click(test.selectize.control, function() {
+					assert.equal( test.selectize.activeItems.length, 0 );
+
+					syn.type('[ctrl]a[ctrl-up]', test.selectize.control_input, function() {
+						assert.equal( test.selectize.activeItems.length, 2 );
+						done();
+
+					});
+
+				});
+			});
 
 		});
 
