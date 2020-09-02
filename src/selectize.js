@@ -2065,18 +2065,12 @@ Object.assign(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	deleteSelection: function(e) {
-		var i, n, direction, selection, values, caret, option_select, tail;
+		var i, n, direction, selection, values, caret, tail;
 		var self = this;
 
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
 		selection = getSelection(self.control_input);
 
-		if (self.activeOption && !self.settings.hideSelected) {
-			let option = self.getAdjacent(self.activeOption, -1);
-			if( option ){
-				option_select = option.dataset.value;
-			}
-		}
 
 		// determine items that will be removed
 		values = [];
@@ -2119,14 +2113,6 @@ Object.assign(Selectize.prototype, {
 		self.showInput();
 		self.positionDropdown();
 		self.refreshOptions(false);
-
-		// select previous option
-		if (option_select) {
-			let option = self.getOption(option_select);
-			if( option ){
-				self.setActiveOption(option);
-			}
-		}
 
 		return true;
 	},
