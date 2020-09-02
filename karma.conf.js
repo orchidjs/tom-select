@@ -101,6 +101,7 @@ module.exports = function(config) {
 			'src/plugins/remove_button/plugin.js',
 			'src/plugins/restore_on_backspace/plugin.js',
 			'src/plugins/dropdown_header/plugin.js',
+			'src/plugins/optgroup_columns/plugin.js',
 			'test/*.js'
 		],
 		preprocessors: {
