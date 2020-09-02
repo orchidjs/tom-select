@@ -22,20 +22,20 @@ Selectize.define('optgroup_columns', function(options) {
 		equalizeHeight : true
 	}, options);
 
-	var orig_keydown = self.onKeyDown;
 
-	this.onKeyDown = function(e) {
+	self.hook('instead','onKeyDown',function(orig_args, orig_keydown ) {
 		var index, option, options, optgroup;
+		var evt = orig_args[0];
 
-		if( !this.isOpen || !(e.keyCode === KEY_LEFT || e.keyCode === KEY_RIGHT)) {
-			return orig_keydown.apply(this, arguments);
+		if( !self.isOpen || !(evt.keyCode === KEY_LEFT || evt.keyCode === KEY_RIGHT)) {
+			return orig_keydown.apply(self,orig_args);
 		}
 
 		self.ignoreHover	= true;
-		optgroup			= parentMatch(this.activeOption,'[data-group]');
-		index				= nodeIndex(this.activeOption,'[data-selectable]');
+		optgroup			= parentMatch(self.activeOption,'[data-group]');
+		index				= nodeIndex(self.activeOption,'[data-selectable]');
 
-		if( e.keyCode === KEY_LEFT ){
+		if( evt.keyCode === KEY_LEFT ){
 			optgroup = optgroup.previousSibling;
 		} else {
 			optgroup = optgroup.nextSibling;
@@ -49,10 +49,10 @@ Selectize.define('optgroup_columns', function(options) {
 		option				= options[ Math.min(options.length - 1, index) ];
 
 		if( option ){
-			this.setActiveOption(option);
+			self.setActiveOption(option);
 		}
 
-	};
+	});
 
 	var getScrollbarWidth = function() {
 		var div;
@@ -107,8 +107,8 @@ Selectize.define('optgroup_columns', function(options) {
 	};
 
 	if (options.equalizeHeight || options.equalizeWidth) {
-		hook.after(this, 'positionDropdown', equalizeSizes);
-		hook.after(this, 'refreshOptions', equalizeSizes);
+		self.hook('after','positionDropdown',equalizeSizes);
+		self.hook('after','refreshOptions',equalizeSizes);
 	}
 
 

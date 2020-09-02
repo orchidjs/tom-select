@@ -36,15 +36,10 @@ Selectize.define('dropdown_header', function(options) {
 		}
 	}, options);
 
-	var orig_setup = self.setup;
-
-	self.setup = function() {
-		orig_setup.apply(self, arguments);
-
+	self.hook('after','setup',function(){
 		var header = htmlToElement(options.html(options));
-
 		self.dropdown.insertBefore(header, self.dropdown.firstChild);
+	});
 
-	};
 
 });

@@ -54,41 +54,6 @@ var escape_replace = function(str) {
 	return (str + '').replace(/\$/g, '$$$$');
 };
 
-var hook = {};
-
-/**
- * Wraps `method` on `self` so that `fn`
- * is invoked before the original method.
- *
- * @param {object} self
- * @param {string} method
- * @param {function} fn
- */
-hook.before = function(self, method, fn) {
-	var original = self[method];
-	self[method] = function() {
-		fn.apply(self, arguments);
-		return original.apply(self, arguments);
-	};
-};
-
-/**
- * Wraps `method` on `self` so that `fn`
- * is invoked after the original method.
- *
- * @param {object} self
- * @param {string} method
- * @param {function} fn
- */
-hook.after = function(self, method, fn) {
-	var original = self[method];
-	self[method] = function() {
-		var result = original.apply(self, arguments);
-		fn.apply(self, arguments);
-		return result;
-	};
-};
-
 /**
  * Wraps `fn` so that it can only be invoked once.
  *

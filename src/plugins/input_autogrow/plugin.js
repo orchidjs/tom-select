@@ -15,10 +15,8 @@
 Selectize.define('input_autogrow', function(options) {
 
 	var self					= this;
-	var orig_setup				= self.setup;
 
-	this.setup = function(){
-		orig_setup.apply(this, arguments);
+	self.hook('after','setup',function(){
 
 
 		var test_input				= document.createElement('span');
@@ -55,6 +53,6 @@ Selectize.define('input_autogrow', function(options) {
 		control.addEventListener('keyup', resize );
 		control.addEventListener('blur', resize );
 		control.addEventListener('update', resize );
-	}
+	});
 
 });

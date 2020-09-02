@@ -2440,9 +2440,45 @@ Object.assign(Selectize.prototype, {
 
 
 		return false;
-	}
+	},
+
+	/**
+	 * Wraps this.`method` so that `new_fn` can be invoked 'before', 'after', or 'instead' of the original method
+	 *
+	 * this.hook('instead','onKeyDown',function(orig_arguments, orig_method){
+	 *
+	 * });
+	 *
+	 * @param {string} method
+	 * @param {string} when
+	 * @param {function} new_fn
+	 */
+	hook: function( when, method, new_fn ){
+		var self = this;
+		var orig_method = self[method];
 
 
+		self[method] = function(){
+			var result, result_new;
 
+			if( when === 'after' ){
+				result = orig_method.apply(self, arguments);
+			}
+
+			result_new = new_fn.call(self, arguments, orig_method );
+
+			if( when == 'instead' ){
+				return result_new;
+			}
+
+			if( when === 'before' ){
+				result = orig_method.apply(self, arguments);
+			}
+
+			return result;
+		};
+
+
+	},
 
 });

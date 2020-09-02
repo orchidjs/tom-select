@@ -18,26 +18,25 @@ Selectize.define('restore_on_backspace', function(options) {
 	var self = this;
 
 	options.text = options.text || function(option) {
-		return option[this.settings.labelField];
+		return option[self.settings.labelField];
 	};
 
-	this.onKeyDown = (function() {
-		var original = self.onKeyDown;
-		return function(e) {
-			var index, option;
-			if (e.keyCode === KEY_BACKSPACE && this.control_input.value === '' && !this.activeItems.length) {
-				index = this.caretPos - 1;
-				if (index >= 0 && index < this.items.length) {
-					option = this.options[this.items[index]];
-					if (this.deleteSelection(e)) {
-						this.setTextboxValue(options.text.apply(this, [option]));
-						this.refreshOptions(true);
-					}
-					e.preventDefault();
-					return;
+	self.hook('instead','onKeyDown',function(orig_args, orig_keydown){
+		var index, option;
+		var evt = orig_args[0];
+		if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
+			index = self.caretPos - 1;
+			if (index >= 0 && index < self.items.length) {
+				option = self.options[self.items[index]];
+				if (self.deleteSelection(evt)) {
+					self.setTextboxValue(options.text.apply(self, [option]));
+					self.refreshOptions(true);
 				}
+				evt.preventDefault();
+				return;
 			}
-			return original.apply(this, arguments);
-		};
-	})();
+		}
+		return orig_keydown.apply(self, orig_args);
+	});
+
 });

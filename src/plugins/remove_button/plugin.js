@@ -15,6 +15,7 @@
  */
 
 Selectize.define('remove_button', function(options) {
+
 	options = Object.assign({
 			label     : '&times;',
 			title     : 'Remove',
@@ -22,47 +23,42 @@ Selectize.define('remove_button', function(options) {
 			append    : true
 		}, options);
 
-	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
 	//options.className = 'remove-single';
 	var self			= this;
-	var orig_setup		= self.setup;
-	var orig_render		= self.render;
 
+	// override the render method to add remove button to each item
+	if( !options.append ){
+		return;
+	}
 
-	self.setup = function() {
+	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
-		// override the render method to add remove button to each item
-		if (options.append) {
+	self.hook('instead','render',function(orig_args, orig_method){
+		var rendered		= orig_method.apply(self,orig_args);
+		var templateName	= orig_args[0];
+		var data			= orig_args[1];
 
-			self.render = function(templateName, data) {
-				let rendered = orig_render.call(self,templateName,data);
+		if( templateName == 'item' ){
+			var close_button = htmlToElement(html);
+			rendered.appendChild(close_button);
 
-				if( templateName == 'item' ){
-					var close_button = htmlToElement(html);
-					rendered.appendChild(close_button);
+			close_button.addEventListener('click',function(evt){
+				evt.preventDefault();
 
-					close_button.addEventListener('click',function(evt){
-						evt.preventDefault();
-
-						// propagating will trigger the dropdown to show for single mode
-						if( self.settings.mode !== 'single' ){
-							evt.stopPropagation();
-						}
-
-						if (self.isLocked) return;
-
-						var value = rendered.dataset.value;
-						self.removeItem(value);
-					});
+				// propagating will trigger the dropdown to show for single mode
+				if( self.settings.mode !== 'single' ){
+					evt.stopPropagation();
 				}
 
-				return rendered;
-			};
+				if (self.isLocked) return;
 
+				var value = rendered.dataset.value;
+				self.removeItem(value);
+			});
 		}
 
-		orig_setup.apply(self, arguments);
-	};
+		return rendered;
+	});
 
 });
