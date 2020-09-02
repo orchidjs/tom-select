@@ -86,14 +86,14 @@
 				});
 			});
 
-			it_n('should close dropdown after esc key press', function(done) {
+			it_n('should close dropdown after [escape] key press', function(done) {
 
 				var test = setup_test('AB_Multi');
 
 				click(test.selectize.control, function() {
 					expect(test.selectize.isOpen).to.be.equal(true);
 
-					syn.type('[esc]', test.selectize.control_input, function() {
+					syn.type('[escape]', test.selectize.control_input, function() {
 						expect(test.selectize.isOpen).to.be.equal(false);
 						done();
 					});
@@ -466,6 +466,7 @@
 					});
 
 				});
+
 			});
 
 			it_n('should select option with [tab] keypress when selectOnTab = true', function(done) {
