@@ -606,6 +606,26 @@
 			DeleteActiveItem('\b');
 			DeleteActiveItem('[delete]');
 
+			it_n('should remove item when backspace pressed', function(done) {
+
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				assert.equal( test.selectize.items.length, 2 );
+
+				click(test.selectize.control, function() {
+					syn.type('\b', test.selectize.control_input, function() {
+
+						assert.equal( test.selectize.items.length, 1 );
+						assert.equal( test.selectize.items[0], 'a' );
+						done();
+					});
+				});
+
+			});
+
+
 		});
 
 		describe('blurring the input', function() {
