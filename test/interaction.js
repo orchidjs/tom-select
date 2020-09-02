@@ -122,6 +122,7 @@
 				});
 			});
 
+
 		});
 
 
@@ -615,51 +616,78 @@
 			});
 		});
 
-		describe('filtering created items', function() {
+		describe('creating items',function(){
 
-			var text = 'abc';
+			it_n('should create item when clicking on create option', function(done) {
 
-			function execFilterTest(filter, done, expectation) {
+				var test = setup_test('AB_Multi', {create: true});
 
-				var test		= setup_test('<select multiple="multiple"></select>', {create: true, createFilter: filter});
-				var selectize	= test.selectize;
+				// 1) focus on control
+				click(test.selectize.control, function() {
 
-				click(selectize.control, function() {
-					syn
-						.type(text, selectize.control_input)
-						.type(selectize.settings.delimiter, selectize.control_input )
-						.delay(0, function() {
-							expectation(selectize);
+					// 2) type "d"
+					syn.type('d', test.selectize.control_input, function() {
+
+						// 2) hit enter to create
+						syn.type('[enter]', test.selectize.control_input, function() {
+							expect(test.selectize.items[0]).to.be.equal('d');
 							done();
-						})
-				});
-			}
-
-			function execFilterTests(heading, filters, expectation) {
-				for (var i = 0; i < filters.length; i++) {
-					(function(filter) {
-						it_n(heading, function(done) {
-							execFilterTest(filter, done, expectation);
 						});
-					})(filters[i]);
+
+					});
+
+				});
+			});
+
+
+			describe('filtering created items', function() {
+
+				var text = 'abc';
+
+				function execFilterTest(filter, done, expectation) {
+
+					var test		= setup_test('<select multiple="multiple"></select>', {create: true, createFilter: filter});
+					var selectize	= test.selectize;
+
+					click(selectize.control, function() {
+						syn
+							.type(text, selectize.control_input)
+							.type(selectize.settings.delimiter, selectize.control_input )
+							.delay(0, function() {
+								expectation(selectize);
+								done();
+							})
+					});
 				}
-			}
 
-			execFilterTests('should add an item  normally if there is no createFilter', [undefined, null, ''], function(selectize) {
-				expect(selectize.getItem(text)).to.be.ok;
+				function execFilterTests(heading, filters, expectation) {
+					for (var i = 0; i < filters.length; i++) {
+						(function(filter) {
+							it_n(heading, function(done) {
+								execFilterTest(filter, done, expectation);
+							});
+						})(filters[i]);
+					}
+				}
+
+				execFilterTests('should add an item  normally if there is no createFilter', [undefined, null, ''], function(selectize) {
+					expect(selectize.getItem(text)).to.be.ok;
+				});
+
+				execFilterTests('should add an item if the input matches the createFilter', ['a', /a/, function() { return true; }], function(selectize) {
+					expect(selectize.getItem(text)).to.be.ok;
+				});
+
+				execFilterTests('should not add an item or display the create label if the input does not match the createFilter (A)', ['foo', /foo/, function() { return false; }], function(selectize) {
+					expect(selectize.getItem(text)).to.be.equal(undefined);
+				});
+
+				execFilterTests('should not add an item or display the create label if the input does not match the createFilter (B)', ['foo', /foo/, function() { return false; }], function(selectize) {
+					expect($(selectize.dropdown_content).filter('.create').length).to.be.equal(0);
+				});
+
 			});
 
-			execFilterTests('should add an item if the input matches the createFilter', ['a', /a/, function() { return true; }], function(selectize) {
-				expect(selectize.getItem(text)).to.be.ok;
-			});
-
-			execFilterTests('should not add an item or display the create label if the input does not match the createFilter (A)', ['foo', /foo/, function() { return false; }], function(selectize) {
-				expect(selectize.getItem(text)).to.be.equal(undefined);
-			});
-
-			execFilterTests('should not add an item or display the create label if the input does not match the createFilter (B)', ['foo', /foo/, function() { return false; }], function(selectize) {
-				expect($(selectize.dropdown_content).filter('.create').length).to.be.equal(0);
-			});
 
 		});
 
