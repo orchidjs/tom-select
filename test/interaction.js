@@ -510,39 +510,43 @@
 				});
 			});
 
+			var ShiftMousedown = function(first_item,last_item){
 
-			it_n('should select multiple items with [shift] + mousedown', function(done) {
+				it_n('should select multiple items with [shift] + mousedown', function(done) {
 
-				var test = setup_test('AB_Multi');
+					var test = setup_test('AB_Multi');
 
-				test.selectize.addItem('a');
-				test.selectize.addItem('b');
-				test.selectize.addItem('c');
-				var itema = test.selectize.getItem('a');
-				var itemc = test.selectize.getItem('c');
+					test.selectize.addItem('a');
+					test.selectize.addItem('b');
+					test.selectize.addItem('c');
+					var itema = test.selectize.getItem(first_item);
+					var itemc = test.selectize.getItem(last_item);
 
-				assert.equal( test.selectize.activeItems.length, 0 );
+					assert.equal( test.selectize.activeItems.length, 0 );
 
-				// 1) hold shift down
-				syn.type('[shift]', test.selectize.control_input, function(){
+					// 1) hold shift down
+					syn.type('[shift]', test.selectize.control_input, function(){
 
-					// 2) click first item
-					click(itema,function(){
-						assert.equal( test.selectize.activeItems.length, 1 );
+						// 2) click first item
+						click(itema,function(){
+							assert.equal( test.selectize.activeItems.length, 1 );
 
-						// 3) click last item
-						click(itemc,function(){
-							assert.equal( test.selectize.activeItems.length, 3 );
+							// 3) click last item
+							click(itemc,function(){
+								assert.equal( test.selectize.activeItems.length, 3 );
 
-							// 4) release shift key
-							syn.type('[shift-up]', test.selectize.control_input, function(){});
-							done();
+								// 4) release shift key
+								syn.type('[shift-up]', test.selectize.control_input, function(){});
+								done();
+							});
 						});
+
 					});
 
 				});
-
-			});
+			}
+			ShiftMousedown('a','c');
+			ShiftMousedown('c','a');
 
 		});
 
