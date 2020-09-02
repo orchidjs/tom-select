@@ -47,8 +47,7 @@ Selectize.define('input_autogrow', function(options) {
 		 * @param {string} str
 		 */
 		var resize = function(){
-			str						= self.inputValue();
-			test_input.textContent	= str;
+			test_input.textContent	= control.value;
 			control.style.width		= test_input.clientWidth+'px';
 		};
 
