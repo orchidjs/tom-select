@@ -2151,12 +2151,10 @@ Object.assign(Selectize.prototype, {
 	 * @param {object} e (optional)
 	 */
 	advanceSelection: function(direction, e) {
-		var selection, idx, valueLength, cursorAtEdge, last_active;
+		var selection, idx, last_active;
 
 		if (direction === 0) return;
 		if (this.rtl) direction *= -1;
-
-		selection = getSelection(this.control_input);
 
 
 		// add or remove to active items
@@ -2173,12 +2171,8 @@ Object.assign(Selectize.prototype, {
 
 		// move caret to the left or right
 		}else if (this.isFocused && !this.isInputHidden) {
-			valueLength = this.inputValue().length;
-			cursorAtEdge = direction < 0
-				? selection.start === 0 && selection.length === 0
-				: selection.start === valueLength;
 
-			if (cursorAtEdge && !valueLength) {
+			if( !this.inputValue().length ){
 				this.setCaret(this.caretPos + direction);
 			}
 
