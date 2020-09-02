@@ -139,27 +139,27 @@ Object.assign(Selectize.prototype, {
 		inputMode         = self.settings.mode;
 		classes           = self.input.getAttribute('class') || '';
 
-		wrapper				= htmlToElement('<div>');
+		wrapper				= getDom('<div>');
 		addClasses( wrapper, settings.wrapperClass, classes, inputMode);
 
 
-		control				= htmlToElement('<div class="items">');
+		control				= getDom('<div class="items">');
 		addClasses(control,settings.inputClass);
 		wrapper.append(control);
 
 
 
-		dropdown			= htmlToElement('<div style="display:none">');
+		dropdown			= getDom('<div style="display:none">');
 		addClasses(dropdown, settings.dropdownClass, inputMode);
 
 
-		dropdown_content	= htmlToElement('<div style="scroll-behavior: smooth;">')
+		dropdown_content	= getDom('<div style="scroll-behavior: smooth;">')
 		addClasses(dropdown_content, settings.dropdownContentClass);
 		dropdown.append(dropdown_content);
 
 		getDom( settings.dropdownParent || wrapper ).appendChild( dropdown );
 
-		control_input		= htmlToElement( settings.controlInput || '<input type="text" autocomplete="off" />' );
+		control_input		= getDom( settings.controlInput || '<input type="text" autocomplete="off" />' );
 
 		if( !settings.controlInput ){
 			control_input.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex);
@@ -906,8 +906,6 @@ Object.assign(Selectize.prototype, {
 	 */
 	setActiveItem: function( item, e) {
 
-		// this prevents removing items with backspace
-		if( this.settings.disableActiveItems ) return;
 
 		var self = this;
 		var eventName;
@@ -1041,7 +1039,6 @@ Object.assign(Selectize.prototype, {
 		var i,n;
 
 		if (this.settings.mode === 'single') return;
-		if (this.settings.disableActiveItems) return;
 
 		this.activeItems = this.controlChildren();
 		n = this.activeItems.length;
@@ -2344,7 +2341,7 @@ Object.assign(Selectize.prototype, {
 		}
 
 		// render markup
-		html = htmlToElement( self.settings.render[templateName].apply(this, [data, escape_html]) );
+		html = getDom( self.settings.render[templateName].apply(this, [data, escape_html]) );
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {

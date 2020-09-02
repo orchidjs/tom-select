@@ -40,7 +40,7 @@ Selectize.define('remove_button', function(options) {
 		var data			= orig_args[1];
 
 		if( templateName == 'item' ){
-			var close_button = htmlToElement(html);
+			var close_button = getDom(html);
 			rendered.appendChild(close_button);
 
 			close_button.addEventListener('click',function(evt){

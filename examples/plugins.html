@@ -53,7 +53,7 @@
 			<div class="demo">
 				<h2>Plugin: "remove_button"</h2>
 				<div class="control-group">
-					<label for="input-tags">Tags:</label>
+					<label for="input-tags2">Tags:</label>
 					<select id="input-tags2" class="demo-default" value="awesome" autocomplete="off">
 						<option>awesome</option>
 						<option>neat</option>
@@ -65,6 +65,25 @@
 					persist: false,
 					create: true,
 					maxItems: 1,
+				});
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>Plugin: "disable_activeitems"</h2>
+				<div class="control-group" id="disable-wrapper" style="position:relative">
+					<label for="input-disable-active">Tags:</label>
+					<input type="text" id="input-disable-active" class="demo-default" value="awesome,neat" autocomplete="off">
+					<input type="text" id="input-disable-control" class="demo-default"  autocomplete="off" placeholder="How cool is this?">
+				</div>
+				<script>
+				new Selectize('#input-disable-active',{
+					plugins: ['disable_activeitems','remove_button',],
+					persist: false,
+					create: true,
+					controlInput: document.getElementById('input-disable-control'),
+					controlInput: '#input-disable-control',
+					dropdownParent: '#disable-wrapper',
 				});
 				</script>
 			</div>

@@ -37,7 +37,7 @@ Selectize.define('dropdown_header', function(options) {
 	}, options);
 
 	self.hook('after','setup',function(){
-		var header = htmlToElement(options.html(options));
+		var header = getDom(options.html(options));
 		self.dropdown.insertBefore(header, self.dropdown.firstChild);
 	});
 
