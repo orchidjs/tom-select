@@ -625,6 +625,25 @@
 
 			});
 
+			it_n('should remove first item when left then backspace pressed', function(done) {
+
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				assert.equal( test.selectize.items.length, 2 );
+
+				click(test.selectize.control, function() {
+					syn.type('[left]\b', test.selectize.control_input, function() {
+
+						assert.equal( test.selectize.items.length, 1 );
+						assert.equal( test.selectize.items[0], 'b' );
+						done();
+					});
+				});
+
+			});
+
 
 		});
 
