@@ -98,6 +98,7 @@ module.exports = function(config) {
 			'src/settings.js',
 			'src/selectize.js',
 			'src/defaults.js',
+			'src/plugins/remove_button/plugin.js',
 			'test/*.js'
 		],
 		preprocessors: {
