@@ -321,6 +321,9 @@
 				});
 			});
 
+		});
+
+		describe('selecting items',function(){
 
 			it_n('should select previous item when [ctrl][left] pressed', function(done) {
 				var test = setup_test('AB_Multi');
@@ -392,6 +395,19 @@
 					});
 				});
 
+			});
+
+
+			it_n('clicking item should activate it', function() {
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				var item = test.selectize.getItem('a');
+				expect(item.classList.contains('active')).to.be.equal(false);
+
+				click(item,function(){
+					expect(item.classList.contains('active')).to.be.equal(true);
+				});
 			});
 
 		});
