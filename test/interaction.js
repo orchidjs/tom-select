@@ -101,6 +101,27 @@
 				});
 			});
 
+
+			it_n('should change activeOption with [down] and [up] keypress', function(done) {
+
+				var test = setup_test('AB_Multi');
+
+				click(test.selectize.control, function() {
+					expect(test.selectize.activeOption.dataset.value).to.be.equal('a');
+
+					syn.type('[down]', test.selectize.control_input, function() {
+						expect(test.selectize.activeOption.dataset.value).to.be.equal('b');
+
+						syn.type('[up]', test.selectize.control_input, function() {
+							expect(test.selectize.activeOption.dataset.value).to.be.equal('a');
+							done();
+						});
+
+					});
+
+				});
+			});
+
 		});
 
 
@@ -428,6 +449,42 @@
 					expect(item.classList.contains('active')).to.be.equal(true);
 				});
 			});
+
+
+			it_n('should select option with [return] keypress', function(done) {
+
+				var test = setup_test('AB_Multi');
+
+				click(test.selectize.control, function() {
+					expect(test.selectize.activeOption.dataset.value).to.be.equal('a');
+
+					syn.type('[enter]', test.selectize.control_input, function() {
+						expect(test.selectize.items.length).to.be.equal(1);
+						expect(test.selectize.items[0]).to.be.equal('a');
+						done();
+
+					});
+
+				});
+			});
+
+			it_n('should select option with [tab] keypress when selectOnTab = true', function(done) {
+
+				var test = setup_test('AB_Multi',{selectOnTab:true});
+
+				click(test.selectize.control, function() {
+					expect(test.selectize.activeOption.dataset.value).to.be.equal('a');
+
+					syn.type('[tab]', test.selectize.control_input, function() {
+						expect(test.selectize.items.length).to.be.equal(1);
+						expect(test.selectize.items[0]).to.be.equal('a');
+						done();
+
+					});
+
+				});
+			});
+
 
 		});
 
