@@ -581,6 +581,25 @@
 
 			});
 
+			it_n('should remove active item when delete pressed', function(done) {
+
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				test.selectize.setActiveItem(test.selectize.getItem('b'));
+				assert.equal( test.selectize.items.length, 2 );
+
+				syn.type('\b', test.selectize.control_input, function() {
+
+					assert.equal( test.selectize.items.length, 1 );
+					assert.equal( test.selectize.items[0], 'a' );
+					done();
+
+				});
+
+			});
+
 		});
 
 		describe('blurring the input', function() {
