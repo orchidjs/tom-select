@@ -633,7 +633,7 @@ Object.assign(Selectize.prototype, {
 				return;
 		}
 
-		if( self.isInputHidden && !(IS_MAC ? e.metaKey : e.ctrlKey)) {
+		if( self.isInputHidden && !self.isKeyDown(KEY_CMD,e) ){
 			e.preventDefault();
 			return;
 		}
