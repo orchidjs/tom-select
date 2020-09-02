@@ -21,7 +21,7 @@ var Selectize = function( input, settings ){
 		settings         : settings,
 		input            : input,
 		tabIndex         : input.getAttribute('tabindex') || '',
-		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
+		is_select_tag    : input.tagName.toLowerCase() === 'select',
 		rtl              : /rtl/i.test(dir),
 
 		highlightedValue : null,
@@ -185,7 +185,7 @@ Object.assign(Selectize.prototype, {
 			addClasses( [wrapper,dropdown], classes_plugins);
 		}
 
-		if ((settings.maxItems === null || settings.maxItems > 1) && self.tagType === TAG_SELECT) {
+		if ((settings.maxItems === null || settings.maxItems > 1) && self.is_select_tag ){
 			self.input.setAttribute('multiple','multiple');
 		}
 
@@ -877,7 +877,7 @@ Object.assign(Selectize.prototype, {
 	 * @returns {mixed}
 	 */
 	getValue: function() {
-		if (this.tagType === TAG_SELECT && this.input.hasAttribute('multiple')) {
+		if( this.is_select_tag && this.input.hasAttribute('multiple')) {
 			return this.items;
 		} else {
 			return this.items.join(this.settings.delimiter);
@@ -1916,7 +1916,7 @@ Object.assign(Selectize.prototype, {
 		var i, n, options, label, self = this;
 		opts = opts || {};
 
-		if (self.tagType === TAG_SELECT) {
+		if( self.is_select_tag ){
 			options = [];
 			for (i = 0, n = self.items.length; i < n; i++) {
 				label = self.options[self.items[i]][self.settings.labelField] || '';

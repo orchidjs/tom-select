@@ -19,7 +19,3 @@ const KEY_TAB			= 9;
 
 const KEY_CMD_NAME		= IS_MAC ? 'metaKey' : 'ctrlKey';
 const KEY_CTRL_NAME		= IS_MAC ? 'altKey' : 'ctrlKey';
-
-
-const TAG_SELECT		= 1;
-const TAG_INPUT			= 2;
