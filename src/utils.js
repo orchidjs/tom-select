@@ -170,19 +170,10 @@ var debounce_events = function(self, types, fn) {
  * @returns {object}
  */
 var getSelection = function(input) {
-	var result = {};
-	if ('selectionStart' in input) {
-		result.start = input.selectionStart;
-		result.length = input.selectionEnd - result.start;
-	} else if (document.selection) {
-		input.focus();
-		var sel = document.selection.createRange();
-		var selLen = document.selection.createRange().text.length;
-		sel.moveStart('character', -input.value.length);
-		result.start = sel.text.length - selLen;
-		result.length = selLen;
-	}
-	return result;
+	return {
+		start	: input.selectionStart,
+		length	: input.selectionEnd - input.selectionStart,
+	};
 };
 
 
