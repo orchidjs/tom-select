@@ -20,7 +20,7 @@
 			var test = setup_test('AB_Multi',{});
 
 			click(test.selectize.control, function() {
-				click($('[data-value=a]', $(test.selectize.dropdown_content)), function() {
+				click($('[data-value=a]', test.selectize.dropdown_content), function() {
 					expect(test.selectize.isOpen).to.be.equal(true);
 					expect(test.selectize.isFocused).to.be.equal(true);
 					done();
@@ -33,7 +33,7 @@
 			var test = setup_test('AB_Multi',{closeAfterSelect: true});
 
 			click(test.selectize.control, function() {
-				click( $('[data-value=a]', $(test.selectize.dropdown_content)), function() {
+				click( $('[data-value=a]', test.selectize.dropdown_content), function() {
 					expect(test.selectize.isOpen).to.be.equal(false);
 					expect(test.selectize.isFocused).to.be.equal(true);
 					done();
@@ -46,7 +46,7 @@
 			var test = setup_test('AB_Multi',{closeAfterSelect: true});
 
 			click(test.selectize.control, function() {
-				click($('[data-value=a]', $(test.selectize.dropdown_content)), function() {
+				click($('[data-value=a]', test.selectize.dropdown_content), function() {
 					click(test.selectize.control, function () {
 							expect(test.selectize.isOpen).to.be.equal(true);
 							expect(test.selectize.isFocused).to.be.equal(true);
@@ -63,7 +63,7 @@
 
 			click(test.selectize.control, function() {
 				expect(test.selectize.isOpen).to.be.equal(true);
-				click($('[data-value=a]', $(test.selectize.dropdown_content)), function() {
+				click($('[data-value=a]', test.selectize.dropdown_content), function() {
 					expect(test.selectize.isOpen).to.be.equal(false);
 					done();
 				});
@@ -77,7 +77,7 @@
 
 			click(test.selectize.control, function() {
 				expect(test.selectize.isFocused).to.be.equal(true);
-				click($('[data-value=a]', $(test.selectize.dropdown_content)), function() {
+				click($('[data-value=a]', test.selectize.dropdown_content), function() {
 					expect(test.selectize.isFocused).to.be.equal(false);
 					done();
 				});
@@ -182,7 +182,7 @@
 				'</select>', {});
 
 				click(test.selectize.control, function() {
-					click($('[data-value="b"]', $(test.selectize.dropdown)), function() {
+					click($('[data-value="b"]', test.selectize.dropdown), function() {
 						expect(test.selectize.input.value).to.be.equal('b');
 						expect(test.selectize.input.textContent).to.be.equal('B');
 						done();
@@ -198,7 +198,7 @@
 				'</select>', {});
 
 				click(test.selectize.control, function() {
-					click($('[data-value="b"]', $(test.selectize.dropdown)), function() {
+					click($('[data-value="b"]', test.selectize.dropdown), function() {
 						expect(test.selectize.isOpen).to.be.equal(false);
 						expect($(test.selectize.dropdown).is(':visible')).to.be.equal(false);
 						done();
@@ -218,7 +218,7 @@
 				'</select>', {});
 
 				click(test.selectize.control, function() {
-					syn.type('a', $(test.selectize.control_input))
+					syn.type('a', test.selectize.control_input)
 					.delay(0, function() {
 						expect($('[data-value="a"]', $(test.selectize.dropdown)).length).to.be.equal(1);
 						expect($('[data-value="b"]', $(test.selectize.dropdown)).length).to.be.equal(0);
@@ -235,7 +235,7 @@
 				'</select>', {});
 
 				click(test.selectize.control, function() {
-					syn.type('awaw', $(test.selectize.control_input))
+					syn.type('awaw', test.selectize.control_input)
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(false);
 						expect($(test.selectize.dropdown).is(':visible')).to.be.equal(false);
@@ -252,7 +252,7 @@
 				'</select>', {create: true});
 
 				click(test.selectize.control, function() {
-					syn.type('awaw', $(test.selectize.control_input))
+					syn.type('awaw', test.selectize.control_input)
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect($(test.selectize.dropdown).is(':visible')).to.be.equal(true);
@@ -269,9 +269,8 @@
 				'</select>', {});
 
 				click(test.selectize.control, function() {
-					syn.type('awf', $(test.selectize.control_input))
-					.type('\b\b\b', $(test.selectize.control_input))
-					.delay(0, function() {
+					syn.type('awf', test.selectize.control_input)
+					.type('\b\b\b', test.selectize.control_input, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect($(test.selectize.dropdown).is(':visible')).to.be.equal(true);
 						done();
@@ -283,8 +282,7 @@
 				var test = setup_test('<input type="text" value="a,b,c,d">', {create: true});
 
 				click(test.selectize.control, function() {
-					syn.type('[left][left]whatt', $(test.selectize.control_input))
-					.delay(0, function() {
+					syn.type('[left][left]whatt', test.selectize.control_input, function() {
 						expect(test.selectize.caretPos).to.be.equal(2);
 						done();
 					});
@@ -299,8 +297,7 @@
 				'</select>', {create: true});
 
 				click(test.selectize.control, function() {
-					syn.type('asdf,asdf', $(test.selectize.control_input))
-					.delay(0, function() {
+					syn.type('asdf,asdf', test.selectize.control_input, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect(test.selectize.options).to.not.have.property('asdf');
 						done();
@@ -317,12 +314,84 @@
 
 				click(test.selectize.control, function() {
 					// Here, the 'S' in St will also match the 's' in Isabel (a duplicate match)
-					syn.type('Isabel St', $(test.selectize.control_input))
-					.delay(0, function() {
+					syn.type('Isabel St', test.selectize.control_input, function() {
 						expect($(test.selectize.dropdown_content).find('.option[data-value=b]').text()).to.be.equal('Isabel Street');
 						done();
 					});
 				});
+			});
+
+
+			it_n('should select previous item when [ctrl][left] pressed', function(done) {
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				test.selectize.setActiveItem(test.selectize.getItem('b'));
+
+				click(test.selectize.control, function() {
+
+					syn.type('[ctrl][left][ctrl-up]', test.selectize.control_input, function() {
+						expect( test.selectize.activeItems.length ).to.be.equal(2);
+						done();
+					});
+				});
+
+			});
+
+			it_n('should select next item when [ctrl][right] pressed', function(done) {
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				test.selectize.setActiveItem(test.selectize.getItem('a'));
+
+				click(test.selectize.control, function() {
+
+					syn.type('[ctrl][right][ctrl-up]', test.selectize.control_input, function() {
+						expect( test.selectize.activeItems.length ).to.be.equal(2);
+						done();
+					});
+				});
+
+			});
+
+			it_n('should not select next item when [ctrl][right] pressed at the end of item list', function(done) {
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				test.selectize.setActiveItem(test.selectize.getItem('b'));
+
+				click(test.selectize.control, function() {
+
+					syn.type('[ctrl][right][ctrl-up]', test.selectize.control_input,function() {
+						expect( test.selectize.activeItems.length ).to.be.equal(1);
+						done();
+					});
+				});
+
+			});
+
+			it_n('should move caret before selected item when [left] pressed', function(done) {
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				test.selectize.setActiveItem(test.selectize.getItem('b'));
+
+				let last_active			= test.selectize.getLastActive();
+				expect( last_active.nextElementSibling ).to.be.equal( test.selectize.control_input );
+
+				click(test.selectize.control, function() {
+
+					syn.type('[left]', test.selectize.control_input, function() {
+						let last_active			= test.selectize.getLastActive();
+						expect( last_active.previousElementSibling ).to.be.equal( test.selectize.control_input );
+						done();
+					});
+				});
+
 			});
 
 		});
@@ -342,7 +411,7 @@
 
 				click(test.selectize.control, function() {
 					syn
-						.type('fooo', $(test.selectize.control_input))
+						.type('fooo', test.selectize.control_input)
 						.delay(0, function() {
 							expect(test.selectize.isOpen).to.be.equal(true);
 							expect($(test.selectize.dropdown).is(':visible')).to.be.equal(true);
@@ -371,8 +440,8 @@
 
 				click(selectize.control, function() {
 					syn
-						.type(text, $(selectize.control_input))
-						.type(selectize.settings.delimiter, $(selectize.control_input) )
+						.type(text, selectize.control_input)
+						.type(selectize.settings.delimiter, selectize.control_input )
 						.delay(0, function() {
 							expectation(selectize);
 							done();
