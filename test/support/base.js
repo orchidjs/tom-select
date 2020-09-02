@@ -18,8 +18,8 @@ var teardownLast = function(){
 }
 
 var test_html = {
-	AB_Multi			: '<select multiple><option value="a"></option><option value="b"></option><option value="c"></option></select>',
-	AB_Single			: '<select><option value="a"></option><option value="b"></option><option value="c"></option></select>',
+	AB_Multi			: '<select multiple><option value="a">a</option><option value="b">b</option><option value="c">c</option></select>',
+	AB_Single			: '<select><option value="a">a</option><option value="b">b</option><option value="c">c</option></select>',
 }
 
 window.setup_test = function(html, options, callback) {

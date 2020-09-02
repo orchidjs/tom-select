@@ -30,6 +30,35 @@
 		});
 
 
+		describe('restore_on_backspace', function() {
+
+			it_n('should fill control_input.value when item deleted', function(done) {
+
+				var test = setup_test('AB_Multi',{plugins:['restore_on_backspace']});
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				assert.equal( test.selectize.items.length, 2 );
+
+				syn.click(test.selectize.control_input,function(){
+					syn.type('\b', test.selectize.control_input, function() {
+
+						window.setTimeout(function(){
+							assert.equal( test.selectize.items.length, 1 );
+							assert.equal( test.selectize.items[0], 'a' );
+							assert.equal( test.selectize.control_input.value, 'b' );
+							done();
+						},100);
+
+					});
+				});
+
+			});
+
+
+
+		});
+
 	});
 
 })();

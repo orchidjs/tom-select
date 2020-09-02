@@ -99,6 +99,7 @@ module.exports = function(config) {
 			'src/selectize.js',
 			'src/defaults.js',
 			'src/plugins/remove_button/plugin.js',
+			'src/plugins/restore_on_backspace/plugin.js',
 			'test/*.js'
 		],
 		preprocessors: {
