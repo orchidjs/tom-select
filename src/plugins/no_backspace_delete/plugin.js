@@ -12,7 +12,7 @@
  *
  */
 
-Selectize.define('disable_activeitems', function(options) {
+Selectize.define('no_backspace_delete', function(options) {
 
 	this.hook('instead','setActiveItem',function(){});
 	this.hook('instead','selectAll',function(){});
@@ -22,5 +22,5 @@ Selectize.define('disable_activeitems', function(options) {
 			return false;
 		}
 	};
-	
+
 });

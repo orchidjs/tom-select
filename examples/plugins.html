@@ -70,7 +70,7 @@
 			</div>
 
 			<div class="demo">
-				<h2>Plugin: "disable_activeitems"</h2>
+				<h2>Plugin: "no_backspace_delete"</h2>
 				<div class="control-group" id="disable-wrapper" style="position:relative">
 					<label for="input-disable-active">Tags:</label>
 					<input type="text" id="input-disable-active" class="demo-default" value="awesome,neat" autocomplete="off">
@@ -78,10 +78,9 @@
 				</div>
 				<script>
 				new Selectize('#input-disable-active',{
-					plugins: ['disable_activeitems','remove_button',],
+					plugins: ['no_backspace_delete','remove_button',],
 					persist: false,
 					create: true,
-					controlInput: document.getElementById('input-disable-control'),
 					controlInput: '#input-disable-control',
 					dropdownParent: '#disable-wrapper',
 				});

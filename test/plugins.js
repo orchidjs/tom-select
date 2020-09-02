@@ -29,6 +29,33 @@
 
 		});
 
+		describe('no_backspace_delete', function() {
+
+			it_n('should not delete item on backspace', function(done) {
+
+				let test = setup_test('AB_Multi', {plugins: ['no_backspace_delete']});
+
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				test.selectize.setActiveItem(test.selectize.getItem('b'));
+
+				assert.equal( test.selectize.items.length, 2 );
+				assert.equal( test.selectize.activeItems.length, 0 );
+
+				syn.click(test.selectize.control_input,function(){
+					syn.type('\b', test.selectize.control_input, function() {
+
+						assert.equal( test.selectize.items.length, 2 );
+						done();
+
+					});
+				});
+
+			});
+
+
+		});
+
 
 		describe('restore_on_backspace', function() {
 
@@ -42,13 +69,10 @@
 
 				syn.click(test.selectize.control_input,function(){
 					syn.type('\b', test.selectize.control_input, function() {
-
-						window.setTimeout(function(){
-							assert.equal( test.selectize.items.length, 1 );
-							assert.equal( test.selectize.items[0], 'a' );
-							assert.equal( test.selectize.control_input.value, 'b' );
-							done();
-						},100);
+						assert.equal( test.selectize.items.length, 1 );
+						assert.equal( test.selectize.items[0], 'a' );
+						assert.equal( test.selectize.control_input.value, 'b' );
+						done();
 
 					});
 				});

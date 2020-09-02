@@ -102,6 +102,7 @@ module.exports = function(config) {
 			'src/plugins/restore_on_backspace/plugin.js',
 			'src/plugins/dropdown_header/plugin.js',
 			'src/plugins/optgroup_columns/plugin.js',
+			'src/plugins/no_backspace_delete/plugin.js',
 			'test/*.js'
 		],
 		preprocessors: {
