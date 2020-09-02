@@ -545,7 +545,8 @@
 					});
 
 				});
-			}
+			};
+
 			ShiftMousedown('a','c');
 			ShiftMousedown('c','a');
 
@@ -581,24 +582,29 @@
 
 			});
 
-			it_n('should remove active item when delete pressed', function(done) {
+			var DeleteActiveItem = function(keypress){
 
-				var test = setup_test('AB_Multi');
+				it_n('should remove active item when delete pressed', function(done) {
 
-				test.selectize.addItem('a');
-				test.selectize.addItem('b');
-				test.selectize.setActiveItem(test.selectize.getItem('b'));
-				assert.equal( test.selectize.items.length, 2 );
+					var test = setup_test('AB_Multi');
 
-				syn.type('\b', test.selectize.control_input, function() {
+					test.selectize.addItem('a');
+					test.selectize.addItem('b');
+					test.selectize.setActiveItem(test.selectize.getItem('b'));
+					assert.equal( test.selectize.items.length, 2 );
 
-					assert.equal( test.selectize.items.length, 1 );
-					assert.equal( test.selectize.items[0], 'a' );
-					done();
+					syn.type(keypress, test.selectize.control_input, function() {
+
+						assert.equal( test.selectize.items.length, 1 );
+						assert.equal( test.selectize.items[0], 'a' );
+						done();
+
+					});
 
 				});
-
-			});
+			};
+			DeleteActiveItem('\b');
+			DeleteActiveItem('[delete]');
 
 		});
 
