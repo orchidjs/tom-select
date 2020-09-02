@@ -1572,15 +1572,8 @@ Object.assign(Selectize.prototype, {
 			return this.renderCache['option'][value];
 		}
 
-		if( typeof value !== 'undefined' && value !== null ){
-			return;
-		}
-
 		// from existing dropdown menu dom
-		var option = this.getElementWithValue(value, this.selectable());
-		if( option ){
-			return option;
-		}
+		return this.getElementWithValue(value, this.selectable());
 	},
 
 	/**
