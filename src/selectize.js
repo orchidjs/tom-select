@@ -2187,7 +2187,7 @@ Object.assign(Selectize.prototype, {
 	setCaret: function(i) {
 		var self = this;
 
-		if (self.settings.mode === 'single') {
+		if( self.settings.mode === 'single' || self.settings.controlInput ) {
 			i = self.items.length;
 		} else {
 			i = Math.max(0, Math.min(self.items.length, i));

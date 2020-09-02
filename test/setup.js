@@ -433,22 +433,56 @@
 		describe('rtl detection', function() {
 
 			it_n('should not be rtl', function() {
-				test = setup_test('<select>', {});
+				var test = setup_test('<select>', {});
 				expect(test.selectize.rtl).to.be.equal(false);
 			});
 
 			it_n('should detect rtl', function() {
-				test = setup_test('<select dir="rtl">', {});
+				var test = setup_test('<select dir="rtl">', {});
 				expect(test.selectize.rtl).to.be.equal(true);
 			});
 
 			it_n('should detect parent rtl', function() {
-				test = setup_test('<div dir="rtl"><select class="setup-here"></select></div>', {});
+				var test = setup_test('<div dir="rtl"><select class="setup-here"></select></div>', {});
 				expect(test.selectize.rtl).to.be.equal(true);
 			});
 
 		});
 
+
+		describe('external control input', function() {
+
+			var test		= setup_test('<div><select class="setup-here"><option>a</option><option>b</option></select><input id="external-control"></div>',{controlInput:'#external-control'});
+			var $control	= test.$html.find('#external-control');
+
+			it_n('should filter options when typing in external control', function(done) {
+
+				syn.type('a',$control,function(){
+					assert.equal(test.selectize.dropdown_content.children.length, 1);
+					done();
+				});
+
+			});
+
+			it_n('should not hide external control', function() {
+				test.selectize.hideInput();
+				assert.equal(test.selectize.isInputHidden, false);
+			});
+
+
+			it_n('should not move caret position', function(done) {
+				test.selectize.addItem('a');
+				test.selectize.addItem('b');
+				var caretpos = test.selectize.caretPos;
+
+				syn.type('[left]',$control,function(){
+					assert.equal(test.selectize.caretPos, caretpos);
+					done();
+				});
+			});
+
+
+		});
 
 	});
 
