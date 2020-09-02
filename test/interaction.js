@@ -548,6 +548,38 @@
 			ShiftMousedown('a','c');
 			ShiftMousedown('c','a');
 
+
+			it_n('should toggle active item when [ctrl] + mousedown', function(done) {
+
+				var test = setup_test('AB_Multi');
+
+				test.selectize.addItem('a');
+				var itema = test.selectize.getItem('a');
+
+				assert.equal( test.selectize.activeItems.length, 0 );
+
+				// 1) activate itema
+				click(itema,function(){
+					assert.equal( test.selectize.activeItems.length, 1 );
+
+					// 2) hold ctrl down
+					syn.type('[ctrl]', test.selectize.control_input, function() {
+
+						// 3) de-activate itema with a click
+						click(itema,function(){
+							assert.equal( test.selectize.activeItems.length, 0 );
+
+							// 4) release ctrl key
+							syn.type('[ctrl-up]', test.selectize.control_input, function() {});
+							done();
+
+						});
+					});
+
+				});
+
+			});
+
 		});
 
 		describe('blurring the input', function() {
