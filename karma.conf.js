@@ -85,7 +85,7 @@ module.exports = function(config) {
 	config.set({
 		frameworks: ['mocha', 'chai'],
 		files: [
-			'dist/css/selectize.default.css',
+			'build/css/selectize.default.css',
 			'node_modules/jquery/dist/jquery.js',
 			'node_modules/microplugin/src/microplugin.js',
 			'node_modules/sifter/sifter.js',

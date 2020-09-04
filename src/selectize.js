@@ -103,7 +103,7 @@ if(typeof MicroPlugin !== "undefined"){
 }else{
 	logError("Dependency MicroPlugin is missing",
 		{explanation:
-			"Make sure you either: (1) are using the \"standalone\" "+
+			"Make sure you either: (1) are using the \"complete\" "+
 			"version of Selectize, or (2) require MicroPlugin before you "+
 			"load Selectize."}
 	);

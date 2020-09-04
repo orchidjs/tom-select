@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var themes			= ['default','bootstrap3'];
 	var link			= document.createElement('link');
 	link.setAttribute('rel','stylesheet');
-	link.setAttribute('href','../dist/css/selectize.' + theme + '.css');
+	link.setAttribute('href','../build/css/selectize.' + theme + '.css');
 	document.getElementsByTagName('head')[0].appendChild(link);
 
 
