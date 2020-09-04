@@ -11,7 +11,6 @@
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  *
- * @author Brian Reavis <brian@thirdroute.com>
  */
 
 Selectize.define('restore_on_backspace', function(options) {
@@ -21,9 +20,10 @@ Selectize.define('restore_on_backspace', function(options) {
 		return option[self.settings.labelField];
 	};
 
-	self.hook('instead','onKeyDown',function(orig_args, orig_keydown){
+	var orig_keydown = self.onKeyDown;
+
+	self.hook('instead','onKeyDown',function(evt){
 		var index, option;
-		var evt = orig_args[0];
 		if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
 			index = self.caretPos - 1;
 			if (index >= 0 && index < self.items.length) {
@@ -36,7 +36,7 @@ Selectize.define('restore_on_backspace', function(options) {
 				return;
 			}
 		}
-		return orig_keydown.apply(self, orig_args);
+		return orig_keydown.apply(self, arguments);
 	});
 
 });

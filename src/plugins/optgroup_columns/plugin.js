@@ -11,7 +11,6 @@
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  *
- * @author Simon Hewitt <si@sjhewitt.co.uk>
  */
 
 Selectize.define('optgroup_columns', function(options) {
@@ -22,13 +21,13 @@ Selectize.define('optgroup_columns', function(options) {
 		equalizeHeight : true
 	}, options);
 
+	var orig_keydown = self.onKeyDown;
 
-	self.hook('instead','onKeyDown',function(orig_args, orig_keydown ) {
+	self.hook('instead','onKeyDown',function( evt ) {
 		var index, option, options, optgroup;
-		var evt = orig_args[0];
 
 		if( !self.isOpen || !(evt.keyCode === KEY_LEFT || evt.keyCode === KEY_RIGHT)) {
-			return orig_keydown.apply(self,orig_args);
+			return orig_keydown.apply(self,arguments);
 		}
 
 		self.ignoreHover	= true;

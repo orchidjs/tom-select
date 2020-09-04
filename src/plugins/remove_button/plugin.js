@@ -11,7 +11,6 @@
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  *
- * @author Brian Reavis <brian@thirdroute.com>
  */
 
 Selectize.define('remove_button', function(options) {
@@ -34,10 +33,10 @@ Selectize.define('remove_button', function(options) {
 
 	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
-	self.hook('instead','render',function(orig_args, orig_method){
-		var rendered		= orig_method.apply(self,orig_args);
-		var templateName	= orig_args[0];
-		var data			= orig_args[1];
+	var orig_render = self.render;
+
+	self.hook('instead','render',function( templateName, data){
+		var rendered		= orig_render.apply(self,arguments);
 
 		if( templateName == 'item' ){
 			var close_button = getDom(html);

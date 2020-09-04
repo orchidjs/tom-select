@@ -2428,7 +2428,7 @@ Object.assign(Selectize.prototype, {
 	/**
 	 * Wraps this.`method` so that `new_fn` can be invoked 'before', 'after', or 'instead' of the original method
 	 *
-	 * this.hook('instead','onKeyDown',function(orig_arguments, orig_method){
+	 * this.hook('instead','onKeyDown',function( arg1, arg2 ...){
 	 *
 	 * });
 	 *
@@ -2448,9 +2448,9 @@ Object.assign(Selectize.prototype, {
 				result = orig_method.apply(self, arguments);
 			}
 
-			result_new = new_fn.call(self, arguments, orig_method );
+			result_new = new_fn.apply(self, arguments );
 
-			if( when == 'instead' ){
+			if( when === 'instead' ){
 				return result_new;
 			}
 

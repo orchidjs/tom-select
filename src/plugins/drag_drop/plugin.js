@@ -11,7 +11,6 @@
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  *
- * @author Brian Reavis <brian@thirdroute.com>
  */
 
 Selectize.define('drag_drop', function(options) {
@@ -19,19 +18,22 @@ Selectize.define('drag_drop', function(options) {
 	if (this.settings.mode !== 'multi') return;
 	var self = this;
 
-	self.hook('instead','lock',function(orig_args, orig_method){
+	var orig_lock		= self.lock;
+	var orig_unlock		= self.unlock;
+
+	self.hook('instead','lock',function(){
 		var sortable = self.control.dataset.sortable;
 		if (sortable) sortable.disable();
-		return orig_method.apply(self, orig_args);
+		return orig_lock.apply(self, arguments);
 	});
 
-	self.hook('instead','unlock',function(orig_args, orig_method){
+	self.hook('instead','unlock',function(){
 		var sortable = self.control.dataset.sortable;
 		if (sortable) sortable.enable();
-		return orig_method.apply(self, orig_args);
+		return orig_unlock.apply(self, arguments);
 	});
 
-	self.hook('after','setup',function(orig_args, orig_method){
+	self.hook('after','setup',function(){
 		var $control = $(self.control).sortable({
 			items: '[data-value]',
 			forcePlaceholderSize: true,
