@@ -1,3 +1,5 @@
 # jekyll config
 include:
     dist
+
+theme: jekyll-theme-cayman
