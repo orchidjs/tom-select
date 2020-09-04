@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var themes			= ['default','bootstrap3'];
 	var link			= document.createElement('link');
 	link.setAttribute('rel','stylesheet');
-	link.setAttribute('href','../build/css/selectize.' + theme + '.css');
+	link.setAttribute('href','../dist/css/selectize.' + theme + '.css');
 	document.getElementsByTagName('head')[0].appendChild(link);
 
 
@@ -31,8 +31,16 @@ document.addEventListener('DOMContentLoaded', function() {
 	var demos = document.querySelectorAll('.demo');
 	for(let i = 0; i < demos.length; i++){
 
-		ShowValue(demos[i]);
-		ShowScript(demos[i]);
+		let demo	= demos[i];
+
+		ShowValue(demo);
+
+		let div		= document.createElement('div');
+		demo.appendChild(div);
+		div.style.display = 'flex';
+
+		ShowScript(demo,div);
+		ShowHtml(demo,div);
 
 	}
 
@@ -41,7 +49,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	 * Display demo script
 	 *
 	 */
-	function ShowScript(demo){
+	function ShowScript(demo,appendto){
+
+		let div		= document.createElement('div');
+		div.style.flexGrow = 1;
+		div.style.margin = '1rem';
+		appendto.appendChild(div);
+		div.innerHTML = '<h4 style="margin:0">JavaScript</h4>';
 
 		var scripts = demo.querySelectorAll('script');
 		for(let i = 0; i < scripts.length; i++){
@@ -66,13 +80,53 @@ document.addEventListener('DOMContentLoaded', function() {
 				let pre		= document.createElement('pre');
 				pre.classList.add('js');
 				pre.textContent = code;
-				demo.appendChild(pre);
-				//script.insertAdjacentElement('afterend', pre);
+				div.appendChild(pre);
 			}
 
 		}
 	}
 
+
+	/**
+	 * Display demo script
+	 *
+	 */
+	function ShowHtml(demo,appendto){
+
+		let div		= document.createElement('div');
+		div.style.flexGrow = 1;
+		div.style.margin = '1rem';
+		appendto.appendChild(div);
+		div.innerHTML = '<h4 style="margin:0">HTML</h4>';
+
+		var inputs = demo.querySelectorAll('input,select');
+		for(let i = 0; i < inputs.length; i++){
+			let input	= inputs[i];
+			let code = input.outerHTML;
+			if (code && code.length) {
+				let lines = code.split('\n');
+				let indent = null;
+
+				for (let j = 0; j < lines.length; j++) {
+					if (/^[	 ]*$/.test(lines[j])) continue;
+					if (!indent) {
+						let lineindent = lines[j].match(/^([ 	]+)/);
+						if (!lineindent) break;
+						indent = lineindent[1];
+					}
+					lines[j] = lines[j].replace(new RegExp('^' + indent), '');
+				}
+
+				code = lines.join('\n').trim().replace(/	/g, '    ');
+
+				let pre		= document.createElement('pre');
+				pre.classList.add('js');
+				pre.textContent = code;
+				div.appendChild(pre);
+			}
+
+		}
+	}
 
 	/**
 	 * Show current input values
