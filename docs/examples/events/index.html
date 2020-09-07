@@ -69,15 +69,6 @@
 	
 		
 		  
-		<a class="nav-link px-0 " href="/examples/prompt/">
-
-		
-			Delete Prompt
-		
-		</a>
-	
-		
-		  
 		<a class="nav-link px-0 " href="/examples/contacts/">
 
 		
@@ -434,6 +425,82 @@ new Selectize(&#39;#select-state&#39;,{
 &lt;/select&gt;
 &lt;h3&gt;Event Log&lt;/h3&gt;
 &lt;pre id=&quot;log&quot;&gt;&lt;/pre&gt;
+
+				  </textarea>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	<div class="demo border-bottom py-5">
+
+		
+<label class="h2 mb-3" for="input-tags">
+	onDelete Prompt
+</label>
+
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="demo-html">
+				
+<input id="input-tags" class="demo-default" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+
+			</div>
+			<script>
+new Selectize("#input-tags",{
+	delimiter: ",",
+	persist: false,
+	onDelete: function(values) {
+		return confirm(values.length > 1 ? "Are you sure you want to remove these " + values.length + " items?" : "Are you sure you want to remove " + values[0] + "?");
+	}
+});
+</script>
+			<style></style>
+		</div>
+		<div class="col-lg-6">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
+				  <textarea class="form-control" readonly rows="7">
+new Selectize(&quot;#input-tags&quot;,{
+	delimiter: &quot;,&quot;,
+	persist: false,
+	onDelete: function(values) {
+		return confirm(values.length &gt; 1 ? &quot;Are you sure you want to remove these &quot; + values.length + &quot; items?&quot; : &quot;Are you sure you want to remove &quot; + values[0] + &quot;?&quot;);
+	}
+});
+
+				  </textarea>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+				  <textarea class="form-control" readonly rows="7">
+&lt;input id=&quot;input-tags&quot; class=&quot;demo-default&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot; placeholder=&quot;How cool is this?&quot;&gt;
 
 				  </textarea>
 			  </div>

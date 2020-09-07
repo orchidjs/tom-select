@@ -215,7 +215,7 @@ module.exports = function(grunt) {
 		connect: {
 			server:{
 				options: {
-					base: '_pages',
+					base: 'docs',
 				}
 			}
 		},

@@ -97,3 +97,27 @@ new Selectize('#select-state',{
 </script>
 
 {{ demo( label, html, script ) }}
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="input-tags">
+	onDelete Prompt
+</label>
+{% endset %}
+
+{% set html %}
+<input id="input-tags" class="demo-default" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+{% endset %}
+
+{% set script %}
+new Selectize("#input-tags",{
+	delimiter: ",",
+	persist: false,
+	onDelete: function(values) {
+		return confirm(values.length > 1 ? "Are you sure you want to remove these " + values.length + " items?" : "Are you sure you want to remove " + values[0] + "?");
+	}
+});
+{% endset %}
+
+{{ demo( label, html, script) }}
