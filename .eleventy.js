@@ -20,7 +20,7 @@ module.exports = function(eleventyConfig) {
 		});
 	});
 
-	let markdownIt = require("markdown-it");
+	let markdownIt = require('markdown-it');
 	let options = {
 		html: true,
 		breaks: false,
@@ -29,10 +29,19 @@ module.exports = function(eleventyConfig) {
 
 	md = markdownIt(options)
 	let orig_normalizeLink = md.normalizeLink;
+	console.log('md.normalizeLink',md.normalizeLink);
 	md.normalizeLink = function(url){
+
+		// change "usage.md" to "usage"
 		if( url.substr(-3) === '.md' ){
 			url = url.substr(0,url.length - 3);
 		}
+
+		// change "usage" to "../usage"
+		if( url.indexOf(':') == -1 && url.indexOf('/') != 0 && url.indexOf('#') == -1 ){
+			url = '../'+url;
+		}
+
 		return orig_normalizeLink.call(this,url);
 	}
 
