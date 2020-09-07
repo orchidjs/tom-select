@@ -10,16 +10,33 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({'dist/css/selectize.default.css':'css/selectize.default.css'});
 
 
-    eleventyConfig.addCollection('demosAlpha', function(collection) {
-        return collection.getFilteredByGlob("doc_src/pages/examples/*.njk").sort(function(a, b) {
-            let nameA = a.data.title.toUpperCase();
-            let nameB = b.data.title.toUpperCase();
-            if (nameA < nameB) return -1;
-            else if (nameA > nameB) return 1;
-            else return 0;
-        });
-    });
+	eleventyConfig.addCollection('demosAlpha', function(collection) {
+		return collection.getFilteredByGlob("doc_src/pages/examples/*.njk").sort(function(a, b) {
+			let nameA = a.data.title.toUpperCase();
+			let nameB = b.data.title.toUpperCase();
+			if (nameA < nameB) return -1;
+			else if (nameA > nameB) return 1;
+			else return 0;
+		});
+	});
 
+	let markdownIt = require("markdown-it");
+	let options = {
+		html: true,
+		breaks: false,
+		//linkify: true
+	};
+
+	md = markdownIt(options)
+	let orig_normalizeLink = md.normalizeLink;
+	md.normalizeLink = function(url){
+		if( url.substr(-3) === '.md' ){
+			url = url.substr(0,url.length - 3);
+		}
+		return orig_normalizeLink.call(this,url);
+	}
+
+	eleventyConfig.setLibrary('md', md );
 
 	return {
 		dir: {
