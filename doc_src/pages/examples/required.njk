@@ -1,0 +1,45 @@
+---
+title: Required Input Example
+nav_title: Required Input
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+{% set label %}
+<label class="h2 mb-3" for="select-beast">
+	Required &lt;input&gt;
+</label>
+{% endset %}
+
+{% set html %}
+<form>
+	<select id="select-beast" required class="demo-default"
+		placeholder="Select a person..." name="beast">
+		<option value="">Select a person...</option>
+		<option value="4">Thomas Edison</option>
+		<option value="1">Nikola</option>
+		<option value="3">Nikola Tesla</option>
+		<option value="5">Arnold Schwarzenegger</option>
+	</select>
+	<div style="margin-top:20px">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+{% endset %}
+
+
+<script>
+{% set script %}
+new Selectize('#select-beast',{
+	create: true,
+	sortField: {
+		field: 'text',
+		direction: 'asc'
+	}
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

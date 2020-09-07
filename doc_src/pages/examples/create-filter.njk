@@ -1,0 +1,83 @@
+---
+title: Item Creation Examples
+nav_title: Item Creation
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-words-regex">
+	Regex Filter
+</label>
+{% endset %}
+
+{% set html %}
+<select id="select-words-regex" multiple placeholder="Enter a word matching the pattern..."></select>
+<div class="control-group">
+	<label for="regex">Pattern</label>
+	<input type="text" id="regex" value="^a+$"><br><br>
+</div>
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#select-words-regex',{
+	create: true,
+	createFilter: $('#regex').val()
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script, style) }}
+
+{% set label %}
+<label class="h2 mb-3" for="select-words-length">
+	Minimum Length
+</label>
+{% endset %}
+
+{% set html %}
+<select id="select-words-length" multiple placeholder="Enter a word longer than the minimum number of characters..."></select>
+<input id="length" value="2" />
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#select-words-length',{
+	create: true,
+	createFilter: function(input) { return input.length >= parseInt($('#length').val(), 10); }
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script, style) }}
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-words-unique">
+	Unique Words
+</label>
+{% endset %}
+
+{% set html %}
+<select id="select-words-unique" multiple placeholder="Enter unique words (case-insensitive)..."></select>
+{% endset %}
+
+<script>
+{% set script %}
+var unique = new Selectize('#select-words-unique',{
+	create: true,
+	createFilter: function(input) {
+		input = input.toLowerCase();
+		return $.grep(unique.getValue(), function(value) {
+			return value.toLowerCase() === input;
+		}).length == 0;
+	}
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script, style) }}

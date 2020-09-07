@@ -1,0 +1,184 @@
+---
+title: Options Array Example
+nav_title: Options Array
+tags: demo
+---
+
+{% from "demo.njk" import demo %}
+
+{% set label %}
+<label class="h2 mb-3" for="select-tools">
+	JavaScript Array
+</label>
+<p>The options are created from an array in JavaScript.</p>
+{% endset %}
+
+{% set html %}
+<select id="select-tools" placeholder="Pick a tool..."></select>
+{% endset %}
+
+
+<script>
+{% set script %}
+
+new Selectize('#select-tools',{
+	maxItems: null,
+	valueField: 'id',
+	labelField: 'title',
+	searchField: 'title',
+	options: [
+		{id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers'},
+		{id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart'},
+		{id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape'}
+	],
+	create: false
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+<style type="text/css">
+{% set style %}
+
+.selectize-control.repositories .selectize-dropdown > div {
+	border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.selectize-control.repositories .selectize-dropdown .by {
+	font-size: 11px;
+	opacity: 0.8;
+}
+.selectize-control.repositories .selectize-dropdown .by::before {
+	content: 'by ';
+}
+.selectize-control.repositories .selectize-dropdown .name {
+	font-weight: bold;
+	margin-right: 5px;
+}
+.selectize-control.repositories .selectize-dropdown .title {
+	display: block;
+}
+.selectize-control.repositories .selectize-dropdown .description {
+	font-size: 12px;
+	display: block;
+	color: #a0a0a0;
+	white-space: nowrap;
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.selectize-control.repositories .selectize-dropdown .meta {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 10px;
+}
+.selectize-control.repositories .selectize-dropdown .meta li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	margin-right: 10px;
+}
+.selectize-control.repositories .selectize-dropdown .meta li span {
+	font-weight: bold;
+}
+.selectize-control.repositories::before {
+	-moz-transition: opacity 0.2s;
+	-webkit-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+	content: ' ';
+	z-index: 2;
+	position: absolute;
+	display: block;
+	top: 12px;
+	right: 34px;
+	width: 16px;
+	height: 16px;
+	background: url(images/spinner.gif);
+	background-size: 16px 16px;
+	opacity: 0;
+}
+.selectize-control.repositories.loading::before {
+	opacity: 0.4;
+}
+.icon {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	vertical-align: middle;
+	background-size: 16px 16px;
+	margin: 0 3px 0 0;
+}
+.icon.fork {
+	background-image: url(images/repo-fork.png);
+}
+.icon.source {
+	background-image: url(images/repo-source.png);
+}
+{% endset %}
+</style>
+
+{% set label %}
+<label class="h2 mb-3" for="select-repo">
+	Ajax Loading + Custom Scoring
+</label>
+<p>This demo shows how to integrate third-party data and override the scoring method.</p>
+{% endset %}
+
+
+
+{% set html %}
+<select id="select-repo" class="repositories" placeholder="Pick a repository..."></select>
+{% endset %}
+
+
+<script>
+{% set script %}
+new Selectize('#select-repo',{
+		valueField: 'url',
+		labelField: 'name',
+		searchField: 'name',
+		options: [],
+		create: false,
+		render: {
+			option: function(item, escape) {
+				return '<div>' +
+					'<span class="title">' +
+						'<span class="name"><i class="icon ' + (item.fork ? 'fork' : 'source') + '"></i>' + escape(item.name) + '</span>' +
+						'<span class="by">' + escape(item.username) + '</span>' +
+					'</span>' +
+					'<span class="description">' + escape(item.description) + '</span>' +
+					'<ul class="meta">' +
+						(item.language ? '<li class="language">' + escape(item.language) + '</li>' : '') +
+						'<li class="watchers"><span>' + escape(item.watchers) + '</span> watchers</li>' +
+						'<li class="forks"><span>' + escape(item.forks) + '</span> forks</li>' +
+					'</ul>' +
+				'</div>';
+			}
+		},
+		score: function(search) {
+			var score = this.getScoreFunction(search);
+			return function(item) {
+				return score(item) * (1 + Math.min(item.watchers / 100, 1));
+			};
+		},
+		load: function(query, callback) {
+			if (!query.length) return callback();
+			$.ajax({
+				url: 'https://api.github.com/legacy/repos/search/' + encodeURIComponent(query),
+				type: 'GET',
+				error: function() {
+					callback();
+				},
+				success: function(res) {
+					callback(res.repositories.slice(0, 10));
+				}
+			});
+		}
+	});
+{% endset %}
+</script>
+
+{{ demo( label, html, script, style) }}

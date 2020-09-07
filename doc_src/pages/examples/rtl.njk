@@ -1,0 +1,58 @@
+---
+title: Right-to-left Example
+nav_title: RTL
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+{% set label %}
+<label class="h2 mb-3" for="input-tags">
+	RTL Input
+</label>
+{% endset %}
+
+{% set html %}
+<div dir="rtl">
+<input type="text" id="input-tags" class="demo-default" value="awesome,neat">
+</div>
+{% endset %}
+
+
+<script>
+{% set script %}
+new Selectize('#input-tags',{
+	persist: false,
+	create: true
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-beast">
+	RTL Select
+</label>
+{% endset %}
+
+{% set html %}
+<select id="select-beast" class="demo-default" placeholder="Select a person..." dir="rtl">
+	<option value="">Select a person...</option>
+	<option value="4">Thomas Edison</option>
+	<option value="1">Nikola</option>
+	<option value="3">Nikola Tesla</option>
+	<option value="5">Arnold Schwarzenegger</option>
+</select>
+{% endset %}
+
+
+<script>
+{% set script %}
+new Selectize('#select-beast');
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

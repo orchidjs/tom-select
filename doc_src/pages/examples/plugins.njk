@@ -1,0 +1,234 @@
+---
+title: Plugin Examples
+nav_title: Plugins
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+{% set label %}
+<label class="h2 mb-3" for="input-autogrow">
+	input_autogrow
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-autogrow" class="demo-default" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#input-autogrow',{
+	plugins: ['input_autogrow'],
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="input-tags">
+	remove_button
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-tags" class="input-tags demo-default" value="awesome,neat" autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#input-tags',{
+	plugins: ['remove_button'],
+	persist: false,
+	create: true,
+	onDelete: function(values) {
+		return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
+	}
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="input-tags2">
+	remove_button (Single)
+</label>
+{% endset %}
+
+{% set html %}
+<select id="input-tags2" class="demo-default" value="awesome" autocomplete="off">
+	<option>awesome</option>
+	<option>neat</option>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#input-tags2',{
+	plugins: ['remove_button'],
+	persist: false,
+	create: true,
+	maxItems: 1,
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="disable-backspace">
+	remove_button &amp; no_backspace_delete
+</label>
+{% endset %}
+
+{% set html %}
+<div id="disable-wrapper">
+<input type="text" id="disable-backspace" class="demo-default" value="awesome,neat" autocomplete="off">
+<input type="text" id="input-disable-control" class="demo-default form-control mt-2"  autocomplete="off" placeholder="How cool is this?" >
+</div>
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#disable-backspace',{
+	plugins: ['no_backspace_delete','remove_button',],
+	persist: false,
+	create: true,
+	controlInput: '#input-disable-control',
+	dropdownParent: '#disable-wrapper',
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="input-tags6">
+	restore_on_backspace
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-tags6" class="demo-default" value="awesome,neat" autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#input-tags6',{
+	plugins: ['restore_on_backspace'],
+	persist: false,
+	create: true
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="input-sortable">
+	drag_drop
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-sortable" class="input-sortable demo-default" value="drag,these,items,around" autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#input-sortable',{
+	plugins: ['drag_drop'],
+	persist: false,
+	create: true
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-code-language">
+	dropdown_header
+</label>
+{% endset %}
+
+{% set html %}
+<select id="select-code-language" class="demo-code-language" placeholder="Select a language..." autocomplete="off">
+	<option value="txt">Text</option>
+	<option value="md">Markdown</option>
+	<option value="html">HTML</option>
+	<option value="php">PHP</option>
+	<option value="python">Python</option>
+	<option value="java">Java</option>
+	<option value="js" selected>JavaScript</option>
+	<option value="c#">Ruby</option>
+	<option value="c#">VHDL</option>
+	<option value="c#">Verilog</option>
+	<option value="c#">C#</option>
+	<option value="c++">C/C++</option>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#select-code-language',{
+	sortField: 'text',
+	hideSelected: false,
+	plugins: {
+		'dropdown_header': {
+			title: 'Language'
+		}
+	}
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

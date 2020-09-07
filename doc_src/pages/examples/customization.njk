@@ -1,0 +1,78 @@
+---
+title: Customizing HTML
+nav_title: Custom HTML
+tags: demo
+---
+
+{% from "demo.njk" import demo %}
+
+{% set label %}
+<label class="h2 mb-3" for="select-links">
+	Customizing Appearance
+</label>
+<p>Render items on your own &amp; apply unique CSS styles.</p>
+{% endset %}
+
+{% set html %}
+<select id="select-links" placeholder="Pick some links..."></select>
+{% endset %}
+
+<style type="text/css">
+{% set style %}
+.selectize-control .option .title {
+	display: block;
+}
+.selectize-control .option .url {
+	font-size: 12px;
+	display: block;
+	color: #a0a0a0;
+}
+.selectize-control .item a {
+	color: #006ef5;
+}
+.selectize-control .item.active a {
+	color: #303030;
+}
+{% endset %}
+</style>
+
+
+<script>
+{% set script %}
+
+new Selectize('#select-links',{
+	theme: 'links',
+	maxItems: null,
+	valueField: 'id',
+	searchField: 'title',
+	itemClass: 'item',
+	optionClass: 'option',
+	options: [
+		{id: 1, title: 'DIY', url: 'https://diy.org'},
+		{id: 2, title: 'Google', url: 'http://google.com'},
+		{id: 3, title: 'Yahoo', url: 'http://yahoo.com'},
+	],
+	render: {
+		option: function(data, escape) {
+			return '<div>' +
+					'<span class="title">' + escape(data.title) + '</span>' +
+					'<span class="url">' + escape(data.url) + '</span>' +
+				'</div>';
+		},
+		item: function(data, escape) {
+			return '<div><a href="' + escape(data.url) + '">' + escape(data.title) + '</a></div>';
+		}
+	},
+	create: function(input) {
+		return {
+			id: 0,
+			title: input,
+			url: '#'
+		};
+	}
+});
+{% endset %}
+</script>
+
+
+{{ demo( label, html, script, style) }}

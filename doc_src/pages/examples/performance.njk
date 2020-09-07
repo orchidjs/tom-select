@@ -1,0 +1,49 @@
+---
+title: Large Dataset Performance
+nav_title: Large Dataset
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-junk">
+	Performance
+</label>
+<p>This shows how it performs with 25,000 items.</p>{% endset %}
+
+{% set html %}
+<select id="select-junk" placeholder="Start Typing..."></select>
+{% endset %}
+
+<script>
+{% set script %}
+var letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV';
+var options = [];
+for (var i = 0; i < 25000; i++) {
+	var title = [];
+	for (var j = 0; j < 8; j++) {
+		title.push(letters.charAt(Math.round((letters.length - 1) * Math.random())));
+	}
+	options.push({
+		id: i,
+		title: title.join('')
+	});
+}
+
+new Selectize('#select-junk',{
+	maxItems: null,
+	maxOptions: 100,
+	valueField: 'id',
+	labelField: 'title',
+	searchField: 'title',
+	sortField: 'title',
+	options: options,
+	create: false
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

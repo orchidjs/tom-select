@@ -1,0 +1,718 @@
+
+
+
+
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Basic Examples - Orchid Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<!-- <link rel="stylesheet" href="/css/github-primer.css"> -->
+		<link rel="stylesheet" href="/css/stylesheet.css">
+
+        <script>var demos = [];</script>
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/jqueryui.js"></script>
+		<script src="/js/selectize.complete.js"></script>
+		<script src="/js/index.js"></script>
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-3 col-xl-2 d-flex flex-column text-left bg-light border-right">
+
+					<a href="/" class="d-block"><img src="/images/flower.svg" style="height:110px"></a>
+
+				</div>
+				<div class="col-md-9 col-xl-10">
+					<div class="mt-3 mb-4">
+						<div class="container">
+							<h1 class="display-4">Basic Examples</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right px-4">
+					
+	
+	
+
+
+	<h5 class="mt-3 mb-2">Examples</h5>
+	<nav class="nav flex-column">
+		
+		  
+		<a class="nav-link px-0 " href="/examples/basic/">
+
+		
+			Basic
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/customization/">
+
+		
+			Custom HTML
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/prompt/">
+
+		
+			Delete Prompt
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/contacts/">
+
+		
+			Email Contacts
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/create-filter/">
+
+		
+			Item Creation
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/api/">
+
+		
+			JavaScript API
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/events/">
+
+		
+			JavaScript Event
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/performance/">
+
+		
+			Large Dataset
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/lock/">
+
+		
+			Locking
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/optgroups/">
+
+		
+			Option Groups
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/options/">
+
+		
+			Options Array
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/plugins/">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/required/">
+
+		
+			Required Input
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link px-0 " href="/examples/rtl/">
+
+		
+			RTL
+		
+		</a>
+	
+		
+	</nav>
+
+
+	<h5 class="mt-3 mb-2">Documentation</h5>
+	<nav class="nav flex-column">
+		
+		<a class="nav-link px-0 " href="/usage">
+
+		
+			Usage
+		
+		</a>
+	
+		
+		<a class="nav-link px-0 " href="/api">
+
+		
+			API
+		
+		</a>
+	
+		
+		<a class="nav-link px-0 " href="/plugins">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		<a class="nav-link px-0 " href="/events">
+
+		
+			Events
+		
+		</a>
+	
+		
+		<a class="nav-link px-0 " href="/selectize">
+
+		
+			selectize.js
+		
+		</a>
+	
+	</nav>
+
+	<div class="py-5">
+		<a href="https://github.com/orchidjs/orchid-select/doc_src/blob/master/./doc_src/pages/examples/basic.njk">Edit this page on GitHub</a>
+		<div class="mt-3">© 2020 OrchidJS</div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-xl-10">
+					<div class="container mt-3" id="main-container">
+					
+
+
+
+
+
+	
+
+	<div class="demo border-bottom py-5">
+
+		<label class="h2 mb-3" for="input-tags">
+		&lt;input&gt;
+	</label>
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="demo-html">
+				<input id="input-tags" class="demo-default" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+			</div>
+			<script>new Selectize("#input-tags",{
+	persist: false,
+	createOnBlur: true,
+	create: true
+});</script>
+			<style></style>
+		</div>
+		<div class="col-lg-6">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+				  <textarea class="form-control" readonly rows="7">new Selectize(&quot;#input-tags&quot;,{
+	persist: false,
+	createOnBlur: true,
+	create: true
+});
+				  </textarea>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+				  <textarea class="form-control" readonly rows="7">&lt;input id=&quot;input-tags&quot; class=&quot;demo-default&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot; placeholder=&quot;How cool is this?&quot;&gt;
+				  </textarea>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+
+	
+
+	<div class="demo border-bottom py-5">
+
+		<label class="h2 mb-3" for="input-tags">
+			&lt;select&gt;
+		</label>
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="demo-html">
+				<select id="select-beast" class="demo-default" placeholder="Select a person..." autocomplete="off">
+			<option value="">Select a person...</option>
+			<option value="4">Thomas Edison</option>
+			<option value="1">Nikola</option>
+			<option value="3">Nikola Tesla</option>
+			<option value="5">Arnold Schwarzenegger</option>
+		</select>
+			</div>
+			<script>new Selectize("#select-beast",{
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc"
+	},
+	dropdownParent: "body"
+});</script>
+			<style></style>
+		</div>
+		<div class="col-lg-6">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
+				  <textarea class="form-control" readonly rows="7">new Selectize(&quot;#select-beast&quot;,{
+	create: true,
+	sortField: {
+		field: &quot;text&quot;,
+		direction: &quot;asc&quot;
+	},
+	dropdownParent: &quot;body&quot;
+});
+				  </textarea>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+				  <textarea class="form-control" readonly rows="7">&lt;select id=&quot;select-beast&quot; class=&quot;demo-default&quot; placeholder=&quot;Select a person...&quot; autocomplete=&quot;off&quot;&gt;
+			&lt;option value=&quot;&quot;&gt;Select a person...&lt;/option&gt;
+			&lt;option value=&quot;4&quot;&gt;Thomas Edison&lt;/option&gt;
+			&lt;option value=&quot;1&quot;&gt;Nikola&lt;/option&gt;
+			&lt;option value=&quot;3&quot;&gt;Nikola Tesla&lt;/option&gt;
+			&lt;option value=&quot;5&quot;&gt;Arnold Schwarzenegger&lt;/option&gt;
+		&lt;/select&gt;
+				  </textarea>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+	
+
+	<div class="demo border-bottom py-5">
+
+		<label class="h2 mb-3" for="select-beast-empty">
+			&lt;select&gt; (allow empty)
+		</label>
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="demo-html">
+				<select id="select-beast-empty" class="demo-default" data-placeholder="Select a person..."  autocomplete="off">
+				<option value="">None</option>
+				<option value="4">Thomas Edison</option>
+				<option value="1">Nikola</option>
+				<option value="3">Nikola Tesla</option>
+				<option value="5">Arnold Schwarzenegger</option>
+			</select>
+			</div>
+			<script>new Selectize("#select-beast-empty",{
+	allowEmptyOption: true,
+	create: true
+});</script>
+			<style></style>
+		</div>
+		<div class="col-lg-6">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-3" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-3" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-3" role="tabpanel" aria-labelledby="home-tab">
+				  <textarea class="form-control" readonly rows="7">new Selectize(&quot;#select-beast-empty&quot;,{
+	allowEmptyOption: true,
+	create: true
+});
+				  </textarea>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-3" role="tabpanel" aria-labelledby="profile-tab">
+				  <textarea class="form-control" readonly rows="7">&lt;select id=&quot;select-beast-empty&quot; class=&quot;demo-default&quot; data-placeholder=&quot;Select a person...&quot;  autocomplete=&quot;off&quot;&gt;
+				&lt;option value=&quot;&quot;&gt;None&lt;/option&gt;
+				&lt;option value=&quot;4&quot;&gt;Thomas Edison&lt;/option&gt;
+				&lt;option value=&quot;1&quot;&gt;Nikola&lt;/option&gt;
+				&lt;option value=&quot;3&quot;&gt;Nikola Tesla&lt;/option&gt;
+				&lt;option value=&quot;5&quot;&gt;Arnold Schwarzenegger&lt;/option&gt;
+			&lt;/select&gt;
+				  </textarea>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+	
+
+	<div class="demo border-bottom py-5">
+
+		<label class="h2 mb-3" for="select-beast-disabled">
+			&lt;select disabled&gt;
+		</label>
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="demo-html">
+				<select id="select-beast-disabled" class="demo-default" disabled placeholder="Select a person..."  autocomplete="off">
+			<option value="">Select a person...</option>
+			<option value="4">Thomas Edison</option>
+			<option value="1">Nikola</option>
+			<option value="3" selected>Nikola Tesla</option>
+		</select>
+			</div>
+			<script>new Selectize("#select-beast-disabled");</script>
+			<style></style>
+		</div>
+		<div class="col-lg-6">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-4" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-4" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-4" role="tabpanel" aria-labelledby="home-tab">
+				  <textarea class="form-control" readonly rows="7">new Selectize(&quot;#select-beast-disabled&quot;);
+				  </textarea>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-4" role="tabpanel" aria-labelledby="profile-tab">
+				  <textarea class="form-control" readonly rows="7">&lt;select id=&quot;select-beast-disabled&quot; class=&quot;demo-default&quot; disabled placeholder=&quot;Select a person...&quot;  autocomplete=&quot;off&quot;&gt;
+			&lt;option value=&quot;&quot;&gt;Select a person...&lt;/option&gt;
+			&lt;option value=&quot;4&quot;&gt;Thomas Edison&lt;/option&gt;
+			&lt;option value=&quot;1&quot;&gt;Nikola&lt;/option&gt;
+			&lt;option value=&quot;3&quot; selected&gt;Nikola Tesla&lt;/option&gt;
+		&lt;/select&gt;
+				  </textarea>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+	
+
+	<div class="demo border-bottom py-5">
+
+		<label class="h2 mb-3" for="select-beast-single-disabled">
+			&lt;select&gt; &lt;option disabled&gt;
+		</label>
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="demo-html">
+				<select id="select-beast-single-disabled" class="demo-default" placeholder="Select a person..." autocomplete="off">
+			<option value="">Select a person...</option>
+			<option value="4" disabled>Thomas Edison</option>
+			<option value="1">Nikola</option>
+			<option value="3" selected>Nikola Tesla</option>
+		</select>
+			</div>
+			<script>new Selectize("#select-beast-single-disabled",{
+	create: true,
+	sortField: {field: "text"}
+});</script>
+			<style></style>
+		</div>
+		<div class="col-lg-6">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-5" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-5" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-5" role="tabpanel" aria-labelledby="home-tab">
+				  <textarea class="form-control" readonly rows="7">new Selectize(&quot;#select-beast-single-disabled&quot;,{
+	create: true,
+	sortField: {field: &quot;text&quot;}
+});
+				  </textarea>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-5" role="tabpanel" aria-labelledby="profile-tab">
+				  <textarea class="form-control" readonly rows="7">&lt;select id=&quot;select-beast-single-disabled&quot; class=&quot;demo-default&quot; placeholder=&quot;Select a person...&quot; autocomplete=&quot;off&quot;&gt;
+			&lt;option value=&quot;&quot;&gt;Select a person...&lt;/option&gt;
+			&lt;option value=&quot;4&quot; disabled&gt;Thomas Edison&lt;/option&gt;
+			&lt;option value=&quot;1&quot;&gt;Nikola&lt;/option&gt;
+			&lt;option value=&quot;3&quot; selected&gt;Nikola Tesla&lt;/option&gt;
+		&lt;/select&gt;
+				  </textarea>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+	
+
+	<div class="demo border-bottom py-5">
+
+		<label class="h2 mb-3" for="select-state">
+			&lt;select multiple&gt;
+		</label>
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="demo-html">
+				<select id="select-state" name="state[]" multiple class="demo-default" placeholder="Select a state..." autocomplete="off">
+			<option value="">Select a state...</option>
+			<option value="AL">Alabama</option>
+			<option value="AK">Alaska</option>
+			<option value="AZ">Arizona</option>
+			<option value="AR">Arkansas</option>
+			<option value="CA" selected>California</option>
+			<option value="CO">Colorado</option>
+			<option value="CT">Connecticut</option>
+			<option value="DE">Delaware</option>
+			<option value="DC">District of Columbia</option>
+			<option value="FL">Florida</option>
+			<option value="GA">Georgia</option>
+			<option value="HI">Hawaii</option>
+			<option value="ID">Idaho</option>
+			<option value="IL">Illinois</option>
+			<option value="IN">Indiana</option>
+			<option value="IA">Iowa</option>
+			<option value="KS">Kansas</option>
+			<option value="KY">Kentucky</option>
+			<option value="LA">Louisiana</option>
+			<option value="ME">Maine</option>
+			<option value="MD">Maryland</option>
+			<option value="MA">Massachusetts</option>
+			<option value="MI">Michigan</option>
+			<option value="MN">Minnesota</option>
+			<option value="MS">Mississippi</option>
+			<option value="MO">Missouri</option>
+			<option value="MT">Montana</option>
+			<option value="NE">Nebraska</option>
+			<option value="NV">Nevada</option>
+			<option value="NH">New Hampshire</option>
+			<option value="NJ">New Jersey</option>
+			<option value="NM">New Mexico</option>
+			<option value="NY">New York</option>
+			<option value="NC">North Carolina</option>
+			<option value="ND">North Dakota</option>
+			<option value="OH">Ohio</option>
+			<option value="OK">Oklahoma</option>
+			<option value="OR">Oregon</option>
+			<option value="PA">Pennsylvania</option>
+			<option value="RI">Rhode Island</option>
+			<option value="SC">South Carolina</option>
+			<option value="SD">South Dakota</option>
+			<option value="TN">Tennessee</option>
+			<option value="TX">Texas</option>
+			<option value="UT">Utah</option>
+			<option value="VT">Vermont</option>
+			<option value="VA">Virginia</option>
+			<option value="WA">Washington</option>
+			<option value="WV">West Virginia</option>
+			<option value="WI">Wisconsin</option>
+			<option value="WY" selected>Wyoming</option>
+		</select>
+			</div>
+			<script>new Selectize("#select-state",{
+	maxItems: 3
+});</script>
+			<style></style>
+		</div>
+		<div class="col-lg-6">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-6" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-6" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-6" role="tabpanel" aria-labelledby="home-tab">
+				  <textarea class="form-control" readonly rows="7">new Selectize(&quot;#select-state&quot;,{
+	maxItems: 3
+});
+				  </textarea>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-6" role="tabpanel" aria-labelledby="profile-tab">
+				  <textarea class="form-control" readonly rows="7">&lt;select id=&quot;select-state&quot; name=&quot;state[]&quot; multiple class=&quot;demo-default&quot; placeholder=&quot;Select a state...&quot; autocomplete=&quot;off&quot;&gt;
+			&lt;option value=&quot;&quot;&gt;Select a state...&lt;/option&gt;
+			&lt;option value=&quot;AL&quot;&gt;Alabama&lt;/option&gt;
+			&lt;option value=&quot;AK&quot;&gt;Alaska&lt;/option&gt;
+			&lt;option value=&quot;AZ&quot;&gt;Arizona&lt;/option&gt;
+			&lt;option value=&quot;AR&quot;&gt;Arkansas&lt;/option&gt;
+			&lt;option value=&quot;CA&quot; selected&gt;California&lt;/option&gt;
+			&lt;option value=&quot;CO&quot;&gt;Colorado&lt;/option&gt;
+			&lt;option value=&quot;CT&quot;&gt;Connecticut&lt;/option&gt;
+			&lt;option value=&quot;DE&quot;&gt;Delaware&lt;/option&gt;
+			&lt;option value=&quot;DC&quot;&gt;District of Columbia&lt;/option&gt;
+			&lt;option value=&quot;FL&quot;&gt;Florida&lt;/option&gt;
+			&lt;option value=&quot;GA&quot;&gt;Georgia&lt;/option&gt;
+			&lt;option value=&quot;HI&quot;&gt;Hawaii&lt;/option&gt;
+			&lt;option value=&quot;ID&quot;&gt;Idaho&lt;/option&gt;
+			&lt;option value=&quot;IL&quot;&gt;Illinois&lt;/option&gt;
+			&lt;option value=&quot;IN&quot;&gt;Indiana&lt;/option&gt;
+			&lt;option value=&quot;IA&quot;&gt;Iowa&lt;/option&gt;
+			&lt;option value=&quot;KS&quot;&gt;Kansas&lt;/option&gt;
+			&lt;option value=&quot;KY&quot;&gt;Kentucky&lt;/option&gt;
+			&lt;option value=&quot;LA&quot;&gt;Louisiana&lt;/option&gt;
+			&lt;option value=&quot;ME&quot;&gt;Maine&lt;/option&gt;
+			&lt;option value=&quot;MD&quot;&gt;Maryland&lt;/option&gt;
+			&lt;option value=&quot;MA&quot;&gt;Massachusetts&lt;/option&gt;
+			&lt;option value=&quot;MI&quot;&gt;Michigan&lt;/option&gt;
+			&lt;option value=&quot;MN&quot;&gt;Minnesota&lt;/option&gt;
+			&lt;option value=&quot;MS&quot;&gt;Mississippi&lt;/option&gt;
+			&lt;option value=&quot;MO&quot;&gt;Missouri&lt;/option&gt;
+			&lt;option value=&quot;MT&quot;&gt;Montana&lt;/option&gt;
+			&lt;option value=&quot;NE&quot;&gt;Nebraska&lt;/option&gt;
+			&lt;option value=&quot;NV&quot;&gt;Nevada&lt;/option&gt;
+			&lt;option value=&quot;NH&quot;&gt;New Hampshire&lt;/option&gt;
+			&lt;option value=&quot;NJ&quot;&gt;New Jersey&lt;/option&gt;
+			&lt;option value=&quot;NM&quot;&gt;New Mexico&lt;/option&gt;
+			&lt;option value=&quot;NY&quot;&gt;New York&lt;/option&gt;
+			&lt;option value=&quot;NC&quot;&gt;North Carolina&lt;/option&gt;
+			&lt;option value=&quot;ND&quot;&gt;North Dakota&lt;/option&gt;
+			&lt;option value=&quot;OH&quot;&gt;Ohio&lt;/option&gt;
+			&lt;option value=&quot;OK&quot;&gt;Oklahoma&lt;/option&gt;
+			&lt;option value=&quot;OR&quot;&gt;Oregon&lt;/option&gt;
+			&lt;option value=&quot;PA&quot;&gt;Pennsylvania&lt;/option&gt;
+			&lt;option value=&quot;RI&quot;&gt;Rhode Island&lt;/option&gt;
+			&lt;option value=&quot;SC&quot;&gt;South Carolina&lt;/option&gt;
+			&lt;option value=&quot;SD&quot;&gt;South Dakota&lt;/option&gt;
+			&lt;option value=&quot;TN&quot;&gt;Tennessee&lt;/option&gt;
+			&lt;option value=&quot;TX&quot;&gt;Texas&lt;/option&gt;
+			&lt;option value=&quot;UT&quot;&gt;Utah&lt;/option&gt;
+			&lt;option value=&quot;VT&quot;&gt;Vermont&lt;/option&gt;
+			&lt;option value=&quot;VA&quot;&gt;Virginia&lt;/option&gt;
+			&lt;option value=&quot;WA&quot;&gt;Washington&lt;/option&gt;
+			&lt;option value=&quot;WV&quot;&gt;West Virginia&lt;/option&gt;
+			&lt;option value=&quot;WI&quot;&gt;Wisconsin&lt;/option&gt;
+			&lt;option value=&quot;WY&quot; selected&gt;Wyoming&lt;/option&gt;
+		&lt;/select&gt;
+				  </textarea>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

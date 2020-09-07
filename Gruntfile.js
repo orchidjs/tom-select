@@ -41,6 +41,7 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('serve', [
+			'shell:builddocs',
 			'connect',
 			'watch'
 	])
@@ -124,7 +125,7 @@ module.exports = function(grunt) {
 		},
 		clean: {
 			pre: ['dist'],
-			post: ['**/*.tmp*'],
+			post: ['**/*.tmp.*','**/*.tmp'],
 			js: ['dist/*.js']
 		},
 		copy: {
@@ -212,7 +213,16 @@ module.exports = function(grunt) {
 			}
 		},
 		connect: {
-			keepalive: true
+			server:{
+				options: {
+					base: '_pages',
+				}
+			}
+		},
+		shell: {
+			builddocs: {
+				command: 'npx @11ty/eleventy',
+			},
 		},
 		uglify: {
 			main: {
@@ -228,13 +238,24 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			files: [
-				'src/**/*.js'
-			],
-			tasks: [
-				'concat:js',
-				'build_complete'
-			]
+			docs:{
+				files:[
+					'doc_src/**',
+				],
+				tasks:[
+					'shell:builddocs',
+				]
+			},
+			src:{
+				files: [
+					'src/**/*.js',
+				],
+				tasks: [
+					'concat:js',
+					'build_complete',
+					'shell:builddocs',
+				]
+			}
 		}
 	});
 };

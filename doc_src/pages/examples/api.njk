@@ -1,0 +1,74 @@
+---
+title: JavaScript API Examples
+nav_title: JavaScript API
+tags: demo
+---
+
+{% from "demo.njk" import demo %}
+
+{% set label %}
+<label class="h2 mb-3" for="select-tools">
+	API
+</label>
+<p>Examples of how to interact with the control programmatically.</p>
+{% endset %}
+
+{% set html %}
+<select id="select-tools" multiple placeholder="Pick a tool..."></select>
+<div class="buttons">
+	<input type="button" value="clear()" id="button-clear">
+	<input type="button" value="clearOptions()" id="button-clearoptions">
+	<input type="button" value="addOption()" id="button-addoption">
+	<input type="button" value="addItem()" id="button-additem">
+	<input type="button" value="setValue()" id="button-setvalue">
+</div>
+
+{% endset %}
+
+
+<script>
+{% set script %}
+var control = new Selectize('#select-tools',{
+	maxItems: null,
+	valueField: 'id',
+	labelField: 'title',
+	searchField: 'title',
+	options: [
+		{id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers'},
+		{id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart'},
+		{id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape'}
+	],
+	create: false
+});
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+$('#button-clear').on('click', function() {
+	control.clear();
+});
+
+$('#button-clearoptions').on('click', function() {
+	control.clearOptions();
+});
+
+$('#button-addoption').on('click', function() {
+	control.addOption({
+		id: 4,
+		title: 'Something New',
+		url: 'http://google.com'
+	});
+});
+
+$('#button-additem').on('click', function() {
+	control.addItem(2);
+});
+
+$('#button-setvalue').on('click', function() {
+	control.setValue([2, 3]);
+});
+
+{% endset %}
+</script>
+
+
+{{ demo( label, html, script, style) }}

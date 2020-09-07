@@ -1,0 +1,240 @@
+---
+title: Option Group Examples
+nav_title: Option Groups
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-gear">
+	Simple
+</label>
+{% endset %}
+
+{% set html %}
+<select id="select-gear" class="demo-default" multiple placeholder="Select gear...">
+	<option value="">Select gear...</option>
+	<optgroup label="Climbing">
+		<option value="pitons">Pitons</option>
+		<option value="cams">Cams</option>
+		<option value="nuts">Nuts</option>
+		<option value="bolts">Bolts</option>
+		<option value="stoppers">Stoppers</option>
+		<option value="sling">Sling</option>
+	</optgroup>
+	<optgroup label="Skiing">
+		<option value="skis">Skis</option>
+		<option value="skins">Skins</option>
+		<option value="poles">Poles</option>
+	</optgroup>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#select-gear',{
+	sortField: 'text'
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-gear-disabled">
+	Disabled Group
+</label>
+{% endset %}
+
+{% set html %}
+<select id="select-gear-disabled" class="demo-default" multiple placeholder="Select gear...">
+	<option value="">Select gear...</option>
+	<optgroup label="Climbing">
+		<option value="pitons">Pitons</option>
+		<option value="cams">Cams</option>
+		<option value="nuts">Nuts</option>
+		<option value="bolts">Bolts</option>
+		<option value="stoppers">Stoppers</option>
+		<option value="sling">Sling</option>
+	</optgroup>
+	<optgroup label="Skiing" disabled>
+		<option value="skis">Skis</option>
+		<option value="skins">Skins</option>
+		<option value="poles">Poles</option>
+	</optgroup>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#select-gear-disabled',{
+	sortField: 'text'
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-repeated-options">
+	Repeated Options
+</label>
+{% endset %}
+
+{% set html %}
+<select id="select-repeated-options" class="demo-default" multiple>
+	<option value="">Select...</option>
+	<optgroup label="Group 1">
+		<option value="a">Item A</option>
+		<option value="b">Item B</option>
+	</optgroup>
+	<optgroup label="Group 2">
+		<option value="a">Item A</option>
+		<option value="b">Item B</option>
+	</optgroup>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#select-repeated-options',{
+	sortField: 'text'
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-animal">
+	Programmatic
+</label>
+{% endset %}
+
+
+{% set html %}
+<select id="select-animal" class="demo-animals" placeholder="Select animal..."></select>
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize('#select-animal',{
+	options: [
+		{class: 'mammal', value: "dog", name: "Dog" },
+		{class: 'mammal', value: "cat", name: "Cat" },
+		{class: 'mammal', value: "horse", name: "Horse" },
+		{class: 'mammal', value: "kangaroo", name: "Kangaroo" },
+		{class: 'bird', value: 'duck', name: 'Duck'},
+		{class: 'bird', value: 'chicken', name: 'Chicken'},
+		{class: 'bird', value: 'ostrich', name: 'Ostrich'},
+		{class: 'bird', value: 'seagull', name: 'Seagull'},
+		{class: 'reptile', value: 'snake', name: 'Snake'},
+		{class: 'reptile', value: 'lizard', name: 'Lizard'},
+		{class: 'reptile', value: 'alligator', name: 'Alligator'},
+		{class: 'reptile', value: 'turtle', name: 'Turtle'}
+	],
+	optgroups: [
+		{value: 'mammal', label: 'Mammal', label_scientific: 'Mammalia'},
+		{value: 'bird', label: 'Bird', label_scientific: 'Aves'},
+		{value: 'reptile', label: 'Reptile', label_scientific: 'Reptilia'}
+	],
+	optgroupField: 'class',
+	labelField: 'name',
+	searchField: ['name'],
+	render: {
+		optgroup_header: function(data, escape) {
+			return '<div class="optgroup-header">' + escape(data.label) + ' <span class="scientific">' + escape(data.label_scientific) + '</span></div>';
+		}
+	}
+});
+{% endset %}
+</script>
+
+
+<style type="text/css">
+{% set style %}
+.demo-animals .scientific {
+	font-weight: normal;
+	opacity: 0.3;
+	margin: 0 0 0 2px;
+}
+.demo-animals .scientific::before {
+	content: '(';
+}
+.demo-animals .scientific::after {
+	content: ')';
+}
+{% endset %}
+</style>
+
+
+{{ demo( label, html, script, style) }}
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="select-car">
+	Plugin: optgroup_columns
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="select-car" placeholder="Select cars...">
+{% endset %}
+
+<script>
+{% set script %}
+new Selectize("#select-car",{
+	options: [
+		{id: 'avenger', make: 'dodge', model: 'Avenger'},
+		{id: 'caliber', make: 'dodge', model: 'Caliber'},
+		{id: 'caravan-grand-passenger', make: 'dodge', model: 'Caravan Grand Passenger'},
+		{id: 'challenger', make: 'dodge', model: 'Challenger'},
+		{id: 'ram-1500', make: 'dodge', model: 'Ram 1500'},
+		{id: 'viper', make: 'dodge', model: 'Viper'},
+		{id: 'a3', make: 'audi', model: 'A3'},
+		{id: 'a6', make: 'audi', model: 'A6'},
+		{id: 'r8', make: 'audi', model: 'R8'},
+		{id: 'rs-4', make: 'audi', model: 'RS 4'},
+		{id: 's4', make: 'audi', model: 'S4'},
+		{id: 's8', make: 'audi', model: 'S8'},
+		{id: 'tt', make: 'audi', model: 'TT'},
+		{id: 'avalanche', make: 'chevrolet', model: 'Avalanche'},
+		{id: 'aveo', make: 'chevrolet', model: 'Aveo'},
+		{id: 'cobalt', make: 'chevrolet', model: 'Cobalt'},
+		{id: 'silverado', make: 'chevrolet', model: 'Silverado'},
+		{id: 'suburban', make: 'chevrolet', model: 'Suburban'},
+		{id: 'tahoe', make: 'chevrolet', model: 'Tahoe'},
+		{id: 'trail-blazer', make: 'chevrolet', model: 'TrailBlazer'},
+	],
+	optgroups: [
+		{$order: 3, id: 'dodge', name: 'Dodge'},
+		{$order: 2, id: 'audi', name: 'Audi'},
+		{$order: 1, id: 'chevrolet', name: 'Chevrolet'}
+	],
+	labelField: 'model',
+	valueField: 'id',
+	optgroupField: 'make',
+	optgroupLabelField: 'name',
+	optgroupValueField: 'id',
+	lockOptgroupOrder: true,
+	searchField: ['model'],
+	plugins: ['optgroup_columns'],
+	openOnFocus: false
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
