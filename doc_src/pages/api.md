@@ -9,7 +9,6 @@ When initializing the control, the `selectize` property is
 added on the original &lt;select&gt; / &lt;input&gt; element—this
 property points to the underlying Selectize instance.
 
-test
 
 ```js
 // initialize the Selectize control

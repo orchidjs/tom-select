@@ -12,6 +12,11 @@ p, .control-group {
 	margin: 0 0 20px 0;
 }
 
+pre{
+	background: #f0f0f0;
+	padding:	1rem;
+}
+
 input[type=button] {
 	margin: 0 10px 0 0;
 	padding: 6px 10px;

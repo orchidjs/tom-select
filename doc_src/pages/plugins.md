@@ -10,10 +10,10 @@ and allows for addons to be sanely isolated. The plugin system isn't meant
 to be sexy; it's lean, makes very few assumptions, and gives the developer
 complete control.
 
-[**Example Plugins**](../src/plugins)
+[**Example Plugins**](examples/plugins)
 
 **A few notes:**
-- All plugins live in their own folders in ["src/plugins"](../src/plugins).
+- All plugins live in their own folders in ["src/plugins"](https://github.com/orchidjs/orchid-select/tree/master/src/plugins).
 - Plugin names should be in follow the format: `/[a-z_]+$`
 - JS source should live in a "plugin.js" file (required).
 - CSS should live in a "plugin.less" file (optional). It will be bundled at build time.
