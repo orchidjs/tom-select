@@ -8,6 +8,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-replace');
 
@@ -23,6 +24,7 @@ module.exports = function(grunt) {
 		'concat:js',
 		'babel',
 		'less:uncompressed',
+		'sass:dist',
 		'replace',
 		'build_complete',
 		'uglify',
@@ -84,8 +86,8 @@ module.exports = function(grunt) {
 		'node_modules/microplugin/src/microplugin.js',
 	];
 
-	var less_imports = [];
-	var less_plugin_files = [];
+	var less_imports		= [];
+	var less_plugin_files	= [];
 
 	// enumerate plugins
 	(function() {
@@ -124,13 +126,18 @@ module.exports = function(grunt) {
 			}
 		},
 		clean: {
-			pre: ['dist'],
-			post: ['**/*.tmp.*','**/*.tmp'],
+			pre: ['dist/*'],
+			post: ['dist/**/*.tmp.*','dist/**/*.tmp'],
 			js: ['dist/*.js']
 		},
 		copy: {
 			less: {
-				files: [{expand: true, flatten: true, src: ['src/less/*.less'], dest: 'dist/less'}]
+				files: [{
+					expand: true,
+					flatten: true,
+					src: ['src/less/*.less'],
+					dest: 'dist/less'
+				}]
 			},
 			less_plugins: {
 				files: less_plugin_files
@@ -147,7 +154,10 @@ module.exports = function(grunt) {
 			},
 			main: {
 				files: [
-					{src: ['src/less/.wrapper.css'], dest: 'dist/css/selectize.css'}
+					{
+						src: ['src/less/.wrapper.css'],
+						dest: 'dist/css/selectize.css'
+					}
 				]
 			},
 			js: {
@@ -160,6 +170,7 @@ module.exports = function(grunt) {
 					{expand: true, flatten: false, src: ['dist/css/*.css'], dest: ''},
 					{expand: true, flatten: false, src: ['dist/less/*.less'], dest: ''},
 					{expand: true, flatten: false, src: ['dist/less/plugins/*.less'], dest: ''},
+					{expand: true, flatten: false, src: ['dist/css-scss/*.css'], dest: ''},
 				]
 			}
 		},
@@ -171,6 +182,18 @@ module.exports = function(grunt) {
 					'dist/css/selectize.default.css': ['dist/less/selectize.default.less'],
 					'dist/css/selectize.bootstrap3.css': ['dist/less/selectize.bootstrap3.tmp.less']
 				}
+			}
+		},
+		sass: {
+			dist: {
+				files: [{
+					style: 'expanded',
+					expand: true,
+					flatten: true,
+					src: ['src/scss/*.scss'],
+					dest: 'dist/css-scss',
+					ext: '.css'
+				}]
 			}
 		},
 		concat: {
@@ -251,8 +274,7 @@ module.exports = function(grunt) {
 					'src/**',
 				],
 				tasks: [
-					'concat:js',
-					'build_complete',
+					'default',
 					'shell:builddocs',
 				]
 			}
