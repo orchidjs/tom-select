@@ -31,7 +31,6 @@ module.exports = function(eleventyConfig) {
 	md = markdownIt(options)
 	md.use(require('markdown-it-anchor'));
 	let orig_normalizeLink = md.normalizeLink;
-	console.log('md.normalizeLink',md.normalizeLink);
 	md.normalizeLink = function(url){
 
 		// change "usage.md" to "usage"
