@@ -3,13 +3,13 @@ title: selectize.js
 tags: docs
 ---
 
-Orchid Select is a fork of selectize.js 
+Orchid Select was forked from selectize.js to provide the same usability without the need for jQuery or any other JavaScript framework.
 
 
-## Features
+## New
 - support for external control input
 - dropdownParent other than 'body'
-- disableActiveItems setting can be used to disable deleting selected items with backspace/delete keypresses
+- no_backspace_delete plugin
 
 ## Performance and Usability
 - framework agnostic (doesn't require jQuery, Vue or any other JavaScript framework)
@@ -20,6 +20,12 @@ Orchid Select is a fork of selectize.js
 - moved autogrow functionality to input_autogrow plugin
 - integrated hook system into Selectize class hook('before','onKeyUp',function(){ ... });
 
+## Development
+- scss instead of less
+- examples and documentation generated using 11ty
+- babel compiler
+- gulp instead of grunt?
+
 ## Removed
-- support for older browsers -> ES5
+- support for older browsers ES5
 - placeholder show/hide
