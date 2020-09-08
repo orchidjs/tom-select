@@ -23,7 +23,6 @@
     "url": "https://github.com/OrchidJS/Orchid-Select.git"
   },
   "dependencies": {
-    "gulp-cli": "^2.3.0",
     "microplugin": "0.0.3",
     "sifter": "^0.5.4"
   },
@@ -46,7 +45,6 @@
     "grunt-contrib-watch": "1.x",
     "grunt-replace": "^1.0.1",
     "grunt-shell": "^3.0.1",
-    "gulp": "^4.0.2",
     "jquery": "^3.5.1",
     "karma": "^5.1.1",
     "karma-chai": "^0.1.0",
