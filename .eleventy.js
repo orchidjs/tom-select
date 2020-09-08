@@ -21,6 +21,7 @@ module.exports = function(eleventyConfig) {
 	});
 
 	let markdownIt = require('markdown-it');
+
 	let options = {
 		html: true,
 		breaks: false,
@@ -28,6 +29,7 @@ module.exports = function(eleventyConfig) {
 	};
 
 	md = markdownIt(options)
+	md.use(require('markdown-it-anchor'));
 	let orig_normalizeLink = md.normalizeLink;
 	console.log('md.normalizeLink',md.normalizeLink);
 	md.normalizeLink = function(url){
