@@ -19,16 +19,21 @@ module.exports = function(grunt) {
 		'bower:install',
 		'copy:less',
 		'copy:less_plugins',
+
+		'copy:scss',
+		'copy:scss_plugins',
+
 		'concat:less_theme_dependencies',
 		'concat:less_plugins',
 		'concat:js',
 		'babel',
 		'less:uncompressed',
 		'sass:dist',
+		'postcss',
 		'replace',
 		'build_complete',
 		'uglify',
-		'clean:post',
+		//'clean:post',
 	]);
 
 	grunt.registerTask('js', [
@@ -88,6 +93,7 @@ module.exports = function(grunt) {
 
 	var less_imports		= [];
 	var less_plugin_files	= [];
+	var scss_plugin_files	= [];
 
 	// enumerate plugins
 	(function() {
@@ -111,6 +117,14 @@ module.exports = function(grunt) {
 			less_imports.push('@import "plugins/' +  plugin_name + '";');
 			less_plugin_files.push({src: matched_files[i], dest: 'dist/less/plugins/' + plugin_name + '.less'});
 		}
+
+		// scss (css)
+		var matched_files = grunt.file.expand(['src/plugins/' + selector_plugins + '/plugin.scss']);
+		for (var i = 0, n = matched_files.length; i < n; i++) {
+			var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
+			scss_plugin_files.push({src: matched_files[i], dest: 'dist/scss/plugins/' + plugin_name + '.scss'});
+		}
+
 	})();
 
 	grunt.initConfig({
@@ -141,7 +155,17 @@ module.exports = function(grunt) {
 			},
 			less_plugins: {
 				files: less_plugin_files
-			}
+			},
+			scss:{
+				files: [{
+					'dist/scss/selectize.scss': ['src/scss/selectize.scss'],
+					'dist/scss/selectize.default.scss': ['src/scss/selectize.default.scss'],
+					'dist/scss/selectize.bootstrap3.scss': ['src/scss/selectize.bootstrap3.scss'],
+				}]
+			},
+			scss_plugins:{
+				files: scss_plugin_files
+			},
 		},
 		replace: {
 			options: {
@@ -186,13 +210,40 @@ module.exports = function(grunt) {
 		},
 		sass: {
 			dist: {
+				options:{
+					style:'expanded',
+				//	ext: '.css',
+				},
 				files: [{
-					style: 'expanded',
-					expand: true,
-					flatten: true,
-					src: ['src/scss/*.scss'],
-					dest: 'dist/css-scss',
-					ext: '.css'
+					'dist/css-scss/selectize.css': ['src/scss/selectize.scss'],
+					'dist/css-scss/selectize.default.css': ['src/scss/selectize.default.scss'],
+					'dist/css-scss/selectize.bootstrap3.css': ['src/scss/-selectize.bootstrap3.scss'],
+				}]
+			}
+		},
+		postcss: {
+			options: {
+				/*
+				map: true, // inline sourcemaps
+
+				// or
+				map: {
+					inline: false, // save all sourcemaps as separate files...
+					annotation: 'dist/css/maps/' // ...to the specified directory
+				},
+				*/
+
+				processors: [
+					//require('pixrem')(), // add fallbacks for rem units
+					require('autoprefixer')(), // {browsers: 'last 2 versions'}add vendor prefixes
+					require('cssnano')() // minify the result
+				]
+			},
+			dist: {
+				files: [{
+					'dist/css-scss/selectize.min.css': ['dist/css-scss/selectize.css'],
+					'dist/css-scss/selectize.default.min.css': ['dist/css-scss/selectize.default.css'],
+					'dist/css-scss/selectize.bootstrap3.min.css': ['dist/css-scss/selectize.bootstrap3.css'],
 				}]
 			}
 		},
