@@ -7,7 +7,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-replace');
@@ -17,17 +16,12 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', [
 		'clean:pre',
 		'bower:install',
-		'copy:less',
-		'copy:less_plugins',
 
 		'copy:scss',
 		'copy:scss_plugins',
 
-		'concat:less_theme_dependencies',
-		'concat:less_plugins',
 		'concat:js',
 		'babel',
-		'less:uncompressed',
 		'sass:build',
 		'postcss',
 		'replace',
@@ -91,8 +85,6 @@ module.exports = function(grunt) {
 		'node_modules/microplugin/src/microplugin.js',
 	];
 
-	var less_imports		= [];
-	var less_plugin_files	= [];
 	var scss_plugin_files	= [];
 
 	// enumerate plugins
@@ -109,14 +101,6 @@ module.exports = function(grunt) {
 
 		// javascript
 		files_js.push('src/plugins/' + selector_plugins + '/*.js');
-
-		// less (css)
-		var matched_files = grunt.file.expand(['src/plugins/' + selector_plugins + '/plugin.less']);
-		for (var i = 0, n = matched_files.length; i < n; i++) {
-			var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
-			less_imports.push('@import "plugins/' +  plugin_name + '";');
-			less_plugin_files.push({src: matched_files[i], dest: 'build/less/plugins/' + plugin_name + '.less'});
-		}
 
 		// scss (css)
 		var matched_files = grunt.file.expand(['src/plugins/' + selector_plugins + '/plugin.scss']);
@@ -145,17 +129,6 @@ module.exports = function(grunt) {
 			js: ['build/*.js']
 		},
 		copy: {
-			less: {
-				files: [{
-					expand: true,
-					flatten: true,
-					src: ['src/less/*.less'],
-					dest: 'build/less'
-				}]
-			},
-			less_plugins: {
-				files: less_plugin_files
-			},
 			scss:{
 				files: [{
 					'build/scss/selectize.scss': ['src/scss/selectize.scss'],
@@ -173,39 +146,20 @@ module.exports = function(grunt) {
 				variables: {
 					'version': '<%= pkg.version %>',
 					'js': '<%= grunt.file.read("build/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
-					'css': '<%= grunt.file.read("build/css/selectize.css") %>',
 				},
-			},
-			main: {
-				files: [
-					{
-						src: ['src/less/.wrapper.css'],
-						dest: 'build/css/selectize.css'
-					}
-				]
 			},
 			js: {
 				files: [
 					{src: ['src/.wrapper.js'], dest: 'build/js/selectize.js'},
 				]
 			},
+			// add version to css & scss headers
 			css_post: {
 				files: [
 					{expand: true, flatten: false, src: ['build/css/*.css'], dest: ''},
-					{expand: true, flatten: false, src: ['build/less/*.less'], dest: ''},
-					{expand: true, flatten: false, src: ['build/less/plugins/*.less'], dest: ''},
 					{expand: true, flatten: false, src: ['build/css-scss/*.css'], dest: ''},
+					{expand: true, flatten: false, src: ['build/scss/*.scss'], dest: ''},
 				]
-			}
-		},
-		less: {
-			options: {},
-			uncompressed: {
-				files: {
-					'build/css/selectize.css': ['build/less/selectize.less'],
-					'build/css/selectize.default.css': ['build/less/selectize.default.less'],
-					'build/css/selectize.bootstrap3.css': ['build/less/selectize.bootstrap3.tmp.less']
-				}
 			}
 		},
 		sass: {
@@ -257,24 +211,6 @@ module.exports = function(grunt) {
 					'build/js/selectize.js': files_js,
 				}
 			},
-			less_plugins: {
-				options: {
-					banner: less_imports.join('\n') + grunt.util.linefeed + grunt.util.linefeed
-				},
-				files: {
-					'build/less/selectize.less': ['build/less/selectize.less']
-				}
-			},
-			less_theme_dependencies: {
-				options: {stripBanners: false},
-				files: {
-					'build/less/selectize.bootstrap3.tmp.less': [
-						'bower_components/bootstrap3/less/variables.less',
-						'bower_components/bootstrap3/less/mixins/nav-divider.less',
-						'build/less/selectize.bootstrap3.less'
-					]
-				}
-			}
 		},
 		babel: {
 			options: {
