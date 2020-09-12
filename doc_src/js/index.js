@@ -13,39 +13,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// theme switcher
 	var themes			= ['default','bootstrap3','bootstrap4'];
-	var theme_match		= String(window.location).match(/[?&]theme=([a-z0-9]+)/);
-	if( theme_match && theme_match[1] && themes.indexOf(theme_match[1]) > -1 ){
-		localStorage.setItem('theme', theme_match[1]);
-	}
-
 	var theme			= localStorage.getItem('theme') || 'default';
-	var link			= document.createElement('link');
-	link.setAttribute('rel','stylesheet');
-	link.setAttribute('href','/css/selectize.' + theme + '.css');
-	document.getElementsByTagName('head')[0].appendChild(link);
-
 
 	var themes_div	= document.createElement('div');
 	themes_div.classList.add('theme-selector')
 	var container	= document.getElementById('main-container')
 	container.insertBefore(themes_div, container.firstChild);
 
-	for (var i = 0; i < themes.length; i++) {
-
-		let a = document.createElement('a');
-		a.setAttribute('href','?theme=' + themes[i]);
-		a.textContent = themes[i];
-		if( themes[i] === theme ){
-			a.classList.add('active');
-		}
-		themes_div.appendChild(a);
-	}
+	SetTheme(theme);
 
 
 	// add info about script and current value below each demo
 	for(let i = 0; i < demo_divs.length; i++){
 		let demo	= demo_divs[i];
 		ShowValue(demo);
+	}
+
+	/**
+	 * Set the  current theme
+	 *
+	 */
+	function SetTheme(theme){
+
+		localStorage.setItem('theme',theme);
+
+		themes_div.innerHTML = '';
+		for( let i = 0; i < themes.length; i++) {
+
+			let a = document.createElement('a');
+			a.textContent = themes[i];
+			a.className = 'btn btn-link btn-sm'
+			if( themes[i] === theme ){
+				a.classList.add('active');
+			}
+			themes_div.appendChild(a);
+
+			a.addEventListener('click',function(evt){
+				evt.preventDefault();
+				SetTheme(themes[i]);
+			});
+		}
+
+
+		var link			= document.getElementById('selectize-theme');
+		if( link ) link.parentNode.removeChild(link);
+
+		link				= document.createElement('link');
+		link.id				= 'selectize-theme';
+
+		link.setAttribute('rel','stylesheet');
+		link.setAttribute('href','/css/selectize.' + theme + '.css');
+		document.getElementsByTagName('head')[0].appendChild(link);
 	}
 
 
