@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 		'concat:js',
 		'babel',
 		'less:uncompressed',
-		'sass:dist',
+		'sass:build',
 		'postcss',
 		'replace',
 		'build_complete',
@@ -66,12 +66,12 @@ module.exports = function(grunt) {
 			modules.push(source);
 		}
 
-		path = 'dist/js/selectize.js';
+		path = 'build/js/selectize.js';
 		source = grunt.file.read(path).replace(/define\((.*?)factory\);/, 'define(\'selectize\', $1factory);');
 		modules.push(source);
 
 		// write output
-		path = 'dist/js/selectize.complete.js';
+		path = 'build/js/selectize.complete.js';
 		grunt.file.write(path, modules.join('\n\n'));
 		grunt.log.writeln('Built "' + path + '".');
 	});
@@ -115,14 +115,14 @@ module.exports = function(grunt) {
 		for (var i = 0, n = matched_files.length; i < n; i++) {
 			var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
 			less_imports.push('@import "plugins/' +  plugin_name + '";');
-			less_plugin_files.push({src: matched_files[i], dest: 'dist/less/plugins/' + plugin_name + '.less'});
+			less_plugin_files.push({src: matched_files[i], dest: 'build/less/plugins/' + plugin_name + '.less'});
 		}
 
 		// scss (css)
 		var matched_files = grunt.file.expand(['src/plugins/' + selector_plugins + '/plugin.scss']);
 		for (var i = 0, n = matched_files.length; i < n; i++) {
 			var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
-			scss_plugin_files.push({src: matched_files[i], dest: 'dist/scss/plugins/' + plugin_name + '.scss'});
+			scss_plugin_files.push({src: matched_files[i], dest: 'build/scss/plugins/' + plugin_name + '.scss'});
 		}
 
 	})();
@@ -140,9 +140,9 @@ module.exports = function(grunt) {
 			}
 		},
 		clean: {
-			pre: ['dist/*'],
-			post: ['dist/**/*.tmp.*','dist/**/*.tmp'],
-			js: ['dist/*.js']
+			pre: ['build/*'],
+			post: ['build/**/*.tmp.*','build/**/*.tmp'],
+			js: ['build/*.js']
 		},
 		copy: {
 			less: {
@@ -150,7 +150,7 @@ module.exports = function(grunt) {
 					expand: true,
 					flatten: true,
 					src: ['src/less/*.less'],
-					dest: 'dist/less'
+					dest: 'build/less'
 				}]
 			},
 			less_plugins: {
@@ -158,9 +158,9 @@ module.exports = function(grunt) {
 			},
 			scss:{
 				files: [{
-					'dist/scss/selectize.scss': ['src/scss/selectize.scss'],
-					'dist/scss/selectize.default.scss': ['src/scss/selectize.default.scss'],
-					'dist/scss/selectize.bootstrap3.scss': ['src/scss/selectize.bootstrap3.scss'],
+					'build/scss/selectize.scss': ['src/scss/selectize.scss'],
+					'build/scss/selectize.default.scss': ['src/scss/selectize.default.scss'],
+					'build/scss/selectize.bootstrap3.scss': ['src/scss/selectize.bootstrap3.scss'],
 				}]
 			},
 			scss_plugins:{
@@ -172,29 +172,29 @@ module.exports = function(grunt) {
 				prefix: '@@',
 				variables: {
 					'version': '<%= pkg.version %>',
-					'js': '<%= grunt.file.read("dist/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
-					'css': '<%= grunt.file.read("dist/css/selectize.css") %>',
+					'js': '<%= grunt.file.read("build/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
+					'css': '<%= grunt.file.read("build/css/selectize.css") %>',
 				},
 			},
 			main: {
 				files: [
 					{
 						src: ['src/less/.wrapper.css'],
-						dest: 'dist/css/selectize.css'
+						dest: 'build/css/selectize.css'
 					}
 				]
 			},
 			js: {
 				files: [
-					{src: ['src/.wrapper.js'], dest: 'dist/js/selectize.js'},
+					{src: ['src/.wrapper.js'], dest: 'build/js/selectize.js'},
 				]
 			},
 			css_post: {
 				files: [
-					{expand: true, flatten: false, src: ['dist/css/*.css'], dest: ''},
-					{expand: true, flatten: false, src: ['dist/less/*.less'], dest: ''},
-					{expand: true, flatten: false, src: ['dist/less/plugins/*.less'], dest: ''},
-					{expand: true, flatten: false, src: ['dist/css-scss/*.css'], dest: ''},
+					{expand: true, flatten: false, src: ['build/css/*.css'], dest: ''},
+					{expand: true, flatten: false, src: ['build/less/*.less'], dest: ''},
+					{expand: true, flatten: false, src: ['build/less/plugins/*.less'], dest: ''},
+					{expand: true, flatten: false, src: ['build/css-scss/*.css'], dest: ''},
 				]
 			}
 		},
@@ -202,22 +202,22 @@ module.exports = function(grunt) {
 			options: {},
 			uncompressed: {
 				files: {
-					'dist/css/selectize.css': ['dist/less/selectize.less'],
-					'dist/css/selectize.default.css': ['dist/less/selectize.default.less'],
-					'dist/css/selectize.bootstrap3.css': ['dist/less/selectize.bootstrap3.tmp.less']
+					'build/css/selectize.css': ['build/less/selectize.less'],
+					'build/css/selectize.default.css': ['build/less/selectize.default.less'],
+					'build/css/selectize.bootstrap3.css': ['build/less/selectize.bootstrap3.tmp.less']
 				}
 			}
 		},
 		sass: {
-			dist: {
+			build: {
 				options:{
 					style:'expanded',
 				//	ext: '.css',
 				},
 				files: [{
-					'dist/css-scss/selectize.css': ['src/scss/selectize.scss'],
-					'dist/css-scss/selectize.default.css': ['src/scss/selectize.default.scss'],
-					'dist/css-scss/selectize.bootstrap3.css': ['src/scss/-selectize.bootstrap3.scss'],
+					'build/css-scss/selectize.css': ['src/scss/selectize.scss'],
+					'build/css-scss/selectize.default.css': ['src/scss/selectize.default.scss'],
+					'build/css-scss/selectize.bootstrap3.css': ['src/scss/-selectize.bootstrap3.scss'],
 				}]
 			}
 		},
@@ -229,7 +229,7 @@ module.exports = function(grunt) {
 				// or
 				map: {
 					inline: false, // save all sourcemaps as separate files...
-					annotation: 'dist/css/maps/' // ...to the specified directory
+					annotation: 'build/css/maps/' // ...to the specified directory
 				},
 				*/
 
@@ -239,11 +239,11 @@ module.exports = function(grunt) {
 					require('cssnano')() // minify the result
 				]
 			},
-			dist: {
+			build: {
 				files: [{
-					'dist/css-scss/selectize.min.css': ['dist/css-scss/selectize.css'],
-					'dist/css-scss/selectize.default.min.css': ['dist/css-scss/selectize.default.css'],
-					'dist/css-scss/selectize.bootstrap3.min.css': ['dist/css-scss/selectize.bootstrap3.css'],
+					'build/css-scss/selectize.min.css': ['build/css-scss/selectize.css'],
+					'build/css-scss/selectize.default.min.css': ['build/css-scss/selectize.default.css'],
+					'build/css-scss/selectize.bootstrap3.min.css': ['build/css-scss/selectize.bootstrap3.css'],
 				}]
 			}
 		},
@@ -254,7 +254,7 @@ module.exports = function(grunt) {
 			},
 			js: {
 				files: {
-					'dist/js/selectize.js': files_js,
+					'build/js/selectize.js': files_js,
 				}
 			},
 			less_plugins: {
@@ -262,16 +262,16 @@ module.exports = function(grunt) {
 					banner: less_imports.join('\n') + grunt.util.linefeed + grunt.util.linefeed
 				},
 				files: {
-					'dist/less/selectize.less': ['dist/less/selectize.less']
+					'build/less/selectize.less': ['build/less/selectize.less']
 				}
 			},
 			less_theme_dependencies: {
 				options: {stripBanners: false},
 				files: {
-					'dist/less/selectize.bootstrap3.tmp.less': [
+					'build/less/selectize.bootstrap3.tmp.less': [
 						'bower_components/bootstrap3/less/variables.less',
 						'bower_components/bootstrap3/less/mixins/nav-divider.less',
-						'dist/less/selectize.bootstrap3.less'
+						'build/less/selectize.bootstrap3.less'
 					]
 				}
 			}
@@ -280,16 +280,16 @@ module.exports = function(grunt) {
 			options: {
 				sourceMap: true
 			},
-			dist: {
+			build: {
 				files: {
-					'dist/js/selectize.js': ['dist/js/selectize.js']
+					'build/js/selectize.js': ['build/js/selectize.js']
 				}
 			}
 		},
 		connect: {
 			server:{
 				options: {
-					base: 'docs',
+					base: 'build-docs',
 				}
 			}
 		},
@@ -306,8 +306,8 @@ module.exports = function(grunt) {
 					'ascii-only': true
 				},
 				files: {
-					'dist/js/selectize.min.js': ['dist/js/selectize.js'],
-					'dist/js/selectize.complete.min.js': ['dist/js/selectize.complete.js']
+					'build/js/selectize.min.js': ['build/js/selectize.js'],
+					'build/js/selectize.complete.min.js': ['build/js/selectize.complete.js']
 				}
 			}
 		},

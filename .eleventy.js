@@ -5,9 +5,9 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({'doc_src/css':'css'});
 	eleventyConfig.addPassthroughCopy({'doc_src/images':'images'});
 	eleventyConfig.addPassthroughCopy({'doc_src/js':'js'});
-	eleventyConfig.addPassthroughCopy({'dist/js/selectize.complete.js':'js/selectize.complete.js'});
-	eleventyConfig.addPassthroughCopy({'dist/css/selectize.bootstrap3.css':'css/selectize.bootstrap3.css'});
-	eleventyConfig.addPassthroughCopy({'dist/css/selectize.default.css':'css/selectize.default.css'});
+	eleventyConfig.addPassthroughCopy({'build/js/selectize.complete.js':'js/selectize.complete.js'});
+	eleventyConfig.addPassthroughCopy({'build/css/selectize.bootstrap3.css':'css/selectize.bootstrap3.css'});
+	eleventyConfig.addPassthroughCopy({'build/css/selectize.default.css':'css/selectize.default.css'});
 
 
 	eleventyConfig.addCollection('demosAlpha', function(collection) {
@@ -51,7 +51,7 @@ module.exports = function(eleventyConfig) {
 	return {
 		dir: {
 			input: 'doc_src/pages', // relative to project root
-			output: 'docs',		// relative to project root
+			output: 'build-docs',	// relative to project root
 			includes: '../includes', // relative to input path
 		}
 	};
