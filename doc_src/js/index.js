@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 	// theme switcher
-	var themes			= ['default','bootstrap3'];
+	var themes			= ['default','bootstrap3','bootstrap4'];
 	var theme_match		= String(window.location).match(/[?&]theme=([a-z0-9]+)/);
 	if( theme_match && theme_match[1] && themes.indexOf(theme_match[1]) > -1 ){
 		localStorage.setItem('theme', theme_match[1]);

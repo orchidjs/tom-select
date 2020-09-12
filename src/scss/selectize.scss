@@ -130,8 +130,8 @@ $selectize-caret-margin-rtl:						0 4px 0 -2px !default;
 
 	.selectize-control.multi &.has-items {
 		$padding-x: $selectize-padding-x;
-		$padding-top: $selectize-padding-y - $selectize-padding-item-y - $selectize-width-item-border;
-		$padding-bottom: $selectize-padding-y - $selectize-padding-item-y - $selectize-margin-item-y - $selectize-width-item-border;
+		$padding-top: calc( #{$selectize-padding-y} - #{$selectize-padding-item-y} - #{$selectize-width-item-border});
+		$padding-bottom: calc( #{$selectize-padding-y} - #{$selectize-padding-item-y} - #{$selectize-margin-item-y} - #{$selectize-width-item-border});
 		padding: $padding-top $padding-x $padding-bottom;
 	}
 

@@ -135,6 +135,7 @@ module.exports = function(grunt) {
 					'build/scss/selectize.scss': ['src/scss/selectize.scss'],
 					'build/scss/selectize.default.scss': ['src/scss/selectize.default.scss'],
 					'build/scss/selectize.bootstrap3.scss': ['src/scss/selectize.bootstrap3.scss'],
+					'build/scss/selectize.bootstrap4.scss': ['src/scss/selectize.bootstrap4.scss'],
 				}]
 			},
 			scss_plugins:{
@@ -172,6 +173,7 @@ module.exports = function(grunt) {
 					'build/css/selectize.css': ['src/scss/selectize.scss'],
 					'build/css/selectize.default.css': ['src/scss/selectize.default.scss'],
 					'build/css/selectize.bootstrap3.css': ['src/scss/-selectize.bootstrap3.scss'],
+					'build/css/selectize.bootstrap4.css': ['src/scss/-selectize.bootstrap4.scss'],
 				}]
 			}
 		},
@@ -216,6 +218,7 @@ module.exports = function(grunt) {
 					'build/css/selectize.min.css': ['build/css/selectize.css'],
 					'build/css/selectize.default.min.css': ['build/css/selectize.default.css'],
 					'build/css/selectize.bootstrap3.min.css': ['build/css/selectize.bootstrap3.css'],
+					'build/css/selectize.bootstrap4.min.css': ['build/css/selectize.bootstrap4.css'],
 				}]
 			}
 		},
