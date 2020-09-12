@@ -51,7 +51,7 @@ module.exports = function(eleventyConfig) {
 	return {
 		dir: {
 			input: 'doc_src/pages', // relative to project root
-			output: 'build-docs',	// relative to project root
+			output: 'build/docs',	// relative to project root
 			includes: '../includes', // relative to input path
 		}
 	};

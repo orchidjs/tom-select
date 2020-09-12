@@ -157,7 +157,6 @@ module.exports = function(grunt) {
 			css_post: {
 				files: [
 					{expand: true, flatten: false, src: ['build/css/*.css'], dest: ''},
-					{expand: true, flatten: false, src: ['build/css-scss/*.css'], dest: ''},
 					{expand: true, flatten: false, src: ['build/scss/*.scss'], dest: ''},
 				]
 			}
@@ -169,9 +168,9 @@ module.exports = function(grunt) {
 				//	ext: '.css',
 				},
 				files: [{
-					'build/css-scss/selectize.css': ['src/scss/selectize.scss'],
-					'build/css-scss/selectize.default.css': ['src/scss/selectize.default.scss'],
-					'build/css-scss/selectize.bootstrap3.css': ['src/scss/-selectize.bootstrap3.scss'],
+					'build/css/selectize.css': ['src/scss/selectize.scss'],
+					'build/css/selectize.default.css': ['src/scss/selectize.default.scss'],
+					'build/css/selectize.bootstrap3.css': ['src/scss/-selectize.bootstrap3.scss'],
 				}]
 			}
 		},
@@ -195,9 +194,9 @@ module.exports = function(grunt) {
 			},
 			build: {
 				files: [{
-					'build/css-scss/selectize.min.css': ['build/css-scss/selectize.css'],
-					'build/css-scss/selectize.default.min.css': ['build/css-scss/selectize.default.css'],
-					'build/css-scss/selectize.bootstrap3.min.css': ['build/css-scss/selectize.bootstrap3.css'],
+					'build/css/selectize.min.css': ['build/css/selectize.css'],
+					'build/css/selectize.default.min.css': ['build/css/selectize.default.css'],
+					'build/css/selectize.bootstrap3.min.css': ['build/css/selectize.bootstrap3.css'],
 				}]
 			}
 		},
@@ -225,7 +224,7 @@ module.exports = function(grunt) {
 		connect: {
 			server:{
 				options: {
-					base: 'build-docs',
+					base: 'build/docs',
 				}
 			}
 		},

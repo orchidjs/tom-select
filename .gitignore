@@ -7,5 +7,4 @@ bower_components
 package-lock.json
 *.lock
 build/*
-build-docs/*
 .sass-cache
