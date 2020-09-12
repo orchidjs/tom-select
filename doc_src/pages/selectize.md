@@ -22,6 +22,8 @@ Orchid Select was forked from selectize.js to provide the same usability without
 
 ## Development
 - scss instead of less
+	- autoprefixer
+	- nanocss
 - examples and documentation generated using 11ty
 - babel compiler
 - gulp instead of grunt?
