@@ -1,12 +1,11 @@
 
- @import 'selectize';
 
 
 $selectize-font-family: inherit;
 $selectize-font-size: inherit;
-//$selectize-line-height: $line-height-computed;
+$selectize-line-height: $line-height-computed;
 
-//$selectize-color-text: $text-color;
+$selectize-color-text: $text-color;
 $selectize-color-highlight: rgba(255,237,40,0.4);
 $selectize-color-input: $input-bg;
 $selectize-color-input-full: $input-bg;
@@ -50,6 +49,7 @@ $selectize-arrow-color: $selectize-color-text;
 $selectize-arrow-offset: $selectize-padding-x + 5px;
 
 
+@import 'selectize';
 
 
 .selectize-dropdown, .selectize-dropdown.form-control {
