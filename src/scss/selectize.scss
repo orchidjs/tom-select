@@ -74,31 +74,19 @@ $selectize-caret-margin:							0 2px 0 0 !default;
 $selectize-caret-margin-rtl:						0 4px 0 -2px !default;
 
 @mixin selectize-border-radius($radii) {
-	-webkit-border-radius: $radii;
-	-moz-border-radius: $radii;
 	border-radius: $radii;
 }
 @mixin selectize-unselectable() {
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 @mixin selectize-box-shadow($shadow) {
-	-webkit-box-shadow: $shadow;
 	box-shadow: $shadow;
 }
 @mixin selectize-box-sizing($type: border-box) {
-	-webkit-box-sizing: $type;
-	-moz-box-sizing: $type;
 	box-sizing: $type;
 }
 @mixin selectize-vertical-gradient($color-top, $color-bottom) {
     background-color: mix($color-top, $color-bottom, 60%);
-    background-image: -moz-linear-gradient(top, $color-top, $color-bottom); // FF 3.6+
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from($color-top), to($color-bottom)); // Safari 4+, Chrome 2+
-    background-image: -webkit-linear-gradient(top, $color-top, $color-bottom); // Safari 5.1+, Chrome 10+
-    background-image: -o-linear-gradient(top, $color-top, $color-bottom); // Opera 11.10
     background-image: linear-gradient(to bottom, $color-top, $color-bottom); // Standard, IE10
     background-repeat: repeat-x;
 }
@@ -119,7 +107,7 @@ $selectize-caret-margin-rtl:						0 4px 0 -2px !default;
 	font-family: $selectize-font-family;
 	font-size: $selectize-font-size;
 	line-height: $selectize-line-height;
-	-webkit-font-smoothing: $selectize-font-smoothing;
+	font-smoothing: $selectize-font-smoothing;
 }
 
 .selectize-input, .selectize-control.single .selectize-input.input-active {
@@ -162,10 +150,8 @@ $selectize-caret-margin-rtl:						0 4px 0 -2px !default;
 
 	> * {
 		vertical-align: baseline;
-		display: -moz-inline-stack;
 		display: inline-block;
 		zoom: 1;
-		*display: inline;
 	}
 	.selectize-control.multi & > div {
 		cursor: pointer;
@@ -202,7 +188,7 @@ $selectize-caret-margin-rtl:						0 4px 0 -2px !default;
 		border: 0 none !important;
 		background: none !important;
 		line-height: inherit !important;
-		-webkit-user-select: auto !important;
+		user-select: auto !important;
 		@include selectize-box-shadow(none !important);
 		&:focus { outline: none !important; }
 	}
@@ -278,7 +264,7 @@ $selectize-caret-margin-rtl:						0 4px 0 -2px !default;
 	overflow-y: auto;
 	overflow-x: hidden;
 	max-height: $selectize-max-height-dropdown;
-	-webkit-overflow-scrolling: touch;
+	overflow-scrolling: touch;
 }
 
 .selectize-control.single .selectize-input {

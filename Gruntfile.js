@@ -23,7 +23,8 @@ module.exports = function(grunt) {
 		'concat:js',
 		'babel',
 		'sass:build',
-		'postcss',
+		'postcss:prefix',
+		'postcss:min',
 		'replace',
 		'build_complete',
 		'uglify',
@@ -175,7 +176,7 @@ module.exports = function(grunt) {
 			}
 		},
 		postcss: {
-			options: {
+			prefix: {
 				/*
 				map: true, // inline sourcemaps
 
@@ -185,14 +186,32 @@ module.exports = function(grunt) {
 					annotation: 'build/css/maps/' // ...to the specified directory
 				},
 				*/
-
-				processors: [
-					//require('pixrem')(), // add fallbacks for rem units
-					require('autoprefixer')(), // {browsers: 'last 2 versions'}add vendor prefixes
-					require('cssnano')() // minify the result
-				]
+				options:{
+					processors: [
+						//require('pixrem')(), // add fallbacks for rem units
+						require('autoprefixer')(
+							{"overrideBrowserslist": [
+								"last 1 major version",
+								">= 1%",
+								"Chrome >= 45",
+								"Firefox >= 38",
+								"Edge >= 12",
+								"Explorer >= 10",
+								"iOS >= 9",
+								"Safari >= 9",
+								"Android >= 4.4",
+							]}
+						)
+					]
+				},
+				files: [{expand: true, flatten: false, src: ['build/css/*.css'], dest: ''}],
 			},
-			build: {
+			min: {
+				options: {
+					processors: [
+						require('cssnano')() // minify the result
+					]
+				},
 				files: [{
 					'build/css/selectize.min.css': ['build/css/selectize.css'],
 					'build/css/selectize.default.min.css': ['build/css/selectize.default.css'],
