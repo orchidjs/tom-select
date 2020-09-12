@@ -68,7 +68,7 @@ var select = new Selectize('#select',options);
 	</tr>
 	<tr>
 		<td><code>getOption(value)</code></td>
-		<td>Retrieves the jQuery element for the option identified by the given value.</td>
+		<td>Retrieves the dom element for the option identified by the given value.</td>
 	</tr>
 	<tr>
 		<td><code>getAdjacent(dom_element, direction)</code></td>
@@ -91,7 +91,7 @@ var select = new Selectize('#select',options);
 	</tr>
 	<tr>
 		<td><code>getItem(value)</code></td>
-		<td>Returns the jQuery element of the item matching the given value.</td>
+		<td>Returns the dom element of the item matching the given value.</td>
 	</tr>
 	<tr>
 		<td><code>addItem(value, silent)</code></td>
