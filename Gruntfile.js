@@ -219,16 +219,10 @@ module.exports = function(grunt) {
 		// autoprefix && cssnanao
 		postcss: {
 			prefix: {
-				/*
-				map: true, // inline sourcemaps
-
-				// or
-				map: {
-					inline: false, // save all sourcemaps as separate files...
-					annotation: 'build/css/maps/' // ...to the specified directory
-				},
-				*/
 				options:{
+					map: {
+						inline: false, // save all sourcemaps as separate files...
+					},
 					processors: [
 						//require('pixrem')(), // add fallbacks for rem units
 						autoprefixer,
@@ -238,6 +232,9 @@ module.exports = function(grunt) {
 			},
 			min: {
 				options: {
+					map: {
+						inline: false, // save all sourcemaps as separate files...
+					},
 					processors: [
 						require('cssnano')() // minify the result
 					]
@@ -251,6 +248,9 @@ module.exports = function(grunt) {
 			},
 			builddocs:{
 				options:{
+					map: {
+						inline: false, // save all sourcemaps as separate files...
+					},
 					processors: [
 						autoprefixer,
 						require('cssnano')() // minify the result

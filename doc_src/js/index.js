@@ -1,8 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-		var target = this.dataset.target;
-	})
+
+	/**
+	 * show/hide offcanvas navigation
+	 *
+	 */
+	$('.toggle-offcanvas').click(function(){
+		console.log('here');
+		$('.offcanvas').toggleClass('open');
+	});
+
 
 	// don't show theme optinos unless we're displaying a demo
 	var demo_divs = document.querySelectorAll('.demo');

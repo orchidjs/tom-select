@@ -28,27 +28,26 @@ title: Orchid Select
 		<div class="">
 
 			<div class="row flex-lg-nowrap no-gutters">
-				<div class="col-md-3 col-xl-2 d-flex flex-column text-left bg-light border-right">
-
-					<a href="/" class="d-block"><img src="/images/flower.svg" style="height:110px"></a>
-
-				</div>
 				<div class="col-md-9 col-xl-10">
-					<div class="my-4">
-						<div class="container">
-							<h1 class="display-4">{{ title }}</h1>
-						</div>
-					</div>
 				</div>
 			</div>
 
 			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
 
-				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right px-4">
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right px-4 offcanvas">
+					<a href="/" class="d-block"><img src="/images/flower.svg" style="height:110px"></a>
 					{% include "nav.njk" %}
 				</div>
 
 				<div class="col-md-9 col-xl-10">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-light" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							<h1 class="display-4">{{ title }}</h1>
+						</div>
+					</div>
 					<div class="container mt-3" id="main-container">
 					{{ content | safe }}
 					</div>
