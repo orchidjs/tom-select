@@ -1,5 +1,20 @@
+@import "../../node_modules/bootstrap/scss/_functions.scss";
+@import "../../node_modules/bootstrap/scss/_variables.scss";
+
+$kbd-color:					$dark;
+$kbd-bg:					$gray-200;
+
+$input-disabled-bg:			$light;
+
+//$nav-link-padding-y:		.5rem;
+//$nav-link-padding-x:		1rem;
+$nav-tabs-link-active-bg:	$light;
+
+
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+
 
 
 a{
@@ -43,6 +58,9 @@ input[type=button]:hover {
 	background: #dadada;
 }
 
+h1, h2, h3, h4, h5{
+	margin-top:3rem;
+}
 
 /**
  * Demo
@@ -62,6 +80,30 @@ input[type=button]:hover {
 }
 .demo .value span {
 	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+}
+.demo{
+	font-size: $font-size-base * .9;
+	.nav-tabs{
+		border-bottom: 0 !important;
+	}
+
+	.nav-tabs a{
+		color:	$secondary;
+		border-bottom: 0 !important;
+	}
+
+	pre[class*="language-"]{
+		margin:			0 !important;
+		border:			1px solid $border-color;
+	}
+
+}
+
+/**
+ * Syntax highlighter
+ */
+pre[class*="language-"]{
+	background:		$light !important;
 }
 
 /**
@@ -88,6 +130,19 @@ input[type=button]:hover {
  * navbar
  *
  */
+.offcanvas a{
+	color:				$secondary;
+	text-decoration:	none;
+}
+.offcanvas a:hover{
+	color:				$dark;
+}
+
+.offcanvas h5 a{
+	color:				$dark;
+	font-weight:		bold;
+}
+
 .toggle-offcanvas{
 	display:none;
 }

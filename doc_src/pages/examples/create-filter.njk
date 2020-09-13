@@ -16,9 +16,9 @@ tags: demo
 
 {% set html %}
 <select id="select-words-regex" multiple placeholder="Enter a word matching the pattern..."></select>
-<div class="control-group">
-	<label for="regex">Pattern</label>
-	<input type="text" id="regex" value="^a+$"><br><br>
+<div class="control-group form-inline">
+	<label for="regex" class="mr-2">Pattern</label>
+	<input type="text" id="regex" value="^a+$" class="form-control">
 </div>
 {% endset %}
 
@@ -41,7 +41,10 @@ new Selectize('#select-words-regex',{
 
 {% set html %}
 <select id="select-words-length" multiple placeholder="Enter a word longer than the minimum number of characters..."></select>
-<input id="length" value="2" />
+<div class="control-group form-inline">
+	<label for="length" class="mr-2">Minimum length</label>
+	<input id="length" value="2" class="form-control" />
+</div>
 {% endset %}
 
 <script>

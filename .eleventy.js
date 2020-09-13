@@ -10,6 +10,8 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({'build/css/selectize.bootstrap4.css':'css/selectize.bootstrap4.css'});
 	eleventyConfig.addPassthroughCopy({'build/css/selectize.default.css':'css/selectize.default.css'});
 
+	const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+	eleventyConfig.addPlugin(syntaxHighlight);
 
 	eleventyConfig.addCollection('demosAlpha', function(collection) {
 		return collection.getFilteredByGlob("doc_src/pages/examples/*.njk").sort(function(a, b) {
