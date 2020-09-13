@@ -14,7 +14,7 @@ tags: demo
 {% endset %}
 
 {% set html %}
-<select id="select-state" multiple name="state[]" class="demo-default">
+<select id="select-state" multiple name="state[]">
 	<option value="">Select a state...</option>
 	<option value="AL">Alabama</option>
 	<option value="AK">Alaska</option>
@@ -107,7 +107,7 @@ new Selectize('#select-state',{
 {% endset %}
 
 {% set html %}
-<input id="input-tags" class="demo-default" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+<input id="input-tags" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
 {% endset %}
 
 {% set script %}

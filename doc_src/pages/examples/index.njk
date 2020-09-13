@@ -11,7 +11,7 @@ tags: demo
 {{ demo('<label class="h2 mb-3" for="input-tags">
 		&lt;input&gt;
 	</label>',
-	'<input id="input-tags" class="demo-default" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">',
+	'<input id="input-tags" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">',
 	'new Selectize("#input-tags",{
 	persist: false,
 	createOnBlur: true,
@@ -24,7 +24,7 @@ tags: demo
 {{ demo('<label class="h2 mb-3" for="input-tags">
 			&lt;select&gt;
 		</label>',
-		'<select id="select-beast" class="demo-default" placeholder="Select a person..." autocomplete="off">
+		'<select id="select-beast" placeholder="Select a person..." autocomplete="off">
 			<option value="">Select a person...</option>
 			<option value="4">Thomas Edison</option>
 			<option value="1">Nikola</option>
@@ -45,7 +45,7 @@ tags: demo
 {{ demo('<label class="h2 mb-3" for="select-beast-empty">
 			&lt;select&gt; (allow empty)
 		</label>',
-		'<select id="select-beast-empty" class="demo-default" data-placeholder="Select a person..."  autocomplete="off">
+		'<select id="select-beast-empty" data-placeholder="Select a person..."  autocomplete="off">
 				<option value="">None</option>
 				<option value="4">Thomas Edison</option>
 				<option value="1">Nikola</option>
@@ -62,7 +62,7 @@ tags: demo
 {{ demo('<label class="h2 mb-3" for="select-beast-disabled">
 			&lt;select disabled&gt;
 		</label>',
-		'<select id="select-beast-disabled" class="demo-default" disabled placeholder="Select a person..."  autocomplete="off">
+		'<select id="select-beast-disabled" disabled placeholder="Select a person..."  autocomplete="off">
 			<option value="">Select a person...</option>
 			<option value="4">Thomas Edison</option>
 			<option value="1">Nikola</option>
@@ -75,7 +75,7 @@ tags: demo
 {{ demo('<label class="h2 mb-3" for="select-beast-single-disabled">
 			&lt;select&gt; &lt;option disabled&gt;
 		</label>',
-		'<select id="select-beast-single-disabled" class="demo-default" placeholder="Select a person..." autocomplete="off">
+		'<select id="select-beast-single-disabled" placeholder="Select a person..." autocomplete="off">
 			<option value="">Select a person...</option>
 			<option value="4" disabled>Thomas Edison</option>
 			<option value="1">Nikola</option>
@@ -91,7 +91,7 @@ tags: demo
 {{ demo('<label class="h2 mb-3" for="select-state">
 			&lt;select multiple&gt;
 		</label>',
-		'<select id="select-state" name="state[]" multiple class="demo-default" placeholder="Select a state..." autocomplete="off">
+		'<select id="select-state" name="state[]" multiple placeholder="Select a state..." autocomplete="off">
 			<option value="">Select a state...</option>
 			<option value="AL">Alabama</option>
 			<option value="AK">Alaska</option>

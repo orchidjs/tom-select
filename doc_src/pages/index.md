@@ -14,7 +14,7 @@ Orchid Select was forked from <a href="https://github.com/selectize/selectize.js
 <div class="w-50 mx-auto">
 <h3>Example</h3>
 <link rel="stylesheet" href="/css/selectize.bootstrap4.css">
-<select id="select-tags" class="demo-default" multiple autocomplete="off" placeholder="How cool is this?">
+<select id="select-tags" multiple autocomplete="off" placeholder="How cool is this?">
 	<option selected>Awesome</option>
 	<option selected>Neat</option>
 	<option>Meh</option>
