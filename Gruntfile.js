@@ -43,10 +43,16 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('serve', [
-			'shell:builddocs',
-			'connect',
-			'watch'
+		'builddocs',
+		'connect',
+		'watch'
 	])
+
+	grunt.registerTask('builddocs',[
+		'clean:builddocs',
+		'shell:builddocs',
+		'sass:builddocs',
+	]);
 
 	grunt.registerTask('build_complete', '', function() {
 		var files, i, n, source, name, path, modules = [];
@@ -127,7 +133,8 @@ module.exports = function(grunt) {
 		clean: {
 			pre: ['build/*'],
 			post: ['build/**/*.tmp.*','build/**/*.tmp'],
-			js: ['build/*.js']
+			js: ['build/*.js'],
+			builddocs: ['build/docs/*']
 		},
 		copy: {
 			scss:{
@@ -164,17 +171,25 @@ module.exports = function(grunt) {
 			}
 		},
 		sass: {
+			options:{
+				style:'expanded',
+			},
 			build: {
-				options:{
-					style:'expanded',
-				//	ext: '.css',
-				},
 				files: [{
 					'build/css/selectize.css': ['src/scss/selectize.scss'],
 					'build/css/selectize.default.css': ['src/scss/selectize.default.scss'],
 					'build/css/selectize.bootstrap3.css': ['src/scss/-selectize.bootstrap3.scss'],
 					'build/css/selectize.bootstrap4.css': ['src/scss/-selectize.bootstrap4.scss'],
 				}]
+			},
+			builddocs: {
+				files: [{
+					expand: true,
+					flatten: true,
+					ext: '.css',
+					src: ['doc_src/css/*.scss'],
+					dest: 'build/docs/css'
+				}],
 			}
 		},
 		postcss: {
@@ -274,7 +289,7 @@ module.exports = function(grunt) {
 					'doc_src/**',
 				],
 				tasks:[
-					'shell:builddocs',
+					'builddocs',
 				]
 			},
 			src:{
@@ -283,7 +298,7 @@ module.exports = function(grunt) {
 				],
 				tasks: [
 					'default',
-					'shell:builddocs',
+					'builddocs',
 				]
 			}
 		}
