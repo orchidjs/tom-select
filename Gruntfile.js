@@ -52,6 +52,7 @@ module.exports = function(grunt) {
 		'clean:builddocs',
 		'shell:builddocs',
 		'sass:builddocs',
+		'postcss:builddocs',
 	]);
 
 	grunt.registerTask('build_complete', '', function() {
@@ -118,6 +119,20 @@ module.exports = function(grunt) {
 
 	})();
 
+	var autoprefixer = require('autoprefixer')(
+		{"overrideBrowserslist": [
+			"last 1 major version",
+			">= 1%",
+			"Chrome >= 45",
+			"Firefox >= 38",
+			"Edge >= 12",
+			"Explorer >= 10",
+			"iOS >= 9",
+			"Safari >= 9",
+			"Android >= 4.4",
+		]}
+	);
+
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		bower: {
@@ -130,12 +145,15 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+
+		// delete old build files
 		clean: {
 			pre: ['build/*'],
-			post: ['build/**/*.tmp.*','build/**/*.tmp'],
 			js: ['build/*.js'],
 			builddocs: ['build/docs/*']
 		},
+
+		// copy scss files to build folder
 		copy: {
 			scss:{
 				files: [{
@@ -149,6 +167,8 @@ module.exports = function(grunt) {
 				files: scss_plugin_files
 			},
 		},
+
+		// replace @@version with current package version
 		replace: {
 			options: {
 				prefix: '@@',
@@ -170,6 +190,9 @@ module.exports = function(grunt) {
 				]
 			}
 		},
+
+
+		// compile css from scss
 		sass: {
 			options:{
 				style:'expanded',
@@ -192,6 +215,8 @@ module.exports = function(grunt) {
 				}],
 			}
 		},
+
+		// autoprefix && cssnanao
 		postcss: {
 			prefix: {
 				/*
@@ -206,19 +231,7 @@ module.exports = function(grunt) {
 				options:{
 					processors: [
 						//require('pixrem')(), // add fallbacks for rem units
-						require('autoprefixer')(
-							{"overrideBrowserslist": [
-								"last 1 major version",
-								">= 1%",
-								"Chrome >= 45",
-								"Firefox >= 38",
-								"Edge >= 12",
-								"Explorer >= 10",
-								"iOS >= 9",
-								"Safari >= 9",
-								"Android >= 4.4",
-							]}
-						)
+						autoprefixer,
 					]
 				},
 				files: [{expand: true, flatten: false, src: ['build/css/*.css'], dest: ''}],
@@ -235,8 +248,24 @@ module.exports = function(grunt) {
 					'build/css/selectize.bootstrap3.min.css': ['build/css/selectize.bootstrap3.css'],
 					'build/css/selectize.bootstrap4.min.css': ['build/css/selectize.bootstrap4.css'],
 				}]
-			}
+			},
+			builddocs:{
+				options:{
+					processors: [
+						autoprefixer,
+						require('cssnano')() // minify the result
+					]
+				},
+				files: [{
+					expand: true,
+					flatten: true,
+					src: ['build/docs/css/*.css'],
+					dest: 'build/docs/css'
+				}],
+			},
 		},
+
+		// combine all the plugin.js files and selectize.js into one file
 		concat: {
 			options: {
 				stripBanners: true,
@@ -248,6 +277,8 @@ module.exports = function(grunt) {
 				}
 			},
 		},
+
+		// babel compile js
 		babel: {
 			options: {
 				sourceMap: true
@@ -258,6 +289,8 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+
+		// run server at http://localhost:8000 to view documentation and run examples
 		connect: {
 			server:{
 				options: {
@@ -265,11 +298,16 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+
+		// generate /build/docs
+		// see .eleventy.js for configuration
 		shell: {
 			builddocs: {
 				command: 'npx @11ty/eleventy',
 			},
 		},
+
+		// create .min.js files
 		uglify: {
 			main: {
 				options: {
@@ -283,6 +321,8 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+
+		// watch for changes to files in /doc_src or /src
 		watch: {
 			docs:{
 				files:[
