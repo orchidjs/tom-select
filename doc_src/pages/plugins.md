@@ -14,75 +14,16 @@ complete control.
 
 **A few notes:**
 - All plugins live in their own folders in ["src/plugins"](https://github.com/orchidjs/orchid-select/tree/master/src/plugins).
-- Plugin names should be in follow the format: `/[a-z_]+$`
+- Plugin names should follow the format: `/[a-z_]+$`
 - JS source should live in a "plugin.js" file (required).
-- CSS should live in a "plugin.less" file (optional). It will be bundled at build time.
+- CSS should live in a "plugin.scss" file (optional). It will be bundled at build time.
 - Plugins are initialized right before the control is setup.
   This means that if you want to listen for events on any of the control's
   elements, you should override the `setup()` method (see ["DOM Events"](#dom-events)).
 
-### Boilerplate
-
-```js
-Selectize.define('plugin_name', function(options) {
-	// options: plugin-specific options
-	// this: Selectize instance
-});
-```
-
-#### Adding Dependencies
-
-```js
-Selectize.define('plugin_name', function(options) {
-	this.require('another_plugin');
-});
-```
-
-## Overriding Methods
-
-Methods should be extended by [wrapping them](http://coreymaynard.com/blog/extending-a-javascript-function/):
-
-```js
-var self = this;
-this.someMethod = (function() {
-	var original = self.someMethod;
-	return function() {
-		// do your logic
-		return original.apply(this, arguments);
-	};
-})();
-```
-
-**Important:** If the method you're overriding returns a value, make sure the
-overridden function returns a value as well.
-
-## DOM Events
-
-Because all elements for the control are created within the `setup()` method (which is
-invoked after the plugin initialized) events should be added by overriding the setup method,
-like so:
-
-```js
-Selectize.define('plugin_name', function(options) {
-	var self = this;
-
-	// override the setup method to add an extra `click`  handler
-	this.setup = (function() {
-		var original = self.setup;
-		return function() {
-			original.apply(this, arguments);
-			this.$control.on('click', 'div', function(e) {
-				alert('A div was clicked!');
-			});
-		};
-	})();
-
-});
-```
-
 ## Plugin Usage
 
-#### List (without options)
+#### Without Options
 
 ```js
 new Selectize('#select',{
@@ -90,7 +31,7 @@ new Selectize('#select',{
 });
 ```
 
-#### List (with options)
+#### With Options
 
 ```js
 new Selectize('#select',{
@@ -102,3 +43,66 @@ new Selectize('#select',{
 ```
 
 For a more detailed description of plugin option formats and how the plugin system works, check out the [microplugin](https://github.com/brianreavis/microplugin.js) documentation.
+
+
+## Creating Plugins
+
+
+### Boilerplate
+
+```js
+Selectize.define('plugin_name', function(plugin_options) {
+	// options: plugin-specific options
+	// this: Selectize instance
+});
+```
+
+#### Adding Dependencies
+
+```js
+Selectize.define('plugin_name', function(plugin_options) {
+	this.require('another_plugin');
+});
+```
+
+#### Method Hooks
+
+Execute plugin code 'before' or 'after' existing Selectize methods
+
+```js
+Selectize.define('plugin_name', function(plugin_options) {
+	this.hook('after','setup',function(){
+		// .. additional setup
+	});
+});
+```
+
+#### Overriding Methods
+Use the 'instead' hook to override existing methods.
+
+**Note:** If the method you're overriding returns a value, make sure the
+overridden function returns a value as well.
+
+```js
+Selectize.define('plugin_name', function(plugin_options) {
+	var original_setup = this.setup;
+	this.hook('instead','setup',function(){
+		// .. custom setup
+		return original_setup.apply(this, arguments);
+	});
+});
+```
+
+
+#### DOM Events
+If you want to add event listeners to selectize elements, add them after the `setup()` method.
+
+```js
+Selectize.define('plugin_name', function(plugin_options) {
+	this.hook('after','setup',function(){
+		this.control.addEventListener('click',function(evt){
+			alert('the control was clicked');
+		});
+	});
+});
+```
