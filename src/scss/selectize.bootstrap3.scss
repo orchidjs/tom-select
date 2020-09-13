@@ -60,8 +60,8 @@ $selectize-arrow-offset: $selectize-padding-x + 5px;
 	background: $selectize-color-dropdown;
 	border: 1px solid $dropdown-fallback-border;
 	border: 1px solid $dropdown-border;
-	@include selectize-border-radius($border-radius-base);
-	@include selectize-box-shadow(0 6px 12px rgba(0,0,0,.175));
+	border-radius: $border-radius-base;
+	box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
 
 .selectize-dropdown {
@@ -93,7 +93,7 @@ $selectize-arrow-offset: $selectize-padding-x + 5px;
 	min-height: $input-height-base;
 
 	&.dropdown-active {
-		@include selectize-border-radius($selectize-border-radius);
+		border-radius: $selectize-border-radius;
 	}
 	&.dropdown-active::before {
 		display: none;
@@ -109,11 +109,11 @@ $selectize-arrow-offset: $selectize-padding-x + 5px;
 
 .has-error .selectize-input {
     border-color: $selectize-color-input-error;
-    @include selectize-box-shadow($selectize-shadow-input-error);
+    box-shadow: $selectize-shadow-input-error;
 
     &:focus {
         border-color: $selectize-color-input-error-focus;
-        @include selectize-box-shadow($selectize-shadow-input-error-focus);
+        box-shadow: $selectize-shadow-input-error-focus;
     }
 }
 
@@ -124,7 +124,7 @@ $selectize-arrow-offset: $selectize-padding-x + 5px;
 			padding-right: $selectize-padding-x - $selectize-padding-item-x;
 		}
 		.selectize-input > div {
-			@include selectize-border-radius($selectize-border-radius - 1px);
+			border-radius: $selectize-border-radius - 1px;
 		}
 	}
 }
@@ -134,6 +134,6 @@ $selectize-arrow-offset: $selectize-padding-x + 5px;
 	height: auto;
 	border: none;
 	background: none;
-	@include selectize-box-shadow(none);
-	@include selectize-border-radius(0);
+	box-shadow: none;
+	border-radius: 0;
 }

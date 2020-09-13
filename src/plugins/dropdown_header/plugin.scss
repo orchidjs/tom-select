@@ -3,7 +3,7 @@
 	padding: $selectize-padding-dropdown-item-y $selectize-padding-dropdown-item-x;
 	border-bottom: 1px solid $selectize-color-border;
 	background: mix($selectize-color-dropdown, $selectize-color-border, 85%);
-	@include selectize-border-radius($selectize-border-radius $selectize-border-radius 0 0);
+	border-radius: $selectize-border-radius $selectize-border-radius 0 0;
 }
 .selectize-dropdown-header-close {
 	position: absolute;

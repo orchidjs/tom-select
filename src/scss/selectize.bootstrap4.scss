@@ -64,8 +64,8 @@ $selectize-arrow-offset: calc(#{$selectize-padding-x} + 5px) !default;
   z-index: $zindex-dropdown;
   background: $selectize-color-dropdown;
   border: 1px solid $dropdown-border-color; //$dropdown-fallback-border
-  @include selectize-border-radius($border-radius);
-  @include selectize-box-shadow(0 6px 12px rgba(0,0,0,.175));
+  border-radius: $border-radius;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
 
 .selectize-dropdown {
@@ -106,7 +106,7 @@ $selectize-arrow-offset: calc(#{$selectize-padding-x} + 5px) !default;
   @include transition($input-transition);
 
   &.dropdown-active {
-    @include selectize-border-radius($selectize-border-radius);
+    border-radius: $selectize-border-radius;
   }
   &.dropdown-active::before {
     display: none;
@@ -124,12 +124,11 @@ $selectize-arrow-offset: calc(#{$selectize-padding-x} + 5px) !default;
 
 .is-invalid .selectize-input {
   border-color: $selectize-color-input-error;
-  @include selectize-box-shadow($selectize-shadow-input-error);
+  box-shadow: $selectize-shadow-input-error;
 
   &:focus {
 	border-color: $selectize-color-input-error-focus;
-	// @include selectize-box-shadow(none)
-	@include selectize-box-shadow($selectize-shadow-input-error-focus);
+	box-shadow: $selectize-shadow-input-error-focus;
   }
 }
 
@@ -150,7 +149,7 @@ $selectize-arrow-offset: calc(#{$selectize-padding-x} + 5px) !default;
 	  padding-right: calc(#{$selectize-padding-x} - #{$selectize-padding-item-x});
 	}
 	.selectize-input > div {
-	  @include selectize-border-radius(calc(#{$selectize-border-radius} - 1px));
+	  border-radius: calc(#{$selectize-border-radius} - 1px);
 	}
   }
 }
@@ -160,11 +159,11 @@ $selectize-arrow-offset: calc(#{$selectize-padding-x} + 5px) !default;
   height: auto;
   border: none;
   background: none;
-  @include selectize-box-shadow(none);
-  @include selectize-border-radius(0);
+  box-shadow: none;
+  border-radius: 0;
 }
 
 .input-group .selectize-input {
 	overflow: unset;
-	@include selectize-border-radius(0 $selectize-border-radius $selectize-border-radius 0);
+	border-radius: 0 $selectize-border-radius $selectize-border-radius 0;
 }
