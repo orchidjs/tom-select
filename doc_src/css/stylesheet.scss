@@ -74,21 +74,12 @@ b{
  * Demo
  *
  */
-.demo:last-child {
-	border-bottom: 0 none;
-}
-
-.demo .selectize-control {
-	width: 100%;
-}
 
 .demo .value {
 	margin: 0 0 10px 0;
 	font-size: 12px;
 }
-.demo .value span {
-	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
-}
+
 .demo{
 	font-size: $font-size-base * .9;
 	.nav-tabs{
