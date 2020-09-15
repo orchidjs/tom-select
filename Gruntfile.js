@@ -1,7 +1,6 @@
 var fs = require('fs');
 
 module.exports = function(grunt) {
-	grunt.loadNpmTasks('grunt-bower-task');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-clean');
@@ -15,7 +14,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', [
 		'clean:pre',
-		'bower:install',
 
 		'copy:scss',
 		'copy:scss_plugins',
@@ -28,21 +26,19 @@ module.exports = function(grunt) {
 		'replace',
 		'build_complete',
 		'uglify',
-		//'clean:post',
 	]);
 
 	grunt.registerTask('js', [
 		'clean:js',
-		'bower:install',
 		'concat:js',
 		'babel',
 		'replace:js',
 		'build_complete',
 		'uglify',
-		'clean:post',
 	]);
 
 	grunt.registerTask('serve', [
+		'default',
 		'builddocs',
 		'connect',
 		'watch'
@@ -135,16 +131,6 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		bower: {
-			install: {
-				options: {
-					copy: false,
-					clean: false,
-					layout: 'byComponent',
-					action: 'install'
-				}
-			}
-		},
 
 		// delete old build files
 		clean: {
