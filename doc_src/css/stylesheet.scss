@@ -1,6 +1,8 @@
 @import "../../node_modules/bootstrap/scss/_functions.scss";
 @import "../../node_modules/bootstrap/scss/_variables.scss";
 
+$enable-responsive-font-sizes: true;
+
 $kbd-color:					$dark;
 $kbd-bg:					$gray-200;
 
