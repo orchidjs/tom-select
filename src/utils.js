@@ -140,18 +140,3 @@ var getSelection = function(input) {
 		length	: input.selectionEnd - input.selectionStart,
 	};
 };
-
-
-var logError = function(message, options){
-	if(!options) options = {};
-	var component = "Selectize";
-
-	console.error(component + ": " + message)
-
-	if(options.explanation){
-		// console.group is undefined in <IE11
-		if(console.group) console.group();
-		console.error(options.explanation);
-		if(console.group) console.groupEnd();
-	}
-}

@@ -96,18 +96,12 @@ var Selectize = function( input, settings ){
 // mixins
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-MicroEvent.mixin(Selectize);
-
-if(typeof MicroPlugin !== "undefined"){
-	MicroPlugin.mixin(Selectize);
-}else{
-	logError("Dependency MicroPlugin is missing",
-		{explanation:
-			"Make sure you either: (1) are using the \"complete\" "+
-			"version of Selectize, or (2) require MicroPlugin before you "+
-			"load Selectize."}
-	);
+if( typeof MicroPlugin === "undefined"){
+	throw 'Dependency MicroPlugin is missing. Make sure you either: (1) are using the "complete" version of Selectize, or (2) require MicroPlugin before you load Selectize.';
 }
+
+MicroEvent.mixin(Selectize);
+MicroPlugin.mixin(Selectize);
 
 
 // methods
