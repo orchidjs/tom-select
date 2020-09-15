@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 	// theme switcher
-	var themes			= ['default','bootstrap3','bootstrap4'];
-	var theme			= localStorage.getItem('theme') || 'default';
+	var themes			= ['bootstrap4','bootstrap3','default'];
+	var theme			= localStorage.getItem('theme') || 'bootstrap4';
 
 	var themes_div	= document.createElement('div');
 	themes_div.classList.add('theme-selector')
