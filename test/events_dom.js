@@ -13,7 +13,7 @@ describe('DOM Events', function() {
 
 			var counter = 0;
 			test.$select.on('change', function() { counter++; });
-			test.selectize.addItem('b');
+			test.instance.addItem('b');
 
 			window.setTimeout(function() {
 				expect(counter).to.be.equal(1);
@@ -33,7 +33,7 @@ describe('DOM Events', function() {
 
 			var counter = 0;
 			test.$select.on('change', function() { counter++; });
-			test.selectize.removeItem('b');
+			test.instance.removeItem('b');
 
 			window.setTimeout(function() {
 				expect(counter).to.be.equal(1);
@@ -53,7 +53,7 @@ describe('DOM Events', function() {
 
 			var counter = 0;
 			test.$select.on('change', function() { counter++; });
-			test.selectize.clear();
+			test.instance.clear();
 
 			window.setTimeout(function() {
 				expect(counter).to.be.equal(1);

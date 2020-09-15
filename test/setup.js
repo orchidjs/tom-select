@@ -27,9 +27,9 @@
 					valueField: 'val',
 					labelField: 'lbl'
 				});
-				expect(test.selectize.getValue()).to.be.equal('a,b');
-				assert.deepEqual(test.selectize.items, ['a','b']);
-				assert.deepEqual(test.selectize.options, {
+				expect(test.instance.getValue()).to.be.equal('a,b');
+				assert.deepEqual(test.instance.items, ['a','b']);
+				assert.deepEqual(test.instance.options, {
 					'a': {val: 'a', lbl: 'Hello', $order: 1},
 					'b': {val: 'b', lbl: 'World', $order: 2}
 				});
@@ -37,27 +37,27 @@
 			describe('getValue()', function() {
 				it_n('should return value as a string', function() {
 					var test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
-					expect(test.selectize.getValue()).to.be.a('string');
+					expect(test.instance.getValue()).to.be.a('string');
 				});
 				it_n('should return "" when empty', function() {
 					var test = setup_test('<input type="text" value="">', {delimiter: ','});
-					expect(test.selectize.getValue()).to.be.equal('');
+					expect(test.instance.getValue()).to.be.equal('');
 				});
 				it_n('should return proper value when not empty', function() {
 					var test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
-					expect(test.selectize.getValue()).to.be.equal('a,b');
+					expect(test.instance.getValue()).to.be.equal('a,b');
 				});
 			});
 			describe('<input type="text" attributes>', function() {
 				it_n('should propagate original input attributes to the generated input', function() {
 					var test = setup_test('<input type="text" autocorrect="off" autocapitalize="none">', {});
-					expect(test.selectize.control_input.getAttribute('autocorrect')).to.be.equal('off');
-					expect(test.selectize.control_input.getAttribute('autocapitalize')).to.be.equal('none');
+					expect(test.instance.control_input.getAttribute('autocorrect')).to.be.equal('off');
+					expect(test.instance.control_input.getAttribute('autocapitalize')).to.be.equal('none');
 				});
 				it_n('should not add attributes if not present in the original', function() {
 					var test = setup_test('<input type="text">', {});
-					expect(test.selectize.control_input.getAttribute('autocorrect')).to.be.equal(null);
-					expect(test.selectize.control_input.getAttribute('autocapitalize')).to.be.equal(null);
+					expect(test.instance.control_input.getAttribute('autocorrect')).to.be.equal(null);
+					expect(test.instance.control_input.getAttribute('autocapitalize')).to.be.equal(null);
 				});
 			});
 		});
@@ -66,7 +66,7 @@
 			it_n('should complete without exceptions', function(done) {
 				var test = setup_test('<input type="number">', {});
 				window.setTimeout(function() {
-					assert.equal(test.selectize.control_input.getAttribute('type'), 'number');
+					assert.equal(test.instance.control_input.getAttribute('type'), 'number');
 					done();
 				}, 0);
 			});
@@ -91,11 +91,11 @@
 					optgroupField: 'grp',
 					disabledField: 'dis'
 				});
-				assert.deepEqual(test.selectize.options, {
+				assert.deepEqual(test.instance.options, {
 					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: false},
 					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
 				});
-				assert.deepEqual(test.selectize.optgroups, {
+				assert.deepEqual(test.instance.optgroups, {
 					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
 					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: false}
 				}, '2');
@@ -115,18 +115,18 @@
 					optgroupField: 'grp',
 					disabledField: 'dis'
 				});
-				assert.deepEqual(test.selectize.options, {
+				assert.deepEqual(test.instance.options, {
 					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: true},
 					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
 				});
-				assert.deepEqual(test.selectize.optgroups, {
+				assert.deepEqual(test.instance.optgroups, {
 					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
 					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: true}
 				}, '2');
 			});
 			it_n('should add options in text form (no html entities)', function() {
 				var test = setup_test('<select><option selected value="a">&lt;hi&gt;</option></select>', {});
-				expect(test.selectize.options['a'].text).to.be.equal('<hi>');
+				expect(test.instance.options['a'].text).to.be.equal('<hi>');
 			});
 			it_n('should keep options in original order if no sort given', function(done) {
 				var test = setup_test([
@@ -191,9 +191,9 @@
 				var order_expected = ['AL','AK','AZ','AR','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','01','10'];
 				var order_actual = [];
 
-				test.selectize.refreshOptions(true);
+				test.instance.refreshOptions(true);
 				window.setTimeout(function() {
-					$(test.selectize.dropdown).find('[data-value]').each(function(i, el) {
+					$(test.instance.dropdown).find('[data-value]').each(function(i, el) {
 						order_actual.push($(el).attr('data-value'));
 					});
 
@@ -207,21 +207,21 @@
 					'<option value="b" disabled>Item B</option>',
 					'</select>'].join(''), {});
 
-				test.selectize.refreshOptions(true);
+				test.instance.refreshOptions(true);
 				window.setTimeout(function() {
-					expect($(test.selectize.dropdown).find('.option')).to.has.length(2);
-					expect($(test.selectize.dropdown).find('[data-selectable]')).to.has.length(1);
+					expect($(test.instance.dropdown).find('.option')).to.has.length(2);
+					expect($(test.instance.dropdown).find('[data-selectable]')).to.has.length(1);
 					done();
 				}, 0);
 			});
 			describe('getValue()', function() {
 				it_n('should return "" when empty', function() {
 					var test = setup_test('<select>', {});
-					expect(test.selectize.getValue()).to.be.equal('');
+					expect(test.instance.getValue()).to.be.equal('');
 				});
 				it_n('should return proper value when not empty', function() {
 					var test = setup_test('<select><option selected value="a">A</option></select>', {});
-					expect(test.selectize.getValue()).to.be.equal('a');
+					expect(test.instance.getValue()).to.be.equal('a');
 				});
 			});
 		});
@@ -233,11 +233,11 @@
 			describe('getValue()', function() {
 				it_n('should return [] when empty', function() {
 					var test = setup_test('<select multiple>', {});
-					expect(test.selectize.getValue()).to.deep.equal([]);
+					expect(test.instance.getValue()).to.deep.equal([]);
 				});
 				it_n('should return proper value as array when not empty', function() {
 					var test = setup_test('<select multiple><option selected value="a">A</option></select>', {});
-					expect(test.selectize.getValue()).to.deep.equal(['a']);
+					expect(test.instance.getValue()).to.deep.equal(['a']);
 				});
 			});
 		});
@@ -249,10 +249,10 @@
 				test = setup_test('<select disabled>', {});
 			});
 			it_n('should have "disabled" class', function() {
-				expect(test.selectize.control.classList.contains('disabled')).to.be.equal(true);
+				expect(test.instance.control.classList.contains('disabled')).to.be.equal(true);
 			});
 			it_n('should have isDisabled property set to true', function() {
-				expect(test.selectize.isDisabled).to.be.equal(true);
+				expect(test.instance.isDisabled).to.be.equal(true);
 			});
 		});
 
@@ -274,15 +274,15 @@
 			});
 
 			it_n('should have isRequired property set to true', function() {
-				expect(test.selectize.isRequired).to.be.equal(true);
+				expect(test.instance.isRequired).to.be.equal(true);
 			});
 
 			it_n('should have the required class', function() {
-				expect(test.selectize.control.classList.contains('required')).to.be.equal(true);
+				expect(test.instance.control.classList.contains('required')).to.be.equal(true);
 			});
 
 			it_n('should pass validation if an element is selected',function(done) {
-				test.selectize.addItem('a');
+				test.instance.addItem('a');
 				$form.one('submit.test_required', function(e) {
 					done();
 				});
@@ -305,7 +305,7 @@
 					test.$select[0].checkValidity();
 
 					window.setTimeout(function() {
-						expect(test.selectize.control.classList.contains('invalid')).
+						expect(test.instance.control.classList.contains('invalid')).
 							to.be.true;
 						done();
 					}, 250);
@@ -313,8 +313,8 @@
 
 				it_n('should clear the invalid class after an item is selected',function(done) {
 					syn.click($button).delay(0, function() {
-						test.selectize.addItem('a');
-						expect(test.selectize.control.classList.contains('invalid')).
+						test.instance.addItem('a');
+						expect(test.instance.control.classList.contains('invalid')).
 							to.be.false;
 						done();
 					});
@@ -339,10 +339,10 @@
 			});
 
 			it_n('should have isRequired property set to false', function() {
-				expect(test.selectize.isRequired).to.be.equal(false);
+				expect(test.instance.isRequired).to.be.equal(false);
 			});
 			it_n('should not have the required class', function() {
-				expect(test.selectize.control.classList.contains('required')).to.be.equal(false);
+				expect(test.instance.control.classList.contains('required')).to.be.equal(false);
 			});
 		});
 
@@ -363,10 +363,10 @@
 			});
 
 			it_n('should render the custom option element', function(done) {
-				test.selectize.focus();
+				test.instance.focus();
 
 				window.setTimeout(function() {
-					expect($(test.selectize.dropdown).find('.custom-option').length).to.be.equal(1);
+					expect($(test.instance.dropdown).find('.custom-option').length).to.be.equal(1);
 					done();
 				}, 5);
 			});
@@ -394,10 +394,10 @@
 			});
 
 			it_n('should render the custom option element', function(done) {
-				test.selectize.focus();
+				test.instance.focus();
 
 				window.setTimeout(function() {
-					expect($(test.selectize.dropdown_content).find('.custom-option').length).to.be.equal(1);
+					expect($(test.instance.dropdown_content).find('.custom-option').length).to.be.equal(1);
 					done();
 				}, 0);
 			});
@@ -420,10 +420,10 @@
 			});
 
 			it_n('should render the custom option element', function(done) {
-				test.selectize.focus();
+				test.instance.focus();
 
 				window.setTimeout(function() {
-					expect($(test.selectize.dropdown_content).find('.custom-option').length).to.be.equal(1);
+					expect($(test.instance.dropdown_content).find('.custom-option').length).to.be.equal(1);
 					done();
 				}, 0);
 			});
@@ -434,17 +434,17 @@
 
 			it_n('should not be rtl', function() {
 				var test = setup_test('<select>', {});
-				expect(test.selectize.rtl).to.be.equal(false);
+				expect(test.instance.rtl).to.be.equal(false);
 			});
 
 			it_n('should detect rtl', function() {
 				var test = setup_test('<select dir="rtl">', {});
-				expect(test.selectize.rtl).to.be.equal(true);
+				expect(test.instance.rtl).to.be.equal(true);
 			});
 
 			it_n('should detect parent rtl', function() {
 				var test = setup_test('<div dir="rtl"><select class="setup-here"></select></div>', {});
-				expect(test.selectize.rtl).to.be.equal(true);
+				expect(test.instance.rtl).to.be.equal(true);
 			});
 
 		});
@@ -458,25 +458,25 @@
 			it_n('should filter options when typing in external control', function(done) {
 
 				syn.type('a',$control,function(){
-					assert.equal(test.selectize.dropdown_content.children.length, 1);
+					assert.equal(test.instance.dropdown_content.children.length, 1);
 					done();
 				});
 
 			});
 
 			it_n('should not hide external control', function() {
-				test.selectize.hideInput();
-				assert.equal(test.selectize.isInputHidden, false);
+				test.instance.hideInput();
+				assert.equal(test.instance.isInputHidden, false);
 			});
 
 
 			it_n('should not move caret position', function(done) {
-				test.selectize.addItem('a');
-				test.selectize.addItem('b');
-				var caretpos = test.selectize.caretPos;
+				test.instance.addItem('a');
+				test.instance.addItem('b');
+				var caretpos = test.instance.caretPos;
 
 				syn.type('[left]',$control,function(){
-					assert.equal(test.selectize.caretPos, caretpos);
+					assert.equal(test.instance.caretPos, caretpos);
 					done();
 				});
 			});

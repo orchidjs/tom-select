@@ -8,18 +8,18 @@
 
 				let test = setup_test('AB_Multi', {plugins: ['remove_button']});
 
-				test.selectize.addItem('a');
-				test.selectize.addItem('b');
-				assert.equal( test.selectize.items.length, 2 );
+				test.instance.addItem('a');
+				test.instance.addItem('b');
+				assert.equal( test.instance.items.length, 2 );
 
-				var itema			= test.selectize.getItem('b');
+				var itema			= test.instance.getItem('b');
 				var remove_button	= itema.querySelector('.remove');
 
 				expect(remove_button.classList.contains('remove')).to.be.equal(true);
 
 				syn.click( remove_button, function() {
-					assert.equal( test.selectize.items.length, 1 );
-					assert.equal( test.selectize.items[0], 'a' );
+					assert.equal( test.instance.items.length, 1 );
+					assert.equal( test.instance.items[0], 'a' );
 					done();
 
 				});
@@ -35,17 +35,17 @@
 
 				let test = setup_test('AB_Multi', {plugins: ['no_backspace_delete']});
 
-				test.selectize.addItem('a');
-				test.selectize.addItem('b');
-				test.selectize.setActiveItem(test.selectize.getItem('b'));
+				test.instance.addItem('a');
+				test.instance.addItem('b');
+				test.instance.setActiveItem(test.instance.getItem('b'));
 
-				assert.equal( test.selectize.items.length, 2 );
-				assert.equal( test.selectize.activeItems.length, 0 );
+				assert.equal( test.instance.items.length, 2 );
+				assert.equal( test.instance.activeItems.length, 0 );
 
-				syn.click(test.selectize.control_input,function(){
-					syn.type('\b', test.selectize.control_input, function() {
+				syn.click(test.instance.control_input,function(){
+					syn.type('\b', test.instance.control_input, function() {
 
-						assert.equal( test.selectize.items.length, 2 );
+						assert.equal( test.instance.items.length, 2 );
 						done();
 
 					});
@@ -63,15 +63,15 @@
 
 				var test = setup_test('AB_Multi',{plugins:['restore_on_backspace']});
 
-				test.selectize.addItem('a');
-				test.selectize.addItem('b');
-				assert.equal( test.selectize.items.length, 2 );
+				test.instance.addItem('a');
+				test.instance.addItem('b');
+				assert.equal( test.instance.items.length, 2 );
 
-				syn.click(test.selectize.control_input,function(){
-					syn.type('\b', test.selectize.control_input, function() {
-						assert.equal( test.selectize.items.length, 1 );
-						assert.equal( test.selectize.items[0], 'a' );
-						assert.equal( test.selectize.control_input.value, 'b' );
+				syn.click(test.instance.control_input,function(){
+					syn.type('\b', test.instance.control_input, function() {
+						assert.equal( test.instance.items.length, 1 );
+						assert.equal( test.instance.items[0], 'a' );
+						assert.equal( test.instance.control_input.value, 'b' );
 						done();
 
 					});
@@ -87,7 +87,7 @@
 			it_n('header should be added to dropdown menu', function() {
 
 				var test	= setup_test('AB_Multi',{plugins:['dropdown_header']});
-				var header	= test.selectize.dropdown.querySelectorAll('.selectize-dropdown-header');
+				var header	= test.instance.dropdown.querySelectorAll('.selectize-dropdown-header');
 
 				expect(header.length).to.be.equal(1);
 			});
@@ -142,8 +142,8 @@
 			it_n('three optgroups should be displayed', function() {
 
 				var test = optgroup_test();
-				syn.type('a', test.selectize.control_input, function() {
-					var optgroups = test.selectize.dropdown_content.querySelectorAll('.optgroup');
+				syn.type('a', test.instance.control_input, function() {
+					var optgroups = test.instance.dropdown_content.querySelectorAll('.optgroup');
 					expect(optgroups.length).to.be.equal(3);
 				});
 
@@ -153,15 +153,15 @@
 				var test = optgroup_test();
 
 				// 1) move right to audi
-				syn.type('a[right]', test.selectize.control_input, function() {
+				syn.type('a[right]', test.instance.control_input, function() {
 
-					var optgroup			= parentMatch(test.selectize.activeOption,'[data-group]');
+					var optgroup			= parentMatch(test.instance.activeOption,'[data-group]');
 					expect(optgroup.dataset.group).to.be.equal('audi');
 
 					// 2) move left to chevy
-					syn.type('[left]', test.selectize.control_input, function() {
+					syn.type('[left]', test.instance.control_input, function() {
 
-						var optgroup			= parentMatch(test.selectize.activeOption,'[data-group]');
+						var optgroup			= parentMatch(test.instance.activeOption,'[data-group]');
 						expect(optgroup.dataset.group).to.be.equal('chevrolet');
 
 					});

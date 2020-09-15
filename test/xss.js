@@ -26,8 +26,8 @@
 		describe('Raw HTML in optgroup label', function() {
 			it_n('should not trigger exploit', function(done) {
 				var test = setup_xss_test('<select><optgroup label="&lt;img src=&quot;x&quot; onerror=&quot;xss()&quot;&gt;"><option>Test</option></optgroup></select>', {}, done);
-				test.selectize.refreshOptions();
-				test.selectize.open();
+				test.instance.refreshOptions();
+				test.instance.open();
 			});
 		});
 

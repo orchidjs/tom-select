@@ -10,7 +10,7 @@ var test_number = 0;
 
 var teardownLast = function(){
 	if( window.test_last ){
-		window.test_last.selectize.destroy();
+		window.test_last.instance.destroy();
 		window.test_last.$select.remove();
 		//sandbox.innerHTML = '';
 		window.test_last = null;
@@ -40,7 +40,7 @@ window.setup_test = function(html, options, callback) {
 		$html: $html,
 		$select: $select,
 		callback: callback,
-		selectize: instance
+		instance: instance
 	};
 
 	return test;
