@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	 *
 	 */
 	$('.toggle-offcanvas').click(function(){
-		console.log('here');
 		$('.offcanvas').toggleClass('open');
 	});
 
