@@ -8,7 +8,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/OrchidJS/Orchid-Select/badge.svg?branch=master)](https://coveralls.io/github/OrchidJS/Orchid-Select?branch=master)
 [![dependencies Status](https://david-dm.org/orchidjs/orchid-select/status.svg)](https://david-dm.org/orchidjs/orchid-select)
 
-<div class="lead">
+<div class="lead my-4">
 Orchid Select is an extensible and dynamic &lt;select&gt; UI control.
 With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
 Orchid Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> to provide the same powerful UI and API but with a framework agnostic design.
