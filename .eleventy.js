@@ -5,10 +5,9 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({'doc_src/css':'css'});
 	eleventyConfig.addPassthroughCopy({'doc_src/images':'images'});
 	eleventyConfig.addPassthroughCopy({'doc_src/js':'js'});
-	eleventyConfig.addPassthroughCopy({'build/js/selectize.complete.js':'js/selectize.complete.js'});
-	eleventyConfig.addPassthroughCopy({'build/css/selectize.bootstrap3.css':'css/selectize.bootstrap3.css'});
-	eleventyConfig.addPassthroughCopy({'build/css/selectize.bootstrap4.css':'css/selectize.bootstrap4.css'});
-	eleventyConfig.addPassthroughCopy({'build/css/selectize.default.css':'css/selectize.default.css'});
+	eleventyConfig.addPassthroughCopy({'build/js':'js'});
+	eleventyConfig.addPassthroughCopy({'build/css':'css'});
+
 
 	const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 	eleventyConfig.addPlugin(syntaxHighlight);
