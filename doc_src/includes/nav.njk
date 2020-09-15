@@ -7,7 +7,7 @@
 
 
 	{% macro nav_link(item) %}
-		<a class="nav-link px-0 {% if page.url == item.url or page.filePathStem == item.filePathStem %} text-dark {% endif %}" href="{{ item.url }}">
+		<a class="nav-link {% if page.url == item.url or page.filePathStem == item.filePathStem %} active {% endif %}" href="{{ item.url }}">
 
 		{% if item.title %}
 			{{ item.title }}
@@ -42,7 +42,7 @@
 	</nav>
 	{% endif %}
 
-	<div class="py-5">
+	<div class="mt-auto pt-5 pb-2 small">
 		<a href="https://github.com/orchidjs/orchid-select/doc_src/blob/master/{{ page.inputPath }}">Edit this page on GitHub</a>
-		<div class="mt-3"><a href="https://github.com/orchidjs/orchid-select/graphs/contributors">© 2020 Contributors</a></div>
+		<div class="mt-2"><a href="https://github.com/orchidjs/orchid-select/graphs/contributors">© 2020 Contributors</a></div>
 	</div>

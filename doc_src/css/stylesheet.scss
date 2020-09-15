@@ -9,7 +9,8 @@ $input-disabled-bg:			$light;
 //$nav-link-padding-y:		.5rem;
 //$nav-link-padding-x:		1rem;
 $nav-tabs-link-active-bg:	$light;
-
+$headings-color:			$gray-700;
+$body-color:                $gray-800;
 
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
@@ -59,7 +60,12 @@ input[type=button]:hover {
 }
 
 h1, h2, h3, h4, h5{
-	margin-top:3rem;
+	margin-top:		3rem;
+}
+
+strong,
+b{
+	color:			$headings-color;
 }
 
 /**
@@ -130,18 +136,38 @@ pre[class*="language-"]{
  * navbar
  *
  */
-.offcanvas a{
-	color:				$secondary;
-	text-decoration:	none;
-}
-.offcanvas a:hover{
-	color:				$dark;
+.offcanvas{
+	height:				100vh;
+	position:			sticky;
+	top:				0;
+	overflow-y:			auto;
+	overflow-x:			hidden;
+
+	a{
+		color:				$secondary;
+		text-decoration:	none;
+	}
+
+	h5 a{
+		color:				$headings-color;
+		font-weight:		bold;
+	}
+
+	.nav-link{
+		padding:		.35rem .7rem;
+	}
+
+	.nav-link.active{
+		color:				$dark;
+	}
+
+	.nav-link:hover{
+		color:				$primary;
+	}
+
+
 }
 
-.offcanvas h5 a{
-	color:				$dark;
-	font-weight:		bold;
-}
 
 .toggle-offcanvas{
 	display:none;

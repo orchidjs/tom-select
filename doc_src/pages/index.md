@@ -1,4 +1,7 @@
 
+<h1 class="display-3 mt-0">Orchid Select</h1>
+
+
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
 [![Build Status](https://travis-ci.org/OrchidJS/Orchid-Select.svg?branch=master)](https://travis-ci.org/OrchidJS/Orchid-Select)
@@ -30,7 +33,7 @@ create: true
 </div>
 
 
-### Features
+## Features
 
 - **Smart Option Searching / Ranking**<br>Options are efficiently scored and sorted on-the-fly (using [sifter](https://github.com/brianreavis/sifter.js)). Want to search an item's title *and* description? No problem.
 - **Caret between items**<br>Order matters sometimes. Use the <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> arrow keys to move between selected items.</li>
@@ -42,7 +45,7 @@ create: true
 - **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features (uses [microplugin](https://github.com/brianreavis/microplugin.js)).
 - **Touch Support**<br> Plays nice with iOS 5+ devices.
 
-### Usage
+## Usage
 
 ```html
 <input id="selectize-it" />
@@ -57,35 +60,22 @@ new Selectize('#selectize-it',{});
 The available options are [documented here](usage.md).
 
 
-### Installation and files
+## Installation and files
 
-All pre-built files needed to use Orchid Select can be found in the
-["dist"](dist/) folder.
-
-If you're looking to get started with minimal fuss, include
-`selectize.complete.min.js` (bundles Sifter and Microplugin
-dependencies) and `css/selectize.default.css`.
-
-Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
-
-- [**js/**](dist/js)
-	- [selectize.complete.js](dist/js/selectize.complete.js) — Includes all plugins and dependencies
-- [**less/**](dist/less)
-	- [selectize.less](dist/less/selectize.less) — Core styles
-	- [selectize.default.less](dist/less/selectize.default.less) — Default theme
-	- [selectize.bootstrap3.less](dist/less/selectize.bootstrap3.less) — Bootstrap 3 theme
-	- [**plugins/**](dist/less/plugins) — Individual plugin styles
-- [**css/**](dist/css)
-	- [selectize.css](dist/css/selectize.css) — Core styles
-	- [selectize.default.css](dist/css/selectize.default.css) — Default theme (with core styles)
-	- [selectize.bootstrap3.css](dist/css/selectize.bootstrap3.css) - Bootstrap 3 theme
+All pre-built files needed to use Orchid Select can be found in the ["dist"](https://github.com/orchidjs/orchid-select/tree/master/dist) folder and at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 
 
+- [**JavaScript**](https://github.com/orchidjs/orchid-select/tree/master/dist/js)
+	- [selectize.complete.js](https://github.com/orchidjs/orchid-select/tree/master/dist/js/selectize.complete.js) — Includes dependencies and plugins
+	- [selectize.js](https://github.com/orchidjs/orchid-select/tree/master/dist/js/selectize.js) — Does not include sifter or microplugin
+- **Themes**
+	- [CSS](https://github.com/orchidjs/orchid-select/tree/master/dist/css) — Compiled themes
+	- [SCSS](https://github.com/orchidjs/orchid-select/tree/master/dist/scss) — Uncompiled theme sources
 
 
-### Custom Builds
+## Custom Builds
 
-By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the files you need from the ["dist"](dist) folder.
+By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the files you need from the "build" folder.
 
 ```shell
 # dependencies

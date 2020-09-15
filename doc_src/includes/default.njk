@@ -1,6 +1,4 @@
 ---
-title: Orchid Select
-
 
 ---
 
@@ -12,7 +10,7 @@ title: Orchid Select
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>{{ title }} - Orchid Select</title>
+		<title>{% if title %} {{ title }} - {% endif %} Orchid Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 		<link rel="stylesheet" href="/css/stylesheet.css">
@@ -35,7 +33,7 @@ title: Orchid Select
 
 			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
 
-				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right px-4 offcanvas pt-5">
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right pl-4 offcanvas pt-5">
 					{% include "nav.njk" %}
 				</div>
 
@@ -45,7 +43,9 @@ title: Orchid Select
 							<button class="toggle-offcanvas btn btn-light" type="button">
 								<span class="navbar-toggler-icon"></span>
 							</button>
+							{% if title %}
 							<h1 class="display-4 mt-0">{{ title }}</h1>
+							{% endif %}
 						</div>
 					</div>
 					<div class="container mt-3" id="main-container">
