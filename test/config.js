@@ -47,6 +47,22 @@
 
 
 		});
+
+		describe('copyClassesToDropdown',function(){
+
+			it_n('class should be copied', function() {
+				var test		= setup_test('<input class="classA classB">',{copyClassesToDropdown:true});
+				expect(test.instance.dropdown.classList.contains('classA')).to.be.true
+			});
+
+			it_n('class should not be copied', function() {
+				var test		= setup_test('<input class="classA classB">',{copyClassesToDropdown:false});
+				expect(test.instance.dropdown.classList.contains('classA')).to.be.false
+
+			});
+
+		});
+
 	});
 
 })();
