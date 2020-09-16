@@ -1806,7 +1806,9 @@ Object.assign(Selectize.prototype, {
 
 			if (!data || typeof data !== 'object') return callback();
 			var value = hash_key(data[self.settings.valueField]);
-			if (typeof value !== 'string') return callback();
+			if( typeof value !== 'string' ){
+				return callback();
+			}
 
 			self.setTextboxValue('');
 			self.addOption(data);

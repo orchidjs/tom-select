@@ -85,7 +85,8 @@
 		});
 
 		describe('createItem()', function() {
-			it_n('should fail if non-object returned by "create" callback', function() {
+
+			it_n('should fail if boolean returned by "create" callback', function() {
 				var test = setup_test('<select>', {
 					valueField: 'value',
 					labelField: 'value',
@@ -97,8 +98,11 @@
 				test.instance.control_input.value = 'test';
 				test.instance.createItem();
 				expect(test.instance.items.length).to.be.equal(0);
+			});
 
-				test = setup_test('<select>', {
+			it_n('should fail if string returned by "create" callback', function() {
+
+				var test = setup_test('<select>', {
 					valueField: 'value',
 					labelField: 'value',
 					create: function(input) {
@@ -110,6 +114,21 @@
 				test.instance.createItem();
 				expect(test.instance.items.length).to.be.equal(0);
 			});
+
+			it_n('should fail if invalid value returned by "create" callback', function() {
+
+				var test = setup_test('<select>', {
+					valueField: 'value',
+					labelField: 'value',
+					create: function(input) {
+						return {value:null};
+					}
+				});
+
+				test.instance.createItem('test');
+				expect(test.instance.items.length).to.be.equal(0);
+			});
+
 			it_n('should add option upon completion (synchronous)', function() {
 				var test = setup_test('<select>', {
 					valueField: 'value',
