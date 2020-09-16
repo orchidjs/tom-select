@@ -1,4 +1,3 @@
-(function() {
 
 
 
@@ -764,6 +763,21 @@
 
 		});
 
-	});
 
-})();
+		describe('locking', function() {
+
+			it_n('typing should not show dropdown when locked', function(done) {
+
+				var test = setup_test('AB_Multi',{});
+				test.instance.lock();
+
+				syn.type('a', test.instance.control_input, function() {
+					expect(test.instance.isOpen).to.be.equal(false);
+					done();
+				});
+
+			});
+		});
+
+
+	});
