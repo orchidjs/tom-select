@@ -22,83 +22,105 @@ new Selectize('#select',config);
   The options can have other properties, ignored, unless referenced by other settings, like `sortField` or `searchField`.
 - Items: the list of selected options. Or more exactly, the list of the values of the selected options.
 
-### Configuration
+### General Configuration
 
 <table class="table table-striped">
 	<tr>
-		<th colspan="4" align="left"><a href="#general" name="general">General</a></th>
+		<th>Setting</a></th>
+		<th>Description</th>
+		<th>Type</th>
+		<th>Default</th>
 	</tr>
-	<tr>
-		<th width="120px" align="left">Setting</th>
-		<th align="left">Description</th>
-		<th width="60px" align="left">Type</th>
-		<th width="60px" align="left">Default</th>
-	</tr>
-	<tr>
-		<td><code>options</code></td>
-		<td>
-			An alternative to &lt;option&gt; tags.
-			An array of the initial options available to select; array
-			of objects.
-			By default this is populated from the original input
-			element. If your element is a &lt;select&gt; with
-			&lt;option&gt;s specified this property gets populated
-			automatically.
-		</td>
-		<td><code>array</code></td>
-		<td><code>[]</code></td>
-	</tr>
-	<tr>
-		<td><code>items</code></td>
-		<td>An array of the initial selected values. By default this is populated from the original input element.</td>
-		<td><code>array</code></td>
-		<td><code>[]</code></td>
-	</tr>
-	<tr>
-		<td><code>delimiter</code></td>
-		<td>The string to separate items by. When typing an item in a multi-selection control allowing creation, then the delimiter, the item is added. If you paste delimiter-separated items in such control, the items are added at once. The delimiter is also used in the <code>getValue</code> API call on a text &lt;input&gt; tag to separate the multiple values.</td>
-		<td><code>string</code></td>
-		<td><code>','</code></td>
-	</tr>
-	<tr>
-		<td><code>create</code></td>
-		<td>
-			Allows the user to create new items that aren't in the
-			initial list of options. This setting can be any of the
-			following: <code>true</code>, <code>false</code> (disabled), or a function to
-			process input. The function can take one of two forms:
-			synchronous (with signature <code>function(input){}</code>
-			or asynchronous (with signature <code>function(input,
-			callback)</code>. In the synchronous case, the function
-			should <code>return</code> an object for the options (eg,
-			with defaults: <code>return { 'value': value, 'text': text
-			};</code>). The asynchronous version should invoke the
-			callback with the result in the same format as the object
-			above (eg, <code>callback( { 'value': value, 'text':
-			text});</code>)</td>
-		<td><code>boolean/function</code></td>
-		<td><code>false</code></td>
-	</tr>
-	<tr>
-		<td><code>createOnBlur</code></td>
-		<td>
-			If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
-		<td><code>boolean</code></td>
-		<td><code>false</code></td>
-	</tr>
-	<tr>
-		<td><code>createFilter</code></td>
-		<td>
-			Specifies a RegExp or a string containing a regular expression that the current search filter must match to be allowed to be created. May also be a predicate function that takes the filter text and returns whether it is allowed.</td>
-		<td><code>RegExp|string|function</code></td>
-		<td><code>null</code></td>
-	</tr>
-	<tr>
-		<td><code>highlight</code></td>
-		<td>Toggles match highlighting within the dropdown menu.</td>
-		<td><code>boolean</code></td>
-		<td><code>true</code></td>
-	</tr>
+
+<tr>
+<td><code>options</code></td>
+<td>
+By default this is populated from the original &lt;input&gt; or &lt;select&gt;
+element.
+
+```js
+options: [
+	{ value: "opt1", text: "Option 1" },
+	{ value: "opt2", text: "Option 2" },
+]
+```
+</td>
+<td><code>array</code></td>
+<td><code>[]</code></td>
+</tr>
+
+
+<tr><td><code>items</code></td>
+<td>An array of the initial selected values. By default this is populated from the original input element.
+
+```js
+items: ["opt1"]
+```
+</td>
+<td><code>array</code></td>
+<td><code>[]</code></td>
+</tr>
+
+
+<tr>
+	<td><code>create</code></td>
+	<td>Determines if the user is allowed to create new items that aren't in the
+		initial list of options. This setting can be any of the
+		following: <code>true</code>, <code>false</code>, or a function.
+
+```js
+create: true
+```
+
+```js
+create: function(input){
+	return: {value:input,text:input}
+}
+```
+
+```js
+create: function(input,callback){
+	callback({value:input,text:input});
+}
+```
+</td>
+<td><code>boolean/function</code></td>
+<td><code>false</code></td>
+</tr>
+
+
+<tr>
+	<td><code>createOnBlur</code></td>
+	<td>
+		If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
+	<td><code>boolean</code></td>
+	<td><code>false</code></td>
+</tr>
+
+
+<tr>
+	<td><code>createFilter</code></td>
+	<td>
+		Specifies a RegExp or a string containing a regular expression that the current search filter must match to be allowed to be created. May also be a predicate function that takes the filter text and returns whether it is allowed.</td>
+	<td><code>RegExp|string|function</code></td>
+	<td><code>null</code></td>
+</tr>
+
+
+<tr>
+	<td><code>delimiter</code></td>
+	<td>The string to separate items by. When typing an item in a multi-selection control allowing creation, then the delimiter, the item is added. If you paste delimiter-separated items in such control, the items are added at once. The delimiter is also used in the <code>getValue</code> API call on a text &lt;input&gt; tag to separate the multiple values.</td>
+	<td><code>string</code></td>
+	<td><code>','</code></td>
+</tr>
+
+
+<tr>
+	<td><code>highlight</code></td>
+	<td>Toggles match highlighting within the dropdown menu.</td>
+	<td><code>boolean</code></td>
+	<td><code>true</code></td>
+</tr>
 	<tr>
 		<td><code>persist</code></td>
 		<td>If false, items created by the user will not show up as available options once they are unselected.</td>
@@ -201,14 +223,16 @@ new Selectize('#select',config);
 		<td><code>&lt;input&gt; element</code></td>
 		<td><code>null</code></td>
 	</tr>
+</table>
+
+### Data / Searching
+
+<table class="table table-striped">
 	<tr>
-		<th colspan="4" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
-	</tr>
-	<tr>
-		<th align="left">Setting</th>
-		<th align="left">Description</th>
-		<th align="left">Type</th>
-		<th align="left">Default</th>
+		<th>Setting</a></th>
+		<th>Description</th>
+		<th>Type</th>
+		<th>Default</th>
 	</tr>
 	<tr>
 		<td><code>options</code></td>
@@ -304,14 +328,16 @@ new Selectize('#select',config);
 		<td><code>boolean</code></td>
 		<td><code>true</code></td>
 	</tr>
+</table>
+
+### Callbacks
+
+<table class="table table-striped">
 	<tr>
-		<th colspan="4" align="left"><a href="#callbacks" name="callbacks">Callbacks</a></th>
-	</tr>
-	<tr>
-		<th align="left">Setting</th>
-		<th align="left">Description</th>
-		<th align="left">Type</th>
-		<th align="left">Default</th>
+		<th>Setting</a></th>
+		<th>Description</th>
+		<th>Type</th>
+		<th>Default</th>
 	</tr>
 	<tr>
 		<td><code>load(query, callback)</code></td>
@@ -409,22 +435,18 @@ new Selectize('#select',config);
 		<td><code>function</code></td>
 		<td><code>null</code></td>
 	</tr>
+</table>
+
+### Rendering
+
+Custom rendering functions. Each function should accept two arguments: <code>data</code> and <code>escape</code> and return HTML (string or DOM element) with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.
+
+<table class="table table-striped">
 	<tr>
-		<th colspan="4" align="left"><a href="#rendering" name="rendering">Rendering</a></th>
-	</tr>
-	<tr><td colspan=4>
-		Custom rendering functions. Each function should accept two
-		arguments: <code>data</code> and <code>escape</code> and return HTML (string
-		or DOM element) with a single root element.
-		The <code>escape</code> argument is a function that takes a string and
-		escapes all special HTML characters.
-		This is very important to use to prevent XSS vulnerabilities.
-	</td></tr>
-	<tr>
-		<th align="left">Setting</th>
-		<th align="left">Description</th>
-		<th align="left">Type</th>
-		<th align="left">Default</th>
+		<th>Setting</a></th>
+		<th>Description</th>
+		<th>Type</th>
+		<th>Default</th>
 	</tr>
 	<tr>
 		<td><code>render.option</code></td>
