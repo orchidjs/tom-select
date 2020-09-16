@@ -2300,21 +2300,19 @@ Object.assign(Selectize.prototype, {
 	render: function(templateName, data) {
 		var value, id, label;
 		var html = '';
-		var cache = false;
 		var self = this;
 		var regex_tag = /^[\t \r\n]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
 
 		if (templateName === 'option' || templateName === 'item') {
 			value = hash_key(data[self.settings.valueField]);
-			cache = !!value;
-		}
 
-		// pull markup from cache if it exists
-		if (cache) {
-			if (self.renderCache[templateName].hasOwnProperty(value)) {
+			// pull markup from cache if it exists
+			if( self.renderCache[templateName].hasOwnProperty(value) ){
 				return self.renderCache[templateName][value];
 			}
+
 		}
+
 
 		// render markup
 		html = getDom( self.settings.render[templateName].apply(this, [data, escape_html]) );
@@ -2324,28 +2322,28 @@ Object.assign(Selectize.prototype, {
 			if (!data[self.settings.disabledField]) {
 				html.setAttribute('data-selectable', '');
 			}
-		}
-		else if (templateName === 'optgroup') {
-			id = data[self.settings.optgroupValueField] || '';
+
+		}else if (templateName === 'optgroup') {
+			id = data[self.settings.optgroupValueField];
 			html.setAttribute('data-group', id);
 			if(data[self.settings.disabledField]) {
 				html.setAttribute('data-disabled', '');
 			}
 		}
+
 		if (templateName === 'option' || templateName === 'item') {
-			html.setAttribute('data-value', value || '');
-		}
+			html.setAttribute('data-value', value );
 
-		// make sure we have some classes if a template is overwritten
-		if( templateName === 'item' ){
-			addClasses(html,self.settings.itemClass);
-		}else if( templateName === 'option' ){
-			addClasses(html,self.settings.optionClass);
-		}
+			// make sure we have some classes if a template is overwritten
+			if( templateName === 'item' ){
+				addClasses(html,self.settings.itemClass);
+			}else{
+				addClasses(html,self.settings.optionClass);
+			}
 
-		// update cache
-		if (cache) {
+			// update cache
 			self.renderCache[templateName][value] = html;
+
 		}
 
 		return html;

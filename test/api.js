@@ -1,4 +1,4 @@
-(function() {
+
 
 	describe('API', function() {
 
@@ -731,10 +731,8 @@
 		});
 
 		describe('clearCache()', function() {
-			var test;
 
-			before(function() {
-				test = setup_test('<select multiple>', {
+			var test = setup_test('<select multiple>', {
 					valueField: 'value',
 					labelField: 'value',
 					options: [
@@ -748,7 +746,7 @@
 				test.instance.advanceSelection(1);
 				test.instance.refreshOptions(true);
 				test.instance.refreshItems();
-			});
+
 			it_n('should clear the whole renderCache', function () {
 				expect($.isEmptyObject(test.instance.renderCache['item'])).to.be.equal(false);
 				expect($.isEmptyObject(test.instance.renderCache['option'])).to.be.equal(false);
@@ -765,8 +763,23 @@
 				expect($.isEmptyObject(test.instance.renderCache['option']),'option cache not emptied').to.be.equal(true);
 				expect($.isEmptyObject(test.instance.renderCache['item']),'item cache emptied').to.be.equal(false);
 			});
+
+			it_n('should return identical item dom', function () {
+				var first	= test.instance.render('item', test.instance.options[0]);
+				var second	= test.instance.render('item', test.instance.options[0]);
+				expect(first).to.be.equal(second);
+
+			});
+
+			it_n('should return different item dom after clearCache()', function () {
+				var first	= test.instance.render('item', test.instance.options[0]);
+				test.instance.clearCache('item');
+				var second	= test.instance.render('item', test.instance.options[0]);
+				expect(first).to.not.be.equal(second);
+
+			});
+
+
 		});
 
 	});
-
-})();
