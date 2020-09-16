@@ -312,10 +312,8 @@ Object.assign(Selectize.prototype, {
 		self.input.setAttribute('hidden','hidden');
 		self.input.insertAdjacentElement('afterend', self.wrapper);
 
-		if (Array.isArray(settings.items)) {
-			self.setValue(settings.items);
-			delete settings.items;
-		}
+		self.setValue(settings.items);
+		delete settings.items;
 
 		// feature detect for the validation API
 		if( self.supportsValidity() ){

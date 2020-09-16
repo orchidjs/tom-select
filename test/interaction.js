@@ -160,6 +160,20 @@
 				});
 			});
 
+
+			it_n('should start loading if preload:true', function(done) {
+
+				setup_test('AB_Single',{
+					preload: true,
+					load: function(query, load_cb) {
+						assert.equal(query, '');
+						load_cb([{value: 'c', text: 'C'}]);
+						done();
+					}
+				});
+			});
+
+
 			it_n('should open dropdown menu', function(done) {
 				var test = setup_test('AB_Single',{});
 
