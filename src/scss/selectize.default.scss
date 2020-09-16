@@ -1,13 +1,13 @@
 
 
-$selectize-color-item:					#1da7ee;
-$selectize-color-item-text:				#fff;
-$selectize-color-item-active-text:		#fff;
-$selectize-color-item-border:			#0073bb;
-$selectize-color-item-active:			#92c836;
-$selectize-color-item-active-border:	#00578d;
-$selectize-width-item-border:			1px;
-$selectize-caret-margin:				0 1px;
+$select-color-item:					#1da7ee;
+$select-color-item-text:				#fff;
+$select-color-item-active-text:		#fff;
+$select-color-item-border:			#0073bb;
+$select-color-item-active:			#92c836;
+$select-color-item-active-border:	#00578d;
+$select-width-item-border:			1px;
+$select-caret-margin:				0 1px;
 
 
 @import "selectize";
@@ -18,7 +18,7 @@ $selectize-caret-margin:				0 1px;
 	&.multi {
 		.selectize-input {
 			&.has-items {
-				$padding-x: $selectize-padding-x - 3px;
+				$padding-x: $select-padding-x - 3px;
 				padding-left: $padding-x;
 				padding-right: $padding-x;
 			}
@@ -60,12 +60,12 @@ $selectize-caret-margin:				0 1px;
 
 .selectize-dropdown {
 	.optgroup-header {
-		padding-top: $selectize-padding-dropdown-item-y + 2px;
+		padding-top: $select-padding-dropdown-item-y + 2px;
 		font-weight: bold;
 		font-size: 0.85em;
 	}
 	.optgroup {
-		border-top: 1px solid $selectize-color-dropdown-border-top;
+		border-top: 1px solid $select-color-dropdown-border-top;
 		&:first-child {
 			border-top: 0 none;
 		}

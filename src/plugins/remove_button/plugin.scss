@@ -17,8 +17,8 @@
 		text-decoration: none;
 		vertical-align: middle;
 		display: inline-block;
-		padding: $selectize-padding-item-y 0 0 0;
-		border-left: 1px solid $selectize-color-item-border;
+		padding: $select-padding-item-y 0 0 0;
+		border-left: 1px solid $select-color-item-border;
 		border-radius: 0 2px 2px 0;
 		box-sizing: border-box;
 	}
@@ -26,13 +26,13 @@
 		background: rgba(0,0,0,0.05);
 	}
 	[data-value].active .remove {
-		border-left-color: $selectize-color-item-active-border;
+		border-left-color: $select-color-item-active-border;
 	}
 	.disabled [data-value] .remove:hover {
 		background: none;
 	}
 	.disabled [data-value] .remove {
-		border-left-color: lighten(desaturate($selectize-color-item-border, 100%), $selectize-lighten-disabled-item-border);
+		border-left-color: lighten(desaturate($select-color-item-border, 100%), $select-lighten-disabled-item-border);
 	}
 	.remove-single {
 		position: absolute;
