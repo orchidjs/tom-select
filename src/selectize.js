@@ -127,9 +127,10 @@ Object.assign(Selectize.prototype, {
 		var classes;
 		var classes_plugins;
 		var inputId;
+		var input			= self.input;
 
-		inputMode         = self.settings.mode;
-		classes           = self.input.getAttribute('class') || '';
+		inputMode			= self.settings.mode;
+		classes				= input.getAttribute('class') || '';
 
 		wrapper				= getDom('<div>');
 		addClasses( wrapper, settings.wrapperClass, classes, inputMode);
@@ -151,16 +152,29 @@ Object.assign(Selectize.prototype, {
 
 		getDom( settings.dropdownParent || wrapper ).appendChild( dropdown );
 
-		control_input		= getDom( settings.controlInput || '<input type="text" autocomplete="off" />' );
+		if( settings.controlInput ){
+			control_input		= getDom( settings.controlInput );
+		}else{
+			control_input		= getDom('<input type="text" autocomplete="off" />' );
+
+			// set attributes
+			var attrs = ['autocorrect','autocapitalize','autocomplete'];
+			for(let i = 0; i<attrs.length; i++){
+				let attr = attrs[i];
+				if( input.getAttribute(attr) ){
+					control_input.setAttribute(attr, input.getAttribute(attr) );
+				}
+			}
+		}
 
 		if( !settings.controlInput ){
-			control_input.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex);
+			control_input.setAttribute('tabindex', input.disabled ? '-1' : self.tabIndex);
 			control.appendChild( control_input );
 		}
 
 
 
-		if( inputId = self.input.getAttribute('id') ){
+		if( inputId = input.getAttribute('id') ){
 			control_input.setAttribute('id', inputId + '-selectized');
 			var label = document.querySelector("label[for='"+inputId+"']");
 			if( label ) label.setAttribute('for', inputId + '-selectized');
@@ -170,7 +184,7 @@ Object.assign(Selectize.prototype, {
 			addClasses( dropdown, classes);
 		}
 
-		wrapper.style.width = self.input.style.width;
+		wrapper.style.width = input.style.width;
 
 		if (self.plugins.names.length) {
 			classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
@@ -178,7 +192,7 @@ Object.assign(Selectize.prototype, {
 		}
 
 		if ((settings.maxItems === null || settings.maxItems > 1) && self.is_select_tag ){
-			self.input.setAttribute('multiple','multiple');
+			input.setAttribute('multiple','multiple');
 		}
 
 		if (self.settings.placeholder) {
@@ -191,14 +205,8 @@ Object.assign(Selectize.prototype, {
 			self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
 		}
 
-		if( self.input.getAttribute('autocorrect') ){
-			control_input.setAttribute('autocorrect', self.input.getAttribute('autocorrect') );
-		}
 
-		if( self.input.getAttribute('autocapitalize') ){
-			control_input.setAttribute('autocapitalize', self.input.getAttribute('autocapitalize'));
-		}
-		control_input.type		= self.input.type;
+		control_input.type		= input.type;
 
 		self.control			= control;
 		self.control_input		= control_input;
@@ -298,26 +306,26 @@ Object.assign(Selectize.prototype, {
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
 		var children = [];
-		while( self.input.children.length > 0 ){
-			children.push( self.input.children[0] );
-			self.input.children[0].remove();
+		while( input.children.length > 0 ){
+			children.push( input.children[0] );
+			input.children[0].remove();
 		}
 		this.revertSettings = {
 			children : children,
-			tabindex  : self.input.getAttribute('tabindex')
+			tabindex  : input.getAttribute('tabindex')
 		};
 
 
-		self.input.setAttribute('tabindex',-1)
-		self.input.setAttribute('hidden','hidden');
-		self.input.insertAdjacentElement('afterend', self.wrapper);
+		input.setAttribute('tabindex',-1)
+		input.setAttribute('hidden','hidden');
+		input.insertAdjacentElement('afterend', self.wrapper);
 
 		self.setValue(settings.items);
 		delete settings.items;
 
 		// feature detect for the validation API
 		if( self.supportsValidity() ){
-			self.input.addEventListener('invalid', function(e) {
+			input.addEventListener('invalid', function(e) {
 				e.preventDefault();
 				self.isInvalid = true;
 				self.refreshState();
@@ -329,13 +337,13 @@ Object.assign(Selectize.prototype, {
 		self.refreshState();
 		self.isSetup = true;
 
-		if( self.input.disabled ){
+		if( input.disabled ){
 			self.disable();
 		}
 
 		self.on('change', this.onChange);
 
-		addClasses(self.input,'selectized');
+		addClasses(input,'selectized');
 		self.trigger('initialize');
 
 		// preload options

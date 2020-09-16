@@ -50,15 +50,18 @@
 			});
 			describe('<input type="text" attributes>', function() {
 				it_n('should propagate original input attributes to the generated input', function() {
-					var test = setup_test('<input type="text" autocorrect="off" autocapitalize="none">', {});
+					var test = setup_test('<input type="text" autocorrect="off" autocapitalize="none" autocomplete="new-password">', {});
 					expect(test.instance.control_input.getAttribute('autocorrect')).to.be.equal('off');
 					expect(test.instance.control_input.getAttribute('autocapitalize')).to.be.equal('none');
+					expect(test.instance.control_input.getAttribute('autocomplete')).to.be.equal('new-password');
 				});
 				it_n('should not add attributes if not present in the original', function() {
 					var test = setup_test('<input type="text">', {});
 					expect(test.instance.control_input.getAttribute('autocorrect')).to.be.equal(null);
 					expect(test.instance.control_input.getAttribute('autocapitalize')).to.be.equal(null);
+					expect(test.instance.control_input.getAttribute('autocomplete')).to.be.equal('off');
 				});
+
 			});
 		});
 

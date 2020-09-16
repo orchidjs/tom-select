@@ -31,3 +31,7 @@ Orchid Select was forked from selectize.js to provide the same usability without
 ## Removed
 - support for older browsers ES5
 - placeholder show/hide
+
+
+## Issues / Pull requests
+- #1363
