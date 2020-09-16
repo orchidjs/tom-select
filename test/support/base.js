@@ -66,3 +66,7 @@ var it_n = function(){
 }
 
 $(sandbox).on('submit', function(e) { e.preventDefault(); });
+
+var click = function(el, cb) {
+	syn.click(el).delay(100, cb);
+};

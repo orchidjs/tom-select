@@ -1,10 +1,5 @@
 (function() {
 
-	var click = function(el, cb) {
-		syn.click(el).delay(100, cb);
-	};
-
-
 
 
 	// These tests are functional simulations of

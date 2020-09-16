@@ -61,20 +61,18 @@ var Selectize = function( input, settings ){
 	self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
 
 	// build options table
-	if (self.settings.options) {
-		for (i = 0, n = self.settings.options.length; i < n; i++) {
-			self.registerOption(self.settings.options[i]);
-		}
-		delete self.settings.options;
+	for (i = 0, n = self.settings.options.length; i < n; i++) {
+		self.registerOption(self.settings.options[i]);
 	}
+	delete self.settings.options;
+
 
 	// build optgroup table
-	if (self.settings.optgroups) {
-		for (i = 0, n = self.settings.optgroups.length; i < n; i++) {
-			self.registerOptionGroup(self.settings.optgroups[i]);
-		}
-		delete self.settings.optgroups;
+	for (i = 0, n = self.settings.optgroups.length; i < n; i++) {
+		self.registerOptionGroup(self.settings.optgroups[i]);
 	}
+	delete self.settings.optgroups;
+
 
 	// option-dependent defaults
 	self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
