@@ -455,6 +455,13 @@
 				expect($(test.instance.control).find('[data-value=f]').length).to.be.equal(0);
 				expect($(test.instance.control).find('[data-value=f_updated]').length).to.be.equal(1);
 			});
+
+			it_n('should not update options if attempting to update invalid option', function() {
+				var opts_before =  Object.assign({}, test.instance.options);
+				test.instance.updateOption('invalid', {value: 'f_updated'});
+				expect(opts_before).to.deep.equal(test.instance.options);
+			});
+
 		});
 
 		describe('getOption()', function() {
