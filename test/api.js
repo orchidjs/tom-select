@@ -115,11 +115,10 @@
 				expect(test.instance.items.length).to.be.equal(0);
 			});
 
-			it_n('should fail if invalid value returned by "create" callback', function() {
+
+			it_n('should fail if invalid object returned by "create" callback', function() {
 
 				var test = setup_test('<select>', {
-					valueField: 'value',
-					labelField: 'value',
 					create: function(input) {
 						return {value:null};
 					}
@@ -128,6 +127,7 @@
 				test.instance.createItem('test');
 				expect(test.instance.items.length).to.be.equal(0);
 			});
+
 
 			it_n('should add option upon completion (synchronous)', function() {
 				var test = setup_test('<select>', {
@@ -798,6 +798,38 @@
 
 			});
 
+
+		});
+
+
+		describe('removeItem()', function() {
+
+			it_n('should remove user created option', function() {
+
+				var test = setup_test('<select>', {
+					create: true,
+					persist: false,
+				});
+
+				var len_opts_before = Object.keys(test.instance.options).length;
+				test.instance.createItem('test');
+				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before+1);
+				test.instance.removeItem('test');
+				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before);
+			});
+
+			it_n('should not remove user created option', function() {
+
+				var test = setup_test('<select>', {
+					create: true,
+				});
+
+				var len_opts_before = Object.keys(test.instance.options).length;
+				test.instance.createItem('test');
+				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before+1);
+				test.instance.removeItem('test');
+				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before+1);
+			});
 
 		});
 
