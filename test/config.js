@@ -63,6 +63,19 @@
 
 		});
 
+		describe('onInitialize',function(){
+
+			it_n('onInitialize should be called', function(done) {
+				setup_test('<input>',{
+					onInitialize:function(){
+						expect(true).to.be.true
+						done();
+					}
+				});
+			});
+
+		});
+
 	});
 
 })();

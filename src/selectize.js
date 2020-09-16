@@ -405,10 +405,10 @@ Object.assign(Selectize.prototype, {
 		};
 
 		for (key in callbacks) {
-			if (callbacks.hasOwnProperty(key)) {
-				fn = this.settings[callbacks[key]];
-				if (fn) this.on(key, fn);
-			}
+
+			fn = this.settings[callbacks[key]];
+			if (fn) this.on(key, fn);
+
 		}
 	},
 
