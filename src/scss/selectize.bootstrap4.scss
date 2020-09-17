@@ -96,10 +96,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   padding: 5px 0;
 }
 
-.selectize-dropdown-header {
-  padding: $select-padding-dropdown-item-y * 2 $select-padding-dropdown-item-x;
-}
-
 .selectize-input {
   min-height: $input-height;
   @include box-shadow($input-box-shadow);

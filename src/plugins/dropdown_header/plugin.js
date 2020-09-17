@@ -19,10 +19,10 @@ Selectize.define('dropdown_header', function(options) {
 
 	options = Object.assign({
 		title         : 'Untitled',
-		headerClass   : 'selectize-dropdown-header',
-		titleRowClass : 'selectize-dropdown-header-title',
-		labelClass    : 'selectize-dropdown-header-label',
-		closeClass    : 'selectize-dropdown-header-close',
+		headerClass   : 'dropdown-header',
+		titleRowClass : 'dropdown-header-title',
+		labelClass    : 'dropdown-header-label',
+		closeClass    : 'dropdown-header-close',
 
 		html: function(data) {
 			return (
