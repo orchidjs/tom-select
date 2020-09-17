@@ -53,9 +53,12 @@ var Selectize = function( input, settings ){
 		userOptions      : {},
 		items            : [],
 		renderCache      : {'item':{},'option':{}},
-		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
 	});
 
+	// debounce user defined load() if loadThrottle > 0
+	if( self.settings.load && self.settings.loadThrottle ){
+		self.settings.load = self.loadDebounce(self.settings.load,self.settings.loadThrottle)
+	}
 
 	// search system
 	self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
@@ -378,7 +381,11 @@ Object.assign(Selectize.prototype, {
 			},
 			'option_create': function(data, escape) {
 				return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+			},
+			'no_results':function(data,escape){
+				return '<div class="no-results">No results found</div>';
 			}
+
 		};
 
 
@@ -848,14 +855,38 @@ Object.assign(Selectize.prototype, {
 
 			if (options && options.length) {
 				self.addOption(options);
-				self.refreshOptions(self.isFocused && !self.isInputHidden);
 			}
+
+			// refresh even if no options so that we can show no_results message
+			self.refreshOptions(self.isFocused && !self.isInputHidden);
 
 			if (!self.loading) {
 				removeClasses(self.wrapper,self.settings.loadingClass);
 			}
+
 			self.trigger('load', options);
 		}]);
+	},
+
+
+	/**
+	 * Debounce the user provided load function
+	 *
+	 */
+	loadDebounce: function(fn,delay){
+		var timeout;
+		return function() {
+			var self = this;
+			var args = arguments;
+			if( timeout ){
+				self.loading = Math.max(self.loading - 1, 0);
+			}
+			window.clearTimeout(timeout);
+			timeout = window.setTimeout(function() {
+				timeout = null;
+				fn.apply(self, args);
+			}, delay);
+		};
 	},
 
 	/**
@@ -1212,16 +1243,22 @@ Object.assign(Selectize.prototype, {
 		}
 
 
+
 		var self					= this;
 		var query					= self.inputValue();
 		var results					= self.search(query);
 		var active_before_hash		= self.activeOption && hash_key(self.activeOption.dataset.value);
+		var show_dropdown			= false;
 
 
 		// build markup
 		n = results.items.length;
 		if (typeof self.settings.maxOptions === 'number') {
 			n = Math.min(n, self.settings.maxOptions);
+		}
+
+		if( n > 0 ){
+			show_dropdown = true;
 		}
 
 		// render and group available options individually
@@ -1314,16 +1351,28 @@ Object.assign(Selectize.prototype, {
 			}
 		}
 
+
+
 		// add create option
 		has_create_option = self.canCreate(query);
 		if (has_create_option) {
+			show_dropdown = true;
 			create = self.render('option_create', {input: query});
 			self.dropdown_content.insertBefore(create, self.dropdown_content.firstChild);
 		}
 
+
+		// add no_results message
+		if( results.items.length === 0 && self.settings.render['no_results'] && !self.loading && query.length ){
+			let msg = self.render('no_results', {input: query});
+			show_dropdown = true;
+			self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
+		}
+
+
 		// activate
 		self.hasOptions = results.items.length > 0 || has_create_option;
-		if (self.hasOptions) {
+		if( show_dropdown ){
 			if (results.items.length > 0) {
 				active_before = active_before_hash && self.getOption(active_before_hash);
 

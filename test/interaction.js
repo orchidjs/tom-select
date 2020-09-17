@@ -200,11 +200,7 @@
 			});
 
 			it_n('should close dropdown', function(done) {
-				var test = setup_test('<select>' +
-					'<option value="">Select an option...</option>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {});
+				var test = setup_test('AB_Single', {});
 
 				click(test.instance.control, function() {
 					click($('[data-value="b"]', test.instance.dropdown), function() {
@@ -220,11 +216,7 @@
 		describe('typing in input', function() {
 
 			it_n('should filter results', function(done) {
-				var test = setup_test('<select>' +
-					'<option value="">Select an option...</option>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {});
+				var test = setup_test('AB_Single', {});
 
 				click(test.instance.control, function() {
 					syn.type('a', test.instance.control_input)
@@ -236,12 +228,10 @@
 				});
 			});
 
-			it_n('should hide dropdown if no results present', function(done) {
-				var test = setup_test('<select>' +
-					'<option value="">Select an option...</option>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {});
+			it_n('should hide dropdown if no results present and no_result template is null', function(done) {
+				var test = setup_test('AB_Multi', {
+					render:{'no_results':null}
+				});
 
 				click(test.instance.control, function() {
 					syn.type('awaw', test.instance.control_input)
@@ -253,12 +243,24 @@
 				});
 			});
 
+
+			it_n('should show no_results message if no results present', function(done) {
+				var test = setup_test('AB_Multi');
+
+				click(test.instance.control, function() {
+					syn.type('awaw', test.instance.control_input)
+					.delay(0, function() {
+						expect(test.instance.isOpen).to.be.equal(true);
+						expect(test.instance.dropdown.children.length).to.be.equal(1);
+						expect(test.instance.dropdown.querySelectorAll('.no-results').length).to.be.equal(1);
+						done();
+					});
+				});
+			});
+
+
 			it_n('should not hide dropdown if "create" option enabled and no results present', function(done) {
-				var test = setup_test('<select>' +
-					'<option value="">Select an option...</option>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {create: true});
+				var test = setup_test('AB_Multi', {create: true});
 
 				click(test.instance.control, function() {
 					syn.type('awaw', test.instance.control_input)
@@ -271,11 +273,7 @@
 			});
 
 			it_n('should restore dropdown visibility when backing out of a query without results (backspace)', function(done) {
-				var test = setup_test('<select>' +
-					'<option value="">Select an option...</option>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {});
+				var test = setup_test('AB_Multi', {});
 
 				click(test.instance.control, function() {
 					syn.type('awf', test.instance.control_input)

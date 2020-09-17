@@ -28,7 +28,7 @@ Orchid Select was forked from selectize.js to provide the same usability without
 	- autoprefixer
 	- nanocss
 
-## Fixed Issues / Pull requests
+## Issues / Pull requests
 - selectize/selectize.js#1363 Autofill disable possibility
 - selectize/selectize.js#1447 Enhancement - dropdownParent
 - selectize/selectize.js#1279 Adding ability to use load to init opt groups
@@ -36,6 +36,8 @@ Orchid Select was forked from selectize.js to provide the same usability without
 - selectize/selectize.js#239 Preserve custom HTML5 data attributes
 - selectize/selectize.js#1128 Duplicated options in different optgroups doesn't render correctly
 - selectize/selectize.js#129 Allow duplicate values in an input
+- selectize/selectize.js#470 "No results found" message
+
 
 ## Development
 - examples and documentation generated using 11ty

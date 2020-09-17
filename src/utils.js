@@ -69,25 +69,6 @@ var once = function(fn) {
 	};
 };
 
-/**
- * Wraps `fn` so that it can only be called once
- * every `delay` milliseconds (invoked on the falling edge).
- *
- * @param {function} fn
- * @param {int} delay
- * @returns {function}
- */
-var debounce = function(fn, delay) {
-	var timeout;
-	return function() {
-		var self = this;
-		var args = arguments;
-		window.clearTimeout(timeout);
-		timeout = window.setTimeout(function() {
-			fn.apply(self, args);
-		}, delay);
-	};
-};
 
 /**
  * Debounce all fired events types listed in `types`

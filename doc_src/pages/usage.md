@@ -22,7 +22,7 @@ new Selectize('#select',config);
   The options can have other properties, ignored, unless referenced by other settings, like `sortField` or `searchField`.
 - Items: the list of selected options. Or more exactly, the list of the values of the selected options.
 
-### General Configuration
+## General Configuration
 
 <table class="table table-striped">
 	<tr>
@@ -231,7 +231,7 @@ create: function(input,callback){
 	</tr>
 </table>
 
-### Data / Searching
+## Data / Searching
 
 <table class="table table-striped">
 	<tr>
@@ -336,7 +336,7 @@ create: function(input,callback){
 	</tr>
 </table>
 
-### Callbacks
+## Callbacks
 
 <table class="table table-striped">
 	<tr>
@@ -443,9 +443,36 @@ create: function(input,callback){
 	</tr>
 </table>
 
-### Rendering
+## Rendering
 
 Custom rendering functions. Each function should accept two arguments: <code>data</code> and <code>escape</code> and return HTML (string or DOM element) with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.
+
+```js
+new Selectize('#input',{
+	optionClass: 'option',
+	itemClass: 'item',
+	render:{
+		'option': function(data, escape) {
+			return '<div>' + escape(data[field_label]) + '</div>';
+		},
+		'item': function(data, escape) {
+			return '<div>' + escape(data[field_label]) + '</div>';
+		},
+		'option_create': function(data, escape) {
+			return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+		},
+		'no_results':function(data,escape){
+			return '<div class="no-results">No results found for "'+escape(data.input)+'"</div>';
+		},
+		'optgroup': function(data) {
+			return '<div class="optgroup"></div>';
+		},
+		'optgroup_header': function(data, escape) {
+			return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
+		},
+	}
+});
+```
 
 <table class="table table-striped">
 	<tr>
@@ -481,6 +508,12 @@ Custom rendering functions. Each function should accept two arguments: <code>dat
 	<tr>
 		<td><code>render.optgroup</code></td>
 		<td>The wrapper for an optgroup. The <code>html</code> property in the data will be the raw html of the optgroup's header and options.</td>
+		<td><code>function</code></td>
+		<td><code>null</code></td>
+	</tr>
+	<tr>
+		<td><code>render.no_results</code></td>
+		<td>Displayed when no options are found matching a user's search. Can be set to null to disable displaying a "no results found" message.</td>
 		<td><code>function</code></td>
 		<td><code>null</code></td>
 	</tr>
