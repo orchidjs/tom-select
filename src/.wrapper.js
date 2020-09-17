@@ -1,5 +1,5 @@
 /**
- * selectize.js (v@@version)
+ * selectize.js (v//@@version)
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -28,7 +28,11 @@
 }(this, function( Sifter, MicroPlugin) {
 	'use strict';
 
-	@@js
+	//@@js
 
 	return Selectize;
 }));
+
+var tomSelect = function(el,opts){
+	return new Selectize(el,opts);
+}

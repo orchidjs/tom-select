@@ -20,7 +20,7 @@ tags: demo
 
 <script>
 {% set script %}
-new Selectize('#input-autogrow',{
+tomSelect('#input-autogrow',{
 	plugins: ['input_autogrow'],
 });
 {% endset %}
@@ -44,7 +44,7 @@ new Selectize('#input-autogrow',{
 
 <script>
 {% set script %}
-new Selectize('#input-tags',{
+tomSelect('#input-tags',{
 	plugins: ['remove_button'],
 	persist: false,
 	create: true,
@@ -79,7 +79,7 @@ new Selectize('#input-tags',{
 
 <script>
 {% set script %}
-new Selectize('#input-tags2',{
+tomSelect('#input-tags2',{
 	plugins: ['remove_button'],
 	persist: false,
 	create: true,
@@ -113,7 +113,7 @@ new Selectize('#input-tags2',{
 
 <script>
 {% set script %}
-new Selectize('#disable-backspace',{
+tomSelect('#disable-backspace',{
 	plugins: ['no_backspace_delete','remove_button',],
 	persist: false,
 	create: true,
@@ -147,7 +147,7 @@ new Selectize('#disable-backspace',{
 
 <script>
 {% set script %}
-new Selectize('#input-tags6',{
+tomSelect('#input-tags6',{
 	plugins: ['restore_on_backspace'],
 	persist: false,
 	create: true
@@ -178,7 +178,7 @@ new Selectize('#input-tags6',{
 
 <script>
 {% set script %}
-new Selectize('#input-sortable',{
+tomSelect('#input-sortable',{
 	plugins: ['drag_drop'],
 	persist: false,
 	create: true
@@ -220,7 +220,7 @@ new Selectize('#input-sortable',{
 
 <script>
 {% set script %}
-new Selectize('#select-code-language',{
+tomSelect('#select-code-language',{
 	sortField: 'text',
 	hideSelected: false,
 	plugins: {

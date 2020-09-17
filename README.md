@@ -57,7 +57,7 @@ Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 ### Usage
 
 ```js
-new Selectize('#select',options);
+tomSelect('#select',options);
 ```
 
 The available options are [documented here](docs/usage.md).

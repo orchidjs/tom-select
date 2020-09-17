@@ -157,7 +157,7 @@ module.exports = function(grunt) {
 		// replace @@version with current package version
 		replace: {
 			options: {
-				prefix: '@@',
+				prefix: '//@@',
 				variables: {
 					'version': '<%= pkg.version %>',
 					'js': '<%= grunt.file.read("build/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',

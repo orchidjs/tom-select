@@ -22,7 +22,7 @@ tags: demo
 <script>
 {% set script %}
 
-new Selectize('#select-tools',{
+tomSelect('#select-tools',{
 	maxItems: null,
 	valueField: 'id',
 	labelField: 'title',
@@ -57,7 +57,7 @@ new Selectize('#select-tools',{
 
 <script>
 {% set script %}
-new Selectize('#data-attr',{
+tomSelect('#data-attr',{
     render: {
         option: function (item, escape) {
             return `<div><img class="mr-2" src="${item.src}">${item.text}</div>`;
@@ -170,7 +170,7 @@ new Selectize('#data-attr',{
 
 <script>
 {% set script %}
-new Selectize('#select-repo',{
+tomSelect('#select-repo',{
 		valueField: 'url',
 		labelField: 'name',
 		searchField: 'name',

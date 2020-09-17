@@ -35,7 +35,7 @@ window.setup_test = function(html, options, callback) {
 		$select = $html;
 	}
 
-	var instance = new Selectize($select,options);
+	var instance = tomSelect($select,options);
 	var test = window.test_last = {
 		$html: $html,
 		$select: $select,

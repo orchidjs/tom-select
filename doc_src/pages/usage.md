@@ -8,7 +8,7 @@ tags: docs
 <link href="selectize.css" rel="stylesheet" />
 <input id="select" />
 <script>
-new Selectize('#select',config);
+tomSelect('#select',config);
 </script>
 ```
 
@@ -448,7 +448,7 @@ create: function(input,callback){
 Custom rendering functions. Each function should accept two arguments: <code>data</code> and <code>escape</code> and return HTML (string or DOM element) with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.
 
 ```js
-new Selectize('#input',{
+tomSelect('#input',{
 	optionClass: 'option',
 	itemClass: 'item',
 	render:{

@@ -35,7 +35,7 @@ tags: demo
 
 <script>
 {% set script %}
-new Selectize('#select-gear',{
+tomSelect('#select-gear',{
 	sortField: 'text'
 });
 {% endset %}
@@ -72,7 +72,7 @@ new Selectize('#select-gear',{
 
 <script>
 {% set script %}
-new Selectize('#select-gear-disabled',{
+tomSelect('#select-gear-disabled',{
 	sortField: 'text'
 });
 {% endset %}
@@ -104,7 +104,7 @@ new Selectize('#select-gear-disabled',{
 
 <script>
 {% set script %}
-new Selectize('#select-repeated-options',{
+tomSelect('#select-repeated-options',{
 	sortField: 'text',
 	hideSelected: false,
 	duplicates: true,
@@ -130,7 +130,7 @@ new Selectize('#select-repeated-options',{
 
 <script>
 {% set script %}
-new Selectize('#select-animal',{
+tomSelect('#select-animal',{
 	options: [
 		{class: 'mammal', value: "dog", name: "Dog" },
 		{class: 'mammal', value: "cat", name: "Cat" },
@@ -198,7 +198,7 @@ new Selectize('#select-animal',{
 
 <script>
 {% set script %}
-new Selectize("#select-car",{
+tomSelect("#select-car",{
 	options: [
 		{id: 'avenger', make: 'dodge', model: 'Avenger'},
 		{id: 'caliber', make: 'dodge', model: 'Caliber'},

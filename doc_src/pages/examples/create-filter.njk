@@ -24,7 +24,7 @@ tags: demo
 
 <script>
 {% set script %}
-new Selectize('#select-words-regex',{
+tomSelect('#select-words-regex',{
 	create: true,
 	createFilter: $('#regex').val()
 });
@@ -49,7 +49,7 @@ new Selectize('#select-words-regex',{
 
 <script>
 {% set script %}
-new Selectize('#select-words-length',{
+tomSelect('#select-words-length',{
 	create: true,
 	createFilter: function(input) { return input.length >= parseInt($('#length').val(), 10); }
 });
@@ -71,7 +71,7 @@ new Selectize('#select-words-length',{
 
 <script>
 {% set script %}
-var unique = new Selectize('#select-words-unique',{
+var unique = tomSelect('#select-words-unique',{
 	create: true,
 	createFilter: function(input) {
 		input = input.toLowerCase();

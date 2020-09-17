@@ -23,7 +23,7 @@ Orchid Select was forked from <a href="https://github.com/selectize/selectize.js
 	<option>Terrible</option>
 </select>
 <script>
-new Selectize("#select-tags",{
+tomSelect("#select-tags",{
 persist: false,
 createOnBlur: true,
 create: true
@@ -52,7 +52,7 @@ create: true
 <script src="/js/selectize.complete.js"></script>
 <script>
 var options = {};
-new Selectize('#selectize-it',{});
+tomSelect('#selectize-it',{});
 </script>
 ```
 

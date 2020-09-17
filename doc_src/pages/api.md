@@ -12,7 +12,7 @@ property points to the underlying Selectize instance.
 
 ```js
 // initialize the Selectize control
-var select = new Selectize('#select',options);
+var select = tomSelect('#select',options);
 ```
 
 #### Related Topics

@@ -80,7 +80,7 @@ var eventHandler = function(name) {
 		$('#log').append('<div><span class="name">' + name + '</span></div>');
 	};
 };
-new Selectize('#select-state',{
+tomSelect('#select-state',{
 	create          : true,
 	onChange        : eventHandler('onChange'),
 	onItemAdd       : eventHandler('onItemAdd'),
@@ -111,7 +111,7 @@ new Selectize('#select-state',{
 {% endset %}
 
 {% set script %}
-new Selectize("#input-tags",{
+tomSelect("#input-tags",{
 	delimiter: ",",
 	persist: false,
 	onDelete: function(values) {

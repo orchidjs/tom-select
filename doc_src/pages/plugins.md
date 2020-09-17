@@ -26,7 +26,7 @@ complete control.
 #### Without Options
 
 ```js
-new Selectize('#select',{
+tomSelect('#select',{
 	plugins: ['plugin_a', 'plugin_b']
 });
 ```
@@ -34,7 +34,7 @@ new Selectize('#select',{
 #### With Options
 
 ```js
-new Selectize('#select',{
+tomSelect('#select',{
 	plugins: {
 		'plugin_a': { /* ... */ },
 		'plugin_b': { /* ... */ }
