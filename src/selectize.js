@@ -1253,7 +1253,9 @@ Object.assign(Selectize.prototype, {
 					groups[optgroup] = document.createDocumentFragment();
 					groups_order.push(optgroup);
 				}
-				groups[optgroup].appendChild(option_el);
+
+				// a child could only have one parent, so if you have more parents clone the child
+				groups[optgroup].appendChild((!j) ? option_el : option_el.cloneNode(true));
 			}
 		}
 
