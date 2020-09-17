@@ -34,4 +34,6 @@ Orchid Select was forked from selectize.js to provide the same usability without
 
 
 ## Issues / Pull requests
-- #1363
+- #1363 Autofill disable possibility
+- #1447 Enhancement - dropdownParent
+- #1279 Adding ability to use load to init opt groups

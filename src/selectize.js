@@ -838,16 +838,25 @@ Object.assign(Selectize.prototype, {
 		addClasses(self.wrapper,self.settings.loadingClass);
 
 		self.loading++;
-		fn.apply(self, [function(results) {
+		fn.apply(self, [function(options, groups) {
 			self.loading = Math.max(self.loading - 1, 0);
-			if (results && results.length) {
-				self.addOption(results);
+
+			// load groups before options
+			if (groups && groups.length) {
+				groups.forEach(function (group) {
+					self.addOptionGroup(group[self.settings.optgroupValueField], group);
+				});
+			}
+
+			if (options && options.length) {
+				self.addOption(options);
 				self.refreshOptions(self.isFocused && !self.isInputHidden);
 			}
+
 			if (!self.loading) {
 				removeClasses(self.wrapper,self.settings.loadingClass);
 			}
-			self.trigger('load', results);
+			self.trigger('load', options);
 		}]);
 	},
 
