@@ -105,7 +105,9 @@ new Selectize('#select-gear-disabled',{
 <script>
 {% set script %}
 new Selectize('#select-repeated-options',{
-	sortField: 'text'
+	sortField: 'text',
+	hideSelected: false,
+	duplicates: true,
 });
 {% endset %}
 </script>

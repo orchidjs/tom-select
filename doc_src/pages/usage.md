@@ -223,6 +223,12 @@ create: function(input,callback){
 		<td><code>&lt;input&gt; element</code></td>
 		<td><code>null</code></td>
 	</tr>
+	<tr>
+		<td><code>duplicates</code></td>
+		<td>Allow selecting the same option more than once. <code>hideSelected</code> should also be set to false.</td>
+		<td><code>boolean</td>
+		<td><code>false</code></td>
+	</tr>
 </table>
 
 ### Data / Searching

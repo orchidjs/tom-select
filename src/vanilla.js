@@ -120,7 +120,7 @@ var onEvent = function( el, eventName, elementSelector, handler ){
 	};
 
 	for( let i = 0; i<event_names.length; i++){
-		el.addEventListener(event_names[i], _handler, false);
+		el.addEventListener(event_names[i], _handler, true);
 	}
 
 };
@@ -132,10 +132,14 @@ var onEvent = function( el, eventName, elementSelector, handler ){
  *
  */
 var parentMatch = function(target, selector, el ){
-	while( target && target.matches && target != el ){
+	while( target && target.matches ){
 
 		if( target.matches(selector) ){
 			return target;
+		}
+
+		if( target == el ){
+			break;
 		}
 
 		target = target.parentNode;

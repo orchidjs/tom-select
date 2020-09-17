@@ -16,6 +16,7 @@ Selectize.defaults = {
 	maxOptions: 1000,
 	maxItems: null,
 	hideSelected: null,
+	duplicates: false,
 	addPrecedence: false,
 	selectOnTab: false,
 	preload: false,

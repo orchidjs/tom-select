@@ -45,6 +45,27 @@
 				});
 			});
 
+			it_n('should allow duplicate options when hideSelected=false and duplicates=true',function(done){
+				var test		= setup_test('AB_Multi',{hideSelected:false,duplicates:true});
+
+				click(test.instance.control, function() {
+
+					var options		= test.instance.dropdown.querySelectorAll('.option');
+					expect(options.length).to.be.equal(3);
+					expect(test.instance.items.length).to.be.equal(0);
+
+					click($('[data-value=a]', test.instance.dropdown_content), function() {
+
+						click($('[data-value=a]', test.instance.dropdown_content), function() {
+							options		= test.instance.dropdown.querySelectorAll('.option');
+							expect(options.length).to.be.equal(3);
+							expect(test.instance.items.length).to.be.equal(2);
+
+							done();
+						});
+					});
+				});
+			});
 
 		});
 

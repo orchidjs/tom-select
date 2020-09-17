@@ -216,7 +216,7 @@ Object.assign(Selectize.prototype, {
 
 
 		onEvent(dropdown, 'mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
-		onEvent(dropdown, 'mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
+		onEvent(dropdown, 'mousedown', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 
 		control.addEventListener('mousedown', function(evt){
 
@@ -266,15 +266,13 @@ Object.assign(Selectize.prototype, {
 
 		var doc_mousedown = function(e) {
 			if (self.isFocused) {
-				// prevent events on the dropdown scrollbar from causing the control to blur
-				if (e.target === self.dropdown || e.target.parentNode === self.dropdown) {
+
+				// clicking anywhere in the control should not close the dropdown
+				if( parentMatch(e.target, '.'+self.settings.wrapperClass, self.wrapper) ){
 					return false;
 				}
 
-				// blur on click outside
-				if( !parentMatch(e.target, '.'+self.settings.itemClass, self.wrapper) ){
-					self.blur(e.target);
-				}
+				self.blur(e.target);
 			}
 		};
 
@@ -758,7 +756,7 @@ Object.assign(Selectize.prototype, {
 	 */
 	onOptionHover: function(e) {
 		if (this.ignoreHover) return;
-		this.setActiveOption(e.currentTarget, false);
+		this.setActiveOption(e.delegateTarget, false);
 	},
 
 	/**
@@ -1255,7 +1253,12 @@ Object.assign(Selectize.prototype, {
 				}
 
 				// a child could only have one parent, so if you have more parents clone the child
-				groups[optgroup].appendChild((!j) ? option_el : option_el.cloneNode(true));
+				if( j > 0 ){
+					option_el = option_el.cloneNode(true);
+					removeClasses(option_el,'active');
+				}
+
+				groups[optgroup].appendChild(option_el);
 			}
 		}
 
@@ -1694,9 +1697,15 @@ Object.assign(Selectize.prototype, {
 			var i, active, wasFull;
 			value = hash_key(value);
 
-			if (self.items.indexOf(value) !== -1) {
-				if (inputMode === 'single') self.close();
-				return;
+			if( self.items.indexOf(value) !== -1 ){
+
+				if( inputMode === 'single' ){
+					self.close();
+				}
+
+				if( inputMode === 'single' || !self.settings.duplicates ){
+					return;
+				}
 			}
 
 			if (!self.options.hasOwnProperty(value)) return;
@@ -1704,6 +1713,11 @@ Object.assign(Selectize.prototype, {
 			if (inputMode === 'multi' && self.isFull()) return;
 
 			item = self.render('item', self.options[value]);
+
+			if( this.control.contains(item) ){ // duplicates
+				item = item.cloneNode(true);
+			}
+
 			wasFull = self.isFull();
 			self.items.splice(self.caretPos, 0, value);
 			self.insertAtCaret(item);
