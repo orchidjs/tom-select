@@ -32,8 +32,11 @@ Orchid Select was forked from selectize.js to provide the same usability without
 - support for older browsers ES5
 - placeholder show/hide
 
+## Breaking
+- dataAttr defaults to null instead of "data-data"
 
 ## Issues / Pull requests
 - #1363 Autofill disable possibility
 - #1447 Enhancement - dropdownParent
 - #1279 Adding ability to use load to init opt groups
+- #838 Add option to disable delete on backspace (no_backspace_delete plugin)

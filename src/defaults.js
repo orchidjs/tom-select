@@ -26,7 +26,7 @@ Selectize.defaults = {
 	loadThrottle: 300,
 	loadingClass: 'loading',
 
-	dataAttr: 'data-data',
+	dataAttr: null, //'data-data',
 	optgroupField: 'optgroup',
 	valueField: 'value',
 	labelField: 'text',

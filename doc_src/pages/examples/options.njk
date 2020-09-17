@@ -6,6 +6,7 @@ tags: demo
 
 {% from "demo.njk" import demo %}
 
+
 {% set label %}
 <label class="h2 mb-3" for="select-tools">
 	JavaScript Array
@@ -32,6 +33,39 @@ new Selectize('#select-tools',{
 		{id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape'}
 	],
 	create: false
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+{% set label %}
+<label class="h2 mb-3" for="data-attr">Data-* Attributes</label>
+<p>Enhance options with data-* attributes</p>
+{% endset %}
+
+{% set html %}
+<select id="data-attr">
+    <option value="chrome" data-src="https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-32.png">Google Chrome</option>
+    <option value="ffox" data-src="https://cdn0.iconfinder.com/data/icons/flat-round-system/512/firefox-32.png">Mozilla Firefox</option>
+    <option value="ie" data-src="https://cdn0.iconfinder.com/data/icons/flat-round-system/512/internet_explorer-32.png">Internet Explorer</option>
+</select>
+{% endset %}
+
+
+<script>
+{% set script %}
+new Selectize('#data-attr',{
+    render: {
+        option: function (item, escape) {
+            return `<div><img class="mr-2" src="${item.src}">${item.text}</div>`;
+        },
+        item: function (item, escape) {
+			return `<div><img class="mr-2" src="${item.src}">${item.text}</div>`;
+        }
+    }
 });
 {% endset %}
 </script>

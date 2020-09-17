@@ -17,9 +17,11 @@
 		});
 
 		describe('<input type="text">', function() {
+
 			it_n('should complete without exceptions', function() {
 				var test = setup_test('<input type="text">', {});
 			});
+
 			it_n('should populate items,options from "dataAttr" if available', function() {
 				var data = [{val: 'a', lbl: 'Hello'}, {val: 'b', lbl: 'World'}];
 				var test = setup_test('<input type="text" value="c,d,e" data-hydrate="' + JSON.stringify(data).replace(/"/g,'&quot;') + '">', {
@@ -27,6 +29,7 @@
 					valueField: 'val',
 					labelField: 'lbl'
 				});
+
 				expect(test.instance.getValue()).to.be.equal('a,b');
 				assert.deepEqual(test.instance.items, ['a','b']);
 				assert.deepEqual(test.instance.options, {
@@ -34,6 +37,16 @@
 					'b': {val: 'b', lbl: 'World', $order: 2}
 				});
 			});
+
+			it_n('should populate options from data attributes',function(){
+
+				var test = setup_test('<select><option value="a" data-test="b">c</option></select>');
+
+				assert.deepEqual(test.instance.options, {
+					'a': {value: 'a', test: 'b', text: 'c', disabled:false, $order: 1},
+				});
+			});
+
 			describe('getValue()', function() {
 				it_n('should return value as a string', function() {
 					var test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
@@ -48,6 +61,7 @@
 					expect(test.instance.getValue()).to.be.equal('a,b');
 				});
 			});
+
 			describe('<input type="text" attributes>', function() {
 				it_n('should propagate original input attributes to the generated input', function() {
 					var test = setup_test('<input type="text" autocorrect="off" autocapitalize="none" autocomplete="new-password">', {});
@@ -63,6 +77,8 @@
 				});
 
 			});
+
+
 		});
 
 		describe('<input type="number">', function() {

@@ -256,7 +256,7 @@ create: function(input,callback){
 		<td><code>dataAttr</code></td>
 		<td>The &lt;option&gt; attribute from which to read JSON data about the option.</td>
 		<td><code>string</code></td>
-		<td><code>'data-data'</code></td>
+		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>valueField</code></td>

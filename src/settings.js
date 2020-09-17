@@ -18,7 +18,7 @@ var getSettings = function( input, settings_user){
 		if( option ){
 			placeholder = option.textContent;
 		}
-		
+
 	}
 
 	var settings_element		= {
@@ -39,15 +39,19 @@ var getSettings = function( input, settings_user){
 		var optionsMap = {};
 
 		var readData = function(el) {
-			var data = attr_data && el.getAttribute(attr_data);
-			if (typeof data === 'string' && data.length) {
-				return JSON.parse(data);
+
+			var data	= Object.assign({},el.dataset); // get plain object from DOMStringMap
+			var json	= attr_data && data[attr_data];
+
+			if( typeof json === 'string' && json.length ){
+				data = Object.assign(data,JSON.parse(json));
 			}
-			return null;
+
+			return data;
 		};
 
 		var addOption = function(option, group) {
-			
+
 			var value = hash_key(option.value);
 			if (!value && !settings.allowEmptyOption) return;
 
@@ -69,7 +73,7 @@ var getSettings = function( input, settings_user){
 				return;
 			}
 
-			var option_data             = readData(option) || {};
+			var option_data             = readData(option);
 			option_data[field_label]    = option_data[field_label] || option.textContent;
 			option_data[field_value]    = option_data[field_value] || value;
 			option_data[field_disabled] = option_data[field_disabled] || option.disabled;
@@ -89,7 +93,7 @@ var getSettings = function( input, settings_user){
 			id = optgroup.getAttribute('label')
 
 			if (id) {
-				optgroup_data							= readData(optgroup) || {};
+				optgroup_data							= readData(optgroup);
 				optgroup_data[field_optgroup_label]		= id;
 				optgroup_data[field_optgroup_value]		= id;
 				optgroup_data[field_disabled]			= optgroup.disabled;
@@ -153,4 +157,3 @@ var getSettings = function( input, settings_user){
 
 	return extend( true, {}, Selectize.defaults, settings_element, settings_user);
 };
-
