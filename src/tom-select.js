@@ -1314,6 +1314,12 @@ Object.assign(TomSelect.prototype, {
 			}
 		}
 
+		// add no_results message
+		if( results.items.length === 0 && self.settings.render['no_results'] && !self.loading && query.length ){
+			let msg = self.render('no_results', {input: query});
+			show_dropdown = true;
+			self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
+		}
 
 
 		// add create option
@@ -1322,14 +1328,6 @@ Object.assign(TomSelect.prototype, {
 			show_dropdown = true;
 			create = self.render('option_create', {input: query});
 			self.dropdown_content.insertBefore(create, self.dropdown_content.firstChild);
-		}
-
-
-		// add no_results message
-		if( results.items.length === 0 && self.settings.render['no_results'] && !self.loading && query.length ){
-			let msg = self.render('no_results', {input: query});
-			show_dropdown = true;
-			self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
 		}
 
 
