@@ -1,6 +1,6 @@
 /**
- * selectize.css (v//@@version)
- * Copyright (c) 2013–2015 Brian Reavis & contributors
+ * tom-select.css (v//@@version)
+ * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -11,25 +11,24 @@
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  *
- * @author Brian Reavis <brian@thirdroute.com>
  */
 
 
 // base styles
-
-$select-font-family:								inherit !default;
+$select-ns:										'tomselect' !default;
+$select-font-family:							inherit !default;
 $select-font-smoothing:							inherit !default;
 $select-font-size:								13px !default;
-$select-line-height:								18px !default;
+$select-line-height:							18px !default;
 
 $select-color-text:								#303030 !default;
 $select-color-border:							#d0d0d0 !default;
-$select-color-highlight:							rgba(125,168,208,0.2) !default;
-$select-color-input:								#fff !default;
+$select-color-highlight:						rgba(125,168,208,0.2) !default;
+$select-color-input:							#fff !default;
 $select-color-input-full:						$select-color-input !default;
 $select-color-disabled:							#fafafa !default;
 $select-color-item:								#f2f2f2 !default;
-$select-color-item-text:							$select-color-text !default;
+$select-color-item-text:						$select-color-text !default;
 $select-color-item-border:						#d0d0d0 !default;
 $select-color-item-active:						#e8e8e8 !default;
 $select-color-item-active-text:					$select-color-text !default;
@@ -39,10 +38,10 @@ $select-color-dropdown-border:					$select-color-border !default;
 $select-color-dropdown-border-top:				#f0f0f0 !default;
 $select-color-dropdown-item-active:				#f5fafd !default;
 $select-color-dropdown-item-active-text: 		#495c68 !default;
-$select-color-dropdown-item-create-text:			rgba(red($select-color-text), green($select-color-text), blue($select-color-text), 0.5) !default;
+$select-color-dropdown-item-create-text:		rgba(red($select-color-text), green($select-color-text), blue($select-color-text), 0.5) !default;
 $select-color-dropdown-item-create-active-text:	$select-color-dropdown-item-active-text !default;
 $select-color-optgroup:							$select-color-dropdown !default;
-$select-color-optgroup-text:						$select-color-text !default;
+$select-color-optgroup-text:					$select-color-text !default;
 $select-lighten-disabled-item:					30% !default;
 $select-lighten-disabled-item-text:				30% !default;
 $select-lighten-disabled-item-border:			30% !default;
@@ -51,11 +50,11 @@ $select-opacity-disabled:						0.5 !default;
 $select-shadow-input:							inset 0 1px 1px rgba(0,0,0,0.1) !default;
 $select-shadow-input-focus:						inset 0 1px 2px rgba(0,0,0,0.15) !default;
 $select-border:									1px solid $select-color-border !default;
-$select-dropdown-border:							1px solid $select-color-dropdown-border !default;
+$select-dropdown-border:						1px solid $select-color-dropdown-border !default;
 $select-border-radius:							3px !default;
 
 $select-width-item-border:						0 !default;
-$select-max-height-dropdown:						200px !default;
+$select-max-height-dropdown:					200px !default;
 
 $select-padding-x:								8px !default;
 $select-padding-y:								8px !default;
@@ -87,11 +86,11 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 @import "../plugins/remove_button/plugin.scss";
 
 
-.selectize-control {
+.#{$select-ns}-control {
 	position: relative;
 }
 
-.selectize-dropdown, .selectize-input, .selectize-input input {
+.#{$select-ns}-dropdown, .#{$select-ns}-input, .#{$select-ns}-input input {
 	color: $select-color-text;
 	font-family: $select-font-family;
 	font-size: $select-font-size;
@@ -99,13 +98,13 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	font-smoothing: $select-font-smoothing;
 }
 
-.selectize-input, .selectize-control.single .selectize-input.input-active {
+.#{$select-ns}-input, .#{$select-ns}-control.single .#{$select-ns}-input.input-active {
 	background: $select-color-input;
 	cursor: text;
 	display: inline-block;
 }
 
-.selectize-input {
+.#{$select-ns}-input {
 	border: $select-border;
 	padding: $select-padding-y $select-padding-x;
 	display: inline-block;
@@ -117,7 +116,7 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	box-shadow: $select-shadow-input;
 	border-radius: $select-border-radius;
 
-	.selectize-control.multi &.has-items {
+	.#{$select-ns}-control.multi &.has-items {
 		$padding-x: $select-padding-x;
 		$padding-top: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-width-item-border});
 		$padding-bottom: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-margin-item-y} - #{$select-width-item-border});
@@ -142,7 +141,7 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 		display: inline-block;
 		zoom: 1;
 	}
-	.selectize-control.multi & > div {
+	.#{$select-ns}-control.multi & > div {
 		cursor: pointer;
 		margin: 0 $select-margin-item-x $select-margin-item-y 0;
 		padding: $select-padding-item-y $select-padding-item-x;
@@ -156,7 +155,7 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 			border: $select-width-item-border solid $select-color-item-active-border;
 		}
 	}
-	.selectize-control.multi &.disabled > div {
+	.#{$select-ns}-control.multi &.disabled > div {
 		&, &.active {
 			color: lighten(desaturate($select-color-item-text, 100%), $select-lighten-disabled-item-text);
 			background: lighten(desaturate($select-color-item, 100%), $select-lighten-disabled-item);
@@ -186,13 +185,13 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	}
 }
 
-.selectize-input::after {
+.#{$select-ns}-input::after {
 	content: ' ';
 	display: block;
 	clear: left;
 }
 
-.selectize-input.dropdown-active::before {
+.#{$select-ns}-input.dropdown-active::before {
 	content: ' ';
 	display: block;
 	position: absolute;
@@ -203,7 +202,7 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	right: 0;
 }
 
-.selectize-dropdown {
+.#{$select-ns}-dropdown {
 	position: absolute;
 	z-index: 10;
 	border: $select-dropdown-border;
@@ -252,14 +251,14 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	}
 }
 
-.selectize-dropdown-content {
+.#{$select-ns}-dropdown-content {
 	overflow-y: auto;
 	overflow-x: hidden;
 	max-height: $select-max-height-dropdown;
 	overflow-scrolling: touch;
 }
 
-.selectize-control.single .selectize-input {
+.#{$select-ns}-control.single .#{$select-ns}-input {
 	&, input { cursor: pointer; }
 	&.input-active, &.input-active input { cursor: text; }
 
@@ -283,18 +282,18 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	}
 }
 
-.selectize-control.rtl {
+.#{$select-ns}-control.rtl {
 	text-align: right;
-	&.single .selectize-input:after {
+	&.single .#{$select-ns}-input:after {
 		left: $select-arrow-offset;
 		right: auto;
 	}
-	.selectize-input > input {
+	.#{$select-ns}-input > input {
 		margin: $select-caret-margin-rtl !important;
 	}
 }
 
-.selectize-control .selectize-input.disabled {
+.#{$select-ns}-control .#{$select-ns}-input.disabled {
 	opacity: $select-opacity-disabled;
 	background-color: $select-color-disabled;
 }

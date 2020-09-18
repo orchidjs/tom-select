@@ -1,4 +1,4 @@
-.selectize-control.plugin-remove_button {
+.#{$select-ns}-control.plugin-remove_button {
 	[data-value] {
 		position: relative;
 		padding-right: 24px !important;

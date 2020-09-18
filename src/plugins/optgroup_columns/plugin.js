@@ -1,6 +1,6 @@
 /**
- * Plugin: "optgroup_columns" (selectize.js)
- * Copyright (c) 2013 Simon Hewitt & contributors
+ * Plugin: "optgroup_columns" (Tom Select.js)
+ * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -13,7 +13,7 @@
  *
  */
 
-Selectize.define('optgroup_columns', function(options) {
+TomSelect.define('optgroup_columns', function(options) {
 	var self = this;
 
 	options = Object.assign({

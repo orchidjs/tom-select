@@ -1,6 +1,6 @@
 /**
- * Plugin: "restore_on_backspace" (selectize.js)
- * Copyright (c) 2013 Brian Reavis & contributors
+ * Plugin: "restore_on_backspace" (Tom Select)
+ * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -13,7 +13,7 @@
  *
  */
 
-Selectize.define('restore_on_backspace', function(options) {
+TomSelect.define('restore_on_backspace', function(options) {
 	var self = this;
 
 	options.text = options.text || function(option) {

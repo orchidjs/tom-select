@@ -10,7 +10,7 @@
     "tagging",
     "tag"
   ],
-  "main": "dist/js/selectize.js",
+  "main": "dist/js/tom-select.complete.js",
   "description": "Tom Select is a framework agnostic custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
   "version": "1.0.0-beta",
   "author": "Josh Schmidt (https://github.com/oyejorge)",

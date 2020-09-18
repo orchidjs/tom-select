@@ -1,13 +1,13 @@
-var Selectize = function( input, settings ){
+var TomSelect = function( input, settings ){
 	var i, n, dir, self = this;
 
 	input				= getDom( input );
 
-	if( input.selectize ){
-		throw new Error('Selectize already initialized on this element');
+	if( input.tomselect ){
+		throw new Error('Tom Select already initialized on this element');
 	}
 
-	input.selectize		= self;
+	input.tomselect		= self;
 	settings			= getSettings( input, settings );
 
 
@@ -98,17 +98,17 @@ var Selectize = function( input, settings ){
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 if( typeof MicroPlugin === "undefined"){
-	throw 'Dependency MicroPlugin is missing. Make sure you either: (1) are using the "complete" version of Selectize, or (2) require MicroPlugin before you load Selectize.';
+	throw 'Dependency MicroPlugin is missing. Make sure you either: (1) are using the "complete" version of Tom Select, or (2) require MicroPlugin before you load Tom Select.';
 }
 
-MicroEvent.mixin(Selectize);
-MicroPlugin.mixin(Selectize);
+MicroEvent.mixin(TomSelect);
+MicroPlugin.mixin(TomSelect);
 
 
 // methods
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-Object.assign(Selectize.prototype, {
+Object.assign(TomSelect.prototype, {
 
 	/**
 	 * Creates all elements and sets up event bindings.
@@ -178,9 +178,9 @@ Object.assign(Selectize.prototype, {
 
 
 		if( inputId = input.getAttribute('id') ){
-			control_input.setAttribute('id', inputId + '-selectized');
+			control_input.setAttribute('id', inputId + '-tomselected');
 			var label = document.querySelector("label[for='"+inputId+"']");
-			if( label ) label.setAttribute('for', inputId + '-selectized');
+			if( label ) label.setAttribute('for', inputId + '-tomselected');
 		}
 
 		if(self.settings.copyClassesToDropdown) {
@@ -344,7 +344,7 @@ Object.assign(Selectize.prototype, {
 
 		self.on('change', this.onChange);
 
-		addClasses(input,'selectized');
+		addClasses(input,'tomselected');
 		self.trigger('initialize');
 
 		// preload options
@@ -663,9 +663,6 @@ Object.assign(Selectize.prototype, {
 
 	/**
 	 * Invokes the user-provide option provider / loader.
-	 *
-	 * Note: this function is debounced in the Selectize
-	 * constructor (by `settings.loadThrottle` milliseconds)
 	 *
 	 * @param {string} value
 	 */
@@ -1203,7 +1200,7 @@ Object.assign(Selectize.prototype, {
 		if (settings.score) {
 			calculateScore = self.settings.score.apply(this, [query]);
 			if (typeof calculateScore !== 'function') {
-				throw new Error('Selectize "score" setting must be a function that returns a function');
+				throw new Error('Tom Select "score" setting must be a function that returns a function');
 			}
 		}
 
@@ -1314,9 +1311,6 @@ Object.assign(Selectize.prototype, {
 			optgroup = groups_order[i];
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 
-				// different from selectize.js
-				// in selectize.js, the optgroup header and options within it were created, converted to a string, then passed to the optgroup template
-				// to prevent creating duplicate dom elements for the same options (for performance and setActiveOption functionality), we append header and options to a rendered optgroup
 				let group_html = self.render('optgroup', self.optgroups[optgroup] );
 				group_html.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
 				group_html.appendChild(groups[optgroup]);
@@ -1846,7 +1840,7 @@ Object.assign(Selectize.prototype, {
 
 	/**
 	 * Invokes the `create` method provided in the
-	 * selectize options that should provide the data
+	 * TomSelect options that should provide the data
 	 * for the new item, given the user input.
 	 *
 	 * Once this completes, it will be added
@@ -2359,18 +2353,16 @@ Object.assign(Selectize.prototype, {
 			this.input.removeAttribute('tabindex' );
 		}
 
-		removeClasses(this.input,'selectized');
+		removeClasses(this.input,'tomselected');
 		this.input.removeAttribute('hidden');
 
 		for( let i = 0; i < revertSettings.children.length; i++ ){
 			this.input.appendChild( revertSettings.children[i] );
 		}
 
-		this.input.removeAttribute('data-selectize');
-
 		this._destroy();
 
-		delete this.input.selectize;
+		delete this.input.tomselect;
 	},
 
 	/**

@@ -55,7 +55,7 @@ module.exports = function(grunt) {
 		var files, i, n, source, name, path, modules = [];
 
 		// amd definitions must be changed to be not anonymous
-		// @see https://github.com/brianreavis/selectize.js/issues/89
+		// @see https://github.com/selectize/selectize.js/issues/89
 		files = [];
 		for (i = 0, n = files_js_dependencies.length; i < n; i++) {
 			path = files_js_dependencies[i];
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
 		}
 
 		path = 'build/js/tom-select.js';
-		source = grunt.file.read(path).replace(/define\((.*?)factory\);/, 'define(\'selectize\', $1factory);');
+		source = grunt.file.read(path).replace(/define\((.*?)factory\);/, 'define(\'tomselect\', $1factory);');
 		modules.push(source);
 
 		// write output

@@ -1,5 +1,5 @@
 /**
- * Plugin: "input_autogrow" (selectize.js)
+ * Plugin: "input_autogrow" (Tom Select)
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -12,7 +12,7 @@
  *
  */
 
-Selectize.define('input_autogrow', function(options) {
+TomSelect.define('input_autogrow', function(options) {
 
 	var self					= this;
 

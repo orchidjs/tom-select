@@ -1,5 +1,5 @@
-Selectize.count = 0;
-Selectize.defaults = {
+TomSelect.count = 0;
+TomSelect.defaults = {
 	options: [],
 	optgroups: [],
 
@@ -41,10 +41,10 @@ Selectize.defaults = {
 	searchConjunction: 'and',
 
 	mode: null,
-	wrapperClass: 'selectize-control',
-	inputClass: 'selectize-input',
-	dropdownClass: 'selectize-dropdown',
-	dropdownContentClass: 'selectize-dropdown-content',
+	wrapperClass: 'tomselect-control',
+	inputClass: 'tomselect-input',
+	dropdownClass: 'tomselect-dropdown',
+	dropdownContentClass: 'tomselect-dropdown-content',
 	itemClass: 'item',
 	optionClass: 'option',
 

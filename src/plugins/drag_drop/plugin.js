@@ -1,6 +1,6 @@
 /**
- * Plugin: "drag_drop" (selectize.js)
- * Copyright (c) 2013 Brian Reavis & contributors
+ * Plugin: "drag_drop" (Tom Select)
+ * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -13,7 +13,7 @@
  *
  */
 
-Selectize.define('drag_drop', function(options) {
+TomSelect.define('drag_drop', function(options) {
 	if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	if (this.settings.mode !== 'multi') return;
 	var self = this;

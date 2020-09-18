@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		var demo_html = demo.querySelector('.demo-html');
 
-		var select_or_input = demo.querySelectorAll('select.selectized,input.selectized');
+		var select_or_input = demo.querySelectorAll('select.tomselected,input.tomselected');
 		for(let i = 0; i < select_or_input.length; i++){
 
 			let el		= select_or_input[i];

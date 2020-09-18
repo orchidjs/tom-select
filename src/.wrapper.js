@@ -1,6 +1,6 @@
 /**
- * selectize.js (v//@@version)
- * Copyright (c) 2013–2015 Brian Reavis & contributors
+ * Tom Select (v//@@version)
+ * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -11,7 +11,6 @@
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  *
- * @author Brian Reavis <brian@thirdroute.com>
  */
 
 /*jshint curly:false */
@@ -23,16 +22,16 @@
 	} else if (typeof exports === 'object') {
 		module.exports = factory( require('sifter'), require('microplugin'));
 	} else {
-		root.Selectize = factory( root.Sifter, root.MicroPlugin);
+		root.TomSelect = factory( root.Sifter, root.MicroPlugin);
 	}
 }(this, function( Sifter, MicroPlugin) {
 	'use strict';
 
 	//@@js
 
-	return Selectize;
+	return TomSelect;
 }));
 
 var tomSelect = function(el,opts){
-	return new Selectize(el,opts);
+	return new TomSelect(el,opts);
 }

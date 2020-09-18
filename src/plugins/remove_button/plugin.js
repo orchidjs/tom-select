@@ -1,6 +1,6 @@
 /**
- * Plugin: "remove_button" (selectize.js)
- * Copyright (c) 2013 Brian Reavis & contributors
+ * Plugin: "remove_button" (Tom Select)
+ * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -13,7 +13,7 @@
  *
  */
 
-Selectize.define('remove_button', function(options) {
+TomSelect.define('remove_button', function(options) {
 
 	options = Object.assign({
 			label     : '&times;',

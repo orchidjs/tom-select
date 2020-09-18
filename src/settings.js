@@ -1,7 +1,7 @@
 
 
 var getSettings = function( input, settings_user){
-	var settings				= Object.assign({},Selectize.defaults, settings_user);
+	var settings				= Object.assign({},TomSelect.defaults, settings_user);
 	var attr_data				= settings.dataAttr;
 	var field_label				= settings.labelField;
 	var field_value				= settings.valueField;
@@ -30,7 +30,7 @@ var getSettings = function( input, settings_user){
 
 
 	/**
-	 * Initializes selectize from a <select> element.
+	 * Initialize from a <select> element.
 	 *
 	 */
 	var init_select = function() {
@@ -121,7 +121,7 @@ var getSettings = function( input, settings_user){
 
 
 	/**
-	 * Initializes selectize from a <input type="text"> element.
+	 * Initialize from a <input type="text"> element.
 	 *
 	 */
 	var init_textbox = function(){
@@ -155,5 +155,5 @@ var getSettings = function( input, settings_user){
 		init_textbox();
 	}
 
-	return extend( true, {}, Selectize.defaults, settings_element, settings_user);
+	return extend( true, {}, TomSelect.defaults, settings_element, settings_user);
 };

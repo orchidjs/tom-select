@@ -1,5 +1,5 @@
 /**
- * Selectize bootstrap 4
+ * Tom Select bootstrap 4
  */
 
 //Import Boostrap 4 functions and variables
@@ -56,7 +56,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 @import "tom-select";
 
 
-.selectize-dropdown, .selectize-dropdown.form-control {
+.#{$select-ns}-dropdown, .#{$select-ns}-dropdown.form-control {
   height: auto;
   padding: 0;
   margin: 2px 0 0 0;
@@ -67,7 +67,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
 
-.selectize-dropdown {
+.#{$select-ns}-dropdown {
   .optgroup-header {
 	font-size: $font-size-sm;
 	line-height: $line-height-base;
@@ -91,11 +91,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   }
 }
 
-.selectize-dropdown-content {
+.#{$select-ns}-dropdown-content {
   padding: 5px 0;
 }
 
-.selectize-input {
+.#{$select-ns}-input {
   min-height: $input-height;
   @include box-shadow($input-box-shadow);
   @include transition($input-transition);
@@ -117,7 +117,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   }
 }
 
-.is-invalid .selectize-input {
+.is-invalid .#{$select-ns}-input {
   border-color: $select-color-input-error;
   box-shadow: $select-shadow-input-error;
 
@@ -127,9 +127,9 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   }
 }
 
-.selectize-control {
+.#{$select-ns}-control {
   &.form-control-sm{
-    .selectize-input.has-items{
+    .#{$select-ns}-input.has-items{
       min-height: $input-height-sm !important;
       height: $input-height-sm !important;
       padding: $input-padding-y-sm $input-padding-x-sm !important;
@@ -139,17 +139,17 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   }
 
   &.multi {
-	.selectize-input.has-items {
+	.#{$select-ns}-input.has-items {
 	  padding-left: calc(#{$select-padding-x} - #{$select-padding-item-x});
 	  padding-right: calc(#{$select-padding-x} - #{$select-padding-item-x});
 	}
-	.selectize-input > div {
+	.#{$select-ns}-input > div {
 	  border-radius: calc(#{$select-border-radius} - 1px);
 	}
   }
 }
 
-.form-control.selectize-control {
+.form-control.#{$select-ns}-control {
   padding: 0;
   height: auto;
   border: none;
@@ -158,7 +158,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   border-radius: 0;
 }
 
-.input-group .selectize-input {
+.input-group .#{$select-ns}-input {
 	overflow: unset;
 	border-radius: 0 $select-border-radius $select-border-radius 0;
 }

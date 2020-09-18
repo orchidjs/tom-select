@@ -15,15 +15,17 @@ Tom Select was forked from selectize.js to provide the same usability without th
 - framework agnostic (doesn't require jQuery, Vue or any other JavaScript framework)
 - improved keyboard control of selected items
 - improved option cache to reduce dom manipulation during searches
-- replaced javascript scrolling for dropdown with css scrolling
+- animated scrolling with css instead of JavaScript
 - ctrl/shift/cmd key detection
 - moved autogrow functionality to input_autogrow plugin
-- integrated hook system into Selectize class hook('before','onKeyUp',function(){ ... });
+- [integrated plugin hooks](plugins.md)
 
 ## Breaking Changes
 - removed support for older browsers ES5
 - removed placeholder show/hide
 - dataAttr defaults to null instead of "data-data"
+- options are appended to optgroup template programmatically
+- .tomselect-* css class names (customizable with scss)
 - scss instead of less
 	- autoprefixer
 	- nanocss

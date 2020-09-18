@@ -328,7 +328,7 @@
 				syn.click($button);
 			});
 
-			if( Selectize.prototype.supportsValidity() ){
+			if( TomSelect.prototype.supportsValidity() ){
 				it_n('should not pass validation if no element is selected',function(done) {
 
 					$button.one('click',function(){

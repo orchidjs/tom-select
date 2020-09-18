@@ -13,9 +13,9 @@ $select-width-item-border:			1px;
 
 
 
-.selectize-control {
+.#{$select-ns}-control {
 	&.multi {
-		.selectize-input {
+		.#{$select-ns}-input {
 			&.has-items {
 				$padding-x: $select-padding-x - 3px;
 				padding-left: $padding-x;
@@ -46,18 +46,18 @@ $select-width-item-border:			1px;
 		}
 	}
 	&.single {
-		.selectize-input {
+		.#{$select-ns}-input {
 			box-shadow: 0 1px 0 rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.8);
 			@include selectize-vertical-gradient(#fefefe, #f2f2f2);
 		}
 	}
 }
 
-.selectize-control.single .selectize-input, .selectize-dropdown.single {
+.#{$select-ns}-control.single .#{$select-ns}-input, .#{$select-ns}-dropdown.single {
 	border-color: #b8b8b8;
 }
 
-.selectize-dropdown {
+.#{$select-ns}-dropdown {
 	.optgroup-header {
 		padding-top: $select-padding-dropdown-item-y + 2px;
 		font-weight: bold;

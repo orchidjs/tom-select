@@ -1,5 +1,5 @@
 
-.selectize-control{
+.#{$select-ns}-control{
 	.dropdown-header {
 		position: relative;
 		padding: ($select-padding-dropdown-item-y * 2) $select-padding-dropdown-item-x;

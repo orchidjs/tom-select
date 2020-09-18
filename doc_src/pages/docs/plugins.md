@@ -48,16 +48,16 @@ For a more detailed description of plugin option formats and how the plugin syst
 ### Boilerplate
 
 ```js
-Selectize.define('plugin_name', function(plugin_options) {
+TomSelect.define('plugin_name', function(plugin_options) {
 	// options: plugin-specific options
-	// this: Selectize instance
+	// this: TomSelect instance
 });
 ```
 
 #### Adding Dependencies
 
 ```js
-Selectize.define('plugin_name', function(plugin_options) {
+TomSelect.define('plugin_name', function(plugin_options) {
 	this.require('another_plugin');
 });
 ```
@@ -67,7 +67,7 @@ Selectize.define('plugin_name', function(plugin_options) {
 Execute plugin code 'before' or 'after' existing methods
 
 ```js
-Selectize.define('plugin_name', function(plugin_options) {
+TomSelect.define('plugin_name', function(plugin_options) {
 	this.hook('after','setup',function(){
 		// .. additional setup
 	});
@@ -81,7 +81,7 @@ Use the 'instead' hook to override existing methods.
 overridden function returns a value as well.
 
 ```js
-Selectize.define('plugin_name', function(plugin_options) {
+TomSelect.define('plugin_name', function(plugin_options) {
 	var original_setup = this.setup;
 	this.hook('instead','setup',function(){
 		// .. custom setup
@@ -95,7 +95,7 @@ Selectize.define('plugin_name', function(plugin_options) {
 If you want to add event listeners to dom elements, add them after the `setup()` method.
 
 ```js
-Selectize.define('plugin_name', function(plugin_options) {
+TomSelect.define('plugin_name', function(plugin_options) {
 	this.hook('after','setup',function(){
 		this.control.addEventListener('click',function(evt){
 			alert('the control was clicked');
