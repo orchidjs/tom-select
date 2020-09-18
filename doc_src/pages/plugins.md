@@ -13,7 +13,7 @@ complete control.
 [**Example Plugins**](examples/plugins)
 
 **A few notes:**
-- All plugins live in their own folders in ["src/plugins"](https://github.com/orchidjs/orchid-select/tree/master/src/plugins).
+- All plugins live in their own folders in ["src/plugins"](https://github.com/orchidjs/tom-select/tree/master/src/plugins).
 - Plugin names should follow the format: `/[a-z_]+$`
 - JS source should live in a "plugin.js" file (required).
 - CSS should live in a "plugin.scss" file (optional). It will be bundled at build time.

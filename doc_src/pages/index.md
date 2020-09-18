@@ -1,26 +1,27 @@
 
-<h1 class="display-3 mt-0">Orchid Select</h1>
+<h1 class="display-3 mt-0">Tom Select</h1>
 
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
-[![Build Status](https://travis-ci.org/OrchidJS/Orchid-Select.svg?branch=master)](https://travis-ci.org/OrchidJS/Orchid-Select)
-[![Coverage Status](https://coveralls.io/repos/github/OrchidJS/Orchid-Select/badge.svg?branch=master)](https://coveralls.io/github/OrchidJS/Orchid-Select?branch=master)
+[![Build Status](https://travis-ci.org/orchidjs/tom-select.svg?branch=master)](https://travis-ci.org/orchidjs/tom-select)
+[![Coverage Status](https://coveralls.io/repos/github/orchidjs/tom-select/badge.svg?branch=master)](https://coveralls.io/github/orchidjs/tom-select?branch=master)
 
 <div class="lead my-4">
-Orchid Select is an extensible and dynamic &lt;select&gt; UI control.
+Tom Select is a versatile and dynamic &lt;select&gt; UI control.
 With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
-Orchid Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> to provide the same powerful UI and API but with a framework agnostic design.
+Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> to provide the same powerful UI and API but with a framework agnostic design.
 </div>
 
 <div class="w-50 mx-auto">
 <h3>Example</h3>
 <link rel="stylesheet" href="/css/selectize.bootstrap4.css">
-<select id="select-tags" multiple autocomplete="off" placeholder="How cool is this?">
-	<option selected>Awesome</option>
-	<option selected>Neat</option>
-	<option>Meh</option>
-	<option>Terrible</option>
+<select id="select-tags" multiple placeholder="Best movies and TV shows">
+	<option selected>Magnum P.I.</option>
+	<option>Blue Bloods</option>
+	<option>Quigley Down Under</option>
+	<option>Three Men and a Baby</option>
+	<option>Mr. Baseball</option>
 </select>
 <script>
 tomSelect("#select-tags",{
@@ -61,15 +62,15 @@ The available options are [documented here](usage.md).
 
 ## Installation and files
 
-All pre-built files needed to use Orchid Select can be found in the ["dist"](https://github.com/orchidjs/orchid-select/tree/master/dist) folder and at [cdnjs](https://cdnjs.com/libraries/selectize.js).
+All pre-built files needed to use Tom Select can be found in the ["dist"](https://github.com/orchidjs/tom-select/tree/master/dist) folder and at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 
 
-- [**JavaScript**](https://github.com/orchidjs/orchid-select/tree/master/dist/js)
-	- [selectize.complete.js](https://github.com/orchidjs/orchid-select/tree/master/dist/js/selectize.complete.js) — Includes dependencies and plugins
-	- [selectize.js](https://github.com/orchidjs/orchid-select/tree/master/dist/js/selectize.js) — Does not include sifter or microplugin
+- [**JavaScript**](https://github.com/orchidjs/tom-select/tree/master/dist/js)
+	- [selectize.complete.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/selectize.complete.js) — Includes dependencies and plugins
+	- [selectize.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/selectize.js) — Does not include sifter or microplugin
 - **Themes**
-	- [CSS](https://github.com/orchidjs/orchid-select/tree/master/dist/css) — Compiled themes
-	- [SCSS](https://github.com/orchidjs/orchid-select/tree/master/dist/scss) — Uncompiled theme sources
+	- [CSS](https://github.com/orchidjs/tom-select/tree/master/dist/css) — Compiled themes
+	- [SCSS](https://github.com/orchidjs/tom-select/tree/master/dist/scss) — Uncompiled theme sources
 
 
 ## Custom Builds
@@ -89,7 +90,7 @@ grunt --plugins=remove_button,restore_on_backspace
 
 ## License
 
-Copyright &copy; 2013–2020 [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
+Copyright &copy; 2013–2020 [Contributors](https://github.com/orchidjs/tom-select/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 

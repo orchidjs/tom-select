@@ -3,7 +3,7 @@ title: selectize.js
 tags: docs
 ---
 
-Orchid Select was forked from selectize.js to provide the same usability without the need for jQuery or any other JavaScript framework.
+Tom Select was forked from selectize.js to provide the same usability without the need for jQuery or any other JavaScript framework.
 
 
 ## New Features

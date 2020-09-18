@@ -1,14 +1,14 @@
-# Orchid Select
+# Tom Select
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
-[![Build Status](https://travis-ci.org/OrchidJS/Orchid-Select.svg?branch=master)](https://travis-ci.org/OrchidJS/Orchid-Select)
-[![Coverage Status](https://coveralls.io/repos/github/OrchidJS/Orchid-Select/badge.svg?branch=master)](https://coveralls.io/github/OrchidJS/Orchid-Select?branch=master)
-[![dependencies Status](https://david-dm.org/orchidjs/orchid-select/status.svg)](https://david-dm.org/orchidjs/orchid-select)
+[![Build Status](https://travis-ci.org/orchidjs/tom-select.svg?branch=master)](https://travis-ci.org/orchidjs/tom-select)
+[![Coverage Status](https://coveralls.io/repos/github/orchidjs/tom-select/badge.svg?branch=master)](https://coveralls.io/github/orchidjs/tom-select?branch=master)
 
-Orchid Select is an extensible and dynamic &lt;select&gt; UI control.
+
+Tom Select is an extensible and dynamic &lt;select&gt; UI control.
 With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
-Orchid Select was forked from [Selectize.js](https://github.com/selectize/selectize.js) to provide the same powerful UI and API but with a framework agnostic approach.
+Tom Select was forked from [Selectize.js](https://github.com/selectize/selectize.js) to provide the same powerful UI and API but with a framework agnostic approach.
 
 - [Demos](http://selectize.github.io/selectize.js/)
 - [Examples](examples/)
@@ -31,7 +31,7 @@ Orchid Select was forked from [Selectize.js](https://github.com/selectize/select
 
 ### Installation and files
 
-All pre-built files needed to use Orchid Select can be found in the
+All pre-built files needed to use Tom Select can be found in the
 ["dist"](dist/) folder.
 
 If you're looking to get started with minimal fuss, include
@@ -65,7 +65,7 @@ The available options are [documented here](docs/usage.md).
 
 ## License
 
-Copyright &copy; 2013–2020 [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
+Copyright &copy; 2013–2020 [Contributors](https://github.com/orchidjs/tom-select/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 

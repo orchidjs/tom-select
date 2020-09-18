@@ -1,5 +1,5 @@
 {
-  "name": "Orchid-Select",
+  "name": "tom-select",
   "keywords": [
     "select",
     "ui",
@@ -11,7 +11,7 @@
     "tag"
   ],
   "main": "dist/js/selectize.js",
-  "description": "Orchid Select is a framework agnostic custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
+  "description": "Tom Select is a framework agnostic custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
   "version": "1.0.0-beta",
   "author": "Josh Schmidt (https://github.com/oyejorge)",
   "contributors": [
@@ -20,7 +20,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/OrchidJS/Orchid-Select.git"
+    "url": "https://github.com/orchidjs/tom-select.git"
   },
   "dependencies": {
     "microplugin": "0.0.3",
