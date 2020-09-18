@@ -90,7 +90,8 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	position: relative;
 }
 
-.#{$select-ns}-dropdown, .#{$select-ns}-input, .#{$select-ns}-input input {
+.#{$select-ns}-dropdown,
+.#{$select-ns}-input, .#{$select-ns}-input input {
 	color: $select-color-text;
 	font-family: $select-font-family;
 	font-size: $select-font-size;
@@ -98,7 +99,8 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	font-smoothing: $select-font-smoothing;
 }
 
-.#{$select-ns}-input, .#{$select-ns}-control.single .#{$select-ns}-input.input-active {
+.#{$select-ns}-input,
+.#{$select-ns}-control.single .#{$select-ns}-input.input-active {
 	background: $select-color-input;
 	cursor: text;
 	display: inline-block;
@@ -221,7 +223,10 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 			border-radius: 1px;
 		}
 	}
-	.option, .optgroup-header {
+	.option,
+	.optgroup-header,
+	.no-results,
+	.create {
 		padding: $select-padding-dropdown-item-y $select-padding-dropdown-item-x;
 	}
 	.option, [data-disabled], [data-disabled] [data-selectable].option {

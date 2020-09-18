@@ -1025,7 +1025,8 @@ Object.assign(TomSelect.prototype, {
 
 		// don't replace the current active option with a duplicate of itself
 		// prevents losing 'active' class
-		if( option && this.activeOption	&& option.dataset.value === this.activeOption.dataset.value	){
+		// make sure option has a dataset.value, otherwise the 'create' option won't maintain it's active class
+		if( option && this.activeOption && option.dataset.value && option.dataset.value === this.activeOption.dataset.value	){
 			return;
 		}
 
