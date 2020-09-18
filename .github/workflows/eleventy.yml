@@ -36,3 +36,4 @@ jobs:
         with:
           publish_dir: ./build/docs
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          cname: tom-select.js.org
