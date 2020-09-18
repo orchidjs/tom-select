@@ -145,10 +145,8 @@
 	var KEY_ESC = 27;
 	var KEY_LEFT = 37;
 	var KEY_UP = 38;
-	var KEY_P = 80;
 	var KEY_RIGHT = 39;
 	var KEY_DOWN = 40;
-	var KEY_N = 78;
 	var KEY_BACKSPACE = 8;
 	var KEY_DELETE = 46;
 	var KEY_SHIFT = 16;
@@ -1277,9 +1275,6 @@
 	        return;
 	      // down: open dropdown or move selection down
 	
-	      case KEY_N:
-	        if (!e.ctrlKey || e.altKey) break;
-	
 	      case KEY_DOWN:
 	        if (!self.isOpen && self.hasOptions) {
 	          self.open();
@@ -1292,9 +1287,6 @@
 	        e.preventDefault();
 	        return;
 	      // up: move selection up
-	
-	      case KEY_P:
-	        if (!e.ctrlKey || e.altKey) break;
 	
 	      case KEY_UP:
 	        if (self.activeOption) {
@@ -1332,12 +1324,10 @@
 	        if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
 	          self.onOptionSelect({
 	            delegateTarget: self.activeOption
-	          }); // Default behaviour is to jump to the next field, we only want this
-	          // if the current field doesn't accept any more entries
+	          }); // prevent default [tab] behaviour of jump to the next field
+	          // if select isFull, then the dropdown won't be open and [tab] will work normally
 	
-	          if (!self.isFull()) {
-	            e.preventDefault();
-	          }
+	          e.preventDefault();
 	        }
 	
 	        if (self.settings.create && self.createItem()) {
