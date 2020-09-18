@@ -12,7 +12,7 @@ describe('DOM Events', function() {
 			});
 
 			var counter = 0;
-			test.$select.on('change', function() { counter++; });
+			test.instance.on('change', function() { counter++; });
 			test.instance.addItem('b');
 
 			window.setTimeout(function() {
@@ -32,7 +32,7 @@ describe('DOM Events', function() {
 			});
 
 			var counter = 0;
-			test.$select.on('change', function() { counter++; });
+			test.instance.on('change', function() { counter++; });
 			test.instance.removeItem('b');
 
 			window.setTimeout(function() {
@@ -52,7 +52,7 @@ describe('DOM Events', function() {
 			});
 
 			var counter = 0;
-			test.$select.on('change', function() { counter++; });
+			test.instance.on('change', function() { counter++; });
 			test.instance.clear();
 
 			window.setTimeout(function() {

@@ -4,8 +4,8 @@ tags: docs
 ---
 
 ```html
-<script src="selectize.complete.js"></script>
-<link href="selectize.css" rel="stylesheet" />
+<script src="tom-select.complete.js"></script>
+<link href="tom-select.bootstrap4.css" rel="stylesheet" />
 <input id="select" />
 <script>
 tomSelect('#select',config);
@@ -353,7 +353,7 @@ create: function(input,callback){
 	</tr>
 	<tr>
 		<td><code>score(search)</code></td>
-		<td>Overrides the scoring function used to sort available options. The provided function should return a <strong>function</strong> that returns a number greater than or equal to zero to represent the <code>score</code> of an item (the function's first argument). If 0, the option is declared not a match. The <code>search</code> argument is a <a href="#search">Search</a> object. For an example, see the <a href="https://github.com/brianreavis/selectize.js/blob/master/examples/github.html">"GitHub" example</a>.</td>
+		<td>Overrides the scoring function used to sort available options. The provided function should return a <strong>function</strong> that returns a number greater than or equal to zero to represent the <code>score</code> of an item (the function's first argument). If 0, the option is declared not a match. The <code>search</code> argument is a <a href="#search">Search</a> object. For an example, see the <a href="examples/options">scoring example</a>.</td>
 		<td><code>function</code></td>
 		<td><code>null</code></td>
 	</tr>

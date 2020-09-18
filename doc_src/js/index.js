@@ -61,14 +61,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
 
-		var link			= document.getElementById('selectize-theme');
+		var link			= document.getElementById('select-theme');
 		if( link ) link.parentNode.removeChild(link);
 
 		link				= document.createElement('link');
-		link.id				= 'selectize-theme';
+		link.id				= 'select-theme';
 
 		link.setAttribute('rel','stylesheet');
-		link.setAttribute('href','/css/selectize.' + theme + '.css');
+		link.setAttribute('href','/css/tom-select.' + theme + '.css');
 		document.getElementsByTagName('head')[0].appendChild(link);
 	}
 
@@ -81,10 +81,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		var demo_html = demo.querySelector('.demo-html');
 
-		var selectized = demo.querySelectorAll('select.selectized,input.selectized');
-		for(let i = 0; i < selectized.length; i++){
+		var select_or_input = demo.querySelectorAll('select.selectized,input.selectized');
+		for(let i = 0; i < select_or_input.length; i++){
 
-			let el		= selectized[i];
+			let el		= select_or_input[i];
 			let div		= document.createElement('div');
 			div.classList.add('value');
 			let update	= function(){

@@ -64,12 +64,12 @@ module.exports = function(grunt) {
 			modules.push(source);
 		}
 
-		path = 'build/js/selectize.js';
+		path = 'build/js/tom-select.js';
 		source = grunt.file.read(path).replace(/define\((.*?)factory\);/, 'define(\'selectize\', $1factory);');
 		modules.push(source);
 
 		// write output
-		path = 'build/js/selectize.complete.js';
+		path = 'build/js/tom-select.complete.js';
 		grunt.file.write(path, modules.join('\n\n'));
 		grunt.log.writeln('Built "' + path + '".');
 	});
@@ -79,8 +79,8 @@ module.exports = function(grunt) {
 		'src/*.js',
 		'!src/.wrapper.js',
 		'!src/defaults.js',
-		'!src/selectize.js',
-		'src/selectize.js',
+		'!src/tom-select.js',
+		'src/tom-select.js',
 		'src/defaults.js',
 	];
 
@@ -143,10 +143,10 @@ module.exports = function(grunt) {
 		copy: {
 			scss:{
 				files: [{
-					'build/scss/selectize.scss': ['src/scss/selectize.scss'],
-					'build/scss/selectize.default.scss': ['src/scss/selectize.default.scss'],
-					'build/scss/selectize.bootstrap3.scss': ['src/scss/selectize.bootstrap3.scss'],
-					'build/scss/selectize.bootstrap4.scss': ['src/scss/selectize.bootstrap4.scss'],
+					'build/scss/tom-select.scss': ['src/scss/tom-select.scss'],
+					'build/scss/tom-select.default.scss': ['src/scss/tom-select.default.scss'],
+					'build/scss/tom-select.bootstrap3.scss': ['src/scss/tom-select.bootstrap3.scss'],
+					'build/scss/tom-select.bootstrap4.scss': ['src/scss/tom-select.bootstrap4.scss'],
 				}]
 			},
 			scss_plugins:{
@@ -160,12 +160,12 @@ module.exports = function(grunt) {
 				prefix: '//@@',
 				variables: {
 					'version': '<%= pkg.version %>',
-					'js': '<%= grunt.file.read("build/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
+					'js': '<%= grunt.file.read("build/js/tom-select.js").replace(/\\n/g, "\\n\\t") %>',
 				},
 			},
 			js: {
 				files: [
-					{src: ['src/.wrapper.js'], dest: 'build/js/selectize.js'},
+					{src: ['src/.wrapper.js'], dest: 'build/js/tom-select.js'},
 				]
 			},
 			// add version to css & scss headers
@@ -185,10 +185,10 @@ module.exports = function(grunt) {
 			},
 			build: {
 				files: [{
-					'build/css/selectize.css': ['src/scss/selectize.scss'],
-					'build/css/selectize.default.css': ['src/scss/selectize.default.scss'],
-					'build/css/selectize.bootstrap3.css': ['src/scss/-selectize.bootstrap3.scss'],
-					'build/css/selectize.bootstrap4.css': ['src/scss/-selectize.bootstrap4.scss'],
+					'build/css/tom-select.css': ['src/scss/tom-select.scss'],
+					'build/css/tom-select.default.css': ['src/scss/tom-select.default.scss'],
+					'build/css/tom-select.bootstrap3.css': ['src/scss/-tom-select.bootstrap3.scss'],
+					'build/css/tom-select.bootstrap4.css': ['src/scss/-tom-select.bootstrap4.scss'],
 				}]
 			},
 			builddocs: {
@@ -226,10 +226,10 @@ module.exports = function(grunt) {
 					]
 				},
 				files: [{
-					'build/css/selectize.min.css': ['build/css/selectize.css'],
-					'build/css/selectize.default.min.css': ['build/css/selectize.default.css'],
-					'build/css/selectize.bootstrap3.min.css': ['build/css/selectize.bootstrap3.css'],
-					'build/css/selectize.bootstrap4.min.css': ['build/css/selectize.bootstrap4.css'],
+					'build/css/tom-select.min.css': ['build/css/tom-select.css'],
+					'build/css/tom-select.default.min.css': ['build/css/tom-select.default.css'],
+					'build/css/tom-select.bootstrap3.min.css': ['build/css/tom-select.bootstrap3.css'],
+					'build/css/tom-select.bootstrap4.min.css': ['build/css/tom-select.bootstrap4.css'],
 				}]
 			},
 			builddocs:{
@@ -251,7 +251,7 @@ module.exports = function(grunt) {
 			},
 		},
 
-		// combine all the plugin.js files and selectize.js into one file
+		// combine all the plugin.js files and tom-select.js into one file
 		concat: {
 			options: {
 				stripBanners: true,
@@ -259,7 +259,7 @@ module.exports = function(grunt) {
 			},
 			js: {
 				files: {
-					'build/js/selectize.js': files_js,
+					'build/js/tom-select.js': files_js,
 				}
 			},
 		},
@@ -271,7 +271,7 @@ module.exports = function(grunt) {
 			},
 			build: {
 				files: {
-					'build/js/selectize.js': ['build/js/selectize.js']
+					'build/js/tom-select.js': ['build/js/tom-select.js']
 				}
 			}
 		},
@@ -297,13 +297,13 @@ module.exports = function(grunt) {
 		uglify: {
 			main: {
 				options: {
-					'banner': '/*! selectize.js - v<%= pkg.version %> | https://github.com/selectize/selectize.js | Apache License (v2) */\n',
+					'banner': '/*! tom-select.js - v<%= pkg.version %> | https://github.com/orchidjs/tom-select | Apache License (v2) */\n',
 					'report': 'gzip',
 					'ascii-only': true
 				},
 				files: {
-					'build/js/selectize.min.js': ['build/js/selectize.js'],
-					'build/js/selectize.complete.min.js': ['build/js/selectize.complete.js']
+					'build/js/tom-select.min.js': ['build/js/tom-select.js'],
+					'build/js/tom-select.complete.min.js': ['build/js/tom-select.complete.js']
 				}
 			}
 		},

@@ -7,13 +7,14 @@ In the [usage documentation](/usage), a few callbacks are listed that
 allow you to listen for certain events. Callbacks aren't always ideal though;
 specifically when you wish to have multiple handlers.
 
-Selectize instances have a basic event emitter interface that mimics jQuery, Backbone.js, et al:
+Tom Select instances have a basic event emitter interface that mimics jQuery, Backbone.js, et al:
 
 ```js
 var handler = function() { /* ... */ };
-selectize.on('event_name', handler);
-selectize.off('event_name');
-selectize.off('event_name', handler);
+var select = tomSelect('#input-id');
+select.on('event_name', handler);
+select.off('event_name');
+select.off('event_name', handler);
 ```
 
 ### List of Events

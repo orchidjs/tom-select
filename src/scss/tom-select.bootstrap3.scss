@@ -42,14 +42,13 @@ $select-padding-item-x: 5px;
 $select-padding-item-y: 1px;
 $select-margin-item-x: 3px;
 $select-margin-item-y: 3px;
-$select-caret-margin: 0;
 
 $select-arrow-size: 5px;
 $select-arrow-color: $select-color-text;
 $select-arrow-offset: $select-padding-x + 5px;
 
 
-@import 'selectize';
+@import 'tom-select';
 
 
 .selectize-dropdown, .selectize-dropdown.form-control {

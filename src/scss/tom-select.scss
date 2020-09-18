@@ -70,7 +70,7 @@ $select-arrow-size:								5px !default;
 $select-arrow-color:								#808080 !default;
 $select-arrow-offset:							15px !default;
 
-$select-caret-margin:							0 2px 0 0 !default;
+$select-caret-margin:							0 4px !default;
 $select-caret-margin-rtl:						0 4px 0 -2px !default;
 
 
@@ -172,7 +172,7 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 		min-height: 0 !important;
 		max-height: none !important;
 		max-width: 100% !important;
-		margin: $select-caret-margin !important;
+		margin: 0 !important;
 		text-indent: 0 !important;
 		border: 0 none !important;
 		background: none !important;
@@ -180,6 +180,9 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 		user-select: auto !important;
 		box-shadow: none !important;
 		&:focus { outline: none !important; }
+	}
+	&.has-items > input{
+		margin: $select-caret-margin !important;
 	}
 }
 

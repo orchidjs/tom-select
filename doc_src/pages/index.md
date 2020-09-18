@@ -2,8 +2,9 @@
 <h1 class="display-3 mt-0">Tom Select</h1>
 
 
-[![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
+<!-- [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
+-->
 [![Build Status](https://travis-ci.org/orchidjs/tom-select.svg?branch=master)](https://travis-ci.org/orchidjs/tom-select)
 [![Coverage Status](https://coveralls.io/repos/github/orchidjs/tom-select/badge.svg?branch=master)](https://coveralls.io/github/orchidjs/tom-select?branch=master)
 
@@ -15,7 +16,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 
 <div class="w-50 mx-auto">
 <h3>Example</h3>
-<link rel="stylesheet" href="/css/selectize.bootstrap4.css">
+<link rel="stylesheet" href="/css/tom-select.bootstrap4.css">
 <select id="select-tags" multiple placeholder="Best movies and TV shows">
 	<option selected>Magnum P.I.</option>
 	<option>Blue Bloods</option>
@@ -48,12 +49,12 @@ create: true
 ## Usage
 
 ```html
-<input id="selectize-it" />
-<link rel="stylesheet" href="/css/selectize.default.css">
-<script src="/js/selectize.complete.js"></script>
+<input id="tom-select-it" />
+<link rel="stylesheet" href="/css/tom-select.default.css">
+<script src="/js/tom-select.complete.js"></script>
 <script>
 var options = {};
-tomSelect('#selectize-it',{});
+tomSelect('#tom-select-it',{});
 </script>
 ```
 
@@ -62,12 +63,14 @@ The available options are [documented here](usage.md).
 
 ## Installation and files
 
-All pre-built files needed to use Tom Select can be found in the ["dist"](https://github.com/orchidjs/tom-select/tree/master/dist) folder and at [cdnjs](https://cdnjs.com/libraries/selectize.js).
+All pre-built files needed to use Tom Select can be found in the ["dist"](https://github.com/orchidjs/tom-select/tree/master/dist) folder
+
+<!--and at [cdnjs](https://cdnjs.com/libraries/selectize.js). -->
 
 
 - [**JavaScript**](https://github.com/orchidjs/tom-select/tree/master/dist/js)
-	- [selectize.complete.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/selectize.complete.js) — Includes dependencies and plugins
-	- [selectize.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/selectize.js) — Does not include sifter or microplugin
+	- [tom-select.complete.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.complete.js) — Includes dependencies and plugins
+	- [tom-select.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.js) — Does not include sifter or microplugin
 - **Themes**
 	- [CSS](https://github.com/orchidjs/tom-select/tree/master/dist/css) — Compiled themes
 	- [SCSS](https://github.com/orchidjs/tom-select/tree/master/dist/scss) — Uncompiled theme sources
@@ -75,13 +78,13 @@ All pre-built files needed to use Tom Select can be found in the ["dist"](https:
 
 ## Custom Builds
 
-By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the files you need from the "build" folder.
+By default, all [plugins](plugins) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the files you need from the "build" folder.
 
 ```shell
 # dependencies
 yarn install --production=false
 
-# build selectize
+# build tom-select
 grunt --plugins=
 grunt --plugins=*
 grunt --plugins=remove_button,restore_on_backspace

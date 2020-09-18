@@ -1,13 +1,9 @@
-Welcome to the Selectize bug tracker. Thank you for taking the time to
-make Selectize a better library!
+Welcome to the Tom Select bug tracker. Thank you for taking the time to
+make Tom Select a better library!
 
 Please keep in mind this repository has an important issue backlog and
 that maintainers have limited time to fix issues, triage, and understand
 them.
-
-If you've never done so, please read the
-[guide to reporting issues](https://github.com/selectize/selectize.js/wiki/Reporting-issues-guide)
-in the Wiki to help us better understand your issue.
 
 Place an `x` in the checklist steps (`[ ]` becomes `[x]`) to demonstrate
 you have done/verified all the steps you needed to do.
@@ -31,7 +27,7 @@ I did:
 * [ ] Make sure I'm reporting something precise that needs to be fixed
 * [ ] Give my issue a descriptive and concise title
 * [ ] Create a *minimal* working example on JsFiddle or Codepen
-	(or gave a link to a demo on the Selectize docs)
+	(or gave a link to a demo in the documentation)
 * [ ] Indicate *precise* steps to reproduce in *numbers* and the result,
 	  like below
 

@@ -34,7 +34,7 @@ $ BROWSERS=Firefox,Chrome,Safari yarn test
 ```
 
 ### Local environment
-To run Selectize locally:
+To run locally:
 
 ```shell
 $ yarn start

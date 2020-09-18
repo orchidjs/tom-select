@@ -85,7 +85,7 @@ module.exports = function(config) {
 	config.set({
 		frameworks: ['mocha', 'chai'],
 		files: [
-			'dist/css/selectize.default.css',
+			'dist/css/tom-select.default.css',
 			'node_modules/jquery/dist/jquery.js',
 			'node_modules/microplugin/src/microplugin.js',
 			'node_modules/sifter/sifter.js',
@@ -96,7 +96,7 @@ module.exports = function(config) {
 			'src/utils.js',
 			'src/vanilla.js',
 			'src/settings.js',
-			'src/selectize.js',
+			'src/tom-select.js',
 			'src/defaults.js',
 			'src/.wrapper.js',
 			'src/plugins/remove_button/plugin.js',
@@ -120,7 +120,7 @@ module.exports = function(config) {
 			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
 			build: process.env.TRAVIS_BUILD_NUMBER,
 			testName: process.env.COMMIT_MESSAGE,
-			tags: ['selectize', 'test']
+			tags: ['tom-select', 'test']
 		},
 		customLaunchers: customLaunchers,
 		reporters: reporters,

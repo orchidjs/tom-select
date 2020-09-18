@@ -361,15 +361,15 @@
 			});
 			it_n('should not fire "change" if silent is truthy', function(done) {
 				var watcher = function(e) { throw new Error('Change fired'); };
-				test.$select.on('change', watcher);
+				test.instance.on('change', watcher);
 				test.instance.addItem('x', true);
 				expect(test.instance.items.indexOf('x')).to.not.be.equal(-1);
 				window.setTimeout(function() {
-					test.$select.off('change', watcher);
+					test.instance.off('change', watcher);
 					done();
 				}, 0);
 			});
-			it_n('should update DOM', function() {
+			it_n('should update DOM (1)', function() {
 				test.instance.addItem('c');
 				expect( $(test.instance.control).find('[data-value=c]').length).to.be.equal(1);
 
@@ -450,7 +450,7 @@
 				expect(test.instance.options['undefined']).to.not.have.property('test');
 				expect(test.instance.options['null']).to.not.have.property('test');
 			});
-			it_n('should update DOM', function() {
+			it_n('should update DOM (2)', function() {
 				test.instance.updateOption('f', {value: 'f_updated'});
 				expect($(test.instance.control).find('[data-value=f]').length).to.be.equal(0);
 				expect($(test.instance.control).find('[data-value=f_updated]').length).to.be.equal(1);
@@ -611,7 +611,7 @@
 				test.instance.clear();
 				expect(test.instance.items.length).to.be.equal(0);
 			});
-			it_n('should update DOM', function() {
+			it_n('should update DOM (3)', function() {
 				test.instance.clear();
 				expect($(test.instance.control).find('[data-value=1]').length).to.be.equal(0);
 				expect($(test.instance.control).find('[data-value=2]').length).to.be.equal(0);
@@ -619,10 +619,10 @@
 			});
 			it_n('should not fire "change" if silent is truthy', function(done) {
 				var watcher = function(e) { throw new Error('Change fired'); };
-				test.$select.on('change', watcher);
+				test.instance.on('change', watcher);
 				test.instance.clear(true);
 				window.setTimeout(function() {
-					test.$select.off('change', watcher);
+					test.instance.off('change', watcher);
 					done();
 				}, 0);
 			});

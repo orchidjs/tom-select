@@ -4,14 +4,11 @@ tags: docs
 ---
 
 
-Selectize controls can be controlled programmatically via the methods described in this section.
-When initializing the control, the `selectize` property is
-added on the original &lt;select&gt; / &lt;input&gt; element—this
-property points to the underlying Selectize instance.
+Instances of Tom Select can be controlled programmatically via the methods described in this section.
 
 
 ```js
-// initialize the Selectize control
+// initialize the control
 var select = tomSelect('#select',options);
 ```
 
@@ -103,7 +100,7 @@ var select = tomSelect('#select',options);
 	</tr>
 	<tr>
 		<td><code>createItem(value, [triggerDropdown], [callback])</code></td>
-		<td>Invokes the <code>create</code> method provided in the Selectize settings that should provide the data for the new item, given the user input. Once this completes, it will be added to the item list.</td>
+		<td>Invokes the <code>create</code> method provided in the settings that should provide the data for the new item, given the user input. Once this completes, it will be added to the item list.</td>
 	</tr>
 	<tr>
 		<td><code>refreshItems()</code></td>

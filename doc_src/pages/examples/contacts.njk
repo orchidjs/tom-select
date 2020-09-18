@@ -19,6 +19,7 @@ tags: demo
 <select id="select-to" class="contacts" placeholder="Pick some people..."></select>
 {% endset %}
 
+<script>
 {% set script %}
 var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
                   '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
@@ -87,8 +88,9 @@ tomSelect('#select-to',{
 	}
 });
 {% endset %}
+</script>
 
-
+<style>
 {% set style %}
 	.selectize-control.contacts .selectize-input > div {
 		padding: 1px 10px;
@@ -104,7 +106,6 @@ tomSelect('#select-to',{
 		background: -o-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
 		background: -ms-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
 		background: linear-gradient(to bottom,  #2183f5 0%,#1d77f3 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2183f5', endColorstr='#1d77f3',GradientType=0 );
 		border: 1px solid #0f65d2;
 		-webkit-border-radius: 999px;
 		-moz-border-radius: 999px;
@@ -121,7 +122,6 @@ tomSelect('#select-to',{
 		background: -o-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
 		background: -ms-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
 		background: linear-gradient(to bottom,  #0059c7 0%,#0051c1 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0059c7', endColorstr='#0051c1',GradientType=0 );
 		border-color: #0051c1;
 	}
 	.selectize-control.contacts .selectize-input > div .email {
@@ -142,5 +142,6 @@ tomSelect('#select-to',{
 		color: #a0a0a0;
 	}
 {% endset %}
+</style>
 
 {{ demo( label, html, script, style) }}

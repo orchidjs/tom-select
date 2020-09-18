@@ -59,7 +59,7 @@ describe('Events', function() {
 			var test = setup_test('<select><option value="a" selected="selected">a</option></select>');
 
 			var counter = 0;
-			test.$select.on('change', function() { counter++; });
+			test.instance.on('change', function() { counter++; });
 
 			syn.click(test.instance.control).delay(0, function() {
 				syn
@@ -78,7 +78,7 @@ describe('Events', function() {
 				'<option value="b">Item B</option>',
 				'</select>'].join(''), {});
 			var counter = 0;
-			test.$select.on('change', function() { counter++; });
+			test.instance.on('change', function() { counter++; });
 
 			syn.click(test.instance.control).delay(0, function() {
 				syn
@@ -101,7 +101,7 @@ describe('Events', function() {
 				'</optgroup>',
 				'</select>'].join(''), {});
 			var counter = 0;
-			test.$select.on('change', function() { counter++; });
+			test.instance.on('change', function() { counter++; });
 
 			syn.click(test.instance.control).delay(0, function() {
 				syn

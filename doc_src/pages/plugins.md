@@ -3,12 +3,9 @@ title: Plugin API
 tags: docs
 ---
 
-Via the [microplugin](https://github.com/brianreavis/microplugin.js) interface,
-features can be added to Selectize without modifying the main library.
-This is great because it protects against code bloat, allows for lean builds,
-and allows for addons to be sanely isolated. The plugin system isn't meant
-to be sexy; it's lean, makes very few assumptions, and gives the developer
-complete control.
+Feature can be added to Tom Select without modifying via the [microplugin](https://github.com/brianreavis/microplugin.js) interface.
+This helps protect against code bloat, allows for leaner builds and allows for addons to be sanely isolated
+The plugin system is lean, makes very few assumptions, and gives the developer complete control.
 
 [**Example Plugins**](examples/plugins)
 
@@ -67,7 +64,7 @@ Selectize.define('plugin_name', function(plugin_options) {
 
 #### Method Hooks
 
-Execute plugin code 'before' or 'after' existing Selectize methods
+Execute plugin code 'before' or 'after' existing methods
 
 ```js
 Selectize.define('plugin_name', function(plugin_options) {
@@ -95,7 +92,7 @@ Selectize.define('plugin_name', function(plugin_options) {
 
 
 #### DOM Events
-If you want to add event listeners to selectize elements, add them after the `setup()` method.
+If you want to add event listeners to dom elements, add them after the `setup()` method.
 
 ```js
 Selectize.define('plugin_name', function(plugin_options) {
