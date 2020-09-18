@@ -423,7 +423,7 @@
 			});
 
 
-			it_n('should select option with [return] keypress', function(done) {
+			it_n('should select option with [enter] keypress', function(done) {
 
 				var test = setup_test('AB_Multi');
 
@@ -457,6 +457,23 @@
 
 				});
 			});
+
+			it_n('should not select option with [tab] keypress when selectOnTab = false (default)', function(done) {
+
+				var test = setup_test('AB_Multi',{});
+
+				click(test.instance.control, function() {
+					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
+
+					syn.type('[tab]', test.instance.control_input, function() {
+						expect(test.instance.items.length).to.be.equal(0);
+						done();
+
+					});
+
+				});
+			});
+
 
 			it_n('should select all items when [ctrl-a] pressed', function(done) {
 
@@ -750,5 +767,39 @@
 			});
 		});
 
+
+		describe('openOnFocus', function() {
+
+			it_n('only open after arrow down when openOnFocus=false', function(done) {
+
+				var test = setup_test('AB_Single',{
+					openOnFocus: false,
+				});
+
+				click(test.instance.control, function(){
+					expect(test.instance.isOpen).to.be.equal(false);
+					syn.type('[down]', test.instance.control_input, function() {
+						expect(test.instance.isOpen).to.be.equal(true);
+						done();
+					});
+				});
+			});
+
+			it_n('[enter] should not add item when dropdown isn\'t open', function(done) {
+
+				var test = setup_test('AB_Multi',{
+					openOnFocus: false,
+				});
+
+				click(test.instance.control, function(){
+					expect(test.instance.isOpen).to.be.equal(false);
+					syn.type('[enter]', test.instance.control_input, function() {
+						expect(test.instance.items.length).to.be.equal(0);
+						done();
+					});
+				});
+			});
+
+		});
 
 	});

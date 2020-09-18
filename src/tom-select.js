@@ -542,8 +542,6 @@ Object.assign(TomSelect.prototype, {
 				return;
 
 			// down: open dropdown or move selection down
-			case KEY_N:
-				if (!e.ctrlKey || e.altKey) break;
 			case KEY_DOWN:
 				if (!self.isOpen && self.hasOptions) {
 					self.open();
@@ -556,8 +554,6 @@ Object.assign(TomSelect.prototype, {
 				return;
 
 			// up: move selection up
-			case KEY_P:
-				if (!e.ctrlKey || e.altKey) break;
 			case KEY_UP:
 				if (self.activeOption) {
 					self.ignoreHover = true;
@@ -590,11 +586,9 @@ Object.assign(TomSelect.prototype, {
 				if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
 					self.onOptionSelect({delegateTarget: self.activeOption});
 
-					// Default behaviour is to jump to the next field, we only want this
-					// if the current field doesn't accept any more entries
-					if (!self.isFull()) {
-						e.preventDefault();
-					}
+					// prevent default [tab] behaviour of jump to the next field
+					// if select isFull, then the dropdown won't be open and [tab] will work normally
+					e.preventDefault();
 				}
 				if (self.settings.create && self.createItem()) {
 					e.preventDefault();
