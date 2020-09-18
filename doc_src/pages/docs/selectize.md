@@ -31,14 +31,15 @@ Tom Select was forked from selectize.js to provide the same usability without th
 	- nanocss
 
 ## Issues / Pull requests
-- selectize/selectize.js#1363 Autofill disable possibility
-- selectize/selectize.js#1447 Enhancement - dropdownParent
-- selectize/selectize.js#1279 Adding ability to use load to init opt groups
-- selectize/selectize.js#838 Add option to disable delete on backspace (no_backspace_delete plugin)
-- selectize/selectize.js#239 Preserve custom HTML5 data attributes
-- selectize/selectize.js#1128 Duplicated options in different optgroups doesn't render correctly
-- selectize/selectize.js#129 Allow duplicate values in an input
-- selectize/selectize.js#470 "No results found" message
+- [#1363](https://github.com/selectize/selectize.js/issues/1363) Autofill disable possibility
+- [#1447](https://github.com/selectize/selectize.js/issues/1447) Enhancement - dropdownParent
+- [#1279](https://github.com/selectize/selectize.js/issues/1279) Adding ability to use load to init opt groups
+- [#838](https://github.com/selectize/selectize.js/issues/838) Add option to disable delete on backspace (no_backspace_delete plugin)
+- [#239](https://github.com/selectize/selectize.js/issues/239) Preserve custom HTML5 data attributes
+- [#1128](https://github.com/selectize/selectize.js/issues/1128) Duplicated options in different optgroups doesn't render correctly
+- [#129](https://github.com/selectize/selectize.js/issues/129) Allow duplicate values in an input
+- [#470](https://github.com/selectize/selectize.js/issues/470) "No results found" message
+- [#999](https://github.com/selectize/selectize.js/issues/999) Don't clear the text box value on blur
 
 
 ## Development

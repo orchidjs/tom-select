@@ -26,8 +26,6 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 </select>
 <script>
 tomSelect("#select-tags",{
-persist: false,
-createOnBlur: true,
 create: true
 });
 </script>
