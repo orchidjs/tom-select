@@ -669,6 +669,19 @@
 				});
 			});
 
+			it_n('create item should be focused when addPrecedence=true', function(done) {
+
+				var test = setup_test('AB_Multi', {create: true,addPrecedence: true});
+
+				click(test.instance.control, function() {
+					syn.type('b', test.instance.control_input, function() {
+						assert.equal( test.instance.activeOption.classList.contains('create'), true);
+						done();
+					});
+
+				});
+			});
+
 
 			describe('filtering created items', function() {
 

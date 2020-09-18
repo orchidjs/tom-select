@@ -1023,10 +1023,7 @@ Object.assign(TomSelect.prototype, {
 	setActiveOption: function(option, scroll ) {
 		var height_menu, height_item, y;
 
-		// don't replace the current active option with a duplicate of itself
-		// prevents losing 'active' class
-		// make sure option has a dataset.value, otherwise the 'create' option won't maintain it's active class
-		if( option && this.activeOption && option.dataset.value && option.dataset.value === this.activeOption.dataset.value	){
+		if( option === this.activeOption ){
 			return;
 		}
 
@@ -1360,20 +1357,22 @@ Object.assign(TomSelect.prototype, {
 		self.hasOptions = results.items.length > 0 || has_create_option;
 		if( show_dropdown ){
 			if (results.items.length > 0) {
+
 				active_before = active_before_hash && self.getOption(active_before_hash);
 
-				if( active_before ){
+				if( active_before && self.dropdown_content.contains(active_before) ){
 					active = active_before;
+
 				}else if (self.settings.mode === 'single' && self.items.length ){
 					active = self.getOption(self.items[0]);
-				}
 
-				if( !active ){
+				}else{
+
+					let active_index = 0;
 					if( create && !self.settings.addPrecedence ){
-						active = self.getAdjacent(create, 1);
-					}else{
-						active = self.selectable()[0];
+						active_index = 1;
 					}
+					active = self.selectable()[active_index];
 				}
 
 			}else{
