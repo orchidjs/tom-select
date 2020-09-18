@@ -94,7 +94,7 @@ fi
 
 git add .
 git commit -a -m "v$VERSION Release"
-git tag "v$version"
+git tag "v$VERSION"
 git push origin master
 git push origin --tags
 npm publish
