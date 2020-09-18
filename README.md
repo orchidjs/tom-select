@@ -1,14 +1,14 @@
 # Tom Select
 
-[![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
-[![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
+<!-- [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
+[![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js) -->
 [![Build Status](https://travis-ci.org/orchidjs/tom-select.svg?branch=master)](https://travis-ci.org/orchidjs/tom-select)
 [![Coverage Status](https://coveralls.io/repos/github/orchidjs/tom-select/badge.svg?branch=master)](https://coveralls.io/github/orchidjs/tom-select?branch=master)
 
 
 Tom Select is an extensible and dynamic &lt;select&gt; UI control.
 With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
-Tom Select was forked from [Selectize.js](https://github.com/selectize/selectize.js) to provide the same powerful UI and API but with a framework agnostic approach.
+Tom Select was forked from [Selectize.js](https://tom-select.js.org/docs/selectize.js/) to provide the same powerful UI and API but with a framework agnostic approach.
 
 ### Features
 
@@ -19,7 +19,7 @@ Tom Select was forked from [Selectize.js](https://github.com/selectize/selectize
 - **Item creation**<br>Allow users to create items on the fly (async saving is supported; the control locks until the callback is fired).
 - **Remote data loading**<br>For when you have thousands of options and want them provided by the server as the user types.
 - **Clean API &amp; code**<br>Interface with it and make modifications easily. Pull requests welcome!
-- **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features (uses [microplugin](https://github.com/brianreavis/microplugin.js)).
+- **Extensible**<br> [Plugin API](https://tom-select.js.org/docs/plugins/) for developing custom features (uses [microplugin](https://github.com/brianreavis/microplugin.js)).
 - **Touch Support**<br> Plays nice with iOS 5+ devices.
 
 ## Usage
@@ -34,7 +34,7 @@ tomSelect('#tom-select-it',{});
 </script>
 ```
 
-The available options are [documented here](usage.md).
+The available options are [documented here](https://tom-select.js.org/docs).
 
 
 ## Installation and files

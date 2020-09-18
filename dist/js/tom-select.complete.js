@@ -635,8 +635,8 @@
 }));
 
 /**
- * selectize.js (v1.0.0-beta)
- * Copyright (c) 2013–2015 Brian Reavis & contributors
+ * Tom Select (v1.0.0-beta)
+ * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -647,7 +647,6 @@
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  *
- * @author Brian Reavis <brian@thirdroute.com>
  */
 
 /*jshint curly:false */
@@ -655,11 +654,11 @@
 
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
-		define('selectize', ['sifter','microplugin'], factory);
+		define('tomselect', ['sifter','microplugin'], factory);
 	} else if (typeof exports === 'object') {
 		module.exports = factory( require('sifter'), require('microplugin'));
 	} else {
-		root.Selectize = factory( root.Sifter, root.MicroPlugin);
+		root.TomSelect = factory( root.Sifter, root.MicroPlugin);
 	}
 }(this, function( Sifter, MicroPlugin) {
 	'use strict';
@@ -782,10 +781,8 @@
 	var KEY_ESC = 27;
 	var KEY_LEFT = 37;
 	var KEY_UP = 38;
-	var KEY_P = 80;
 	var KEY_RIGHT = 39;
 	var KEY_DOWN = 40;
-	var KEY_N = 78;
 	var KEY_BACKSPACE = 8;
 	var KEY_DELETE = 46;
 	var KEY_SHIFT = 16;
@@ -796,7 +793,7 @@
 	var KEY_CTRL_NAME = IS_MAC ? 'altKey' : 'ctrlKey';
 	
 	var getSettings = function getSettings(input, settings_user) {
-	  var settings = Object.assign({}, Selectize.defaults, settings_user);
+	  var settings = Object.assign({}, TomSelect.defaults, settings_user);
 	  var attr_data = settings.dataAttr;
 	  var field_label = settings.labelField;
 	  var field_value = settings.valueField;
@@ -822,7 +819,7 @@
 	    'items': []
 	  };
 	  /**
-	   * Initializes selectize from a <select> element.
+	   * Initialize from a <select> element.
 	   *
 	   */
 	
@@ -832,13 +829,15 @@
 	    var optionsMap = {};
 	
 	    var readData = function readData(el) {
-	      var data = attr_data && el.getAttribute(attr_data);
+	      var data = Object.assign({}, el.dataset); // get plain object from DOMStringMap
 	
-	      if (typeof data === 'string' && data.length) {
-	        return JSON.parse(data);
+	      var json = attr_data && data[attr_data];
+	
+	      if (typeof json === 'string' && json.length) {
+	        data = Object.assign(data, JSON.parse(json));
 	      }
 	
-	      return null;
+	      return data;
 	    };
 	
 	    var addOption = function addOption(option, group) {
@@ -864,7 +863,7 @@
 	        return;
 	      }
 	
-	      var option_data = readData(option) || {};
+	      var option_data = readData(option);
 	      option_data[field_label] = option_data[field_label] || option.textContent;
 	      option_data[field_value] = option_data[field_value] || value;
 	      option_data[field_disabled] = option_data[field_disabled] || option.disabled;
@@ -882,7 +881,7 @@
 	      id = optgroup.getAttribute('label');
 	
 	      if (id) {
-	        optgroup_data = readData(optgroup) || {};
+	        optgroup_data = readData(optgroup);
 	        optgroup_data[field_optgroup_label] = id;
 	        optgroup_data[field_optgroup_value] = id;
 	        optgroup_data[field_disabled] = optgroup.disabled;
@@ -910,7 +909,7 @@
 	    }
 	  };
 	  /**
-	   * Initializes selectize from a <input type="text"> element.
+	   * Initialize from a <input type="text"> element.
 	   *
 	   */
 	
@@ -947,7 +946,7 @@
 	    init_textbox();
 	  }
 	
-	  return extend(true, {}, Selectize.defaults, settings_element, settings_user);
+	  return extend(true, {}, TomSelect.defaults, settings_element, settings_user);
 	};
 	
 	var isset = function isset(object) {
@@ -1015,27 +1014,6 @@
 	  };
 	};
 	/**
-	 * Wraps `fn` so that it can only be called once
-	 * every `delay` milliseconds (invoked on the falling edge).
-	 *
-	 * @param {function} fn
-	 * @param {int} delay
-	 * @returns {function}
-	 */
-	
-	
-	var debounce = function debounce(fn, delay) {
-	  var timeout;
-	  return function () {
-	    var self = this;
-	    var args = arguments;
-	    window.clearTimeout(timeout);
-	    timeout = window.setTimeout(function () {
-	      fn.apply(self, args);
-	    }, delay);
-	  };
-	};
-	/**
 	 * Debounce all fired events types listed in `types`
 	 * while executing the provided `fn`.
 	 *
@@ -1086,19 +1064,6 @@
 	    start: input.selectionStart,
 	    length: input.selectionEnd - input.selectionStart
 	  };
-	};
-	
-	var logError = function logError(message, options) {
-	  if (!options) options = {};
-	  var component = "Selectize";
-	  console.error(component + ": " + message);
-	
-	  if (options.explanation) {
-	    // console.group is undefined in <IE11
-	    if (console.group) console.group();
-	    console.error(options.explanation);
-	    if (console.group) console.groupEnd();
-	  }
 	};
 	
 	var getDom = function getDom(query) {
@@ -1224,7 +1189,7 @@
 	  };
 	
 	  for (var i = 0; i < event_names.length; i++) {
-	    el.addEventListener(event_names[i], _handler, false);
+	    el.addEventListener(event_names[i], _handler, true);
 	  }
 	};
 	/**
@@ -1235,9 +1200,13 @@
 	
 	
 	var parentMatch = function parentMatch(target, selector, el) {
-	  while (target && target.matches && target != el) {
+	  while (target && target.matches) {
 	    if (target.matches(selector)) {
 	      return target;
+	    }
+	
+	    if (target == el) {
+	      break;
 	    }
 	
 	    target = target.parentNode;
@@ -1408,18 +1377,18 @@
 	  return target;
 	};
 	
-	var Selectize = function Selectize(input, settings) {
+	var TomSelect = function TomSelect(input, settings) {
 	  var i,
 	      n,
 	      dir,
 	      self = this;
 	  input = getDom(input);
 	
-	  if (input.selectize) {
-	    throw new Error('Selectize already initialized on this element');
+	  if (input.tomselect) {
+	    throw new Error('Tom Select already initialized on this element');
 	  }
 	
-	  input.selectize = self;
+	  input.tomselect = self;
 	  settings = getSettings(input, settings); // detect rtl environment
 	
 	  var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
@@ -1442,7 +1411,6 @@
 	    isFocused: false,
 	    isInputHidden: false,
 	    isSetup: false,
-	    keysDown: {},
 	    ignoreFocus: false,
 	    ignoreBlur: false,
 	    ignoreHover: false,
@@ -1461,31 +1429,29 @@
 	    renderCache: {
 	      'item': {},
 	      'option': {}
-	    },
-	    onSearchChange: settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
-	  }); // search system
+	    }
+	  }); // debounce user defined load() if loadThrottle > 0
+	
+	  if (self.settings.load && self.settings.loadThrottle) {
+	    self.settings.load = self.loadDebounce(self.settings.load, self.settings.loadThrottle);
+	  } // search system
+	
 	
 	  self.sifter = new Sifter(this.options, {
 	    diacritics: settings.diacritics
 	  }); // build options table
 	
-	  if (self.settings.options) {
-	    for (i = 0, n = self.settings.options.length; i < n; i++) {
-	      self.registerOption(self.settings.options[i]);
-	    }
+	  for (i = 0, n = self.settings.options.length; i < n; i++) {
+	    self.registerOption(self.settings.options[i]);
+	  }
 	
-	    delete self.settings.options;
-	  } // build optgroup table
+	  delete self.settings.options; // build optgroup table
 	
+	  for (i = 0, n = self.settings.optgroups.length; i < n; i++) {
+	    self.registerOptionGroup(self.settings.optgroups[i]);
+	  }
 	
-	  if (self.settings.optgroups) {
-	    for (i = 0, n = self.settings.optgroups.length; i < n; i++) {
-	      self.registerOptionGroup(self.settings.optgroups[i]);
-	    }
-	
-	    delete self.settings.optgroups;
-	  } // option-dependent defaults
-	
+	  delete self.settings.optgroups; // option-dependent defaults
 	
 	  self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
 	
@@ -1506,19 +1472,15 @@
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
 	
-	MicroEvent.mixin(Selectize);
+	if (typeof MicroPlugin === "undefined") {
+	  throw 'Dependency MicroPlugin is missing. Make sure you either: (1) are using the "complete" version of Tom Select, or (2) require MicroPlugin before you load Tom Select.';
+	}
 	
-	if (typeof MicroPlugin !== "undefined") {
-	  MicroPlugin.mixin(Selectize);
-	} else {
-	  logError("Dependency MicroPlugin is missing", {
-	    explanation: "Make sure you either: (1) are using the \"complete\" " + "version of Selectize, or (2) require MicroPlugin before you " + "load Selectize."
-	  });
-	} // methods
+	MicroEvent.mixin(TomSelect);
+	MicroPlugin.mixin(TomSelect); // methods
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
-	
-	Object.assign(Selectize.prototype, {
+	Object.assign(TomSelect.prototype, {
 	  /**
 	   * Creates all elements and sets up event bindings.
 	   *
@@ -1537,8 +1499,9 @@
 	    var classes;
 	    var classes_plugins;
 	    var inputId;
+	    var input = self.input;
 	    inputMode = self.settings.mode;
-	    classes = self.input.getAttribute('class') || '';
+	    classes = input.getAttribute('class') || '';
 	    wrapper = getDom('<div>');
 	    addClasses(wrapper, settings.wrapperClass, classes, inputMode);
 	    control = getDom('<div class="items">');
@@ -1550,24 +1513,39 @@
 	    addClasses(dropdown_content, settings.dropdownContentClass);
 	    dropdown.append(dropdown_content);
 	    getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
-	    control_input = getDom(settings.controlInput || '<input type="text" autocomplete="off" />');
+	
+	    if (settings.controlInput) {
+	      control_input = getDom(settings.controlInput);
+	    } else {
+	      control_input = getDom('<input type="text" autocomplete="off" />'); // set attributes
+	
+	      var attrs = ['autocorrect', 'autocapitalize', 'autocomplete'];
+	
+	      for (var i = 0; i < attrs.length; i++) {
+	        var attr = attrs[i];
+	
+	        if (input.getAttribute(attr)) {
+	          control_input.setAttribute(attr, input.getAttribute(attr));
+	        }
+	      }
+	    }
 	
 	    if (!settings.controlInput) {
-	      control_input.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex);
+	      control_input.setAttribute('tabindex', input.disabled ? '-1' : self.tabIndex);
 	      control.appendChild(control_input);
 	    }
 	
-	    if (inputId = self.input.getAttribute('id')) {
-	      control_input.setAttribute('id', inputId + '-selectized');
+	    if (inputId = input.getAttribute('id')) {
+	      control_input.setAttribute('id', inputId + '-tomselected');
 	      var label = document.querySelector("label[for='" + inputId + "']");
-	      if (label) label.setAttribute('for', inputId + '-selectized');
+	      if (label) label.setAttribute('for', inputId + '-tomselected');
 	    }
 	
 	    if (self.settings.copyClassesToDropdown) {
 	      addClasses(dropdown, classes);
 	    }
 	
-	    wrapper.style.width = self.input.style.width;
+	    wrapper.style.width = input.style.width;
 	
 	    if (self.plugins.names.length) {
 	      classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
@@ -1575,7 +1553,7 @@
 	    }
 	
 	    if ((settings.maxItems === null || settings.maxItems > 1) && self.is_select_tag) {
-	      self.input.setAttribute('multiple', 'multiple');
+	      input.setAttribute('multiple', 'multiple');
 	    }
 	
 	    if (self.settings.placeholder) {
@@ -1588,15 +1566,7 @@
 	      self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
 	    }
 	
-	    if (self.input.getAttribute('autocorrect')) {
-	      control_input.setAttribute('autocorrect', self.input.getAttribute('autocorrect'));
-	    }
-	
-	    if (self.input.getAttribute('autocapitalize')) {
-	      control_input.setAttribute('autocapitalize', self.input.getAttribute('autocapitalize'));
-	    }
-	
-	    control_input.type = self.input.type;
+	    control_input.type = input.type;
 	    self.control = control;
 	    self.control_input = control_input;
 	    self.wrapper = wrapper;
@@ -1605,7 +1575,7 @@
 	    onEvent(dropdown, 'mouseenter', '[data-selectable]', function () {
 	      return self.onOptionHover.apply(self, arguments);
 	    });
-	    onEvent(dropdown, 'mousedown click', '[data-selectable]', function () {
+	    onEvent(dropdown, 'mousedown', '[data-selectable]', function () {
 	      return self.onOptionSelect.apply(self, arguments);
 	    });
 	    control.addEventListener('mousedown', function (evt) {
@@ -1647,35 +1617,14 @@
 	      return self.onPaste.apply(self, arguments);
 	    });
 	
-	    var doc_keydown = function doc_keydown(e) {
-	      switch (e.keyCode) {
-	        case KEY_CTRL:
-	        case KEY_SHIFT:
-	        case KEY_CMD:
-	          self.keysDown[e.keyCode] = true;
-	      }
-	    };
-	
-	    var doc_keyup = function doc_keyup(e) {
-	      switch (e.keyCode) {
-	        case KEY_CTRL:
-	        case KEY_SHIFT:
-	        case KEY_CMD:
-	          delete self.keysDown[e.keyCode];
-	      }
-	    };
-	
 	    var doc_mousedown = function doc_mousedown(e) {
 	      if (self.isFocused) {
-	        // prevent events on the dropdown scrollbar from causing the control to blur
-	        if (e.target === self.dropdown || e.target.parentNode === self.dropdown) {
+	        // clicking anywhere in the control should not close the dropdown
+	        if (parentMatch(e.target, '.' + self.settings.wrapperClass, self.wrapper)) {
 	          return false;
-	        } // blur on click outside
-	
-	
-	        if (!parentMatch(e.target, '.' + self.settings.itemClass, self.wrapper)) {
-	          self.blur(e.target);
 	        }
+	
+	        self.blur(e.target);
 	      }
 	    };
 	
@@ -1689,16 +1638,12 @@
 	      self.ignoreHover = false;
 	    };
 	
-	    document.addEventListener('keydown', doc_keydown);
-	    document.addEventListener('keyup', doc_keyup);
 	    document.addEventListener('mousedown', doc_mousedown);
 	    window.addEventListener('sroll', win_scroll);
 	    window.addEventListener('resize', win_scroll);
 	    window.addEventListener('mousemove', win_hover);
 	
 	    self._destroy = function () {
-	      document.removeEventListener('keydown', doc_keydown);
-	      document.removeEventListener('keyup', doc_keyup);
 	      document.removeEventListener('mousedown', doc_mousedown);
 	      window.removeEventListener('mousemove', win_hover);
 	      window.removeEventListener('sroll', win_scroll);
@@ -1709,27 +1654,23 @@
 	
 	    var children = [];
 	
-	    while (self.input.children.length > 0) {
-	      children.push(self.input.children[0]);
-	      self.input.children[0].remove();
+	    while (input.children.length > 0) {
+	      children.push(input.children[0]);
+	      input.children[0].remove();
 	    }
 	
 	    this.revertSettings = {
 	      children: children,
-	      tabindex: self.input.getAttribute('tabindex')
+	      tabindex: input.getAttribute('tabindex')
 	    };
-	    self.input.setAttribute('tabindex', -1);
-	    self.input.setAttribute('hidden', 'hidden');
-	    self.input.insertAdjacentElement('afterend', self.wrapper);
-	
-	    if (Array.isArray(settings.items)) {
-	      self.setValue(settings.items);
-	      delete settings.items;
-	    } // feature detect for the validation API
-	
+	    input.setAttribute('tabindex', -1);
+	    input.setAttribute('hidden', 'hidden');
+	    input.insertAdjacentElement('afterend', self.wrapper);
+	    self.setValue(settings.items);
+	    delete settings.items; // feature detect for the validation API
 	
 	    if (self.supportsValidity()) {
-	      self.input.addEventListener('invalid', function (e) {
+	      input.addEventListener('invalid', function (e) {
 	        e.preventDefault();
 	        self.isInvalid = true;
 	        self.refreshState();
@@ -1741,12 +1682,12 @@
 	    self.refreshState();
 	    self.isSetup = true;
 	
-	    if (self.input.disabled) {
+	    if (input.disabled) {
 	      self.disable();
 	    }
 	
 	    self.on('change', this.onChange);
-	    addClasses(self.input, 'selectized');
+	    addClasses(input, 'tomselected');
 	    self.trigger('initialize'); // preload options
 	
 	    if (settings.preload === true) {
@@ -1779,6 +1720,9 @@
 	      },
 	      'option_create': function option_create(data, escape) {
 	        return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+	      },
+	      'no_results': function no_results(data, escape) {
+	        return '<div class="no-results">No results found</div>';
 	      }
 	    };
 	    self.settings.render = Object.assign({}, templates, self.settings.render);
@@ -1812,10 +1756,8 @@
 	    };
 	
 	    for (key in callbacks) {
-	      if (callbacks.hasOwnProperty(key)) {
-	        fn = this.settings[callbacks[key]];
-	        if (fn) this.on(key, fn);
-	      }
+	      fn = this.settings[callbacks[key]];
+	      if (fn) this.on(key, fn);
 	    }
 	  },
 	
@@ -1969,9 +1911,6 @@
 	        return;
 	      // down: open dropdown or move selection down
 	
-	      case KEY_N:
-	        if (!e.ctrlKey || e.altKey) break;
-	
 	      case KEY_DOWN:
 	        if (!self.isOpen && self.hasOptions) {
 	          self.open();
@@ -1984,9 +1923,6 @@
 	        e.preventDefault();
 	        return;
 	      // up: move selection up
-	
-	      case KEY_P:
-	        if (!e.ctrlKey || e.altKey) break;
 	
 	      case KEY_UP:
 	        if (self.activeOption) {
@@ -2024,12 +1960,10 @@
 	        if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
 	          self.onOptionSelect({
 	            delegateTarget: self.activeOption
-	          }); // Default behaviour is to jump to the next field, we only want this
-	          // if the current field doesn't accept any more entries
+	          }); // prevent default [tab] behaviour of jump to the next field
+	          // if select isFull, then the dropdown won't be open and [tab] will work normally
 	
-	          if (!self.isFull()) {
-	            e.preventDefault();
-	          }
+	          e.preventDefault();
 	        }
 	
 	        if (self.settings.create && self.createItem()) {
@@ -2072,9 +2006,6 @@
 	
 	  /**
 	   * Invokes the user-provide option provider / loader.
-	   *
-	   * Note: this function is debounced in the Selectize
-	   * constructor (by `settings.loadThrottle` milliseconds)
 	   *
 	   * @param {string} value
 	   */
@@ -2140,7 +2071,6 @@
 	
 	    var deactivate = function deactivate() {
 	      self.close();
-	      self.setTextboxValue('');
 	      self.setActiveItem(null);
 	      self.setActiveOption(null);
 	      self.setCaret(self.items.length);
@@ -2169,7 +2099,7 @@
 	   */
 	  onOptionHover: function onOptionHover(e) {
 	    if (this.ignoreHover) return;
-	    this.setActiveOption(e.currentTarget, false);
+	    this.setActiveOption(e.delegateTarget, false);
 	  },
 	
 	  /**
@@ -2249,20 +2179,50 @@
 	    var self = this;
 	    addClasses(self.wrapper, self.settings.loadingClass);
 	    self.loading++;
-	    fn.apply(self, [function (results) {
-	      self.loading = Math.max(self.loading - 1, 0);
+	    fn.apply(self, [function (options, groups) {
+	      self.loading = Math.max(self.loading - 1, 0); // load groups before options
 	
-	      if (results && results.length) {
-	        self.addOption(results);
-	        self.refreshOptions(self.isFocused && !self.isInputHidden);
+	      if (groups && groups.length) {
+	        groups.forEach(function (group) {
+	          self.addOptionGroup(group[self.settings.optgroupValueField], group);
+	        });
 	      }
+	
+	      if (options && options.length) {
+	        self.addOption(options);
+	      } // refresh even if no options so that we can show no_results message
+	
+	
+	      self.refreshOptions(self.isFocused && !self.isInputHidden);
 	
 	      if (!self.loading) {
 	        removeClasses(self.wrapper, self.settings.loadingClass);
 	      }
 	
-	      self.trigger('load', results);
+	      self.trigger('load', options);
 	    }]);
+	  },
+	
+	  /**
+	   * Debounce the user provided load function
+	   *
+	   */
+	  loadDebounce: function loadDebounce(fn, delay) {
+	    var timeout;
+	    return function () {
+	      var self = this;
+	      var args = arguments;
+	
+	      if (timeout) {
+	        self.loading = Math.max(self.loading - 1, 0);
+	      }
+	
+	      window.clearTimeout(timeout);
+	      timeout = window.setTimeout(function () {
+	        timeout = null;
+	        fn.apply(self, args);
+	      }, delay);
+	    };
 	  },
 	
 	  /**
@@ -2409,10 +2369,9 @@
 	   * @param {boolean} scroll
 	   */
 	  setActiveOption: function setActiveOption(option, scroll) {
-	    var height_menu, height_item, y; // don't replace the current active option with a duplicate of itself
-	    // prevents losing 'active' class
+	    var height_menu, height_item, y;
 	
-	    if (option && this.activeOption && option.dataset.value === this.activeOption.dataset.value) {
+	    if (option === this.activeOption) {
 	      return;
 	    }
 	
@@ -2575,7 +2534,7 @@
 	      calculateScore = self.settings.score.apply(this, [query]);
 	
 	      if (typeof calculateScore !== 'function') {
-	        throw new Error('Selectize "score" setting must be a function that returns a function');
+	        throw new Error('Tom Select "score" setting must be a function that returns a function');
 	      }
 	    } // perform search
 	
@@ -2619,12 +2578,17 @@
 	    var self = this;
 	    var query = self.inputValue();
 	    var results = self.search(query);
-	    var active_before_hash = self.activeOption && hash_key(self.activeOption.dataset.value); // build markup
+	    var active_before_hash = self.activeOption && hash_key(self.activeOption.dataset.value);
+	    var show_dropdown = false; // build markup
 	
 	    n = results.items.length;
 	
 	    if (typeof self.settings.maxOptions === 'number') {
 	      n = Math.min(n, self.settings.maxOptions);
+	    }
+	
+	    if (n > 0) {
+	      show_dropdown = true;
 	    } // render and group available options individually
 	
 	
@@ -2654,6 +2618,12 @@
 	        if (!groups.hasOwnProperty(optgroup)) {
 	          groups[optgroup] = document.createDocumentFragment();
 	          groups_order.push(optgroup);
+	        } // a child could only have one parent, so if you have more parents clone the child
+	
+	
+	        if (j > 0) {
+	          option_el = option_el.cloneNode(true);
+	          removeClasses(option_el, 'active');
 	        }
 	
 	        groups[optgroup].appendChild(option_el);
@@ -2676,9 +2646,6 @@
 	      optgroup = groups_order[i];
 	
 	      if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
-	        // different from selectize.js
-	        // in selectize.js, the optgroup header and options within it were created, converted to a string, then passed to the optgroup template
-	        // to prevent creating duplicate dom elements for the same options (for performance and setActiveOption functionality), we append header and options to a rendered optgroup
 	        var group_html = self.render('optgroup', self.optgroups[optgroup]);
 	        group_html.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
 	        group_html.appendChild(groups[optgroup]);
@@ -2710,12 +2677,22 @@
 	          addClasses(_option, 'selected');
 	        }
 	      }
+	    } // add no_results message
+	
+	
+	    if (results.items.length === 0 && self.settings.render['no_results'] && !self.loading && query.length) {
+	      var msg = self.render('no_results', {
+	        input: query
+	      });
+	      show_dropdown = true;
+	      self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
 	    } // add create option
 	
 	
 	    has_create_option = self.canCreate(query);
 	
 	    if (has_create_option) {
+	      show_dropdown = true;
 	      create = self.render('option_create', {
 	        input: query
 	      });
@@ -2725,22 +2702,22 @@
 	
 	    self.hasOptions = results.items.length > 0 || has_create_option;
 	
-	    if (self.hasOptions) {
+	    if (show_dropdown) {
 	      if (results.items.length > 0) {
 	        active_before = active_before_hash && self.getOption(active_before_hash);
 	
-	        if (active_before) {
+	        if (active_before && self.dropdown_content.contains(active_before)) {
 	          active = active_before;
 	        } else if (self.settings.mode === 'single' && self.items.length) {
 	          active = self.getOption(self.items[0]);
-	        }
+	        } else {
+	          var active_index = 0;
 	
-	        if (!active) {
 	          if (create && !self.settings.addPrecedence) {
-	            active = self.getAdjacent(create, 1);
-	          } else {
-	            active = self.selectable()[0];
+	            active_index = 1;
 	          }
+	
+	          active = self.selectable()[active_index];
 	        }
 	      } else {
 	        active = create;
@@ -3099,14 +3076,25 @@
 	      value = hash_key(value);
 	
 	      if (self.items.indexOf(value) !== -1) {
-	        if (inputMode === 'single') self.close();
-	        return;
+	        if (inputMode === 'single') {
+	          self.close();
+	        }
+	
+	        if (inputMode === 'single' || !self.settings.duplicates) {
+	          return;
+	        }
 	      }
 	
 	      if (!self.options.hasOwnProperty(value)) return;
 	      if (inputMode === 'single') self.clear(silent);
 	      if (inputMode === 'multi' && self.isFull()) return;
 	      item = self.render('item', self.options[value]);
+	
+	      if (this.control.contains(item)) {
+	        // duplicates
+	        item = item.cloneNode(true);
+	      }
+	
 	      wasFull = self.isFull();
 	      self.items.splice(self.caretPos, 0, value);
 	      self.insertAtCaret(item);
@@ -3190,7 +3178,7 @@
 	
 	  /**
 	   * Invokes the `create` method provided in the
-	   * selectize options that should provide the data
+	   * TomSelect options that should provide the data
 	   * for the new item, given the user input.
 	   *
 	   * Once this completes, it will be added
@@ -3228,7 +3216,11 @@
 	      self.unlock();
 	      if (!data || _typeof(data) !== 'object') return callback();
 	      var value = hash_key(data[self.settings.valueField]);
-	      if (typeof value !== 'string') return callback();
+	
+	      if (typeof value !== 'string') {
+	        return callback();
+	      }
+	
 	      self.setTextboxValue('');
 	      self.addOption(data);
 	      self.setCaret(caret);
@@ -3689,18 +3681,16 @@
 	      this.input.removeAttribute('tabindex');
 	    }
 	
-	    removeClasses(this.input, 'selectized');
+	    removeClasses(this.input, 'tomselected');
 	    this.input.removeAttribute('hidden');
 	
 	    for (var i = 0; i < revertSettings.children.length; i++) {
 	      this.input.appendChild(revertSettings.children[i]);
 	    }
 	
-	    this.input.removeAttribute('data-selectize');
-	
 	    this._destroy();
 	
-	    delete this.input.selectize;
+	    delete this.input.tomselect;
 	  },
 	
 	  /**
@@ -3714,17 +3704,12 @@
 	  render: function render(templateName, data) {
 	    var value, id, label;
 	    var html = '';
-	    var cache = false;
 	    var self = this;
 	    var regex_tag = /^[\t \r\n]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
 	
 	    if (templateName === 'option' || templateName === 'item') {
-	      value = hash_key(data[self.settings.valueField]);
-	      cache = !!value;
-	    } // pull markup from cache if it exists
+	      value = hash_key(data[self.settings.valueField]); // pull markup from cache if it exists
 	
-	
-	    if (cache) {
 	      if (self.renderCache[templateName].hasOwnProperty(value)) {
 	        return self.renderCache[templateName][value];
 	      }
@@ -3738,7 +3723,7 @@
 	        html.setAttribute('data-selectable', '');
 	      }
 	    } else if (templateName === 'optgroup') {
-	      id = data[self.settings.optgroupValueField] || '';
+	      id = data[self.settings.optgroupValueField];
 	      html.setAttribute('data-group', id);
 	
 	      if (data[self.settings.disabledField]) {
@@ -3747,18 +3732,15 @@
 	    }
 	
 	    if (templateName === 'option' || templateName === 'item') {
-	      html.setAttribute('data-value', value || '');
-	    } // make sure we have some classes if a template is overwritten
+	      html.setAttribute('data-value', value); // make sure we have some classes if a template is overwritten
+	
+	      if (templateName === 'item') {
+	        addClasses(html, self.settings.itemClass);
+	      } else {
+	        addClasses(html, self.settings.optionClass);
+	      } // update cache
 	
 	
-	    if (templateName === 'item') {
-	      addClasses(html, self.settings.itemClass);
-	    } else if (templateName === 'option') {
-	      addClasses(html, self.settings.optionClass);
-	    } // update cache
-	
-	
-	    if (cache) {
 	      self.renderCache[templateName][value] = html;
 	    }
 	
@@ -3800,7 +3782,7 @@
 	
 	  /**
 	   * Return true if the requested key is down
-	   * The current evt is not always
+	   * The current evt may not always set ( eg calling advanceSelection() )
 	   *
 	   */
 	  isKeyDown: function isKeyDown(key_code, evt) {
@@ -3816,11 +3798,6 @@
 	      if (key_code == KEY_SHIFT && evt.shiftKey) {
 	        return true;
 	      }
-	    } else {//throw new Error('evt not passed to isKeyDown');
-	    }
-	
-	    if (key_code in this.keysDown) {
-	      return true;
 	    }
 	
 	    return false;
@@ -3862,8 +3839,8 @@
 	    };
 	  }
 	});
-	Selectize.count = 0;
-	Selectize.defaults = {
+	TomSelect.count = 0;
+	TomSelect.defaults = {
 	  options: [],
 	  optgroups: [],
 	  plugins: [],
@@ -3880,6 +3857,7 @@
 	  maxOptions: 1000,
 	  maxItems: null,
 	  hideSelected: null,
+	  duplicates: false,
 	  addPrecedence: false,
 	  selectOnTab: false,
 	  preload: false,
@@ -3888,7 +3866,8 @@
 	  scrollDuration: 60,
 	  loadThrottle: 300,
 	  loadingClass: 'loading',
-	  dataAttr: 'data-data',
+	  dataAttr: null,
+	  //'data-data',
 	  optgroupField: 'optgroup',
 	  valueField: 'value',
 	  labelField: 'text',
@@ -3900,10 +3879,10 @@
 	  searchField: ['text'],
 	  searchConjunction: 'and',
 	  mode: null,
-	  wrapperClass: 'selectize-control',
-	  inputClass: 'selectize-input',
-	  dropdownClass: 'selectize-dropdown',
-	  dropdownContentClass: 'selectize-dropdown-content',
+	  wrapperClass: 'tomselect-control',
+	  inputClass: 'tomselect-input',
+	  dropdownClass: 'tomselect-dropdown',
+	  dropdownContentClass: 'tomselect-dropdown-content',
 	  itemClass: 'item',
 	  optionClass: 'option',
 	  dropdownParent: null,
@@ -3939,7 +3918,7 @@
 	    */
 	  }
 	};
-	Selectize.define('drag_drop', function (options) {
+	TomSelect.define('drag_drop', function (options) {
 	  if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	  if (this.settings.mode !== 'multi') return;
 	  var self = this;
@@ -3979,14 +3958,14 @@
 	    });
 	  });
 	});
-	Selectize.define('dropdown_header', function (options) {
+	TomSelect.define('dropdown_header', function (options) {
 	  var self = this;
 	  options = Object.assign({
 	    title: 'Untitled',
-	    headerClass: 'selectize-dropdown-header',
-	    titleRowClass: 'selectize-dropdown-header-title',
-	    labelClass: 'selectize-dropdown-header-label',
-	    closeClass: 'selectize-dropdown-header-close',
+	    headerClass: 'dropdown-header',
+	    titleRowClass: 'dropdown-header-title',
+	    labelClass: 'dropdown-header-label',
+	    closeClass: 'dropdown-header-close',
 	    html: function html(data) {
 	      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
 	    }
@@ -3996,7 +3975,7 @@
 	    self.dropdown.insertBefore(header, self.dropdown.firstChild);
 	  });
 	});
-	Selectize.define('input_autogrow', function (options) {
+	TomSelect.define('input_autogrow', function (options) {
 	  var self = this;
 	  self.hook('after', 'setup', function () {
 	    var test_input = document.createElement('span');
@@ -4032,7 +4011,7 @@
 	    control.addEventListener('update', resize);
 	  });
 	});
-	Selectize.define('no_backspace_delete', function (options) {
+	TomSelect.define('no_backspace_delete', function (options) {
 	  this.hook('instead', 'setActiveItem', function () {});
 	  this.hook('instead', 'selectAll', function () {});
 	
@@ -4042,7 +4021,7 @@
 	    }
 	  };
 	});
-	Selectize.define('optgroup_columns', function (options) {
+	TomSelect.define('optgroup_columns', function (options) {
 	  var self = this;
 	  options = Object.assign({
 	    equalizeWidth: true,
@@ -4135,7 +4114,7 @@
 	    self.hook('after', 'refreshOptions', equalizeSizes);
 	  }
 	});
-	Selectize.define('remove_button', function (options) {
+	TomSelect.define('remove_button', function (options) {
 	  options = Object.assign({
 	    label: '&times;',
 	    title: 'Remove',
@@ -4173,7 +4152,7 @@
 	    return rendered;
 	  });
 	});
-	Selectize.define('restore_on_backspace', function (options) {
+	TomSelect.define('restore_on_backspace', function (options) {
 	  var self = this;
 	
 	  options.text = options.text || function (option) {
@@ -4203,8 +4182,12 @@
 	    return orig_keydown.apply(self, arguments);
 	  });
 	});
-	//# sourceMappingURL=selectize.js.map
+	//# sourceMappingURL=tom-select.js.map
 	
 
-	return Selectize;
+	return TomSelect;
 }));
+
+var tomSelect = function(el,opts){
+	return new TomSelect(el,opts);
+}

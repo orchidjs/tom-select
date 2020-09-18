@@ -43,8 +43,8 @@ ask() {
 }
 
 # make sure release number is valid
-if ! [[ "$VERSION" =~ ^([0-9]\.[0-9]\.[0-9])$ ]]; then
-	echo "Release number must match a semver pattern like 1.0.0"
+if ! [[ "$VERSION" =~ ^([0-9]\.[0-9]\.[0-9]) ]]; then
+	echo "Release number must match a semver pattern similar to 1.0.0"
 	exit
 fi
 
