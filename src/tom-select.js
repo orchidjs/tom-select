@@ -702,7 +702,6 @@ Object.assign(TomSelect.prototype, {
 
 		var deactivate = function() {
 			self.close();
-			self.setTextboxValue('');
 			self.setActiveItem(null);
 			self.setActiveOption(null);
 			self.setCaret(self.items.length);
