@@ -1,0 +1,231 @@
+
+
+
+
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> Events API -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/index.js"></script>
+		
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right pl-4 offcanvas pt-5">
+					
+	<h5 class="mt-0"><a href="/">Home</a></h5>
+
+	
+
+
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/examples/">Examples</a></h5>
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	
+	<nav class="nav flex-column">
+		
+		<a class="nav-link " href="/docs/">
+
+		
+			Usage
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/api/">
+
+		
+			API
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/plugins/">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		<a class="nav-link  active " href="/docs/events/">
+
+		
+			Events
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/contribute/">
+
+		
+			Contribute
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/selectize.js/">
+
+		
+			selectize.js
+		
+		</a>
+	
+	</nav>
+	
+
+	<div class="mt-auto pt-5 pb-2 small">
+		<a href="https://github.com/orchidjs/tom-select/doc_src/blob/master/./doc_src/pages/docs/events.md">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-xl-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-light" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">Events API</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+					<p>In the <a href="/docs">usage documentation</a>, a few callbacks are listed that
+allow you to listen for certain events. Callbacks aren't always ideal though;
+specifically when you wish to have multiple handlers.</p>
+<p>Tom Select instances have a basic event emitter interface that mimics jQuery, Backbone.js, et al:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">handler</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token keyword">var</span> select <span class="token operator">=</span> <span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-id'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>select<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'event_name'</span><span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span><br>select<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'event_name'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>select<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'event_name'</span><span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="list-of-events">List of Events</h3>
+<table class="table table-striped">
+	<tr>
+		<th width="200px" align="left">Event</th>
+		<th width="150px" align="left">Params</th>
+		<th align="left">Description</th>
+	</tr>
+	<tr>
+		<td><code>"initialize"</code></td>
+		<td></td>
+		<td>Invoked once the control is completely initialized.</td>
+	</tr>
+	<tr>
+		<td><code>"change"</code></td>
+		<td><code>value</code></td>
+		<td>Invoked when the value of the control changes.</td>
+	</tr>
+	<tr>
+		<td><code>"focus"</code></td>
+		<td></td>
+		<td>Invoked when the control gains focus.</td>
+	</tr>
+	<tr>
+		<td><code>"blur"</code></td>
+		<td></td>
+		<td>Invoked when the control loses focus.</td>
+	</tr>
+	<tr>
+		<td><code>"item_add"</code></td>
+		<td><code>value</code>, <code>item</code></td>
+		<td>Invoked when an item is selected.</td>
+	</tr>
+	<tr>
+		<td><code>"item_remove"</code></td>
+		<td><code>value</code>, <code>$item</code></td>
+		<td>Invoked when an item is deselected.</td>
+	</tr>
+	<tr>
+		<td><code>"clear"</code></td>
+		<td></td>
+		<td>Invoked when the control is manually cleared via the clear() method.</td>
+	</tr>
+	<tr>
+		<td><code>"option_add"</code></td>
+		<td><code>value</code>, <code>data</code></td>
+		<td>Invoked when a new option is added to the available options list.</td>
+	</tr>
+	<tr>
+		<td><code>"option_remove"</code></td>
+		<td><code>value</code></td>
+		<td>Invoked when an option is removed from the available options.</td>
+	</tr>
+    <tr>
+        <td><code>"option_clear"</code></td>
+        <td></td>
+        <td>Invoked when all options are removed from the control.</td>
+    </tr>
+    <tr>
+        <td><code>"optgroup_add"</code></td>
+        <td><code>id</code>, <code>data</code></td>
+        <td>Invoked when a new option is added to the available options list.</td>
+    </tr>
+    <tr>
+        <td><code>"optgroup_remove"</code></td>
+        <td><code>id</code></td>
+        <td>Invoked when an option group is removed.</td>
+    </tr>
+    <tr>
+        <td><code>"optgroup_clear"</code></td>
+        <td></td>
+        <td>Invoked when all option groups are removed.</td>
+    </tr>
+	<tr>
+		<td><code>"dropdown_open"</code></td>
+		<td><code>dropdown</code></td>
+		<td>Invoked when the dropdown opens.</td>
+	</tr>
+	<tr>
+		<td><code>"dropdown_close"</code></td>
+		<td><code>dropdown</code></td>
+		<td>Invoked when the dropdown closes.</td>
+	</tr>
+	<tr>
+		<td><code>"type"</code></td>
+		<td><code>str</code></td>
+		<td>Invoked when the user types while filtering options.</td>
+	</tr>
+	<tr>
+		<td><code>"load"</code></td>
+		<td><code>data</code></td>
+		<td>Invoked when new options have been loaded and added to the control (via the <code>load</code>  option or <code>load</code>  API method).</td>
+	</tr>
+	<tr>
+		<td><code>"destroy"</code></td>
+		<td></td>
+		<td>Invoked right before the control is destroyed.</td>
+	</tr>
+</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

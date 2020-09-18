@@ -1,0 +1,177 @@
+
+
+
+
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> selectize.js -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/index.js"></script>
+		
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right pl-4 offcanvas pt-5">
+					
+	<h5 class="mt-0"><a href="/">Home</a></h5>
+
+	
+
+
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/examples/">Examples</a></h5>
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	
+	<nav class="nav flex-column">
+		
+		<a class="nav-link " href="/docs/">
+
+		
+			Usage
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/api/">
+
+		
+			API
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/plugins/">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/events/">
+
+		
+			Events
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/contribute/">
+
+		
+			Contribute
+		
+		</a>
+	
+		
+		<a class="nav-link  active " href="/docs/selectize.js/">
+
+		
+			selectize.js
+		
+		</a>
+	
+	</nav>
+	
+
+	<div class="mt-auto pt-5 pb-2 small">
+		<a href="https://github.com/orchidjs/tom-select/doc_src/blob/master/./doc_src/pages/docs/selectize.js.md">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-xl-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-light" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">selectize.js</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+					<p>Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> to provide the same usability without the need for jQuery or any other JavaScript framework.</p>
+<h2 id="new-features">New Features</h2>
+<ul>
+<li>support for external control input</li>
+<li>dropdownParent other than 'body'</li>
+<li>no_backspace_delete plugin</li>
+</ul>
+<h2 id="performance-and-usability">Performance and Usability</h2>
+<ul>
+<li>framework agnostic (doesn't require jQuery, Vue or any other JavaScript framework)</li>
+<li>improved keyboard control of selected items</li>
+<li>improved option cache to reduce dom manipulation during searches</li>
+<li>animated scrolling with css instead of JavaScript</li>
+<li>ctrl/shift/cmd key detection</li>
+<li>moved autogrow functionality to input_autogrow plugin</li>
+<li><a href="../plugins">integrated plugin hooks</a></li>
+</ul>
+<h2 id="breaking-changes">Breaking Changes</h2>
+<ul>
+<li>removed support for older browsers ES5</li>
+<li>removed placeholder show/hide</li>
+<li>dataAttr defaults to null instead of &quot;data-data&quot;</li>
+<li>options are appended to optgroup template programmatically</li>
+<li>.tomselect-* css class names (customizable with scss)</li>
+<li>scss instead of less
+<ul>
+<li>autoprefixer</li>
+<li>nanocss</li>
+</ul>
+</li>
+</ul>
+<h2 id="issues-%2F-pull-requests">Issues / Pull requests</h2>
+<ul>
+<li><a href="https://github.com/selectize/selectize.js/issues/1363">#1363</a> Autofill disable possibility</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/1447">#1447</a> Enhancement - dropdownParent</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/1279">#1279</a> Adding ability to use load to init opt groups</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/838">#838</a> Add option to disable delete on backspace (no_backspace_delete plugin)</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/239">#239</a> Preserve custom HTML5 data attributes</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/1128">#1128</a> Duplicated options in different optgroups doesn't render correctly</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/129">#129</a> Allow duplicate values in an input</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/470">#470</a> &quot;No results found&quot; message</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/999">#999</a> Don't clear the text box value on blur</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/1104">#1104</a> Replace values in single-item selection #</li>
+</ul>
+<h2 id="development">Development</h2>
+<ul>
+<li>examples and documentation generated using 11ty</li>
+<li>babel compiler</li>
+</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

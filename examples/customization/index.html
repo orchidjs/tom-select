@@ -1,0 +1,308 @@
+
+
+
+
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> Customizing HTML -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/index.js"></script>
+		
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right pl-4 offcanvas pt-5">
+					
+	<h5 class="mt-0"><a href="/">Home</a></h5>
+
+	
+
+
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/examples/">Examples</a></h5>
+	
+	<nav class="nav flex-column">
+		
+		  
+		<a class="nav-link " href="/examples/">
+
+		
+			Basic
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link  active " href="/examples/customization/">
+
+		
+			Custom HTML
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/contacts/">
+
+		
+			Email Contacts
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/create-filter/">
+
+		
+			Item Creation
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/api/">
+
+		
+			JavaScript API
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/events/">
+
+		
+			JavaScript Event
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/performance/">
+
+		
+			Large Dataset
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/lock/">
+
+		
+			Locking
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/optgroups/">
+
+		
+			Option Groups
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/options/">
+
+		
+			Options Array
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/plugins/">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/required/">
+
+		
+			Required Input
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/rtl/">
+
+		
+			RTL
+		
+		</a>
+	
+		
+	</nav>
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	
+
+	<div class="mt-auto pt-5 pb-2 small">
+		<a href="https://github.com/orchidjs/tom-select/doc_src/blob/master/./doc_src/pages/examples/customization.njk">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-xl-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-light" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">Customizing HTML</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+					
+
+
+
+
+
+
+<style type="text/css">
+
+</style>
+
+
+<script>
+
+</script>
+
+
+
+	
+
+	<div class="demo py-5">
+
+		
+<label class="h2 mb-3">
+	Customizing Appearance
+</label>
+<p>Render items on your own &amp; apply unique CSS styles.</p>
+
+	<div class="">
+		<div class="">
+			<div class="demo-html">
+				
+<select id="select-links" multiple placeholder="Pick some links..."></select>
+
+			</div>
+			<script>
+
+tomSelect('#select-links',{
+	valueField: 'id',
+	searchField: 'title',
+	options: [
+		{id: 1, title: 'DIY', url: 'https://diy.org'},
+		{id: 2, title: 'Google', url: 'http://google.com'},
+		{id: 3, title: 'Yahoo', url: 'http://yahoo.com'},
+	],
+	render: {
+		option: function(data, escape) {
+			return '<div>' +
+					'<span class="title">' + escape(data.title) + '</span>' +
+					'<span class="url">' + escape(data.url) + '</span>' +
+				'</div>';
+		},
+		item: function(data, escape) {
+			return '<div><a href="' + escape(data.url) + '">' + escape(data.title) + '</a></div>';
+		}
+	}
+});
+</script>
+			<style>
+.tomselect-control .option .title {
+	display: block;
+}
+.tomselect-control .option .url {
+	font-size: 12px;
+	display: block;
+	color: #a0a0a0;
+}
+.tomselect-control .item a {
+	color: #006ef5;
+}
+.tomselect-control .item.active a {
+	color: #303030;
+}
+</style>
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#style-tab-1" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+				  <pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-links'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	valueField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	options<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'DIY'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'https://diy.org'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Google'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://google.com'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Yahoo'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://yahoo.com'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	render<span class="token operator">:</span> <span class="token punctuation">{</span><br>		<span class="token function-variable function">option</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div>'</span> <span class="token operator">+</span><br>					<span class="token string">'&lt;span class="title">'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>title<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/span>'</span> <span class="token operator">+</span><br>					<span class="token string">'&lt;span class="url">'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>url<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/span>'</span> <span class="token operator">+</span><br>				<span class="token string">'&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token function-variable function">item</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div>&lt;a href="'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>url<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'">'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>title<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/a>&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-links<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Pick some links...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+			  </div>
+
+			  
+			  <div class="tab-pane fade" id="style-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+				  <pre class="language-css"><code class="language-css"><span class="token selector">.tomselect-control .option .title</span> <span class="token punctuation">{</span><br>	<span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control .option .url</span> <span class="token punctuation">{</span><br>	<span class="token property">font-size</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span><br>	<span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span><br>	<span class="token property">color</span><span class="token punctuation">:</span> #a0a0a0<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control .item a</span> <span class="token punctuation">{</span><br>	<span class="token property">color</span><span class="token punctuation">:</span> #006ef5<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control .item.active a</span> <span class="token punctuation">{</span><br>	<span class="token property">color</span><span class="token punctuation">:</span> #303030<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+			  </div>
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

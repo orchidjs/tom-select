@@ -1,0 +1,396 @@
+
+
+
+
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> JavaScript Event Example -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/index.js"></script>
+		
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right pl-4 offcanvas pt-5">
+					
+	<h5 class="mt-0"><a href="/">Home</a></h5>
+
+	
+
+
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/examples/">Examples</a></h5>
+	
+	<nav class="nav flex-column">
+		
+		  
+		<a class="nav-link " href="/examples/">
+
+		
+			Basic
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/customization/">
+
+		
+			Custom HTML
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/contacts/">
+
+		
+			Email Contacts
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/create-filter/">
+
+		
+			Item Creation
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/api/">
+
+		
+			JavaScript API
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link  active " href="/examples/events/">
+
+		
+			JavaScript Event
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/performance/">
+
+		
+			Large Dataset
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/lock/">
+
+		
+			Locking
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/optgroups/">
+
+		
+			Option Groups
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/options/">
+
+		
+			Options Array
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/plugins/">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/required/">
+
+		
+			Required Input
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/rtl/">
+
+		
+			RTL
+		
+		</a>
+	
+		
+	</nav>
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	
+
+	<div class="mt-auto pt-5 pb-2 small">
+		<a href="https://github.com/orchidjs/tom-select/doc_src/blob/master/./doc_src/pages/examples/events.njk">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-xl-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-light" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">JavaScript Event Example</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+					
+
+
+
+
+
+
+<script>
+
+</script>
+
+
+	
+
+	<div class="demo py-5">
+
+		
+<label class="h2 mb-3">
+	Events
+</label>
+<p>Check out the console for more details about each event.</p>
+
+	<div class="">
+		<div class="">
+			<div class="demo-html">
+				
+<select id="select-state" multiple name="state[]">
+	<option value="">Select a state...</option>
+	<option value="AL">Alabama</option>
+	<option value="AK">Alaska</option>
+	<option value="AZ">Arizona</option>
+	<option value="AR">Arkansas</option>
+	<option value="CA">California</option>
+	<option value="CO">Colorado</option>
+	<option value="CT">Connecticut</option>
+	<option value="DE">Delaware</option>
+	<option value="DC">District of Columbia</option>
+	<option value="FL">Florida</option>
+	<option value="GA">Georgia</option>
+	<option value="HI">Hawaii</option>
+	<option value="ID">Idaho</option>
+	<option value="IL">Illinois</option>
+	<option value="IN">Indiana</option>
+	<option value="IA">Iowa</option>
+	<option value="KS">Kansas</option>
+	<option value="KY">Kentucky</option>
+	<option value="LA">Louisiana</option>
+	<option value="ME">Maine</option>
+	<option value="MD">Maryland</option>
+	<option value="MA">Massachusetts</option>
+	<option value="MI">Michigan</option>
+	<option value="MN">Minnesota</option>
+	<option value="MS">Mississippi</option>
+	<option value="MO">Missouri</option>
+	<option value="MT">Montana</option>
+	<option value="NE">Nebraska</option>
+	<option value="NV">Nevada</option>
+	<option value="NH">New Hampshire</option>
+	<option value="NJ">New Jersey</option>
+	<option value="NM">New Mexico</option>
+	<option value="NY">New York</option>
+	<option value="NC">North Carolina</option>
+	<option value="ND">North Dakota</option>
+	<option value="OH">Ohio</option>
+	<option value="OK">Oklahoma</option>
+	<option value="OR">Oregon</option>
+	<option value="PA">Pennsylvania</option>
+	<option value="RI">Rhode Island</option>
+	<option value="SC">South Carolina</option>
+	<option value="SD">South Dakota</option>
+	<option value="TN">Tennessee</option>
+	<option value="TX">Texas</option>
+	<option value="UT">Utah</option>
+	<option value="VT">Vermont</option>
+	<option value="VA">Virginia</option>
+	<option value="WA">Washington</option>
+	<option value="WV">West Virginia</option>
+	<option value="WI">Wisconsin</option>
+	<option value="WY" selected>Wyoming</option>
+</select>
+<h3>Event Log</h3>
+<pre id="log"></pre>
+
+			</div>
+			<script>
+var eventHandler = function(name) {
+	return function() {
+		console.log(name, arguments);
+		$('#log').append('<div><span class="name">' + name + '</span></div>');
+	};
+};
+tomSelect('#select-state',{
+	create          : true,
+	onChange        : eventHandler('onChange'),
+	onItemAdd       : eventHandler('onItemAdd'),
+	onItemRemove    : eventHandler('onItemRemove'),
+	onOptionAdd     : eventHandler('onOptionAdd'),
+	onOptionRemove  : eventHandler('onOptionRemove'),
+	onDropdownOpen  : eventHandler('onDropdownOpen'),
+	onDropdownClose : eventHandler('onDropdownClose'),
+	onFocus         : eventHandler('onFocus'),
+	onBlur          : eventHandler('onBlur'),
+	onInitialize    : eventHandler('onInitialize'),
+});
+</script>
+			<style></style>
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+				  <pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">eventHandler</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>		console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> arguments<span class="token punctuation">)</span><span class="token punctuation">;</span><br>		<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#log'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">'&lt;div>&lt;span class="name">'</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">'&lt;/span>&lt;/div>'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-state'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	create          <span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	onChange        <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onChange'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>	onItemAdd       <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onItemAdd'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>	onItemRemove    <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onItemRemove'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>	onOptionAdd     <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onOptionAdd'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>	onOptionRemove  <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onOptionRemove'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>	onDropdownOpen  <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onDropdownOpen'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>	onDropdownClose <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onDropdownClose'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>	onFocus         <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onFocus'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>	onBlur          <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onBlur'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br>	onInitialize    <span class="token operator">:</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token string">'onInitialize'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-state<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>state[]<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Select a state...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>AL<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Alabama<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>AK<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Alaska<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>AZ<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Arizona<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>AR<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Arkansas<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>CA<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>California<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>CO<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Colorado<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>CT<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Connecticut<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>DE<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Delaware<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>DC<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>District of Columbia<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FL<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Florida<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>GA<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Georgia<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>HI<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Hawaii<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ID<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Idaho<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>IL<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Illinois<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>IN<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Indiana<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>IA<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Iowa<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>KS<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Kansas<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>KY<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Kentucky<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>LA<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Louisiana<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ME<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Maine<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MD<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Maryland<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MA<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Massachusetts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MI<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Michigan<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MN<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Minnesota<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MS<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Mississippi<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MO<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Missouri<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>MT<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Montana<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>NE<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Nebraska<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>NV<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Nevada<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>NH<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>New Hampshire<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>NJ<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>New Jersey<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>NM<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>New Mexico<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>NY<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>New York<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>NC<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>North Carolina<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ND<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>North Dakota<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>OH<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Ohio<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>OK<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Oklahoma<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>OR<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Oregon<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>PA<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Pennsylvania<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>RI<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Rhode Island<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>SC<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>South Carolina<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>SD<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>South Dakota<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>TN<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Tennessee<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>TX<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Texas<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UT<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Utah<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>VT<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Vermont<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>VA<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Virginia<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>WA<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Washington<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>WV<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>West Virginia<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>WI<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Wisconsin<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>WY<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>Wyoming<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span><span class="token punctuation">></span></span>Event Log<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pre</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>log<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pre</span><span class="token punctuation">></span></span></code></pre>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	<div class="demo py-5">
+
+		
+<label class="h2 mb-3">
+	onDelete Prompt
+</label>
+
+	<div class="">
+		<div class="">
+			<div class="demo-html">
+				
+<input id="input-tags" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+
+			</div>
+			<script>
+tomSelect("#input-tags",{
+	delimiter: ",",
+	persist: false,
+	onDelete: function(values) {
+		return confirm(values.length > 1 ? "Are you sure you want to remove these " + values.length + " items?" : "Are you sure you want to remove " + values[0] + "?");
+	}
+});
+</script>
+			<style></style>
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
+				  <pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">"#input-tags"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	delimiter<span class="token operator">:</span> <span class="token string">","</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	<span class="token function-variable function">onDelete</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">values</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>		<span class="token keyword">return</span> <span class="token function">confirm</span><span class="token punctuation">(</span>values<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">1</span> <span class="token operator">?</span> <span class="token string">"Are you sure you want to remove these "</span> <span class="token operator">+</span> values<span class="token punctuation">.</span>length <span class="token operator">+</span> <span class="token string">" items?"</span> <span class="token operator">:</span> <span class="token string">"Are you sure you want to remove "</span> <span class="token operator">+</span> values<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">"?"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-tags<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>How cool is this?<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

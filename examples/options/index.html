@@ -1,0 +1,539 @@
+
+
+
+
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> Options Array Examples -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/index.js"></script>
+		
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right pl-4 offcanvas pt-5">
+					
+	<h5 class="mt-0"><a href="/">Home</a></h5>
+
+	
+
+
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/examples/">Examples</a></h5>
+	
+	<nav class="nav flex-column">
+		
+		  
+		<a class="nav-link " href="/examples/">
+
+		
+			Basic
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/customization/">
+
+		
+			Custom HTML
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/contacts/">
+
+		
+			Email Contacts
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/create-filter/">
+
+		
+			Item Creation
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/api/">
+
+		
+			JavaScript API
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/events/">
+
+		
+			JavaScript Event
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/performance/">
+
+		
+			Large Dataset
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/lock/">
+
+		
+			Locking
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/optgroups/">
+
+		
+			Option Groups
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link  active " href="/examples/options/">
+
+		
+			Options Array
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/plugins/">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/required/">
+
+		
+			Required Input
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/rtl/">
+
+		
+			RTL
+		
+		</a>
+	
+		
+	</nav>
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	
+
+	<div class="mt-auto pt-5 pb-2 small">
+		<a href="https://github.com/orchidjs/tom-select/doc_src/blob/master/./doc_src/pages/examples/options.njk">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-xl-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-light" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">Options Array Examples</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+					
+
+
+
+
+
+
+
+
+<script>
+
+</script>
+
+
+	
+
+	<div class="demo py-5">
+
+		
+<label class="h2 mb-3">
+	JavaScript Array
+</label>
+<p>The options are created from an array in JavaScript.</p>
+
+	<div class="">
+		<div class="">
+			<div class="demo-html">
+				
+<select id="select-tools" placeholder="Pick a tool..."></select>
+
+			</div>
+			<script>
+
+tomSelect('#select-tools',{
+	maxItems: null,
+	valueField: 'id',
+	labelField: 'title',
+	searchField: 'title',
+	options: [
+		{id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers'},
+		{id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart'},
+		{id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape'}
+	],
+	create: false
+});
+</script>
+			<style></style>
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+				  <pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-tools'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	maxItems<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span><br>	valueField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	options<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Spectrometer'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Spectrometers'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Star Chart'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Star_chart'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Electrical Tape'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Electrical_tape'</span><span class="token punctuation">}</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">false</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-tools<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Pick a tool...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+
+
+
+
+
+<script>
+
+</script>
+
+
+	
+
+	<div class="demo py-5">
+
+		
+<label class="h2 mb-3">Data-* Attributes</label>
+<p>Enhance options with data-* attributes</p>
+
+	<div class="">
+		<div class="">
+			<div class="demo-html">
+				
+<select id="data-attr">
+    <option value="chrome" data-src="https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-32.png">Google Chrome</option>
+    <option value="ffox" data-src="https://cdn0.iconfinder.com/data/icons/flat-round-system/512/firefox-32.png">Mozilla Firefox</option>
+    <option value="ie" data-src="https://cdn0.iconfinder.com/data/icons/flat-round-system/512/internet_explorer-32.png">Internet Explorer</option>
+</select>
+
+			</div>
+			<script>
+tomSelect('#data-attr',{
+    render: {
+        option: function (item, escape) {
+            return `<div><img class="mr-2" src="${item.src}">${item.text}</div>`;
+        },
+        item: function (item, escape) {
+			return `<div><img class="mr-2" src="${item.src}">${item.text}</div>`;
+        }
+    }
+});
+</script>
+			<style></style>
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
+				  <pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#data-attr'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>    render<span class="token operator">:</span> <span class="token punctuation">{</span><br>        <span class="token function-variable function">option</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>            <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div>&lt;img class="mr-2" src="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>src<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>text<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>        <span class="token punctuation">}</span><span class="token punctuation">,</span><br>        <span class="token function-variable function">item</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div>&lt;img class="mr-2" src="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>src<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>text<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>data-attr<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>chrome<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-32.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Google Chrome<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ffox<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn0.iconfinder.com/data/icons/flat-round-system/512/firefox-32.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Mozilla Firefox<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ie<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn0.iconfinder.com/data/icons/flat-round-system/512/internet_explorer-32.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Internet Explorer<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+<style type="text/css">
+
+</style>
+
+
+
+
+
+
+
+
+<script>
+
+</script>
+
+
+	
+
+	<div class="demo py-5">
+
+		
+<label class="h2 mb-3">
+	Ajax Loading + Custom Scoring
+</label>
+<p>This demo shows how to integrate third-party data and override the scoring method.</p>
+
+	<div class="">
+		<div class="">
+			<div class="demo-html">
+				
+<select id="select-repo" class="repositories" placeholder="Pick a repository..."></select>
+
+			</div>
+			<script>
+tomSelect('#select-repo',{
+		valueField: 'url',
+		labelField: 'name',
+		searchField: 'name',
+		options: [],
+		create: false,
+		render: {
+			option: function(item, escape) {
+				return '<div>' +
+					'<span class="title">' +
+						'<span class="name"><i class="icon ' + (item.fork ? 'fork' : 'source') + '"></i>' + escape(item.name) + '</span>' +
+						'<span class="by">' + escape(item.username) + '</span>' +
+					'</span>' +
+					'<span class="description">' + escape(item.description) + '</span>' +
+					'<ul class="meta">' +
+						(item.language ? '<li class="language">' + escape(item.language) + '</li>' : '') +
+						'<li class="watchers"><span>' + escape(item.watchers) + '</span> watchers</li>' +
+						'<li class="forks"><span>' + escape(item.forks) + '</span> forks</li>' +
+					'</ul>' +
+				'</div>';
+			}
+		},
+		score: function(search) {
+			var score = this.getScoreFunction(search);
+			return function(item) {
+				return score(item) * (1 + Math.min(item.watchers / 100, 1));
+			};
+		},
+		load: function(query, callback) {
+			if (!query.length) return callback();
+			$.ajax({
+				url: 'https://api.github.com/legacy/repos/search/' + encodeURIComponent(query),
+				type: 'GET',
+				error: function() {
+					callback();
+				},
+				success: function(res) {
+					callback(res.repositories.slice(0, 10));
+				}
+			});
+		}
+	});
+</script>
+			<style>
+
+.tomselect-control.repositories .tomselect-dropdown > div {
+	border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.tomselect-control.repositories .tomselect-dropdown .by {
+	font-size: 11px;
+	opacity: 0.8;
+}
+.tomselect-control.repositories .tomselect-dropdown .by::before {
+	content: 'by ';
+}
+.tomselect-control.repositories .tomselect-dropdown .name {
+	font-weight: bold;
+	margin-right: 5px;
+}
+.tomselect-control.repositories .tomselect-dropdown .title {
+	display: block;
+}
+.tomselect-control.repositories .tomselect-dropdown .description {
+	font-size: 12px;
+	display: block;
+	color: #a0a0a0;
+	white-space: nowrap;
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.tomselect-control.repositories .tomselect-dropdown .meta {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 10px;
+}
+.tomselect-control.repositories .tomselect-dropdown .meta li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	margin-right: 10px;
+}
+.tomselect-control.repositories .tomselect-dropdown .meta li span {
+	font-weight: bold;
+}
+.tomselect-control.repositories::before {
+	-moz-transition: opacity 0.2s;
+	-webkit-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+	content: ' ';
+	z-index: 2;
+	position: absolute;
+	display: block;
+	top: 12px;
+	right: 34px;
+	width: 16px;
+	height: 16px;
+	background: url(images/spinner.gif);
+	background-size: 16px 16px;
+	opacity: 0;
+}
+.tomselect-control.repositories.loading::before {
+	opacity: 0.4;
+}
+.icon {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	vertical-align: middle;
+	background-size: 16px 16px;
+	margin: 0 3px 0 0;
+}
+.icon.fork {
+	background-image: url(images/repo-fork.png);
+}
+.icon.source {
+	background-image: url(images/repo-source.png);
+}
+</style>
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-3" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-3" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#style-tab-3" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-3" role="tabpanel" aria-labelledby="home-tab">
+				  <pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-repo'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>		valueField<span class="token operator">:</span> <span class="token string">'url'</span><span class="token punctuation">,</span><br>		labelField<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span><br>		searchField<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span><br>		options<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>		create<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>		render<span class="token operator">:</span> <span class="token punctuation">{</span><br>			<span class="token function-variable function">option</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>				<span class="token keyword">return</span> <span class="token string">'&lt;div>'</span> <span class="token operator">+</span><br>					<span class="token string">'&lt;span class="title">'</span> <span class="token operator">+</span><br>						<span class="token string">'&lt;span class="name">&lt;i class="icon '</span> <span class="token operator">+</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>fork <span class="token operator">?</span> <span class="token string">'fork'</span> <span class="token operator">:</span> <span class="token string">'source'</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'">&lt;/i>'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/span>'</span> <span class="token operator">+</span><br>						<span class="token string">'&lt;span class="by">'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>username<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/span>'</span> <span class="token operator">+</span><br>					<span class="token string">'&lt;/span>'</span> <span class="token operator">+</span><br>					<span class="token string">'&lt;span class="description">'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>description<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/span>'</span> <span class="token operator">+</span><br>					<span class="token string">'&lt;ul class="meta">'</span> <span class="token operator">+</span><br>						<span class="token punctuation">(</span>item<span class="token punctuation">.</span>language <span class="token operator">?</span> <span class="token string">'&lt;li class="language">'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>language<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/li>'</span> <span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">)</span> <span class="token operator">+</span><br>						<span class="token string">'&lt;li class="watchers">&lt;span>'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>watchers<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/span> watchers&lt;/li>'</span> <span class="token operator">+</span><br>						<span class="token string">'&lt;li class="forks">&lt;span>'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>forks<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/span> forks&lt;/li>'</span> <span class="token operator">+</span><br>					<span class="token string">'&lt;/ul>'</span> <span class="token operator">+</span><br>				<span class="token string">'&lt;/div>'</span><span class="token punctuation">;</span><br>			<span class="token punctuation">}</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token function-variable function">score</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">search</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">var</span> score <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getScoreFunction</span><span class="token punctuation">(</span>search<span class="token punctuation">)</span><span class="token punctuation">;</span><br>			<span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>				<span class="token keyword">return</span> <span class="token function">score</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>watchers <span class="token operator">/</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>			<span class="token punctuation">}</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token function-variable function">load</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">query<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>query<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>			$<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span><br>				url<span class="token operator">:</span> <span class="token string">'https://api.github.com/legacy/repos/search/'</span> <span class="token operator">+</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">,</span><br>				type<span class="token operator">:</span> <span class="token string">'GET'</span><span class="token punctuation">,</span><br>				<span class="token function-variable function">error</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>					<span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>				<span class="token punctuation">}</span><span class="token punctuation">,</span><br>				<span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>					<span class="token function">callback</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>repositories<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>				<span class="token punctuation">}</span><br>			<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-3" role="tabpanel" aria-labelledby="profile-tab">
+				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-repo<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>repositories<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Pick a repository...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+			  </div>
+
+			  
+			  <div class="tab-pane fade" id="style-tab-3" role="tabpanel" aria-labelledby="profile-tab">
+				  <pre class="language-css"><code class="language-css"><span class="token selector">.tomselect-control.repositories .tomselect-dropdown > div</span> <span class="token punctuation">{</span><br>	<span class="token property">border-bottom</span><span class="token punctuation">:</span> 1px solid <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.05<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories .tomselect-dropdown .by</span> <span class="token punctuation">{</span><br>	<span class="token property">font-size</span><span class="token punctuation">:</span> 11px<span class="token punctuation">;</span><br>	<span class="token property">opacity</span><span class="token punctuation">:</span> 0.8<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories .tomselect-dropdown .by::before</span> <span class="token punctuation">{</span><br>	<span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'by '</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories .tomselect-dropdown .name</span> <span class="token punctuation">{</span><br>	<span class="token property">font-weight</span><span class="token punctuation">:</span> bold<span class="token punctuation">;</span><br>	<span class="token property">margin-right</span><span class="token punctuation">:</span> 5px<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories .tomselect-dropdown .title</span> <span class="token punctuation">{</span><br>	<span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories .tomselect-dropdown .description</span> <span class="token punctuation">{</span><br>	<span class="token property">font-size</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span><br>	<span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span><br>	<span class="token property">color</span><span class="token punctuation">:</span> #a0a0a0<span class="token punctuation">;</span><br>	<span class="token property">white-space</span><span class="token punctuation">:</span> nowrap<span class="token punctuation">;</span><br>	<span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span><br>	<span class="token property">text-overflow</span><span class="token punctuation">:</span> ellipsis<span class="token punctuation">;</span><br>	<span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories .tomselect-dropdown .meta</span> <span class="token punctuation">{</span><br>	<span class="token property">list-style</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span><br>	<span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span><br>	<span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span><br>	<span class="token property">font-size</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories .tomselect-dropdown .meta li</span> <span class="token punctuation">{</span><br>	<span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span><br>	<span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span><br>	<span class="token property">display</span><span class="token punctuation">:</span> inline<span class="token punctuation">;</span><br>	<span class="token property">margin-right</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories .tomselect-dropdown .meta li span</span> <span class="token punctuation">{</span><br>	<span class="token property">font-weight</span><span class="token punctuation">:</span> bold<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories::before</span> <span class="token punctuation">{</span><br>	<span class="token property">-moz-transition</span><span class="token punctuation">:</span> opacity 0.2s<span class="token punctuation">;</span><br>	<span class="token property">-webkit-transition</span><span class="token punctuation">:</span> opacity 0.2s<span class="token punctuation">;</span><br>	<span class="token property">transition</span><span class="token punctuation">:</span> opacity 0.2s<span class="token punctuation">;</span><br>	<span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">' '</span><span class="token punctuation">;</span><br>	<span class="token property">z-index</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span><br>	<span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span><br>	<span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span><br>	<span class="token property">top</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span><br>	<span class="token property">right</span><span class="token punctuation">:</span> 34px<span class="token punctuation">;</span><br>	<span class="token property">width</span><span class="token punctuation">:</span> 16px<span class="token punctuation">;</span><br>	<span class="token property">height</span><span class="token punctuation">:</span> 16px<span class="token punctuation">;</span><br>	<span class="token property">background</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>images/spinner.gif<span class="token punctuation">)</span></span><span class="token punctuation">;</span><br>	<span class="token property">background-size</span><span class="token punctuation">:</span> 16px 16px<span class="token punctuation">;</span><br>	<span class="token property">opacity</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.tomselect-control.repositories.loading::before</span> <span class="token punctuation">{</span><br>	<span class="token property">opacity</span><span class="token punctuation">:</span> 0.4<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.icon</span> <span class="token punctuation">{</span><br>	<span class="token property">width</span><span class="token punctuation">:</span> 16px<span class="token punctuation">;</span><br>	<span class="token property">height</span><span class="token punctuation">:</span> 16px<span class="token punctuation">;</span><br>	<span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span><br>	<span class="token property">vertical-align</span><span class="token punctuation">:</span> middle<span class="token punctuation">;</span><br>	<span class="token property">background-size</span><span class="token punctuation">:</span> 16px 16px<span class="token punctuation">;</span><br>	<span class="token property">margin</span><span class="token punctuation">:</span> 0 3px 0 0<span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.icon.fork</span> <span class="token punctuation">{</span><br>	<span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>images/repo-fork.png<span class="token punctuation">)</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><span class="token selector">.icon.source</span> <span class="token punctuation">{</span><br>	<span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>images/repo-source.png<span class="token punctuation">)</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+			  </div>
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

@@ -1,0 +1,307 @@
+
+
+
+
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> JavaScript API Examples -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/index.js"></script>
+		
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right pl-4 offcanvas pt-5">
+					
+	<h5 class="mt-0"><a href="/">Home</a></h5>
+
+	
+
+
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/examples/">Examples</a></h5>
+	
+	<nav class="nav flex-column">
+		
+		  
+		<a class="nav-link " href="/examples/">
+
+		
+			Basic
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/customization/">
+
+		
+			Custom HTML
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/contacts/">
+
+		
+			Email Contacts
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/create-filter/">
+
+		
+			Item Creation
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link  active " href="/examples/api/">
+
+		
+			JavaScript API
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/events/">
+
+		
+			JavaScript Event
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/performance/">
+
+		
+			Large Dataset
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/lock/">
+
+		
+			Locking
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/optgroups/">
+
+		
+			Option Groups
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/options/">
+
+		
+			Options Array
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/plugins/">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/required/">
+
+		
+			Required Input
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/rtl/">
+
+		
+			RTL
+		
+		</a>
+	
+		
+	</nav>
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	
+
+	<div class="mt-auto pt-5 pb-2 small">
+		<a href="https://github.com/orchidjs/tom-select/doc_src/blob/master/./doc_src/pages/examples/api.njk">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-xl-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-light" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">JavaScript API Examples</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+					
+
+
+
+
+
+
+
+<script>
+
+</script>
+
+
+
+	
+
+	<div class="demo py-5">
+
+		
+<label class="h2 mb-3">
+	API
+</label>
+<p>Examples of how to interact with the control programmatically.</p>
+
+	<div class="">
+		<div class="">
+			<div class="demo-html">
+				
+<select id="select-tools" multiple placeholder="Pick a tool..."></select>
+<div class="buttons">
+	<input type="button" value="clear()" id="button-clear">
+	<input type="button" value="clearOptions()" id="button-clearoptions">
+	<input type="button" value="addOption()" id="button-addoption">
+	<input type="button" value="addItem()" id="button-additem">
+	<input type="button" value="setValue()" id="button-setvalue">
+</div>
+
+
+			</div>
+			<script>
+var control = tomSelect('#select-tools',{
+	maxItems: null,
+	valueField: 'id',
+	labelField: 'title',
+	searchField: 'title',
+	options: [
+		{id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers'},
+		{id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart'},
+		{id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape'}
+	],
+	create: false
+});
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+$('#button-clear').on('click', function() {
+	control.clear();
+});
+
+$('#button-clearoptions').on('click', function() {
+	control.clearOptions();
+});
+
+$('#button-addoption').on('click', function() {
+	control.addOption({
+		id: 4,
+		title: 'Something New',
+		url: 'http://google.com'
+	});
+});
+
+$('#button-additem').on('click', function() {
+	control.addItem(2);
+});
+
+$('#button-setvalue').on('click', function() {
+	control.setValue([2, 3]);
+});
+
+</script>
+			<style></style>
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+			  </li>
+			  <li class="nav-item" role="presentation">
+			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+			  </li>
+			  
+			</ul>
+
+			<div class="tab-content">
+			  <div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+				  <pre class="language-js"><code class="language-js"><span class="token keyword">var</span> control <span class="token operator">=</span> <span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-tools'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	maxItems<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span><br>	valueField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	options<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Spectrometer'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Spectrometers'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Star Chart'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Star_chart'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Electrical Tape'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Electrical_tape'</span><span class="token punctuation">}</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">false</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token comment">// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><br><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#button-clear'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	control<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#button-clearoptions'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	control<span class="token punctuation">.</span><span class="token function">clearOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#button-addoption'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	control<span class="token punctuation">.</span><span class="token function">addOption</span><span class="token punctuation">(</span><span class="token punctuation">{</span><br>		id<span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span><br>		title<span class="token operator">:</span> <span class="token string">'Something New'</span><span class="token punctuation">,</span><br>		url<span class="token operator">:</span> <span class="token string">'http://google.com'</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#button-additem'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	control<span class="token punctuation">.</span><span class="token function">addItem</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#button-setvalue'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	control<span class="token punctuation">.</span><span class="token function">setValue</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+			  </div>
+			  <div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-tools<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Pick a tool...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>buttons<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>clear()<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button-clear<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>clearOptions()<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button-clearoptions<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>addOption()<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button-addoption<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>addItem()<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button-additem<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>setValue()<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button-setvalue<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+			  </div>
+
+			  
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

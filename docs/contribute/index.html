@@ -1,0 +1,162 @@
+
+
+
+
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> Contributing -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet">
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/index.js"></script>
+		
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right pl-4 offcanvas pt-5">
+					
+	<h5 class="mt-0"><a href="/">Home</a></h5>
+
+	
+
+
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/examples/">Examples</a></h5>
+	
+
+
+	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	
+	<nav class="nav flex-column">
+		
+		<a class="nav-link " href="/docs/">
+
+		
+			Usage
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/api/">
+
+		
+			API
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/plugins/">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/events/">
+
+		
+			Events
+		
+		</a>
+	
+		
+		<a class="nav-link  active " href="/docs/contribute/">
+
+		
+			Contribute
+		
+		</a>
+	
+		
+		<a class="nav-link " href="/docs/selectize.js/">
+
+		
+			selectize.js
+		
+		</a>
+	
+	</nav>
+	
+
+	<div class="mt-auto pt-5 pb-2 small">
+		<a href="https://github.com/orchidjs/tom-select/doc_src/blob/master/./doc_src/pages/docs/contribute.md">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-xl-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-light" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">Contributing</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+					<h3 id="pull-requests">Pull Requests</h3>
+<ol>
+<li>
+<p><strong>Include tests</strong></p>
+</li>
+<li>
+<p>Add an entry to the top of the CHANGELOG, and update the documentation
+in <code>docs/</code> as needed. (Refactors and documentation changes don't need a
+changelog entry.)</p>
+</li>
+<li>
+<p>Squash your commits together in one or a few complete, logical commits,
+with a concise and descriptive message. One commit means one
+feature/bugfix/thing that has changed, or a diff bringing the code one
+step forward to a better, working state.</p>
+</li>
+<li>
+<p>Once your commit is nice and clean, and you want to <em>discard the other
+changes</em>, you can use <code>git checkout .</code> (that will erase changes to
+tracked files) and <code>git clean [-i/--interactive]</code> (to erase untracked
+files).  <strong>However, be careful with those commands, as their function
+is to erase things/changes.</strong></p>
+</li>
+</ol>
+<h3 id="tests">Tests</h3>
+<p>Please ensure all the tests pass:</p>
+<pre class="language-shell"><code class="language-shell">$ <span class="token function">yarn</span> <span class="token builtin class-name">test</span> <span class="token comment"># headless Firefox</span><br>$ <span class="token assign-left variable">BROWSERS</span><span class="token operator">=</span>Firefox <span class="token function">yarn</span> <span class="token builtin class-name">test</span><br>$ <span class="token assign-left variable">BROWSERS</span><span class="token operator">=</span>Firefox,Chrome <span class="token function">yarn</span> <span class="token builtin class-name">test</span><br>$ <span class="token assign-left variable">BROWSERS</span><span class="token operator">=</span>Firefox,Chrome,Safari <span class="token function">yarn</span> <span class="token builtin class-name">test</span></code></pre>
+<h3 id="local-environment">Local environment</h3>
+<p>To run locally:</p>
+<pre class="language-shell"><code class="language-shell">$ <span class="token function">yarn</span> start</code></pre>
+<p>You can then run the examples in <code>http://localhost:8000/examples/</code>.</p>
+<p>However, be careful not to add the <code>dist/</code> files in your commit, as
+Grunt automatically regenerates the files in <code>dist/</code> as the source is
+changed.</p>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>
