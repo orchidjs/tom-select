@@ -30,15 +30,15 @@
 	{% endif %}
 
 
-	<h5 class="mt-3 mb-2"><a href="/usage">Documentation</a></h5>
-	{% if 'examples' not in page.filePathStem %}
+	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	{% if 'docs' in page.filePathStem %}
 	<nav class="nav flex-column">
-		{{ nav_link({url:'/usage',title:'Usage'}) }}
-		{{ nav_link({url:'/api',title:'API'}) }}
-		{{ nav_link({url:'/plugins',title:'Plugins'}) }}
-		{{ nav_link({url:'/events',title:'Events'}) }}
-		{{ nav_link({url:'/contribute',title:'Contribute'}) }}
-		{{ nav_link({url:'/selectize',title:'selectize.js'}) }}
+		{{ nav_link({url:'/docs/',title:'Usage'}) }}
+		{{ nav_link({url:'/docs/api/',title:'API'}) }}
+		{{ nav_link({url:'/docs/plugins/',title:'Plugins'}) }}
+		{{ nav_link({url:'/docs/events/',title:'Events'}) }}
+		{{ nav_link({url:'/docs/contribute/',title:'Contribute'}) }}
+		{{ nav_link({url:'/docs/selectize/',title:'selectize.js'}) }}
 	</nav>
 	{% endif %}
 

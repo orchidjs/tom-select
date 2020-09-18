@@ -14,7 +14,7 @@ tags: demo
 {% endset %}
 
 {% set html %}
-<select id="select-links" placeholder="Pick some links..."></select>
+<select id="select-links" multiple placeholder="Pick some links..."></select>
 {% endset %}
 
 <style type="text/css">
@@ -41,12 +41,8 @@ tags: demo
 {% set script %}
 
 tomSelect('#select-links',{
-	theme: 'links',
-	maxItems: null,
 	valueField: 'id',
 	searchField: 'title',
-	itemClass: 'item',
-	optionClass: 'option',
 	options: [
 		{id: 1, title: 'DIY', url: 'https://diy.org'},
 		{id: 2, title: 'Google', url: 'http://google.com'},
@@ -62,13 +58,6 @@ tomSelect('#select-links',{
 		item: function(data, escape) {
 			return '<div><a href="' + escape(data.url) + '">' + escape(data.title) + '</a></div>';
 		}
-	},
-	create: function(input) {
-		return {
-			id: 0,
-			title: input,
-			url: '#'
-		};
 	}
 });
 {% endset %}

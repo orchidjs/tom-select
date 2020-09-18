@@ -3,7 +3,7 @@ title: Events API
 tags: docs
 ---
 
-In the [usage documentation](/usage), a few callbacks are listed that
+In the [usage documentation](/docs), a few callbacks are listed that
 allow you to listen for certain events. Callbacks aren't always ideal though;
 specifically when you wish to have multiple handlers.
 

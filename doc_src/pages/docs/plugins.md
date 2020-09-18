@@ -7,7 +7,7 @@ Feature can be added to Tom Select without modifying via the [microplugin](https
 This helps protect against code bloat, allows for leaner builds and allows for addons to be sanely isolated
 The plugin system is lean, makes very few assumptions, and gives the developer complete control.
 
-[**Example Plugins**](examples/plugins)
+**[Plugin Examples](/examples/plugins)**
 
 **A few notes:**
 - All plugins live in their own folders in ["src/plugins"](https://github.com/orchidjs/tom-select/tree/master/src/plugins).
