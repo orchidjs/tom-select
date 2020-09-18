@@ -34,7 +34,6 @@ var TomSelect = function( input, settings ){
 		isFocused        : false,
 		isInputHidden    : false,
 		isSetup          : false,
-		keysDown         : {},
 		ignoreFocus      : false,
 		ignoreBlur       : false,
 		ignoreHover      : false,
@@ -244,20 +243,6 @@ Object.assign(TomSelect.prototype, {
 		control_input.addEventListener('paste', function() { return self.onPaste.apply(self, arguments); });
 
 
-		const track_keys = [KEY_CTRL_NAME,KEY_CMD_NAME,'shiftKey'];
-
-		var doc_keys = function(evt){
-
-			for(let i in track_keys){
-				let name = track_keys[i];
-				if( evt[name] ){
-					self.keysDown[name] = evt[name];
-				}else{
-					delete self.keysDown[name];
-				}
-			}
-		};
-
 		var doc_mousedown = function(e) {
 			if (self.isFocused) {
 
@@ -280,15 +265,11 @@ Object.assign(TomSelect.prototype, {
 			self.ignoreHover = false;
 		};
 
-		document.addEventListener('keydown',doc_keys);
-		document.addEventListener('keyup',doc_keys);
 		document.addEventListener('mousedown',doc_mousedown);
 		window.addEventListener('sroll',win_scroll);
 		window.addEventListener('resize',win_scroll);
 		window.addEventListener('mousemove',win_hover);
 		self._destroy = function(){
-			document.removeEventListener('keydown',doc_keys);
-			document.removeEventListener('keyup',doc_keys);
 			document.removeEventListener('mousedown',doc_mousedown);
 			window.removeEventListener('mousemove',win_hover);
 			window.removeEventListener('sroll',win_scroll);
@@ -2451,7 +2432,7 @@ Object.assign(TomSelect.prototype, {
 
 	/**
 	 * Return true if the requested key is down
-	 * The current evt is not always
+	 * The current evt may not always set ( eg calling advanceSelection() )
 	 *
 	 */
 	isKeyDown: function( key_code, evt ){
@@ -2469,11 +2450,6 @@ Object.assign(TomSelect.prototype, {
 				return true;
 			}
 		}
-
-		if( key_code in this.keysDown ){
-			return true;
-		}
-
 
 		return false;
 	},
