@@ -8,6 +8,9 @@ node_js:
   - 10
   - 12
   - 14
+before_install:
+  - apt-get ruby
+  - gem install sass
 before_script:
   - npm install -g grunt-cli
   - npm install
