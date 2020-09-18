@@ -3,7 +3,7 @@ title: selectize.js
 tags: docs
 ---
 
-Tom Select was forked from selectize.js to provide the same usability without the need for jQuery or any other JavaScript framework.
+Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> to provide the same usability without the need for jQuery or any other JavaScript framework.
 
 
 ## New Features
