@@ -244,27 +244,18 @@ Object.assign(TomSelect.prototype, {
 		control_input.addEventListener('paste', function() { return self.onPaste.apply(self, arguments); });
 
 
+		const track_keys = [KEY_CTRL_NAME,KEY_CMD_NAME,'shiftKey'];
 
+		var doc_keys = function(evt){
 
-		var doc_keydown = function(e) {
-
-			switch( e.keyCode ){
-				case KEY_CTRL:
-				case KEY_SHIFT:
-				case KEY_CMD:
-					self.keysDown[e.keyCode] = true;
+			for(let i in track_keys){
+				let name = track_keys[i];
+				if( evt[name] ){
+					self.keysDown[name] = evt[name];
+				}else{
+					delete self.keysDown[name];
+				}
 			}
-		};
-
-		var doc_keyup = function(e) {
-
-			switch( e.keyCode ){
-				case KEY_CTRL:
-				case KEY_SHIFT:
-				case KEY_CMD:
-					delete self.keysDown[e.keyCode];
-			}
-
 		};
 
 		var doc_mousedown = function(e) {
@@ -289,15 +280,15 @@ Object.assign(TomSelect.prototype, {
 			self.ignoreHover = false;
 		};
 
-		document.addEventListener('keydown',doc_keydown);
-		document.addEventListener('keyup',doc_keyup);
+		document.addEventListener('keydown',doc_keys);
+		document.addEventListener('keyup',doc_keys);
 		document.addEventListener('mousedown',doc_mousedown);
 		window.addEventListener('sroll',win_scroll);
 		window.addEventListener('resize',win_scroll);
 		window.addEventListener('mousemove',win_hover);
 		self._destroy = function(){
-			document.removeEventListener('keydown',doc_keydown);
-			document.removeEventListener('keyup',doc_keyup);
+			document.removeEventListener('keydown',doc_keys);
+			document.removeEventListener('keyup',doc_keys);
 			document.removeEventListener('mousedown',doc_mousedown);
 			window.removeEventListener('mousemove',win_hover);
 			window.removeEventListener('sroll',win_scroll);
@@ -2477,8 +2468,6 @@ Object.assign(TomSelect.prototype, {
 			if( key_code == KEY_SHIFT && evt.shiftKey ){
 				return true;
 			}
-		}else{
-			//throw new Error('evt not passed to isKeyDown');
 		}
 
 		if( key_code in this.keysDown ){
