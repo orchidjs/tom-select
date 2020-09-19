@@ -40,7 +40,8 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - [#129](https://github.com/selectize/selectize.js/issues/129) Allow duplicate values in an input
 - [#470](https://github.com/selectize/selectize.js/issues/470) "No results found" message
 - [#999](https://github.com/selectize/selectize.js/issues/999) Don't clear the text box value on blur
-- [#1104](https://github.com/selectize/selectize.js/issues/1104) Replace values in single-item selection #
+- [#1104](https://github.com/selectize/selectize.js/issues/1104) Replace values in single-item selection
+- [#1132](https://github.com/selectize/selectize.js/issues/1132) Can't enter 'ą' character in tags mode
 
 
 

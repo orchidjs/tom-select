@@ -526,7 +526,7 @@ Object.assign(TomSelect.prototype, {
 
 			// cmd+A: select all
 			case KEY_A:
-				if (self.isKeyDown(KEY_CMD,e) ) {
+				if( self.isKeyDown(KEY_CTRL,e) ){
 					self.selectAll();
 					return;
 				}
@@ -602,7 +602,7 @@ Object.assign(TomSelect.prototype, {
 				return;
 		}
 
-		if( self.isInputHidden && !self.isKeyDown(KEY_CMD,e) ){
+		if( self.isInputHidden && !self.isKeyDown(KEY_CTRL,e) ){
 			e.preventDefault();
 			return;
 		}
@@ -2423,23 +2423,31 @@ Object.assign(TomSelect.prototype, {
 
 	/**
 	 * Return true if the requested key is down
+	 * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
 	 * The current evt may not always set ( eg calling advanceSelection() )
 	 *
 	 */
 	isKeyDown: function( key_code, evt ){
 
-		if( evt ){
-			if( key_code == KEY_CTRL && evt[KEY_CTRL_NAME] ){
-				return true;
-			}
+		if( !evt ){
+			return false;
+		}
 
-			if( key_code == KEY_CMD && evt[KEY_CMD_NAME] ){
-				return true;
-			}
+		if( evt.altKey ){
+			return false;
+		}
 
-			if( key_code == KEY_SHIFT && evt.shiftKey ){
-				return true;
-			}
+		// if [ctrl+shift], return false
+		if( evt[KEY_CTRL_NAME] && evt.shiftKey ){
+			return false;
+		}
+
+		if( key_code == KEY_CTRL && evt[KEY_CTRL_NAME] ){
+			return true;
+		}
+
+		if( key_code == KEY_SHIFT && evt.shiftKey ){
+			return true;
 		}
 
 		return false;

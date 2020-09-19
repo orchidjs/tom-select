@@ -840,4 +840,54 @@
 
 		});
 
+		describe('isKeyDown()', function() {
+
+			var test = setup_test('<select>');
+			var instance = test.instance;
+			var last_keydown;
+			test.instance.control_input.addEventListener('keydown',function(evt){
+				last_keydown = evt;
+			});
+
+
+			it_n('should return false if [alt] is pressed', function() {
+				syn.type('[alt]', test.instance.control_input, function(evt) {
+					assert.equal( instance.isKeyDown(KEY_SHIFT,last_keydown), false);
+					syn.type('[alt-up]', test.instance.control_input);
+				});
+			});
+
+			it_n('should return false if [alt][shift] is pressed', function() {
+				syn.type('[alt][shift]', test.instance.control_input, function() {
+					assert.equal( instance.isKeyDown(KEY_SHIFT,last_keydown), false);
+					syn.type('[alt-up][shift-up]', test.instance.control_input);
+				});
+			});
+
+			it_n('should return false if [ctrl][shift] is pressed', function() {
+				syn.type('[ctrl][shift]', test.instance.control_input, function() {
+					assert.equal( instance.isKeyDown(KEY_SHIFT,last_keydown), false);
+					assert.equal( instance.isKeyDown(KEY_CTRL,last_keydown), false);
+					syn.type('[ctrl-up][shift-up]', test.instance.control_input);
+				});
+			});
+
+			it_n('should return true if [shift] is pressed', function() {
+				syn.type('[shift]', test.instance.control_input, function() {
+					assert.equal( instance.isKeyDown(KEY_SHIFT,last_keydown), true);
+					syn.type('[shift-up]', test.instance.control_input);
+				});
+			});
+
+			it_n('should return true if [ctrl] is pressed', function() {
+				syn.type('[ctrl]', test.instance.control_input, function() {
+					assert.equal( instance.isKeyDown(KEY_CTRL,last_keydown), true);
+					syn.type('[ctrl-up]', test.instance.control_input);
+				});
+			});
+
+
+		});
+
+
 	});
