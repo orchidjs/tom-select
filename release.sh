@@ -98,4 +98,4 @@ git tag "v$VERSION"
 git push origin master
 git push origin --tags
 npm publish
-@echo "\033[32mv${VERSION} released\033[0;39m"
+echo "\033[32mv${VERSION} released\033[0;39m"
