@@ -5,8 +5,10 @@
 <!-- [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
 -->
+[![NPM version](http://img.shields.io/npm/v/tom-select.svg?style=flat)](https://www.npmjs.org/package/tom-select)
 [![Build Status](https://travis-ci.org/orchidjs/tom-select.svg?branch=master)](https://travis-ci.org/orchidjs/tom-select)
 [![Coverage Status](https://coveralls.io/repos/github/orchidjs/tom-select/badge.svg?branch=master)](https://coveralls.io/github/orchidjs/tom-select?branch=master)
+[![Issues](https://img.shields.io/github/issues/orchidjs/tom-select)](https://github.com/orchidjs/tom-select/issues)
 
 <div class="lead my-4">
 Tom Select is a versatile and dynamic &lt;select&gt; UI control.
