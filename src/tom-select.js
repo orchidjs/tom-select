@@ -62,18 +62,9 @@ var TomSelect = function( input, settings ){
 	// search system
 	self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
 
-	// build options table
-	for (i = 0, n = self.settings.options.length; i < n; i++) {
-		self.registerOption(self.settings.options[i]);
-	}
-	delete self.settings.options;
-
-
-	// build optgroup table
-	for (i = 0, n = self.settings.optgroups.length; i < n; i++) {
-		self.registerOptionGroup(self.settings.optgroups[i]);
-	}
+	self.setupOptions(self.settings.options,self.settings.optgroups);
 	delete self.settings.optgroups;
+	delete self.settings.options;
 
 
 	// option-dependent defaults
@@ -328,6 +319,29 @@ Object.assign(TomSelect.prototype, {
 
 	supportsValidity: function(){
 		return !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;
+	},
+
+
+	/**
+	 * Register options and optgroups
+	 *
+	 */
+	setupOptions: function(options, optgroups){
+		var i, n;
+
+		options = options || [];
+		optgroups = optgroups || [];
+
+		// build options table
+		for( i = 0, n = options.length; i < n; i++ ){
+			this.registerOption(options[i]);
+		}
+
+
+		// build optgroup table
+		for( i = 0, n = optgroups.length; i < n; i++ ){
+			this.registerOptionGroup(optgroups[i]);
+		}
 	},
 
 	/**
@@ -805,21 +819,11 @@ Object.assign(TomSelect.prototype, {
 		addClasses(self.wrapper,self.settings.loadingClass);
 
 		self.loading++;
-		fn.apply(self, [function(options, groups) {
+		fn.apply(self, [function(options, optgroups) {
 			self.loading = Math.max(self.loading - 1, 0);
 
-			// load groups before options
-			if (groups && groups.length) {
-				groups.forEach(function (group) {
-					self.addOptionGroup(group[self.settings.optgroupValueField], group);
-				});
-			}
+			self.setupOptions(options,optgroups);
 
-			if (options && options.length) {
-				self.addOption(options);
-			}
-
-			// refresh even if no options so that we can show no_results message
 			self.refreshOptions(self.isFocused && !self.isInputHidden);
 
 			if (!self.loading) {

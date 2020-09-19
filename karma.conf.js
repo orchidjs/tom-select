@@ -104,6 +104,7 @@ module.exports = function(config) {
 			'src/plugins/dropdown_header/plugin.js',
 			'src/plugins/optgroup_columns/plugin.js',
 			'src/plugins/no_backspace_delete/plugin.js',
+			'src/plugins/change_listener/plugin.js',
 			'test/*.js'
 		],
 		preprocessors: {

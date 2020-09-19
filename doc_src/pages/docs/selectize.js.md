@@ -11,6 +11,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - dropdownParent other than 'body'
 - no_backspace_delete plugin
 
+
 ## Performance and Usability
 - framework agnostic (doesn't require jQuery, Vue or any other JavaScript framework)
 - improved keyboard control of selected items
@@ -19,6 +20,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - ctrl/shift/cmd key detection
 - moved autogrow functionality to input_autogrow plugin
 - [integrated plugin hooks](plugins.md)
+
 
 ## Breaking Changes
 - removed support for older browsers ES5
@@ -29,6 +31,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - scss instead of less
 	- autoprefixer
 	- nanocss
+
 
 ## Issues / Pull requests
 - [#1363](https://github.com/selectize/selectize.js/issues/1363) Autofill disable possibility
@@ -42,7 +45,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - [#999](https://github.com/selectize/selectize.js/issues/999) Don't clear the text box value on blur
 - [#1104](https://github.com/selectize/selectize.js/issues/1104) Replace values in single-item selection
 - [#1132](https://github.com/selectize/selectize.js/issues/1132) Can't enter 'ą' character in tags mode
-
+- [#102](https://github.com/selectize/selectize.js/issues/102) Listen to original select changes (via 'change_listener' plugin)
 
 
 ## Development

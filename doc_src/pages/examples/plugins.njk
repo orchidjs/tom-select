@@ -164,15 +164,11 @@ tomSelect('#input-tags6',{
 
 
 
-
-
-
-
 {% set label %}
 <label class="h2 mb-3">
 	drag_drop
 </label>
-<p>Drag 'n drop selected items. Requires jQuery + jQuery UI
+<p>Drag 'n drop selected items. Requires jQuery + jQuery UI</p>
 {% endset %}
 
 {% set html %}
@@ -190,9 +186,6 @@ tomSelect('#input-sortable',{
 </script>
 
 {{ demo( label, html, script) }}
-
-
-
 
 
 
@@ -231,6 +224,41 @@ tomSelect('#select-code-language',{
 			title: 'Language'
 		}
 	}
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3">change_listener</label>
+<p>Listen for 'change' events on the original input/select and update Tom Select accordingly</p>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-change" value="original value" autocomplete="off">
+<button type="button" class="btn btn-sm btn-success" id="change-input">Change original input</button>
+{% endset %}
+
+<script>
+{% set script %}
+
+var input = document.getElementById('input-change');
+tomSelect(input,{
+	plugins: ['change_listener'],
+});
+$('#change-input').click(function(evt){
+	evt.preventDefault();
+	evt.stopPropagation();
+
+	input.value = 'new value';
+	var evt = document.createEvent('HTMLEvents');
+	evt.initEvent('change', false, true);
+	input.dispatchEvent(evt);
 });
 {% endset %}
 </script>
