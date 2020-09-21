@@ -465,7 +465,10 @@ tomSelect('#input',{
 			return '<div class="no-results">No results found for "'+escape(data.input)+'"</div>';
 		},
 		'optgroup': function(data) {
-			return '<div class="optgroup"></div>';
+			let optgroup = document.createElement('div');
+			optgroup.className = 'optgroup';
+			optgroup.appendChild(data.options);
+			return optgroup;
 		},
 		'optgroup_header': function(data, escape) {
 			return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';

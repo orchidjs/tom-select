@@ -353,8 +353,12 @@ Object.assign(TomSelect.prototype, {
 		var field_optgroup = self.settings.optgroupLabelField;
 
 		var templates = {
-			'optgroup': function(data) {
-				return '<div class="optgroup"></div>';
+			'optgroup': function(data, escape) {
+				let optgroup = document.createElement('div');
+				optgroup.className = 'optgroup';
+				optgroup.appendChild(data.options);
+				return optgroup;
+
 			},
 			'optgroup_header': function(data, escape) {
 				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
@@ -1278,9 +1282,11 @@ Object.assign(TomSelect.prototype, {
 			optgroup = groups_order[i];
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 
-				let group_html = self.render('optgroup', self.optgroups[optgroup] );
-				group_html.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
-				group_html.appendChild(groups[optgroup]);
+				let group_options = document.createDocumentFragment();
+				group_options.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
+				group_options.appendChild(groups[optgroup]);
+
+				let group_html = self.render('optgroup', {group:self.optgroups[optgroup],options:group_options} );
 
 				html.appendChild(group_html);
 
@@ -2367,9 +2373,9 @@ Object.assign(TomSelect.prototype, {
 			}
 
 		}else if (templateName === 'optgroup') {
-			id = data[self.settings.optgroupValueField];
+			id = data.group[self.settings.optgroupValueField];
 			html.setAttribute('data-group', id);
-			if(data[self.settings.disabledField]) {
+			if(data.group[self.settings.disabledField]) {
 				html.setAttribute('data-disabled', '');
 			}
 		}
