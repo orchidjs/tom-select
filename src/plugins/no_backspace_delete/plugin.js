@@ -16,11 +16,6 @@ TomSelect.define('no_backspace_delete', function(options) {
 
 	this.hook('instead','setActiveItem',function(){});
 	this.hook('instead','selectAll',function(){});
-
-	this.settings.onDelete = function(values,evt){
-		if( values.length > 0 && evt && (evt.keyCode == 8 || evt.keyCode == 46) ){
-			return false;
-		}
-	};
+	this.hook('instead','deleteSelection',function(){});
 
 });
