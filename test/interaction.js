@@ -494,6 +494,27 @@
 				});
 			});
 
+
+			it_n('should not close dropdown when [ctrl-a] pressed no items', function(done) {
+
+				var test = setup_test('AB_Multi');
+
+				click(test.instance.control, function() {
+					assert.equal( test.instance.items.length, 0 );
+					assert.equal( test.instance.isOpen, true );
+
+					syn.type('[ctrl]a[ctrl-up]', test.instance.control_input, function() {
+						assert.equal( test.instance.items.length, 0 );
+						assert.equal( test.instance.isOpen, true );
+						done();
+
+					});
+
+				});
+			});
+
+
+
 			var ShiftMousedown = function(first_item,last_item){
 
 				it_n('should select multiple items with [shift] + mousedown', function(done) {
@@ -693,6 +714,19 @@
 				click(test.instance.control, function() {
 					syn.type('b', test.instance.control_input, function() {
 						assert.equal( test.instance.activeOption.classList.contains('create'), true);
+						done();
+					});
+
+				});
+			});
+
+			it_n('create item should be focused when addPrecedence=false (default)', function(done) {
+
+				var test = setup_test('AB_Multi', {create: true});
+
+				click(test.instance.control, function() {
+					syn.type('b', test.instance.control_input, function() {
+						assert.equal( test.instance.activeOption.classList.contains('create'), false);
 						done();
 					});
 

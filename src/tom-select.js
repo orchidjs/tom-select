@@ -1034,14 +1034,12 @@ class TomSelect extends MicroEvent{
 	 * Selects all items (CTRL + A).
 	 */
 	selectAll() {
-		var i,n;
 
 		if (this.settings.mode === 'single') return;
 
 		this.activeItems = this.controlChildren();
-		n = this.activeItems.length;
 
-		if( n ){
+		if( this.activeItems.length ){
 			addClasses( this.activeItems, 'active' );
 
 			this.hideInput();
