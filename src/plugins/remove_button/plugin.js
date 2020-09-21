@@ -33,13 +33,13 @@ TomSelect.define('remove_button', function(options) {
 
 	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
-	var orig_render = self.render;
+	self.hook('after','setupTemplates',function(){
 
-	self.hook('instead','render',function( templateName, data){
+		var orig_render_item = self.settings.render.item;
 
-		var rendered		= orig_render.apply(self,arguments);
+		self.settings.render.item = function(){
 
-		if( templateName == 'item' && !rendered.querySelector('.'+options.className) ){
+			var rendered = getDom(orig_render_item.apply(self, arguments));
 
 			var close_button = getDom(html);
 			rendered.appendChild(close_button);
@@ -64,9 +64,11 @@ TomSelect.define('remove_button', function(options) {
 				self.removeItem(value);
 				self.refreshOptions(false);
 			});
-		}
 
-		return rendered;
+			return rendered;
+		};
+
 	});
+
 
 });
