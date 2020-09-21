@@ -1,110 +1,104 @@
-var TomSelect = function( input, settings ){
-	var i, n, dir, self = this;
 
-	input				= getDom( input );
+class TomSelect extends MicroEvent{
 
-	if( input.tomselect ){
-		throw new Error('Tom Select already initialized on this element');
+	constructor( input, settings ){
+		super();
+
+		var i, n, dir, self = this;
+
+		input				= getDom( input );
+
+		if( input.tomselect ){
+			throw new Error('Tom Select already initialized on this element');
+		}
+
+		input.tomselect		= self;
+		settings			= getSettings( input, settings );
+
+
+		// detect rtl environment
+		var computedStyle	= window.getComputedStyle && window.getComputedStyle(input, null);
+		dir					= computedStyle.getPropertyValue('direction');
+
+		// setup default state
+		Object.assign(self, {
+			order            : 0,
+			settings         : settings,
+			input            : input,
+			tabIndex         : input.getAttribute('tabindex') || '',
+			is_select_tag    : input.tagName.toLowerCase() === 'select',
+			rtl              : /rtl/i.test(dir),
+
+			highlightedValue : null,
+			isBlurring       : false,
+			isOpen           : false,
+			isDisabled       : false,
+			isRequired       : input.required,
+			isInvalid        : false,
+			isLocked         : false,
+			isFocused        : false,
+			isInputHidden    : false,
+			isSetup          : false,
+			ignoreFocus      : false,
+			ignoreBlur       : false,
+			ignoreHover      : false,
+			hasOptions       : false,
+			currentResults   : null,
+			lastValue        : '',
+			caretPos         : 0,
+			loading          : 0,
+			loadedSearches   : {},
+
+			activeOption     : null,
+			activeItems      : [],
+
+			optgroups        : {},
+			options          : {},
+			userOptions      : {},
+			items            : [],
+			renderCache      : {'item':{},'option':{}},
+		});
+
+		// debounce user defined load() if loadThrottle > 0
+		if( self.settings.load && self.settings.loadThrottle ){
+			self.settings.load = self.loadDebounce(self.settings.load,self.settings.loadThrottle)
+		}
+
+		// search system
+		self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
+
+		self.setupOptions(self.settings.options,self.settings.optgroups);
+		delete self.settings.optgroups;
+		delete self.settings.options;
+
+
+		// option-dependent defaults
+		self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
+		if (typeof self.settings.hideSelected !== 'boolean') {
+			self.settings.hideSelected = self.settings.mode === 'multi';
+		}
+
+		// create filter regex
+		if( typeof self.settings.createFilter === 'string' ){
+			self.settings.createFilter = new RegExp(self.settings.createFilter);
+		}
+
+		self.initializePlugins(self.settings.plugins);
+		self.setupCallbacks();
+		self.setupTemplates();
+		self.setup();
 	}
 
-	input.tomselect		= self;
-	settings			= getSettings( input, settings );
 
+	// methods
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	// detect rtl environment
-	var computedStyle	= window.getComputedStyle && window.getComputedStyle(input, null);
-	dir					= computedStyle.getPropertyValue('direction');
-
-	// setup default state
-	Object.assign(self, {
-		order            : 0,
-		settings         : settings,
-		input            : input,
-		tabIndex         : input.getAttribute('tabindex') || '',
-		is_select_tag    : input.tagName.toLowerCase() === 'select',
-		rtl              : /rtl/i.test(dir),
-
-		highlightedValue : null,
-		isBlurring       : false,
-		isOpen           : false,
-		isDisabled       : false,
-		isRequired       : input.required,
-		isInvalid        : false,
-		isLocked         : false,
-		isFocused        : false,
-		isInputHidden    : false,
-		isSetup          : false,
-		ignoreFocus      : false,
-		ignoreBlur       : false,
-		ignoreHover      : false,
-		hasOptions       : false,
-		currentResults   : null,
-		lastValue        : '',
-		caretPos         : 0,
-		loading          : 0,
-		loadedSearches   : {},
-
-		activeOption     : null,
-		activeItems      : [],
-
-		optgroups        : {},
-		options          : {},
-		userOptions      : {},
-		items            : [],
-		renderCache      : {'item':{},'option':{}},
-	});
-
-	// debounce user defined load() if loadThrottle > 0
-	if( self.settings.load && self.settings.loadThrottle ){
-		self.settings.load = self.loadDebounce(self.settings.load,self.settings.loadThrottle)
-	}
-
-	// search system
-	self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
-
-	self.setupOptions(self.settings.options,self.settings.optgroups);
-	delete self.settings.optgroups;
-	delete self.settings.options;
-
-
-	// option-dependent defaults
-	self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
-	if (typeof self.settings.hideSelected !== 'boolean') {
-		self.settings.hideSelected = self.settings.mode === 'multi';
-	}
-
-	// create filter regex
-	if( typeof self.settings.createFilter === 'string' ){
-		self.settings.createFilter = new RegExp(self.settings.createFilter);
-	}
-
-	self.initializePlugins(self.settings.plugins);
-	self.setupCallbacks();
-	self.setupTemplates();
-	self.setup();
-};
-
-// mixins
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-if( typeof MicroPlugin === "undefined"){
-	throw 'Dependency MicroPlugin is missing. Make sure you either: (1) are using the "complete" version of Tom Select, or (2) require MicroPlugin before you load Tom Select.';
-}
-
-MicroEvent.mixin(TomSelect);
-MicroPlugin.mixin(TomSelect);
-
-
-// methods
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-Object.assign(TomSelect.prototype, {
 
 	/**
 	 * Creates all elements and sets up event bindings.
 	 *
 	 */
-	setup: function() {
+	setup(){
 		var self      = this;
 		var settings  = self.settings;
 
@@ -315,18 +309,18 @@ Object.assign(TomSelect.prototype, {
 			self.onSearchChange('');
 		}
 
-	},
+	}
 
-	supportsValidity: function(){
+	supportsValidity(){
 		return !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;
-	},
+	}
 
 
 	/**
 	 * Register options and optgroups
 	 *
 	 */
-	setupOptions: function(options, optgroups){
+	setupOptions(options, optgroups){
 		var i, n;
 
 		options = options || [];
@@ -342,12 +336,12 @@ Object.assign(TomSelect.prototype, {
 		for( i = 0, n = optgroups.length; i < n; i++ ){
 			this.registerOptionGroup(optgroups[i]);
 		}
-	},
+	}
 
 	/**
 	 * Sets up default rendering functions.
 	 */
-	setupTemplates: function() {
+	setupTemplates() {
 		var self = this;
 		var field_label = self.settings.labelField;
 		var field_optgroup = self.settings.optgroupLabelField;
@@ -380,13 +374,13 @@ Object.assign(TomSelect.prototype, {
 
 
 		self.settings.render = Object.assign({}, templates, self.settings.render);
-	},
+	}
 
 	/**
 	 * Maps fired events to callbacks provided
 	 * in the settings used when creating the control.
 	 */
-	setupCallbacks: function() {
+	setupCallbacks() {
 		var key, fn, callbacks = {
 			'initialize'      : 'onInitialize',
 			'change'          : 'onChange',
@@ -413,7 +407,7 @@ Object.assign(TomSelect.prototype, {
 			if (fn) this.on(key, fn);
 
 		}
-	},
+	}
 
 	/**
 	 * Triggered when the main control element
@@ -422,7 +416,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @return {boolean}
 	 */
-	onClick: function(e) {
+	onClick(e) {
 		var self = this;
 
 		// necessary for mobile webkit devices (manual focus triggering
@@ -433,7 +427,7 @@ Object.assign(TomSelect.prototype, {
 			self.focus();
 			e.preventDefault();
 		}
-	},
+	}
 
 	/**
 	 * Triggered when the main control element
@@ -442,7 +436,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @return {boolean}
 	 */
-	onMouseDown: function(e) {
+	onMouseDown(e) {
 		var self = this;
 
 
@@ -465,16 +459,16 @@ Object.assign(TomSelect.prototype, {
 				self.focus();
 			}, 0);
 		}
-	},
+	}
 
 	/**
 	 * Triggered when the value of the control has been changed.
 	 * This should propagate the event to the original DOM
 	 * input / select element.
 	 */
-	onChange: function() {
+	onChange() {
 		triggerEvent(this.input, 'change');
-	},
+	}
 
 	/**
 	 * Triggered on <input> paste.
@@ -482,7 +476,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onPaste: function(e) {
+	onPaste(e) {
 		var self = this;
 
 		if (self.isFull() || self.isInputHidden || self.isLocked) {
@@ -505,7 +499,7 @@ Object.assign(TomSelect.prototype, {
 				}
 			}, 0);
 		}
-	},
+	}
 
 	/**
 	 * Triggered on <input> keypress.
@@ -513,7 +507,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onKeyPress: function(e) {
+	onKeyPress(e) {
 		if (this.isLocked) return e && e.preventDefault();
 		var character = String.fromCharCode(e.keyCode || e.which);
 		if (this.settings.create && this.settings.mode === 'multi' && character === this.settings.delimiter) {
@@ -521,7 +515,7 @@ Object.assign(TomSelect.prototype, {
 			e.preventDefault();
 			return false;
 		}
-	},
+	}
 
 	/**
 	 * Triggered on <input> keydown.
@@ -529,7 +523,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onKeyDown: function(e) {
+	onKeyDown(e) {
 		var isInput = e.target === this.control_input;
 		var self = this;
 
@@ -624,7 +618,7 @@ Object.assign(TomSelect.prototype, {
 			e.preventDefault();
 			return;
 		}
-	},
+	}
 
 	/**
 	 * Triggered on <input> keyup.
@@ -632,7 +626,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onKeyUp: function(e) {
+	onKeyUp(e) {
 		var self = this;
 
 		if (self.isLocked) return e && e.preventDefault();
@@ -643,14 +637,14 @@ Object.assign(TomSelect.prototype, {
 			self.refreshOptions();
 			self.trigger('type', value);
 		}
-	},
+	}
 
 	/**
 	 * Invokes the user-provide option provider / loader.
 	 *
 	 * @param {string} value
 	 */
-	onSearchChange: function(value) {
+	onSearchChange(value) {
 		var self = this;
 		var fn = self.settings.load;
 		if (!fn) return;
@@ -659,7 +653,7 @@ Object.assign(TomSelect.prototype, {
 		self.load(function(callback) {
 			fn.apply(self, [value, callback]);
 		});
-	},
+	}
 
 	/**
 	 * Triggered on <input> focus.
@@ -667,7 +661,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e (optional)
 	 * @returns {boolean}
 	 */
-	onFocus: function(e) {
+	onFocus(e) {
 		var self = this;
 		var wasFocused = self.isFocused;
 
@@ -690,7 +684,7 @@ Object.assign(TomSelect.prototype, {
 		}
 
 		self.refreshState();
-	},
+	}
 
 	/**
 	 * Triggered on <input> blur.
@@ -698,7 +692,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @param {Element} dest
 	 */
-	onBlur: function(e, dest) {
+	onBlur(e, dest) {
 		var self = this;
 		if (!self.isFocused) return;
 		self.isFocused = false;
@@ -732,7 +726,7 @@ Object.assign(TomSelect.prototype, {
 		} else {
 			deactivate();
 		}
-	},
+	}
 
 	/**
 	 * Triggered when the user rolls over
@@ -741,10 +735,10 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onOptionHover: function(e) {
+	onOptionHover(e) {
 		if (this.ignoreHover) return;
 		this.setActiveOption(e.delegateTarget, false);
-	},
+	}
 
 	/**
 	 * Triggered when the user clicks on an option
@@ -753,7 +747,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onOptionSelect: function(e) {
+	onOptionSelect(e) {
 		var value, self = this;
 
 		if (e.preventDefault) {
@@ -792,7 +786,7 @@ Object.assign(TomSelect.prototype, {
 
 			}
 		}
-	},
+	}
 
 	/**
 	 * Triggered when the user clicks on an item
@@ -801,7 +795,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onItemSelect: function(e) {
+	onItemSelect(e) {
 		var self = this;
 
 		if (self.isLocked) return;
@@ -809,7 +803,7 @@ Object.assign(TomSelect.prototype, {
 			e.preventDefault();
 			self.setActiveItem(e.delegateTarget, e);
 		}
-	},
+	}
 
 	/**
 	 * Invokes the provided method that provides
@@ -818,7 +812,7 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @param {function} fn
 	 */
-	load: function(fn) {
+	load(fn) {
 		var self = this;
 		addClasses(self.wrapper,self.settings.loadingClass);
 
@@ -836,14 +830,14 @@ Object.assign(TomSelect.prototype, {
 
 			self.trigger('load', options);
 		}]);
-	},
+	}
 
 
 	/**
 	 * Debounce the user provided load function
 	 *
 	 */
-	loadDebounce: function(fn,delay){
+	loadDebounce(fn,delay){
 		var timeout;
 		return function() {
 			var self = this;
@@ -857,14 +851,14 @@ Object.assign(TomSelect.prototype, {
 				fn.apply(self, args);
 			}, delay);
 		};
-	},
+	}
 
 	/**
 	 * Sets the input field of the control to the specified value.
 	 *
 	 * @param {string} value
 	 */
-	setTextboxValue: function(value) {
+	setTextboxValue(value) {
 		var input = this.control_input;
 		var changed = input.value !== value;
 		if (changed) {
@@ -872,7 +866,7 @@ Object.assign(TomSelect.prototype, {
 			triggerEvent(input,'update');
 			this.lastValue = value;
 		}
-	},
+	}
 
 	/**
 	 * Returns the value of the control. If multiple items
@@ -882,27 +876,27 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @returns {mixed}
 	 */
-	getValue: function() {
+	getValue() {
 		if( this.is_select_tag && this.input.hasAttribute('multiple')) {
 			return this.items;
 		} else {
 			return this.items.join(this.settings.delimiter);
 		}
-	},
+	}
 
 	/**
 	 * Resets the selected items to the given value.
 	 *
 	 * @param {mixed} value
 	 */
-	setValue: function(value, silent) {
+	setValue(value, silent) {
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
 			this.clear(silent);
 			this.addItems(value, silent);
 		});
-	},
+	}
 
 	/**
 	 * Sets the selected item.
@@ -910,7 +904,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} item
 	 * @param {object} e (optional)
 	 */
-	setActiveItem: function( item, e) {
+	setActiveItem( item, e) {
 
 
 		var self = this;
@@ -967,13 +961,13 @@ Object.assign(TomSelect.prototype, {
 		if (!this.isFocused) {
 			this.focus();
 		}
-	},
+	}
 
 	/**
 	 * Set the active and last-active classes
 	 *
 	 */
-	setActiveItemClass: function( item ){
+	setActiveItemClass( item ){
 
 		var last_active = this.control.querySelector('.last-active');
 		if( last_active ) removeClasses(last_active,'last-active');
@@ -982,17 +976,17 @@ Object.assign(TomSelect.prototype, {
 		if( this.activeItems.indexOf(item) == -1 ){
 			this.activeItems.push( item );
 		}
-	},
+	}
 
 	/**
 	 * Remove active item
 	 *
 	 */
-	removeActiveItem: function( item ){
+	removeActiveItem( item ){
 		var idx = this.activeItems.indexOf(item);
 		this.activeItems.splice(idx, 1);
 		removeClasses(item,'active');
-	},
+	}
 
 
 	/**
@@ -1002,7 +996,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} option
 	 * @param {boolean} scroll
 	 */
-	setActiveOption: function(option, scroll ) {
+	setActiveOption(option, scroll ) {
 		var height_menu, height_item, y;
 
 		if( option === this.activeOption ){
@@ -1034,12 +1028,12 @@ Object.assign(TomSelect.prototype, {
 
 
 		}
-	},
+	}
 
 	/**
 	 * Selects all items (CTRL + A).
 	 */
-	selectAll: function() {
+	selectAll() {
 		var i,n;
 
 		if (this.settings.mode === 'single') return;
@@ -1054,43 +1048,43 @@ Object.assign(TomSelect.prototype, {
 			this.close();
 		}
 		this.focus();
-	},
+	}
 
 	/**
 	 * Hides the input element out of view, while
 	 * retaining its focus.
 	 */
-	hideInput: function() {
+	hideInput() {
 
 		if( this.settings.controlInput ) return;
 
 		this.setTextboxValue('');
 		applyCSS(this.control_input, {opacity: 0, position: 'absolute', left: (this.rtl ? 10000 : -10000)+'px'} );
 		this.isInputHidden = true;
-	},
+	}
 
 	/**
 	 * Restores input visibility.
 	 */
-	showInput: function() {
+	showInput() {
 
 		if( this.settings.controlInput ) return;
 
 		applyCSS(this.control_input, {opacity: 1, position: 'relative', left: 0} );
 		this.isInputHidden = false;
-	},
+	}
 
 	/**
 	 * Get the input value
 	 */
-	inputValue: function(){
+	inputValue(){
 		return this.control_input.value.trim();
-	},
+	}
 
 	/**
 	 * Gives the control focus.
 	 */
-	focus: function() {
+	focus() {
 		var self = this;
 		if (self.isDisabled) return;
 
@@ -1100,17 +1094,17 @@ Object.assign(TomSelect.prototype, {
 			self.ignoreFocus = false;
 			self.onFocus();
 		}, 0);
-	},
+	}
 
 	/**
 	 * Forces the control out of focus.
 	 *
 	 * @param {Element} dest
 	 */
-	blur: function(dest) {
+	blur(dest) {
 		this.control_input.blur();
 		this.onBlur(null, dest);
-	},
+	}
 
 	/**
 	 * Returns a function that scores an object
@@ -1121,9 +1115,9 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} options
 	 * @return {function}
 	 */
-	getScoreFunction: function(query) {
+	getScoreFunction(query) {
 		return this.sifter.getScoreFunction(query, this.getSearchOptions());
-	},
+	}
 
 	/**
 	 * Returns search options for sifter (the system
@@ -1132,7 +1126,7 @@ Object.assign(TomSelect.prototype, {
 	 * @see https://github.com/brianreavis/sifter.js
 	 * @return {object}
 	 */
-	getSearchOptions: function() {
+	getSearchOptions() {
 		var settings = this.settings;
 		var sort = settings.sortField;
 		if (typeof sort === 'string') {
@@ -1145,7 +1139,7 @@ Object.assign(TomSelect.prototype, {
 			sort        : sort,
 			nesting     : settings.nesting
 		};
-	},
+	}
 
 	/**
 	 * Searches through available options and returns
@@ -1161,7 +1155,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} query
 	 * @returns {object}
 	 */
-	search: function(query) {
+	search(query) {
 		var i, value, score, result, calculateScore;
 		var self     = this;
 		var settings = self.settings;
@@ -1194,7 +1188,7 @@ Object.assign(TomSelect.prototype, {
 		}
 
 		return result;
-	},
+	}
 
 	/**
 	 * Refreshes the list of available options shown
@@ -1202,7 +1196,7 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @param {boolean} triggerDropdown
 	 */
-	refreshOptions: function(triggerDropdown) {
+	refreshOptions(triggerDropdown) {
 		var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
 		var active, active_before, create;
 
@@ -1368,15 +1362,15 @@ Object.assign(TomSelect.prototype, {
 			self.setActiveOption(null);
 			if( triggerDropdown && self.isOpen ){ self.close(); }
 		}
-	},
+	}
 
 	/**
 	 * Return list of selectable options
 	 *
 	 */
-	selectable: function(){
+	selectable(){
 		return this.dropdown_content.querySelectorAll('[data-selectable]');
-	},
+	}
 
 
 
@@ -1392,7 +1386,7 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @param {object|array} data
 	 */
-	addOption: function(data) {
+	addOption(data) {
 		var i, n, value, self = this;
 
 		if (Array.isArray(data)) {
@@ -1407,7 +1401,7 @@ Object.assign(TomSelect.prototype, {
 			self.lastQuery = null;
 			self.trigger('option_add', value, data);
 		}
-	},
+	}
 
 	/**
 	 * Registers an option to the pool of options.
@@ -1415,13 +1409,13 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} data
 	 * @return {boolean|string}
 	 */
-	registerOption: function(data) {
+	registerOption(data) {
 		var key = hash_key(data[this.settings.valueField]);
 		if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
 		data.$order = data.$order || ++this.order;
 		this.options[key] = data;
 		return key;
-	},
+	}
 
 	/**
 	 * Registers an option group to the pool of option groups.
@@ -1429,14 +1423,14 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} data
 	 * @return {boolean|string}
 	 */
-	registerOptionGroup: function(data) {
+	registerOptionGroup(data) {
 		var key = hash_key(data[this.settings.optgroupValueField]);
 		if (!key) return false;
 
 		data.$order = data.$order || ++this.order;
 		this.optgroups[key] = data;
 		return key;
-	},
+	}
 
 	/**
 	 * Registers a new optgroup for options
@@ -1445,34 +1439,34 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} id
 	 * @param {object} data
 	 */
-	addOptionGroup: function(id, data) {
+	addOptionGroup(id, data) {
 		data[this.settings.optgroupValueField] = id;
 		if (id = this.registerOptionGroup(data)) {
 			this.trigger('optgroup_add', id, data);
 		}
-	},
+	}
 
 	/**
 	 * Removes an existing option group.
 	 *
 	 * @param {string} id
 	 */
-	removeOptionGroup: function(id) {
+	removeOptionGroup(id) {
 		if (this.optgroups.hasOwnProperty(id)) {
 			delete this.optgroups[id];
 			this.clearCache();
 			this.trigger('optgroup_remove', id);
 		}
-	},
+	}
 
 	/**
 	 * Clears all existing option groups.
 	 */
-	clearOptionGroups: function() {
+	clearOptionGroups() {
 		this.optgroups = {};
 		this.clearCache();
 		this.trigger('optgroup_clear');
-	},
+	}
 
 	/**
 	 * Updates an option available for selection. If
@@ -1482,7 +1476,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} value
 	 * @param {object} data
 	 */
-	updateOption: function(value, data) {
+	updateOption(value, data) {
 		var self = this;
 		var item, item_new;
 		var value_new, index_item, cache_items, cache_options, order_old;
@@ -1539,7 +1533,7 @@ Object.assign(TomSelect.prototype, {
 		if (self.isOpen) {
 			self.refreshOptions(false);
 		}
-	},
+	}
 
 	/**
 	 * Removes a single option.
@@ -1547,7 +1541,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} value
 	 * @param {boolean} silent
 	 */
-	removeOption: function(value, silent) {
+	removeOption(value, silent) {
 		var self = this;
 		value = hash_key(value);
 
@@ -1561,18 +1555,18 @@ Object.assign(TomSelect.prototype, {
 		self.lastQuery = null;
 		self.trigger('option_remove', value);
 		self.removeItem(value, silent);
-	},
+	}
 
 	/**
 	 * Clears all options.
 	 */
-	clearOptions: function() {
+	clearOptions() {
 
 		this.loadedSearches		= {};
 		this.userOptions		= {};
 		this.clearCache();
 		var selected			= {};
-		for( key in this.options){
+		for( let key in this.options){
     		if( this.options.hasOwnProperty(key) && this.items.indexOf(key) >= 0 ){
 				selected[key] = this.options[key];
 			}
@@ -1581,7 +1575,7 @@ Object.assign(TomSelect.prototype, {
 		this.options = this.sifter.items = selected;
 		this.lastQuery = null;
 		this.trigger('option_clear');
-	},
+	}
 
 	/**
 	 * Returns the dom element of the option
@@ -1590,7 +1584,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} value
 	 * @returns {object}
 	 */
-	getOption: function(value) {
+	getOption(value) {
 
 		// cached ?
 		if( this.renderCache['option'].hasOwnProperty(value) ){
@@ -1599,7 +1593,7 @@ Object.assign(TomSelect.prototype, {
 
 		// from existing dropdown menu dom
 		return this.getElementWithValue(value, this.selectable());
-	},
+	}
 
 	/**
 	 * Returns the dom element of the next or previous dom element of the same type
@@ -1609,7 +1603,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} type
 	 * @return {object|undefined}
 	 */
-	getAdjacent: function( option, direction, type = 'option' ){
+	getAdjacent( option, direction, type = 'option' ){
 
 		if( !option ){
 			return;
@@ -1636,7 +1630,7 @@ Object.assign(TomSelect.prototype, {
 
 			return all[i-1];
 		}
-	},
+	}
 
 	/**
 	 * Finds the first element with a "data-value" attribute
@@ -1646,7 +1640,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} els
 	 * @return {object}
 	 */
-	getElementWithValue: function(value, els) {
+	getElementWithValue(value, els) {
 		value = hash_key(value);
 
 		if (typeof value !== 'undefined' && value !== null) {
@@ -1656,7 +1650,7 @@ Object.assign(TomSelect.prototype, {
 				}
 			}
 		}
-	},
+	}
 
 	/**
 	 * Returns the dom element of the item
@@ -1665,9 +1659,9 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} value
 	 * @returns {object}
 	 */
-	getItem: function(value) {
+	getItem(value) {
 		return this.getElementWithValue(value, this.control.children);
-	},
+	}
 
 	/**
 	 * "Selects" multiple items at once. Adds them to the list
@@ -1676,7 +1670,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} value
 	 * @param {boolean} silent
 	 */
-	addItems: function(values, silent) {
+	addItems(values, silent) {
 		this.buffer = document.createDocumentFragment();
 
 		var children = this.control.children;
@@ -1694,7 +1688,7 @@ Object.assign(TomSelect.prototype, {
 		control.insertBefore(this.buffer, control.firstChild);
 
 		this.buffer = null;
-	},
+	}
 
 	/**
 	 * "Selects" an item. Adds it to the list
@@ -1703,7 +1697,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} value
 	 * @param {boolean} silent
 	 */
-	addItem: function(value, silent) {
+	addItem(value, silent) {
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
@@ -1768,7 +1762,7 @@ Object.assign(TomSelect.prototype, {
 				}
 			}
 		});
-	},
+	}
 
 	/**
 	 * Removes the selected item matching
@@ -1776,7 +1770,7 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @param {string} value
 	 */
-	removeItem: function(value, silent) {
+	removeItem(value, silent) {
 		var i, idx;
 
 		var item	= this.getItem(value);
@@ -1809,7 +1803,7 @@ Object.assign(TomSelect.prototype, {
 			this.positionDropdown();
 			this.trigger('item_remove', value, item);
 		}
-	},
+	}
 
 	/**
 	 * Invokes the `create` method provided in the
@@ -1824,7 +1818,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {function} [callback]
 	 * @return {boolean}
 	 */
-	createItem: function(input, triggerDropdown) {
+	createItem(input, triggerDropdown) {
 		var self  = this;
 		var caret = self.caretPos;
 		input = input || self.inputValue();
@@ -1873,12 +1867,12 @@ Object.assign(TomSelect.prototype, {
 		}
 
 		return true;
-	},
+	}
 
 	/**
 	 * Re-renders the selected item lists.
 	 */
-	refreshItems: function() {
+	refreshItems() {
 		this.lastQuery = null;
 
 		if (this.isSetup) {
@@ -1887,13 +1881,13 @@ Object.assign(TomSelect.prototype, {
 
 		this.refreshState();
 		this.updateOriginalInput();
-	},
+	}
 
 	/**
 	 * Updates all state-dependent attributes
 	 * and CSS classes.
 	 */
-	refreshState: function() {
+	refreshState() {
 		var self     = this;
 
 		self.refreshValidityState();
@@ -1918,7 +1912,7 @@ Object.assign(TomSelect.prototype, {
 		classList.toggle('has-options', isEmptyObject(self.options) )
 		classList.toggle('has-items', self.items.length > 0);
 
-	},
+	}
 
 
 	/**
@@ -1929,7 +1923,7 @@ Object.assign(TomSelect.prototype, {
 	 * needs to be temporarily deactivated on the input since the input is
 	 * hidden and can't show errors.
 	 */
-	refreshValidityState: function() {
+	refreshValidityState() {
 		if (!this.isRequired) return false;
 
 		var invalid = !this.items.length;
@@ -1937,7 +1931,7 @@ Object.assign(TomSelect.prototype, {
 		this.isInvalid = invalid;
 		this.control_input.required = invalid;
 		this.input.required = !invalid;
-	},
+	}
 
 	/**
 	 * Determines whether or not more items can be added
@@ -1945,15 +1939,15 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @returns {boolean}
 	 */
-	isFull: function() {
+	isFull() {
 		return this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
-	},
+	}
 
 	/**
 	 * Refreshes the original <select> or <input>
 	 * element to reflect the current state.
 	 */
-	updateOriginalInput: function(opts) {
+	updateOriginalInput(opts) {
 		var i, n, options, label, self = this;
 		opts = opts || {};
 
@@ -1977,13 +1971,13 @@ Object.assign(TomSelect.prototype, {
 				self.trigger('change', self.input.value );
 			}
 		}
-	},
+	}
 
 	/**
 	 * Shows the autocomplete dropdown containing
 	 * the available options.
 	 */
-	open: function() {
+	open() {
 		var self = this;
 
 		if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
@@ -1994,12 +1988,12 @@ Object.assign(TomSelect.prototype, {
 		self.positionDropdown();
 		applyCSS(self.dropdown,{visibility: 'visible', display: 'block'});
 		self.trigger('dropdown_open', self.dropdown);
-	},
+	}
 
 	/**
 	 * Closes the autocomplete dropdown menu.
 	 */
-	close: function() {
+	close() {
 		var self = this;
 		var trigger = self.isOpen;
 
@@ -2020,13 +2014,13 @@ Object.assign(TomSelect.prototype, {
 		self.refreshState();
 
 		if (trigger) self.trigger('dropdown_close', self.dropdown);
-	},
+	}
 
 	/**
 	 * Calculates and applies the appropriate
 	 * position of the dropdown.
 	 */
-	positionDropdown: function() {
+	positionDropdown() {
 		var left			= 0;
 		var context			= this.control;
 		var top				= context.offsetHeight;
@@ -2053,7 +2047,7 @@ Object.assign(TomSelect.prototype, {
 			left  : left + 'px'
 		});
 
-	},
+	}
 
 	/**
 	 * Resets / clears all selected items
@@ -2061,7 +2055,7 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @param {boolean} silent
 	 */
-	clear: function(silent) {
+	clear(silent) {
 
 		if (!this.items.length) return;
 
@@ -2078,7 +2072,7 @@ Object.assign(TomSelect.prototype, {
 		this.refreshState();
 		this.showInput();
 		this.trigger('clear');
-	},
+	}
 
 	/**
 	 * A helper method for inserting an element
@@ -2086,7 +2080,7 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @param {object} el
 	 */
-	insertAtCaret: function(el) {
+	insertAtCaret(el) {
 		var caret	= Math.min(this.caretPos, this.items.length);
 		var target	= this.buffer || this.control;
 
@@ -2097,7 +2091,7 @@ Object.assign(TomSelect.prototype, {
 		}
 
 		this.setCaret(caret + 1);
-	},
+	}
 
 	/**
 	 * Removes the current selected item(s).
@@ -2105,7 +2099,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} e (optional)
 	 * @returns {boolean}
 	 */
-	deleteSelection: function(e) {
+	deleteSelection(e) {
 		var i, n, direction, selection, values, caret, tail;
 		var self = this;
 
@@ -2156,7 +2150,7 @@ Object.assign(TomSelect.prototype, {
 		self.refreshOptions(false);
 
 		return true;
-	},
+	}
 
 	/**
 	 * Selects the previous / next item (depending on the `direction` argument).
@@ -2167,7 +2161,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {int} direction
 	 * @param {object} e (optional)
 	 */
-	advanceSelection: function(direction, e) {
+	advanceSelection(direction, e) {
 		var selection, idx, last_active;
 
 		if (direction === 0) return;
@@ -2203,13 +2197,13 @@ Object.assign(TomSelect.prototype, {
 				this.setActiveItem(null);
 			}
 		}
-	},
+	}
 
 	/**
 	 * Get the last active item
 	 *
 	 */
-	getLastActive: function(direction){
+	getLastActive(direction){
 
 		let last_active = this.control.querySelector('.last-active');
 		if( last_active ){
@@ -2217,7 +2211,7 @@ Object.assign(TomSelect.prototype, {
 		}
 
 		return querySelectorEnd(this.control,'.active',direction);
-	},
+	}
 
 
 	/**
@@ -2225,7 +2219,7 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @param {int} i
 	 */
-	setCaret: function(i) {
+	setCaret(i) {
 		var self = this;
 
 		if( self.settings.mode === 'single' || self.settings.controlInput ) {
@@ -2254,64 +2248,64 @@ Object.assign(TomSelect.prototype, {
 		}
 
 		self.caretPos = i;
-	},
+	}
 
 	/**
 	 * Return list of item dom elements
 	 *
 	 */
-	controlChildren: function(){
+	controlChildren(){
 		return Array.prototype.filter.call( this.control.children, node => node.nodeName !== 'INPUT' );
-	},
+	}
 
 	/**
 	 * Disables user input on the control. Used while
 	 * items are being asynchronously created.
 	 */
-	lock: function() {
+	lock() {
 		this.close();
 		this.isLocked = true;
 		this.refreshState();
-	},
+	}
 
 	/**
 	 * Re-enables user input on the control.
 	 */
-	unlock: function() {
+	unlock() {
 		this.isLocked = false;
 		this.refreshState();
-	},
+	}
 
 	/**
 	 * Disables user input on the control completely.
 	 * While disabled, it cannot receive focus.
 	 */
-	disable: function() {
+	disable() {
 		this.input.disabled				= true;
 		this.control_input.disabled		= true;
 		this.control_input.tabIndex		= -1;
 		this.isDisabled					= true;
 		this.lock();
-	},
+	}
 
 	/**
 	 * Enables the control so that it can respond
 	 * to focus and user input.
 	 */
-	enable: function() {
+	enable() {
 		this.input.disabled				= false;
 		this.control_input.disabled		= false;
 		this.control_input.tabIndex		= this.tabIndex;
 		this.isDisabled					= false;
 		this.unlock();
-	},
+	}
 
 	/**
 	 * Completely destroys the control and
 	 * unbinds all event listeners so that it can
 	 * be garbage collected.
 	 */
-	destroy: function() {
+	destroy() {
 		var revertSettings = this.revertSettings;
 
 		this.trigger('destroy');
@@ -2336,7 +2330,7 @@ Object.assign(TomSelect.prototype, {
 		this._destroy();
 
 		delete this.input.tomselect;
-	},
+	}
 
 	/**
 	 * A helper method for rendering "item" and
@@ -2346,7 +2340,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {object} data
 	 * @returns {Element}
 	 */
-	render: function(templateName, data) {
+	render(templateName, data) {
 		var value, id, label;
 		var html = '';
 		var self = this;
@@ -2396,7 +2390,7 @@ Object.assign(TomSelect.prototype, {
 		}
 
 		return html;
-	},
+	}
 
 	/**
 	 * Clears the render cache for a template. If
@@ -2405,14 +2399,14 @@ Object.assign(TomSelect.prototype, {
 	 *
 	 * @param {string} templateName
 	 */
-	clearCache: function(templateName) {
+	clearCache(templateName) {
 		var self = this;
 		if (typeof templateName === 'undefined') {
 			self.renderCache = {'item':{},'option':{}};
 		} else {
 			self.renderCache[templateName] = {};
 		}
-	},
+	}
 
 	/**
 	 * Determines whether or not to display the
@@ -2421,14 +2415,14 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} input
 	 * @return {boolean}
 	 */
-	canCreate: function(input) {
+	canCreate(input) {
 		if (!this.settings.create) return false;
 		var filter = this.settings.createFilter;
 
 		return input.length
 			&& (typeof filter !== 'function' || filter.apply(this, [input]))
 			&& (!(filter instanceof RegExp) || filter.test(input));
-	},
+	}
 
 
 	/**
@@ -2437,7 +2431,7 @@ Object.assign(TomSelect.prototype, {
 	 * The current evt may not always set ( eg calling advanceSelection() )
 	 *
 	 */
-	isKeyDown: function( key_code, evt ){
+	isKeyDown( key_code, evt ){
 
 		if( !evt ){
 			return false;
@@ -2461,7 +2455,7 @@ Object.assign(TomSelect.prototype, {
 		}
 
 		return false;
-	},
+	}
 
 	/**
 	 * Wraps this.`method` so that `new_fn` can be invoked 'before', 'after', or 'instead' of the original method
@@ -2474,7 +2468,7 @@ Object.assign(TomSelect.prototype, {
 	 * @param {string} when
 	 * @param {function} new_fn
 	 */
-	hook: function( when, method, new_fn ){
+	hook( when, method, new_fn ){
 		var self = this;
 		var orig_method = self[method];
 
@@ -2499,7 +2493,15 @@ Object.assign(TomSelect.prototype, {
 			return result;
 		};
 
+	}
 
-	},
+};
 
-});
+// mixins
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+if( typeof MicroPlugin === "undefined"){
+	throw 'Dependency MicroPlugin is missing. Make sure you either: (1) are using the "complete" version of Tom Select, or (2) require MicroPlugin before you load Tom Select.';
+}
+
+MicroPlugin.mixin(TomSelect);
