@@ -155,5 +155,6 @@ var getSettings = function( input, settings_user){
 		init_textbox();
 	}
 
-	return extend( true, {}, TomSelect.defaults, settings_element, settings_user);
+	return Object.assign( {}, TomSelect.defaults, settings_element, settings_user);
+	//return extend( true, {}, TomSelect.defaults, settings_element, settings_user);
 };

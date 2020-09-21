@@ -43,7 +43,7 @@
 				var test = setup_test('<select><option value="a" data-test="b">c</option></select>');
 
 				assert.deepEqual(test.instance.options, {
-					'a': {value: 'a', test: 'b', text: 'c', disabled:false, $order: 1},
+					'a': {value: 'a', test: 'b', text: 'c', disabled:false, optgroup: undefined, $order: 1},
 				});
 			});
 

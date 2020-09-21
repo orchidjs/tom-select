@@ -1173,7 +1173,7 @@ class TomSelect extends MicroEvent{
 			result					= self.sifter.search(query, Object.assign(options, {score: calculateScore}));
 			self.currentResults		= result;
 		} else {
-			result = extend( {}, self.currentResults);
+			result					= Object.assign( {}, self.currentResults);
 		}
 
 		// filter out selected items
