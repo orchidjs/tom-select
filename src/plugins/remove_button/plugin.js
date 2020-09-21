@@ -36,14 +36,22 @@ TomSelect.define('remove_button', function(options) {
 	var orig_render = self.render;
 
 	self.hook('instead','render',function( templateName, data){
+
 		var rendered		= orig_render.apply(self,arguments);
 
-		if( templateName == 'item' ){
+		if( templateName == 'item' && !rendered.querySelector('.'+options.className) ){
+
 			var close_button = getDom(html);
 			rendered.appendChild(close_button);
 
+			close_button.addEventListener('mousedown',function(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+			});
+
 			close_button.addEventListener('click',function(evt){
 				evt.preventDefault();
+				evt.stopPropagation();
 
 				// propagating will trigger the dropdown to show for single mode
 				if( self.settings.mode !== 'single' ){
@@ -54,6 +62,7 @@ TomSelect.define('remove_button', function(options) {
 
 				var value = rendered.dataset.value;
 				self.removeItem(value);
+				self.refreshOptions(false);
 			});
 		}
 
