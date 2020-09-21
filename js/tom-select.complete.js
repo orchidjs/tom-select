@@ -665,6 +665,8 @@
 
 	"use strict";
 	
+	function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -684,8 +686,6 @@
 	function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 	
 	function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-	
-	function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 	
 	function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 	
@@ -778,22 +778,6 @@
 	    }
 	  }
 	};
-	/**
-	 * Mixin will delegate all MicroEvent.js function in the destination object.
-	 *
-	 * - MicroEvent.mixin(Foobar) will make Foobar able to use MicroEvent
-	 *
-	 * @param {object} the object which will support MicroEvent
-	 */
-	
-	MicroEvent.mixin = function (destObject) {
-	  var props = ['on', 'off', 'trigger'];
-	
-	  for (var i = 0; i < props.length; i++) {
-	    destObject.prototype[props[i]] = MicroEvent.prototype[props[i]];
-	  }
-	};
-	
 	var IS_MAC = /Mac/.test(navigator.userAgent);
 	var KEY_A = 65;
 	var KEY_COMMA = 188;
@@ -964,7 +948,7 @@
 	    init_textbox();
 	  }
 	
-	  return extend(true, {}, TomSelect.defaults, settings_element, settings_user);
+	  return Object.assign({}, TomSelect.defaults, settings_element, settings_user); //return extend( true, {}, TomSelect.defaults, settings_element, settings_user);
 	};
 	
 	var isset = function isset(object) {
@@ -1014,22 +998,6 @@
 	
 	var escape_replace = function escape_replace(str) {
 	  return (str + '').replace(/\$/g, '$$$$');
-	};
-	/**
-	 * Wraps `fn` so that it can only be invoked once.
-	 *
-	 * @param {function} fn
-	 * @returns {function}
-	 */
-	
-	
-	var once = function once(fn) {
-	  var called = false;
-	  return function () {
-	    if (called) return;
-	    called = true;
-	    fn.apply(this, arguments);
-	  };
 	};
 	/**
 	 * Debounce all fired events types listed in `types`
@@ -1288,111 +1256,6 @@
 	  }
 	
 	  return i;
-	};
-	/**
-	 * Copied from jQuery source
-	 *
-	 */
-	
-	
-	var hasOwn = {}.hasOwnProperty;
-	var fnToString = hasOwn.toString;
-	var getProto = Object.getPrototypeOf;
-	var ObjectFunctionString = fnToString.call(Object);
-	
-	var isPlainObject = function isPlainObject(obj) {
-	  var proto, Ctor; // Detect obvious negatives
-	  // Use toString instead of jQuery.type to catch host objects
-	
-	  if (!obj || toString.call(obj) !== "[object Object]") {
-	    return false;
-	  }
-	
-	  proto = getProto(obj); // Objects with no prototype (e.g., `Object.create( null )`) are plain
-	
-	  if (!proto) {
-	    return true;
-	  } // Objects with prototype are plain iff they were constructed by a global Object function
-	
-	
-	  Ctor = hasOwn.call(proto, "constructor") && proto.constructor;
-	  return typeof Ctor === "function" && fnToString.call(Ctor) === ObjectFunctionString;
-	};
-	
-	var isFunction = function isFunction(obj) {
-	  // Support: Chrome <=57, Firefox <=52
-	  // In some browsers, typeof returns "function" for HTML <object> elements
-	  // (i.e., `typeof document.createElement( "object" ) === "function"`).
-	  // We don't want to classify *any* DOM node as a function.
-	  return typeof obj === "function" && typeof obj.nodeType !== "number";
-	};
-	
-	var extend = function extend() {
-	  var options,
-	      name,
-	      src,
-	      copy,
-	      copyIsArray,
-	      clone,
-	      target = arguments[0] || {},
-	      i = 1,
-	      length = arguments.length,
-	      deep = false; // Handle a deep copy situation
-	
-	  if (typeof target === "boolean") {
-	    deep = target; // Skip the boolean and the target
-	
-	    target = arguments[i] || {};
-	    i++;
-	  } // Handle case when target is a string or something (possible in deep copy)
-	
-	
-	  if (_typeof(target) !== "object" && !isFunction(target)) {
-	    target = {};
-	  } // Extend jQuery itself if only one argument is passed
-	
-	
-	  if (i === length) {
-	    target = this;
-	    i--;
-	  }
-	
-	  for (; i < length; i++) {
-	    // Only deal with non-null/undefined values
-	    if ((options = arguments[i]) != null) {
-	      // Extend the base object
-	      for (name in options) {
-	        copy = options[name]; // Prevent Object.prototype pollution
-	        // Prevent never-ending loop
-	
-	        if (name === "__proto__" || target === copy) {
-	          continue;
-	        } // Recurse if we're merging plain objects or arrays
-	
-	
-	        if (deep && copy && (isPlainObject(copy) || (copyIsArray = Array.isArray(copy)))) {
-	          src = target[name]; // Ensure proper type for the source value
-	
-	          if (copyIsArray && !Array.isArray(src)) {
-	            clone = [];
-	          } else if (!copyIsArray && !isPlainObject(src)) {
-	            clone = {};
-	          } else {
-	            clone = src;
-	          }
-	
-	          copyIsArray = false; // Never move original objects, clone them
-	
-	          target[name] = extend(deep, clone, copy); // Don't bring in undefined values
-	        } else if (copy !== undefined) {
-	          target[name] = copy;
-	        }
-	      }
-	    }
-	  } // Return the modified object
-	
-	
-	  return target;
 	};
 	
 	var TomSelect = /*#__PURE__*/function (_MicroEvent) {
@@ -1991,7 +1854,7 @@
 	
 	          e.preventDefault();
 	          return;
-	        // return: select active option
+	        // doc_src select active option
 	
 	        case KEY_RETURN:
 	          if (self.isOpen && self.activeOption) {
@@ -2480,12 +2343,10 @@
 	  }, {
 	    key: "selectAll",
 	    value: function selectAll() {
-	      var i, n;
 	      if (this.settings.mode === 'single') return;
 	      this.activeItems = this.controlChildren();
-	      n = this.activeItems.length;
 	
-	      if (n) {
+	      if (this.activeItems.length) {
 	        addClasses(this.activeItems, 'active');
 	        this.hideInput();
 	        this.close();
@@ -2643,7 +2504,7 @@
 	        }));
 	        self.currentResults = result;
 	      } else {
-	        result = extend({}, self.currentResults);
+	        result = Object.assign({}, self.currentResults);
 	      } // filter out selected items
 	
 	
@@ -3331,6 +3192,7 @@
 	    value: function createItem(input, triggerDropdown) {
 	      var self = this;
 	      var caret = self.caretPos;
+	      var output;
 	      input = input || self.inputValue();
 	      var callback = arguments[arguments.length - 1];
 	      if (typeof callback !== 'function') callback = function callback() {};
@@ -3345,13 +3207,9 @@
 	      }
 	
 	      self.lock();
-	      var setup = typeof self.settings.create === 'function' ? this.settings.create : function (input) {
-	        var data = {};
-	        data[self.settings.labelField] = input;
-	        data[self.settings.valueField] = input;
-	        return data;
-	      };
-	      var create = once(function (data) {
+	      var created = false;
+	
+	      var create = function create(data) {
 	        self.unlock();
 	        if (!data || _typeof(data) !== 'object') return callback();
 	        var value = hash_key(data[self.settings.valueField]);
@@ -3366,10 +3224,18 @@
 	        self.addItem(value);
 	        self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
 	        callback(data);
-	      });
-	      var output = setup.apply(this, [input, create]);
+	        created = true;
+	      };
 	
-	      if (typeof output !== 'undefined') {
+	      if (typeof self.settings.create === 'function') {
+	        output = self.settings.create.apply(this, [input, create]);
+	      } else {
+	        output = {};
+	        output[self.settings.labelField] = input;
+	        output[self.settings.valueField] = input;
+	      }
+	
+	      if (!created) {
 	        create(output);
 	      }
 	
@@ -4239,19 +4105,10 @@
 	TomSelect.define('no_backspace_delete', function (options) {
 	  this.hook('instead', 'setActiveItem', function () {});
 	  this.hook('instead', 'selectAll', function () {});
-	
-	  this.settings.onDelete = function (values, evt) {
-	    if (values.length > 0 && evt && (evt.keyCode == 8 || evt.keyCode == 46)) {
-	      return false;
-	    }
-	  };
+	  this.hook('instead', 'deleteSelection', function () {});
 	});
 	TomSelect.define('optgroup_columns', function (options) {
 	  var self = this;
-	  options = Object.assign({
-	    equalizeWidth: true,
-	    equalizeHeight: true
-	  }, options);
 	  var orig_keydown = self.onKeyDown;
 	  self.hook('instead', 'onKeyDown', function (evt) {
 	    var index, option, options, optgroup;
@@ -4281,63 +4138,6 @@
 	      self.setActiveOption(option);
 	    }
 	  });
-	
-	  var getScrollbarWidth = function getScrollbarWidth() {
-	    var div;
-	    var width = getScrollbarWidth.width;
-	    var doc = document;
-	
-	    if (typeof width === 'undefined') {
-	      div = doc.createElement('div');
-	      div.innerHTML = '<div style="width:50px;height:50px;position:absolute;left:-50px;top:-50px;overflow:auto;"><div style="width:1px;height:100px;"></div></div>';
-	      div = div.firstChild;
-	      doc.body.appendChild(div);
-	      width = getScrollbarWidth.width = div.offsetWidth - div.clientWidth;
-	      doc.body.removeChild(div);
-	    }
-	
-	    return width;
-	  };
-	
-	  var equalizeSizes = function equalizeSizes() {
-	    var i, n, height_max, width, width_last, width_parent, optgroups;
-	    optgroups = self.dropdown_content.querySelectorAll('[data-group]');
-	    n = optgroups.length;
-	    if (!n || !self.dropdown_content.clientWidth) return;
-	
-	    if (options.equalizeHeight) {
-	      height_max = 0;
-	
-	      for (i = 0; i < n; i++) {
-	        height_max = Math.max(height_max, optgroups[i].clientHeight);
-	      }
-	
-	      for (i = 0; i < n; i++) {
-	        optgroups[i].style.height = height_max + 'px';
-	      }
-	    }
-	
-	    if (!n || !self.dropdown_content.clientWidth) return;
-	
-	    if (options.equalizeWidth) {
-	      width_parent = self.dropdown_content.clientWidth - getScrollbarWidth();
-	      width = Math.round(width_parent / n);
-	
-	      for (i = 0; i < n; i++) {
-	        optgroups[i].style.width = width + 'px';
-	      }
-	
-	      if (n > 1) {
-	        width_last = width_parent - width * (n - 1);
-	        optgroups[n - 1].style.width = width_last + 'px';
-	      }
-	    }
-	  };
-	
-	  if (options.equalizeHeight || options.equalizeWidth) {
-	    self.hook('after', 'positionDropdown', equalizeSizes);
-	    self.hook('after', 'refreshOptions', equalizeSizes);
-	  }
 	});
 	TomSelect.define('remove_button', function (options) {
 	  options = Object.assign({
@@ -4354,11 +4154,11 @@
 	  }
 	
 	  var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
-	  var orig_render = self.render;
-	  self.hook('instead', 'render', function (templateName, data) {
-	    var rendered = orig_render.apply(self, arguments);
+	  self.hook('after', 'setupTemplates', function () {
+	    var orig_render_item = self.settings.render.item;
 	
-	    if (templateName == 'item' && !rendered.querySelector('.' + options.className)) {
+	    self.settings.render.item = function () {
+	      var rendered = getDom(orig_render_item.apply(self, arguments));
 	      var close_button = getDom(html);
 	      rendered.appendChild(close_button);
 	      close_button.addEventListener('mousedown', function (evt) {
@@ -4378,9 +4178,8 @@
 	        self.removeItem(value);
 	        self.refreshOptions(false);
 	      });
-	    }
-	
-	    return rendered;
+	      return rendered;
+	    };
 	  });
 	});
 	TomSelect.define('restore_on_backspace', function (options) {
