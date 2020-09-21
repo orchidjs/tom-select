@@ -54,21 +54,6 @@ var escape_replace = function(str) {
 	return (str + '').replace(/\$/g, '$$$$');
 };
 
-/**
- * Wraps `fn` so that it can only be invoked once.
- *
- * @param {function} fn
- * @returns {function}
- */
-var once = function(fn) {
-	var called = false;
-	return function() {
-		if (called) return;
-		called = true;
-		fn.apply(this, arguments);
-	};
-};
-
 
 /**
  * Debounce all fired events types listed in `types`

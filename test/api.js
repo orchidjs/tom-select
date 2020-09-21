@@ -142,6 +142,7 @@
 				test.instance.createItem();
 				expect(test.instance.options).to.have.property('test');
 			});
+
 			it_n('should add option upon completion (asynchronous)', function(done) {
 				var test = setup_test('<select>', {
 					valueField: 'value',
@@ -157,6 +158,21 @@
 
 				test.instance.control_input.value = 'test';
 				test.instance.createItem();
+			});
+
+			it_n('should not create two items', function(){
+				var test = setup_test('<select multiple>', {
+					valueField: 'value',
+					labelField: 'value',
+					create: function(input, callback) {
+						callback({value: 'test'});
+						return {value:'test2'};
+					}
+				});
+
+				test.instance.createItem('test');
+
+				assert.equal(test.instance.items.length,1);
 			});
 		});
 

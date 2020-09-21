@@ -101,7 +101,7 @@ describe('plugin: restore_on_backspace', function() {
 		assert.equal( test.instance.items.length, 2 );
 
 		syn.click(test.instance.control_input,function(){
-			syn.type('\b', test.instance.control_input, function() {
+			syn.type('a\b\b', test.instance.control_input, function() {
 				assert.equal( test.instance.items.length, 1 );
 				assert.equal( test.instance.items[0], 'a' );
 				assert.equal( test.instance.control_input.value, 'b' );

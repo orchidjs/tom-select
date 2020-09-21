@@ -575,7 +575,7 @@ class TomSelect extends MicroEvent{
 				e.preventDefault();
 				return;
 
-			// return: select active option
+			// doc_src select active option
 			case KEY_RETURN:
 				if (self.isOpen && self.activeOption) {
 					self.onOptionSelect({delegateTarget: self.activeOption});
@@ -1819,6 +1819,7 @@ class TomSelect extends MicroEvent{
 	createItem(input, triggerDropdown) {
 		var self  = this;
 		var caret = self.caretPos;
+		var output;
 		input = input || self.inputValue();
 
 		var callback = arguments[arguments.length - 1];
@@ -1835,14 +1836,8 @@ class TomSelect extends MicroEvent{
 
 		self.lock();
 
-		var setup = (typeof self.settings.create === 'function') ? this.settings.create : function(input) {
-			var data = {};
-			data[self.settings.labelField] = input;
-			data[self.settings.valueField] = input;
-			return data;
-		};
-
-		var create = once(function(data) {
+		var created = false;
+		var create = function(data) {
 			self.unlock();
 
 			if (!data || typeof data !== 'object') return callback();
@@ -1857,10 +1852,18 @@ class TomSelect extends MicroEvent{
 			self.addItem(value);
 			self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
 			callback(data);
-		});
+			created = true;
+		};
 
-		var output = setup.apply(this, [input, create]);
-		if (typeof output !== 'undefined') {
+		if( typeof self.settings.create === 'function' ){
+			output = self.settings.create.apply(this, [input, create]);
+		}else{
+			output = {};
+			output[self.settings.labelField] = input;
+			output[self.settings.valueField] = input;
+		}
+
+		if( !created ){
 			create(output);
 		}
 
