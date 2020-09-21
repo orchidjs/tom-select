@@ -32,17 +32,3 @@ MicroEvent.prototype = {
 		}
 	}
 };
-
-/**
- * Mixin will delegate all MicroEvent.js function in the destination object.
- *
- * - MicroEvent.mixin(Foobar) will make Foobar able to use MicroEvent
- *
- * @param {object} the object which will support MicroEvent
- */
-MicroEvent.mixin = function(destObject){
-	var props = ['on', 'off', 'trigger'];
-	for (var i = 0; i < props.length; i++){
-		destObject.prototype[props[i]] = MicroEvent.prototype[props[i]];
-	}
-};
