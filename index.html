@@ -29,9 +29,10 @@
 
 			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
 
-				<div class="col-md-3 col-xl-2 d-flex flex-column bg-light border-right pl-4 offcanvas pt-5">
+				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-right px-0 offcanvas pt-5">
 					
-	<h5 class="mt-0"><a href="/">Home</a></h5>
+
+	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
 	
 
@@ -39,24 +40,27 @@
 	
 
 
-	<h5 class="mt-3 mb-2"><a href="/examples/">Examples</a></h5>
+	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
 	
 
 
-	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
 	
 
-	<h5 class="mt-3 mb-2"><a href="https://github.com/orchidjs/tom-select">Fork on GitHub</a></h5>
+	<div class="border-bottom m-4"></div>
+
+	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
+	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
 
 
-	<div class="mt-auto pt-5 pb-2 small">
+	<div class="mt-auto p-4 badges small">
 		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/index.md">Edit this page on GitHub</a>
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
 	</div>
 
 				</div>
 
-				<div class="col-md-9 col-xl-10 pb-5">
+				<div class="col-md-9 col-lg-10 pb-5">
 					<div class="my-4">
 						<div class="container">
 							<button class="toggle-offcanvas btn btn-light" type="button">
@@ -66,19 +70,17 @@
 						</div>
 					</div>
 					<div class="container mt-3" id="main-container">
-					<h1 class="display-3 mt-0">Tom Select</h1>
-<!-- [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
-[![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
--->
-<p><a href="https://travis-ci.org/orchidjs/tom-select"><img src="https://travis-ci.org/orchidjs/tom-select.svg?branch=master" alt="Build Status"></a>
-<a href="https://coveralls.io/github/orchidjs/tom-select?branch=master"><img src="https://coveralls.io/repos/github/orchidjs/tom-select/badge.svg?branch=master" alt="Coverage Status"></a></p>
-<div class="lead my-4">
-Tom Select is a versatile and dynamic &lt;select&gt; UI control.
-With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
-Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to provide the same powerful UI and API but with a framework agnostic design.
+					<div class="text-center">
+<h1 class="display-2 mt-5">Tom Select</h1>
+<p><a href="https://github.com/orchidjs/tom-select" class="mb-2"><img alt="GitHub forks" src="https://img.shields.io/github/forks/orchidjs/tom-select?label=Github%20forks&style=for-the-badge&color=007ec6"></a>
+<a href="https://cdnjs.com/libraries/selectize.js" class="mb-2"><img alt="npmjs.org" style="height:28px" src="http://img.shields.io/npm/v/tom-select.svg?style=for-the-badge&color=007ec6"></a>
+<a href="https://travis-ci.org/orchidjs/tom-select" class="mb-2"><img alt="Travis.org" style="height:28px" src="https://img.shields.io/travis/orchidjs/tom-select?style=for-the-badge"></a>
+<a href="https://coveralls.io/github/orchidjs/tom-select" class="mb-2"><img alt="Coveralls Coverage" style="height:28px" src="https://img.shields.io/coveralls/github/orchidjs/tom-select?color=4c1&style=for-the-badge"></a>
+<a href="https://github.com/orchidjs/tom-select/issues" class="mb-2"><img alt="GitHub Issues" style="height:28px" src="https://img.shields.io/github/issues/orchidjs/tom-select?style=for-the-badge"></a></p>
 </div>
-<div class="w-50 mx-auto">
-<h3>Example</h3>
+<div class="row py-5">
+<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mx-auto">
+<h5 class="mt-3">Example</h5>
 <link rel="stylesheet" href="/css/tom-select.bootstrap4.css">
 <select id="select-tags" multiple placeholder="Best movies and TV shows">
 	<option selected>Magnum P.I.</option>
@@ -89,9 +91,16 @@ Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to pro
 </select>
 <script>
 tomSelect("#select-tags",{
-create: true
+	plugins: ['remove_button'],
+	create: true,
 });
 </script>
+</div>
+</div>
+<div class="lead my-5">
+Tom Select is a versatile and dynamic &lt;select&gt; UI control.
+With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
+Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to provide the same powerful UI and API but with a framework agnostic design.
 </div>
 <h2 id="features">Features</h2>
 <ul>
@@ -106,8 +115,8 @@ create: true
 <li><strong>Touch Support</strong><br> Plays nice with iOS 5+ devices.</li>
 </ul>
 <h2 id="usage">Usage</h2>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tom-select-it<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/css/tom-select.default.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/tom-select.complete.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"><br><span class="token keyword">var</span> options <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#tom-select-it'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
-<p>The available options are <a href="../usage">documented here</a>.</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tom-select-it<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/css/tom-select.default.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/tom-select.complete.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"><br><span class="token keyword">var</span> options <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#tom-select-it'</span><span class="token punctuation">,</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<p>The available options are <a href="../docs">documented here</a>.</p>
 <h2 id="installation-and-files">Installation and files</h2>
 <p>All pre-built files needed to use Tom Select can be found in the <a href="https://github.com/orchidjs/tom-select/tree/master/dist">&quot;dist&quot;</a> folder</p>
 <!--and at [cdnjs](https://cdnjs.com/libraries/selectize.js). -->
@@ -126,7 +135,7 @@ create: true
 </li>
 </ul>
 <h2 id="custom-builds">Custom Builds</h2>
-<p>By default, all <a href="../plugins">plugins</a> are included. To hand-pick what plugins (if any) to include, run <a href="http://gruntjs.com/"><code>grunt</code></a> with the &quot;--plugins&quot; flag. After this completes, grab the files you need from the &quot;build&quot; folder.</p>
+<p>By default, all <a href="/docs/plugins">plugins</a> are included. To hand-pick what plugins (if any) to include, run <a href="http://gruntjs.com/"><code>grunt</code></a> with the &quot;--plugins&quot; flag. After this completes, grab the files you need from the &quot;build&quot; folder.</p>
 <pre class="language-shell"><code class="language-shell"><span class="token comment"># dependencies</span><br><span class="token function">yarn</span> <span class="token function">install</span> --production<span class="token operator">=</span>false<br><br><span class="token comment"># build tom-select</span><br>grunt --plugins<span class="token operator">=</span><br>grunt --plugins<span class="token operator">=</span>*<br>grunt --plugins<span class="token operator">=</span>remove_button,restore_on_backspace</code></pre>
 <h2 id="license">License</h2>
 <p>Copyright © 2013–2020 <a href="https://github.com/orchidjs/tom-select/graphs/contributors">Contributors</a></p>

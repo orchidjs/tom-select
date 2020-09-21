@@ -665,6 +665,26 @@
 
 	"use strict";
 	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+	
+	function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+	
+	function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+	
+	function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	
+	function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+	
+	function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+	
+	function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+	
+	function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+	
 	function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 	
 	function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -786,11 +806,9 @@
 	var KEY_BACKSPACE = 8;
 	var KEY_DELETE = 46;
 	var KEY_SHIFT = 16;
-	var KEY_CMD = IS_MAC ? 91 : 17;
 	var KEY_CTRL = IS_MAC ? 18 : 17;
 	var KEY_TAB = 9;
-	var KEY_CMD_NAME = IS_MAC ? 'metaKey' : 'ctrlKey';
-	var KEY_CTRL_NAME = IS_MAC ? 'altKey' : 'ctrlKey';
+	var KEY_CTRL_NAME = IS_MAC ? 'metaKey' : 'ctrlKey';
 	
 	var getSettings = function getSettings(input, settings_user) {
 	  var settings = Object.assign({}, TomSelect.defaults, settings_user);
@@ -1377,2468 +1395,2659 @@
 	  return target;
 	};
 	
-	var TomSelect = function TomSelect(input, settings) {
-	  var i,
-	      n,
-	      dir,
-	      self = this;
-	  input = getDom(input);
+	var TomSelect = /*#__PURE__*/function (_MicroEvent) {
+	  _inherits(TomSelect, _MicroEvent);
 	
-	  if (input.tomselect) {
-	    throw new Error('Tom Select already initialized on this element');
-	  }
+	  var _super = _createSuper(TomSelect);
 	
-	  input.tomselect = self;
-	  settings = getSettings(input, settings); // detect rtl environment
+	  function TomSelect(input, settings) {
+	    var _this;
 	
-	  var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
-	  dir = computedStyle.getPropertyValue('direction'); // setup default state
+	    _classCallCheck(this, TomSelect);
 	
-	  Object.assign(self, {
-	    order: 0,
-	    settings: settings,
-	    input: input,
-	    tabIndex: input.getAttribute('tabindex') || '',
-	    is_select_tag: input.tagName.toLowerCase() === 'select',
-	    rtl: /rtl/i.test(dir),
-	    highlightedValue: null,
-	    isBlurring: false,
-	    isOpen: false,
-	    isDisabled: false,
-	    isRequired: input.required,
-	    isInvalid: false,
-	    isLocked: false,
-	    isFocused: false,
-	    isInputHidden: false,
-	    isSetup: false,
-	    ignoreFocus: false,
-	    ignoreBlur: false,
-	    ignoreHover: false,
-	    hasOptions: false,
-	    currentResults: null,
-	    lastValue: '',
-	    caretPos: 0,
-	    loading: 0,
-	    loadedSearches: {},
-	    activeOption: null,
-	    activeItems: [],
-	    optgroups: {},
-	    options: {},
-	    userOptions: {},
-	    items: [],
-	    renderCache: {
-	      'item': {},
-	      'option': {}
+	    _this = _super.call(this);
+	
+	    var i,
+	        n,
+	        dir,
+	        self = _assertThisInitialized(_this);
+	
+	    input = getDom(input);
+	
+	    if (input.tomselect) {
+	      throw new Error('Tom Select already initialized on this element');
 	    }
-	  }); // debounce user defined load() if loadThrottle > 0
 	
-	  if (self.settings.load && self.settings.loadThrottle) {
-	    self.settings.load = self.loadDebounce(self.settings.load, self.settings.loadThrottle);
-	  } // search system
+	    input.tomselect = self;
+	    settings = getSettings(input, settings); // detect rtl environment
+	
+	    var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
+	    dir = computedStyle.getPropertyValue('direction'); // setup default state
+	
+	    Object.assign(self, {
+	      order: 0,
+	      settings: settings,
+	      input: input,
+	      tabIndex: input.getAttribute('tabindex') || '',
+	      is_select_tag: input.tagName.toLowerCase() === 'select',
+	      rtl: /rtl/i.test(dir),
+	      highlightedValue: null,
+	      isBlurring: false,
+	      isOpen: false,
+	      isDisabled: false,
+	      isRequired: input.required,
+	      isInvalid: false,
+	      isLocked: false,
+	      isFocused: false,
+	      isInputHidden: false,
+	      isSetup: false,
+	      ignoreFocus: false,
+	      ignoreBlur: false,
+	      ignoreHover: false,
+	      hasOptions: false,
+	      currentResults: null,
+	      lastValue: '',
+	      caretPos: 0,
+	      loading: 0,
+	      loadedSearches: {},
+	      activeOption: null,
+	      activeItems: [],
+	      optgroups: {},
+	      options: {},
+	      userOptions: {},
+	      items: [],
+	      renderCache: {
+	        'item': {},
+	        'option': {}
+	      }
+	    }); // debounce user defined load() if loadThrottle > 0
+	
+	    if (self.settings.load && self.settings.loadThrottle) {
+	      self.settings.load = self.loadDebounce(self.settings.load, self.settings.loadThrottle);
+	    } // search system
 	
 	
-	  self.sifter = new Sifter(this.options, {
-	    diacritics: settings.diacritics
-	  }); // build options table
+	    self.sifter = new Sifter(_this.options, {
+	      diacritics: settings.diacritics
+	    });
+	    self.setupOptions(self.settings.options, self.settings.optgroups);
+	    delete self.settings.optgroups;
+	    delete self.settings.options; // option-dependent defaults
 	
-	  for (i = 0, n = self.settings.options.length; i < n; i++) {
-	    self.registerOption(self.settings.options[i]);
-	  }
+	    self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
 	
-	  delete self.settings.options; // build optgroup table
-	
-	  for (i = 0, n = self.settings.optgroups.length; i < n; i++) {
-	    self.registerOptionGroup(self.settings.optgroups[i]);
-	  }
-	
-	  delete self.settings.optgroups; // option-dependent defaults
-	
-	  self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
-	
-	  if (typeof self.settings.hideSelected !== 'boolean') {
-	    self.settings.hideSelected = self.settings.mode === 'multi';
-	  } // create filter regex
+	    if (typeof self.settings.hideSelected !== 'boolean') {
+	      self.settings.hideSelected = self.settings.mode === 'multi';
+	    } // create filter regex
 	
 	
-	  if (typeof self.settings.createFilter === 'string') {
-	    self.settings.createFilter = new RegExp(self.settings.createFilter);
-	  }
+	    if (typeof self.settings.createFilter === 'string') {
+	      self.settings.createFilter = new RegExp(self.settings.createFilter);
+	    }
 	
-	  self.initializePlugins(self.settings.plugins);
-	  self.setupCallbacks();
-	  self.setupTemplates();
-	  self.setup();
-	}; // mixins
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	    self.initializePlugins(self.settings.plugins);
+	    self.setupCallbacks();
+	    self.setupTemplates();
+	    self.setup();
+	    return _this;
+	  } // methods
+	  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
-	
-	if (typeof MicroPlugin === "undefined") {
-	  throw 'Dependency MicroPlugin is missing. Make sure you either: (1) are using the "complete" version of Tom Select, or (2) require MicroPlugin before you load Tom Select.';
-	}
-	
-	MicroEvent.mixin(TomSelect);
-	MicroPlugin.mixin(TomSelect); // methods
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	
-	Object.assign(TomSelect.prototype, {
 	  /**
 	   * Creates all elements and sets up event bindings.
 	   *
 	   */
-	  setup: function setup() {
-	    var self = this;
-	    var settings = self.settings;
-	    var wrapper;
-	    var control;
-	    var control_input;
-	    var dropdown;
-	    var dropdown_content;
-	    var inputMode;
-	    var timeout_blur;
-	    var timeout_focus;
-	    var classes;
-	    var classes_plugins;
-	    var inputId;
-	    var input = self.input;
-	    inputMode = self.settings.mode;
-	    classes = input.getAttribute('class') || '';
-	    wrapper = getDom('<div>');
-	    addClasses(wrapper, settings.wrapperClass, classes, inputMode);
-	    control = getDom('<div class="items">');
-	    addClasses(control, settings.inputClass);
-	    wrapper.append(control);
-	    dropdown = getDom('<div style="display:none">');
-	    addClasses(dropdown, settings.dropdownClass, inputMode);
-	    dropdown_content = getDom('<div style="scroll-behavior: smooth;">');
-	    addClasses(dropdown_content, settings.dropdownContentClass);
-	    dropdown.append(dropdown_content);
-	    getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
 	
-	    if (settings.controlInput) {
-	      control_input = getDom(settings.controlInput);
-	    } else {
-	      control_input = getDom('<input type="text" autocomplete="off" />'); // set attributes
 	
-	      var attrs = ['autocorrect', 'autocapitalize', 'autocomplete'];
+	  _createClass(TomSelect, [{
+	    key: "setup",
+	    value: function setup() {
+	      var self = this;
+	      var settings = self.settings;
+	      var wrapper;
+	      var control;
+	      var control_input;
+	      var dropdown;
+	      var dropdown_content;
+	      var inputMode;
+	      var timeout_blur;
+	      var timeout_focus;
+	      var classes;
+	      var classes_plugins;
+	      var inputId;
+	      var input = self.input;
+	      inputMode = self.settings.mode;
+	      classes = input.getAttribute('class') || '';
+	      wrapper = getDom('<div>');
+	      addClasses(wrapper, settings.wrapperClass, classes, inputMode);
+	      control = getDom('<div class="items">');
+	      addClasses(control, settings.inputClass);
+	      wrapper.append(control);
+	      dropdown = getDom('<div style="display:none">');
+	      addClasses(dropdown, settings.dropdownClass, inputMode);
+	      dropdown_content = getDom('<div style="scroll-behavior: smooth;">');
+	      addClasses(dropdown_content, settings.dropdownContentClass);
+	      dropdown.append(dropdown_content);
+	      getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
 	
-	      for (var i = 0; i < attrs.length; i++) {
-	        var attr = attrs[i];
+	      if (settings.controlInput) {
+	        control_input = getDom(settings.controlInput);
+	      } else {
+	        control_input = getDom('<input type="text" autocomplete="off" />'); // set attributes
 	
-	        if (input.getAttribute(attr)) {
-	          control_input.setAttribute(attr, input.getAttribute(attr));
+	        var attrs = ['autocorrect', 'autocapitalize', 'autocomplete'];
+	
+	        for (var i = 0; i < attrs.length; i++) {
+	          var attr = attrs[i];
+	
+	          if (input.getAttribute(attr)) {
+	            control_input.setAttribute(attr, input.getAttribute(attr));
+	          }
 	        }
 	      }
-	    }
 	
-	    if (!settings.controlInput) {
-	      control_input.setAttribute('tabindex', input.disabled ? '-1' : self.tabIndex);
-	      control.appendChild(control_input);
-	    }
-	
-	    if (inputId = input.getAttribute('id')) {
-	      control_input.setAttribute('id', inputId + '-tomselected');
-	      var label = document.querySelector("label[for='" + inputId + "']");
-	      if (label) label.setAttribute('for', inputId + '-tomselected');
-	    }
-	
-	    if (self.settings.copyClassesToDropdown) {
-	      addClasses(dropdown, classes);
-	    }
-	
-	    wrapper.style.width = input.style.width;
-	
-	    if (self.plugins.names.length) {
-	      classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
-	      addClasses([wrapper, dropdown], classes_plugins);
-	    }
-	
-	    if ((settings.maxItems === null || settings.maxItems > 1) && self.is_select_tag) {
-	      input.setAttribute('multiple', 'multiple');
-	    }
-	
-	    if (self.settings.placeholder) {
-	      control_input.setAttribute('placeholder', settings.placeholder);
-	    } // if splitOn was not passed in, construct it from the delimiter to allow pasting universally
-	
-	
-	    if (!self.settings.splitOn && self.settings.delimiter) {
-	      var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-	      self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
-	    }
-	
-	    control_input.type = input.type;
-	    self.control = control;
-	    self.control_input = control_input;
-	    self.wrapper = wrapper;
-	    self.dropdown = dropdown;
-	    self.dropdown_content = dropdown_content;
-	    onEvent(dropdown, 'mouseenter', '[data-selectable]', function () {
-	      return self.onOptionHover.apply(self, arguments);
-	    });
-	    onEvent(dropdown, 'mousedown', '[data-selectable]', function () {
-	      return self.onOptionSelect.apply(self, arguments);
-	    });
-	    control.addEventListener('mousedown', function (evt) {
-	      var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
-	
-	      if (target_match) {
-	        evt.delegateTarget = target_match;
-	        return self.onItemSelect.call(self, evt);
+	      if (!settings.controlInput) {
+	        control_input.setAttribute('tabindex', input.disabled ? '-1' : self.tabIndex);
+	        control.appendChild(control_input);
 	      }
 	
-	      return self.onMouseDown.call(self, evt);
-	    });
-	    control.addEventListener('click', function () {
-	      return self.onClick.apply(self, arguments);
-	    });
-	    control_input.addEventListener('mousedown', function (e) {
-	      e.stopPropagation();
-	    });
-	    control_input.addEventListener('keydown', function () {
-	      return self.onKeyDown.apply(self, arguments);
-	    });
-	    control_input.addEventListener('keyup', function () {
-	      return self.onKeyUp.apply(self, arguments);
-	    });
-	    control_input.addEventListener('keypress', function () {
-	      return self.onKeyPress.apply(self, arguments);
-	    });
-	    control_input.addEventListener('resize', function () {
-	      self.positionDropdown.apply(self, []);
-	    });
-	    control_input.addEventListener('blur', function () {
-	      return self.onBlur.apply(self, arguments);
-	    });
-	    control_input.addEventListener('focus', function () {
-	      self.ignoreBlur = false;
-	      return self.onFocus.apply(self, arguments);
-	    });
-	    control_input.addEventListener('paste', function () {
-	      return self.onPaste.apply(self, arguments);
-	    });
-	
-	    var doc_mousedown = function doc_mousedown(e) {
-	      if (self.isFocused) {
-	        // clicking anywhere in the control should not close the dropdown
-	        if (parentMatch(e.target, '.' + self.settings.wrapperClass, self.wrapper)) {
-	          return false;
-	        }
-	
-	        self.blur(e.target);
+	      if (inputId = input.getAttribute('id')) {
+	        control_input.setAttribute('id', inputId + '-tomselected');
+	        var label = document.querySelector("label[for='" + inputId + "']");
+	        if (label) label.setAttribute('for', inputId + '-tomselected');
 	      }
-	    };
 	
-	    var win_scroll = function win_scroll() {
-	      if (self.isOpen) {
-	        self.positionDropdown.apply(self, arguments);
+	      if (self.settings.copyClassesToDropdown) {
+	        addClasses(dropdown, classes);
 	      }
-	    };
 	
-	    var win_hover = function win_hover() {
-	      self.ignoreHover = false;
-	    };
+	      wrapper.style.width = input.style.width;
 	
-	    document.addEventListener('mousedown', doc_mousedown);
-	    window.addEventListener('sroll', win_scroll);
-	    window.addEventListener('resize', win_scroll);
-	    window.addEventListener('mousemove', win_hover);
+	      if (self.plugins.names.length) {
+	        classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
+	        addClasses([wrapper, dropdown], classes_plugins);
+	      }
 	
-	    self._destroy = function () {
-	      document.removeEventListener('mousedown', doc_mousedown);
-	      window.removeEventListener('mousemove', win_hover);
-	      window.removeEventListener('sroll', win_scroll);
-	      window.removeEventListener('resize', win_scroll);
-	    }; // store original children and tab index so that they can be
-	    // restored when the destroy() method is called.
+	      if ((settings.maxItems === null || settings.maxItems > 1) && self.is_select_tag) {
+	        input.setAttribute('multiple', 'multiple');
+	      }
+	
+	      if (self.settings.placeholder) {
+	        control_input.setAttribute('placeholder', settings.placeholder);
+	      } // if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 	
 	
-	    var children = [];
+	      if (!self.settings.splitOn && self.settings.delimiter) {
+	        var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+	        self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
+	      }
 	
-	    while (input.children.length > 0) {
-	      children.push(input.children[0]);
-	      input.children[0].remove();
-	    }
-	
-	    this.revertSettings = {
-	      children: children,
-	      tabindex: input.getAttribute('tabindex')
-	    };
-	    input.setAttribute('tabindex', -1);
-	    input.setAttribute('hidden', 'hidden');
-	    input.insertAdjacentElement('afterend', self.wrapper);
-	    self.setValue(settings.items);
-	    delete settings.items; // feature detect for the validation API
-	
-	    if (self.supportsValidity()) {
-	      input.addEventListener('invalid', function (e) {
-	        e.preventDefault();
-	        self.isInvalid = true;
-	        self.refreshState();
+	      control_input.type = input.type;
+	      self.control = control;
+	      self.control_input = control_input;
+	      self.wrapper = wrapper;
+	      self.dropdown = dropdown;
+	      self.dropdown_content = dropdown_content;
+	      onEvent(dropdown, 'mouseenter', '[data-selectable]', function () {
+	        return self.onOptionHover.apply(self, arguments);
 	      });
-	    }
+	      onEvent(dropdown, 'mousedown', '[data-selectable]', function () {
+	        return self.onOptionSelect.apply(self, arguments);
+	      });
+	      control.addEventListener('mousedown', function (evt) {
+	        var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
 	
-	    self.updateOriginalInput();
-	    self.refreshItems();
-	    self.refreshState();
-	    self.isSetup = true;
-	
-	    if (input.disabled) {
-	      self.disable();
-	    }
-	
-	    self.on('change', this.onChange);
-	    addClasses(input, 'tomselected');
-	    self.trigger('initialize'); // preload options
-	
-	    if (settings.preload === true) {
-	      self.onSearchChange('');
-	    }
-	  },
-	  supportsValidity: function supportsValidity() {
-	    return !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;
-	  },
-	
-	  /**
-	   * Sets up default rendering functions.
-	   */
-	  setupTemplates: function setupTemplates() {
-	    var self = this;
-	    var field_label = self.settings.labelField;
-	    var field_optgroup = self.settings.optgroupLabelField;
-	    var templates = {
-	      'optgroup': function optgroup(data) {
-	        return '<div class="optgroup"></div>';
-	      },
-	      'optgroup_header': function optgroup_header(data, escape) {
-	        return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
-	      },
-	      'option': function option(data, escape) {
-	        return '<div>' + escape(data[field_label]) + '</div>';
-	      },
-	      'item': function item(data, escape) {
-	        return '<div>' + escape(data[field_label]) + '</div>';
-	      },
-	      'option_create': function option_create(data, escape) {
-	        return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
-	      },
-	      'no_results': function no_results(data, escape) {
-	        return '<div class="no-results">No results found</div>';
-	      }
-	    };
-	    self.settings.render = Object.assign({}, templates, self.settings.render);
-	  },
-	
-	  /**
-	   * Maps fired events to callbacks provided
-	   * in the settings used when creating the control.
-	   */
-	  setupCallbacks: function setupCallbacks() {
-	    var key,
-	        fn,
-	        callbacks = {
-	      'initialize': 'onInitialize',
-	      'change': 'onChange',
-	      'item_add': 'onItemAdd',
-	      'item_remove': 'onItemRemove',
-	      'clear': 'onClear',
-	      'option_add': 'onOptionAdd',
-	      'option_remove': 'onOptionRemove',
-	      'option_clear': 'onOptionClear',
-	      'optgroup_add': 'onOptionGroupAdd',
-	      'optgroup_remove': 'onOptionGroupRemove',
-	      'optgroup_clear': 'onOptionGroupClear',
-	      'dropdown_open': 'onDropdownOpen',
-	      'dropdown_close': 'onDropdownClose',
-	      'type': 'onType',
-	      'load': 'onLoad',
-	      'focus': 'onFocus',
-	      'blur': 'onBlur'
-	    };
-	
-	    for (key in callbacks) {
-	      fn = this.settings[callbacks[key]];
-	      if (fn) this.on(key, fn);
-	    }
-	  },
-	
-	  /**
-	   * Triggered when the main control element
-	   * has a click event.
-	   *
-	   * @param {object} e
-	   * @return {boolean}
-	   */
-	  onClick: function onClick(e) {
-	    var self = this; // necessary for mobile webkit devices (manual focus triggering
-	    // is ignored unless invoked within a click event)
-	    // also necessary to reopen a dropdown that has been closed by
-	    // closeAfterSelect
-	
-	    if (!self.isFocused || !self.isOpen) {
-	      self.focus();
-	      e.preventDefault();
-	    }
-	  },
-	
-	  /**
-	   * Triggered when the main control element
-	   * has a mouse down event.
-	   *
-	   * @param {object} e
-	   * @return {boolean}
-	   */
-	  onMouseDown: function onMouseDown(e) {
-	    var self = this;
-	
-	    if (self.isFocused) {
-	      // retain focus by preventing native handling. if the
-	      // event target is the input it should not be modified.
-	      // otherwise, text selection within the input won't work.
-	      if (e.target !== self.control_input) {
-	        if (self.settings.mode === 'single') {
-	          // toggle dropdown
-	          self.isOpen ? self.close() : self.open();
-	        } else {
-	          self.setActiveItem(null);
+	        if (target_match) {
+	          evt.delegateTarget = target_match;
+	          return self.onItemSelect.call(self, evt);
 	        }
 	
-	        return false;
-	      }
-	    } else {
-	      // give control focus
-	      window.setTimeout(function () {
-	        self.focus();
-	      }, 0);
-	    }
-	  },
+	        return self.onMouseDown.call(self, evt);
+	      });
+	      control.addEventListener('click', function () {
+	        return self.onClick.apply(self, arguments);
+	      });
+	      control_input.addEventListener('mousedown', function (e) {
+	        e.stopPropagation();
+	      });
+	      control_input.addEventListener('keydown', function () {
+	        return self.onKeyDown.apply(self, arguments);
+	      });
+	      control_input.addEventListener('keyup', function () {
+	        return self.onKeyUp.apply(self, arguments);
+	      });
+	      control_input.addEventListener('keypress', function () {
+	        return self.onKeyPress.apply(self, arguments);
+	      });
+	      control_input.addEventListener('resize', function () {
+	        self.positionDropdown.apply(self, []);
+	      });
+	      control_input.addEventListener('blur', function () {
+	        return self.onBlur.apply(self, arguments);
+	      });
+	      control_input.addEventListener('focus', function () {
+	        self.ignoreBlur = false;
+	        return self.onFocus.apply(self, arguments);
+	      });
+	      control_input.addEventListener('paste', function () {
+	        return self.onPaste.apply(self, arguments);
+	      });
 	
-	  /**
-	   * Triggered when the value of the control has been changed.
-	   * This should propagate the event to the original DOM
-	   * input / select element.
-	   */
-	  onChange: function onChange() {
-	    triggerEvent(this.input, 'change');
-	  },
+	      var doc_mousedown = function doc_mousedown(e) {
+	        if (self.isFocused) {
+	          // clicking anywhere in the control should not close the dropdown
+	          if (parentMatch(e.target, '.' + self.settings.wrapperClass, self.wrapper)) {
+	            return false;
+	          }
 	
-	  /**
-	   * Triggered on <input> paste.
-	   *
-	   * @param {object} e
-	   * @returns {boolean}
-	   */
-	  onPaste: function onPaste(e) {
-	    var self = this;
-	
-	    if (self.isFull() || self.isInputHidden || self.isLocked) {
-	      e.preventDefault();
-	      return;
-	    } // If a regex or string is included, this will split the pasted
-	    // input and create Items for each separate value
-	
-	
-	    if (self.settings.splitOn) {
-	      // Wait for pasted text to be recognized in value
-	      setTimeout(function () {
-	        var pastedText = self.inputValue();
-	
-	        if (!pastedText.match(self.settings.splitOn)) {
-	          return;
+	          self.blur(e.target);
 	        }
+	      };
 	
-	        var splitInput = pastedText.trim().split(self.settings.splitOn);
-	
-	        for (var i = 0, n = splitInput.length; i < n; i++) {
-	          self.createItem(splitInput[i]);
-	        }
-	      }, 0);
-	    }
-	  },
-	
-	  /**
-	   * Triggered on <input> keypress.
-	   *
-	   * @param {object} e
-	   * @returns {boolean}
-	   */
-	  onKeyPress: function onKeyPress(e) {
-	    if (this.isLocked) return e && e.preventDefault();
-	    var character = String.fromCharCode(e.keyCode || e.which);
-	
-	    if (this.settings.create && this.settings.mode === 'multi' && character === this.settings.delimiter) {
-	      this.createItem();
-	      e.preventDefault();
-	      return false;
-	    }
-	  },
-	
-	  /**
-	   * Triggered on <input> keydown.
-	   *
-	   * @param {object} e
-	   * @returns {boolean}
-	   */
-	  onKeyDown: function onKeyDown(e) {
-	    var isInput = e.target === this.control_input;
-	    var self = this;
-	
-	    if (self.isLocked) {
-	      if (e.keyCode !== KEY_TAB) {
-	        e.preventDefault();
-	      }
-	
-	      return;
-	    }
-	
-	    switch (e.keyCode) {
-	      // cmd+A: select all
-	      case KEY_A:
-	        if (self.isKeyDown(KEY_CMD, e)) {
-	          self.selectAll();
-	          return;
-	        }
-	
-	        break;
-	      // esc: close dropdown
-	
-	      case KEY_ESC:
+	      var win_scroll = function win_scroll() {
 	        if (self.isOpen) {
-	          e.preventDefault();
-	          e.stopPropagation();
-	          self.close();
+	          self.positionDropdown.apply(self, arguments);
 	        }
+	      };
 	
-	        return;
-	      // down: open dropdown or move selection down
+	      var win_hover = function win_hover() {
+	        self.ignoreHover = false;
+	      };
 	
-	      case KEY_DOWN:
-	        if (!self.isOpen && self.hasOptions) {
-	          self.open();
-	        } else if (self.activeOption) {
-	          self.ignoreHover = true;
-	          var next = self.getAdjacent(self.activeOption, 1);
-	          if (next) self.setActiveOption(next, true);
-	        }
+	      document.addEventListener('mousedown', doc_mousedown);
+	      window.addEventListener('sroll', win_scroll);
+	      window.addEventListener('resize', win_scroll);
+	      window.addEventListener('mousemove', win_hover);
 	
-	        e.preventDefault();
-	        return;
-	      // up: move selection up
-	
-	      case KEY_UP:
-	        if (self.activeOption) {
-	          self.ignoreHover = true;
-	          var prev = self.getAdjacent(self.activeOption, -1);
-	          if (prev) self.setActiveOption(prev, true);
-	        }
-	
-	        e.preventDefault();
-	        return;
-	      // return: select active option
-	
-	      case KEY_RETURN:
-	        if (self.isOpen && self.activeOption) {
-	          self.onOptionSelect({
-	            delegateTarget: self.activeOption
-	          });
-	          e.preventDefault();
-	        }
-	
-	        return;
-	      // left: modifiy item selection to the left
-	
-	      case KEY_LEFT:
-	        self.advanceSelection(-1, e);
-	        return;
-	      // right: modifiy item selection to the right
-	
-	      case KEY_RIGHT:
-	        self.advanceSelection(1, e);
-	        return;
-	      // tab: select active option and/or create item
-	
-	      case KEY_TAB:
-	        if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
-	          self.onOptionSelect({
-	            delegateTarget: self.activeOption
-	          }); // prevent default [tab] behaviour of jump to the next field
-	          // if select isFull, then the dropdown won't be open and [tab] will work normally
-	
-	          e.preventDefault();
-	        }
-	
-	        if (self.settings.create && self.createItem()) {
-	          e.preventDefault();
-	        }
-	
-	        return;
-	      // delete|backspace: delete items
-	
-	      case KEY_BACKSPACE:
-	      case KEY_DELETE:
-	        self.deleteSelection(e);
-	        return;
-	    }
-	
-	    if (self.isInputHidden && !self.isKeyDown(KEY_CMD, e)) {
-	      e.preventDefault();
-	      return;
-	    }
-	  },
-	
-	  /**
-	   * Triggered on <input> keyup.
-	   *
-	   * @param {object} e
-	   * @returns {boolean}
-	   */
-	  onKeyUp: function onKeyUp(e) {
-	    var self = this;
-	    if (self.isLocked) return e && e.preventDefault();
-	    var value = self.inputValue();
-	
-	    if (self.lastValue !== value) {
-	      self.lastValue = value;
-	      self.onSearchChange(value);
-	      self.refreshOptions();
-	      self.trigger('type', value);
-	    }
-	  },
-	
-	  /**
-	   * Invokes the user-provide option provider / loader.
-	   *
-	   * @param {string} value
-	   */
-	  onSearchChange: function onSearchChange(value) {
-	    var self = this;
-	    var fn = self.settings.load;
-	    if (!fn) return;
-	    if (self.loadedSearches.hasOwnProperty(value)) return;
-	    self.loadedSearches[value] = true;
-	    self.load(function (callback) {
-	      fn.apply(self, [value, callback]);
-	    });
-	  },
-	
-	  /**
-	   * Triggered on <input> focus.
-	   *
-	   * @param {object} e (optional)
-	   * @returns {boolean}
-	   */
-	  onFocus: function onFocus(e) {
-	    var self = this;
-	    var wasFocused = self.isFocused;
-	
-	    if (self.isDisabled) {
-	      self.blur();
-	      e && e.preventDefault();
-	      return false;
-	    }
-	
-	    if (self.ignoreFocus) return;
-	    self.isFocused = true;
-	    if (self.settings.preload === 'focus') self.onSearchChange('');
-	    if (!wasFocused) self.trigger('focus');
-	
-	    if (!self.activeItems.length) {
-	      self.showInput();
-	      self.setActiveItem(null);
-	      self.refreshOptions(!!self.settings.openOnFocus);
-	    }
-	
-	    self.refreshState();
-	  },
-	
-	  /**
-	   * Triggered on <input> blur.
-	   *
-	   * @param {object} e
-	   * @param {Element} dest
-	   */
-	  onBlur: function onBlur(e, dest) {
-	    var self = this;
-	    if (!self.isFocused) return;
-	    self.isFocused = false;
-	    self.ignoreFocus = false;
-	
-	    if (!self.ignoreBlur && document.activeElement === self.dropdown_content) {
-	      // necessary to prevent IE closing the dropdown when the scrollbar is clicked
-	      self.ignoreBlur = true;
-	      self.onFocus(e);
-	      return;
-	    }
-	
-	    var deactivate = function deactivate() {
-	      self.close();
-	      self.setActiveItem(null);
-	      self.setActiveOption(null);
-	      self.setCaret(self.items.length);
-	      self.refreshState(); // IE11 bug: element still marked as active
-	
-	      dest && dest.focus && dest.focus();
-	      self.isBlurring = false;
-	      self.trigger('blur');
-	    };
-	
-	    self.isBlurring = true;
-	
-	    if (self.settings.create && self.settings.createOnBlur) {
-	      self.createItem(null, false, deactivate);
-	    } else {
-	      deactivate();
-	    }
-	  },
-	
-	  /**
-	   * Triggered when the user rolls over
-	   * an option in the autocomplete dropdown menu.
-	   *
-	   * @param {object} e
-	   * @returns {boolean}
-	   */
-	  onOptionHover: function onOptionHover(e) {
-	    if (this.ignoreHover) return;
-	    this.setActiveOption(e.delegateTarget, false);
-	  },
-	
-	  /**
-	   * Triggered when the user clicks on an option
-	   * in the autocomplete dropdown menu.
-	   *
-	   * @param {object} e
-	   * @returns {boolean}
-	   */
-	  onOptionSelect: function onOptionSelect(e) {
-	    var value,
-	        self = this;
-	
-	    if (e.preventDefault) {
-	      e.preventDefault();
-	      e.stopPropagation();
-	    }
-	
-	    var target = e.delegateTarget;
-	
-	    if (!target) {
-	      return;
-	    } // should not be possible to trigger a option under a disabled optgroup
+	      self._destroy = function () {
+	        document.removeEventListener('mousedown', doc_mousedown);
+	        window.removeEventListener('mousemove', win_hover);
+	        window.removeEventListener('sroll', win_scroll);
+	        window.removeEventListener('resize', win_scroll);
+	      }; // store original children and tab index so that they can be
+	      // restored when the destroy() method is called.
 	
 	
-	    if (target.parentNode && target.parentNode.matches('[data-disabled]')) {
-	      return;
-	    }
+	      var children = [];
 	
-	    if (target.classList.contains('create')) {
-	      self.createItem(null, function () {
-	        if (self.settings.closeAfterSelect) {
-	          self.close();
-	        }
-	      });
-	    } else {
-	      value = target.dataset.value;
-	
-	      if (typeof value !== 'undefined') {
-	        self.lastQuery = null;
-	        self.addItem(value);
-	
-	        if (self.settings.closeAfterSelect) {
-	          self.close();
-	        } else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
-	          self.setActiveOption(self.getOption(value));
-	        }
+	      while (input.children.length > 0) {
+	        children.push(input.children[0]);
+	        input.children[0].remove();
 	      }
-	    }
-	  },
 	
-	  /**
-	   * Triggered when the user clicks on an item
-	   * that has been selected.
-	   *
-	   * @param {object} e
-	   * @returns {boolean}
-	   */
-	  onItemSelect: function onItemSelect(e) {
-	    var self = this;
-	    if (self.isLocked) return;
+	      this.revertSettings = {
+	        children: children,
+	        tabindex: input.getAttribute('tabindex')
+	      };
+	      input.setAttribute('tabindex', -1);
+	      input.setAttribute('hidden', 'hidden');
+	      input.insertAdjacentElement('afterend', self.wrapper);
+	      self.setValue(settings.items);
+	      delete settings.items; // feature detect for the validation API
 	
-	    if (self.settings.mode === 'multi') {
-	      e.preventDefault();
-	      self.setActiveItem(e.delegateTarget, e);
-	    }
-	  },
-	
-	  /**
-	   * Invokes the provided method that provides
-	   * results to a callback---which are then added
-	   * as options to the control.
-	   *
-	   * @param {function} fn
-	   */
-	  load: function load(fn) {
-	    var self = this;
-	    addClasses(self.wrapper, self.settings.loadingClass);
-	    self.loading++;
-	    fn.apply(self, [function (options, groups) {
-	      self.loading = Math.max(self.loading - 1, 0); // load groups before options
-	
-	      if (groups && groups.length) {
-	        groups.forEach(function (group) {
-	          self.addOptionGroup(group[self.settings.optgroupValueField], group);
+	      if (self.supportsValidity()) {
+	        input.addEventListener('invalid', function (e) {
+	          e.preventDefault();
+	          self.isInvalid = true;
+	          self.refreshState();
 	        });
 	      }
 	
-	      if (options && options.length) {
-	        self.addOption(options);
-	      } // refresh even if no options so that we can show no_results message
+	      self.updateOriginalInput();
+	      self.refreshItems();
+	      self.refreshState();
+	      self.isSetup = true;
 	
-	
-	      self.refreshOptions(self.isFocused && !self.isInputHidden);
-	
-	      if (!self.loading) {
-	        removeClasses(self.wrapper, self.settings.loadingClass);
+	      if (input.disabled) {
+	        self.disable();
 	      }
 	
-	      self.trigger('load', options);
-	    }]);
-	  },
+	      self.on('change', this.onChange);
+	      addClasses(input, 'tomselected');
+	      self.trigger('initialize'); // preload options
 	
-	  /**
-	   * Debounce the user provided load function
-	   *
-	   */
-	  loadDebounce: function loadDebounce(fn, delay) {
-	    var timeout;
-	    return function () {
+	      if (settings.preload === true) {
+	        self.onSearchChange('');
+	      }
+	    }
+	  }, {
+	    key: "supportsValidity",
+	    value: function supportsValidity() {
+	      return !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;
+	    }
+	    /**
+	     * Register options and optgroups
+	     *
+	     */
+	
+	  }, {
+	    key: "setupOptions",
+	    value: function setupOptions(options, optgroups) {
+	      var i, n;
+	      options = options || [];
+	      optgroups = optgroups || []; // build options table
+	
+	      for (i = 0, n = options.length; i < n; i++) {
+	        this.registerOption(options[i]);
+	      } // build optgroup table
+	
+	
+	      for (i = 0, n = optgroups.length; i < n; i++) {
+	        this.registerOptionGroup(optgroups[i]);
+	      }
+	    }
+	    /**
+	     * Sets up default rendering functions.
+	     */
+	
+	  }, {
+	    key: "setupTemplates",
+	    value: function setupTemplates() {
 	      var self = this;
-	      var args = arguments;
-	
-	      if (timeout) {
-	        self.loading = Math.max(self.loading - 1, 0);
-	      }
-	
-	      window.clearTimeout(timeout);
-	      timeout = window.setTimeout(function () {
-	        timeout = null;
-	        fn.apply(self, args);
-	      }, delay);
-	    };
-	  },
-	
-	  /**
-	   * Sets the input field of the control to the specified value.
-	   *
-	   * @param {string} value
-	   */
-	  setTextboxValue: function setTextboxValue(value) {
-	    var input = this.control_input;
-	    var changed = input.value !== value;
-	
-	    if (changed) {
-	      input.value = value;
-	      triggerEvent(input, 'update');
-	      this.lastValue = value;
-	    }
-	  },
-	
-	  /**
-	   * Returns the value of the control. If multiple items
-	   * can be selected (e.g. <select multiple>), this returns
-	   * an array. If only one item can be selected, this
-	   * returns a string.
-	   *
-	   * @returns {mixed}
-	   */
-	  getValue: function getValue() {
-	    if (this.is_select_tag && this.input.hasAttribute('multiple')) {
-	      return this.items;
-	    } else {
-	      return this.items.join(this.settings.delimiter);
-	    }
-	  },
-	
-	  /**
-	   * Resets the selected items to the given value.
-	   *
-	   * @param {mixed} value
-	   */
-	  setValue: function setValue(value, silent) {
-	    var events = silent ? [] : ['change'];
-	    debounce_events(this, events, function () {
-	      this.clear(silent);
-	      this.addItems(value, silent);
-	    });
-	  },
-	
-	  /**
-	   * Sets the selected item.
-	   *
-	   * @param {object} item
-	   * @param {object} e (optional)
-	   */
-	  setActiveItem: function setActiveItem(item, e) {
-	    var self = this;
-	    var eventName;
-	    var i, begin, end, item, swap;
-	    var last;
-	    if (this.settings.mode === 'single') return; // clear the active selection
-	
-	    if (!item) {
-	      removeClasses(this.activeItems, 'active');
-	      this.activeItems = [];
-	
-	      if (this.isFocused) {
-	        this.showInput();
-	      }
-	
-	      return;
-	    } // modify selection
-	
-	
-	    eventName = e && e.type.toLowerCase();
-	
-	    if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT, e) && this.activeItems.length) {
-	      last = this.getLastActive();
-	      begin = Array.prototype.indexOf.apply(this.control.children, [last]);
-	      end = Array.prototype.indexOf.apply(this.control.children, [item]);
-	
-	      if (begin > end) {
-	        swap = begin;
-	        begin = end;
-	        end = swap;
-	      }
-	
-	      for (i = begin; i <= end; i++) {
-	        item = this.control.children[i];
-	
-	        if (this.activeItems.indexOf(item) === -1) {
-	          this.setActiveItemClass(item);
+	      var field_label = self.settings.labelField;
+	      var field_optgroup = self.settings.optgroupLabelField;
+	      var templates = {
+	        'optgroup': function optgroup(data, escape) {
+	          var optgroup = document.createElement('div');
+	          optgroup.className = 'optgroup';
+	          optgroup.appendChild(data.options);
+	          return optgroup;
+	        },
+	        'optgroup_header': function optgroup_header(data, escape) {
+	          return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
+	        },
+	        'option': function option(data, escape) {
+	          return '<div>' + escape(data[field_label]) + '</div>';
+	        },
+	        'item': function item(data, escape) {
+	          return '<div>' + escape(data[field_label]) + '</div>';
+	        },
+	        'option_create': function option_create(data, escape) {
+	          return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+	        },
+	        'no_results': function no_results(data, escape) {
+	          return '<div class="no-results">No results found</div>';
 	        }
-	      }
-	
-	      e.preventDefault();
-	    } else if (eventName === 'mousedown' && this.isKeyDown(KEY_CTRL, e) || eventName === 'keydown' && this.isKeyDown(KEY_SHIFT, e)) {
-	      if (item.classList.contains('active')) {
-	        this.removeActiveItem(item);
-	      } else {
-	        this.setActiveItemClass(item);
-	      }
-	    } else {
-	      removeClasses(this.activeItems, 'active');
-	      this.activeItems = [];
-	      this.setActiveItemClass(item);
-	    } // ensure control has focus
-	
-	
-	    this.hideInput();
-	
-	    if (!this.isFocused) {
-	      this.focus();
+	      };
+	      self.settings.render = Object.assign({}, templates, self.settings.render);
 	    }
-	  },
+	    /**
+	     * Maps fired events to callbacks provided
+	     * in the settings used when creating the control.
+	     */
 	
-	  /**
-	   * Set the active and last-active classes
-	   *
-	   */
-	  setActiveItemClass: function setActiveItemClass(item) {
-	    var last_active = this.control.querySelector('.last-active');
-	    if (last_active) removeClasses(last_active, 'last-active');
-	    addClasses(item, 'active last-active');
+	  }, {
+	    key: "setupCallbacks",
+	    value: function setupCallbacks() {
+	      var key,
+	          fn,
+	          callbacks = {
+	        'initialize': 'onInitialize',
+	        'change': 'onChange',
+	        'item_add': 'onItemAdd',
+	        'item_remove': 'onItemRemove',
+	        'clear': 'onClear',
+	        'option_add': 'onOptionAdd',
+	        'option_remove': 'onOptionRemove',
+	        'option_clear': 'onOptionClear',
+	        'optgroup_add': 'onOptionGroupAdd',
+	        'optgroup_remove': 'onOptionGroupRemove',
+	        'optgroup_clear': 'onOptionGroupClear',
+	        'dropdown_open': 'onDropdownOpen',
+	        'dropdown_close': 'onDropdownClose',
+	        'type': 'onType',
+	        'load': 'onLoad',
+	        'focus': 'onFocus',
+	        'blur': 'onBlur'
+	      };
 	
-	    if (this.activeItems.indexOf(item) == -1) {
-	      this.activeItems.push(item);
-	    }
-	  },
-	
-	  /**
-	   * Remove active item
-	   *
-	   */
-	  removeActiveItem: function removeActiveItem(item) {
-	    var idx = this.activeItems.indexOf(item);
-	    this.activeItems.splice(idx, 1);
-	    removeClasses(item, 'active');
-	  },
-	
-	  /**
-	   * Sets the selected item in the dropdown menu
-	   * of available options.
-	   *
-	   * @param {object} option
-	   * @param {boolean} scroll
-	   */
-	  setActiveOption: function setActiveOption(option, scroll) {
-	    var height_menu, height_item, y;
-	
-	    if (option === this.activeOption) {
-	      return;
-	    }
-	
-	    if (this.activeOption) removeClasses(this.activeOption, 'active');
-	    this.activeOption = null;
-	    if (!option) return;
-	    this.activeOption = option;
-	    addClasses(option, 'active');
-	
-	    if (scroll || !isset(scroll)) {
-	      height_menu = this.dropdown_content.clientHeight;
-	      scroll = this.dropdown_content.scrollTop || 0;
-	      height_item = this.activeOption.offsetHeight;
-	      y = this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scroll;
-	
-	      if (y + height_item > height_menu + scroll) {
-	        this.dropdown_content.scrollTop = y - height_menu + height_item;
-	      } else if (y < scroll) {
-	        this.dropdown_content.scrollTop = y;
+	      for (key in callbacks) {
+	        fn = this.settings[callbacks[key]];
+	        if (fn) this.on(key, fn);
 	      }
 	    }
-	  },
+	    /**
+	     * Triggered when the main control element
+	     * has a click event.
+	     *
+	     * @param {object} e
+	     * @return {boolean}
+	     */
 	
-	  /**
-	   * Selects all items (CTRL + A).
-	   */
-	  selectAll: function selectAll() {
-	    var i, n;
-	    if (this.settings.mode === 'single') return;
-	    this.activeItems = this.controlChildren();
-	    n = this.activeItems.length;
+	  }, {
+	    key: "onClick",
+	    value: function onClick(e) {
+	      var self = this; // necessary for mobile webkit devices (manual focus triggering
+	      // is ignored unless invoked within a click event)
+	      // also necessary to reopen a dropdown that has been closed by
+	      // closeAfterSelect
 	
-	    if (n) {
-	      addClasses(this.activeItems, 'active');
-	      this.hideInput();
-	      this.close();
-	    }
-	
-	    this.focus();
-	  },
-	
-	  /**
-	   * Hides the input element out of view, while
-	   * retaining its focus.
-	   */
-	  hideInput: function hideInput() {
-	    if (this.settings.controlInput) return;
-	    this.setTextboxValue('');
-	    applyCSS(this.control_input, {
-	      opacity: 0,
-	      position: 'absolute',
-	      left: (this.rtl ? 10000 : -10000) + 'px'
-	    });
-	    this.isInputHidden = true;
-	  },
-	
-	  /**
-	   * Restores input visibility.
-	   */
-	  showInput: function showInput() {
-	    if (this.settings.controlInput) return;
-	    applyCSS(this.control_input, {
-	      opacity: 1,
-	      position: 'relative',
-	      left: 0
-	    });
-	    this.isInputHidden = false;
-	  },
-	
-	  /**
-	   * Get the input value
-	   */
-	  inputValue: function inputValue() {
-	    return this.control_input.value.trim();
-	  },
-	
-	  /**
-	   * Gives the control focus.
-	   */
-	  focus: function focus() {
-	    var self = this;
-	    if (self.isDisabled) return;
-	    self.ignoreFocus = true;
-	    self.control_input.focus();
-	    window.setTimeout(function () {
-	      self.ignoreFocus = false;
-	      self.onFocus();
-	    }, 0);
-	  },
-	
-	  /**
-	   * Forces the control out of focus.
-	   *
-	   * @param {Element} dest
-	   */
-	  blur: function blur(dest) {
-	    this.control_input.blur();
-	    this.onBlur(null, dest);
-	  },
-	
-	  /**
-	   * Returns a function that scores an object
-	   * to show how good of a match it is to the
-	   * provided query.
-	   *
-	   * @param {string} query
-	   * @param {object} options
-	   * @return {function}
-	   */
-	  getScoreFunction: function getScoreFunction(query) {
-	    return this.sifter.getScoreFunction(query, this.getSearchOptions());
-	  },
-	
-	  /**
-	   * Returns search options for sifter (the system
-	   * for scoring and sorting results).
-	   *
-	   * @see https://github.com/brianreavis/sifter.js
-	   * @return {object}
-	   */
-	  getSearchOptions: function getSearchOptions() {
-	    var settings = this.settings;
-	    var sort = settings.sortField;
-	
-	    if (typeof sort === 'string') {
-	      sort = [{
-	        field: sort
-	      }];
-	    }
-	
-	    return {
-	      fields: settings.searchField,
-	      conjunction: settings.searchConjunction,
-	      sort: sort,
-	      nesting: settings.nesting
-	    };
-	  },
-	
-	  /**
-	   * Searches through available options and returns
-	   * a sorted array of matches.
-	   *
-	   * Returns an object containing:
-	   *
-	   *   - query {string}
-	   *   - tokens {array}
-	   *   - total {int}
-	   *   - items {array}
-	   *
-	   * @param {string} query
-	   * @returns {object}
-	   */
-	  search: function search(query) {
-	    var i, value, score, result, calculateScore;
-	    var self = this;
-	    var settings = self.settings;
-	    var options = this.getSearchOptions(); // validate user-provided result scoring function
-	
-	    if (settings.score) {
-	      calculateScore = self.settings.score.apply(this, [query]);
-	
-	      if (typeof calculateScore !== 'function') {
-	        throw new Error('Tom Select "score" setting must be a function that returns a function');
-	      }
-	    } // perform search
-	
-	
-	    if (query !== self.lastQuery) {
-	      self.lastQuery = query;
-	      result = self.sifter.search(query, Object.assign(options, {
-	        score: calculateScore
-	      }));
-	      self.currentResults = result;
-	    } else {
-	      result = extend({}, self.currentResults);
-	    } // filter out selected items
-	
-	
-	    if (settings.hideSelected) {
-	      for (i = result.items.length - 1; i >= 0; i--) {
-	        if (self.items.indexOf(hash_key(result.items[i].id)) !== -1) {
-	          result.items.splice(i, 1);
-	        }
+	      if (!self.isFocused || !self.isOpen) {
+	        self.focus();
+	        e.preventDefault();
 	      }
 	    }
+	    /**
+	     * Triggered when the main control element
+	     * has a mouse down event.
+	     *
+	     * @param {object} e
+	     * @return {boolean}
+	     */
 	
-	    return result;
-	  },
+	  }, {
+	    key: "onMouseDown",
+	    value: function onMouseDown(e) {
+	      var self = this;
 	
-	  /**
-	   * Refreshes the list of available options shown
-	   * in the autocomplete dropdown menu.
-	   *
-	   * @param {boolean} triggerDropdown
-	   */
-	  refreshOptions: function refreshOptions(triggerDropdown) {
-	    var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
-	    var active, active_before, create;
-	
-	    if (typeof triggerDropdown === 'undefined') {
-	      triggerDropdown = true;
-	    }
-	
-	    var self = this;
-	    var query = self.inputValue();
-	    var results = self.search(query);
-	    var active_before_hash = self.activeOption && hash_key(self.activeOption.dataset.value);
-	    var show_dropdown = false; // build markup
-	
-	    n = results.items.length;
-	
-	    if (typeof self.settings.maxOptions === 'number') {
-	      n = Math.min(n, self.settings.maxOptions);
-	    }
-	
-	    if (n > 0) {
-	      show_dropdown = true;
-	    } // render and group available options individually
-	
-	
-	    groups = {};
-	    groups_order = [];
-	
-	    for (i = 0; i < n; i++) {
-	      // get option dom element, don't re-render if we
-	      var option = self.options[results.items[i].id];
-	      var opt_value = hash_key(option[self.settings.valueField]);
-	      var option_el = self.getOption(opt_value);
-	
-	      if (!option_el) {
-	        option_el = self.render('option', option);
-	      }
-	
-	      optgroup = option[self.settings.optgroupField] || '';
-	      optgroups = Array.isArray(optgroup) ? optgroup : [optgroup];
-	
-	      for (j = 0, k = optgroups && optgroups.length; j < k; j++) {
-	        optgroup = optgroups[j];
-	
-	        if (!self.optgroups.hasOwnProperty(optgroup)) {
-	          optgroup = '';
-	        }
-	
-	        if (!groups.hasOwnProperty(optgroup)) {
-	          groups[optgroup] = document.createDocumentFragment();
-	          groups_order.push(optgroup);
-	        } // a child could only have one parent, so if you have more parents clone the child
-	
-	
-	        if (j > 0) {
-	          option_el = option_el.cloneNode(true);
-	          removeClasses(option_el, 'active');
-	        }
-	
-	        groups[optgroup].appendChild(option_el);
-	      }
-	    } // sort optgroups
-	
-	
-	    if (this.settings.lockOptgroupOrder) {
-	      groups_order.sort(function (a, b) {
-	        var a_order = self.optgroups[a].$order || 0;
-	        var b_order = self.optgroups[b].$order || 0;
-	        return a_order - b_order;
-	      });
-	    } // render optgroup headers & join groups
-	
-	
-	    html = document.createDocumentFragment();
-	
-	    for (i = 0, n = groups_order.length; i < n; i++) {
-	      optgroup = groups_order[i];
-	
-	      if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
-	        var group_html = self.render('optgroup', self.optgroups[optgroup]);
-	        group_html.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
-	        group_html.appendChild(groups[optgroup]);
-	        html.appendChild(group_html);
-	      } else {
-	        html.appendChild(groups[optgroup]);
-	      }
-	    }
-	
-	    self.dropdown_content.innerHTML = '';
-	    self.dropdown_content.appendChild(html); // highlight matching terms inline
-	
-	    if (self.settings.highlight) {
-	      removeHighlight(self.dropdown_content);
-	
-	      if (results.query.length && results.tokens.length) {
-	        for (i = 0, n = results.tokens.length; i < n; i++) {
-	          highlight(self.dropdown_content, results.tokens[i].regex);
-	        }
-	      }
-	    } // add "selected" class to selected options
-	
-	
-	    if (!self.settings.hideSelected) {
-	      for (i = 0, n = self.items.length; i < n; i++) {
-	        var _option = self.getOption(self.items[i]);
-	
-	        if (_option) {
-	          addClasses(_option, 'selected');
-	        }
-	      }
-	    } // add no_results message
-	
-	
-	    if (results.items.length === 0 && self.settings.render['no_results'] && !self.loading && query.length) {
-	      var msg = self.render('no_results', {
-	        input: query
-	      });
-	      show_dropdown = true;
-	      self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
-	    } // add create option
-	
-	
-	    has_create_option = self.canCreate(query);
-	
-	    if (has_create_option) {
-	      show_dropdown = true;
-	      create = self.render('option_create', {
-	        input: query
-	      });
-	      self.dropdown_content.insertBefore(create, self.dropdown_content.firstChild);
-	    } // activate
-	
-	
-	    self.hasOptions = results.items.length > 0 || has_create_option;
-	
-	    if (show_dropdown) {
-	      if (results.items.length > 0) {
-	        active_before = active_before_hash && self.getOption(active_before_hash);
-	
-	        if (active_before && self.dropdown_content.contains(active_before)) {
-	          active = active_before;
-	        } else if (self.settings.mode === 'single' && self.items.length) {
-	          active = self.getOption(self.items[0]);
-	        } else {
-	          var active_index = 0;
-	
-	          if (create && !self.settings.addPrecedence) {
-	            active_index = 1;
+	      if (self.isFocused) {
+	        // retain focus by preventing native handling. if the
+	        // event target is the input it should not be modified.
+	        // otherwise, text selection within the input won't work.
+	        if (e.target !== self.control_input) {
+	          if (self.settings.mode === 'single') {
+	            // toggle dropdown
+	            self.isOpen ? self.close() : self.open();
+	          } else {
+	            self.setActiveItem(null);
 	          }
 	
-	          active = self.selectable()[active_index];
+	          return false;
 	        }
 	      } else {
-	        active = create;
-	      }
-	
-	      self.setActiveOption(active);
-	
-	      if (triggerDropdown && !self.isOpen) {
-	        self.open();
-	      }
-	    } else {
-	      self.setActiveOption(null);
-	
-	      if (triggerDropdown && self.isOpen) {
-	        self.close();
+	        // give control focus
+	        window.setTimeout(function () {
+	          self.focus();
+	        }, 0);
 	      }
 	    }
-	  },
+	    /**
+	     * Triggered when the value of the control has been changed.
+	     * This should propagate the event to the original DOM
+	     * input / select element.
+	     */
 	
-	  /**
-	   * Return list of selectable options
-	   *
-	   */
-	  selectable: function selectable() {
-	    return this.dropdown_content.querySelectorAll('[data-selectable]');
-	  },
-	
-	  /**
-	   * Adds an available option. If it already exists,
-	   * nothing will happen. Note: this does not refresh
-	   * the options list dropdown (use `refreshOptions`
-	   * for that).
-	   *
-	   * Usage:
-	   *
-	   *   this.addOption(data)
-	   *
-	   * @param {object|array} data
-	   */
-	  addOption: function addOption(data) {
-	    var i,
-	        n,
-	        value,
-	        self = this;
-	
-	    if (Array.isArray(data)) {
-	      for (i = 0, n = data.length; i < n; i++) {
-	        self.addOption(data[i]);
-	      }
-	
-	      return;
+	  }, {
+	    key: "onChange",
+	    value: function onChange() {
+	      triggerEvent(this.input, 'change');
 	    }
+	    /**
+	     * Triggered on <input> paste.
+	     *
+	     * @param {object} e
+	     * @returns {boolean}
+	     */
 	
-	    if (value = self.registerOption(data)) {
-	      self.userOptions[value] = true;
-	      self.lastQuery = null;
-	      self.trigger('option_add', value, data);
-	    }
-	  },
-	
-	  /**
-	   * Registers an option to the pool of options.
-	   *
-	   * @param {object} data
-	   * @return {boolean|string}
-	   */
-	  registerOption: function registerOption(data) {
-	    var key = hash_key(data[this.settings.valueField]);
-	    if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
-	    data.$order = data.$order || ++this.order;
-	    this.options[key] = data;
-	    return key;
-	  },
-	
-	  /**
-	   * Registers an option group to the pool of option groups.
-	   *
-	   * @param {object} data
-	   * @return {boolean|string}
-	   */
-	  registerOptionGroup: function registerOptionGroup(data) {
-	    var key = hash_key(data[this.settings.optgroupValueField]);
-	    if (!key) return false;
-	    data.$order = data.$order || ++this.order;
-	    this.optgroups[key] = data;
-	    return key;
-	  },
-	
-	  /**
-	   * Registers a new optgroup for options
-	   * to be bucketed into.
-	   *
-	   * @param {string} id
-	   * @param {object} data
-	   */
-	  addOptionGroup: function addOptionGroup(id, data) {
-	    data[this.settings.optgroupValueField] = id;
-	
-	    if (id = this.registerOptionGroup(data)) {
-	      this.trigger('optgroup_add', id, data);
-	    }
-	  },
-	
-	  /**
-	   * Removes an existing option group.
-	   *
-	   * @param {string} id
-	   */
-	  removeOptionGroup: function removeOptionGroup(id) {
-	    if (this.optgroups.hasOwnProperty(id)) {
-	      delete this.optgroups[id];
-	      this.clearCache();
-	      this.trigger('optgroup_remove', id);
-	    }
-	  },
-	
-	  /**
-	   * Clears all existing option groups.
-	   */
-	  clearOptionGroups: function clearOptionGroups() {
-	    this.optgroups = {};
-	    this.clearCache();
-	    this.trigger('optgroup_clear');
-	  },
-	
-	  /**
-	   * Updates an option available for selection. If
-	   * it is visible in the selected items or options
-	   * dropdown, it will be re-rendered automatically.
-	   *
-	   * @param {string} value
-	   * @param {object} data
-	   */
-	  updateOption: function updateOption(value, data) {
-	    var self = this;
-	    var item, item_new;
-	    var value_new, index_item, cache_items, cache_options, order_old;
-	    value = hash_key(value);
-	    value_new = hash_key(data[self.settings.valueField]); // sanity checks
-	
-	    if (value === null) return;
-	    if (!self.options.hasOwnProperty(value)) return;
-	    if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
-	    order_old = self.options[value].$order; // update references
-	
-	    if (value_new !== value) {
-	      delete self.options[value];
-	      index_item = self.items.indexOf(value);
-	
-	      if (index_item !== -1) {
-	        self.items.splice(index_item, 1, value_new);
-	      }
-	    }
-	
-	    data.$order = data.$order || order_old;
-	    self.options[value_new] = data; // invalidate render cache
-	
-	    cache_items = self.renderCache['item'];
-	    cache_options = self.renderCache['option'];
-	
-	    if (cache_items) {
-	      delete cache_items[value];
-	      delete cache_items[value_new];
-	    }
-	
-	    if (cache_options) {
-	      delete cache_options[value];
-	      delete cache_options[value_new];
-	    } // update the item if it's selected
-	
-	
-	    if (self.items.indexOf(value_new) !== -1) {
-	      item = self.getItem(value);
-	      item_new = self.render('item', data);
-	      if (item.classList.contains('active')) addClasses(item_new, 'active');
-	      item.parentNode.insertBefore(item_new, item);
-	      item.remove();
-	    } // invalidate last query because we might have updated the sortField
-	
-	
-	    self.lastQuery = null; // update dropdown contents
-	
-	    if (self.isOpen) {
-	      self.refreshOptions(false);
-	    }
-	  },
-	
-	  /**
-	   * Removes a single option.
-	   *
-	   * @param {string} value
-	   * @param {boolean} silent
-	   */
-	  removeOption: function removeOption(value, silent) {
-	    var self = this;
-	    value = hash_key(value);
-	    var cache_items = self.renderCache['item'];
-	    var cache_options = self.renderCache['option'];
-	    if (cache_items) delete cache_items[value];
-	    if (cache_options) delete cache_options[value];
-	    delete self.userOptions[value];
-	    delete self.options[value];
-	    self.lastQuery = null;
-	    self.trigger('option_remove', value);
-	    self.removeItem(value, silent);
-	  },
-	
-	  /**
-	   * Clears all options.
-	   */
-	  clearOptions: function clearOptions() {
-	    this.loadedSearches = {};
-	    this.userOptions = {};
-	    this.clearCache();
-	    var selected = {};
-	
-	    for (key in this.options) {
-	      if (this.options.hasOwnProperty(key) && this.items.indexOf(key) >= 0) {
-	        selected[key] = this.options[key];
-	      }
-	    }
-	
-	    this.options = this.sifter.items = selected;
-	    this.lastQuery = null;
-	    this.trigger('option_clear');
-	  },
-	
-	  /**
-	   * Returns the dom element of the option
-	   * matching the given value.
-	   *
-	   * @param {string} value
-	   * @returns {object}
-	   */
-	  getOption: function getOption(value) {
-	    // cached ?
-	    if (this.renderCache['option'].hasOwnProperty(value)) {
-	      return this.renderCache['option'][value];
-	    } // from existing dropdown menu dom
-	
-	
-	    return this.getElementWithValue(value, this.selectable());
-	  },
-	
-	  /**
-	   * Returns the dom element of the next or previous dom element of the same type
-	   *
-	   * @param {object} option
-	   * @param {int} direction  can be 1 for next or -1 for previous
-	   * @param {string} type
-	   * @return {object|undefined}
-	   */
-	  getAdjacent: function getAdjacent(option, direction) {
-	    var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'option';
-	
-	    if (!option) {
-	      return;
-	    }
-	
-	    var self = this;
-	    var type_class = self.settings.optionClass;
-	    var parent = self.dropdown;
-	
-	    if (type == 'item') {
-	      parent = self.control;
-	      type_class = self.settings.itemClass;
-	    }
-	
-	    var all = parent.querySelectorAll('.' + type_class);
-	
-	    for (var i = 0; i < all.length; i++) {
-	      if (all[i] != option) {
-	        continue;
-	      }
-	
-	      if (direction > 0) {
-	        return all[i + 1];
-	      }
-	
-	      return all[i - 1];
-	    }
-	  },
-	
-	  /**
-	   * Finds the first element with a "data-value" attribute
-	   * that matches the given value.
-	   *
-	   * @param {mixed} value
-	   * @param {object} els
-	   * @return {object}
-	   */
-	  getElementWithValue: function getElementWithValue(value, els) {
-	    value = hash_key(value);
-	
-	    if (typeof value !== 'undefined' && value !== null) {
-	      for (var i = 0, n = els.length; i < n; i++) {
-	        if (els[i].getAttribute('data-value') === value) {
-	          return els[i];
-	        }
-	      }
-	    }
-	  },
-	
-	  /**
-	   * Returns the dom element of the item
-	   * matching the given value.
-	   *
-	   * @param {string} value
-	   * @returns {object}
-	   */
-	  getItem: function getItem(value) {
-	    return this.getElementWithValue(value, this.control.children);
-	  },
-	
-	  /**
-	   * "Selects" multiple items at once. Adds them to the list
-	   * at the current caret position.
-	   *
-	   * @param {string} value
-	   * @param {boolean} silent
-	   */
-	  addItems: function addItems(values, silent) {
-	    this.buffer = document.createDocumentFragment();
-	    var children = this.control.children;
-	
-	    for (var i = 0; i < children.length; i++) {
-	      this.buffer.appendChild(children[i]);
-	    }
-	
-	    var items = Array.isArray(values) ? values : [values];
-	
-	    for (var i = 0, n = items.length; i < n; i++) {
-	      this.isPending = i < n - 1;
-	      this.addItem(items[i], silent);
-	    }
-	
-	    var control = this.control;
-	    control.insertBefore(this.buffer, control.firstChild);
-	    this.buffer = null;
-	  },
-	
-	  /**
-	   * "Selects" an item. Adds it to the list
-	   * at the current caret position.
-	   *
-	   * @param {string} value
-	   * @param {boolean} silent
-	   */
-	  addItem: function addItem(value, silent) {
-	    var events = silent ? [] : ['change'];
-	    debounce_events(this, events, function () {
-	      var item;
+	  }, {
+	    key: "onPaste",
+	    value: function onPaste(e) {
 	      var self = this;
-	      var inputMode = self.settings.mode;
-	      var i, active, wasFull;
-	      value = hash_key(value);
 	
-	      if (self.items.indexOf(value) !== -1) {
-	        if (inputMode === 'single') {
-	          self.close();
+	      if (self.isFull() || self.isInputHidden || self.isLocked) {
+	        e.preventDefault();
+	        return;
+	      } // If a regex or string is included, this will split the pasted
+	      // input and create Items for each separate value
+	
+	
+	      if (self.settings.splitOn) {
+	        // Wait for pasted text to be recognized in value
+	        setTimeout(function () {
+	          var pastedText = self.inputValue();
+	
+	          if (!pastedText.match(self.settings.splitOn)) {
+	            return;
+	          }
+	
+	          var splitInput = pastedText.trim().split(self.settings.splitOn);
+	
+	          for (var i = 0, n = splitInput.length; i < n; i++) {
+	            self.createItem(splitInput[i]);
+	          }
+	        }, 0);
+	      }
+	    }
+	    /**
+	     * Triggered on <input> keypress.
+	     *
+	     * @param {object} e
+	     * @returns {boolean}
+	     */
+	
+	  }, {
+	    key: "onKeyPress",
+	    value: function onKeyPress(e) {
+	      if (this.isLocked) return e && e.preventDefault();
+	      var character = String.fromCharCode(e.keyCode || e.which);
+	
+	      if (this.settings.create && this.settings.mode === 'multi' && character === this.settings.delimiter) {
+	        this.createItem();
+	        e.preventDefault();
+	        return false;
+	      }
+	    }
+	    /**
+	     * Triggered on <input> keydown.
+	     *
+	     * @param {object} e
+	     * @returns {boolean}
+	     */
+	
+	  }, {
+	    key: "onKeyDown",
+	    value: function onKeyDown(e) {
+	      var isInput = e.target === this.control_input;
+	      var self = this;
+	
+	      if (self.isLocked) {
+	        if (e.keyCode !== KEY_TAB) {
+	          e.preventDefault();
 	        }
 	
-	        if (inputMode === 'single' || !self.settings.duplicates) {
+	        return;
+	      }
+	
+	      switch (e.keyCode) {
+	        // cmd+A: select all
+	        case KEY_A:
+	          if (self.isKeyDown(KEY_CTRL, e)) {
+	            self.selectAll();
+	            return;
+	          }
+	
+	          break;
+	        // esc: close dropdown
+	
+	        case KEY_ESC:
+	          if (self.isOpen) {
+	            e.preventDefault();
+	            e.stopPropagation();
+	            self.close();
+	          }
+	
 	          return;
-	        }
-	      }
+	        // down: open dropdown or move selection down
 	
-	      if (!self.options.hasOwnProperty(value)) return;
-	      if (inputMode === 'single') self.clear(silent);
-	      if (inputMode === 'multi' && self.isFull()) return;
-	      item = self.render('item', self.options[value]);
-	
-	      if (this.control.contains(item)) {
-	        // duplicates
-	        item = item.cloneNode(true);
-	      }
-	
-	      wasFull = self.isFull();
-	      self.items.splice(self.caretPos, 0, value);
-	      self.insertAtCaret(item);
-	
-	      if (!self.isPending || !wasFull && self.isFull()) {
-	        self.refreshState();
-	      }
-	
-	      if (self.isSetup) {
-	        var options = self.selectable(); // update menu / remove the option (if this is not one item being added as part of series)
-	
-	        if (!self.isPending) {
-	          var option = self.getOption(value);
-	          var next = self.getAdjacent(option, 1);
-	          self.refreshOptions(self.isFocused && inputMode !== 'single');
-	
-	          if (next) {
-	            self.setActiveOption(next);
+	        case KEY_DOWN:
+	          if (!self.isOpen && self.hasOptions) {
+	            self.open();
+	          } else if (self.activeOption) {
+	            self.ignoreHover = true;
+	            var next = self.getAdjacent(self.activeOption, 1);
+	            if (next) self.setActiveOption(next, true);
 	          }
-	        } // hide the menu if the maximum number of items have been selected or no options are left
 	
+	          e.preventDefault();
+	          return;
+	        // up: move selection up
 	
-	        if (!options.length || self.isFull()) {
-	          self.close();
-	        } else if (!self.isPending) {
-	          self.positionDropdown();
-	        }
+	        case KEY_UP:
+	          if (self.activeOption) {
+	            self.ignoreHover = true;
+	            var prev = self.getAdjacent(self.activeOption, -1);
+	            if (prev) self.setActiveOption(prev, true);
+	          }
 	
-	        self.trigger('item_add', value, item);
+	          e.preventDefault();
+	          return;
+	        // return: select active option
 	
-	        if (!self.isPending) {
-	          self.updateOriginalInput({
-	            silent: silent
-	          });
-	        }
+	        case KEY_RETURN:
+	          if (self.isOpen && self.activeOption) {
+	            self.onOptionSelect({
+	              delegateTarget: self.activeOption
+	            });
+	            e.preventDefault();
+	          }
+	
+	          return;
+	        // left: modifiy item selection to the left
+	
+	        case KEY_LEFT:
+	          self.advanceSelection(-1, e);
+	          return;
+	        // right: modifiy item selection to the right
+	
+	        case KEY_RIGHT:
+	          self.advanceSelection(1, e);
+	          return;
+	        // tab: select active option and/or create item
+	
+	        case KEY_TAB:
+	          if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
+	            self.onOptionSelect({
+	              delegateTarget: self.activeOption
+	            }); // prevent default [tab] behaviour of jump to the next field
+	            // if select isFull, then the dropdown won't be open and [tab] will work normally
+	
+	            e.preventDefault();
+	          }
+	
+	          if (self.settings.create && self.createItem()) {
+	            e.preventDefault();
+	          }
+	
+	          return;
+	        // delete|backspace: delete items
+	
+	        case KEY_BACKSPACE:
+	        case KEY_DELETE:
+	          self.deleteSelection(e);
+	          return;
 	      }
-	    });
-	  },
 	
-	  /**
-	   * Removes the selected item matching
-	   * the provided value.
-	   *
-	   * @param {string} value
-	   */
-	  removeItem: function removeItem(value, silent) {
-	    var i, idx;
-	    var item = this.getItem(value);
-	    if (!item) return;
-	    value = hash_key(item.dataset.value);
-	    i = this.items.indexOf(value);
-	
-	    if (i !== -1) {
-	      item.remove();
-	
-	      if (item.classList.contains('active')) {
-	        idx = this.activeItems.indexOf(item);
-	        this.activeItems.splice(idx, 1);
-	        removeClasses(item, 'active');
+	      if (self.isInputHidden && !self.isKeyDown(KEY_CTRL, e)) {
+	        e.preventDefault();
+	        return;
 	      }
+	    }
+	    /**
+	     * Triggered on <input> keyup.
+	     *
+	     * @param {object} e
+	     * @returns {boolean}
+	     */
 	
-	      this.items.splice(i, 1);
-	      this.lastQuery = null;
+	  }, {
+	    key: "onKeyUp",
+	    value: function onKeyUp(e) {
+	      var self = this;
+	      if (self.isLocked) return e && e.preventDefault();
+	      var value = self.inputValue();
 	
-	      if (!this.settings.persist && this.userOptions.hasOwnProperty(value)) {
-	        this.removeOption(value, silent);
+	      if (self.lastValue !== value) {
+	        self.lastValue = value;
+	        self.onSearchChange(value);
+	        self.refreshOptions();
+	        self.trigger('type', value);
 	      }
+	    }
+	    /**
+	     * Invokes the user-provide option provider / loader.
+	     *
+	     * @param {string} value
+	     */
 	
-	      if (i < this.caretPos) {
-	        this.setCaret(this.caretPos - 1);
-	      }
-	
-	      this.refreshState();
-	      this.updateOriginalInput({
-	        silent: silent
+	  }, {
+	    key: "onSearchChange",
+	    value: function onSearchChange(value) {
+	      var self = this;
+	      var fn = self.settings.load;
+	      if (!fn) return;
+	      if (self.loadedSearches.hasOwnProperty(value)) return;
+	      self.loadedSearches[value] = true;
+	      self.load(function (callback) {
+	        fn.apply(self, [value, callback]);
 	      });
-	      this.positionDropdown();
-	      this.trigger('item_remove', value, item);
 	    }
-	  },
+	    /**
+	     * Triggered on <input> focus.
+	     *
+	     * @param {object} e (optional)
+	     * @returns {boolean}
+	     */
 	
-	  /**
-	   * Invokes the `create` method provided in the
-	   * TomSelect options that should provide the data
-	   * for the new item, given the user input.
-	   *
-	   * Once this completes, it will be added
-	   * to the item list.
-	   *
-	   * @param {string} value
-	   * @param {boolean} [triggerDropdown]
-	   * @param {function} [callback]
-	   * @return {boolean}
-	   */
-	  createItem: function createItem(input, triggerDropdown) {
-	    var self = this;
-	    var caret = self.caretPos;
-	    input = input || self.inputValue();
-	    var callback = arguments[arguments.length - 1];
-	    if (typeof callback !== 'function') callback = function callback() {};
+	  }, {
+	    key: "onFocus",
+	    value: function onFocus(e) {
+	      var self = this;
+	      var wasFocused = self.isFocused;
 	
-	    if (typeof triggerDropdown !== 'boolean') {
-	      triggerDropdown = true;
-	    }
-	
-	    if (!self.canCreate(input)) {
-	      callback();
-	      return false;
-	    }
-	
-	    self.lock();
-	    var setup = typeof self.settings.create === 'function' ? this.settings.create : function (input) {
-	      var data = {};
-	      data[self.settings.labelField] = input;
-	      data[self.settings.valueField] = input;
-	      return data;
-	    };
-	    var create = once(function (data) {
-	      self.unlock();
-	      if (!data || _typeof(data) !== 'object') return callback();
-	      var value = hash_key(data[self.settings.valueField]);
-	
-	      if (typeof value !== 'string') {
-	        return callback();
+	      if (self.isDisabled) {
+	        self.blur();
+	        e && e.preventDefault();
+	        return false;
 	      }
 	
-	      self.setTextboxValue('');
-	      self.addOption(data);
-	      self.setCaret(caret);
-	      self.addItem(value);
-	      self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
-	      callback(data);
-	    });
-	    var output = setup.apply(this, [input, create]);
+	      if (self.ignoreFocus) return;
+	      self.isFocused = true;
+	      if (self.settings.preload === 'focus') self.onSearchChange('');
+	      if (!wasFocused) self.trigger('focus');
 	
-	    if (typeof output !== 'undefined') {
-	      create(output);
-	    }
-	
-	    return true;
-	  },
-	
-	  /**
-	   * Re-renders the selected item lists.
-	   */
-	  refreshItems: function refreshItems() {
-	    this.lastQuery = null;
-	
-	    if (this.isSetup) {
-	      this.addItem(this.items);
-	    }
-	
-	    this.refreshState();
-	    this.updateOriginalInput();
-	  },
-	
-	  /**
-	   * Updates all state-dependent attributes
-	   * and CSS classes.
-	   */
-	  refreshState: function refreshState() {
-	    var self = this;
-	    self.refreshValidityState();
-	    var isFull = self.isFull();
-	    var isLocked = self.isLocked;
-	    self.wrapper.classList.toggle('rtl', self.rtl);
-	    var classList = self.control.classList;
-	    classList.toggle('focus', self.isFocused);
-	    classList.toggle('disabled', self.isDisabled);
-	    classList.toggle('required', self.isRequired);
-	    classList.toggle('invalid', self.isInvalid);
-	    classList.toggle('locked', isLocked);
-	    classList.toggle('full', isFull);
-	    classList.toggle('not-full', !isFull);
-	    classList.toggle('input-active', self.isFocused && !self.isInputHidden);
-	    classList.toggle('dropdown-active', self.isOpen);
-	    classList.toggle('has-options', isEmptyObject(self.options));
-	    classList.toggle('has-items', self.items.length > 0);
-	  },
-	
-	  /**
-	   * Update the `required` attribute of both input and control input.
-	   *
-	   * The `required` property needs to be activated on the control input
-	   * for the error to be displayed at the right place. `required` also
-	   * needs to be temporarily deactivated on the input since the input is
-	   * hidden and can't show errors.
-	   */
-	  refreshValidityState: function refreshValidityState() {
-	    if (!this.isRequired) return false;
-	    var invalid = !this.items.length;
-	    this.isInvalid = invalid;
-	    this.control_input.required = invalid;
-	    this.input.required = !invalid;
-	  },
-	
-	  /**
-	   * Determines whether or not more items can be added
-	   * to the control without exceeding the user-defined maximum.
-	   *
-	   * @returns {boolean}
-	   */
-	  isFull: function isFull() {
-	    return this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
-	  },
-	
-	  /**
-	   * Refreshes the original <select> or <input>
-	   * element to reflect the current state.
-	   */
-	  updateOriginalInput: function updateOriginalInput(opts) {
-	    var i,
-	        n,
-	        options,
-	        label,
-	        self = this;
-	    opts = opts || {};
-	
-	    if (self.is_select_tag) {
-	      options = [];
-	
-	      for (i = 0, n = self.items.length; i < n; i++) {
-	        label = self.options[self.items[i]][self.settings.labelField] || '';
-	        options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
+	      if (!self.activeItems.length) {
+	        self.showInput();
+	        self.setActiveItem(null);
+	        self.refreshOptions(!!self.settings.openOnFocus);
 	      }
 	
-	      if (!options.length && !this.input.hasAttribute('multiple')) {
-	        options.push('<option value="" selected="selected"></option>');
+	      self.refreshState();
+	    }
+	    /**
+	     * Triggered on <input> blur.
+	     *
+	     * @param {object} e
+	     * @param {Element} dest
+	     */
+	
+	  }, {
+	    key: "onBlur",
+	    value: function onBlur(e, dest) {
+	      var self = this;
+	      if (!self.isFocused) return;
+	      self.isFocused = false;
+	      self.ignoreFocus = false;
+	
+	      if (!self.ignoreBlur && document.activeElement === self.dropdown_content) {
+	        // necessary to prevent IE closing the dropdown when the scrollbar is clicked
+	        self.ignoreBlur = true;
+	        self.onFocus(e);
+	        return;
 	      }
 	
-	      self.input.innerHTML = options.join('');
-	    } else {
-	      self.input.value = self.getValue();
-	      self.input.setAttribute('value', self.input.value);
-	    }
+	      var deactivate = function deactivate() {
+	        self.close();
+	        self.setActiveItem(null);
+	        self.setActiveOption(null);
+	        self.setCaret(self.items.length);
+	        self.refreshState(); // IE11 bug: element still marked as active
 	
-	    if (self.isSetup) {
-	      if (!opts.silent) {
-	        self.trigger('change', self.input.value);
+	        dest && dest.focus && dest.focus();
+	        self.isBlurring = false;
+	        self.trigger('blur');
+	      };
+	
+	      self.isBlurring = true;
+	
+	      if (self.settings.create && self.settings.createOnBlur) {
+	        self.createItem(null, false, deactivate);
+	      } else {
+	        deactivate();
 	      }
 	    }
-	  },
+	    /**
+	     * Triggered when the user rolls over
+	     * an option in the autocomplete dropdown menu.
+	     *
+	     * @param {object} e
+	     * @returns {boolean}
+	     */
 	
-	  /**
-	   * Shows the autocomplete dropdown containing
-	   * the available options.
-	   */
-	  open: function open() {
-	    var self = this;
-	    if (self.isLocked || self.isOpen || self.settings.mode === 'multi' && self.isFull()) return;
-	    self.focus();
-	    self.isOpen = true;
-	    self.refreshState();
-	    applyCSS(self.dropdown, {
-	      visibility: 'hidden',
-	      display: 'block'
-	    });
-	    self.positionDropdown();
-	    applyCSS(self.dropdown, {
-	      visibility: 'visible',
-	      display: 'block'
-	    });
-	    self.trigger('dropdown_open', self.dropdown);
-	  },
-	
-	  /**
-	   * Closes the autocomplete dropdown menu.
-	   */
-	  close: function close() {
-	    var self = this;
-	    var trigger = self.isOpen;
-	
-	    if (self.settings.mode === 'single' && self.items.length) {
-	      self.hideInput(); // Do not trigger blur while inside a blur event,
-	      // this fixes some weird tabbing behavior in FF and IE.
-	      // See #1164
-	
-	      if (!self.isBlurring) {
-	        self.blur(); // close keyboard on iOS
-	      }
+	  }, {
+	    key: "onOptionHover",
+	    value: function onOptionHover(e) {
+	      if (this.ignoreHover) return;
+	      this.setActiveOption(e.delegateTarget, false);
 	    }
+	    /**
+	     * Triggered when the user clicks on an option
+	     * in the autocomplete dropdown menu.
+	     *
+	     * @param {object} e
+	     * @returns {boolean}
+	     */
 	
-	    self.isOpen = false;
-	    applyCSS(self.dropdown, {
-	      display: 'none'
-	    });
-	    self.setActiveOption(null);
-	    self.refreshState();
-	    if (trigger) self.trigger('dropdown_close', self.dropdown);
-	  },
+	  }, {
+	    key: "onOptionSelect",
+	    value: function onOptionSelect(e) {
+	      var value,
+	          self = this;
 	
-	  /**
-	   * Calculates and applies the appropriate
-	   * position of the dropdown.
-	   */
-	  positionDropdown: function positionDropdown() {
-	    var left = 0;
-	    var context = this.control;
-	    var top = context.offsetHeight;
-	
-	    if (this.settings.dropdownParent === 'body') {
-	      var rect = context.getBoundingClientRect();
-	      top += rect.top + window.scrollY;
-	      left = rect.left + window.scrollX;
-	    } else if (this.settings.dropdownParent) {
-	      context = getDom(this.settings.dropdownParent);
-	      top = context.offsetHeight;
-	    } else {
-	      top += context.offsetTop;
-	      left = context.offsetLeft;
-	    }
-	
-	    applyCSS(this.dropdown, {
-	      width: context.getBoundingClientRect().width + 'px',
-	      top: top + 'px',
-	      left: left + 'px'
-	    });
-	  },
-	
-	  /**
-	   * Resets / clears all selected items
-	   * from the control.
-	   *
-	   * @param {boolean} silent
-	   */
-	  clear: function clear(silent) {
-	    if (!this.items.length) return;
-	    var items = this.controlChildren();
-	
-	    for (var i = 0; i < items.length; i++) {
-	      items[i].remove();
-	    }
-	
-	    this.items = [];
-	    this.lastQuery = null;
-	    this.setCaret(0);
-	    this.setActiveItem(null);
-	    this.updateOriginalInput({
-	      silent: silent
-	    });
-	    this.refreshState();
-	    this.showInput();
-	    this.trigger('clear');
-	  },
-	
-	  /**
-	   * A helper method for inserting an element
-	   * at the current caret position.
-	   *
-	   * @param {object} el
-	   */
-	  insertAtCaret: function insertAtCaret(el) {
-	    var caret = Math.min(this.caretPos, this.items.length);
-	    var target = this.buffer || this.control;
-	
-	    if (caret === 0) {
-	      target.insertBefore(el, target.firstChild);
-	    } else {
-	      target.insertBefore(el, target.children[caret]);
-	    }
-	
-	    this.setCaret(caret + 1);
-	  },
-	
-	  /**
-	   * Removes the current selected item(s).
-	   *
-	   * @param {object} e (optional)
-	   * @returns {boolean}
-	   */
-	  deleteSelection: function deleteSelection(e) {
-	    var i, n, direction, selection, values, caret, tail;
-	    var self = this;
-	    direction = e && e.keyCode === KEY_BACKSPACE ? -1 : 1;
-	    selection = getSelection(self.control_input); // determine items that will be removed
-	
-	    values = [];
-	
-	    if (self.activeItems.length) {
-	      tail = getTail(self.activeItems, direction);
-	      caret = nodeIndex(tail);
-	
-	      if (direction > 0) {
-	        caret++;
-	      }
-	
-	      for (i = 0, n = self.activeItems.length; i < n; i++) {
-	        values.push(self.activeItems[i].dataset.value);
-	      }
-	
-	      if (e) {
+	      if (e.preventDefault) {
 	        e.preventDefault();
 	        e.stopPropagation();
 	      }
-	    } else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
-	      if (direction < 0 && selection.start === 0 && selection.length === 0) {
-	        values.push(self.items[self.caretPos - 1]);
-	      } else if (direction > 0 && selection.start === self.inputValue().length) {
-	        values.push(self.items[self.caretPos]);
+	
+	      var target = e.delegateTarget;
+	
+	      if (!target) {
+	        return;
+	      } // should not be possible to trigger a option under a disabled optgroup
+	
+	
+	      if (target.parentNode && target.parentNode.matches('[data-disabled]')) {
+	        return;
 	      }
-	    } // allow the callback to abort
 	
+	      if (target.classList.contains('create')) {
+	        self.createItem(null, function () {
+	          if (self.settings.closeAfterSelect) {
+	            self.close();
+	          }
+	        });
+	      } else {
+	        value = target.dataset.value;
 	
-	    if (!values.length || typeof self.settings.onDelete === 'function' && self.settings.onDelete.apply(self, [values, e]) === false) {
-	      return false;
-	    } // perform removal
+	        if (typeof value !== 'undefined') {
+	          self.lastQuery = null;
+	          self.addItem(value);
 	
-	
-	    if (typeof caret !== 'undefined') {
-	      self.setCaret(caret);
+	          if (self.settings.closeAfterSelect) {
+	            self.close();
+	          } else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+	            self.setActiveOption(self.getOption(value));
+	          }
+	        }
+	      }
 	    }
+	    /**
+	     * Triggered when the user clicks on an item
+	     * that has been selected.
+	     *
+	     * @param {object} e
+	     * @returns {boolean}
+	     */
 	
-	    while (values.length) {
-	      self.removeItem(values.pop());
+	  }, {
+	    key: "onItemSelect",
+	    value: function onItemSelect(e) {
+	      var self = this;
+	      if (self.isLocked) return;
+	
+	      if (self.settings.mode === 'multi') {
+	        e.preventDefault();
+	        self.setActiveItem(e.delegateTarget, e);
+	      }
 	    }
+	    /**
+	     * Invokes the provided method that provides
+	     * results to a callback---which are then added
+	     * as options to the control.
+	     *
+	     * @param {function} fn
+	     */
 	
-	    self.showInput();
-	    self.positionDropdown();
-	    self.refreshOptions(false);
-	    return true;
-	  },
+	  }, {
+	    key: "load",
+	    value: function load(fn) {
+	      var self = this;
+	      addClasses(self.wrapper, self.settings.loadingClass);
+	      self.loading++;
+	      fn.apply(self, [function (options, optgroups) {
+	        self.loading = Math.max(self.loading - 1, 0);
+	        self.setupOptions(options, optgroups);
+	        self.refreshOptions(self.isFocused && !self.isInputHidden);
 	
-	  /**
-	   * Selects the previous / next item (depending on the `direction` argument).
-	   *
-	   * > 0 - right
-	   * < 0 - left
-	   *
-	   * @param {int} direction
-	   * @param {object} e (optional)
-	   */
-	  advanceSelection: function advanceSelection(direction, e) {
-	    var selection, idx, last_active;
-	    if (direction === 0) return;
-	    if (this.rtl) direction *= -1; // add or remove to active items
-	
-	    if (this.isKeyDown(KEY_CTRL, e) || this.isKeyDown(KEY_SHIFT, e)) {
-	      last_active = this.getLastActive(direction);
-	      var adjacent = this.getAdjacent(last_active, direction, 'item');
-	
-	      if (adjacent) {
-	        if (adjacent.classList.contains('active')) {
-	          this.removeActiveItem(last_active);
+	        if (!self.loading) {
+	          removeClasses(self.wrapper, self.settings.loadingClass);
 	        }
 	
-	        this.setActiveItemClass(adjacent); // mark as last_active !! after removeActiveItem() on last_active
-	      } // move caret to the left or right
+	        self.trigger('load', options);
+	      }]);
+	    }
+	    /**
+	     * Debounce the user provided load function
+	     *
+	     */
 	
-	    } else if (this.isFocused && !this.isInputHidden) {
-	      if (!this.inputValue().length) {
-	        this.setCaret(this.caretPos + direction);
-	      } // move caret before or after selected items
+	  }, {
+	    key: "loadDebounce",
+	    value: function loadDebounce(fn, delay) {
+	      var timeout;
+	      return function () {
+	        var self = this;
+	        var args = arguments;
 	
-	    } else {
-	      last_active = this.getLastActive(direction);
+	        if (timeout) {
+	          self.loading = Math.max(self.loading - 1, 0);
+	        }
+	
+	        window.clearTimeout(timeout);
+	        timeout = window.setTimeout(function () {
+	          timeout = null;
+	          fn.apply(self, args);
+	        }, delay);
+	      };
+	    }
+	    /**
+	     * Sets the input field of the control to the specified value.
+	     *
+	     * @param {string} value
+	     */
+	
+	  }, {
+	    key: "setTextboxValue",
+	    value: function setTextboxValue(value) {
+	      var input = this.control_input;
+	      var changed = input.value !== value;
+	
+	      if (changed) {
+	        input.value = value;
+	        triggerEvent(input, 'update');
+	        this.lastValue = value;
+	      }
+	    }
+	    /**
+	     * Returns the value of the control. If multiple items
+	     * can be selected (e.g. <select multiple>), this returns
+	     * an array. If only one item can be selected, this
+	     * returns a string.
+	     *
+	     * @returns {mixed}
+	     */
+	
+	  }, {
+	    key: "getValue",
+	    value: function getValue() {
+	      if (this.is_select_tag && this.input.hasAttribute('multiple')) {
+	        return this.items;
+	      } else {
+	        return this.items.join(this.settings.delimiter);
+	      }
+	    }
+	    /**
+	     * Resets the selected items to the given value.
+	     *
+	     * @param {mixed} value
+	     */
+	
+	  }, {
+	    key: "setValue",
+	    value: function setValue(value, silent) {
+	      var events = silent ? [] : ['change'];
+	      debounce_events(this, events, function () {
+	        this.clear(silent);
+	        this.addItems(value, silent);
+	      });
+	    }
+	    /**
+	     * Sets the selected item.
+	     *
+	     * @param {object} item
+	     * @param {object} e (optional)
+	     */
+	
+	  }, {
+	    key: "setActiveItem",
+	    value: function setActiveItem(item, e) {
+	      var self = this;
+	      var eventName;
+	      var i, begin, end, item, swap;
+	      var last;
+	      if (this.settings.mode === 'single') return; // clear the active selection
+	
+	      if (!item) {
+	        removeClasses(this.activeItems, 'active');
+	        this.activeItems = [];
+	
+	        if (this.isFocused) {
+	          this.showInput();
+	        }
+	
+	        return;
+	      } // modify selection
+	
+	
+	      eventName = e && e.type.toLowerCase();
+	
+	      if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT, e) && this.activeItems.length) {
+	        last = this.getLastActive();
+	        begin = Array.prototype.indexOf.apply(this.control.children, [last]);
+	        end = Array.prototype.indexOf.apply(this.control.children, [item]);
+	
+	        if (begin > end) {
+	          swap = begin;
+	          begin = end;
+	          end = swap;
+	        }
+	
+	        for (i = begin; i <= end; i++) {
+	          item = this.control.children[i];
+	
+	          if (this.activeItems.indexOf(item) === -1) {
+	            this.setActiveItemClass(item);
+	          }
+	        }
+	
+	        e.preventDefault();
+	      } else if (eventName === 'mousedown' && this.isKeyDown(KEY_CTRL, e) || eventName === 'keydown' && this.isKeyDown(KEY_SHIFT, e)) {
+	        if (item.classList.contains('active')) {
+	          this.removeActiveItem(item);
+	        } else {
+	          this.setActiveItemClass(item);
+	        }
+	      } else {
+	        removeClasses(this.activeItems, 'active');
+	        this.activeItems = [];
+	        this.setActiveItemClass(item);
+	      } // ensure control has focus
+	
+	
+	      this.hideInput();
+	
+	      if (!this.isFocused) {
+	        this.focus();
+	      }
+	    }
+	    /**
+	     * Set the active and last-active classes
+	     *
+	     */
+	
+	  }, {
+	    key: "setActiveItemClass",
+	    value: function setActiveItemClass(item) {
+	      var last_active = this.control.querySelector('.last-active');
+	      if (last_active) removeClasses(last_active, 'last-active');
+	      addClasses(item, 'active last-active');
+	
+	      if (this.activeItems.indexOf(item) == -1) {
+	        this.activeItems.push(item);
+	      }
+	    }
+	    /**
+	     * Remove active item
+	     *
+	     */
+	
+	  }, {
+	    key: "removeActiveItem",
+	    value: function removeActiveItem(item) {
+	      var idx = this.activeItems.indexOf(item);
+	      this.activeItems.splice(idx, 1);
+	      removeClasses(item, 'active');
+	    }
+	    /**
+	     * Sets the selected item in the dropdown menu
+	     * of available options.
+	     *
+	     * @param {object} option
+	     * @param {boolean} scroll
+	     */
+	
+	  }, {
+	    key: "setActiveOption",
+	    value: function setActiveOption(option, scroll) {
+	      var height_menu, height_item, y;
+	
+	      if (option === this.activeOption) {
+	        return;
+	      }
+	
+	      if (this.activeOption) removeClasses(this.activeOption, 'active');
+	      this.activeOption = null;
+	      if (!option) return;
+	      this.activeOption = option;
+	      addClasses(option, 'active');
+	
+	      if (scroll || !isset(scroll)) {
+	        height_menu = this.dropdown_content.clientHeight;
+	        scroll = this.dropdown_content.scrollTop || 0;
+	        height_item = this.activeOption.offsetHeight;
+	        y = this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scroll;
+	
+	        if (y + height_item > height_menu + scroll) {
+	          this.dropdown_content.scrollTop = y - height_menu + height_item;
+	        } else if (y < scroll) {
+	          this.dropdown_content.scrollTop = y;
+	        }
+	      }
+	    }
+	    /**
+	     * Selects all items (CTRL + A).
+	     */
+	
+	  }, {
+	    key: "selectAll",
+	    value: function selectAll() {
+	      var i, n;
+	      if (this.settings.mode === 'single') return;
+	      this.activeItems = this.controlChildren();
+	      n = this.activeItems.length;
+	
+	      if (n) {
+	        addClasses(this.activeItems, 'active');
+	        this.hideInput();
+	        this.close();
+	      }
+	
+	      this.focus();
+	    }
+	    /**
+	     * Hides the input element out of view, while
+	     * retaining its focus.
+	     */
+	
+	  }, {
+	    key: "hideInput",
+	    value: function hideInput() {
+	      if (this.settings.controlInput) return;
+	      this.setTextboxValue('');
+	      applyCSS(this.control_input, {
+	        opacity: 0,
+	        position: 'absolute',
+	        left: (this.rtl ? 10000 : -10000) + 'px'
+	      });
+	      this.isInputHidden = true;
+	    }
+	    /**
+	     * Restores input visibility.
+	     */
+	
+	  }, {
+	    key: "showInput",
+	    value: function showInput() {
+	      if (this.settings.controlInput) return;
+	      applyCSS(this.control_input, {
+	        opacity: 1,
+	        position: 'relative',
+	        left: 0
+	      });
+	      this.isInputHidden = false;
+	    }
+	    /**
+	     * Get the input value
+	     */
+	
+	  }, {
+	    key: "inputValue",
+	    value: function inputValue() {
+	      return this.control_input.value.trim();
+	    }
+	    /**
+	     * Gives the control focus.
+	     */
+	
+	  }, {
+	    key: "focus",
+	    value: function focus() {
+	      var self = this;
+	      if (self.isDisabled) return;
+	      self.ignoreFocus = true;
+	      self.control_input.focus();
+	      window.setTimeout(function () {
+	        self.ignoreFocus = false;
+	        self.onFocus();
+	      }, 0);
+	    }
+	    /**
+	     * Forces the control out of focus.
+	     *
+	     * @param {Element} dest
+	     */
+	
+	  }, {
+	    key: "blur",
+	    value: function blur(dest) {
+	      this.control_input.blur();
+	      this.onBlur(null, dest);
+	    }
+	    /**
+	     * Returns a function that scores an object
+	     * to show how good of a match it is to the
+	     * provided query.
+	     *
+	     * @param {string} query
+	     * @param {object} options
+	     * @return {function}
+	     */
+	
+	  }, {
+	    key: "getScoreFunction",
+	    value: function getScoreFunction(query) {
+	      return this.sifter.getScoreFunction(query, this.getSearchOptions());
+	    }
+	    /**
+	     * Returns search options for sifter (the system
+	     * for scoring and sorting results).
+	     *
+	     * @see https://github.com/brianreavis/sifter.js
+	     * @return {object}
+	     */
+	
+	  }, {
+	    key: "getSearchOptions",
+	    value: function getSearchOptions() {
+	      var settings = this.settings;
+	      var sort = settings.sortField;
+	
+	      if (typeof sort === 'string') {
+	        sort = [{
+	          field: sort
+	        }];
+	      }
+	
+	      return {
+	        fields: settings.searchField,
+	        conjunction: settings.searchConjunction,
+	        sort: sort,
+	        nesting: settings.nesting
+	      };
+	    }
+	    /**
+	     * Searches through available options and returns
+	     * a sorted array of matches.
+	     *
+	     * Returns an object containing:
+	     *
+	     *   - query {string}
+	     *   - tokens {array}
+	     *   - total {int}
+	     *   - items {array}
+	     *
+	     * @param {string} query
+	     * @returns {object}
+	     */
+	
+	  }, {
+	    key: "search",
+	    value: function search(query) {
+	      var i, value, score, result, calculateScore;
+	      var self = this;
+	      var settings = self.settings;
+	      var options = this.getSearchOptions(); // validate user-provided result scoring function
+	
+	      if (settings.score) {
+	        calculateScore = self.settings.score.apply(this, [query]);
+	
+	        if (typeof calculateScore !== 'function') {
+	          throw new Error('Tom Select "score" setting must be a function that returns a function');
+	        }
+	      } // perform search
+	
+	
+	      if (query !== self.lastQuery) {
+	        self.lastQuery = query;
+	        result = self.sifter.search(query, Object.assign(options, {
+	          score: calculateScore
+	        }));
+	        self.currentResults = result;
+	      } else {
+	        result = extend({}, self.currentResults);
+	      } // filter out selected items
+	
+	
+	      if (settings.hideSelected) {
+	        for (i = result.items.length - 1; i >= 0; i--) {
+	          if (self.items.indexOf(hash_key(result.items[i].id)) !== -1) {
+	            result.items.splice(i, 1);
+	          }
+	        }
+	      }
+	
+	      return result;
+	    }
+	    /**
+	     * Refreshes the list of available options shown
+	     * in the autocomplete dropdown menu.
+	     *
+	     * @param {boolean} triggerDropdown
+	     */
+	
+	  }, {
+	    key: "refreshOptions",
+	    value: function refreshOptions(triggerDropdown) {
+	      var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
+	      var active, active_before, create;
+	
+	      if (typeof triggerDropdown === 'undefined') {
+	        triggerDropdown = true;
+	      }
+	
+	      var self = this;
+	      var query = self.inputValue();
+	      var results = self.search(query);
+	      var active_before_hash = self.activeOption && hash_key(self.activeOption.dataset.value);
+	      var show_dropdown = false; // build markup
+	
+	      n = results.items.length;
+	
+	      if (typeof self.settings.maxOptions === 'number') {
+	        n = Math.min(n, self.settings.maxOptions);
+	      }
+	
+	      if (n > 0) {
+	        show_dropdown = true;
+	      } // render and group available options individually
+	
+	
+	      groups = {};
+	      groups_order = [];
+	
+	      for (i = 0; i < n; i++) {
+	        // get option dom element, don't re-render if we
+	        var option = self.options[results.items[i].id];
+	        var opt_value = hash_key(option[self.settings.valueField]);
+	        var option_el = self.getOption(opt_value);
+	
+	        if (!option_el) {
+	          option_el = self.render('option', option);
+	        }
+	
+	        optgroup = option[self.settings.optgroupField] || '';
+	        optgroups = Array.isArray(optgroup) ? optgroup : [optgroup];
+	
+	        for (j = 0, k = optgroups && optgroups.length; j < k; j++) {
+	          optgroup = optgroups[j];
+	
+	          if (!self.optgroups.hasOwnProperty(optgroup)) {
+	            optgroup = '';
+	          }
+	
+	          if (!groups.hasOwnProperty(optgroup)) {
+	            groups[optgroup] = document.createDocumentFragment();
+	            groups_order.push(optgroup);
+	          } // a child could only have one parent, so if you have more parents clone the child
+	
+	
+	          if (j > 0) {
+	            option_el = option_el.cloneNode(true);
+	            removeClasses(option_el, 'active');
+	          }
+	
+	          groups[optgroup].appendChild(option_el);
+	        }
+	      } // sort optgroups
+	
+	
+	      if (this.settings.lockOptgroupOrder) {
+	        groups_order.sort(function (a, b) {
+	          var a_order = self.optgroups[a].$order || 0;
+	          var b_order = self.optgroups[b].$order || 0;
+	          return a_order - b_order;
+	        });
+	      } // render optgroup headers & join groups
+	
+	
+	      html = document.createDocumentFragment();
+	
+	      for (i = 0, n = groups_order.length; i < n; i++) {
+	        optgroup = groups_order[i];
+	
+	        if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
+	          var group_options = document.createDocumentFragment();
+	          group_options.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
+	          group_options.appendChild(groups[optgroup]);
+	          var group_html = self.render('optgroup', {
+	            group: self.optgroups[optgroup],
+	            options: group_options
+	          });
+	          html.appendChild(group_html);
+	        } else {
+	          html.appendChild(groups[optgroup]);
+	        }
+	      }
+	
+	      self.dropdown_content.innerHTML = '';
+	      self.dropdown_content.appendChild(html); // highlight matching terms inline
+	
+	      if (self.settings.highlight) {
+	        removeHighlight(self.dropdown_content);
+	
+	        if (results.query.length && results.tokens.length) {
+	          for (i = 0, n = results.tokens.length; i < n; i++) {
+	            highlight(self.dropdown_content, results.tokens[i].regex);
+	          }
+	        }
+	      } // add "selected" class to selected options
+	
+	
+	      if (!self.settings.hideSelected) {
+	        for (i = 0, n = self.items.length; i < n; i++) {
+	          var _option = self.getOption(self.items[i]);
+	
+	          if (_option) {
+	            addClasses(_option, 'selected');
+	          }
+	        }
+	      } // add no_results message
+	
+	
+	      if (results.items.length === 0 && self.settings.render['no_results'] && !self.loading && query.length) {
+	        var msg = self.render('no_results', {
+	          input: query
+	        });
+	        show_dropdown = true;
+	        self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
+	      } // add create option
+	
+	
+	      has_create_option = self.canCreate(query);
+	
+	      if (has_create_option) {
+	        show_dropdown = true;
+	        create = self.render('option_create', {
+	          input: query
+	        });
+	        self.dropdown_content.insertBefore(create, self.dropdown_content.firstChild);
+	      } // activate
+	
+	
+	      self.hasOptions = results.items.length > 0 || has_create_option;
+	
+	      if (show_dropdown) {
+	        if (results.items.length > 0) {
+	          active_before = active_before_hash && self.getOption(active_before_hash);
+	
+	          if (active_before && self.dropdown_content.contains(active_before)) {
+	            active = active_before;
+	          } else if (self.settings.mode === 'single' && self.items.length) {
+	            active = self.getOption(self.items[0]);
+	          } else {
+	            var active_index = 0;
+	
+	            if (create && !self.settings.addPrecedence) {
+	              active_index = 1;
+	            }
+	
+	            active = self.selectable()[active_index];
+	          }
+	        } else {
+	          active = create;
+	        }
+	
+	        self.setActiveOption(active);
+	
+	        if (triggerDropdown && !self.isOpen) {
+	          self.open();
+	        }
+	      } else {
+	        self.setActiveOption(null);
+	
+	        if (triggerDropdown && self.isOpen) {
+	          self.close();
+	        }
+	      }
+	    }
+	    /**
+	     * Return list of selectable options
+	     *
+	     */
+	
+	  }, {
+	    key: "selectable",
+	    value: function selectable() {
+	      return this.dropdown_content.querySelectorAll('[data-selectable]');
+	    }
+	    /**
+	     * Adds an available option. If it already exists,
+	     * nothing will happen. Note: this does not refresh
+	     * the options list dropdown (use `refreshOptions`
+	     * for that).
+	     *
+	     * Usage:
+	     *
+	     *   this.addOption(data)
+	     *
+	     * @param {object|array} data
+	     */
+	
+	  }, {
+	    key: "addOption",
+	    value: function addOption(data) {
+	      var i,
+	          n,
+	          value,
+	          self = this;
+	
+	      if (Array.isArray(data)) {
+	        for (i = 0, n = data.length; i < n; i++) {
+	          self.addOption(data[i]);
+	        }
+	
+	        return;
+	      }
+	
+	      if (value = self.registerOption(data)) {
+	        self.userOptions[value] = true;
+	        self.lastQuery = null;
+	        self.trigger('option_add', value, data);
+	      }
+	    }
+	    /**
+	     * Registers an option to the pool of options.
+	     *
+	     * @param {object} data
+	     * @return {boolean|string}
+	     */
+	
+	  }, {
+	    key: "registerOption",
+	    value: function registerOption(data) {
+	      var key = hash_key(data[this.settings.valueField]);
+	      if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
+	      data.$order = data.$order || ++this.order;
+	      this.options[key] = data;
+	      return key;
+	    }
+	    /**
+	     * Registers an option group to the pool of option groups.
+	     *
+	     * @param {object} data
+	     * @return {boolean|string}
+	     */
+	
+	  }, {
+	    key: "registerOptionGroup",
+	    value: function registerOptionGroup(data) {
+	      var key = hash_key(data[this.settings.optgroupValueField]);
+	      if (!key) return false;
+	      data.$order = data.$order || ++this.order;
+	      this.optgroups[key] = data;
+	      return key;
+	    }
+	    /**
+	     * Registers a new optgroup for options
+	     * to be bucketed into.
+	     *
+	     * @param {string} id
+	     * @param {object} data
+	     */
+	
+	  }, {
+	    key: "addOptionGroup",
+	    value: function addOptionGroup(id, data) {
+	      data[this.settings.optgroupValueField] = id;
+	
+	      if (id = this.registerOptionGroup(data)) {
+	        this.trigger('optgroup_add', id, data);
+	      }
+	    }
+	    /**
+	     * Removes an existing option group.
+	     *
+	     * @param {string} id
+	     */
+	
+	  }, {
+	    key: "removeOptionGroup",
+	    value: function removeOptionGroup(id) {
+	      if (this.optgroups.hasOwnProperty(id)) {
+	        delete this.optgroups[id];
+	        this.clearCache();
+	        this.trigger('optgroup_remove', id);
+	      }
+	    }
+	    /**
+	     * Clears all existing option groups.
+	     */
+	
+	  }, {
+	    key: "clearOptionGroups",
+	    value: function clearOptionGroups() {
+	      this.optgroups = {};
+	      this.clearCache();
+	      this.trigger('optgroup_clear');
+	    }
+	    /**
+	     * Updates an option available for selection. If
+	     * it is visible in the selected items or options
+	     * dropdown, it will be re-rendered automatically.
+	     *
+	     * @param {string} value
+	     * @param {object} data
+	     */
+	
+	  }, {
+	    key: "updateOption",
+	    value: function updateOption(value, data) {
+	      var self = this;
+	      var item, item_new;
+	      var value_new, index_item, cache_items, cache_options, order_old;
+	      value = hash_key(value);
+	      value_new = hash_key(data[self.settings.valueField]); // sanity checks
+	
+	      if (value === null) return;
+	      if (!self.options.hasOwnProperty(value)) return;
+	      if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
+	      order_old = self.options[value].$order; // update references
+	
+	      if (value_new !== value) {
+	        delete self.options[value];
+	        index_item = self.items.indexOf(value);
+	
+	        if (index_item !== -1) {
+	          self.items.splice(index_item, 1, value_new);
+	        }
+	      }
+	
+	      data.$order = data.$order || order_old;
+	      self.options[value_new] = data; // invalidate render cache
+	
+	      cache_items = self.renderCache['item'];
+	      cache_options = self.renderCache['option'];
+	
+	      if (cache_items) {
+	        delete cache_items[value];
+	        delete cache_items[value_new];
+	      }
+	
+	      if (cache_options) {
+	        delete cache_options[value];
+	        delete cache_options[value_new];
+	      } // update the item if it's selected
+	
+	
+	      if (self.items.indexOf(value_new) !== -1) {
+	        item = self.getItem(value);
+	        item_new = self.render('item', data);
+	        if (item.classList.contains('active')) addClasses(item_new, 'active');
+	        item.parentNode.insertBefore(item_new, item);
+	        item.remove();
+	      } // invalidate last query because we might have updated the sortField
+	
+	
+	      self.lastQuery = null; // update dropdown contents
+	
+	      if (self.isOpen) {
+	        self.refreshOptions(false);
+	      }
+	    }
+	    /**
+	     * Removes a single option.
+	     *
+	     * @param {string} value
+	     * @param {boolean} silent
+	     */
+	
+	  }, {
+	    key: "removeOption",
+	    value: function removeOption(value, silent) {
+	      var self = this;
+	      value = hash_key(value);
+	      var cache_items = self.renderCache['item'];
+	      var cache_options = self.renderCache['option'];
+	      if (cache_items) delete cache_items[value];
+	      if (cache_options) delete cache_options[value];
+	      delete self.userOptions[value];
+	      delete self.options[value];
+	      self.lastQuery = null;
+	      self.trigger('option_remove', value);
+	      self.removeItem(value, silent);
+	    }
+	    /**
+	     * Clears all options.
+	     */
+	
+	  }, {
+	    key: "clearOptions",
+	    value: function clearOptions() {
+	      this.loadedSearches = {};
+	      this.userOptions = {};
+	      this.clearCache();
+	      var selected = {};
+	
+	      for (var key in this.options) {
+	        if (this.options.hasOwnProperty(key) && this.items.indexOf(key) >= 0) {
+	          selected[key] = this.options[key];
+	        }
+	      }
+	
+	      this.options = this.sifter.items = selected;
+	      this.lastQuery = null;
+	      this.trigger('option_clear');
+	    }
+	    /**
+	     * Returns the dom element of the option
+	     * matching the given value.
+	     *
+	     * @param {string} value
+	     * @returns {object}
+	     */
+	
+	  }, {
+	    key: "getOption",
+	    value: function getOption(value) {
+	      // cached ?
+	      if (this.renderCache['option'].hasOwnProperty(value)) {
+	        return this.renderCache['option'][value];
+	      } // from existing dropdown menu dom
+	
+	
+	      return this.getElementWithValue(value, this.selectable());
+	    }
+	    /**
+	     * Returns the dom element of the next or previous dom element of the same type
+	     *
+	     * @param {object} option
+	     * @param {int} direction  can be 1 for next or -1 for previous
+	     * @param {string} type
+	     * @return {object|undefined}
+	     */
+	
+	  }, {
+	    key: "getAdjacent",
+	    value: function getAdjacent(option, direction) {
+	      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'option';
+	
+	      if (!option) {
+	        return;
+	      }
+	
+	      var self = this;
+	      var type_class = self.settings.optionClass;
+	      var parent = self.dropdown;
+	
+	      if (type == 'item') {
+	        parent = self.control;
+	        type_class = self.settings.itemClass;
+	      }
+	
+	      var all = parent.querySelectorAll('.' + type_class);
+	
+	      for (var i = 0; i < all.length; i++) {
+	        if (all[i] != option) {
+	          continue;
+	        }
+	
+	        if (direction > 0) {
+	          return all[i + 1];
+	        }
+	
+	        return all[i - 1];
+	      }
+	    }
+	    /**
+	     * Finds the first element with a "data-value" attribute
+	     * that matches the given value.
+	     *
+	     * @param {mixed} value
+	     * @param {object} els
+	     * @return {object}
+	     */
+	
+	  }, {
+	    key: "getElementWithValue",
+	    value: function getElementWithValue(value, els) {
+	      value = hash_key(value);
+	
+	      if (typeof value !== 'undefined' && value !== null) {
+	        for (var i = 0, n = els.length; i < n; i++) {
+	          if (els[i].getAttribute('data-value') === value) {
+	            return els[i];
+	          }
+	        }
+	      }
+	    }
+	    /**
+	     * Returns the dom element of the item
+	     * matching the given value.
+	     *
+	     * @param {string} value
+	     * @returns {object}
+	     */
+	
+	  }, {
+	    key: "getItem",
+	    value: function getItem(value) {
+	      return this.getElementWithValue(value, this.control.children);
+	    }
+	    /**
+	     * "Selects" multiple items at once. Adds them to the list
+	     * at the current caret position.
+	     *
+	     * @param {string} value
+	     * @param {boolean} silent
+	     */
+	
+	  }, {
+	    key: "addItems",
+	    value: function addItems(values, silent) {
+	      this.buffer = document.createDocumentFragment();
+	      var children = this.control.children;
+	
+	      for (var i = 0; i < children.length; i++) {
+	        this.buffer.appendChild(children[i]);
+	      }
+	
+	      var items = Array.isArray(values) ? values : [values];
+	
+	      for (var i = 0, n = items.length; i < n; i++) {
+	        this.isPending = i < n - 1;
+	        this.addItem(items[i], silent);
+	      }
+	
+	      var control = this.control;
+	      control.insertBefore(this.buffer, control.firstChild);
+	      this.buffer = null;
+	    }
+	    /**
+	     * "Selects" an item. Adds it to the list
+	     * at the current caret position.
+	     *
+	     * @param {string} value
+	     * @param {boolean} silent
+	     */
+	
+	  }, {
+	    key: "addItem",
+	    value: function addItem(value, silent) {
+	      var events = silent ? [] : ['change'];
+	      debounce_events(this, events, function () {
+	        var item;
+	        var self = this;
+	        var inputMode = self.settings.mode;
+	        var i, active, wasFull;
+	        value = hash_key(value);
+	
+	        if (self.items.indexOf(value) !== -1) {
+	          if (inputMode === 'single') {
+	            self.close();
+	          }
+	
+	          if (inputMode === 'single' || !self.settings.duplicates) {
+	            return;
+	          }
+	        }
+	
+	        if (!self.options.hasOwnProperty(value)) return;
+	        if (inputMode === 'single') self.clear(silent);
+	        if (inputMode === 'multi' && self.isFull()) return;
+	        item = self.render('item', self.options[value]);
+	
+	        if (this.control.contains(item)) {
+	          // duplicates
+	          item = item.cloneNode(true);
+	        }
+	
+	        wasFull = self.isFull();
+	        self.items.splice(self.caretPos, 0, value);
+	        self.insertAtCaret(item);
+	
+	        if (!self.isPending || !wasFull && self.isFull()) {
+	          self.refreshState();
+	        }
+	
+	        if (self.isSetup) {
+	          var options = self.selectable(); // update menu / remove the option (if this is not one item being added as part of series)
+	
+	          if (!self.isPending) {
+	            var option = self.getOption(value);
+	            var next = self.getAdjacent(option, 1);
+	            self.refreshOptions(self.isFocused && inputMode !== 'single');
+	
+	            if (next) {
+	              self.setActiveOption(next);
+	            }
+	          } // hide the menu if the maximum number of items have been selected or no options are left
+	
+	
+	          if (!options.length || self.isFull()) {
+	            self.close();
+	          } else if (!self.isPending) {
+	            self.positionDropdown();
+	          }
+	
+	          self.trigger('item_add', value, item);
+	
+	          if (!self.isPending) {
+	            self.updateOriginalInput({
+	              silent: silent
+	            });
+	          }
+	        }
+	      });
+	    }
+	    /**
+	     * Removes the selected item matching
+	     * the provided value.
+	     *
+	     * @param {string} value
+	     */
+	
+	  }, {
+	    key: "removeItem",
+	    value: function removeItem(value, silent) {
+	      var i, idx;
+	      var item = this.getItem(value);
+	      if (!item) return;
+	      value = hash_key(item.dataset.value);
+	      i = this.items.indexOf(value);
+	
+	      if (i !== -1) {
+	        item.remove();
+	
+	        if (item.classList.contains('active')) {
+	          idx = this.activeItems.indexOf(item);
+	          this.activeItems.splice(idx, 1);
+	          removeClasses(item, 'active');
+	        }
+	
+	        this.items.splice(i, 1);
+	        this.lastQuery = null;
+	
+	        if (!this.settings.persist && this.userOptions.hasOwnProperty(value)) {
+	          this.removeOption(value, silent);
+	        }
+	
+	        if (i < this.caretPos) {
+	          this.setCaret(this.caretPos - 1);
+	        }
+	
+	        this.refreshState();
+	        this.updateOriginalInput({
+	          silent: silent
+	        });
+	        this.positionDropdown();
+	        this.trigger('item_remove', value, item);
+	      }
+	    }
+	    /**
+	     * Invokes the `create` method provided in the
+	     * TomSelect options that should provide the data
+	     * for the new item, given the user input.
+	     *
+	     * Once this completes, it will be added
+	     * to the item list.
+	     *
+	     * @param {string} value
+	     * @param {boolean} [triggerDropdown]
+	     * @param {function} [callback]
+	     * @return {boolean}
+	     */
+	
+	  }, {
+	    key: "createItem",
+	    value: function createItem(input, triggerDropdown) {
+	      var self = this;
+	      var caret = self.caretPos;
+	      input = input || self.inputValue();
+	      var callback = arguments[arguments.length - 1];
+	      if (typeof callback !== 'function') callback = function callback() {};
+	
+	      if (typeof triggerDropdown !== 'boolean') {
+	        triggerDropdown = true;
+	      }
+	
+	      if (!self.canCreate(input)) {
+	        callback();
+	        return false;
+	      }
+	
+	      self.lock();
+	      var setup = typeof self.settings.create === 'function' ? this.settings.create : function (input) {
+	        var data = {};
+	        data[self.settings.labelField] = input;
+	        data[self.settings.valueField] = input;
+	        return data;
+	      };
+	      var create = once(function (data) {
+	        self.unlock();
+	        if (!data || _typeof(data) !== 'object') return callback();
+	        var value = hash_key(data[self.settings.valueField]);
+	
+	        if (typeof value !== 'string') {
+	          return callback();
+	        }
+	
+	        self.setTextboxValue('');
+	        self.addOption(data);
+	        self.setCaret(caret);
+	        self.addItem(value);
+	        self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
+	        callback(data);
+	      });
+	      var output = setup.apply(this, [input, create]);
+	
+	      if (typeof output !== 'undefined') {
+	        create(output);
+	      }
+	
+	      return true;
+	    }
+	    /**
+	     * Re-renders the selected item lists.
+	     */
+	
+	  }, {
+	    key: "refreshItems",
+	    value: function refreshItems() {
+	      this.lastQuery = null;
+	
+	      if (this.isSetup) {
+	        this.addItem(this.items);
+	      }
+	
+	      this.refreshState();
+	      this.updateOriginalInput();
+	    }
+	    /**
+	     * Updates all state-dependent attributes
+	     * and CSS classes.
+	     */
+	
+	  }, {
+	    key: "refreshState",
+	    value: function refreshState() {
+	      var self = this;
+	      self.refreshValidityState();
+	      var isFull = self.isFull();
+	      var isLocked = self.isLocked;
+	      self.wrapper.classList.toggle('rtl', self.rtl);
+	      var classList = self.control.classList;
+	      classList.toggle('focus', self.isFocused);
+	      classList.toggle('disabled', self.isDisabled);
+	      classList.toggle('required', self.isRequired);
+	      classList.toggle('invalid', self.isInvalid);
+	      classList.toggle('locked', isLocked);
+	      classList.toggle('full', isFull);
+	      classList.toggle('not-full', !isFull);
+	      classList.toggle('input-active', self.isFocused && !self.isInputHidden);
+	      classList.toggle('dropdown-active', self.isOpen);
+	      classList.toggle('has-options', isEmptyObject(self.options));
+	      classList.toggle('has-items', self.items.length > 0);
+	    }
+	    /**
+	     * Update the `required` attribute of both input and control input.
+	     *
+	     * The `required` property needs to be activated on the control input
+	     * for the error to be displayed at the right place. `required` also
+	     * needs to be temporarily deactivated on the input since the input is
+	     * hidden and can't show errors.
+	     */
+	
+	  }, {
+	    key: "refreshValidityState",
+	    value: function refreshValidityState() {
+	      if (!this.isRequired) return false;
+	      var invalid = !this.items.length;
+	      this.isInvalid = invalid;
+	      this.control_input.required = invalid;
+	      this.input.required = !invalid;
+	    }
+	    /**
+	     * Determines whether or not more items can be added
+	     * to the control without exceeding the user-defined maximum.
+	     *
+	     * @returns {boolean}
+	     */
+	
+	  }, {
+	    key: "isFull",
+	    value: function isFull() {
+	      return this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
+	    }
+	    /**
+	     * Refreshes the original <select> or <input>
+	     * element to reflect the current state.
+	     */
+	
+	  }, {
+	    key: "updateOriginalInput",
+	    value: function updateOriginalInput(opts) {
+	      var i,
+	          n,
+	          options,
+	          label,
+	          self = this;
+	      opts = opts || {};
+	
+	      if (self.is_select_tag) {
+	        options = [];
+	
+	        for (i = 0, n = self.items.length; i < n; i++) {
+	          label = self.options[self.items[i]][self.settings.labelField] || '';
+	          options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
+	        }
+	
+	        if (!options.length && !this.input.hasAttribute('multiple')) {
+	          options.push('<option value="" selected="selected"></option>');
+	        }
+	
+	        self.input.innerHTML = options.join('');
+	      } else {
+	        self.input.value = self.getValue();
+	        self.input.setAttribute('value', self.input.value);
+	      }
+	
+	      if (self.isSetup) {
+	        if (!opts.silent) {
+	          self.trigger('change', self.input.value);
+	        }
+	      }
+	    }
+	    /**
+	     * Shows the autocomplete dropdown containing
+	     * the available options.
+	     */
+	
+	  }, {
+	    key: "open",
+	    value: function open() {
+	      var self = this;
+	      if (self.isLocked || self.isOpen || self.settings.mode === 'multi' && self.isFull()) return;
+	      self.focus();
+	      self.isOpen = true;
+	      self.refreshState();
+	      applyCSS(self.dropdown, {
+	        visibility: 'hidden',
+	        display: 'block'
+	      });
+	      self.positionDropdown();
+	      applyCSS(self.dropdown, {
+	        visibility: 'visible',
+	        display: 'block'
+	      });
+	      self.trigger('dropdown_open', self.dropdown);
+	    }
+	    /**
+	     * Closes the autocomplete dropdown menu.
+	     */
+	
+	  }, {
+	    key: "close",
+	    value: function close() {
+	      var self = this;
+	      var trigger = self.isOpen;
+	
+	      if (self.settings.mode === 'single' && self.items.length) {
+	        self.hideInput(); // Do not trigger blur while inside a blur event,
+	        // this fixes some weird tabbing behavior in FF and IE.
+	        // See #1164
+	
+	        if (!self.isBlurring) {
+	          self.blur(); // close keyboard on iOS
+	        }
+	      }
+	
+	      self.isOpen = false;
+	      applyCSS(self.dropdown, {
+	        display: 'none'
+	      });
+	      self.setActiveOption(null);
+	      self.refreshState();
+	      if (trigger) self.trigger('dropdown_close', self.dropdown);
+	    }
+	    /**
+	     * Calculates and applies the appropriate
+	     * position of the dropdown.
+	     */
+	
+	  }, {
+	    key: "positionDropdown",
+	    value: function positionDropdown() {
+	      var left = 0;
+	      var context = this.control;
+	      var top = context.offsetHeight;
+	
+	      if (this.settings.dropdownParent === 'body') {
+	        var rect = context.getBoundingClientRect();
+	        top += rect.top + window.scrollY;
+	        left = rect.left + window.scrollX;
+	      } else if (this.settings.dropdownParent) {
+	        context = getDom(this.settings.dropdownParent);
+	        top = context.offsetHeight;
+	      } else {
+	        top += context.offsetTop;
+	        left = context.offsetLeft;
+	      }
+	
+	      applyCSS(this.dropdown, {
+	        width: context.getBoundingClientRect().width + 'px',
+	        top: top + 'px',
+	        left: left + 'px'
+	      });
+	    }
+	    /**
+	     * Resets / clears all selected items
+	     * from the control.
+	     *
+	     * @param {boolean} silent
+	     */
+	
+	  }, {
+	    key: "clear",
+	    value: function clear(silent) {
+	      if (!this.items.length) return;
+	      var items = this.controlChildren();
+	
+	      for (var i = 0; i < items.length; i++) {
+	        items[i].remove();
+	      }
+	
+	      this.items = [];
+	      this.lastQuery = null;
+	      this.setCaret(0);
+	      this.setActiveItem(null);
+	      this.updateOriginalInput({
+	        silent: silent
+	      });
+	      this.refreshState();
+	      this.showInput();
+	      this.trigger('clear');
+	    }
+	    /**
+	     * A helper method for inserting an element
+	     * at the current caret position.
+	     *
+	     * @param {object} el
+	     */
+	
+	  }, {
+	    key: "insertAtCaret",
+	    value: function insertAtCaret(el) {
+	      var caret = Math.min(this.caretPos, this.items.length);
+	      var target = this.buffer || this.control;
+	
+	      if (caret === 0) {
+	        target.insertBefore(el, target.firstChild);
+	      } else {
+	        target.insertBefore(el, target.children[caret]);
+	      }
+	
+	      this.setCaret(caret + 1);
+	    }
+	    /**
+	     * Removes the current selected item(s).
+	     *
+	     * @param {object} e (optional)
+	     * @returns {boolean}
+	     */
+	
+	  }, {
+	    key: "deleteSelection",
+	    value: function deleteSelection(e) {
+	      var i, n, direction, selection, values, caret, tail;
+	      var self = this;
+	      direction = e && e.keyCode === KEY_BACKSPACE ? -1 : 1;
+	      selection = getSelection(self.control_input); // determine items that will be removed
+	
+	      values = [];
+	
+	      if (self.activeItems.length) {
+	        tail = getTail(self.activeItems, direction);
+	        caret = nodeIndex(tail);
+	
+	        if (direction > 0) {
+	          caret++;
+	        }
+	
+	        for (i = 0, n = self.activeItems.length; i < n; i++) {
+	          values.push(self.activeItems[i].dataset.value);
+	        }
+	
+	        if (e) {
+	          e.preventDefault();
+	          e.stopPropagation();
+	        }
+	      } else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
+	        if (direction < 0 && selection.start === 0 && selection.length === 0) {
+	          values.push(self.items[self.caretPos - 1]);
+	        } else if (direction > 0 && selection.start === self.inputValue().length) {
+	          values.push(self.items[self.caretPos]);
+	        }
+	      } // allow the callback to abort
+	
+	
+	      if (!values.length || typeof self.settings.onDelete === 'function' && self.settings.onDelete.apply(self, [values, e]) === false) {
+	        return false;
+	      } // perform removal
+	
+	
+	      if (typeof caret !== 'undefined') {
+	        self.setCaret(caret);
+	      }
+	
+	      while (values.length) {
+	        self.removeItem(values.pop());
+	      }
+	
+	      self.showInput();
+	      self.positionDropdown();
+	      self.refreshOptions(false);
+	      return true;
+	    }
+	    /**
+	     * Selects the previous / next item (depending on the `direction` argument).
+	     *
+	     * > 0 - right
+	     * < 0 - left
+	     *
+	     * @param {int} direction
+	     * @param {object} e (optional)
+	     */
+	
+	  }, {
+	    key: "advanceSelection",
+	    value: function advanceSelection(direction, e) {
+	      var selection, idx, last_active;
+	      if (direction === 0) return;
+	      if (this.rtl) direction *= -1; // add or remove to active items
+	
+	      if (this.isKeyDown(KEY_CTRL, e) || this.isKeyDown(KEY_SHIFT, e)) {
+	        last_active = this.getLastActive(direction);
+	        var adjacent = this.getAdjacent(last_active, direction, 'item');
+	
+	        if (adjacent) {
+	          if (adjacent.classList.contains('active')) {
+	            this.removeActiveItem(last_active);
+	          }
+	
+	          this.setActiveItemClass(adjacent); // mark as last_active !! after removeActiveItem() on last_active
+	        } // move caret to the left or right
+	
+	      } else if (this.isFocused && !this.isInputHidden) {
+	        if (!this.inputValue().length) {
+	          this.setCaret(this.caretPos + direction);
+	        } // move caret before or after selected items
+	
+	      } else {
+	        last_active = this.getLastActive(direction);
+	
+	        if (last_active) {
+	          idx = nodeIndex(last_active);
+	          this.setCaret(direction > 0 ? idx + 1 : idx);
+	          this.setActiveItem(null);
+	        }
+	      }
+	    }
+	    /**
+	     * Get the last active item
+	     *
+	     */
+	
+	  }, {
+	    key: "getLastActive",
+	    value: function getLastActive(direction) {
+	      var last_active = this.control.querySelector('.last-active');
 	
 	      if (last_active) {
-	        idx = nodeIndex(last_active);
-	        this.setCaret(direction > 0 ? idx + 1 : idx);
-	        this.setActiveItem(null);
+	        return last_active;
 	      }
+	
+	      return querySelectorEnd(this.control, '.active', direction);
 	    }
-	  },
+	    /**
+	     * Moves the caret to the specified index.
+	     *
+	     * @param {int} i
+	     */
 	
-	  /**
-	   * Get the last active item
-	   *
-	   */
-	  getLastActive: function getLastActive(direction) {
-	    var last_active = this.control.querySelector('.last-active');
+	  }, {
+	    key: "setCaret",
+	    value: function setCaret(i) {
+	      var self = this;
 	
-	    if (last_active) {
-	      return last_active;
-	    }
+	      if (self.settings.mode === 'single' || self.settings.controlInput) {
+	        i = self.items.length;
+	      } else {
+	        i = Math.max(0, Math.min(self.items.length, i));
+	      }
 	
-	    return querySelectorEnd(this.control, '.active', direction);
-	  },
+	      if (!self.settings.controlInput && !self.isPending) {
+	        // the input must be moved by leaving it in place and moving the
+	        // siblings, due to the fact that focus cannot be restored once lost
+	        // on mobile webkit devices
+	        var j,
+	            child,
+	            children = this.controlChildren(),
+	            n = children.length;
 	
-	  /**
-	   * Moves the caret to the specified index.
-	   *
-	   * @param {int} i
-	   */
-	  setCaret: function setCaret(i) {
-	    var self = this;
+	        for (j = 0; j < n; j++) {
+	          child = children[j];
 	
-	    if (self.settings.mode === 'single' || self.settings.controlInput) {
-	      i = self.items.length;
-	    } else {
-	      i = Math.max(0, Math.min(self.items.length, i));
-	    }
-	
-	    if (!self.settings.controlInput && !self.isPending) {
-	      // the input must be moved by leaving it in place and moving the
-	      // siblings, due to the fact that focus cannot be restored once lost
-	      // on mobile webkit devices
-	      var j,
-	          child,
-	          children = this.controlChildren(),
-	          n = children.length;
-	
-	      for (j = 0; j < n; j++) {
-	        child = children[j];
-	
-	        if (j < i) {
-	          self.control_input.insertAdjacentElement('beforebegin', child);
-	        } else {
-	          self.control.appendChild(child);
+	          if (j < i) {
+	            self.control_input.insertAdjacentElement('beforebegin', child);
+	          } else {
+	            self.control.appendChild(child);
+	          }
 	        }
 	      }
+	
+	      self.caretPos = i;
 	    }
+	    /**
+	     * Return list of item dom elements
+	     *
+	     */
 	
-	    self.caretPos = i;
-	  },
-	
-	  /**
-	   * Return list of item dom elements
-	   *
-	   */
-	  controlChildren: function controlChildren() {
-	    return Array.prototype.filter.call(this.control.children, function (node) {
-	      return node.nodeName !== 'INPUT';
-	    });
-	  },
-	
-	  /**
-	   * Disables user input on the control. Used while
-	   * items are being asynchronously created.
-	   */
-	  lock: function lock() {
-	    this.close();
-	    this.isLocked = true;
-	    this.refreshState();
-	  },
-	
-	  /**
-	   * Re-enables user input on the control.
-	   */
-	  unlock: function unlock() {
-	    this.isLocked = false;
-	    this.refreshState();
-	  },
-	
-	  /**
-	   * Disables user input on the control completely.
-	   * While disabled, it cannot receive focus.
-	   */
-	  disable: function disable() {
-	    this.input.disabled = true;
-	    this.control_input.disabled = true;
-	    this.control_input.tabIndex = -1;
-	    this.isDisabled = true;
-	    this.lock();
-	  },
-	
-	  /**
-	   * Enables the control so that it can respond
-	   * to focus and user input.
-	   */
-	  enable: function enable() {
-	    this.input.disabled = false;
-	    this.control_input.disabled = false;
-	    this.control_input.tabIndex = this.tabIndex;
-	    this.isDisabled = false;
-	    this.unlock();
-	  },
-	
-	  /**
-	   * Completely destroys the control and
-	   * unbinds all event listeners so that it can
-	   * be garbage collected.
-	   */
-	  destroy: function destroy() {
-	    var revertSettings = this.revertSettings;
-	    this.trigger('destroy');
-	    this.off();
-	    this.wrapper.remove();
-	    this.dropdown.remove();
-	    this.input.innerHTML = '';
-	
-	    if (revertSettings.tabindex) {
-	      this.input.setAttribute('tabindex', revertSettings.tabindex);
-	    } else {
-	      this.input.removeAttribute('tabindex');
+	  }, {
+	    key: "controlChildren",
+	    value: function controlChildren() {
+	      return Array.prototype.filter.call(this.control.children, function (node) {
+	        return node.nodeName !== 'INPUT';
+	      });
 	    }
+	    /**
+	     * Disables user input on the control. Used while
+	     * items are being asynchronously created.
+	     */
 	
-	    removeClasses(this.input, 'tomselected');
-	    this.input.removeAttribute('hidden');
-	
-	    for (var i = 0; i < revertSettings.children.length; i++) {
-	      this.input.appendChild(revertSettings.children[i]);
+	  }, {
+	    key: "lock",
+	    value: function lock() {
+	      this.close();
+	      this.isLocked = true;
+	      this.refreshState();
 	    }
+	    /**
+	     * Re-enables user input on the control.
+	     */
 	
-	    this._destroy();
-	
-	    delete this.input.tomselect;
-	  },
-	
-	  /**
-	   * A helper method for rendering "item" and
-	   * "option" templates, given the data.
-	   *
-	   * @param {string} templateName
-	   * @param {object} data
-	   * @returns {Element}
-	   */
-	  render: function render(templateName, data) {
-	    var value, id, label;
-	    var html = '';
-	    var self = this;
-	    var regex_tag = /^[\t \r\n]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
-	
-	    if (templateName === 'option' || templateName === 'item') {
-	      value = hash_key(data[self.settings.valueField]); // pull markup from cache if it exists
-	
-	      if (self.renderCache[templateName].hasOwnProperty(value)) {
-	        return self.renderCache[templateName][value];
-	      }
-	    } // render markup
-	
-	
-	    html = getDom(self.settings.render[templateName].apply(this, [data, escape_html])); // add mandatory attributes
-	
-	    if (templateName === 'option' || templateName === 'option_create') {
-	      if (!data[self.settings.disabledField]) {
-	        html.setAttribute('data-selectable', '');
-	      }
-	    } else if (templateName === 'optgroup') {
-	      id = data[self.settings.optgroupValueField];
-	      html.setAttribute('data-group', id);
-	
-	      if (data[self.settings.disabledField]) {
-	        html.setAttribute('data-disabled', '');
-	      }
+	  }, {
+	    key: "unlock",
+	    value: function unlock() {
+	      this.isLocked = false;
+	      this.refreshState();
 	    }
+	    /**
+	     * Disables user input on the control completely.
+	     * While disabled, it cannot receive focus.
+	     */
 	
-	    if (templateName === 'option' || templateName === 'item') {
-	      html.setAttribute('data-value', value); // make sure we have some classes if a template is overwritten
+	  }, {
+	    key: "disable",
+	    value: function disable() {
+	      this.input.disabled = true;
+	      this.control_input.disabled = true;
+	      this.control_input.tabIndex = -1;
+	      this.isDisabled = true;
+	      this.lock();
+	    }
+	    /**
+	     * Enables the control so that it can respond
+	     * to focus and user input.
+	     */
 	
-	      if (templateName === 'item') {
-	        addClasses(html, self.settings.itemClass);
+	  }, {
+	    key: "enable",
+	    value: function enable() {
+	      this.input.disabled = false;
+	      this.control_input.disabled = false;
+	      this.control_input.tabIndex = this.tabIndex;
+	      this.isDisabled = false;
+	      this.unlock();
+	    }
+	    /**
+	     * Completely destroys the control and
+	     * unbinds all event listeners so that it can
+	     * be garbage collected.
+	     */
+	
+	  }, {
+	    key: "destroy",
+	    value: function destroy() {
+	      var revertSettings = this.revertSettings;
+	      this.trigger('destroy');
+	      this.off();
+	      this.wrapper.remove();
+	      this.dropdown.remove();
+	      this.input.innerHTML = '';
+	
+	      if (revertSettings.tabindex) {
+	        this.input.setAttribute('tabindex', revertSettings.tabindex);
 	      } else {
-	        addClasses(html, self.settings.optionClass);
-	      } // update cache
-	
-	
-	      self.renderCache[templateName][value] = html;
-	    }
-	
-	    return html;
-	  },
-	
-	  /**
-	   * Clears the render cache for a template. If
-	   * no template is given, clears all render
-	   * caches.
-	   *
-	   * @param {string} templateName
-	   */
-	  clearCache: function clearCache(templateName) {
-	    var self = this;
-	
-	    if (typeof templateName === 'undefined') {
-	      self.renderCache = {
-	        'item': {},
-	        'option': {}
-	      };
-	    } else {
-	      self.renderCache[templateName] = {};
-	    }
-	  },
-	
-	  /**
-	   * Determines whether or not to display the
-	   * create item prompt, given a user input.
-	   *
-	   * @param {string} input
-	   * @return {boolean}
-	   */
-	  canCreate: function canCreate(input) {
-	    if (!this.settings.create) return false;
-	    var filter = this.settings.createFilter;
-	    return input.length && (typeof filter !== 'function' || filter.apply(this, [input])) && (!(filter instanceof RegExp) || filter.test(input));
-	  },
-	
-	  /**
-	   * Return true if the requested key is down
-	   * The current evt may not always set ( eg calling advanceSelection() )
-	   *
-	   */
-	  isKeyDown: function isKeyDown(key_code, evt) {
-	    if (evt) {
-	      if (key_code == KEY_CTRL && evt[KEY_CTRL_NAME]) {
-	        return true;
+	        this.input.removeAttribute('tabindex');
 	      }
 	
-	      if (key_code == KEY_CMD && evt[KEY_CMD_NAME]) {
+	      removeClasses(this.input, 'tomselected');
+	      this.input.removeAttribute('hidden');
+	
+	      for (var i = 0; i < revertSettings.children.length; i++) {
+	        this.input.appendChild(revertSettings.children[i]);
+	      }
+	
+	      this._destroy();
+	
+	      delete this.input.tomselect;
+	    }
+	    /**
+	     * A helper method for rendering "item" and
+	     * "option" templates, given the data.
+	     *
+	     * @param {string} templateName
+	     * @param {object} data
+	     * @returns {Element}
+	     */
+	
+	  }, {
+	    key: "render",
+	    value: function render(templateName, data) {
+	      var value, id, label;
+	      var html = '';
+	      var self = this;
+	      var regex_tag = /^[\t \r\n]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
+	
+	      if (templateName === 'option' || templateName === 'item') {
+	        value = hash_key(data[self.settings.valueField]); // pull markup from cache if it exists
+	
+	        if (self.renderCache[templateName].hasOwnProperty(value)) {
+	          return self.renderCache[templateName][value];
+	        }
+	      } // render markup
+	
+	
+	      html = getDom(self.settings.render[templateName].apply(this, [data, escape_html])); // add mandatory attributes
+	
+	      if (templateName === 'option' || templateName === 'option_create') {
+	        if (!data[self.settings.disabledField]) {
+	          html.setAttribute('data-selectable', '');
+	        }
+	      } else if (templateName === 'optgroup') {
+	        id = data.group[self.settings.optgroupValueField];
+	        html.setAttribute('data-group', id);
+	
+	        if (data.group[self.settings.disabledField]) {
+	          html.setAttribute('data-disabled', '');
+	        }
+	      }
+	
+	      if (templateName === 'option' || templateName === 'item') {
+	        html.setAttribute('data-value', value); // make sure we have some classes if a template is overwritten
+	
+	        if (templateName === 'item') {
+	          addClasses(html, self.settings.itemClass);
+	        } else {
+	          addClasses(html, self.settings.optionClass);
+	        } // update cache
+	
+	
+	        self.renderCache[templateName][value] = html;
+	      }
+	
+	      return html;
+	    }
+	    /**
+	     * Clears the render cache for a template. If
+	     * no template is given, clears all render
+	     * caches.
+	     *
+	     * @param {string} templateName
+	     */
+	
+	  }, {
+	    key: "clearCache",
+	    value: function clearCache(templateName) {
+	      var self = this;
+	
+	      if (typeof templateName === 'undefined') {
+	        self.renderCache = {
+	          'item': {},
+	          'option': {}
+	        };
+	      } else {
+	        self.renderCache[templateName] = {};
+	      }
+	    }
+	    /**
+	     * Determines whether or not to display the
+	     * create item prompt, given a user input.
+	     *
+	     * @param {string} input
+	     * @return {boolean}
+	     */
+	
+	  }, {
+	    key: "canCreate",
+	    value: function canCreate(input) {
+	      if (!this.settings.create) return false;
+	      var filter = this.settings.createFilter;
+	      return input.length && (typeof filter !== 'function' || filter.apply(this, [input])) && (!(filter instanceof RegExp) || filter.test(input));
+	    }
+	    /**
+	     * Return true if the requested key is down
+	     * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
+	     * The current evt may not always set ( eg calling advanceSelection() )
+	     *
+	     */
+	
+	  }, {
+	    key: "isKeyDown",
+	    value: function isKeyDown(key_code, evt) {
+	      if (!evt) {
+	        return false;
+	      }
+	
+	      if (evt.altKey) {
+	        return false;
+	      } // if [ctrl+shift], return false
+	
+	
+	      if (evt[KEY_CTRL_NAME] && evt.shiftKey) {
+	        return false;
+	      }
+	
+	      if (key_code == KEY_CTRL && evt[KEY_CTRL_NAME]) {
 	        return true;
 	      }
 	
 	      if (key_code == KEY_SHIFT && evt.shiftKey) {
 	        return true;
 	      }
+	
+	      return false;
 	    }
+	    /**
+	     * Wraps this.`method` so that `new_fn` can be invoked 'before', 'after', or 'instead' of the original method
+	     *
+	     * this.hook('instead','onKeyDown',function( arg1, arg2 ...){
+	     *
+	     * });
+	     *
+	     * @param {string} method
+	     * @param {string} when
+	     * @param {function} new_fn
+	     */
 	
-	    return false;
-	  },
+	  }, {
+	    key: "hook",
+	    value: function hook(when, method, new_fn) {
+	      var self = this;
+	      var orig_method = self[method];
 	
-	  /**
-	   * Wraps this.`method` so that `new_fn` can be invoked 'before', 'after', or 'instead' of the original method
-	   *
-	   * this.hook('instead','onKeyDown',function( arg1, arg2 ...){
-	   *
-	   * });
-	   *
-	   * @param {string} method
-	   * @param {string} when
-	   * @param {function} new_fn
-	   */
-	  hook: function hook(when, method, new_fn) {
-	    var self = this;
-	    var orig_method = self[method];
+	      self[method] = function () {
+	        var result, result_new;
 	
-	    self[method] = function () {
-	      var result, result_new;
+	        if (when === 'after') {
+	          result = orig_method.apply(self, arguments);
+	        }
 	
-	      if (when === 'after') {
-	        result = orig_method.apply(self, arguments);
-	      }
+	        result_new = new_fn.apply(self, arguments);
 	
-	      result_new = new_fn.apply(self, arguments);
+	        if (when === 'instead') {
+	          return result_new;
+	        }
 	
-	      if (when === 'instead') {
-	        return result_new;
-	      }
+	        if (when === 'before') {
+	          result = orig_method.apply(self, arguments);
+	        }
 	
-	      if (when === 'before') {
-	        result = orig_method.apply(self, arguments);
-	      }
+	        return result;
+	      };
+	    }
+	  }]);
 	
-	      return result;
-	    };
-	  }
-	});
+	  return TomSelect;
+	}(MicroEvent);
+	
+	; // mixins
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	
+	if (typeof MicroPlugin === "undefined") {
+	  throw 'Dependency MicroPlugin is missing. Make sure you either: (1) are using the "complete" version of Tom Select, or (2) require MicroPlugin before you load Tom Select.';
+	}
+	
+	MicroPlugin.mixin(TomSelect);
 	TomSelect.count = 0;
 	TomSelect.defaults = {
 	  options: [],
@@ -3918,6 +4127,22 @@
 	    */
 	  }
 	};
+	TomSelect.define('change_listener', function (options) {
+	  var self = this;
+	  var changed = false;
+	  self.input.addEventListener('change', function () {
+	    // prevent infinite loops
+	    if (changed) {
+	      changed = false;
+	      return;
+	    }
+	
+	    changed = true;
+	    var settings = getSettings(self.input, {});
+	    self.setupOptions(settings.options, settings.optgroups);
+	    self.setValue(settings.items);
+	  });
+	});
 	TomSelect.define('drag_drop', function (options) {
 	  if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	  if (this.settings.mode !== 'multi') return;
@@ -4133,11 +4358,16 @@
 	  self.hook('instead', 'render', function (templateName, data) {
 	    var rendered = orig_render.apply(self, arguments);
 	
-	    if (templateName == 'item') {
+	    if (templateName == 'item' && !rendered.querySelector('.' + options.className)) {
 	      var close_button = getDom(html);
 	      rendered.appendChild(close_button);
+	      close_button.addEventListener('mousedown', function (evt) {
+	        evt.preventDefault();
+	        evt.stopPropagation();
+	      });
 	      close_button.addEventListener('click', function (evt) {
-	        evt.preventDefault(); // propagating will trigger the dropdown to show for single mode
+	        evt.preventDefault();
+	        evt.stopPropagation(); // propagating will trigger the dropdown to show for single mode
 	
 	        if (self.settings.mode !== 'single') {
 	          evt.stopPropagation();
@@ -4146,6 +4376,7 @@
 	        if (self.isLocked) return;
 	        var value = rendered.dataset.value;
 	        self.removeItem(value);
+	        self.refreshOptions(false);
 	      });
 	    }
 	
