@@ -70,6 +70,10 @@ b{
 	color:			$headings-color;
 }
 
+li{
+	margin-top: 0.5rem;
+}
+
 /**
  * Demo
  *
@@ -136,28 +140,30 @@ pre[class*="language-"]{
 	overflow-y:			auto;
 	overflow-x:			hidden;
 
+
 	a{
 		color:				$secondary;
 		text-decoration:	none;
+		transition:			background-color .3s ease-in-out;
 	}
 
-	h5 a{
+	a.h5{
 		color:				$headings-color;
 		font-weight:		bold;
 	}
 
 	.nav-link{
-		padding:		.35rem .7rem;
+		padding:		.35rem 1.5rem .35rem 2.5rem;
 	}
 
 	.nav-link.active{
 		color:				$dark;
 	}
 
-	.nav-link:hover{
-		color:				$primary;
+	.nav-link:hover,
+	a.h5:hover{
+		background:		white;
 	}
-
 
 }
 
@@ -194,5 +200,16 @@ pre[class*="language-"]{
 
 	.offcanvas.open{
 		transform: translateX(0);
+	}
+
+}
+
+.badges{
+	a{
+		opacity:	0.75;
+		transition: opacity .3s ease-in-out;
+	}
+	a:hover{
+		opacity:	1;
 	}
 }

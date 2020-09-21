@@ -1,23 +1,18 @@
 
-<h1 class="display-3 mt-0">Tom Select</h1>
+<div class="text-center">
+<h1 class="display-2 mt-5">Tom Select</h1>
 
-
-<!-- [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
-[![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
--->
-[![NPM version](http://img.shields.io/npm/v/tom-select.svg?style=flat)](https://www.npmjs.org/package/tom-select)
-[![Build Status](https://travis-ci.org/orchidjs/tom-select.svg?branch=master)](https://travis-ci.org/orchidjs/tom-select)
-[![Coverage Status](https://coveralls.io/repos/github/orchidjs/tom-select/badge.svg?branch=master)](https://coveralls.io/github/orchidjs/tom-select?branch=master)
-[![Issues](https://img.shields.io/github/issues/orchidjs/tom-select)](https://github.com/orchidjs/tom-select/issues)
-
-<div class="lead my-4">
-Tom Select is a versatile and dynamic &lt;select&gt; UI control.
-With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
-Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to provide the same powerful UI and API but with a framework agnostic design.
+<a href="https://github.com/orchidjs/tom-select" class="mb-2"><img alt="GitHub forks" src="https://img.shields.io/github/forks/orchidjs/tom-select?label=Github%20forks&style=for-the-badge&color=007ec6"></a>
+<a href="https://cdnjs.com/libraries/selectize.js" class="mb-2"><img alt="npmjs.org" style="height:28px" src="http://img.shields.io/npm/v/tom-select.svg?style=for-the-badge&color=007ec6"></a>
+<a href="https://travis-ci.org/orchidjs/tom-select" class="mb-2"><img alt="Travis.org" style="height:28px" src="https://img.shields.io/travis/orchidjs/tom-select?style=for-the-badge"></a>
+<a href="https://coveralls.io/github/orchidjs/tom-select" class="mb-2"><img alt="Coveralls Coverage" style="height:28px" src="https://img.shields.io/coveralls/github/orchidjs/tom-select?color=4c1&style=for-the-badge"></a>
+<a href="https://github.com/orchidjs/tom-select/issues" class="mb-2"><img alt="GitHub Issues" style="height:28px" src="https://img.shields.io/github/issues/orchidjs/tom-select?style=for-the-badge"></a>
 </div>
 
-<div class="w-50 mx-auto">
-<h3>Example</h3>
+
+<div class="row py-5">
+<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mx-auto">
+<h5 class="mt-3">Example</h5>
 <link rel="stylesheet" href="/css/tom-select.bootstrap4.css">
 <select id="select-tags" multiple placeholder="Best movies and TV shows">
 	<option selected>Magnum P.I.</option>
@@ -28,10 +23,20 @@ Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to pro
 </select>
 <script>
 tomSelect("#select-tags",{
-create: true
+	plugins: ['remove_button'],
+	create: true,
 });
 </script>
 </div>
+</div>
+
+<div class="lead my-5">
+Tom Select is a versatile and dynamic &lt;select&gt; UI control.
+With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
+Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to provide the same powerful UI and API but with a framework agnostic design.
+</div>
+
+
 
 
 ## Features
@@ -54,11 +59,11 @@ create: true
 <script src="/js/tom-select.complete.js"></script>
 <script>
 var options = {};
-tomSelect('#tom-select-it',{});
+tomSelect('#tom-select-it',options);
 </script>
 ```
 
-The available options are [documented here](usage.md).
+The available options are [documented here](docs).
 
 
 ## Installation and files
@@ -78,7 +83,7 @@ All pre-built files needed to use Tom Select can be found in the ["dist"](https:
 
 ## Custom Builds
 
-By default, all [plugins](plugins) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the files you need from the "build" folder.
+By default, all [plugins](/docs/plugins.md) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the files you need from the "build" folder.
 
 ```shell
 # dependencies

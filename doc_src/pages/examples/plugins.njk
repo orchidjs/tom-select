@@ -11,29 +11,6 @@ script: <script src="/js/jqueryui.js"></script>
 {% from "demo.njk" import demo %}
 
 
-{% set label %}
-<label class="h2 mb-3">
-	input_autogrow
-</label>
-{% endset %}
-
-{% set html %}
-<input type="text" id="input-autogrow" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
-{% endset %}
-
-<script>
-{% set script %}
-tomSelect('#input-autogrow',{
-	plugins: ['input_autogrow'],
-});
-{% endset %}
-</script>
-
-{{ demo( label, html, script) }}
-
-
-
-
 
 {% set label %}
 <label class="h2 mb-3">
@@ -259,6 +236,30 @@ $('#change-input').click(function(evt){
 	var evt = document.createEvent('HTMLEvents');
 	evt.initEvent('change', false, true);
 	input.dispatchEvent(evt);
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	input_autogrow
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-autogrow" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+{% endset %}
+
+<script>
+{% set script %}
+tomSelect('#input-autogrow',{
+	plugins: ['input_autogrow'],
 });
 {% endset %}
 </script>

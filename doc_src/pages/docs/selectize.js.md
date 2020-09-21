@@ -46,6 +46,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - [#1104](https://github.com/selectize/selectize.js/issues/1104) Replace values in single-item selection
 - [#1132](https://github.com/selectize/selectize.js/issues/1132) Can't enter 'ą' character in tags mode
 - [#102](https://github.com/selectize/selectize.js/issues/102) Listen to original select changes (via 'change_listener' plugin)
+- [#905](https://github.com/selectize/selectize.js/issues/905) Support for Bootstrap 4
 
 
 ## Development

@@ -41,6 +41,7 @@ module.exports = function(grunt) {
 		'default',
 		'builddocs',
 		'connect',
+		'check_doc_links',
 		'watch'
 	])
 
@@ -73,6 +74,65 @@ module.exports = function(grunt) {
 		grunt.file.write(path, modules.join('\n\n'));
 		grunt.log.writeln('Built "' + path + '".');
 	});
+
+
+	/**
+	 * Check generated docs for broken links
+	 * https://www.npmjs.com/package/broken-link-checker
+	 */
+	grunt.registerTask('check_doc_links','',function(){
+		var done = this.async();
+		const {SiteChecker} = require('broken-link-checker');
+		const options = {
+			excludeExternalLinks: true,
+			cacheMaxAge:60,
+		};
+
+		var urls_checked	= 0;
+		var links_checked	= 0;
+		var failures		= 0;
+
+
+		const handlers = {
+			error:function(error){
+				failures++;
+				console.log('error',error);
+			},
+			page:function(error, page_url, customData){
+				if( error ){
+					failures++;
+					console.log('error!',page_url);
+				}
+
+				urls_checked++;
+			},
+			junk:function( result, data ){
+
+				links_checked++;
+				if( result.broken ){
+					failures++;
+					console.log('broken junk found',result);
+				}
+			},
+			link:function(link){
+				if( link.broken ){
+					failures++;
+					console.log('broken link',link);
+				}
+			},
+			end:function(){
+				console.log('urls checked',urls_checked);
+				console.log('links checked',links_checked);
+				console.log('failures',failures);
+
+				done(failures==0);
+			}
+		};
+
+		const checker = new SiteChecker(options,handlers)
+		checker.enqueue('http://localhost:8000/', {});
+	});
+
 
 	var files_js = [
 		'src/contrib/*.js',
@@ -316,6 +376,7 @@ module.exports = function(grunt) {
 				],
 				tasks:[
 					'builddocs',
+					'check_doc_links',
 				]
 			},
 			src:{
@@ -325,6 +386,7 @@ module.exports = function(grunt) {
 				tasks: [
 					'default',
 					'builddocs',
+					'check_doc_links',
 				]
 			}
 		}

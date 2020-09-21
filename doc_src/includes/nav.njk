@@ -1,5 +1,6 @@
 
-	<h5 class="mt-0"><a href="/">Home</a></h5>
+
+	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
 	{# print a navigation link, add active/text-dark class if the current nav item is the current page
 	 # https://www.11ty.dev/docs/data-eleventy-supplied/#page-variable-contents
@@ -20,7 +21,7 @@
 	{% endmacro %}
 
 
-	<h5 class="mt-3 mb-2"><a href="/examples/">Examples</a></h5>
+	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
 	{% if 'examples' in page.filePathStem %}
 	<nav class="nav flex-column">
 		{% for demo in collections.demosAlpha %}
@@ -30,7 +31,7 @@
 	{% endif %}
 
 
-	<h5 class="mt-3 mb-2"><a href="/docs">Documentation</a></h5>
+	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
 	{% if 'docs' in page.filePathStem %}
 	<nav class="nav flex-column">
 		{{ nav_link({url:'/docs/',title:'Usage'}) }}
@@ -42,10 +43,13 @@
 	</nav>
 	{% endif %}
 
-	<h5 class="mt-3 mb-2"><a href="https://github.com/orchidjs/tom-select">Fork on GitHub</a></h5>
+	<div class="border-bottom m-4"></div>
+
+	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
+	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
 
 
-	<div class="mt-auto pt-5 pb-2 small">
+	<div class="mt-auto p-4 badges small">
 		<a href="https://github.com/orchidjs/tom-select/blob/master/{{ page.inputPath }}">Edit this page on GitHub</a>
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
 	</div>

@@ -208,7 +208,7 @@ var select = tomSelect('#select',options);
 	</tr>
 	<tr>
 		<td><code>getValue()</code></td>
-		<td>Returns the value of the control. If multiple items can be selected with a "select" input tag (e.g. <a href="usage.md#maxItems">&lt;select multiple&gt;</a>), this returns an array. Otherwise, returns a string (separated by <code>delimiter</code> if "multiple").</td>
+		<td>Returns the value of the control. If multiple items can be selected with a "select" input tag (e.g. <a href="/docs#maxItems">&lt;select multiple&gt;</a>), this returns an array. Otherwise, returns a string (separated by <code>delimiter</code> if "multiple").</td>
 	</tr>
 	<tr>
 		<td><code>setValue(value, silent)</code></td>
