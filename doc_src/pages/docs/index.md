@@ -74,7 +74,7 @@ create: true
 
 ```js
 create: function(input){
-	return: {value:input,text:input}
+	return {value:input,text:input}
 }
 ```
 
