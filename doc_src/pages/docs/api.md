@@ -6,46 +6,19 @@ tags: docs
 
 Instances of Tom Select can be controlled programmatically via the methods described in this section.
 
-
 ```js
-// initialize the control
-var select = tomSelect('#select',options);
+var control = tomSelect('#select');
+control.addOption({value:'test'});
+control.addItem('test');
 ```
 
-#### Related Topics
 
-- [Event Documentation](events.md)
-- [Developing Plugins](plugins.md)
-
-### Properties
+## Option Methods
 
 <table class="table table-striped">
 	<tr>
-		<th colspan="3" align="left"><a href="#props" name="props">Properties</a></th>
-	</tr>
-	<tr>
-		<th width="120px" align="left">Property</th>
-		<th align="left">Description</th>
-	</tr>
-	<tr>
-		<td><code>options</code></td>
-		<td>An object containing the entire pool of options. The object is keyed by each object's value.</td>
-	</tr>
-	<tr>
-		<td><code>items</code></td>
-		<td>An array of selected values.</td>
-	</tr>
-</table>
-
-### Methods
-
-<table class="table table-striped">
-	<tr>
-		<th colspan="3" align="left"><a href="#methods_options" name="methods_options">Options</a></th>
-	</tr>
-	<tr>
-		<th width="120px" align="left">Method</th>
-		<th align="left">Description</th>
+		<th width="120px">Method</th>
+		<th>Description</th>
 	</tr>
 	<tr>
 		<td><code>addOption(data)</code></td>
@@ -75,12 +48,13 @@ var select = tomSelect('#select',options);
 		<td><code>refreshOptions(triggerDropdown)</code></td>
 		<td>Refreshes the list of available options shown in the autocomplete dropdown menu.</td>
 	</tr>
+</table>
+
+## Item Methods
+<table class="table table-striped">
 	<tr>
-		<th colspan="3" align="left"><a href="#methods_items" name="methods_items">Items</a></th>
-	</tr>
-	<tr>
-		<th width="120px" align="left">Method</th>
-		<th align="left">Description</th>
+		<th width="120px">Method</th>
+		<th>Description</th>
 	</tr>
 	<tr>
 		<td><code>clear(silent)</code></td>
@@ -106,12 +80,13 @@ var select = tomSelect('#select',options);
 		<td><code>refreshItems()</code></td>
 		<td>Re-renders the selected item lists.</td>
 	</tr>
+</table>
+
+## Optgroup Methods
+<table class="table table-striped">
 	<tr>
-		<th colspan="3" align="left"><a href="#methods_items" name="methods_optgroups">Optgroups</a></th>
-	</tr>
-	<tr>
-		<th width="120px" align="left">Method</th>
-		<th align="left">Description</th>
+		<th width="120px">Method</th>
+		<th>Description</th>
 	</tr>
 	<tr>
 		<td><code>addOptionGroup(id, data)</code></td>
@@ -125,12 +100,13 @@ var select = tomSelect('#select',options);
 		<td><code>clearOptionGroups()</code></td>
 		<td>Removes all existing option groups.</td>
 	</tr>
+</table>
+
+## Event Methods
+<table class="table table-striped">
 	<tr>
-		<th colspan="3" align="left"><a href="#methods_events" name="methods_events">Events</a></th>
-	</tr>
-	<tr>
-		<th width="120px" align="left">Method</th>
-		<th align="left">Description</th>
+		<th width="120px">Method</th>
+		<th>Description</th>
 	</tr>
 	<tr>
 		<td><code>on(event, handler)</code></td>
@@ -148,12 +124,13 @@ var select = tomSelect('#select',options);
 		<td><code>trigger(event, ...)</code></td>
 		<td>Triggers event listeners.</td>
 	</tr>
+</table>
+
+## Dropdown Methods
+<table class="table table-striped">
 	<tr>
-		<th colspan="3" align="left"><a href="#methods_dropdown" name="methods_dropdown">Dropdown</a></th>
-	</tr>
-	<tr>
-		<th width="120px" align="left">Method</th>
-		<th align="left">Description</th>
+		<th width="120px">Method</th>
+		<th>Description</th>
 	</tr>
 	<tr>
 		<td><code>open()</code></td>
@@ -167,12 +144,13 @@ var select = tomSelect('#select',options);
 		<td><code>positionDropdown()</code></td>
 		<td>Calculates and applies the appropriate position of the dropdown.</td>
 	</tr>
+</table>
+
+## Other Methods
+<table class="table table-striped">
 	<tr>
-		<th colspan="3" align="left"><a href="#methods_other" name="methods_other">Other</a></th>
-	</tr>
-	<tr>
-		<th width="120px" align="left">Method</th>
-		<th align="left">Description</th>
+		<th width="120px">Method</th>
+		<th>Description</th>
 	</tr>
 	<tr>
 		<td><code>destroy()</code></td>
@@ -237,15 +215,15 @@ var select = tomSelect('#select',options);
 	</tr>
 </table>
 
-### Related Objects
+## Related Objects
 
 #### Search
 
 <table class="table table-striped">
 	<tr>
-		<th width="120px" align="left">Option</th>
-		<th align="left">Description</th>
-		<th width="60px" align="left">Type</th>
+		<th width="120px">Option</th>
+		<th>Description</th>
+		<th width="60px">Type</th>
 	</tr>
 	<tr>
 		<td><code>options</code></td>

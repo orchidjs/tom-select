@@ -8,6 +8,7 @@ tags: docs
 <link href="tom-select.bootstrap4.css" rel="stylesheet" />
 <input id="select" />
 <script>
+var config = {};
 tomSelect('#select',config);
 </script>
 ```
