@@ -1,11 +1,12 @@
-# Tom Select
+<h1 align="center">Tom Select</h1>
 
-<!--
-[![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js) -->
-[![NPM version](http://img.shields.io/npm/v/tom-select.svg?style=flat)](https://www.npmjs.org/package/tom-select)
-[![Build Status](https://travis-ci.org/orchidjs/tom-select.svg?branch=master)](https://travis-ci.org/orchidjs/tom-select)
-[![Coverage Status](https://coveralls.io/repos/github/orchidjs/tom-select/badge.svg?branch=master)](https://coveralls.io/github/orchidjs/tom-select?branch=master)
-[![Issues](https://img.shields.io/github/issues/orchidjs/tom-select)](https://github.com/orchidjs/tom-select/issues)
+<p align="center">
+<a href="https://github.com/orchidjs/tom-select"><img alt="GitHub forks" src="https://img.shields.io/github/forks/orchidjs/tom-select?label=Github%20forks&style=for-the-badge&color=007ec6"></a>
+<a href="https://www.npmjs.com/package/tom-select"><img alt="npmjs.org" style="height:28px" src="https://img.shields.io/npm/v/tom-select.svg?style=for-the-badge&color=007ec6"></a>
+<a href="https://travis-ci.org/orchidjs/tom-select"><img alt="Travis.org" style="height:28px" src="https://img.shields.io/travis/orchidjs/tom-select?style=for-the-badge"></a>
+<a href="https://coveralls.io/github/orchidjs/tom-select"><img alt="Coveralls Coverage" style="height:28px" src="https://img.shields.io/coveralls/github/orchidjs/tom-select?color=4c1&style=for-the-badge"></a>
+<a href="https://github.com/orchidjs/tom-select/issues"><img alt="GitHub Issues" style="height:28px" src="https://img.shields.io/github/issues/orchidjs/tom-select?style=for-the-badge"></a>
+</p>
 
 
 Tom Select is an extensible and dynamic &lt;select&gt; UI control.
