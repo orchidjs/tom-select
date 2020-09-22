@@ -18,7 +18,7 @@ $select-color-input-error: theme-color("danger") !default;
 $select-color-input-error-focus: darken($select-color-input-error, 10%) !default;
 $select-color-disabled: $input-bg !default;
 $select-color-item: #efefef !default;
-$select-color-item-border: #999 !default;
+$select-color-item-border: $border-color !default;
 $select-color-item-active: $component-active-bg !default;
 $select-color-item-active-text: #fff !default;
 $select-color-item-active-border: rgba(0,0,0,0) !default;
