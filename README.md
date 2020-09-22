@@ -1,4 +1,6 @@
+<p align="center">
 <h1 align="center">Tom Select</h1>
+</p>
 
 <p align="center">
 <a href="https://github.com/orchidjs/tom-select"><img alt="GitHub forks" src="https://img.shields.io/github/forks/orchidjs/tom-select?label=Github%20forks&style=for-the-badge&color=007ec6"></a>
