@@ -42,6 +42,38 @@ describe('load', function() {
 		});
 	});
 
+	it_n('should not show no_results message while/after loading', function(done) {
+
+		var test = setup_test('<select>',{
+			load: function(query, load_cb){
+
+				assert.equal(query, 'c');
+				setTimeout(function(){
+
+					load_cb([{value: 'c', text: 'C'}]);
+
+					setTimeout(function(){
+						expect(test.instance.isOpen).to.be.equal(true);
+						expect(test.instance.dropdown.querySelectorAll('.no-results').length).to.be.equal(0);
+						done();
+					},200);
+
+				},200);
+			}
+		});
+
+		click(test.instance.control, function(){
+			syn.type('c', test.instance.control_input,function(){
+
+				setTimeout(function(){
+					expect(test.instance.dropdown.querySelectorAll('.no-results').length).to.be.equal(0);
+				},100);
+
+			});
+		});
+
+	});
+
 	it_n('load optgroups', function(done) {
 
 		var test = setup_test('<input>',{
@@ -64,7 +96,7 @@ describe('load', function() {
 								{value: 'reptile', label: 'Reptile'}];
 
 				loadcb(options,groups);
-				
+
 				assert.equal(Object.keys(test.instance.options).length, 6);
 				assert.equal(Object.keys(test.instance.optgroups).length, 3);
 				done();

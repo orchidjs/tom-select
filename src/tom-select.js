@@ -819,6 +819,7 @@ class TomSelect extends MicroEvent{
 		self.loading++;
 		fn.call(self, function(options, optgroups) {
 			self.loading = Math.max(self.loading - 1, 0);
+			self.lastQuery = null;
 
 			self.setupOptions(options,optgroups);
 
