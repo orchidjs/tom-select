@@ -1480,8 +1480,9 @@
 	      var self = this;
 	      addClasses(self.wrapper, self.settings.loadingClass);
 	      self.loading++;
-	      fn.apply(self, [function (options, optgroups) {
+	      fn.call(self, function (options, optgroups) {
 	        self.loading = Math.max(self.loading - 1, 0);
+	        self.lastQuery = null;
 	        self.setupOptions(options, optgroups);
 	        self.refreshOptions(self.isFocused && !self.isInputHidden);
 	
@@ -1490,7 +1491,7 @@
 	        }
 	
 	        self.trigger('load', options);
-	      }]);
+	      });
 	    }
 	    /**
 	     * Debounce the user provided load function
@@ -1599,8 +1600,8 @@
 	
 	      if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT, e) && this.activeItems.length) {
 	        last = this.getLastActive();
-	        begin = Array.prototype.indexOf.apply(this.control.children, [last]);
-	        end = Array.prototype.indexOf.apply(this.control.children, [item]);
+	        begin = Array.prototype.indexOf.call(this.control.children, last);
+	        end = Array.prototype.indexOf.call(this.control.children, item);
 	
 	        if (begin > end) {
 	          swap = begin;
@@ -1853,7 +1854,7 @@
 	      var options = this.getSearchOptions(); // validate user-provided result scoring function
 	
 	      if (settings.score) {
-	        calculateScore = self.settings.score.apply(this, [query]);
+	        calculateScore = self.settings.score.call(this, query);
 	
 	        if (typeof calculateScore !== 'function') {
 	          throw new Error('Tom Select "score" setting must be a function that returns a function');
@@ -3192,7 +3193,7 @@
 	    value: function canCreate(input) {
 	      if (!this.settings.create) return false;
 	      var filter = this.settings.createFilter;
-	      return input.length && (typeof filter !== 'function' || filter.apply(this, [input])) && (!(filter instanceof RegExp) || filter.test(input));
+	      return input.length && (typeof filter !== 'function' || filter.call(this, input)) && (!(filter instanceof RegExp) || filter.test(input));
 	    }
 	    /**
 	     * Return true if the requested key is down
@@ -3564,7 +3565,7 @@
 	        option = self.options[self.items[index]];
 	
 	        if (self.deleteSelection(evt)) {
-	          self.setTextboxValue(options.text.apply(self, [option]));
+	          self.setTextboxValue(options.text.call(self, option));
 	          self.refreshOptions(true);
 	        }
 	
