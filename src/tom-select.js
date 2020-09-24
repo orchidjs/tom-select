@@ -817,7 +817,7 @@ class TomSelect extends MicroEvent{
 		addClasses(self.wrapper,self.settings.loadingClass);
 
 		self.loading++;
-		fn.apply(self, [function(options, optgroups) {
+		fn.call(self, function(options, optgroups) {
 			self.loading = Math.max(self.loading - 1, 0);
 
 			self.setupOptions(options,optgroups);
@@ -829,7 +829,7 @@ class TomSelect extends MicroEvent{
 			}
 
 			self.trigger('load', options);
-		}]);
+		});
 	}
 
 
@@ -929,8 +929,8 @@ class TomSelect extends MicroEvent{
 
 		if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT,e) && this.activeItems.length) {
 			last	= this.getLastActive();
-			begin	= Array.prototype.indexOf.apply(this.control.children, [last]);
-			end		= Array.prototype.indexOf.apply(this.control.children, [item]);
+			begin	= Array.prototype.indexOf.call(this.control.children, last);
+			end		= Array.prototype.indexOf.call(this.control.children, item);
 
 			if (begin > end) {
 				swap  = begin;
@@ -1161,7 +1161,7 @@ class TomSelect extends MicroEvent{
 
 		// validate user-provided result scoring function
 		if (settings.score) {
-			calculateScore = self.settings.score.apply(this, [query]);
+			calculateScore = self.settings.score.call(this, query);
 			if (typeof calculateScore !== 'function') {
 				throw new Error('Tom Select "score" setting must be a function that returns a function');
 			}
@@ -2421,7 +2421,7 @@ class TomSelect extends MicroEvent{
 		var filter = this.settings.createFilter;
 
 		return input.length
-			&& (typeof filter !== 'function' || filter.apply(this, [input]))
+			&& (typeof filter !== 'function' || filter.call(this, input))
 			&& (!(filter instanceof RegExp) || filter.test(input));
 	}
 

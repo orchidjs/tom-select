@@ -29,7 +29,7 @@ TomSelect.define('restore_on_backspace', function(options) {
 			if (index >= 0 && index < self.items.length) {
 				option = self.options[self.items[index]];
 				if (self.deleteSelection(evt)) {
-					self.setTextboxValue(options.text.apply(self, [option]));
+					self.setTextboxValue(options.text.call(self, option));
 					self.refreshOptions(true);
 				}
 				evt.preventDefault();
