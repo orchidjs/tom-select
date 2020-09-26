@@ -2781,30 +2781,23 @@
 	    }
 	    /**
 	     * Calculates and applies the appropriate
-	     * position of the dropdown.
+	     * position of the dropdown if dropdownParent = 'body'.
+	     * Otherwise, position is determined by css
 	     */
 	
 	  }, {
 	    key: "positionDropdown",
 	    value: function positionDropdown() {
-	      var left = 0;
-	      var context = this.control;
-	      var top = context.offsetHeight;
-	
-	      if (this.settings.dropdownParent === 'body') {
-	        var rect = context.getBoundingClientRect();
-	        top += rect.top + window.scrollY;
-	        left = rect.left + window.scrollX;
-	      } else if (this.settings.dropdownParent) {
-	        context = getDom(this.settings.dropdownParent);
-	        top = context.offsetHeight;
-	      } else {
-	        top += context.offsetTop;
-	        left = context.offsetLeft;
+	      if (this.settings.dropdownParent !== 'body') {
+	        return;
 	      }
 	
+	      var context = this.control;
+	      var rect = context.getBoundingClientRect();
+	      var top = context.offsetHeight + rect.top + window.scrollY;
+	      var left = rect.left + window.scrollX;
 	      applyCSS(this.dropdown, {
-	        width: context.getBoundingClientRect().width + 'px',
+	        width: rect.width + 'px',
 	        top: top + 'px',
 	        left: left + 'px'
 	      });
@@ -3329,10 +3322,10 @@
 	  searchField: ['text'],
 	  searchConjunction: 'and',
 	  mode: null,
-	  wrapperClass: 'tomselect-control',
-	  inputClass: 'tomselect-input',
-	  dropdownClass: 'tomselect-dropdown',
-	  dropdownContentClass: 'tomselect-dropdown-content',
+	  wrapperClass: 'ts-control',
+	  inputClass: 'ts-input',
+	  dropdownClass: 'ts-dropdown',
+	  dropdownContentClass: 'ts-dropdown-content',
 	  itemClass: 'item',
 	  optionClass: 'option',
 	  dropdownParent: null,
