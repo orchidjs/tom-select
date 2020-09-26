@@ -224,7 +224,7 @@
 						'<option value="10">10</option>',
 						'<option value="WY" selected>Wyoming</option>',
 					'</select>'
-				].join(), {});
+				].join(), {maxOptions:51});
 
 				var order_expected = ['AL','AK','AZ','AR','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','01','10'];
 				var order_actual = [];

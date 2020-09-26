@@ -50,7 +50,10 @@ tomSelect('#select-repo',{
 			option: function(item, escape) {
 				return `<div class="py-2">
 							<div class="mb-1">
-								<span class="h4"><i class="icon ${ item.fork ? 'fork' : 'source' }"></i>${ escape(item.name) }</span>
+								<span class="h4">
+									<i class="icon ${ item.fork ? 'fork' : 'source' }"></i>
+									${ escape(item.name) }
+								</span>
 								<span class="text-muted">by ${ escape(item.owner.login) }</span>
 							</div>
 					 	<div class="description">${ escape(item.description) }</div>
@@ -66,7 +69,7 @@ tomSelect('#select-repo',{
 					callback();
 				},
 				success: function(res) {
-					callback(res.repositories.slice(0, 10));
+					callback(res.items);
 				}
 			});
 		}

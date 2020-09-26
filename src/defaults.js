@@ -13,7 +13,7 @@ TomSelect.defaults = {
 	createFilter: null,
 	highlight: true,
 	openOnFocus: true,
-	maxOptions: 200,
+	maxOptions: 50,
 	maxItems: null,
 	hideSelected: null,
 	duplicates: false,

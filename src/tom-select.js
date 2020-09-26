@@ -1318,8 +1318,9 @@ class TomSelect extends MicroEvent{
 		// helper method for adding templates to dropdown
 		var add_template = function(template){
 			show_dropdown = true;
-			let msg = self.render(template,{input:query});
-			self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
+			let content = self.render(template,{input:query});
+			self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+			return content;
 		};
 
 		// add loading message
@@ -1336,7 +1337,7 @@ class TomSelect extends MicroEvent{
 		// add create option
 		has_create_option = self.canCreate(query);
 		if (has_create_option) {
-			add_template('option_create');
+			create = add_template('option_create');
 		}
 
 

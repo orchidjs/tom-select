@@ -138,7 +138,7 @@ create: function(input,callback){
 		<td><code>maxOptions</code></td>
 		<td>The max number of items to render at once in the dropdown list of options.</td>
 		<td><code>int</code></td>
-		<td><code>200</code></td>
+		<td><code>50</code></td>
 	</tr>
 	<tr name="maxItems">
 		<td><code>maxItems</code></td>
