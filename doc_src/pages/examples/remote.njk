@@ -1,0 +1,174 @@
+---
+title: Remote Data Examples
+nav_title: Remote Data
+tags: demo
+style: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" />
+---
+
+{% from "demo.njk" import demo %}
+
+<style type="text/css">
+{% set style %}
+
+.icon {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	vertical-align: middle;
+	background-size: 16px 16px;
+	margin: 0 3px 0 0;
+}
+.icon.fork {
+	background-image: url("/images/repo-fork.png");
+}
+.icon.source {
+	background-image: url("/images/repo-source.png");
+}
+{% endset %}
+</style>
+
+{% set label %}
+<label class="h2 mb-3">
+	Ajax Loading
+</label>
+<p>We use jQuery in this example to fetch remote date from GitHub</p>
+{% endset %}
+
+
+{% set html %}
+<select id="select-repo" class="repositories" placeholder="Pick a repository..."></select>
+{% endset %}
+
+
+<script>
+{% set script %}
+tomSelect('#select-repo',{
+		valueField: 'url',
+		labelField: 'name',
+		searchField: 'name',
+		render: {
+			option: function(item, escape) {
+				return `<div class="py-2">
+							<div class="mb-1">
+								<span class="h4"><i class="icon ${ item.fork ? 'fork' : 'source' }"></i>${ escape(item.name) }</span>
+								<span class="text-muted">by ${ escape(item.owner.login) }</span>
+							</div>
+					 	<div class="description">${ escape(item.description) }</div>
+						</div>`;
+			}
+		},
+		load: function(query, callback) {
+			if (!query.length) return callback();
+			$.ajax({
+				url: 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query),
+				type: 'GET',
+				error: function() {
+					callback();
+				},
+				success: function(res) {
+					callback(res.repositories.slice(0, 10));
+				}
+			});
+		}
+	});
+{% endset %}
+</script>
+
+{{ demo( label, html, script, style) }}
+
+
+<style type="text/css">
+{% set style %}
+#select-repo-inline .tomselect-dropdown {
+	position: relative !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: auto !important;
+	box-shadow: none;
+	height: auto !important;
+}
+#select-repo-inline .tomselect-dropdown-content {
+	overflow: auto !important;
+	max-height: none !important;
+
+}
+#select-repo-inline .tomselect-control{
+	position: sticky;
+	top: 2rem;
+	z-index:2000;
+}
+#select-repo-inline .option{
+	margin: 0;
+}
+{% endset %}
+</style>
+
+{% set label %}
+<label class="h2 mb-3">
+	Ajax Loading, Custom Scoring, and Inline Display
+</label>
+{% endset %}
+
+
+{% set html %}
+<div id="select-repo-inline">
+<select id="select-repo2" class="repositories" placeholder="Pick a repository..." multiple></select>
+</div>
+{% endset %}
+
+<script>
+{% set script %}
+tomSelect('#select-repo2',{
+		valueField: 'url',
+		labelField: 'name',
+		searchField: ['name','description'],
+		options: [],
+		create: false,
+		maxOptions: 30,
+		dropdownParent: '#select-repo-inline',
+		render: {
+			option: function(item, escape) {
+				return `<div class="row border-bottom py-2">
+							<div class="col-sm-1">
+								<img class="img-fluid" src="${item.owner.avatar_url}" />
+
+							</div>
+							<div class="col-sm-11">
+								<div class="mt-0">${escape(item.name)}
+									<span class="small text-muted">by ${escape(item.owner.login)}</span>
+								</div>
+								<div class="mb-1">${escape(item.description)}</div>
+								<div class="d-flex text-muted">
+									<div class="mr-3"><i class="fa fa-code"></i> ${escape(item.language)}</div>
+									<div class="mr-3"><i class="fa fa-flash"></i> ${escape(item.forks_count)} Forks</div>
+									<div class="mr-3"><i class="fa fa-star"></i> ${escape(item.stargazers_count)} Stars</div>
+									<div class="mr-3"><i class="fa fa-eye"></i> ${item.watchers_count} Watchers</div>
+								</div>
+							</div>
+						</div>`;
+			}
+		},
+		score: function(search) {
+			var score = this.getScoreFunction(search);
+			return function(item) {
+				return score(item) * (1 + Math.min(item.watchers / 100, 1));
+			};
+		},
+		load: function(query, callback) {
+			if (!query.length) return callback();
+			$.ajax({
+				url: 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query),
+				type: 'GET',
+				error: function() {
+					callback();
+				},
+				success: function(res) {
+					callback(res.items);
+				}
+			});
+		}
+	});
+{% endset %}
+</script>
+
+{{ demo( label, html, script, style) }}

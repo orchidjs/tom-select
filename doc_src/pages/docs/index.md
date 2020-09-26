@@ -474,6 +474,12 @@ tomSelect('#input',{
 		'optgroup_header': function(data, escape) {
 			return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 		},
+		'loading':function(data,escape){
+			return '<div class="spinner"></div>';
+		},
+		'dropdown':function(){
+			return '<div style="display:none"></div>';
+		}
 	}
 });
 ```
@@ -518,6 +524,18 @@ tomSelect('#input',{
 	<tr>
 		<td><code>render.no_results</code></td>
 		<td>Displayed when no options are found matching a user's search. Can be set to null to disable displaying a "no results found" message.</td>
+		<td><code>function</code></td>
+		<td><code>null</code></td>
+	</tr>
+	<tr>
+		<td><code>render.loading</code></td>
+		<td>Displayed when the load() method is called and hidden once results are returned.</td>
+		<td><code>function</code></td>
+		<td><code>null</code></td>
+	</tr>
+	<tr>
+		<td><code>render.dropdown</code></td>
+		<td>Where dropdown content will be displayed.</td>
 		<td><code>function</code></td>
 		<td><code>null</code></td>
 	</tr>

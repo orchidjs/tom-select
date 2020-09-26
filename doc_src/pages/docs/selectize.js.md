@@ -51,4 +51,4 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 
 ## Development
 - examples and documentation generated using 11ty
-- babel compiler
+- compiled with Babel

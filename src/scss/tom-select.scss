@@ -72,6 +72,9 @@ $select-arrow-offset:							15px !default;
 $select-caret-margin:							0 4px !default;
 $select-caret-margin-rtl:						0 4px 0 -2px !default;
 
+$select-spinner-size:							30px;
+$select-spinner-border-size:					5px;
+$select-spinner-border-color:					$select-color-border;
 
 @mixin selectize-vertical-gradient($color-top, $color-bottom) {
     background-color: mix($color-top, $color-bottom, 60%);
@@ -235,6 +238,7 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	}
 	[data-selectable].option {
 		opacity: 1;
+		cursor: pointer;
 	}
 	.optgroup:first-child .optgroup-header {
 		border-top: 0 none;
@@ -262,6 +266,36 @@ $select-caret-margin-rtl:						0 4px 0 -2px !default;
 	max-height: $select-max-height-dropdown;
 	overflow-scrolling: touch;
 }
+
+.#{$select-ns}-dropdown .spinner{
+	display: inline-block;
+	width: $select-spinner-size;
+	height: $select-spinner-size;
+	margin: $select-padding-dropdown-item-y $select-padding-dropdown-item-x;
+
+
+	&:after {
+		content: " ";
+		display: block;
+		width: $select-spinner-size * .8;
+		height: $select-spinner-size * .8;
+		margin: $select-spinner-size * .1;
+		border-radius: 50%;
+		border: $select-spinner-border-size solid $select-spinner-border-color;
+		border-color: $select-spinner-border-color transparent $select-spinner-border-color transparent;
+		animation: lds-dual-ring 1.2s linear infinite;
+	}
+	@keyframes lds-dual-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+}
+
+
 
 .#{$select-ns}-control.single .#{$select-ns}-input {
 	&, input { cursor: pointer; }

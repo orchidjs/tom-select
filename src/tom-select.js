@@ -128,8 +128,7 @@ class TomSelect extends MicroEvent{
 		wrapper.append(control);
 
 
-
-		dropdown			= getDom('<div style="display:none">');
+		dropdown			= self.render('dropdown');
 		addClasses(dropdown, settings.dropdownClass, inputMode);
 
 
@@ -368,8 +367,13 @@ class TomSelect extends MicroEvent{
 			},
 			'no_results':function(data,escape){
 				return '<div class="no-results">No results found</div>';
+			},
+			'loading':function(data,escape){
+				return '<div class="spinner"></div>';
+			},
+			'dropdown':function(){
+				return '<div style="display:none"></div>';
 			}
-
 		};
 
 
@@ -1311,20 +1315,28 @@ class TomSelect extends MicroEvent{
 			}
 		}
 
-		// add no_results message
-		if( results.items.length === 0 && self.settings.render['no_results'] && !self.loading && query.length ){
-			let msg = self.render('no_results', {input: query});
+		// helper method for adding templates to dropdown
+		var add_template = function(template){
 			show_dropdown = true;
+			let msg = self.render(template,{input:query});
 			self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
+		};
+
+		// add loading message
+		if( self.loading ){
+			add_template('loading');
+
+		// add no_results message
+		}else if( results.items.length === 0 && self.settings.render['no_results']  && query.length ){
+			add_template('no_results');
+
 		}
 
 
 		// add create option
 		has_create_option = self.canCreate(query);
 		if (has_create_option) {
-			show_dropdown = true;
-			create = self.render('option_create', {input: query});
-			self.dropdown_content.insertBefore(create, self.dropdown_content.firstChild);
+			add_template('option_create');
 		}
 
 
