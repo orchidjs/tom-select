@@ -41,10 +41,10 @@ TomSelect.defaults = {
 	searchConjunction: 'and',
 
 	mode: null,
-	wrapperClass: 'tomselect-control',
-	inputClass: 'tomselect-input',
-	dropdownClass: 'tomselect-dropdown',
-	dropdownContentClass: 'tomselect-dropdown-content',
+	wrapperClass: 'ts-control',
+	inputClass: 'ts-input',
+	dropdownClass: 'ts-dropdown',
+	dropdownContentClass: 'ts-dropdown-content',
 	itemClass: 'item',
 	optionClass: 'option',
 

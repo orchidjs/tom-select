@@ -27,7 +27,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - removed placeholder show/hide
 - dataAttr defaults to null instead of "data-data"
 - options are appended to optgroup template programmatically
-- .tomselect-* css class names (customizable with scss)
+- .ts-* css class names (customizable with scss)
 - scss instead of less
 	- autoprefixer
 	- nanocss
