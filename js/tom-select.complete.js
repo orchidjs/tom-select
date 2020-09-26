@@ -2653,10 +2653,11 @@
 	
 	      var add_template = function add_template(template) {
 	        show_dropdown = true;
-	        var msg = self.render(template, {
+	        var content = self.render(template, {
 	          input: query
 	        });
-	        self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
+	        self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+	        return content;
 	      }; // add loading message
 	
 	
@@ -2670,7 +2671,7 @@
 	      has_create_option = self.canCreate(query);
 	
 	      if (has_create_option) {
-	        add_template('option_create');
+	        create = add_template('option_create');
 	      } // activate
 	
 	
@@ -3939,7 +3940,7 @@
 	  createFilter: null,
 	  highlight: true,
 	  openOnFocus: true,
-	  maxOptions: 200,
+	  maxOptions: 50,
 	  maxItems: null,
 	  hideSelected: null,
 	  duplicates: false,
