@@ -1386,7 +1386,7 @@
 	      control = getDom('<div class="items">');
 	      addClasses(control, settings.inputClass);
 	      wrapper.append(control);
-	      dropdown = getDom('<div style="display:none">');
+	      dropdown = self.render('dropdown');
 	      addClasses(dropdown, settings.dropdownClass, inputMode);
 	      dropdown_content = getDom('<div style="scroll-behavior: smooth;">');
 	      addClasses(dropdown_content, settings.dropdownContentClass);
@@ -1630,6 +1630,12 @@
 	        },
 	        'no_results': function no_results(data, escape) {
 	          return '<div class="no-results">No results found</div>';
+	        },
+	        'loading': function loading(data, escape) {
+	          return '<div class="spinner"></div>';
+	        },
+	        'dropdown': function dropdown() {
+	          return '<div style="display:none"></div>';
 	        }
 	      };
 	      self.settings.render = Object.assign({}, templates, self.settings.render);
@@ -2642,26 +2648,29 @@
 	            addClasses(_option, 'selected');
 	          }
 	        }
-	      } // add no_results message
+	      } // helper method for adding templates to dropdown
 	
 	
-	      if (results.items.length === 0 && self.settings.render['no_results'] && !self.loading && query.length) {
-	        var msg = self.render('no_results', {
+	      var add_template = function add_template(template) {
+	        show_dropdown = true;
+	        var msg = self.render(template, {
 	          input: query
 	        });
-	        show_dropdown = true;
 	        self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
+	      }; // add loading message
+	
+	
+	      if (self.loading) {
+	        add_template('loading'); // add no_results message
+	      } else if (results.items.length === 0 && self.settings.render['no_results'] && query.length) {
+	        add_template('no_results');
 	      } // add create option
 	
 	
 	      has_create_option = self.canCreate(query);
 	
 	      if (has_create_option) {
-	        show_dropdown = true;
-	        create = self.render('option_create', {
-	          input: query
-	        });
-	        self.dropdown_content.insertBefore(create, self.dropdown_content.firstChild);
+	        add_template('option_create');
 	      } // activate
 	
 	
@@ -3930,7 +3939,7 @@
 	  createFilter: null,
 	  highlight: true,
 	  openOnFocus: true,
-	  maxOptions: 1000,
+	  maxOptions: 200,
 	  maxItems: null,
 	  hideSelected: null,
 	  duplicates: false,
