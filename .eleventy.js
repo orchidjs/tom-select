@@ -3,7 +3,6 @@ module.exports = function(eleventyConfig) {
 	// Aliases are in relation to the _includes folder
 	eleventyConfig.addLayoutAlias('about', 'layouts/about.html');
 	eleventyConfig.addPassthroughCopy({'doc_src/css':'css'});
-	eleventyConfig.addPassthroughCopy({'doc_src/images':'images'});
 	eleventyConfig.addPassthroughCopy({'doc_src/js':'js'});
 	eleventyConfig.addPassthroughCopy({'build/js':'js'});
 	eleventyConfig.addPassthroughCopy({'build/css':'css'});
