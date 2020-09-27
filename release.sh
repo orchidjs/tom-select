@@ -55,6 +55,17 @@ if ! npm test; then
 	exit
 fi
 
+# update package.json and package-lock.json
+if ! sed -i 's/"version": "[^"]*"/"version": "'$VERSION'"/' package.json; then
+	echo 'version not replaced in package-lock.json'
+	exit
+fi
+
+if ! sed -i 's/"version": "[^"]*"/"version": "'$VERSION'"/' package-lock.json; then
+	echo 'version not replaced in package-lock.json'
+	exit
+fi
+
 # build from source
 if ! grunt; then
 	echo 'Build failed... cannot create release'
@@ -71,17 +82,6 @@ fi
 # copy /build to /dist
 if ! cp -r build/* dist; then
 	echo '/build not copied to /dist... cannot create release'
-	exit
-fi
-
-# update package.json and package-lock.json
-if ! sed -i 's/"version": "[^"]*"/"version": "'$VERSION'"/' package.json; then
-	echo 'version not replaced in package-lock.json'
-	exit
-fi
-
-if ! sed -i 's/"version": "[^"]*"/"version": "'$VERSION'"/' package-lock.json; then
-	echo 'version not replaced in package-lock.json'
 	exit
 fi
 
