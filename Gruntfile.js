@@ -175,19 +175,24 @@ module.exports = function(grunt) {
 
 	})();
 
+	// bootstrap browserlist https://github.com/twbs/bootstrap/blob/main/.browserslistrc
 	var autoprefixer = require('autoprefixer')(
 		{"overrideBrowserslist": [
 			"last 1 major version",
 			">= 1%",
-			"Chrome >= 45",
-			"Firefox >= 38",
-			"Edge >= 12",
-			"Explorer >= 10",
-			"iOS >= 9",
-			"Safari >= 9",
-			"Android >= 4.4",
+			"not dead",
+			"Chrome >= 60",
+			"Firefox >= 60",
+			"Edge >= 16",
+			"iOS >= 10",
+			"Safari >= 10",
+			"Android >= 6",
+			"not Explorer <= 11",
 		]}
 	);
+
+
+
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
