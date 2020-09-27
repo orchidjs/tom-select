@@ -26,7 +26,7 @@ tags: demo
 {% set script %}
 tomSelect('#select-words-regex',{
 	create: true,
-	createFilter: $('#regex').val()
+	createFilter: document.getElementById('regex').value,
 });
 {% endset %}
 </script>
@@ -51,7 +51,7 @@ tomSelect('#select-words-regex',{
 {% set script %}
 tomSelect('#select-words-length',{
 	create: true,
-	createFilter: function(input) { return input.length >= parseInt($('#length').val(), 10); }
+	createFilter: function(input) { return input.length >= parseInt( document.getElementById('length').value, 10); }
 });
 {% endset %}
 </script>
@@ -83,4 +83,4 @@ var unique = tomSelect('#select-words-unique',{
 {% endset %}
 </script>
 
-{{ demo( label, html, script, style) }}
+{{ demo( label, html, script, style, true) }}

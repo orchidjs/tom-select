@@ -5,7 +5,6 @@ tags: demo
 script: <script src="/js/jqueryui.js"></script>
 
 ---
-<script src="/js/jqueryui.js"></script>
 
 
 {% from "demo.njk" import demo %}
@@ -162,7 +161,7 @@ tomSelect('#input-sortable',{
 {% endset %}
 </script>
 
-{{ demo( label, html, script) }}
+{{ demo( label, html, script,'',true) }}
 
 
 
@@ -228,7 +227,7 @@ var input = document.getElementById('input-change');
 tomSelect(input,{
 	plugins: ['change_listener'],
 });
-$('#change-input').click(function(evt){
+document.getElementById('change-input').addEventListener('click',function(evt){
 	evt.preventDefault();
 	evt.stopPropagation();
 
@@ -240,7 +239,7 @@ $('#change-input').click(function(evt){
 {% endset %}
 </script>
 
-{{ demo( label, html, script) }}
+{{ demo( label, html, script, true) }}
 
 
 

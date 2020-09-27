@@ -1,54 +1,80 @@
 {% set demo_count = [] %}
 
-{% macro demo(label,html,script,style) %}
+{% macro demo( label, html, script, style, jquery ) %}
 	{% set dd = demo_count.push('a') %}
 
-	<div class="demo py-5">
+	<div class="demo py-5 {% if jquery %} jquery {% endif %}">
 
 		{{ label | safe }}
-	<div class="">
-		<div class="">
+	<div>
+		<div>
 			<div class="demo-html">
 				{{ html | safe }}
 			</div>
+			<textarea hidden>{{html}}</textarea>
 			<script>{{ script | safe }}</script>
 			<style>{{ style | safe }}</style>
 		</div>
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-{{ demo_count | length }}" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
-			  </li>
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
-			  </li>
-			  {% if style %}
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link" data-toggle="tab" data-target="#style-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
-			  </li>
-			  {% endif %}
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-{{ demo_count | length }}" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" data-toggle="tab" data-target="#html-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				{% if style %}
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" data-toggle="tab" data-target="#style-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
+				</li>
+				{% endif %}
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+
+				{#
+				<li class="nav-item" role="presentation">
+				<form action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
+					<input class="codesandbox" type="hidden" name="parameters" value="" />
+						<a class="nav-link opensandbox">CodeSandbox</a>
+				</form>
+				</li>
+				#}
+
 			</ul>
 
 			<div class="tab-content">
-			  <div class="tab-pane fade show active" id="javascript-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="home-tab">
-				  {% highlight "js" %}
-				  {{ script | safe }}
-				  {% endhighlight %}
-			  </div>
-			  <div class="tab-pane fade" id="html-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="profile-tab">
-				  {% highlight "html" %}
-				  {{ html | safe }}
-				  {% endhighlight %}
-			  </div>
+				<div class="tab-pane fade show active" id="javascript-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="home-tab">
+					{% highlight "js" %}
+					{{ script | safe }}
+					{% endhighlight %}
+				</div>
+				<div class="tab-pane fade" id="html-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="profile-tab">
+					{% highlight "html" %}
+					{{ html | safe }}
+					{% endhighlight %}
+				</div>
 
-			  {% if style %}
-			  <div class="tab-pane fade" id="style-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="profile-tab">
-				  {% highlight "css" %}
-				  {{ style | safe }}
-				  {% endhighlight %}
-			  </div>
-			  {% endif %}
+				{% if style %}
+				<div class="tab-pane fade" id="style-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="profile-tab">
+					{% highlight "css" %}
+					{{ style | safe }}
+					{% endhighlight %}
+				</div>
+				{% endif %}
 
 			</div>
 		</div>

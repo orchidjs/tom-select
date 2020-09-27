@@ -16,11 +16,11 @@ tags: demo
 {% set html %}
 <select id="select-tools" multiple placeholder="Pick a tool..."></select>
 <div class="buttons">
+	<input type="button" value="addItem()" id="button-additem">
+	<input type="button" value="addOption()" id="button-addoption">
+	<input type="button" value="setValue()" id="button-setvalue">
 	<input type="button" value="clear()" id="button-clear">
 	<input type="button" value="clearOptions()" id="button-clearoptions">
-	<input type="button" value="addOption()" id="button-addoption">
-	<input type="button" value="addItem()" id="button-additem">
-	<input type="button" value="setValue()" id="button-setvalue">
 </div>
 
 {% endset %}
@@ -43,15 +43,15 @@ var control = tomSelect('#select-tools',{
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$('#button-clear').on('click', function() {
+document.getElementById('button-clear').addEventListener('click', function() {
 	control.clear();
 });
 
-$('#button-clearoptions').on('click', function() {
+document.getElementById('button-clearoptions').addEventListener('click', function() {
 	control.clearOptions();
 });
 
-$('#button-addoption').on('click', function() {
+document.getElementById('button-addoption').addEventListener('click', function() {
 	control.addOption({
 		id: 4,
 		title: 'Something New',
@@ -59,11 +59,11 @@ $('#button-addoption').on('click', function() {
 	});
 });
 
-$('#button-additem').on('click', function() {
+document.getElementById('button-additem').addEventListener('click', function() {
 	control.addItem(2);
 });
 
-$('#button-setvalue').on('click', function() {
+document.getElementById('button-setvalue').addEventListener('click', function() {
 	control.setValue([2, 3]);
 });
 
@@ -71,4 +71,4 @@ $('#button-setvalue').on('click', function() {
 </script>
 
 
-{{ demo( label, html, script, style) }}
+{{ demo( label, html, script, style ) }}

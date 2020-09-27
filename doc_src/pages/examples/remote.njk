@@ -9,21 +9,10 @@ style: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-
 
 <style type="text/css">
 {% set style %}
+.icon{
+	width: 3rem;
+}
 
-.icon {
-	width: 16px;
-	height: 16px;
-	display: inline-block;
-	vertical-align: middle;
-	background-size: 16px 16px;
-	margin: 0 3px 0 0;
-}
-.icon.fork {
-	background-image: url("/images/repo-fork.png");
-}
-.icon.source {
-	background-image: url("/images/repo-source.png");
-}
 {% endset %}
 </style>
 
@@ -48,15 +37,19 @@ tomSelect('#select-repo',{
 		searchField: 'name',
 		render: {
 			option: function(item, escape) {
-				return `<div class="py-2">
-							<div class="mb-1">
-								<span class="h4">
-									<i class="icon ${ item.fork ? 'fork' : 'source' }"></i>
-									${ escape(item.name) }
-								</span>
-								<span class="text-muted">by ${ escape(item.owner.login) }</span>
+				return `<div class="py-2 d-flex">
+							<div class="icon mr-3">
+								<img class="img-fluid" src="${item.owner.avatar_url}" />
 							</div>
-					 	<div class="description">${ escape(item.description) }</div>
+							<div>
+								<div class="mb-1">
+									<span class="h4">
+										${ escape(item.name) }
+									</span>
+									<span class="text-muted">by ${ escape(item.owner.login) }</span>
+								</div>
+						 		<div class="description">${ escape(item.description) }</div>
+							</div>
 						</div>`;
 			}
 		},
@@ -77,7 +70,7 @@ tomSelect('#select-repo',{
 {% endset %}
 </script>
 
-{{ demo( label, html, script, style) }}
+{{ demo( label, html, script, style, true) }}
 
 
 <style type="text/css">
@@ -134,7 +127,6 @@ tomSelect('#select-repo2',{
 				return `<div class="row border-bottom py-2">
 							<div class="col-sm-1">
 								<img class="img-fluid" src="${item.owner.avatar_url}" />
-
 							</div>
 							<div class="col-sm-11">
 								<div class="mt-0">${escape(item.name)}
@@ -174,4 +166,4 @@ tomSelect('#select-repo2',{
 {% endset %}
 </script>
 
-{{ demo( label, html, script, style) }}
+{{ demo( label, html, script, style, true) }}

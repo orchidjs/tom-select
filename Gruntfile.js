@@ -48,6 +48,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('builddocs',[
 		'clean:builddocs',
 		'shell:builddocs',
+		'replace:builddocs',
 		'sass:builddocs',
 		'postcss:builddocs',
 	]);
@@ -238,6 +239,11 @@ module.exports = function(grunt) {
 				files: [
 					{expand: true, flatten: false, src: ['build/css/*.css'], dest: ''},
 					{expand: true, flatten: false, src: ['build/scss/*.scss'], dest: ''},
+				]
+			},
+			builddocs:{
+				files:[
+					{src:['build/docs/js/index.js'],dest:'build/docs/js/index.js'}
 				]
 			}
 		},

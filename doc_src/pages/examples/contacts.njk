@@ -25,7 +25,7 @@ var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~
                   '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
 
 var formatName = function(item) {
-	return $.trim((item.first_name || '') + ' ' + (item.last_name || ''));
+	return ((item.first_name || '') + ' ' + (item.last_name || '')).trim();
 };
 
 tomSelect('#select-to',{
@@ -72,7 +72,7 @@ tomSelect('#select-to',{
 		}
 		var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i'));
 		if (match) {
-			var name       = $.trim(match[1]);
+			var name       = match[1].trim();
 			var pos_space  = name.indexOf(' ');
 			var first_name = name.substring(0, pos_space);
 			var last_name  = name.substring(pos_space + 1);

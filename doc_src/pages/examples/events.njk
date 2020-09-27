@@ -77,7 +77,7 @@ tags: demo
 var eventHandler = function(name) {
 	return function() {
 		console.log(name, arguments);
-		$('#log').append('<div><span class="name">' + name + '</span></div>');
+		document.getElementById('log').innerHTML += `<div><span class="name">${name}</span></div>`;
 	};
 };
 tomSelect('#select-state',{
