@@ -12,7 +12,6 @@ style: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-
 .icon{
 	width: 3rem;
 }
-
 {% endset %}
 </style>
 
@@ -25,7 +24,7 @@ style: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-
 
 
 {% set html %}
-<select id="select-repo" class="repositories" placeholder="Pick a repository..."></select>
+<select id="select-repo" placeholder="Pick a repository..."></select>
 {% endset %}
 
 
@@ -73,6 +72,60 @@ tomSelect('#select-repo',{
 {{ demo( label, html, script, style, true) }}
 
 
+
+<style type="text/css">
+{% set style %}
+.icon{
+	width: 3rem;
+}
+{% endset %}
+</style>
+
+{% set label %}
+<label class="h2 mb-3">Load Once</label>
+<p>Load remote data once</p>
+{% endset %}
+
+
+{% set html %}
+<select id="select-state" placeholder="Pick a state..."></select>
+{% endset %}
+
+
+<script>
+{% set script %}
+tomSelect('#select-state',{
+		valueField: 'name',
+		labelField: 'name',
+		searchField: 'name',
+		render: {
+			option: function(item, escape) {
+				return `<div>${ escape(item.name) }</div>`;
+			}
+		},
+		load: function(query, callback) {
+			this.settings.load = null;
+
+			$.ajax({
+				url: 'https://cdn.jsdelivr.net/gh/CoreyMSchafer/code_snippets/Python-JSON/states.json',
+				type: 'GET',
+				error: function() {
+					callback();
+				},
+				success: function(res) {
+					callback(res.states);
+				}
+			});
+		}
+	});
+{% endset %}
+</script>
+
+{{ demo( label, html, script, style, true) }}
+
+
+
+
 <style type="text/css">
 {% set style %}
 #select-repo-inline .ts-dropdown {
@@ -108,7 +161,7 @@ tomSelect('#select-repo',{
 
 {% set html %}
 <div id="select-repo-inline">
-<select id="select-repo2" class="repositories" placeholder="Pick a repository..." multiple></select>
+<select id="select-repo2" placeholder="Pick a repository..." multiple></select>
 </div>
 {% endset %}
 
