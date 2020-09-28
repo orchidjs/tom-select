@@ -177,20 +177,7 @@ module.exports = function(grunt) {
 	})();
 
 	// bootstrap browserlist https://github.com/twbs/bootstrap/blob/main/.browserslistrc
-	var autoprefixer = require('autoprefixer')(
-		{"overrideBrowserslist": [
-			"last 1 major version",
-			">= 1%",
-			"not dead",
-			"Chrome >= 60",
-			"Firefox >= 60",
-			"Edge >= 16",
-			"iOS >= 10",
-			"Safari >= 10",
-			"Android >= 6",
-			"not Explorer <= 11",
-		]}
-	);
+	var autoprefixer = require('autoprefixer')();
 
 
 
