@@ -56,7 +56,6 @@ tomSelect('#select-repo',{
 			if (!query.length) return callback();
 			$.ajax({
 				url: 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query),
-				type: 'GET',
 				error: function() {
 					callback();
 				},
@@ -95,25 +94,22 @@ tomSelect('#select-repo',{
 <script>
 {% set script %}
 tomSelect('#select-state',{
-		valueField: 'name',
-		labelField: 'name',
-		searchField: 'name',
-		render: {
-			option: function(item, escape) {
-				return `<div>${ escape(item.name) }</div>`;
-			}
-		},
+		valueField: 'text',
 		load: function(query, callback) {
-			this.settings.load = null;
+			var self = this;
+			if( self.loading > 1 ){
+				callback();
+				return;
+			}
 
 			$.ajax({
-				url: 'https://cdn.jsdelivr.net/gh/CoreyMSchafer/code_snippets/Python-JSON/states.json',
-				type: 'GET',
+				url: '/js/states.json',
 				error: function() {
 					callback();
 				},
 				success: function(res) {
 					callback(res.states);
+					self.settings.load = null;
 				}
 			});
 		}
@@ -206,7 +202,6 @@ tomSelect('#select-repo2',{
 			if (!query.length) return callback();
 			$.ajax({
 				url: 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query),
-				type: 'GET',
 				error: function() {
 					callback();
 				},
