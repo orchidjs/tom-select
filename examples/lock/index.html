@@ -219,7 +219,7 @@
 
 	
 
-	<div class="demo py-5">
+	<div class="demo py-5 ">
 
 		
 <label class="h2 mb-3">
@@ -227,8 +227,8 @@
 </label>
 <p>Controls can be locked to prevent user interaction.</p>
 
-	<div class="">
-		<div class="">
+	<div>
+		<div>
 			<div class="demo-html">
 				
 <select id="select-locked-single" placeholder="No input allowed...">
@@ -238,6 +238,13 @@
 </select>
 
 			</div>
+			<textarea hidden>
+&lt;select id=&quot;select-locked-single&quot; placeholder=&quot;No input allowed...&quot;&gt;
+	&lt;option value=&quot;A&quot;&gt;Option A&lt;/option&gt;
+	&lt;option value=&quot;B&quot; selected&gt;Option B&lt;/option&gt;
+	&lt;option value=&quot;C&quot;&gt;Option C&lt;/option&gt;
+&lt;/select&gt;
+</textarea>
 			<script>
 (tomSelect('#select-locked-single')).lock();
 </script>
@@ -246,24 +253,42 @@
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
-			  </li>
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
-			  </li>
-			  
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+
+				
+
 			</ul>
 
 			<div class="tab-content">
-			  <div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
-				  <pre class="language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-locked-single'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-			  </div>
-			  <div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
-				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-locked-single<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>No input allowed...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>A<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Option A<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>B<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>Option B<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>C<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Option C<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
-			  </div>
+				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-locked-single'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				<div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-locked-single<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>No input allowed...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>A<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Option A<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>B<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>Option B<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>C<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Option C<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+				</div>
 
-			  
+				
 
 			</div>
 		</div>
@@ -283,15 +308,15 @@
 
 	
 
-	<div class="demo py-5">
+	<div class="demo py-5 ">
 
 		
 <label class="h2 mb-3">
 	Locked (multiple)
 </label>
 
-	<div class="">
-		<div class="">
+	<div>
+		<div>
 			<div class="demo-html">
 				
 <select id="select-locked" multiple placeholder="No input allowed...">
@@ -301,6 +326,13 @@
 </select>
 
 			</div>
+			<textarea hidden>
+&lt;select id=&quot;select-locked&quot; multiple placeholder=&quot;No input allowed...&quot;&gt;
+	&lt;option value=&quot;A&quot;&gt;Option A&lt;/option&gt;
+	&lt;option value=&quot;B&quot; selected&gt;Option B&lt;/option&gt;
+	&lt;option value=&quot;C&quot; selected&gt;Option C&lt;/option&gt;
+&lt;/select&gt;
+</textarea>
 			<script>
 (tomSelect('#select-locked')).lock();
 </script>
@@ -309,24 +341,42 @@
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
-			  </li>
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
-			  </li>
-			  
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+
+				
+
 			</ul>
 
 			<div class="tab-content">
-			  <div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
-				  <pre class="language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-locked'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-			  </div>
-			  <div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
-				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-locked<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>No input allowed...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>A<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Option A<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>B<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>Option B<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>C<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>Option C<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
-			  </div>
+				<div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-locked'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				<div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-locked<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>No input allowed...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>A<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Option A<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>B<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>Option B<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>C<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>Option C<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+				</div>
 
-			  
+				
 
 			</div>
 		</div>

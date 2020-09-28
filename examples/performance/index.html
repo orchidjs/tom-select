@@ -219,20 +219,23 @@
 
 	
 
-	<div class="demo py-5">
+	<div class="demo py-5 ">
 
 		
 <label class="h2 mb-3">
 	Performance
 </label>
 <p>This shows how it performs with 25,000 items.</p>
-	<div class="">
-		<div class="">
+	<div>
+		<div>
 			<div class="demo-html">
 				
 <select id="select-junk" placeholder="Start Typing..."></select>
 
 			</div>
+			<textarea hidden>
+&lt;select id=&quot;select-junk&quot; placeholder=&quot;Start Typing...&quot;&gt;&lt;/select&gt;
+</textarea>
 			<script>
 var letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV';
 var options = [];
@@ -263,24 +266,42 @@ tomSelect('#select-junk',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
-			  </li>
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
-			  </li>
-			  
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+
+				
+
 			</ul>
 
 			<div class="tab-content">
-			  <div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
-				  <pre class="language-js"><code class="language-js"><span class="token keyword">var</span> letters <span class="token operator">=</span> <span class="token string">'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV'</span><span class="token punctuation">;</span><br><span class="token keyword">var</span> options <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span><br><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">25000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	<span class="token keyword">var</span> title <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span><br>	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token number">8</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>		title<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>letters<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">round</span><span class="token punctuation">(</span><span class="token punctuation">(</span>letters<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><br>	options<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span><br>		id<span class="token operator">:</span> i<span class="token punctuation">,</span><br>		title<span class="token operator">:</span> title<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-junk'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	maxItems<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span><br>	maxOptions<span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span><br>	valueField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	sortField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	options<span class="token operator">:</span> options<span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">false</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-			  </div>
-			  <div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
-				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-junk<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Start Typing...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
-			  </div>
+				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token keyword">var</span> letters <span class="token operator">=</span> <span class="token string">'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV'</span><span class="token punctuation">;</span><br><span class="token keyword">var</span> options <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span><br><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">25000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	<span class="token keyword">var</span> title <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span><br>	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token number">8</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>		title<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>letters<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">round</span><span class="token punctuation">(</span><span class="token punctuation">(</span>letters<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><br>	options<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span><br>		id<span class="token operator">:</span> i<span class="token punctuation">,</span><br>		title<span class="token operator">:</span> title<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-junk'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	maxItems<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span><br>	maxOptions<span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span><br>	valueField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	sortField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	options<span class="token operator">:</span> options<span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">false</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				<div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-junk<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Start Typing...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+				</div>
 
-			  
+				
 
 			</div>
 		</div>

@@ -219,7 +219,7 @@
 
 	
 
-	<div class="demo py-5">
+	<div class="demo py-5 ">
 
 		
 <label class="h2 mb-3">
@@ -227,13 +227,16 @@
 </label>
 <p>The options are created from an array in JavaScript.</p>
 
-	<div class="">
-		<div class="">
+	<div>
+		<div>
 			<div class="demo-html">
 				
 <select id="select-tools" placeholder="Pick a tool..."></select>
 
 			</div>
+			<textarea hidden>
+&lt;select id=&quot;select-tools&quot; placeholder=&quot;Pick a tool...&quot;&gt;&lt;/select&gt;
+</textarea>
 			<script>
 
 tomSelect('#select-tools',{
@@ -254,24 +257,42 @@ tomSelect('#select-tools',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
-			  </li>
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
-			  </li>
-			  
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+
+				
+
 			</ul>
 
 			<div class="tab-content">
-			  <div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
-				  <pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-tools'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	maxItems<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span><br>	valueField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	options<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Spectrometer'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Spectrometers'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Star Chart'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Star_chart'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Electrical Tape'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Electrical_tape'</span><span class="token punctuation">}</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">false</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-			  </div>
-			  <div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
-				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-tools<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Pick a tool...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
-			  </div>
+				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-tools'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	maxItems<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span><br>	valueField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	options<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Spectrometer'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Spectrometers'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Star Chart'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Star_chart'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> title<span class="token operator">:</span> <span class="token string">'Electrical Tape'</span><span class="token punctuation">,</span> url<span class="token operator">:</span> <span class="token string">'http://en.wikipedia.org/wiki/Electrical_tape'</span><span class="token punctuation">}</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">false</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				<div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-tools<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Pick a tool...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+				</div>
 
-			  
+				
 
 			</div>
 		</div>
@@ -293,14 +314,14 @@ tomSelect('#select-tools',{
 
 	
 
-	<div class="demo py-5">
+	<div class="demo py-5 ">
 
 		
 <label class="h2 mb-3">Data-* Attributes</label>
 <p>Enhance options with data-* attributes</p>
 
-	<div class="">
-		<div class="">
+	<div>
+		<div>
 			<div class="demo-html">
 				
 <select id="data-attr">
@@ -310,6 +331,13 @@ tomSelect('#select-tools',{
 </select>
 
 			</div>
+			<textarea hidden>
+&lt;select id=&quot;data-attr&quot;&gt;
+    &lt;option value=&quot;chrome&quot; data-src=&quot;https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-32.png&quot;&gt;Google Chrome&lt;/option&gt;
+    &lt;option value=&quot;ffox&quot; data-src=&quot;https://cdn0.iconfinder.com/data/icons/flat-round-system/512/firefox-32.png&quot;&gt;Mozilla Firefox&lt;/option&gt;
+    &lt;option value=&quot;ie&quot; data-src=&quot;https://cdn0.iconfinder.com/data/icons/flat-round-system/512/internet_explorer-32.png&quot;&gt;Internet Explorer&lt;/option&gt;
+&lt;/select&gt;
+</textarea>
 			<script>
 tomSelect('#data-attr',{
     render: {
@@ -327,24 +355,42 @@ tomSelect('#data-attr',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
-			  </li>
-			  <li class="nav-item" role="presentation">
-			    <a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
-			  </li>
-			  
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+
+				
+
 			</ul>
 
 			<div class="tab-content">
-			  <div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
-				  <pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#data-attr'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>    render<span class="token operator">:</span> <span class="token punctuation">{</span><br>        <span class="token function-variable function">option</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>            <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div>&lt;img class="mr-2" src="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>src<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>text<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>        <span class="token punctuation">}</span><span class="token punctuation">,</span><br>        <span class="token function-variable function">item</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div>&lt;img class="mr-2" src="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>src<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>text<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-			  </div>
-			  <div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
-				  <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>data-attr<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>chrome<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-32.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Google Chrome<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ffox<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn0.iconfinder.com/data/icons/flat-round-system/512/firefox-32.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Mozilla Firefox<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ie<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn0.iconfinder.com/data/icons/flat-round-system/512/internet_explorer-32.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Internet Explorer<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
-			  </div>
+				<div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#data-attr'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>    render<span class="token operator">:</span> <span class="token punctuation">{</span><br>        <span class="token function-variable function">option</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>            <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div>&lt;img class="mr-2" src="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>src<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>text<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>        <span class="token punctuation">}</span><span class="token punctuation">,</span><br>        <span class="token function-variable function">item</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div>&lt;img class="mr-2" src="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>src<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>text<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				<div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>data-attr<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>chrome<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-32.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Google Chrome<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ffox<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn0.iconfinder.com/data/icons/flat-round-system/512/firefox-32.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Mozilla Firefox<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ie<span class="token punctuation">"</span></span> <span class="token attr-name">data-src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://cdn0.iconfinder.com/data/icons/flat-round-system/512/internet_explorer-32.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Internet Explorer<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+				</div>
 
-			  
+				
 
 			</div>
 		</div>
