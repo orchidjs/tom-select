@@ -635,7 +635,7 @@
 }));
 
 /**
- * Tom Select (v1.0.0-b.1)
+ * Tom Select (v1.0.0-b.3)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -1386,7 +1386,7 @@
 	      control = getDom('<div class="items">');
 	      addClasses(control, settings.inputClass);
 	      wrapper.append(control);
-	      dropdown = getDom('<div style="display:none">');
+	      dropdown = self.render('dropdown');
 	      addClasses(dropdown, settings.dropdownClass, inputMode);
 	      dropdown_content = getDom('<div style="scroll-behavior: smooth;">');
 	      addClasses(dropdown_content, settings.dropdownContentClass);
@@ -1630,6 +1630,12 @@
 	        },
 	        'no_results': function no_results(data, escape) {
 	          return '<div class="no-results">No results found</div>';
+	        },
+	        'loading': function loading(data, escape) {
+	          return '<div class="spinner"></div>';
+	        },
+	        'dropdown': function dropdown() {
+	          return '<div style="display:none"></div>';
 	        }
 	      };
 	      self.settings.render = Object.assign({}, templates, self.settings.render);
@@ -2116,8 +2122,9 @@
 	      var self = this;
 	      addClasses(self.wrapper, self.settings.loadingClass);
 	      self.loading++;
-	      fn.apply(self, [function (options, optgroups) {
+	      fn.call(self, function (options, optgroups) {
 	        self.loading = Math.max(self.loading - 1, 0);
+	        self.lastQuery = null;
 	        self.setupOptions(options, optgroups);
 	        self.refreshOptions(self.isFocused && !self.isInputHidden);
 	
@@ -2126,7 +2133,7 @@
 	        }
 	
 	        self.trigger('load', options);
-	      }]);
+	      });
 	    }
 	    /**
 	     * Debounce the user provided load function
@@ -2235,8 +2242,8 @@
 	
 	      if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT, e) && this.activeItems.length) {
 	        last = this.getLastActive();
-	        begin = Array.prototype.indexOf.apply(this.control.children, [last]);
-	        end = Array.prototype.indexOf.apply(this.control.children, [item]);
+	        begin = Array.prototype.indexOf.call(this.control.children, last);
+	        end = Array.prototype.indexOf.call(this.control.children, item);
 	
 	        if (begin > end) {
 	          swap = begin;
@@ -2489,7 +2496,7 @@
 	      var options = this.getSearchOptions(); // validate user-provided result scoring function
 	
 	      if (settings.score) {
-	        calculateScore = self.settings.score.apply(this, [query]);
+	        calculateScore = self.settings.score.call(this, query);
 	
 	        if (typeof calculateScore !== 'function') {
 	          throw new Error('Tom Select "score" setting must be a function that returns a function');
@@ -2641,26 +2648,30 @@
 	            addClasses(_option, 'selected');
 	          }
 	        }
-	      } // add no_results message
+	      } // helper method for adding templates to dropdown
 	
 	
-	      if (results.items.length === 0 && self.settings.render['no_results'] && !self.loading && query.length) {
-	        var msg = self.render('no_results', {
+	      var add_template = function add_template(template) {
+	        show_dropdown = true;
+	        var content = self.render(template, {
 	          input: query
 	        });
-	        show_dropdown = true;
-	        self.dropdown_content.insertBefore(msg, self.dropdown_content.firstChild);
+	        self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+	        return content;
+	      }; // add loading message
+	
+	
+	      if (self.loading) {
+	        add_template('loading'); // add no_results message
+	      } else if (results.items.length === 0 && self.settings.render['no_results'] && query.length) {
+	        add_template('no_results');
 	      } // add create option
 	
 	
 	      has_create_option = self.canCreate(query);
 	
 	      if (has_create_option) {
-	        show_dropdown = true;
-	        create = self.render('option_create', {
-	          input: query
-	        });
-	        self.dropdown_content.insertBefore(create, self.dropdown_content.firstChild);
+	        create = add_template('option_create');
 	      } // activate
 	
 	
@@ -3406,30 +3417,23 @@
 	    }
 	    /**
 	     * Calculates and applies the appropriate
-	     * position of the dropdown.
+	     * position of the dropdown if dropdownParent = 'body'.
+	     * Otherwise, position is determined by css
 	     */
 	
 	  }, {
 	    key: "positionDropdown",
 	    value: function positionDropdown() {
-	      var left = 0;
-	      var context = this.control;
-	      var top = context.offsetHeight;
-	
-	      if (this.settings.dropdownParent === 'body') {
-	        var rect = context.getBoundingClientRect();
-	        top += rect.top + window.scrollY;
-	        left = rect.left + window.scrollX;
-	      } else if (this.settings.dropdownParent) {
-	        context = getDom(this.settings.dropdownParent);
-	        top = context.offsetHeight;
-	      } else {
-	        top += context.offsetTop;
-	        left = context.offsetLeft;
+	      if (this.settings.dropdownParent !== 'body') {
+	        return;
 	      }
 	
+	      var context = this.control;
+	      var rect = context.getBoundingClientRect();
+	      var top = context.offsetHeight + rect.top + window.scrollY;
+	      var left = rect.left + window.scrollX;
 	      applyCSS(this.dropdown, {
-	        width: context.getBoundingClientRect().width + 'px',
+	        width: rect.width + 'px',
 	        top: top + 'px',
 	        left: left + 'px'
 	      });
@@ -3828,7 +3832,7 @@
 	    value: function canCreate(input) {
 	      if (!this.settings.create) return false;
 	      var filter = this.settings.createFilter;
-	      return input.length && (typeof filter !== 'function' || filter.apply(this, [input])) && (!(filter instanceof RegExp) || filter.test(input));
+	      return input.length && (typeof filter !== 'function' || filter.call(this, input)) && (!(filter instanceof RegExp) || filter.test(input));
 	    }
 	    /**
 	     * Return true if the requested key is down
@@ -3929,7 +3933,7 @@
 	  createFilter: null,
 	  highlight: true,
 	  openOnFocus: true,
-	  maxOptions: 1000,
+	  maxOptions: 50,
 	  maxItems: null,
 	  hideSelected: null,
 	  duplicates: false,
@@ -3954,10 +3958,10 @@
 	  searchField: ['text'],
 	  searchConjunction: 'and',
 	  mode: null,
-	  wrapperClass: 'tomselect-control',
-	  inputClass: 'tomselect-input',
-	  dropdownClass: 'tomselect-dropdown',
-	  dropdownContentClass: 'tomselect-dropdown-content',
+	  wrapperClass: 'ts-control',
+	  inputClass: 'ts-input',
+	  dropdownClass: 'ts-dropdown',
+	  dropdownContentClass: 'ts-dropdown-content',
 	  itemClass: 'item',
 	  optionClass: 'option',
 	  dropdownParent: null,
@@ -4200,7 +4204,7 @@
 	        option = self.options[self.items[index]];
 	
 	        if (self.deleteSelection(evt)) {
-	          self.setTextboxValue(options.text.apply(self, [option]));
+	          self.setTextboxValue(options.text.call(self, option));
 	          self.refreshOptions(true);
 	        }
 	
