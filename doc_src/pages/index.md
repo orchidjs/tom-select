@@ -68,9 +68,7 @@ The available options are [documented here](docs).
 
 ## Installation and files
 
-All pre-built files needed to use Tom Select can be found in the ["dist"](https://github.com/orchidjs/tom-select/tree/master/dist) folder
-
-<!--and at [cdnjs](https://cdnjs.com/libraries/selectize.js). -->
+All pre-built files needed to use Tom Select can be found in the "dist" folder on [GitHub](https://github.com/orchidjs/tom-select/tree/master/dist) or [jsDelivr](https://www.jsdelivr.com/package/npm/tom-select?path=dist).
 
 
 - [**JavaScript**](https://github.com/orchidjs/tom-select/tree/master/dist/js)
@@ -87,7 +85,7 @@ By default, all [plugins](/docs/plugins.md) are included. To hand-pick what plug
 
 ```shell
 # dependencies
-yarn install --production=false
+npm install
 
 # build tom-select
 grunt --plugins=

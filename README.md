@@ -48,7 +48,7 @@ The available options are [documented here](https://tom-select.js.org/docs).
 
 ## Installation and files
 
-All pre-built files needed to use Tom Select can be found in the ["dist"](https://github.com/orchidjs/tom-select/tree/master/dist) folder
+All pre-built files needed to use Tom Select can be found in the "dist" folder on [GitHub](https://github.com/orchidjs/tom-select/tree/master/dist) or [jsDelivr](https://www.jsdelivr.com/package/npm/tom-select?path=dist).
 
 <!--and at [cdnjs](https://cdnjs.com/libraries/selectize.js). -->
 
