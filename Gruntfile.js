@@ -6,11 +6,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-replace');
 
-	require('load-grunt-tasks')(grunt); //babel
+
+	const sass = require('node-sass');
+
+	require('load-grunt-tasks')(grunt); //babel, sass
 
 	grunt.registerTask('default', [
 		'clean:pre',
@@ -239,6 +241,7 @@ module.exports = function(grunt) {
 		// compile css from scss
 		sass: {
 			options:{
+				implementation: sass,
 				style:'expanded',
 			},
 			build: {

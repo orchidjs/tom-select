@@ -15,9 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-ruby@v1
-        with:
-          ruby-version: '2.7' # Version range or exact version of a Ruby version to use, using semvers version range syntax.
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -27,7 +24,6 @@ jobs:
       - name: Install dependencies & build
         run: |
           npm install
-          gem install sass
           grunt
           grunt builddocs
 
