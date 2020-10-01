@@ -1,7 +1,6 @@
 module.exports = function(config) {
-	// workaround for https://github.com/karma-runner/karma-sauce-launcher/issues/40
-	var saucelabsBatchID = Number(process.env.SAUCELABS_BATCH) - 1;
-	var saucelabsConcurrency = 4;
+
+	var customLaunchers = {};
 	var saucelabsBrowsers = [
 		/*
 		// mobile
@@ -33,38 +32,38 @@ module.exports = function(config) {
 		{platform: 'Windows 8.1', browserName: 'iexplore', version: 11},
 		{platform: 'Windows 7', browserName: 'iexplore', version: 9}
 		*/
-		{ browserName: 'chrome', browserVersion: 'latest', platformName: 'Windows 7'},
-		{ browserName: 'chrome', platform: 'Windows 7', version: '35' },
-		{ browserName: 'iphone', platform: 'OS X 10.9', version: '7.1' },
-		{ browserName: 'MicrosoftEdge', browserVersion: 'latest', platformName: 'Windows 10',},
+		{ browserName: 'chrome', browserVersion: 'latest', platformName: 'Windows 10'},
+		{ browserName: 'MicrosoftEdge', browserVersion: 'latest', platformName: 'Windows 10'},
+		{ browserName: 'firefox', browserVersion: 'latest', platformName: 'Windows 10'},
+		{ browserName: 'safari', browserVersion: 'latest', platformName: 'macOS 10.15'},
 	];
 
-	if (process.env.TARGET === 'saucelabs') {
-		saucelabsBrowsers = saucelabsBrowsers.slice(saucelabsBatchID * saucelabsConcurrency, saucelabsBatchID * saucelabsConcurrency + saucelabsConcurrency);
-		if (!saucelabsBrowsers.length) process.exit(0);
+
+
+	if( process.env.TARGET === 'saucelabs' ){
+
+		saucelabsBrowsers.forEach(function(browser, i) {
+			browser.base = 'SauceLabs';
+			customLaunchers['SL_' + i] = browser;
+		});
+
+	}else{
+		customLaunchers['HeadlessFirefox'] = {
+										base: 'Firefox',
+										flags: [
+											'-headless',
+										]
+									};
+
+		customLaunchers['HeadlessChrome'] = {
+										base: 'ChromeHeadless',
+										flags: [
+											'--disable-translate',
+											'--disable-extensions',
+											'--remote-debugging-port=9223'
+										]
+									};
 	}
-
-	var customLaunchers = {};
-	saucelabsBrowsers.forEach(function(browser, i) {
-		browser.base = 'SauceLabs';
-		customLaunchers['SL_' + i] = browser;
-	});
-
-	customLaunchers['HeadlessFirefox'] = {
-									base: 'Firefox',
-									flags: [
-										'-headless',
-									]
-								};
-
-	customLaunchers['HeadlessChrome'] = {
-									base: 'ChromeHeadless',
-									flags: [
-										'--disable-translate',
-										'--disable-extensions',
-										'--remote-debugging-port=9223'
-									]
-								};
 
 	var targets = {
 		'saucelabs': Object.keys(customLaunchers),
@@ -83,9 +82,10 @@ module.exports = function(config) {
 	}
 
 	var browsers = targets[process.env.TARGET || 'HeadlessFirefox'];
-	if (process.env.BROWSERS) {
+	if( process.env.BROWSERS ){
 		browsers = process.env.BROWSERS.split(',');
 	}
+
 
 	config.set({
 		frameworks: ['mocha', 'chai'],
@@ -138,6 +138,7 @@ module.exports = function(config) {
 		browserDisconnectTolerance: 2,
 		browserDisconnectTimeout: 10000,
 		browserNoActivityTimeout: 120000,
+		concurrency: 1,
 		singleRun: true
 	});
 };
