@@ -3,9 +3,12 @@ module.exports = function(config) {
 	var saucelabsBatchID = Number(process.env.SAUCELABS_BATCH) - 1;
 	var saucelabsConcurrency = 4;
 	var saucelabsBrowsers = [
+		/*
 		// mobile
 		{platform: 'OS X 10.10', browserName: 'iPhone', version: '8.1'},
+		//{platform: 'OS X 10.10 ', browserName: 'iPhone', version: '6.0'},
 		{platform: 'OS X 10.10', browserName: 'iPad', version: '8.1'},
+		//{platform: 'OS X 10.10', browserName: 'iPad', version: '6.0'},
 		{platform: 'Linux', browserName: 'android', version: '4.4'},
 		{platform: 'Linux', browserName: 'android', version: '4.3'},
 		// desktop (safari)
@@ -29,7 +32,11 @@ module.exports = function(config) {
 		{platform: 'Windows 8', browserName: 'iexplore', version: 10},
 		{platform: 'Windows 8.1', browserName: 'iexplore', version: 11},
 		{platform: 'Windows 7', browserName: 'iexplore', version: 9}
-
+		*/
+		{ browserName: 'chrome', browserVersion: 'latest', platformName: 'Windows 7'},
+		{ browserName: 'chrome', platform: 'Windows 7', version: '35' },
+		{ browserName: 'iphone', platform: 'OS X 10.9', version: '7.1' },
+		{ browserName: 'MicrosoftEdge', browserVersion: 'latest', platformName: 'Windows 10',},
 	];
 
 	if (process.env.TARGET === 'saucelabs') {
