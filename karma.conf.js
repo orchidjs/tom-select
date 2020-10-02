@@ -1,6 +1,8 @@
 module.exports = function(config) {
 
 	var customLaunchers = {};
+	var saucelabsBatchID = Number(process.env.SAUCELABS_BATCH||1) - 1;
+	var saucelabsConcurrency = 2;
 	var saucelabsBrowsers = [
 		/*
 		// mobile
@@ -39,8 +41,9 @@ module.exports = function(config) {
 	];
 
 
-
-	if( process.env.TARGET === 'saucelabs' ){
+	if (process.env.TARGET === 'saucelabs') {
+		saucelabsBrowsers = saucelabsBrowsers.slice(saucelabsBatchID * saucelabsConcurrency, saucelabsBatchID * saucelabsConcurrency + saucelabsConcurrency);
+		if (!saucelabsBrowsers.length) process.exit(0);
 
 		saucelabsBrowsers.forEach(function(browser, i) {
 			browser.base = 'SauceLabs';
@@ -138,7 +141,7 @@ module.exports = function(config) {
 		browserDisconnectTolerance: 2,
 		browserDisconnectTimeout: 10000,
 		browserNoActivityTimeout: 120000,
-		concurrency: 2,
+		concurrency: saucelabsConcurrency,
 		singleRun: true
 	});
 };

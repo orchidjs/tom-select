@@ -18,4 +18,4 @@ script:
   #- npm test
   - if [[ "${TARGET}" == "HeadlessFirefox" ]]; then npm test || exit 1; fi
   - if [[ "${TARGET}" == "HeadlessChrome" ]]; then npm test || exit 1; fi
-  - if [[ "${TARGET}" == "saucelabs" ]]; then (for x in 1; do export SAUCELABS_BATCH=$x; echo "Starting batch $x of 15"; npm test || true; done); fi
+  - if [[ "${TARGET}" == "saucelabs" ]]; then (for x in 1 2 3; do export SAUCELABS_BATCH=$x; echo "Starting batch $x of 15"; npm test || true; done); fi
