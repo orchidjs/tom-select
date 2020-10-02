@@ -130,7 +130,7 @@ module.exports = function(config) {
 		},
 		customLaunchers: customLaunchers,
 		reporters: reporters,
-		port: 8888,
+		port: 9876,
 		colors: true,
 		captureTimeout: 0,
 		logLevel: config.LOG_INFO,
@@ -138,7 +138,7 @@ module.exports = function(config) {
 		browserDisconnectTolerance: 2,
 		browserDisconnectTimeout: 10000,
 		browserNoActivityTimeout: 120000,
-		concurrency: 1,
+		concurrency: 4,
 		singleRun: true
 	});
 };
