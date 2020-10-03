@@ -5,7 +5,7 @@
 <p align="center">
 <a href="https://github.com/orchidjs/tom-select"><img alt="GitHub forks" src="https://img.shields.io/github/forks/orchidjs/tom-select?label=Github%20forks&style=for-the-badge&color=007ec6"></a>
 <a href="https://www.npmjs.com/package/tom-select"><img alt="npmjs.org" style="height:28px" src="https://img.shields.io/npm/v/tom-select.svg?style=for-the-badge&color=007ec6"></a>
-<a href="https://travis-ci.org/orchidjs/tom-select"><img alt="Travis.org" style="height:28px" src="https://img.shields.io/travis/orchidjs/tom-select?style=for-the-badge"></a>
+<a href="https://travis-ci.org/orchidjs/tom-select"><img alt="Travis.org" style="height:28px" src="https://img.shields.io/travis/orchidjs/tom-select/master?style=for-the-badge"></a>
 <a href="https://coveralls.io/github/orchidjs/tom-select"><img alt="Coveralls Coverage" style="height:28px" src="https://img.shields.io/coveralls/github/orchidjs/tom-select?color=4c1&style=for-the-badge"></a>
 <a href="https://github.com/orchidjs/tom-select/issues"><img alt="GitHub Issues" style="height:28px" src="https://img.shields.io/github/issues/orchidjs/tom-select?style=for-the-badge"></a>
 </p>
