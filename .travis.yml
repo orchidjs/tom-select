@@ -14,5 +14,5 @@ script:
   - export TRAVIS_CI=1
   - if [[ "${TARGET}" == "HeadlessFirefox" ]]; then npm test || exit 1; fi
   - if [[ "${TARGET}" == "HeadlessChrome" ]]; then npm test || exit 1; fi
-  - if [[ "${TARGET}" == "saucelabs" ]]; do export SAUCELABS_BATCH=1; echo "Starting batch 1 of 2"; npm test; fi
-  - if [[ "${TARGET}" == "saucelabs" ]]; do export SAUCELABS_BATCH=2; echo "Starting batch 2 of 2"; npm test; fi
+  - if [[ "${TARGET}" == "saucelabs" ]]; then export SAUCELABS_BATCH=1; echo "Starting batch 1 of 2"; npm test; fi
+  - if [[ "${TARGET}" == "saucelabs" ]]; then export SAUCELABS_BATCH=2; echo "Starting batch 2 of 2"; npm test; fi
