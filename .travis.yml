@@ -8,6 +8,7 @@ node_js:
   - 14
 before_script:
   - npm install -g grunt-cli
+  - npm install
   - grunt
 script:
   - export COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
