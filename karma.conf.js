@@ -125,7 +125,7 @@ module.exports = function(config) {
 		},
 		sauceLabs: {
 			recordVideo: false,
-			startConnect: false,
+			startConnect: true,
 			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
 			build: process.env.TRAVIS_BUILD_NUMBER,
 			testName: process.env.COMMIT_MESSAGE,
