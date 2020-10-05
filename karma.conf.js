@@ -86,12 +86,7 @@ module.exports = function(config) {
 
 	var reporters = ['mocha','coverage'];
 	if( process.env.TRAVIS_CI ){
-
-		if( process.env.TARGET === 'browserstack' ){
-			reporters = ['mocha','coverage']
-		}else{
-			reporters = ['mocha', 'coverage', 'coveralls']
-		}
+		reporters = ['mocha', 'coverage', 'coveralls']
 	}
 
 	var browsers = targets[process.env.TARGET || 'HeadlessFirefox'];
@@ -139,14 +134,9 @@ module.exports = function(config) {
 		},
 		customLaunchers: customLaunchers,
 		reporters: reporters,
-		port: 9876,
 		colors: true,
-		captureTimeout: 0,
 		logLevel: config.LOG_INFO,
 		browsers: browsers,
-		browserDisconnectTolerance: 2,
-		browserDisconnectTimeout: 10000,
-		browserNoActivityTimeout: 120000,
-		singleRun: true
+		project: 'tom-select'
 	});
 };
