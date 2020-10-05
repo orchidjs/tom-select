@@ -8,12 +8,19 @@ module.exports = function(config) {
 		// https://www.browserstack.com/automate/capabilities
 		customLaunchers = {
 
-			/*
 			bs_ios_ffox:{
 				base: 'BrowserStack',
 				os : "OS X",
 				os_version : "Catalina",
 				browser : "Firefox",
+				browser_version : "latest",
+			},
+
+			bs_ios_safari:{
+				base: 'BrowserStack',
+				os : "OS X",
+				os_version : "Catalina",
+				browser : "Safari",
 				browser_version : "latest",
 			},
 
@@ -24,7 +31,6 @@ module.exports = function(config) {
 				browser : "Edge",
 				browser_version : "latest",
 			},
-			*/
 
 			iphone11:{
 				base: 'BrowserStack',
