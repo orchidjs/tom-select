@@ -6,19 +6,24 @@ module.exports = function(config) {
 
 		// define browsers
 		customLaunchers = {
-			bs_firefox_mac: {
+
+			bs_iphone11:{
 				base: 'BrowserStack',
-				browser: 'firefox',
-				browser_version: '21.0',
-				os: 'OS X',
-				os_version: 'Mountain Lion'
+				os_version : "14",
+				device : "iPhone 11",
+				real_mobile : "true",
+				browserName : "iPhone"
+
 			},
-			bs_iphone5: {
+
+			bs_ios_ffox:{
 				base: 'BrowserStack',
-				device: 'iPhone 5',
-				os: 'ios',
-				os_version: '6.0'
-			}
+			   os : "OS X",
+			   os_version : "Catalina",
+			   browserName : "Firefox",
+			   browser_version : "latest",
+		   }
+
 		};
 
 	}else{
