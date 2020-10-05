@@ -15,9 +15,6 @@ Tom Select is an extensible and dynamic &lt;select&gt; UI control.
 With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
 Tom Select was forked from [Selectize.js](https://tom-select.js.org/docs/selectize.js/) to provide the same powerful UI and API but with a framework agnostic approach.
 
-### Browser Support
-
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/tom-select.svg)](https://saucelabs.com/u/tom-select) (coming soon)
 
 ### Features
 
