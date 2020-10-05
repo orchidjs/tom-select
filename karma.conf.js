@@ -131,7 +131,8 @@ module.exports = function(config) {
 		browserStack: {
 			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
 			build: process.env.TRAVIS_BUILD_NUMBER,
-			project: 'tom-select'
+			project: 'tom-select',
+			name: 'tom-select'
 		},
 		customLaunchers: customLaunchers,
 		reporters: reporters,
