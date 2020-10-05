@@ -5,6 +5,7 @@ module.exports = function(config) {
 	if (process.env.TARGET === 'browserstack') {
 
 		// define browsers
+		// https://www.browserstack.com/automate/capabilities
 		customLaunchers = {
 
 			bs_iphone11:{
@@ -12,16 +13,16 @@ module.exports = function(config) {
 				os_version : "14",
 				device : "iPhone 11",
 				real_mobile : "true",
-				browserName : "iPhone"
+				browser : "iPhone"
 
 			},
 
 			bs_ios_ffox:{
 				base: 'BrowserStack',
-			   os : "OS X",
-			   os_version : "Catalina",
-			   browserName : "Firefox",
-			   browser_version : "latest",
+				os : "OS X",
+				os_version : "Catalina",
+				browser : "Firefox",
+				browser_version : "latest",
 		   }
 
 		};
