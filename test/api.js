@@ -866,6 +866,23 @@
 			});
 
 
+			let keys = ['shift','ctrl','alt'];
+			for( key in keys){
+				key = keys[key];
+				syn.type('['+key+']', test.instance.control_input, function(evt) {
+
+					console.log('key press',key,'keycode',last_keydown.keyCode);
+					console.log('shiftKey',last_keydown.shiftKey);
+					console.log('ctrlKey',last_keydown.ctrlKey);
+					console.log('altKey',last_keydown.altKey);
+					console.log('metaKey',last_keydown.metaKey);
+
+					syn.type('['+key+'-up]', test.instance.control_input);
+				});
+
+			}
+
+
 			it_n('should return false if [alt] is pressed', function() {
 				syn.type('[alt]', test.instance.control_input, function(evt) {
 					assert.equal( instance.isKeyDown(KEY_SHIFT,last_keydown), false);

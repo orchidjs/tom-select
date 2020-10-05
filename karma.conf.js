@@ -16,13 +16,30 @@ module.exports = function(config) {
 				browser_version : "latest",
 			},
 
-			bs_ios_safari:{
+			bs_ios_safari13:{
 				base: 'BrowserStack',
 				os : "OS X",
 				os_version : "Catalina",
 				browser : "Safari",
 				browser_version : "latest",
 			},
+
+			bs_ios_safari12:{
+				base: 'BrowserStack',
+				os : "OS X",
+				os_version : "Mojave",
+				browser : "Safari",
+				browser_version : "latest",
+			},
+
+			bs_ios_safari11:{
+				base: 'BrowserStack',
+				os : "OS X",
+				os_version : "High Sierra",
+				browser : "Safari",
+				browser_version : "latest",
+			},
+
 
 			bs_win10_edge:{
 				base: 'BrowserStack',
