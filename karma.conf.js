@@ -80,7 +80,7 @@ module.exports = function(config) {
 	config.set({
 		frameworks: ['mocha', 'chai'],
 		files: [
-			//'build/css/tom-select.default.css',
+			'build/css/tom-select.default.css',
 			'node_modules/jquery/dist/jquery.js',
 			'node_modules/microplugin/src/microplugin.js',
 			'node_modules/sifter/sifter.js',
