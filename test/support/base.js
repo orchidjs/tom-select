@@ -11,7 +11,7 @@ var test_number = 0;
 var teardownLast = function(){
 	if( window.test_last ){
 		window.test_last.instance.destroy();
-		window.test_last.$select.remove();
+		window.test_last.$html.remove();
 		//sandbox.innerHTML = '';
 		window.test_last = null;
 	}
