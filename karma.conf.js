@@ -8,22 +8,32 @@ module.exports = function(config) {
 		// https://www.browserstack.com/automate/capabilities
 		customLaunchers = {
 
-			bs_iphone11:{
-				base: 'BrowserStack',
-				os_version : "14",
-				device : "iPhone 11",
-				real_mobile : "true",
-				browser : "iPhone"
-
-			},
-
+			/*
 			bs_ios_ffox:{
 				base: 'BrowserStack',
 				os : "OS X",
 				os_version : "Catalina",
 				browser : "Firefox",
 				browser_version : "latest",
-		   }
+			},
+
+			bs_win10_edge:{
+				base: 'BrowserStack',
+				os : "Windows",
+				os_version : "10",
+				browser : "Edge",
+				browser_version : "latest",
+			},
+			*/
+
+			iphone11:{
+				base: 'BrowserStack',
+				os: 'iOS',
+				os_version: '14',
+				device: 'iPhone 11',
+				browser: 'iPhone',
+				real_mobile: 'true',
+			},
 
 		};
 
