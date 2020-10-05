@@ -81,15 +81,17 @@
 
 		});
 
+
 		describe('<input type="number">', function() {
 			it_n('should complete without exceptions', function(done) {
 				var test = setup_test('<input type="number">', {});
-				window.setTimeout(function() {
-					assert.equal(test.instance.control_input.getAttribute('type'), 'number');
-					done();
-				}, 0);
+
+				assert.equal(test.instance.control_input.getAttribute('type'), 'number');
+				done();
+
 			});
 		});
+
 
 		describe('<select>', function() {
 			it_n('should complete without exceptions', function() {
@@ -230,14 +232,14 @@
 				var order_actual = [];
 
 				test.instance.refreshOptions(true);
-				window.setTimeout(function() {
-					$(test.instance.dropdown).find('[data-value]').each(function(i, el) {
-						order_actual.push($(el).attr('data-value'));
-					});
 
-					expect(order_actual).to.eql(order_expected);
-					done();
-				}, 0);
+				$(test.instance.dropdown).find('[data-value]').each(function(i, el) {
+					order_actual.push($(el).attr('data-value'));
+				});
+
+				expect(order_actual).to.eql(order_expected);
+				done();
+
 			});
 			it_n('should respect option disabled flag', function (done) {
 				var test = setup_test(['<select>',
@@ -246,11 +248,11 @@
 					'</select>'].join(''), {});
 
 				test.instance.refreshOptions(true);
-				window.setTimeout(function() {
-					expect($(test.instance.dropdown).find('.option')).to.has.length(2);
-					expect($(test.instance.dropdown).find('[data-selectable]')).to.has.length(1);
-					done();
-				}, 0);
+
+				expect($(test.instance.dropdown).find('.option')).to.has.length(2);
+				expect($(test.instance.dropdown).find('[data-selectable]')).to.has.length(1);
+				done();
+
 			});
 			describe('getValue()', function() {
 				it_n('should return "" when empty', function() {
@@ -342,11 +344,9 @@
 				it_n('should have "invalid" class when validation fails', function(done) {
 					test.$select[0].checkValidity();
 
-					window.setTimeout(function() {
-						expect(test.instance.control.classList.contains('invalid')).
-							to.be.true;
-						done();
-					}, 250);
+					expect(test.instance.control.classList.contains('invalid')).to.be.true;
+					done();
+
 				});
 
 				it_n('should clear the invalid class after an item is selected',function(done) {
@@ -437,7 +437,7 @@
 				window.setTimeout(function() {
 					expect($(test.instance.dropdown_content).find('.custom-option').length).to.be.equal(1);
 					done();
-				}, 0);
+				}, 5);
 			});
 		});
 
@@ -463,7 +463,7 @@
 				window.setTimeout(function() {
 					expect($(test.instance.dropdown_content).find('.custom-option').length).to.be.equal(1);
 					done();
-				}, 0);
+				}, 5);
 			});
 		});
 
@@ -521,6 +521,7 @@
 
 
 		});
+
 
 	});
 

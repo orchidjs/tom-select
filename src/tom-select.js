@@ -2449,11 +2449,11 @@ class TomSelect extends MicroEvent{
 		}
 
 		// if [ctrl+shift], return false
-		if( evt[KEY_CTRL_NAME] && evt.shiftKey ){
+		if( evt.ctrlKey && evt.shiftKey ){
 			return false;
 		}
 
-		if( key_code == KEY_CTRL && evt[KEY_CTRL_NAME] ){
+		if( key_code == KEY_CTRL && evt.ctrlKey ){
 			return true;
 		}
 

@@ -7,11 +7,13 @@ window.has_focus = function(elem) {
 var sandbox = document.createElement('form');
 document.body.appendChild(sandbox);
 var test_number = 0;
+var $current_test_label = $('<h1>label</h1>').prependTo(sandbox);
+
 
 var teardownLast = function(){
 	if( window.test_last ){
 		window.test_last.instance.destroy();
-		window.test_last.$select.remove();
+		window.test_last.$html.remove();
 		//sandbox.innerHTML = '';
 		window.test_last = null;
 	}
@@ -28,6 +30,7 @@ window.setup_test = function(html, options, callback) {
 	if( html in test_html ){
 		html = test_html[html];
 	}
+
 
 	var $html			= $(html).appendTo(sandbox);
 	var $select			= $html.find('.setup-here');
@@ -60,9 +63,24 @@ after(function() {
 });
 
 
-var it_n = function(){
-	arguments[0] = (test_number++) + ' - ' + arguments[0];
-	it.apply( this, arguments);
+var it_n = function(label,orig_func){
+	var new_func;
+
+	label = (test_number++) + ' - ' + label
+
+	if( orig_func.length > 0 ){
+		new_func = function(done){
+			$current_test_label.text(label);
+			return orig_func.call(this,done);
+		};
+	}else{
+		new_func = function(){
+			$current_test_label.text(label);
+			return orig_func.call(this);
+		};
+	}
+
+	it.call( this, label, new_func );
 }
 
 $(sandbox).on('submit', function(e) { e.preventDefault(); });

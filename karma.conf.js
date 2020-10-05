@@ -1,54 +1,64 @@
 module.exports = function(config) {
 
 	var customLaunchers = {};
-	var saucelabsBatchID = Number(process.env.SAUCELABS_BATCH||1) - 1;
-	var saucelabsConcurrency = 2;
-	var saucelabsBrowsers = [
-		/*
-		// mobile
-		{platform: 'OS X 10.10', browserName: 'iPhone', version: '8.1'},
-		//{platform: 'OS X 10.10 ', browserName: 'iPhone', version: '6.0'},
-		{platform: 'OS X 10.10', browserName: 'iPad', version: '8.1'},
-		//{platform: 'OS X 10.10', browserName: 'iPad', version: '6.0'},
-		{platform: 'Linux', browserName: 'android', version: '4.4'},
-		{platform: 'Linux', browserName: 'android', version: '4.3'},
-		// desktop (safari)
-		{platform: 'OS X 10.8', browserName: 'safari', version: 6},
-		{platform: 'OS X 10.9', browserName: 'safari', version: 7},
-		{platform: 'OS X 10.10', browserName: 'safari', version: 8},
-		// desktop (chrome)
-		{platform: 'OS X 10.10', browserName: 'chrome', version: 39},
-		{platform: 'OS X 10.10', browserName: 'chrome', version: 38},
-		{platform: 'OS X 10.10', browserName: 'chrome', version: 37},
-		{platform: 'Windows 7', browserName: 'chrome', version: 39},
-		{platform: 'Windows 7', browserName: 'chrome', version: 38},
-		{platform: 'Windows 7', browserName: 'chrome', version: 37},
-		// desktop (firefox)
-		{platform: 'Windows 7', browserName: 'firefox', version: 35},
-		{platform: 'Windows 8', browserName: 'firefox', version: 35},
-		{platform: 'OS X 10.10', browserName: 'firefox', version: 34},
-		{platform: 'OS X 10.10', browserName: 'firefox', version: 33},
-		{platform: 'OS X 10.10', browserName: 'firefox', version: 32},
-		// desktop (internet explorer)
-		{platform: 'Windows 8', browserName: 'iexplore', version: 10},
-		{platform: 'Windows 8.1', browserName: 'iexplore', version: 11},
-		{platform: 'Windows 7', browserName: 'iexplore', version: 9}
-		*/
-		{ browserName: 'chrome', browserVersion: 'latest', platformName: 'Windows 10'},
-		{ browserName: 'MicrosoftEdge', browserVersion: 'latest', platformName: 'Windows 10'},
-		{ browserName: 'firefox', browserVersion: 'latest', platformName: 'Windows 10'},
-		{ browserName: 'safari', browserVersion: 'latest', platformName: 'macOS 10.15'},
-	];
+
+	if (process.env.TARGET === 'browserstack') {
+
+		// define browsers
+		// https://www.browserstack.com/automate/capabilities
+		customLaunchers = {
+
+			bs_ios_ffox:{
+				base: 'BrowserStack',
+				os : "OS X",
+				os_version : "Catalina",
+				browser : "Firefox",
+				browser_version : "latest",
+			},
+
+			bs_ios_safari13:{
+				base: 'BrowserStack',
+				os : "OS X",
+				os_version : "Catalina",
+				browser : "Safari",
+				browser_version : "latest",
+			},
+
+			bs_ios_safari12:{
+				base: 'BrowserStack',
+				os : "OS X",
+				os_version : "Mojave",
+				browser : "Safari",
+				browser_version : "latest",
+			},
+
+			bs_ios_safari11:{
+				base: 'BrowserStack',
+				os : "OS X",
+				os_version : "High Sierra",
+				browser : "Safari",
+				browser_version : "latest",
+			},
 
 
-	if (process.env.TARGET === 'saucelabs') {
-		saucelabsBrowsers = saucelabsBrowsers.slice(saucelabsBatchID * saucelabsConcurrency, saucelabsBatchID * saucelabsConcurrency + saucelabsConcurrency);
-		if (!saucelabsBrowsers.length) process.exit(0);
+			bs_win10_edge:{
+				base: 'BrowserStack',
+				os : "Windows",
+				os_version : "10",
+				browser : "Edge",
+				browser_version : "latest",
+			},
 
-		saucelabsBrowsers.forEach(function(browser, i) {
-			browser.base = 'SauceLabs';
-			customLaunchers['SL_' + i] = browser;
-		});
+			iphone11:{
+				base: 'BrowserStack',
+				os: 'iOS',
+				os_version: '14',
+				device: 'iPhone 11',
+				browser: 'iPhone',
+				real_mobile: 'true',
+			},
+
+		};
 
 	}else{
 		customLaunchers['HeadlessFirefox'] = {
@@ -69,7 +79,7 @@ module.exports = function(config) {
 	}
 
 	var targets = {
-		'saucelabs': Object.keys(customLaunchers),
+		'browserstack': Object.keys(customLaunchers),
 		'HeadlessFirefox': ['HeadlessFirefox'],
 		'HeadlessChrome': ['HeadlessChrome']
 	};
@@ -77,8 +87,8 @@ module.exports = function(config) {
 	var reporters = ['mocha','coverage'];
 	if( process.env.TRAVIS_CI ){
 
-		if( process.env.TARGET === 'saucelabs' ){
-			reporters = ['saucelabs', 'mocha']
+		if( process.env.TARGET === 'browserstack' ){
+			reporters = ['mocha','coverage']
 		}else{
 			reporters = ['mocha', 'coverage', 'coveralls']
 		}
@@ -93,7 +103,7 @@ module.exports = function(config) {
 	config.set({
 		frameworks: ['mocha', 'chai'],
 		files: [
-			//'build/css/tom-select.default.css',
+			'build/css/tom-select.default.css',
 			'node_modules/jquery/dist/jquery.js',
 			'node_modules/microplugin/src/microplugin.js',
 			'node_modules/sifter/sifter.js',
@@ -123,13 +133,9 @@ module.exports = function(config) {
 			type: process.env.TRAVIS_CI ? 'lcov' : 'text-summary',
 			dir: 'coverage/'
 		},
-		sauceLabs: {
-			recordVideo: false,
-			startConnect: true,
+		browserStack: {
 			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
 			build: process.env.TRAVIS_BUILD_NUMBER,
-			testName: process.env.COMMIT_MESSAGE,
-			tags: ['tom-select', 'test']
 		},
 		customLaunchers: customLaunchers,
 		reporters: reporters,
@@ -141,7 +147,6 @@ module.exports = function(config) {
 		browserDisconnectTolerance: 2,
 		browserDisconnectTimeout: 10000,
 		browserNoActivityTimeout: 120000,
-		concurrency: saucelabsConcurrency,
 		singleRun: true
 	});
 };

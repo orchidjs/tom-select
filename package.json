@@ -53,6 +53,7 @@
     "grunt-shell": "^3.0.1",
     "jquery": "^3.5.1",
     "karma": "^5.1.1",
+    "karma-browserstack-launcher": "^1.6.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.3",
