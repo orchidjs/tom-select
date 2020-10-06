@@ -121,7 +121,6 @@ module.exports = function(config) {
 			'test/*.js'
 		],
 		preprocessors: {
-			'src/**/*.js': ['coverage'],
 			'src/*.js': ['coverage']
 		},
 		coverageReporter: {

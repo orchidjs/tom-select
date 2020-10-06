@@ -138,7 +138,8 @@ module.exports = function(grunt) {
 
 
 	var files_js = [
-		'src/contrib/*.js',
+		'src/contrib/highlight.js',
+		'src/contrib/microevent.js',
 		'src/*.js',
 		'!src/.wrapper.js',
 		'!src/defaults.js',
@@ -148,7 +149,7 @@ module.exports = function(grunt) {
 	];
 
 	var files_js_dependencies = [
-		'node_modules/sifter/sifter.js',
+		'src/contrib/sifter.js',
 		'node_modules/microplugin/src/microplugin.js',
 	];
 
