@@ -7,3 +7,4 @@ package-lock.json
 *.lock
 build/*
 .sass-cache
+.bash_profile
