@@ -59,25 +59,28 @@ Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to pro
 <link rel="stylesheet" href="/css/tom-select.default.css">
 <script src="/js/tom-select.complete.js"></script>
 <script>
-var options = {};
-tomSelect('#tom-select-it',options);
+var config = {};
+tomSelect('#tom-select-it',config);
 </script>
 ```
 
-The available options are [documented here](docs).
+Available configuration settings are [documented here](docs)
 
 
-## Installation and files
+## Installation
 
-All pre-built files needed to use Tom Select can be found in the "dist" folder on [GitHub](https://github.com/orchidjs/tom-select/tree/master/dist) or [jsDelivr](https://www.jsdelivr.com/package/npm/tom-select?path=dist).
+All pre-built files needed to use Tom Select can be found in the "dist" folder from each of these sources:
+
+- ```npm i tom-select```
+- [GitHub](https://github.com/orchidjs/tom-select/tree/master/dist)
+- [jsDelivr](https://www.jsdelivr.com/package/npm/tom-select?path=dist)
 
 
-- [**JavaScript**](https://github.com/orchidjs/tom-select/tree/master/dist/js)
-	- [tom-select.complete.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.complete.js) — Includes dependencies and plugins
-	- [tom-select.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.js) — Does not include sifter or microplugin
-- **Themes**
-	- [CSS](https://github.com/orchidjs/tom-select/tree/master/dist/css) — Compiled themes
-	- [SCSS](https://github.com/orchidjs/tom-select/tree/master/dist/scss) — Uncompiled theme sources
+## Files
+- [tom-select.complete.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.complete.js) — Includes dependencies and plugins
+- [tom-select.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.js) — Does not include sifter or microplugin
+- [CSS](https://github.com/orchidjs/tom-select/tree/master/dist/css) — Compiled themes
+- [SCSS](https://github.com/orchidjs/tom-select/tree/master/dist/scss) — Uncompiled theme sources
 
 
 ## Custom Builds
