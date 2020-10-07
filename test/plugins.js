@@ -188,13 +188,13 @@ describe('plugin: optgroup_columns', function() {
 		// 1) move right to audi
 		syn.type('a[right]', test.instance.control_input, function() {
 
-			var optgroup			= parentMatch(test.instance.activeOption,'[data-group]');
+			var optgroup			= test.instance.activeOption.parentNode;
 			expect(optgroup.dataset.group).to.be.equal('audi');
 
 			// 2) move left to chevy
 			syn.type('[left]', test.instance.control_input, function() {
 
-				var optgroup			= parentMatch(test.instance.activeOption,'[data-group]');
+				var optgroup			= test.instance.activeOption.parentNode;
 				expect(optgroup.dataset.group).to.be.equal('chevrolet');
 
 			});
