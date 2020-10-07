@@ -1,5 +1,5 @@
 /**
- * Tom Select (v1.0.0-b.3)
+ * Tom Select (v1.0.0-rc.1)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -142,7 +142,6 @@
 	    }
 	  }
 	};
-	var IS_MAC = /Mac/.test(navigator.userAgent);
 	var KEY_A = 65;
 	var KEY_COMMA = 188;
 	var KEY_RETURN = 13;
@@ -154,9 +153,8 @@
 	var KEY_BACKSPACE = 8;
 	var KEY_DELETE = 46;
 	var KEY_SHIFT = 16;
-	var KEY_CTRL = IS_MAC ? 18 : 17;
+	var KEY_CTRL = 17;
 	var KEY_TAB = 9;
-	var KEY_CTRL_NAME = IS_MAC ? 'metaKey' : 'ctrlKey';
 	
 	var getSettings = function getSettings(input, settings_user) {
 	  var settings = Object.assign({}, TomSelect.defaults, settings_user);
@@ -3217,11 +3215,11 @@
 	      } // if [ctrl+shift], return false
 	
 	
-	      if (evt[KEY_CTRL_NAME] && evt.shiftKey) {
+	      if (evt.ctrlKey && evt.shiftKey) {
 	        return false;
 	      }
 	
-	      if (key_code == KEY_CTRL && evt[KEY_CTRL_NAME]) {
+	      if (key_code == KEY_CTRL && evt.ctrlKey) {
 	        return true;
 	      }
 	
