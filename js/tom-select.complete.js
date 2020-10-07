@@ -1,6 +1,6 @@
 /**
  * sifter.js
- * Copyright (c) 2013 Brian Reavis & contributors
+ * Copyright (c) 2013–2020 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -45,7 +45,7 @@
 	 * @param {string} query
 	 * @returns {array}
 	 */
-	Sifter.prototype.tokenize = function(query) {
+	Sifter.prototype.tokenize = function(query, respect_word_boundaries) {
 		query = trim(String(query || '').toLowerCase());
 		if (!query || !query.length) return [];
 
@@ -62,6 +62,7 @@
 					}
 				}
 			}
+			if (respect_word_boundaries) regex = "\\b"+regex
 			tokens.push({
 				string : words[i],
 				regex  : new RegExp(regex, 'i')
@@ -318,7 +319,7 @@
 		return {
 			options : options,
 			query   : String(query || '').toLowerCase(),
-			tokens  : this.tokenize(query),
+			tokens  : this.tokenize(query, options.respect_word_boundaries),
 			total   : 0,
 			items   : []
 		};
@@ -495,7 +496,6 @@
 
 	return Sifter;
 }));
-
 
 
 /**
@@ -778,7 +778,6 @@
 	    }
 	  }
 	};
-	var IS_MAC = /Mac/.test(navigator.userAgent);
 	var KEY_A = 65;
 	var KEY_COMMA = 188;
 	var KEY_RETURN = 13;
@@ -790,9 +789,8 @@
 	var KEY_BACKSPACE = 8;
 	var KEY_DELETE = 46;
 	var KEY_SHIFT = 16;
-	var KEY_CTRL = IS_MAC ? 18 : 17;
+	var KEY_CTRL = 17;
 	var KEY_TAB = 9;
-	var KEY_CTRL_NAME = IS_MAC ? 'metaKey' : 'ctrlKey';
 	
 	var getSettings = function getSettings(input, settings_user) {
 	  var settings = Object.assign({}, TomSelect.defaults, settings_user);
@@ -3853,11 +3851,11 @@
 	      } // if [ctrl+shift], return false
 	
 	
-	      if (evt[KEY_CTRL_NAME] && evt.shiftKey) {
+	      if (evt.ctrlKey && evt.shiftKey) {
 	        return false;
 	      }
 	
-	      if (key_code == KEY_CTRL && evt[KEY_CTRL_NAME]) {
+	      if (key_code == KEY_CTRL && evt.ctrlKey) {
 	        return true;
 	      }
 	
