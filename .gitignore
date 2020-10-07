@@ -8,3 +8,4 @@ package-lock.json
 build/*
 .sass-cache
 .bash_profile
+coverage/
