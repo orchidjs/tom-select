@@ -8,45 +8,37 @@ module.exports = function(config) {
 		// https://www.browserstack.com/automate/capabilities
 		customLaunchers = {
 
+			// ios
 			bs_ios_ffox:{
 				base: 'BrowserStack',
-				os : "OS X",
-				os_version : "Catalina",
-				browser : "Firefox",
-				browser_version : "latest",
+				os : 'OS X',
+				os_version : 'Catalina',
+				browser : 'Firefox',
+				browser_version : 'latest',
 			},
 
 			bs_ios_safari13:{
 				base: 'BrowserStack',
-				os : "OS X",
-				os_version : "Catalina",
-				browser : "Safari",
-				browser_version : "latest",
+				os : 'OS X',
+				os_version : 'Catalina',
+				browser : 'Safari',
+				browser_version : 'latest',
 			},
 
 			bs_ios_safari12:{
 				base: 'BrowserStack',
-				os : "OS X",
-				os_version : "Mojave",
-				browser : "Safari",
-				browser_version : "latest",
+				os : 'OS X',
+				os_version : 'Mojave',
+				browser : 'Safari',
+				browser_version : 'latest',
 			},
 
 			bs_ios_safari11:{
 				base: 'BrowserStack',
-				os : "OS X",
-				os_version : "High Sierra",
-				browser : "Safari",
-				browser_version : "latest",
-			},
-
-
-			bs_win10_edge:{
-				base: 'BrowserStack',
-				os : "Windows",
-				os_version : "10",
-				browser : "Edge",
-				browser_version : "latest",
+				os : 'OS X',
+				os_version : 'High Sierra',
+				browser : 'Safari',
+				browser_version : 'latest',
 			},
 
 			iphone11:{
@@ -57,6 +49,43 @@ module.exports = function(config) {
 				browser: 'iPhone',
 				real_mobile: 'true',
 			},
+
+
+			// win
+			bs_win10_edge:{
+				base: 'BrowserStack',
+				os : 'Windows',
+				os_version : '10',
+				browser : 'Edge',
+				browser_version : 'latest',
+			},
+
+			bs_win8_edge:{
+				base: 'BrowserStack',
+				os : 'Windows',
+				os_version : '8.1',
+				browser : 'Edge',
+				browser_version : '80',
+			},
+
+			bs_win7_edge:{
+				base: 'BrowserStack',
+				os : 'Windows',
+				os_version : '7',
+				browser : 'Edge',
+				browser_version : '80.0',
+			},
+
+			// android
+			bs_android:{
+				base: 'BrowserStack',
+				os : 'Android',
+				os_version : '10.0',
+				device : 'Samsung Galaxy S20',
+				real_mobile : 'true',
+				browser : 'Android',
+			},
+
 
 		};
 
@@ -101,7 +130,6 @@ module.exports = function(config) {
 			'build/css/tom-select.default.css',
 			'node_modules/jquery/dist/jquery.js',
 			'node_modules/microplugin/src/microplugin.js',
-			'node_modules/sifter/sifter.js',
 			'node_modules/syn/dist/global/syn.js',
 			'test/support/*.js',
 			'src/contrib/*.js',
@@ -130,8 +158,8 @@ module.exports = function(config) {
 		browserStack: {
 			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
 			build: process.env.TRAVIS_BUILD_NUMBER,
-			project: 'tom-select',
-			name: 'tom-select'
+			project: process.env.TRAVIS_CI ? 'tom-select': '',
+			name:  process.env.TRAVIS_CI ? 'tom-select': '',
 		},
 		customLaunchers: customLaunchers,
 		reporters: reporters,
