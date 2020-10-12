@@ -2,12 +2,13 @@
 <div class="text-center">
 <h1 class="display-2 mt-5">Tom Select</h1>
 
-<a href="https://github.com/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="GitHub forks" src="https://img.shields.io/github/forks/orchidjs/tom-select?label=Github%20forks&style=&color=007ec6"></a>
-<a href="https://www.npmjs.com/package/tom-select" class="m-1 d-inline-block"><img alt="npmjs.org" src="https://img.shields.io/npm/v/tom-select.svg?style=&color=007ec6"></a>
-<a href="https://travis-ci.org/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="Travis.org" src="https://img.shields.io/travis/orchidjs/tom-select?style="></a>
-<a href="https://coveralls.io/github/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="Coveralls Coverage" src="https://img.shields.io/coveralls/github/orchidjs/tom-select?color=4c1&style="></a>
-<a href="https://github.com/orchidjs/tom-select/issues" class="m-1 d-inline-block"><img alt="GitHub Issues" src="https://img.shields.io/github/issues/orchidjs/tom-select?style="></a>
-<a href="https://automate.browserstack.com/public-build/QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e"><img src='https://automate.browserstack.com/badge.svg?badge_key=QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e'/></a>
+<a href="https://github.com/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/orchidjs/tom-select?label=GitHub%20stars&color=007ec6"></a>
+<a href="https://www.jsdelivr.com/package/npm/tom-select" class="m-1 d-inline-block"><img alt="jsDelivr hits (npm)" src="https://img.shields.io/jsdelivr/npm/hm/tom-select?label=jsDelivr%20hits&color=007ec6"></a>
+<a href="https://www.npmjs.com/package/tom-select" class="m-1 d-inline-block"><img alt="npmjs.org" src="https://img.shields.io/npm/v/tom-select.svg?color=007ec6"></a>
+<a href="https://travis-ci.org/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="Travis.org" src="https://img.shields.io/travis/orchidjs/tom-select?color=4c1"></a>
+<a href="https://coveralls.io/github/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="Coveralls Coverage" src="https://img.shields.io/coveralls/github/orchidjs/tom-select?color=4c1"></a>
+<a href="https://github.com/orchidjs/tom-select/issues" class="m-1 d-inline-block"><img alt="GitHub Issues" src="https://img.shields.io/github/issues/orchidjs/tom-select"></a>
+<a href="https://automate.browserstack.com/public-build/QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e"><img src="https://automate.browserstack.com/badge.svg?badge_key=QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e"/></a>
 </div>
 
 
