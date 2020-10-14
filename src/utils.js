@@ -44,16 +44,6 @@ var escape_html = function(str) {
 		.replace(/"/g, '&quot;');
 };
 
-/**
- * Escapes "$" characters in replacement strings.
- *
- * @param {string} str
- * @returns {string}
- */
-var escape_replace = function(str) {
-	return (str + '').replace(/\$/g, '$$$$');
-};
-
 
 /**
  * Debounce all fired events types listed in `types`
