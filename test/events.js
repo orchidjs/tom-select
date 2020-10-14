@@ -314,4 +314,30 @@ describe('Events', function() {
 		});
 	});
 
+
+	describe('invalid',function(){
+
+		it_n('should be invalid if pattern does not match', function() {
+
+			var test = setup_test('<form><input class="setup-here" pattern="[a-z]+" required /><button type="submit" id="submit"></button></form>',{create:true});
+
+			test.instance.createItem('BB');
+			document.getElementById('submit').click();
+			expect(test.instance.isInvalid).to.be.true;
+
+		});
+
+		it_n('should be valid if pattern matches', function() {
+
+			var test = setup_test('<input pattern="[a-z]+" required />',{create:true});
+
+			test.instance.createItem('bb');
+			test.instance.refreshState();
+			expect(test.instance.isInvalid).to.be.false;
+		});
+
+
+
+	});
+
 });

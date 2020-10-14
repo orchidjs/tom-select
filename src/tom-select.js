@@ -280,14 +280,13 @@ class TomSelect extends MicroEvent{
 		self.setValue(settings.items);
 		delete settings.items;
 
-		// feature detect for the validation API
-		if( self.supportsValidity() ){
-			input.addEventListener('invalid', function(e) {
-				e.preventDefault();
+		input.addEventListener('invalid', function(e) {
+			e.preventDefault();
+			if( !self.isInvalid ){
 				self.isInvalid = true;
 				self.refreshState();
-			});
-		}
+			}
+		});
 
 		self.updateOriginalInput();
 		self.refreshItems();
@@ -308,10 +307,6 @@ class TomSelect extends MicroEvent{
 			self.onSearchChange('');
 		}
 
-	}
-
-	supportsValidity(){
-		return !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;
 	}
 
 
@@ -1939,9 +1934,12 @@ class TomSelect extends MicroEvent{
 	 * hidden and can't show errors.
 	 */
 	refreshValidityState() {
-		if (!this.isRequired) return false;
 
-		var invalid = !this.items.length;
+		if( !this.input.checkValidity ){
+			return;
+		}
+
+		var invalid = !this.input.checkValidity();
 
 		this.isInvalid = invalid;
 		this.control_input.required = invalid;
