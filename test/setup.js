@@ -300,12 +300,14 @@
 			var $form, $button, test;
 
 			beforeEach(function() {
-				test = setup_test('<select required>' +
+				test = setup_test('<form><select class="setup-here" required>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
-				'</select>', {});
-				$form = test.$select.parents('form');
+				'</select></form>', {});
+				$form = test.$html;
 				$button = $('<button type="submit">').appendTo($form);
+
+				$form.on('submit', function(e) { e.preventDefault(); });
 			});
 
 			afterEach(function() {
@@ -330,34 +332,34 @@
 				syn.click($button);
 			});
 
-			if( TomSelect.prototype.supportsValidity() ){
-				it_n('should not pass validation if no element is selected',function(done) {
 
-					$button.one('click',function(){
-						expect($form[0].checkValidity()).to.be.false;
-						done();
-					});
+			it_n('should not pass validation if no element is selected',function(done) {
 
-					syn.click($button);
-				});
-
-				it_n('should have "invalid" class when validation fails', function(done) {
-					test.$select[0].checkValidity();
-
-					expect(test.instance.control.classList.contains('invalid')).to.be.true;
+				$button.one('click',function(){
+					expect($form[0].checkValidity()).to.be.false;
 					done();
-
 				});
 
-				it_n('should clear the invalid class after an item is selected',function(done) {
-					syn.click($button).delay(0, function() {
-						test.instance.addItem('a');
-						expect(test.instance.control.classList.contains('invalid')).
-							to.be.false;
-						done();
-					});
+				syn.click($button);
+			});
+
+			it_n('should have "invalid" class when validation fails', function(done) {
+				test.$select[0].checkValidity();
+
+				expect(test.instance.control.classList.contains('invalid')).to.be.true;
+				done();
+
+			});
+
+			it_n('should clear the invalid class after an item is selected',function(done) {
+				syn.click($button).delay(0, function() {
+					test.instance.addItem('a');
+					expect(test.instance.control.classList.contains('invalid')).
+						to.be.false;
+					done();
 				});
-			}
+			});
+
 		});
 
 		describe('<select> (not required)', function(){

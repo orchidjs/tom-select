@@ -4,7 +4,7 @@ window.has_focus = function(elem) {
 	return !!(elem === document.activeElement);
 };
 
-var sandbox = document.createElement('form');
+var sandbox = document.createElement('div');
 document.body.appendChild(sandbox);
 var test_number = 0;
 var $current_test_label = $('<h1 style="white-space:nowrap;overflow:hidden"></h1>').prependTo(sandbox);
@@ -84,7 +84,6 @@ var it_n = function(label,orig_func){
 	it.call( this, label, new_func );
 }
 
-$(sandbox).on('submit', function(e) { e.preventDefault(); });
 
 var click = function(el, cb) {
 	syn.click(el).delay(100, cb);

@@ -150,7 +150,7 @@
 			it_n('should give it focus to select', function(done) {
 
 				var inputId		= "labeledSelect";
-				var label		= $('<label for="'+inputId+'">select</label>').appendTo('form');
+				var label		= $('<label for="'+inputId+'">select</label>').appendTo(sandbox);
 				var test = setup_test('<select id="'+inputId+'">' +
 					'<option value="a">A</option>' +
 					'<option value="b">B</option>' +
@@ -168,7 +168,7 @@
 			it_n('should give it focus to input', function(done) {
 
 				var inputId		= "labeledInput";
-				var label		= $('<label for="'+inputId+'">input</label>').appendTo('form');
+				var label		= $('<label for="'+inputId+'">input</label>').appendTo(sandbox);
 				var test		= setup_test('<input id="'+inputId+'" type="text" value="a,b,c,d">', {});
 
 				syn.click(label)
