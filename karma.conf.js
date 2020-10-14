@@ -147,12 +147,17 @@ module.exports = function(config) {
 			'src/plugins/no_backspace_delete/plugin.js',
 			'src/plugins/change_listener/plugin.js',
 			'test/*.js'
+			//'test/events.js'
 		],
 		preprocessors: {
 			'src/*.js': ['coverage']
 		},
 		coverageReporter: {
-			type: process.env.TRAVIS_CI ? 'lcov' : 'text-summary',
+			reporters:[
+				{type: 'lcov'},
+				{type: 'text-summary'},
+				
+			],
 			dir: 'coverage/'
 		},
 		browserStack: {
