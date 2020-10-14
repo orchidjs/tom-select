@@ -523,8 +523,9 @@ class TomSelect extends MicroEvent{
 	 * @returns {boolean}
 	 */
 	onKeyDown(e) {
-		var isInput = e.target === this.control_input;
 		var self = this;
+		var isInput = e.target === self.control_input;
+		self.ignoreHover = true;
 
 		if (self.isLocked) {
 			if (e.keyCode !== KEY_TAB) {
@@ -557,7 +558,6 @@ class TomSelect extends MicroEvent{
 				if (!self.isOpen && self.hasOptions) {
 					self.open();
 				} else if (self.activeOption) {
-					self.ignoreHover = true;
 					let next = self.getAdjacent(self.activeOption, 1);
 					if (next) self.setActiveOption(next, true );
 				}
@@ -567,7 +567,6 @@ class TomSelect extends MicroEvent{
 			// up: move selection up
 			case KEY_UP:
 				if (self.activeOption) {
-					self.ignoreHover = true;
 					let prev = self.getAdjacent(self.activeOption, -1);
 					if (prev) self.setActiveOption(prev, true);
 				}
