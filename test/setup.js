@@ -1,4 +1,3 @@
-(function() {
 
 	describe('Setup', function() {
 
@@ -46,6 +45,18 @@
 					'a': {value: 'a', test: 'b', text: 'c', disabled:false, optgroup: undefined, $order: 1},
 				});
 			});
+
+			it_n('should treat bool values as integers', function() {
+				var test = setup_test('<input type="text">', {
+					options:[{value: true, label: 'Hello'}, {value: false, label: 'World'}]
+				});
+
+				assert.deepEqual(test.instance.options, {
+					1: {value: true, label: 'Hello', $order: 1},
+					0: {value: false, label: 'World', $order: 2}
+				});
+			});
+
 
 			describe('getValue()', function() {
 				it_n('should return value as a string', function() {
@@ -526,5 +537,3 @@
 
 
 	});
-
-})();
