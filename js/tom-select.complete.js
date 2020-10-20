@@ -987,17 +987,6 @@
 	  return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 	};
 	/**
-	 * Escapes "$" characters in replacement strings.
-	 *
-	 * @param {string} str
-	 * @returns {string}
-	 */
-	
-	
-	var escape_replace = function escape_replace(str) {
-	  return (str + '').replace(/\$/g, '$$$$');
-	};
-	/**
 	 * Debounce all fired events types listed in `types`
 	 * while executing the provided `fn`.
 	 *
@@ -1178,19 +1167,19 @@
 	};
 	/**
 	 * Get the closest node to the evt.target matching the selector
-	 * Stops at el
+	 * Stops at wrapper
 	 *
 	 */
 	
 	
-	var parentMatch = function parentMatch(target, selector, el) {
+	var parentMatch = function parentMatch(target, selector, wrapper) {
+	  if (wrapper && !wrapper.contains(target)) {
+	    return;
+	  }
+	
 	  while (target && target.matches) {
 	    if (target.matches(selector)) {
 	      return target;
-	    }
-	
-	    if (target == el) {
-	      break;
 	    }
 	
 	    target = target.parentNode;
@@ -1452,9 +1441,6 @@
 	      onEvent(dropdown, 'mouseenter', '[data-selectable]', function () {
 	        return self.onOptionHover.apply(self, arguments);
 	      });
-	      onEvent(dropdown, 'mousedown', '[data-selectable]', function () {
-	        return self.onOptionSelect.apply(self, arguments);
-	      });
 	      control.addEventListener('mousedown', function (evt) {
 	        var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
 	
@@ -1492,16 +1478,26 @@
 	      });
 	      control_input.addEventListener('paste', function () {
 	        return self.onPaste.apply(self, arguments);
-	      });
+	      }); // clicking anywhere in the control should not close the dropdown
+	      // clicking on an option should selectit
 	
 	      var doc_mousedown = function doc_mousedown(e) {
-	        if (self.isFocused) {
-	          // clicking anywhere in the control should not close the dropdown
-	          if (parentMatch(e.target, '.' + self.settings.wrapperClass, self.wrapper)) {
-	            return false;
+	        // outside of this instance
+	        if (!parentMatch(e.target, '.' + self.settings.wrapperClass, self.wrapper)) {
+	          if (self.isFocused) {
+	            self.blur(e.target);
 	          }
 	
-	          self.blur(e.target);
+	          return;
+	        }
+	
+	        e.preventDefault();
+	        e.stopPropagation(); // option
+	
+	        var option = parentMatch(e.target, '[data-selectable]', self.wrapper);
+	
+	        if (option) {
+	          self.onOptionSelect(option, true);
 	        }
 	      };
 	
@@ -1544,16 +1540,15 @@
 	      input.setAttribute('hidden', 'hidden');
 	      input.insertAdjacentElement('afterend', self.wrapper);
 	      self.setValue(settings.items);
-	      delete settings.items; // feature detect for the validation API
+	      delete settings.items;
+	      input.addEventListener('invalid', function (e) {
+	        e.preventDefault();
 	
-	      if (self.supportsValidity()) {
-	        input.addEventListener('invalid', function (e) {
-	          e.preventDefault();
+	        if (!self.isInvalid) {
 	          self.isInvalid = true;
 	          self.refreshState();
-	        });
-	      }
-	
+	        }
+	      });
 	      self.updateOriginalInput();
 	      self.refreshItems();
 	      self.refreshState();
@@ -1570,11 +1565,6 @@
 	      if (settings.preload === true) {
 	        self.onSearchChange('');
 	      }
-	    }
-	  }, {
-	    key: "supportsValidity",
-	    value: function supportsValidity() {
-	      return !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;
 	    }
 	    /**
 	     * Register options and optgroups
@@ -1804,8 +1794,9 @@
 	  }, {
 	    key: "onKeyDown",
 	    value: function onKeyDown(e) {
-	      var isInput = e.target === this.control_input;
 	      var self = this;
+	      var isInput = e.target === self.control_input;
+	      self.ignoreHover = true;
 	
 	      if (self.isLocked) {
 	        if (e.keyCode !== KEY_TAB) {
@@ -1840,7 +1831,6 @@
 	          if (!self.isOpen && self.hasOptions) {
 	            self.open();
 	          } else if (self.activeOption) {
-	            self.ignoreHover = true;
 	            var next = self.getAdjacent(self.activeOption, 1);
 	            if (next) self.setActiveOption(next, true);
 	          }
@@ -1851,7 +1841,6 @@
 	
 	        case KEY_UP:
 	          if (self.activeOption) {
-	            self.ignoreHover = true;
 	            var prev = self.getAdjacent(self.activeOption, -1);
 	            if (prev) self.setActiveOption(prev, true);
 	          }
@@ -1862,9 +1851,7 @@
 	
 	        case KEY_RETURN:
 	          if (self.isOpen && self.activeOption) {
-	            self.onOptionSelect({
-	              delegateTarget: self.activeOption
-	            });
+	            self.onOptionSelect(self.activeOption);
 	            e.preventDefault();
 	          }
 	
@@ -1883,9 +1870,7 @@
 	
 	        case KEY_TAB:
 	          if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
-	            self.onOptionSelect({
-	              delegateTarget: self.activeOption
-	            }); // prevent default [tab] behaviour of jump to the next field
+	            self.onOptionSelect(self.activeOption); // prevent default [tab] behaviour of jump to the next field
 	            // if select isFull, then the dropdown won't be open and [tab] will work normally
 	
 	            e.preventDefault();
@@ -2040,22 +2025,16 @@
 	     * Triggered when the user clicks on an option
 	     * in the autocomplete dropdown menu.
 	     *
-	     * @param {object} e
+	     * @param {Element} target
+	     * @param {boolean} is_mouse_event
 	     * @returns {boolean}
 	     */
 	
 	  }, {
 	    key: "onOptionSelect",
-	    value: function onOptionSelect(e) {
+	    value: function onOptionSelect(target, is_mouse_event) {
 	      var value,
 	          self = this;
-	
-	      if (e.preventDefault) {
-	        e.preventDefault();
-	        e.stopPropagation();
-	      }
-	
-	      var target = e.delegateTarget;
 	
 	      if (!target) {
 	        return;
@@ -2081,7 +2060,7 @@
 	
 	          if (self.settings.closeAfterSelect) {
 	            self.close();
-	          } else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+	          } else if (!self.settings.hideSelected && is_mouse_event) {
 	            self.setActiveOption(self.getOption(value));
 	          }
 	        }
@@ -3304,8 +3283,11 @@
 	  }, {
 	    key: "refreshValidityState",
 	    value: function refreshValidityState() {
-	      if (!this.isRequired) return false;
-	      var invalid = !this.items.length;
+	      if (!this.input.checkValidity) {
+	        return;
+	      }
+	
+	      var invalid = !this.input.checkValidity();
 	      this.isInvalid = invalid;
 	      this.control_input.required = invalid;
 	      this.input.required = !invalid;
