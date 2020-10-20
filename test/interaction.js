@@ -116,6 +116,36 @@
 				});
 			});
 
+			it_n('should not close dropdown when clicking on dropdown header', function(done) {
+
+				var select = `<select><optgroup label="Swedish Cars">
+								<option value="volvo">Volvo</option>
+								<option value="saab">Saab</option>
+							</optgroup>
+							</select>`;
+
+				var test = setup_test(select,{
+					render:{
+						'optgroup_header': function(data, escape) {
+							return '<input class="optgroup-header">';
+						},
+					}
+				});
+
+				click(test.instance.control, function() {
+					expect(test.instance.isOpen).to.be.equal(true);
+
+					var header = test.instance.dropdown.querySelector('.optgroup-header')
+
+					click(header,function(){
+						expect(test.instance.isOpen).to.be.equal(true);
+						done();
+					});
+
+				});
+
+			});
+
 
 		});
 

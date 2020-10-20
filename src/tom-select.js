@@ -202,7 +202,6 @@ class TomSelect extends MicroEvent{
 
 
 		onEvent(dropdown, 'mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
-		onEvent(dropdown, 'mousedown', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 
 		control.addEventListener('mousedown', function(evt){
 
@@ -227,15 +226,25 @@ class TomSelect extends MicroEvent{
 		control_input.addEventListener('paste', function() { return self.onPaste.apply(self, arguments); });
 
 
-		var doc_mousedown = function(e) {
-			if (self.isFocused) {
+		// clicking anywhere in the control should not close the dropdown
+		// clicking on an option should selectit
+		var doc_mousedown = function(e){
 
-				// clicking anywhere in the control should not close the dropdown
-				if( parentMatch(e.target, '.'+self.settings.wrapperClass, self.wrapper) ){
-					return false;
+			// outside of this instance
+			if( !parentMatch(e.target, '.'+self.settings.wrapperClass, self.wrapper) ){
+				if (self.isFocused) {
+					self.blur(e.target);
 				}
+				return;
+			}
 
-				self.blur(e.target);
+			e.preventDefault();
+			e.stopPropagation();
+
+			// option
+			var option = parentMatch(e.target, '[data-selectable]', self.wrapper);
+			if( option ){
+				self.onOptionSelect(option,true);
 			}
 		};
 
@@ -576,7 +585,7 @@ class TomSelect extends MicroEvent{
 			// doc_src select active option
 			case KEY_RETURN:
 				if (self.isOpen && self.activeOption) {
-					self.onOptionSelect({delegateTarget: self.activeOption});
+					self.onOptionSelect(self.activeOption);
 					e.preventDefault();
 				}
 				return;
@@ -594,7 +603,7 @@ class TomSelect extends MicroEvent{
 			// tab: select active option and/or create item
 			case KEY_TAB:
 				if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
-					self.onOptionSelect({delegateTarget: self.activeOption});
+					self.onOptionSelect(self.activeOption);
 
 					// prevent default [tab] behaviour of jump to the next field
 					// if select isFull, then the dropdown won't be open and [tab] will work normally
@@ -742,18 +751,12 @@ class TomSelect extends MicroEvent{
 	 * Triggered when the user clicks on an option
 	 * in the autocomplete dropdown menu.
 	 *
-	 * @param {object} e
+	 * @param {Element} target
+	 * @param {boolean} is_mouse_event
 	 * @returns {boolean}
 	 */
-	onOptionSelect(e) {
+	onOptionSelect(target, is_mouse_event){
 		var value, self = this;
-
-		if (e.preventDefault) {
-			e.preventDefault();
-			e.stopPropagation();
-		}
-
-		var target = e.delegateTarget;
 
 		if( !target ){
 			return;
@@ -778,7 +781,7 @@ class TomSelect extends MicroEvent{
 				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
-				} else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+				} else if (!self.settings.hideSelected && is_mouse_event ) {
 					self.setActiveOption(self.getOption(value));
 				}
 
@@ -848,6 +851,7 @@ class TomSelect extends MicroEvent{
 			timeout = window.setTimeout(function() {
 				timeout = null;
 				fn.apply(self, args);
+
 			}, delay);
 		};
 	}
@@ -1100,6 +1104,7 @@ class TomSelect extends MicroEvent{
 	 */
 	blur(dest) {
 		this.control_input.blur();
+
 		this.onBlur(null, dest);
 	}
 
