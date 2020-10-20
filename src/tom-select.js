@@ -231,7 +231,7 @@ class TomSelect extends MicroEvent{
 		var doc_mousedown = function(e){
 
 			// outside of this instance
-			if( !parentMatch(e.target, '.'+self.settings.wrapperClass, self.wrapper) ){
+			if( !self.wrapper.contains(e.target) ){				
 				if (self.isFocused) {
 					self.blur(e.target);
 				}
