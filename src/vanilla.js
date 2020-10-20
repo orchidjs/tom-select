@@ -128,18 +128,19 @@ var onEvent = function( el, eventName, elementSelector, handler ){
 
 /**
  * Get the closest node to the evt.target matching the selector
- * Stops at el
+ * Stops at wrapper
  *
  */
-var parentMatch = function(target, selector, el ){
+var parentMatch = function(target, selector, wrapper ){
+
+	if( wrapper && !wrapper.contains(target) ){
+		return;
+	}
+
 	while( target && target.matches ){
 
 		if( target.matches(selector) ){
 			return target;
-		}
-
-		if( target == el ){
-			break;
 		}
 
 		target = target.parentNode;
