@@ -11,6 +11,7 @@
     "tag"
   ],
   "main": "dist/js/tom-select.complete.js",
+  "browser": "dist/js/tom-select.complete.js",
   "description": "Tom Select is a versatile and dynamic <select> UI control. Framework agnostic with autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, etc.",
   "homepage": "https://tom-select.js.org",
   "version": "1.0.0-rc.1",
@@ -31,6 +32,9 @@
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.1",
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
+    "@rollup/plugin-babel": "^5.2.1",
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
     "autoprefixer": "^9.8.6",
     "bootstrap": "4.5.2",
     "bootstrap-sass": "^3.4.1",
@@ -38,13 +42,10 @@
     "chai": "^4.2.0",
     "cssnano": "^4.1.10",
     "grunt": "^1.3.0",
-    "grunt-babel": "^8.0.0",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^3.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^5.0.0",
     "grunt-contrib-watch": "1.x",
     "grunt-postcss": "^0.9.0",
     "grunt-replace": "^1.0.1",
@@ -61,17 +62,35 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.0",
     "karma-safari-launcher": "^1.0.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "load-grunt-tasks": "^5.1.0",
     "markdown-it-anchor": "^5.3.0",
     "mocha": "^8.1.1",
     "node-sass": "^4.14.1",
+    "rollup": "^2.32.1",
+    "rollup-plugin-insert": "^1.3.1",
+    "rollup-plugin-terser": "^7.0.2",
     "syn": "^0.15.0"
   },
   "scripts": {
+    "build": "grunt build",
     "test": "karma start",
-    "start": "grunt serve"
+    "start": "grunt serve",
+    "pretest": "grunt build"
   },
   "engines": {
     "node": "*"
-  }
+  },
+  "browserslist": [
+    ">= 1%",
+    "last 1 major version",
+    "not dead",
+    "Chrome >= 60",
+    "Firefox >= 60",
+    "Edge >= 16",
+    "iOS >= 10",
+    "Safari >= 10",
+    "Android >= 6",
+    "not Explorer <= 11"
+  ]
 }

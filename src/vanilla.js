@@ -204,3 +204,18 @@ var nodeIndex = function( el, amongst ){
 	}
 	return i;
 }
+
+export {
+	getDom,
+	triggerEvent,
+	applyCSS,
+	addClasses,
+	removeClasses,
+	castAsArray,
+	onEvent,
+	parentMatch,
+	querySelectorEnd,
+	getTail,
+	isEmptyObject,
+	nodeIndex
+}

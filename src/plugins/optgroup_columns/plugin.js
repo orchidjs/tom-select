@@ -13,7 +13,10 @@
  *
  */
 
-TomSelect.define('optgroup_columns', function(options) {
+import * as constants from '../../constants.js';
+import { parentMatch, nodeIndex } from '../../vanilla.js';
+
+export default function(options) {
 	var self = this;
 
 	var orig_keydown = self.onKeyDown;
@@ -21,7 +24,7 @@ TomSelect.define('optgroup_columns', function(options) {
 	self.hook('instead','onKeyDown',function( evt ) {
 		var index, option, options, optgroup;
 
-		if( !self.isOpen || !(evt.keyCode === KEY_LEFT || evt.keyCode === KEY_RIGHT)) {
+		if( !self.isOpen || !(evt.keyCode === constants.KEY_LEFT || evt.keyCode === constants.KEY_RIGHT)) {
 			return orig_keydown.apply(self,arguments);
 		}
 
@@ -29,7 +32,7 @@ TomSelect.define('optgroup_columns', function(options) {
 		optgroup			= parentMatch(self.activeOption,'[data-group]');
 		index				= nodeIndex(self.activeOption,'[data-selectable]');
 
-		if( evt.keyCode === KEY_LEFT ){
+		if( evt.keyCode === constants.KEY_LEFT ){
 			optgroup = optgroup.previousSibling;
 		} else {
 			optgroup = optgroup.nextSibling;
@@ -48,4 +51,4 @@ TomSelect.define('optgroup_columns', function(options) {
 
 	});
 
-});
+};

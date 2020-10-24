@@ -13,7 +13,7 @@
  *
  */
 
-TomSelect.define('drag_drop', function(options) {
+export default function(options) {
 	if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	if (this.settings.mode !== 'multi') return;
 	var self = this;
@@ -56,4 +56,4 @@ TomSelect.define('drag_drop', function(options) {
 
 	});
 
-});
+};

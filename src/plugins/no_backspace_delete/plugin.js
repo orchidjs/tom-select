@@ -12,10 +12,10 @@
  *
  */
 
-TomSelect.define('no_backspace_delete', function(options) {
+export default function(options) {
 
 	this.hook('instead','setActiveItem',function(){});
 	this.hook('instead','selectAll',function(){});
 	this.hook('instead','deleteSelection',function(){});
 
-});
+};

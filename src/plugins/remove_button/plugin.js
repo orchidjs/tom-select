@@ -13,7 +13,10 @@
  *
  */
 
-TomSelect.define('remove_button', function(options) {
+import { getDom } from '../../vanilla.js';
+import { escape_html } from '../../utils.js';
+
+export default function(options) {
 
 	options = Object.assign({
 			label     : '&times;',
@@ -71,4 +74,4 @@ TomSelect.define('remove_button', function(options) {
 	});
 
 
-});
+};

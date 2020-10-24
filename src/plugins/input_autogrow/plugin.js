@@ -12,7 +12,7 @@
  *
  */
 
-TomSelect.define('input_autogrow', function(options) {
+export default function(options) {
 
 	var self					= this;
 
@@ -55,4 +55,4 @@ TomSelect.define('input_autogrow', function(options) {
 		control.addEventListener('update', resize );
 	});
 
-});
+}

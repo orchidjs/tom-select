@@ -12,8 +12,9 @@
  * governing permissions and limitations under the License.
  *
  */
+import * as constants from '../../constants.js';
 
-TomSelect.define('restore_on_backspace', function(options) {
+export default function(options) {
 	var self = this;
 
 	options.text = options.text || function(option) {
@@ -24,7 +25,7 @@ TomSelect.define('restore_on_backspace', function(options) {
 
 	self.hook('instead','onKeyDown',function(evt){
 		var index, option;
-		if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
+		if (evt.keyCode === constants.KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
 			index = self.caretPos - 1;
 			if (index >= 0 && index < self.items.length) {
 				option = self.options[self.items[index]];
@@ -39,4 +40,4 @@ TomSelect.define('restore_on_backspace', function(options) {
 		return orig_keydown.apply(self, arguments);
 	});
 
-});
+};

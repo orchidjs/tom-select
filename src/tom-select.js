@@ -1,5 +1,26 @@
+import MicroPlugin from 'microplugin';
+import MicroEvent from './contrib/microevent.js';
+import Sifter from './contrib/sifter.js';
+import {highlight, removeHighlight} from './contrib/highlight.js';
+import * as constants from './constants.js';
+import getSettings from './settings.js';
+import { isset, hash_key, escape_html, debounce_events, getSelection} from './utils.js';
+import {
+	getDom,
+	triggerEvent,
+	applyCSS,
+	addClasses,
+	removeClasses,
+	castAsArray,
+	onEvent,
+	parentMatch,
+	querySelectorEnd,
+	getTail,
+	isEmptyObject,
+	nodeIndex
+} from './vanilla.js';
 
-class TomSelect extends MicroEvent{
+export default class TomSelect extends MicroEvent{
 
 	constructor( input, settings ){
 		super();
@@ -231,7 +252,7 @@ class TomSelect extends MicroEvent{
 		var doc_mousedown = function(e){
 
 			// outside of this instance
-			if( !self.wrapper.contains(e.target) ){				
+			if( !self.wrapper.contains(e.target) ){
 				if (self.isFocused) {
 					self.blur(e.target);
 				}
@@ -537,7 +558,7 @@ class TomSelect extends MicroEvent{
 		self.ignoreHover = true;
 
 		if (self.isLocked) {
-			if (e.keyCode !== KEY_TAB) {
+			if (e.keyCode !== constants.KEY_TAB) {
 				e.preventDefault();
 			}
 			return;
@@ -546,15 +567,15 @@ class TomSelect extends MicroEvent{
 		switch (e.keyCode) {
 
 			// cmd+A: select all
-			case KEY_A:
-				if( self.isKeyDown(KEY_CTRL,e) ){
+			case constants.KEY_A:
+				if( self.isKeyDown(constants.KEY_CTRL,e) ){
 					self.selectAll();
 					return;
 				}
 				break;
 
 			// esc: close dropdown
-			case KEY_ESC:
+			case constants.KEY_ESC:
 				if (self.isOpen) {
 					e.preventDefault();
 					e.stopPropagation();
@@ -563,7 +584,7 @@ class TomSelect extends MicroEvent{
 				return;
 
 			// down: open dropdown or move selection down
-			case KEY_DOWN:
+			case constants.KEY_DOWN:
 				if (!self.isOpen && self.hasOptions) {
 					self.open();
 				} else if (self.activeOption) {
@@ -574,7 +595,7 @@ class TomSelect extends MicroEvent{
 				return;
 
 			// up: move selection up
-			case KEY_UP:
+			case constants.KEY_UP:
 				if (self.activeOption) {
 					let prev = self.getAdjacent(self.activeOption, -1);
 					if (prev) self.setActiveOption(prev, true);
@@ -583,7 +604,7 @@ class TomSelect extends MicroEvent{
 				return;
 
 			// doc_src select active option
-			case KEY_RETURN:
+			case constants.KEY_RETURN:
 				if (self.isOpen && self.activeOption) {
 					self.onOptionSelect(self.activeOption);
 					e.preventDefault();
@@ -591,17 +612,17 @@ class TomSelect extends MicroEvent{
 				return;
 
 			// left: modifiy item selection to the left
-			case KEY_LEFT:
+			case constants.KEY_LEFT:
 				self.advanceSelection(-1, e);
 				return;
 
 			// right: modifiy item selection to the right
-			case KEY_RIGHT:
+			case constants.KEY_RIGHT:
 				self.advanceSelection(1, e);
 				return;
 
 			// tab: select active option and/or create item
-			case KEY_TAB:
+			case constants.KEY_TAB:
 				if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
 					self.onOptionSelect(self.activeOption);
 
@@ -615,13 +636,13 @@ class TomSelect extends MicroEvent{
 				return;
 
 			// delete|backspace: delete items
-			case KEY_BACKSPACE:
-			case KEY_DELETE:
+			case constants.KEY_BACKSPACE:
+			case constants.KEY_DELETE:
 				self.deleteSelection(e);
 				return;
 		}
 
-		if( self.isInputHidden && !self.isKeyDown(KEY_CTRL,e) ){
+		if( self.isInputHidden && !self.isKeyDown(constants.KEY_CTRL,e) ){
 			e.preventDefault();
 			return;
 		}
@@ -930,7 +951,7 @@ class TomSelect extends MicroEvent{
 		// modify selection
 		eventName = e && e.type.toLowerCase();
 
-		if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT,e) && this.activeItems.length) {
+		if (eventName === 'mousedown' && this.isKeyDown(constants.KEY_SHIFT,e) && this.activeItems.length) {
 			last	= this.getLastActive();
 			begin	= Array.prototype.indexOf.call(this.control.children, last);
 			end		= Array.prototype.indexOf.call(this.control.children, item);
@@ -947,7 +968,7 @@ class TomSelect extends MicroEvent{
 				}
 			}
 			e.preventDefault();
-		} else if ((eventName === 'mousedown' && this.isKeyDown(KEY_CTRL,e) ) || (eventName === 'keydown' && this.isKeyDown(KEY_SHIFT,e))) {
+		} else if ((eventName === 'mousedown' && this.isKeyDown(constants.KEY_CTRL,e) ) || (eventName === 'keydown' && this.isKeyDown(constants.KEY_SHIFT,e))) {
 			if( item.classList.contains('active') ){
 				this.removeActiveItem( item );
 			} else {
@@ -2112,7 +2133,7 @@ class TomSelect extends MicroEvent{
 		var i, n, direction, selection, values, caret, tail;
 		var self = this;
 
-		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
+		direction = (e && e.keyCode === constants.KEY_BACKSPACE) ? -1 : 1;
 		selection = getSelection(self.control_input);
 
 
@@ -2178,7 +2199,7 @@ class TomSelect extends MicroEvent{
 
 
 		// add or remove to active items
-		if( this.isKeyDown(KEY_CTRL,e) || this.isKeyDown(KEY_SHIFT,e) ){
+		if( this.isKeyDown(constants.KEY_CTRL,e) || this.isKeyDown(constants.KEY_SHIFT,e) ){
 
 			last_active			= this.getLastActive(direction);
 			let adjacent		= this.getAdjacent(last_active,direction,'item');
@@ -2455,11 +2476,11 @@ class TomSelect extends MicroEvent{
 			return false;
 		}
 
-		if( key_code == KEY_CTRL && evt.ctrlKey ){
+		if( key_code == constants.KEY_CTRL && evt.ctrlKey ){
 			return true;
 		}
 
-		if( key_code == KEY_SHIFT && evt.shiftKey ){
+		if( key_code == constants.KEY_SHIFT && evt.shiftKey ){
 			return true;
 		}
 

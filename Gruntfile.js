@@ -1,8 +1,6 @@
 var fs = require('fs');
 
 module.exports = function(grunt) {
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-copy');
@@ -12,35 +10,27 @@ module.exports = function(grunt) {
 
 	const sass = require('node-sass');
 
-	require('load-grunt-tasks')(grunt); //babel, sass
+	require('load-grunt-tasks')(grunt); //sass
 
 	grunt.registerTask('default', [
-		'clean:pre',
+		'build'
+	]);
 
+
+	grunt.registerTask('build', [
+		'clean:pre',
 		'copy:scss',
 		'copy:scss_plugins',
-
-		'concat:js',
-		'babel',
 		'sass:build',
 		'postcss:prefix',
 		'postcss:min',
-		'replace',
-		'build_complete',
-		'uglify',
-	]);
+		'replace:css_post',
 
-	grunt.registerTask('js', [
-		'clean:js',
-		'concat:js',
-		'babel',
-		'replace:js',
-		'build_complete',
-		'uglify',
+		'shell:buildjs',
 	]);
 
 	grunt.registerTask('serve', [
-		'default',
+		'build',
 		'builddocs',
 		'connect',
 		'check_doc_links',
@@ -55,28 +45,6 @@ module.exports = function(grunt) {
 		'postcss:builddocs',
 	]);
 
-	grunt.registerTask('build_complete', '', function() {
-		var files, i, n, source, name, path, modules = [];
-
-		// amd definitions must be changed to be not anonymous
-		// @see https://github.com/selectize/selectize.js/issues/89
-		files = [];
-		for (i = 0, n = files_js_dependencies.length; i < n; i++) {
-			path = files_js_dependencies[i];
-			name = path.match(/([^\/]+?).js$/)[1];
-			source = grunt.file.read(path).replace('define(factory);', 'define(\'' + name + '\', factory);');
-			modules.push(source);
-		}
-
-		path = 'build/js/tom-select.js';
-		source = grunt.file.read(path).replace(/define\((.*?)factory\);/, 'define(\'tomselect\', $1factory);');
-		modules.push(source);
-
-		// write output
-		path = 'build/js/tom-select.complete.js';
-		grunt.file.write(path, modules.join('\n\n'));
-		grunt.log.writeln('Built "' + path + '".');
-	});
 
 
 	/**
@@ -137,22 +105,6 @@ module.exports = function(grunt) {
 	});
 
 
-	var files_js = [
-		'src/contrib/highlight.js',
-		'src/contrib/microevent.js',
-		'src/*.js',
-		'!src/.wrapper.js',
-		'!src/defaults.js',
-		'!src/tom-select.js',
-		'src/tom-select.js',
-		'src/defaults.js',
-	];
-
-	var files_js_dependencies = [
-		'src/contrib/sifter.js',
-		'node_modules/microplugin/src/microplugin.js',
-	];
-
 	var scss_plugin_files	= [];
 
 	// enumerate plugins
@@ -167,8 +119,6 @@ module.exports = function(grunt) {
 			selector_plugins = '{' + selector_plugins.split(/\s*,\s*/).join(',') + '}';
 		}
 
-		// javascript
-		files_js.push('src/plugins/' + selector_plugins + '/*.js');
 
 		// scss (css)
 		var matched_files = grunt.file.expand(['src/plugins/' + selector_plugins + '/plugin.scss']);
@@ -216,13 +166,7 @@ module.exports = function(grunt) {
 				prefix: '//@@',
 				variables: {
 					'version': '<%= pkg.version %>',
-					'js': '<%= grunt.file.read("build/js/tom-select.js").replace(/\\n/g, "\\n\\t") %>',
 				},
-			},
-			js: {
-				files: [
-					{src: ['src/.wrapper.js'], dest: 'build/js/tom-select.js'},
-				]
 			},
 			// add version to css & scss headers
 			css_post: {
@@ -313,31 +257,6 @@ module.exports = function(grunt) {
 			},
 		},
 
-		// combine all the plugin.js files and tom-select.js into one file
-		concat: {
-			options: {
-				stripBanners: true,
-				separator: grunt.util.linefeed + grunt.util.linefeed
-			},
-			js: {
-				files: {
-					'build/js/tom-select.js': files_js,
-				}
-			},
-		},
-
-		// babel compile js
-		babel: {
-			options: {
-				sourceMap: true
-			},
-			build: {
-				files: {
-					'build/js/tom-select.js': ['build/js/tom-select.js']
-				}
-			}
-		},
-
 		// run server at http://localhost:8000 to view documentation and run examples
 		connect: {
 			server:{
@@ -348,26 +267,13 @@ module.exports = function(grunt) {
 		},
 
 		// generate /build/docs
-		// see .eleventy.js for configuration
 		shell: {
 			builddocs: {
-				command: 'npx @11ty/eleventy',
+				command: 'npx @11ty/eleventy --config=.config/eleventy.js',
 			},
-		},
-
-		// create .min.js files
-		uglify: {
-			main: {
-				options: {
-					'banner': '/*! tom-select.js - v<%= pkg.version %> | https://github.com/orchidjs/tom-select | Apache License (v2) */\n',
-					'report': 'gzip',
-					'ascii-only': true
-				},
-				files: {
-					'build/js/tom-select.min.js': ['build/js/tom-select.js'],
-					'build/js/tom-select.complete.min.js': ['build/js/tom-select.complete.js']
-				}
-			}
+			buildjs: {
+				command: 'npx rollup -c .config/rollup.config.js',
+			},
 		},
 
 		// watch for changes to files in /doc_src or /src

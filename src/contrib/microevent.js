@@ -8,14 +8,17 @@
  * @author Jerome Etienne (https://github.com/jeromeetienne)
  */
 
-var MicroEvent = function() {};
-MicroEvent.prototype = {
-	on: function(event, fct){
-		this._events = this._events || {};
+export default class MicroEvent{
+	constructor(){
+		this._events = {};
+	}
+
+	on(event, fct){
 		this._events[event] = this._events[event] || [];
 		this._events[event].push(fct);
-	},
-	off: function(event, fct){
+	}
+
+	off(event, fct){
 		var n = arguments.length;
 		if (n === 0) return delete this._events;
 		if (n === 1) return delete this._events[event];
@@ -23,8 +26,9 @@ MicroEvent.prototype = {
 		this._events = this._events || {};
 		if (event in this._events === false) return;
 		this._events[event].splice(this._events[event].indexOf(fct), 1);
-	},
-	trigger: function(event /* , args... */){
+	}
+
+	trigger(event /* , args... */){
 		this._events = this._events || {};
 		if (event in this._events === false) return;
 		for (var i = 0; i < this._events[event].length; i++){

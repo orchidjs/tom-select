@@ -1,7 +1,9 @@
+import defaults from './defaults.js';
+import { hash_key } from './utils.js';
 
+export default function getSettings( input, settings_user){
+	var settings				= Object.assign({}, defaults, settings_user);
 
-var getSettings = function( input, settings_user){
-	var settings				= Object.assign({},TomSelect.defaults, settings_user);
 	var attr_data				= settings.dataAttr;
 	var field_label				= settings.labelField;
 	var field_value				= settings.valueField;
@@ -155,6 +157,5 @@ var getSettings = function( input, settings_user){
 		init_textbox();
 	}
 
-	return Object.assign( {}, TomSelect.defaults, settings_element, settings_user);
-	//return extend( true, {}, TomSelect.defaults, settings_element, settings_user);
+	return Object.assign( {}, defaults, settings_element, settings_user);
 };

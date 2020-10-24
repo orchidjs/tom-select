@@ -1,3 +1,5 @@
+const KEY_SHIFT			= 16;
+const KEY_CTRL			= 17;
 
 
 	describe('API', function() {

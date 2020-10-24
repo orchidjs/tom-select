@@ -125,38 +125,27 @@ module.exports = function(config) {
 
 
 	config.set({
+		basePath: '../',
 		frameworks: ['mocha', 'chai'],
 		files: [
 			'build/css/tom-select.default.css',
 			'node_modules/jquery/dist/jquery.js',
-			'node_modules/microplugin/src/microplugin.js',
 			'node_modules/syn/dist/global/syn.js',
+
+			'build/js/tom-select.complete.js',
+
 			'test/support/*.js',
-			'src/contrib/*.js',
-			'src/constants.js',
-			'src/utils.js',
-			'src/vanilla.js',
-			'src/settings.js',
-			'src/tom-select.js',
-			'src/defaults.js',
-			'src/.wrapper.js',
-			'src/plugins/remove_button/plugin.js',
-			'src/plugins/restore_on_backspace/plugin.js',
-			'src/plugins/dropdown_header/plugin.js',
-			'src/plugins/optgroup_columns/plugin.js',
-			'src/plugins/no_backspace_delete/plugin.js',
-			'src/plugins/change_listener/plugin.js',
 			'test/*.js'
 			//'test/events.js'
 		],
 		preprocessors: {
-			'src/*.js': ['coverage']
+			'build/**/*.js': ['sourcemap','coverage'],
 		},
 		coverageReporter: {
 			reporters:[
 				{type: 'lcov'},
 				{type: 'text-summary'},
-				
+
 			],
 			dir: 'coverage/'
 		},

@@ -42,3 +42,31 @@ tomSelect('#select-beast',{
 </script>
 
 {{ demo( label, html, script) }}
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	Pattern
+</label>
+{% endset %}
+
+{% set html %}
+<form>
+	<input id="pattern" required pattern="[a-z]+">
+	<div style="margin-top:20px">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+{% endset %}
+
+
+<script>
+{% set script %}
+tomSelect('#pattern',{
+	create: true,
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

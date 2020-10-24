@@ -1,5 +1,7 @@
-TomSelect.count = 0;
-TomSelect.defaults = {
+//TomSelect.count = 0;
+let defaults;
+
+export default defaults = {
 	options: [],
 	optgroups: [],
 

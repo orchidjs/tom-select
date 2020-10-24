@@ -13,7 +13,9 @@
  *
  */
 
-TomSelect.define('dropdown_header', function(options) {
+import { getDom } from '../../vanilla.js';
+
+export default function(options) {
 	var self = this;
 
 	options = Object.assign({
@@ -41,4 +43,4 @@ TomSelect.define('dropdown_header', function(options) {
 	});
 
 
-});
+};
