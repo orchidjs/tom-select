@@ -6,7 +6,7 @@
  * @param {mixed} query
  * @return {Element}
  */
-var getDom = function( query ){
+export function getDom( query ){
 
 	if( query.jquery ){
 		return query[0];
@@ -17,7 +17,7 @@ var getDom = function( query ){
 	}
 
 	if( query.indexOf('<') > -1 ){
-		var div = document.createElement('div');
+		let div = document.createElement('div');
 		div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
 		return div.firstChild;
 	}
@@ -29,7 +29,7 @@ var getDom = function( query ){
  * Dispatch an event
  *
  */
-var triggerEvent = function( dom_el, event_name ){
+export function triggerEvent( dom_el, event_name ){
 	var event = document.createEvent('HTMLEvents');
 	event.initEvent(event_name, true, false);
 	dom_el.dispatchEvent(event)
@@ -39,7 +39,7 @@ var triggerEvent = function( dom_el, event_name ){
  * Apply CSS rules to a dom element
  *
  */
-var applyCSS = function( dom_el, css){
+export function applyCSS( dom_el, css){
 	Object.keys(css).forEach(function(name){
 		dom_el.style[name] = css[name];
 	});
@@ -50,7 +50,7 @@ var applyCSS = function( dom_el, css){
  * Add css classes
  *
  */
-var addClasses = function( elmts ){
+export function addClasses( elmts ){
 
 	var classes		= classesArray.apply(null,arguments);
 	elmts			= castAsArray(elmts);
@@ -66,7 +66,7 @@ var addClasses = function( elmts ){
  * Remove css classes
  *
  */
- var removeClasses = function( elmts ){
+ export function removeClasses( elmts ){
 
  	var classes 	= classesArray.apply(null,arguments);
 	elmts		= castAsArray(elmts);
@@ -83,7 +83,7 @@ var addClasses = function( elmts ){
  * Return arguments
  *
  */
-var classesArray = function(){
+export function classesArray(){
 	var classes = [];
 	for( let i = 1; i < arguments.length; i++ ){
 		let _classes = arguments[i];
@@ -98,7 +98,7 @@ var classesArray = function(){
 	return classes.filter(Boolean);
 }
 
-var castAsArray = function(arg){
+export function castAsArray(arg){
 	if( !Array.isArray(arg) ){
  		arg = [arg];
  	}
@@ -109,7 +109,7 @@ var castAsArray = function(arg){
  * Delegate Event
  *
  */
-var onEvent = function( el, eventName, elementSelector, handler ){
+export function onEvent( el, eventName, elementSelector, handler ){
 
 	let event_names	= eventName.split(/\s/);
 
@@ -135,7 +135,7 @@ var onEvent = function( el, eventName, elementSelector, handler ){
  * Stops at wrapper
  *
  */
-var parentMatch = function(target, selector, wrapper ){
+export function parentMatch(target, selector, wrapper ){
 
 	if( wrapper && !wrapper.contains(target) ){
 		return;
@@ -158,7 +158,7 @@ var parentMatch = function(target, selector, wrapper ){
  * < 0 - left (first)
  *
  */
-var querySelectorEnd = function( el, query, direction){
+export function querySelectorEnd( el, query, direction){
 	var result = el.querySelectorAll(query);
 	if( !result ){
 		return;
@@ -172,7 +172,7 @@ var querySelectorEnd = function( el, query, direction){
  * Get the first or last item from an array
  *
  */
-var getTail = function( array, direction ){
+export function getTail( array, direction ){
 
 	if( direction > 0 ){
 		return array[array.length-1];
@@ -185,7 +185,7 @@ var getTail = function( array, direction ){
  * Return true if an object is empty
  *
  */
-var isEmptyObject = function(obj){
+export function isEmptyObject(obj){
 	return (Object.keys(obj).length === 0);
 }
 
@@ -194,7 +194,7 @@ var isEmptyObject = function(obj){
  * Get the index of an element amongst sibling nodes of the same type
  *
  */
-var nodeIndex = function( el, amongst ){
+export function nodeIndex( el, amongst ){
 	if (!el) return -1;
 
 	amongst = amongst || el.nodeName;
@@ -207,19 +207,4 @@ var nodeIndex = function( el, amongst ){
 		}
 	}
 	return i;
-}
-
-export {
-	getDom,
-	triggerEvent,
-	applyCSS,
-	addClasses,
-	removeClasses,
-	castAsArray,
-	onEvent,
-	parentMatch,
-	querySelectorEnd,
-	getTail,
-	isEmptyObject,
-	nodeIndex
 }

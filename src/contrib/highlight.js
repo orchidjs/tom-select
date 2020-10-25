@@ -6,7 +6,7 @@
  * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
 
-var highlight = function(element, pattern) {
+export function highlight(element, pattern) {
 	if (typeof pattern === 'string' && !pattern.length) return;
 	var regex = (typeof pattern === 'string') ? new RegExp(pattern, 'i') : pattern;
 
@@ -45,7 +45,7 @@ var highlight = function(element, pattern) {
  * removeHighlight fn copied from highlight v5 and
  * edited to remove with(), pass js strict mode, and use without jquery
  */
-var removeHighlight = function(el) {
+export function removeHighlight(el) {
 	var elements = document.querySelectorAll("span.highlight");
 	Array.prototype.forEach.call(elements, function(el, i){
 		var parent = el.parentNode;
@@ -53,8 +53,3 @@ var removeHighlight = function(el) {
 		parent.normalize();
 	});
 };
-
-module.exports = {
-	removeHighlight,
-	highlight
-}

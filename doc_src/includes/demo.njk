@@ -18,17 +18,21 @@
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				{% if script %}
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-{{ demo_count | length }}" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				{% endif %}
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link {% if not script %} active {% endif %}" data-toggle="tab" data-target="#html-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
 				{% if style %}
 				<li class="nav-item" role="presentation">
 					<a class="nav-link" data-toggle="tab" data-target="#style-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
 				</li>
 				{% endif %}
+
+				{% if script %}
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
 						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
@@ -44,6 +48,7 @@
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				{% endif %}
 
 				{#
 				<li class="nav-item" role="presentation">
@@ -57,12 +62,15 @@
 			</ul>
 
 			<div class="tab-content">
+				{% if script %}
 				<div class="tab-pane fade show active" id="javascript-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="home-tab">
 					{% highlight "js" %}
 					{{ script | safe }}
 					{% endhighlight %}
 				</div>
-				<div class="tab-pane fade" id="html-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="profile-tab">
+				{% endif %}
+
+				<div class="tab-pane fade {% if not script %} show active {% endif %}" id="html-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="profile-tab">
 					{% highlight "html" %}
 					{{ html | safe }}
 					{% endhighlight %}

@@ -1,10 +1,3 @@
----
-
----
-
-
-
-
 <!DOCTYPE html>
 <html class="no-js">
 	<head>
@@ -19,7 +12,11 @@
 
 		<script src="/js/jquery.min.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
+
+		{% block tomselectjs %}
 		<script src="/js/tom-select.complete.js"></script>
+		{% endblock %}
+
 		<script src="/js/index.js"></script>
 		{{ script | safe }}
 	</head>

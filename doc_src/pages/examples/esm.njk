@@ -1,0 +1,39 @@
+---
+layout: layout_esm.njk
+title: ESM Modules
+nav_title: ESM Modules
+tags: demo
+---
+
+
+
+{% from "demo.njk" import demo %}
+
+{% set label %}
+<label class="h2 mb-3">
+	&lt;script type="module"&gt;
+</label>
+<p>In this example, Tom Select is loaded from ECMAScript modules. Note: <a href="https://caniuse.com/es6-module">this does not work in Internet Explorer and other older browsers</a>.</p>
+{% endset %}
+
+{% set html %}
+<script type="module">
+  import TomSelect from '/esm/tom-select.complete.js';
+
+  new TomSelect("#select-tags",{
+  	plugins: ['remove_button'],
+  	create: true,
+  });
+</script>
+
+<select id="select-tags" multiple placeholder="Best movies and TV shows">
+	<option selected>Magnum P.I.</option>
+	<option>Blue Bloods</option>
+	<option>Quigley Down Under</option>
+	<option>Three Men and a Baby</option>
+	<option>Mr. Baseball</option>
+</select>
+{% endset %}
+
+
+{{ demo( label, html, false, style ) }}

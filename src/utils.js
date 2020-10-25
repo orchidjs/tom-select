@@ -4,7 +4,7 @@
  * @param {mixed} object
  * @returns {boolean}
  */
-var isset = function(object) {
+export function isset(object) {
 	return typeof object !== 'undefined';
 };
 
@@ -24,7 +24,7 @@ var isset = function(object) {
  * @param {string} value
  * @returns {string|null}
  */
-var hash_key = function(value) {
+export function hash_key(value) {
 	if (typeof value === 'undefined' || value === null) return null;
 	if (typeof value === 'boolean') return value ? '1' : '0';
 	return value + '';
@@ -36,7 +36,7 @@ var hash_key = function(value) {
  * @param {string} str
  * @returns {string}
  */
-var escape_html = function(str) {
+export function escape_html(str) {
 	return (str + '')
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
@@ -53,7 +53,7 @@ var escape_html = function(str) {
  * @param {array} types
  * @param {function} fn
  */
-var debounce_events = function(self, types, fn) {
+export function debounce_events( self, types, fn) {
 	var type;
 	var trigger = self.trigger;
 	var event_args = {};
@@ -90,11 +90,9 @@ var debounce_events = function(self, types, fn) {
  * @param {object} input
  * @returns {object}
  */
-var getSelection = function(input) {
+export function getSelection(input) {
 	return {
 		start	: input.selectionStart,
 		length	: input.selectionEnd - input.selectionStart,
 	};
 };
-
-export { isset, hash_key, escape_html, debounce_events, getSelection};

@@ -29,20 +29,6 @@ var cmp = function(a, b) {
 	return 0;
 };
 
-var extend = function(a, b) {
-	var i, n, k, object;
-	for (i = 1, n = arguments.length; i < n; i++) {
-		object = arguments[i];
-		if (!object) continue;
-		for (k in object) {
-			if (object.hasOwnProperty(k)) {
-				a[k] = object[k];
-			}
-		}
-	}
-	return a;
-};
-
 /**
  * A property getter resolving dot-notation
  * @param  {Object}  obj     The root object to fetch property on
@@ -56,10 +42,6 @@ var getattr = function(obj, name, nesting) {
     var names = name.split(".");
     while(names.length && (obj = obj[names.shift()]));
     return obj;
-};
-
-var trim = function(str) {
-	return (str + '').replace(/^\s+|\s+$|/g, '');
 };
 
 var escape_regex = function(str) {
@@ -140,7 +122,7 @@ export default class Sifter{
 	 * @returns {array}
 	 */
 	tokenize(query, respect_word_boundaries) {
-		query = trim(String(query || '').toLowerCase());
+		query = String(query || '').toLowerCase().trim();
 		if (!query || !query.length) return [];
 
 		var i, n, regex, letter;
@@ -400,7 +382,7 @@ export default class Sifter{
 	prepareSearch(query, options) {
 		if (typeof query === 'object') return query;
 
-		options = extend({}, options);
+		options = Object.assign({},options);
 
 		var option_fields     = options.fields;
 		var option_sort       = options.sort;

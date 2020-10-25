@@ -6,6 +6,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({'doc_src/js':'js'});
 	eleventyConfig.addPassthroughCopy({'build/js':'js'});
 	eleventyConfig.addPassthroughCopy({'build/css':'css'});
+	eleventyConfig.addPassthroughCopy({'src':'esm'});
 
 
 	const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
