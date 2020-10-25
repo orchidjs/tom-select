@@ -9,3 +9,4 @@ build/*
 .sass-cache
 .bash_profile
 coverage/
+stats/

@@ -2,6 +2,8 @@ import resolve from '@rollup/plugin-node-resolve'; // so Rollup can find `node_m
 import commonjs from '@rollup/plugin-commonjs'; // so Rollup can convert commonjs to an ES module
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
+import bundleSize from '@atomico/rollup-plugin-sizes';
+import visualizer from 'rollup-plugin-visualizer';
 import pkg from '../package.json';
 import path from 'path'
 
@@ -16,7 +18,7 @@ function createConfig( filename, plugins ){
 			format: 'umd',
 			sourcemap: true,
 			banner: `/**
-	* tom-select v${pkg.version} -
+	* tom-select v${pkg.version}
 	* Licensed under the Apache License, Version 2.0 (the "License");
 	*/
 	`,
@@ -28,7 +30,11 @@ function createConfig( filename, plugins ){
 			babel({
 				babelHelpers: 'bundled',
 				configFile: path.resolve(__dirname,'babel.config.json'),
-			})
+			}),
+			bundleSize(),
+			visualizer({
+          		filename: `stats/${filename}.html`,
+        	}),
 		],
 	};
 
@@ -43,7 +49,7 @@ var config_default = createConfig('tom-select.complete.js',);
 // 134kb -> 50.5kb with just compiler()
 // 134kb -> 48.1kb with just terser()
 // 134kb -> 48.2kb with compiler() & terser()
-var config_min = createConfig('tom-select.complete.min.js',[terser()]);
+var config_min = createConfig('tom-select.complete.min.js',[terser({mangle:true})]);
 
 
 export default [config_default,config_min];

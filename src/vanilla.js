@@ -50,28 +50,32 @@ var applyCSS = function( dom_el, css){
  * Add css classes
  *
  */
-var addClasses = function( el ){
+var addClasses = function( elmts ){
 
 	var classes		= classesArray.apply(null,arguments);
-	el				= castAsArray(el);
+	elmts			= castAsArray(elmts);
 
-	for( let i = 0; i< el.length; i++){
-		el[i].classList.add( ...classes );
-	}
+	elmts.map( el => {
+		classes.map( cls => {
+			el.classList.add( cls );
+		});
+	});
 }
 
 /**
  * Remove css classes
  *
  */
- var removeClasses = function( el ){
+ var removeClasses = function( elmts ){
 
  	var classes 	= classesArray.apply(null,arguments);
-	el				= castAsArray(el);
+	elmts		= castAsArray(elmts);
 
- 	for( let i =0; i< el.length; i++){
- 		el[i].classList.remove( ...classes );
- 	}
+	elmts.map( el => {
+		classes.map(cls => {
+	 		el.classList.remove( cls );
+		});
+ 	});
  }
 
 

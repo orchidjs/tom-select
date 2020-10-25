@@ -14,15 +14,109 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
-(function(root, factory) {
-	if (typeof define === 'function' && define.amd) {
-		define(factory);
-	} else if (typeof exports === 'object') {
-		module.exports = factory();
-	} else {
-		root.Sifter = factory();
+
+// utilities
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+var cmp = function(a, b) {
+	if (typeof a === 'number' && typeof b === 'number') {
+		return a > b ? 1 : (a < b ? -1 : 0);
 	}
-}(this, function() {
+	a = asciifold(String(a || ''));
+	b = asciifold(String(b || ''));
+	if (a > b) return 1;
+	if (b > a) return -1;
+	return 0;
+};
+
+var extend = function(a, b) {
+	var i, n, k, object;
+	for (i = 1, n = arguments.length; i < n; i++) {
+		object = arguments[i];
+		if (!object) continue;
+		for (k in object) {
+			if (object.hasOwnProperty(k)) {
+				a[k] = object[k];
+			}
+		}
+	}
+	return a;
+};
+
+/**
+ * A property getter resolving dot-notation
+ * @param  {Object}  obj     The root object to fetch property on
+ * @param  {String}  name    The optionally dotted property name to fetch
+ * @param  {Boolean} nesting Handle nesting or not
+ * @return {Object}          The resolved property value
+ */
+var getattr = function(obj, name, nesting) {
+    if (!obj || !name) return;
+    if (!nesting) return obj[name];
+    var names = name.split(".");
+    while(names.length && (obj = obj[names.shift()]));
+    return obj;
+};
+
+var trim = function(str) {
+	return (str + '').replace(/^\s+|\s+$|/g, '');
+};
+
+var escape_regex = function(str) {
+	return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+};
+
+var DIACRITICS = {
+	'a': '[aḀḁĂăÂâǍǎȺⱥȦȧẠạÄäÀàÁáĀāÃãÅåąĄÃąĄ]',
+	'b': '[b␢βΒB฿𐌁ᛒ]',
+	'c': '[cĆćĈĉČčĊċC̄c̄ÇçḈḉȻȼƇƈɕᴄＣｃ]',
+	'd': '[dĎďḊḋḐḑḌḍḒḓḎḏĐđD̦d̦ƉɖƊɗƋƌᵭᶁᶑȡᴅＤｄð]',
+	'e': '[eÉéÈèÊêḘḙĚěĔĕẼẽḚḛẺẻĖėËëĒēȨȩĘęᶒɆɇȄȅẾếỀềỄễỂểḜḝḖḗḔḕȆȇẸẹỆệⱸᴇＥｅɘǝƏƐε]',
+	'f': '[fƑƒḞḟ]',
+	'g': '[gɢ₲ǤǥĜĝĞğĢģƓɠĠġ]',
+	'h': '[hĤĥĦħḨḩẖẖḤḥḢḣɦʰǶƕ]',
+	'i': '[iÍíÌìĬĭÎîǏǐÏïḮḯĨĩĮįĪīỈỉȈȉȊȋỊịḬḭƗɨɨ̆ᵻᶖİiIıɪＩｉ]',
+	'j': '[jȷĴĵɈɉʝɟʲ]',
+	'k': '[kƘƙꝀꝁḰḱǨǩḲḳḴḵκϰ₭]',
+	'l': '[lŁłĽľĻļĹĺḶḷḸḹḼḽḺḻĿŀȽƚⱠⱡⱢɫɬᶅɭȴʟＬｌ]',
+	'n': '[nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲȠƞᵰᶇɳȵɴＮｎŊŋ]',
+	'o': '[oØøÖöÓóÒòÔôǑǒŐőŎŏȮȯỌọƟɵƠơỎỏŌōÕõǪǫȌȍՕօ]',
+	'p': '[pṔṕṖṗⱣᵽƤƥᵱ]',
+	'q': '[qꝖꝗʠɊɋꝘꝙq̃]',
+	'r': '[rŔŕɌɍŘřŖŗṘṙȐȑȒȓṚṛⱤɽ]',
+	's': '[sŚśṠṡṢṣꞨꞩŜŝŠšŞşȘșS̈s̈]',
+	't': '[tŤťṪṫŢţṬṭƮʈȚțṰṱṮṯƬƭ]',
+	'u': '[uŬŭɄʉỤụÜüÚúÙùÛûǓǔŰűŬŭƯưỦủŪūŨũŲųȔȕ∪]',
+	'v': '[vṼṽṾṿƲʋꝞꝟⱱʋ]',
+	'w': '[wẂẃẀẁŴŵẄẅẆẇẈẉ]',
+	'x': '[xẌẍẊẋχ]',
+	'y': '[yÝýỲỳŶŷŸÿỸỹẎẏỴỵɎɏƳƴ]',
+	'z': '[zŹźẐẑŽžŻżẒẓẔẕƵƶ]'
+};
+
+var asciifold = (function() {
+	var i, n, k, chunk;
+	var foreignletters = '';
+	var lookup = {};
+	for (k in DIACRITICS) {
+		if (DIACRITICS.hasOwnProperty(k)) {
+			chunk = DIACRITICS[k].substring(2, DIACRITICS[k].length - 1);
+			foreignletters += chunk;
+			for (i = 0, n = chunk.length; i < n; i++) {
+				lookup[chunk.charAt(i)] = k;
+			}
+		}
+	}
+	var regexp = new RegExp('[' +  foreignletters + ']', 'g');
+	return function(str) {
+		return str.replace(regexp, function(foreignletter) {
+			return lookup[foreignletter];
+		}).toLowerCase();
+	};
+})();
+
+
+export default class Sifter{
 
 	/**
 	 * Textually searches arrays and hashes of objects
@@ -33,7 +127,7 @@
 	 * @param {array|object} items
 	 * @param {object} items
 	 */
-	var Sifter = function(items, settings) {
+	constructor(items, settings) {
 		this.items = items;
 		this.settings = settings || {diacritics: true};
 	};
@@ -45,7 +139,7 @@
 	 * @param {string} query
 	 * @returns {array}
 	 */
-	Sifter.prototype.tokenize = function(query, respect_word_boundaries) {
+	tokenize(query, respect_word_boundaries) {
 		query = trim(String(query || '').toLowerCase());
 		if (!query || !query.length) return [];
 
@@ -83,9 +177,9 @@
 	 *
 	 * @param {array|object} object
 	 */
-	Sifter.prototype.iterator = function(object, callback) {
+	iterator(object, callback) {
 		var iterator;
-		if (is_array(object)) {
+		if (Array.isArray(object)) {
 			iterator = Array.prototype.forEach || function(callback) {
 				for (var i = 0, n = this.length; i < n; i++) {
 					callback(this[i], i, this);
@@ -114,7 +208,7 @@
 	 * @param {object} options (optional)
 	 * @returns {function}
 	 */
-	Sifter.prototype.getScoreFunction = function(search, options) {
+	getScoreFunction(search, options) {
 		var self, fields, tokens, token_count, nesting;
 
 		self        = this;
@@ -208,7 +302,7 @@
 	 * @param {object} options
 	 * @return function(a,b)
 	 */
-	Sifter.prototype.getSortFunction = function(search, options) {
+	getSortFunction(search, options) {
 		var i, n, self, field, fields, fields_count, multiplier, multipliers, get_field, implicit_score, sort;
 
 		self   = this;
@@ -303,7 +397,7 @@
 	 * @param {object} options
 	 * @returns {object}
 	 */
-	Sifter.prototype.prepareSearch = function(query, options) {
+	prepareSearch(query, options) {
 		if (typeof query === 'object') return query;
 
 		options = extend({}, options);
@@ -312,9 +406,9 @@
 		var option_sort       = options.sort;
 		var option_sort_empty = options.sort_empty;
 
-		if (option_fields && !is_array(option_fields)) options.fields = [option_fields];
-		if (option_sort && !is_array(option_sort)) options.sort = [option_sort];
-		if (option_sort_empty && !is_array(option_sort_empty)) options.sort_empty = [option_sort_empty];
+		if (option_fields && !Array.isArray(option_fields)) options.fields = [option_fields];
+		if (option_sort && !Array.isArray(option_sort)) options.sort = [option_sort];
+		if (option_sort_empty && !Array.isArray(option_sort_empty)) options.sort_empty = [option_sort_empty];
 
 		return {
 			options : options,
@@ -348,7 +442,7 @@
 	 * @param {object} options
 	 * @returns {object}
 	 */
-	Sifter.prototype.search = function(query, options) {
+	search(query, options) {
 		var self = this, value, score, search, calculateScore;
 		var fn_sort;
 		var fn_score;
@@ -385,114 +479,4 @@
 
 		return search;
 	};
-
-	// utilities
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	var cmp = function(a, b) {
-		if (typeof a === 'number' && typeof b === 'number') {
-			return a > b ? 1 : (a < b ? -1 : 0);
-		}
-		a = asciifold(String(a || ''));
-		b = asciifold(String(b || ''));
-		if (a > b) return 1;
-		if (b > a) return -1;
-		return 0;
-	};
-
-	var extend = function(a, b) {
-		var i, n, k, object;
-		for (i = 1, n = arguments.length; i < n; i++) {
-			object = arguments[i];
-			if (!object) continue;
-			for (k in object) {
-				if (object.hasOwnProperty(k)) {
-					a[k] = object[k];
-				}
-			}
-		}
-		return a;
-	};
-
-	/**
-	 * A property getter resolving dot-notation
-	 * @param  {Object}  obj     The root object to fetch property on
-	 * @param  {String}  name    The optionally dotted property name to fetch
-	 * @param  {Boolean} nesting Handle nesting or not
-	 * @return {Object}          The resolved property value
-	 */
-	var getattr = function(obj, name, nesting) {
-	    if (!obj || !name) return;
-	    if (!nesting) return obj[name];
-	    var names = name.split(".");
-	    while(names.length && (obj = obj[names.shift()]));
-	    return obj;
-	};
-
-	var trim = function(str) {
-		return (str + '').replace(/^\s+|\s+$|/g, '');
-	};
-
-	var escape_regex = function(str) {
-		return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
-	};
-
-	var is_array = Array.isArray || (typeof $ !== 'undefined' && $.isArray) || function(object) {
-		return Object.prototype.toString.call(object) === '[object Array]';
-	};
-
-	var DIACRITICS = {
-		'a': '[aḀḁĂăÂâǍǎȺⱥȦȧẠạÄäÀàÁáĀāÃãÅåąĄÃąĄ]',
-		'b': '[b␢βΒB฿𐌁ᛒ]',
-		'c': '[cĆćĈĉČčĊċC̄c̄ÇçḈḉȻȼƇƈɕᴄＣｃ]',
-		'd': '[dĎďḊḋḐḑḌḍḒḓḎḏĐđD̦d̦ƉɖƊɗƋƌᵭᶁᶑȡᴅＤｄð]',
-		'e': '[eÉéÈèÊêḘḙĚěĔĕẼẽḚḛẺẻĖėËëĒēȨȩĘęᶒɆɇȄȅẾếỀềỄễỂểḜḝḖḗḔḕȆȇẸẹỆệⱸᴇＥｅɘǝƏƐε]',
-		'f': '[fƑƒḞḟ]',
-		'g': '[gɢ₲ǤǥĜĝĞğĢģƓɠĠġ]',
-		'h': '[hĤĥĦħḨḩẖẖḤḥḢḣɦʰǶƕ]',
-		'i': '[iÍíÌìĬĭÎîǏǐÏïḮḯĨĩĮįĪīỈỉȈȉȊȋỊịḬḭƗɨɨ̆ᵻᶖİiIıɪＩｉ]',
-		'j': '[jȷĴĵɈɉʝɟʲ]',
-		'k': '[kƘƙꝀꝁḰḱǨǩḲḳḴḵκϰ₭]',
-		'l': '[lŁłĽľĻļĹĺḶḷḸḹḼḽḺḻĿŀȽƚⱠⱡⱢɫɬᶅɭȴʟＬｌ]',
-		'n': '[nŃńǸǹŇňÑñṄṅŅņṆṇṊṋṈṉN̈n̈ƝɲȠƞᵰᶇɳȵɴＮｎŊŋ]',
-		'o': '[oØøÖöÓóÒòÔôǑǒŐőŎŏȮȯỌọƟɵƠơỎỏŌōÕõǪǫȌȍՕօ]',
-		'p': '[pṔṕṖṗⱣᵽƤƥᵱ]',
-		'q': '[qꝖꝗʠɊɋꝘꝙq̃]',
-		'r': '[rŔŕɌɍŘřŖŗṘṙȐȑȒȓṚṛⱤɽ]',
-		's': '[sŚśṠṡṢṣꞨꞩŜŝŠšŞşȘșS̈s̈]',
-		't': '[tŤťṪṫŢţṬṭƮʈȚțṰṱṮṯƬƭ]',
-		'u': '[uŬŭɄʉỤụÜüÚúÙùÛûǓǔŰűŬŭƯưỦủŪūŨũŲųȔȕ∪]',
-		'v': '[vṼṽṾṿƲʋꝞꝟⱱʋ]',
-		'w': '[wẂẃẀẁŴŵẄẅẆẇẈẉ]',
-		'x': '[xẌẍẊẋχ]',
-		'y': '[yÝýỲỳŶŷŸÿỸỹẎẏỴỵɎɏƳƴ]',
-		'z': '[zŹźẐẑŽžŻżẒẓẔẕƵƶ]'
-	};
-
-	var asciifold = (function() {
-		var i, n, k, chunk;
-		var foreignletters = '';
-		var lookup = {};
-		for (k in DIACRITICS) {
-			if (DIACRITICS.hasOwnProperty(k)) {
-				chunk = DIACRITICS[k].substring(2, DIACRITICS[k].length - 1);
-				foreignletters += chunk;
-				for (i = 0, n = chunk.length; i < n; i++) {
-					lookup[chunk.charAt(i)] = k;
-				}
-			}
-		}
-		var regexp = new RegExp('[' +  foreignletters + ']', 'g');
-		return function(str) {
-			return str.replace(regexp, function(foreignletter) {
-				return lookup[foreignletter];
-			}).toLowerCase();
-		};
-	})();
-
-
-	// export
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	return Sifter;
-}));
+}

@@ -1,5 +1,6 @@
-import MicroPlugin from 'microplugin';
+//import MicroPlugin from 'microplugin';
 import MicroEvent from './contrib/microevent.js';
+import MicroPlugin from './contrib/microplugin.js';
 import Sifter from './contrib/sifter.js';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
@@ -2527,11 +2528,4 @@ export default class TomSelect extends MicroEvent{
 
 };
 
-// mixins
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-if( typeof MicroPlugin === "undefined"){
-	throw 'Dependency MicroPlugin is missing. Make sure you either: (1) are using the "complete" version of Tom Select, or (2) require MicroPlugin before you load Tom Select.';
-}
-
-MicroPlugin.mixin(TomSelect);
+MicroPlugin(TomSelect);
