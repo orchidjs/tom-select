@@ -13,9 +13,10 @@
  *
  */
 
+import TomSelect from '../../tom-select.js';
 import getSettings from '../../settings.js';
 
-export default function(options){
+export default TomSelect.define('change_listener',function(options){
 	var self		= this;
 	var changed		= false;
 
@@ -34,4 +35,4 @@ export default function(options){
 		self.setValue(settings.items);
 	});
 
-};
+});

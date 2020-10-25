@@ -13,9 +13,11 @@
  *
  */
 
+import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla.js';
 
-export default function(options) {
+
+export default TomSelect.define('dropdown_header',function(options) {
 	var self = this;
 
 	options = Object.assign({
@@ -42,5 +44,4 @@ export default function(options) {
 		self.dropdown.insertBefore(header, self.dropdown.firstChild);
 	});
 
-
-};
+});

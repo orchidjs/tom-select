@@ -11,11 +11,12 @@
  * governing permissions and limitations under the License.
  *
  */
+import TomSelect from '../../tom-select.js';
 
-export default function(options) {
+export default TomSelect.define('no_backspace_delete', function(options) {
 
 	this.hook('instead','setActiveItem',function(){});
 	this.hook('instead','selectAll',function(){});
 	this.hook('instead','deleteSelection',function(){});
 
-};
+});

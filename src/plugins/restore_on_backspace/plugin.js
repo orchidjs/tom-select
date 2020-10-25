@@ -12,9 +12,10 @@
  * governing permissions and limitations under the License.
  *
  */
+import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
 
-export default function(options) {
+export default TomSelect.define('restore_on_backspace',function(options) {
 	var self = this;
 
 	options.text = options.text || function(option) {
@@ -40,4 +41,4 @@ export default function(options) {
 		return orig_keydown.apply(self, arguments);
 	});
 
-};
+});

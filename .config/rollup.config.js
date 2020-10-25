@@ -18,9 +18,9 @@ function createConfig( filename, plugins ){
 			format: 'umd',
 			sourcemap: true,
 			banner: `/**
-	* tom-select v${pkg.version}
-	* Licensed under the Apache License, Version 2.0 (the "License");
-	*/
+ * tom-select v${pkg.version}
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ */
 	`,
 			footer: 'var tomSelect = function(el,opts){ return new TomSelect(el,opts); } ',
 		},
