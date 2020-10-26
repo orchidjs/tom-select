@@ -29,6 +29,8 @@ function createConfig( input, output, plugins ){
 		}
 	};
 
+	Object.assign(config.output, output);
+
 	config.plugins = [
 			resolve({
 				// pass custom options to the resolve plugin
@@ -48,7 +50,6 @@ function createConfig( input, output, plugins ){
         	}),
 		];
 
-	Object.assign(config.output, output);
 	config.plugins	= config.plugins.concat(plugins);
 
 	return config;
