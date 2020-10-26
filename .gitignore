@@ -10,3 +10,4 @@ build/*
 .bash_profile
 coverage/
 stats/
+src/tom-select.custom.js

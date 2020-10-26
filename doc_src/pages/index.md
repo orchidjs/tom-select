@@ -92,9 +92,7 @@ By default, all [plugins](/docs/plugins.md) are included. To hand-pick what plug
 # dependencies
 npm install
 
-# build tom-select
-grunt --plugins=
-grunt --plugins=*
+# build tom-select.custom.js
 grunt --plugins=remove_button,restore_on_backspace
 ```
 

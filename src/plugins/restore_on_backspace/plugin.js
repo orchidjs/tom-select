@@ -12,7 +12,6 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
 
 export default TomSelect.define('restore_on_backspace',function(options) {

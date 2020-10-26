@@ -18,7 +18,8 @@ tags: demo
 
 {% set html %}
 <script type="module">
-  import TomSelect from '/esm/tom-select.complete.js';
+  import TomSelect from '/esm/tom-select.js';
+  import plugin from '/esm/plugins/remove_button/plugin.js';
 
   new TomSelect("#select-tags",{
   	plugins: ['remove_button'],

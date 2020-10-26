@@ -13,7 +13,6 @@
  *
  */
 
-import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla.js';
 
 

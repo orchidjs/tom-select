@@ -12,8 +12,6 @@
  *
  */
 
-import TomSelect from '../../tom-select.js';
-
 export default TomSelect.define('input_autogrow', function(options) {
 
 	var self					= this;

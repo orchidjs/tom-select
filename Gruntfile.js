@@ -1,4 +1,6 @@
 var fs = require('fs');
+var path = require('path');
+var process = require('process');
 
 module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
@@ -105,29 +107,45 @@ module.exports = function(grunt) {
 	});
 
 
+	// build tom-select.custom.js
+	var plugin_arg			= grunt.option('plugins');
+	var custom_file			= path.resolve( process.cwd(),'./src/tom-select.custom.js');
+	var custom_content		= ['import TomSelect from "./tom-select.js"; '];
+
+	if( fs.existsSync(custom_file) ){
+		fs.unlink(custom_file,err => {
+			if (err) {
+				console.error(err)
+			}
+		});
+	}
+
+	if( plugin_arg ){
+		var plugin_args	= plugin_arg.split(/\s*,\s*/);
+
+		plugin_args.map(function(plugin_name){
+			custom_content.push(`import ${plugin_name} from './plugins/${plugin_name}/plugin.js'; `);
+		});
+		custom_content.push('export default TomSelect;');
+
+		fs.writeFile(custom_file, custom_content.join("\n"),err => {
+			if (err) {
+				console.error(err)
+			}
+		});
+	}
+
+
+
+	// find all plugin scss files
 	var scss_plugin_files	= [];
-
-	// enumerate plugins
-	(function() {
-		var selector_plugins = grunt.option('plugins');
-		if( !selector_plugins ){
-			selector_plugins = '*'; // default to all plugins
-		}
+	var matched_files = grunt.file.expand(['src/plugins/*/plugin.scss']);
+	for (var i = 0, n = matched_files.length; i < n; i++) {
+		var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
+		scss_plugin_files.push({src: matched_files[i], dest: 'build/scss/plugins/' + plugin_name + '.scss'});
+	}
 
 
-		if (selector_plugins.indexOf(',') !== -1) {
-			selector_plugins = '{' + selector_plugins.split(/\s*,\s*/).join(',') + '}';
-		}
-
-
-		// scss (css)
-		var matched_files = grunt.file.expand(['src/plugins/' + selector_plugins + '/plugin.scss']);
-		for (var i = 0, n = matched_files.length; i < n; i++) {
-			var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
-			scss_plugin_files.push({src: matched_files[i], dest: 'build/scss/plugins/' + plugin_name + '.scss'});
-		}
-
-	})();
 
 	// bootstrap browserlist https://github.com/twbs/bootstrap/blob/main/.browserslistrc
 	var autoprefixer = require('autoprefixer')();

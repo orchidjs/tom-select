@@ -2,29 +2,41 @@ import resolve from '@rollup/plugin-node-resolve'; // so Rollup can find `node_m
 import commonjs from '@rollup/plugin-commonjs'; // so Rollup can convert commonjs to an ES module
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
+import inject from '@rollup/plugin-inject';
 import bundleSize from '@atomico/rollup-plugin-sizes';
 import visualizer from 'rollup-plugin-visualizer';
 import pkg from '../package.json';
-import path from 'path'
+import path from 'path';
+import fs from 'fs';
+
+var tom_select_path	= path.resolve( 'src/tom-select.js' );
+var configs = [];
+const banner = `/**
+* Tom Select v${pkg.version}
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+`;
+
 
 function createConfig( input, output, plugins ){
 
 	var config = {
 		input: input,
 		output: {
-			name: 'TomSelect',
-			file: `build/js/${filename}`,
 			format: 'umd',
 			sourcemap: true,
-			banner: `/**
- * Tom Select v${pkg.version}
- * Licensed under the Apache License, Version 2.0 (the "License");
- */
-	`,
-			footer: 'var tomSelect = function(el,opts){ return new TomSelect(el,opts); } ',
-		},
-		plugins: [
-			resolve(),
+			banner: banner
+		}
+	};
+
+	config.plugins = [
+			resolve({
+				// pass custom options to the resolve plugin
+				customResolveOptions: {
+					moduleDirectory: 'node_modules'
+				}
+			}),
+
 			commonjs(),
 			babel({
 				babelHelpers: 'bundled',
@@ -32,56 +44,72 @@ function createConfig( input, output, plugins ){
 			}),
 			bundleSize(),
 			visualizer({
-          		filename: `stats/${filename}.html`,
+          		filename: `stats/${config.output.file}.html`,
         	}),
-		],
-	};
+		];
 
-	config.plugins = config.plugins.concat(plugins);
+	Object.assign(config.output, output);
+	config.plugins	= config.plugins.concat(plugins);
 
 	return config;
 }
 
-function configCore( filename, input, plugins ){
+function configCore( input, filename, plugins ){
 
-	var config = {
-		input: input,
-		output: {
-			name: 'TomSelect',
-			file: `build/js/${filename}`,
-			format: 'umd',
-			sourcemap: true,
-			banner: `/**
- * tom-select v${pkg.version}
- * Licensed under the Apache License, Version 2.0 (the "License");
- */
-	`,
-			footer: 'var tomSelect = function(el,opts){ return new TomSelect(el,opts); } ',
-		},
-		plugins: [
-			resolve(),
-			commonjs(),
-			babel({
-				babelHelpers: 'bundled',
-				configFile: path.resolve(__dirname,'babel.config.json'),
-			}),
-			bundleSize(),
-			visualizer({
-          		filename: `stats/${filename}.html`,
-        	}),
-		],
+	var output = {
+		name: 'TomSelect',
+		file: `build/js/${filename}`,
+		footer: 'var tomSelect = function(el,opts){ return new TomSelect(el,opts); } ',
 	};
 
-	config.plugins = config.plugins.concat(plugins);
+	var config = createConfig( input, output, plugins);
 
-	return config;
+	// add 'import TomSelect from tom_select_path' for each plugin.js
+	// which prevents bundler from creating TomSelect$1 in tom-select.complete.js
+	config.plugins.push(inject({
+		TomSelect: tom_select_path
+	}));
+
+	configs.push( config );
 };
 
 
-var config_complete			= configCore('tom-select.complete.js','src/tom-select.complete.js');
-var config_complete_min		= configCore('tom-select.complete.min.js','src/tom-select.complete.js',[terser({mangle:true})]);
-var config_base				= configCore('tom-select.base.js','src/tom-select.js');
-var config_base_min			= configCore('tom-select.base.js','src/tom-select.js',[terser({mangle:true})]);
+function pluginConfig( input, output, plugins ){
+
+	var config			= createConfig( input, output, plugins );
+
+	// prevents tom-select.js from being bundled in with plugin.js umd
+	config.output.globals = {}
+	config.output.globals[tom_select_path] = 'TomSelect';
+	config.external = [tom_select_path];
+	configs.push( config );
+}
+
+// plugins
+var plugin_dir = path.resolve(__dirname,'../src/plugins');
+var files = fs.readdirSync( plugin_dir );
+files.map(function(file){
+	let input	= path.resolve(__dirname,'../src/plugins',file,'plugin.js');
+	let output	= {file:`build/js/plugins/${file}.js`,'name':file};
+	pluginConfig( input, output);
+});
 
 
-export default [config_complete, config_complete_min, config_base, config_base_min];
+// custom
+var custom_file = path.resolve(__dirname,'../src/tom-select.custom.js');
+if( fs.existsSync(custom_file) ){
+	configCore(custom_file,'tom-select.custom.js');
+	configCore(custom_file,'tom-select.custom.min.js',[terser({mangle:true})]);
+}
+
+// tom-select.base
+configCore('src/tom-select.js','tom-select.base.js')
+configCore('src/tom-select.js','tom-select.base.min.js',[terser({mangle:true})]);
+
+// tom-select.complete
+configCore('src/tom-select.complete.js','tom-select.complete.js');
+configCore('src/tom-select.complete.js','tom-select.complete.min.js',[terser({mangle:true})]);
+
+
+
+export default configs;
