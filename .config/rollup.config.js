@@ -46,7 +46,8 @@ function createConfig( input, output, plugins ){
 			}),
 			bundleSize(),
 			visualizer({
-          		filename: `stats/${config.output.file}.html`,
+				sourcemap: true,
+				filename: `stats/${config.output.file}.html`,
         	}),
 		];
 
