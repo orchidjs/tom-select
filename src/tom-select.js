@@ -1,4 +1,4 @@
-//import MicroPlugin from 'microplugin';
+
 import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from './contrib/sifter.js';

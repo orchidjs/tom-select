@@ -11,6 +11,7 @@
  * governing permissions and limitations under the License.
  *
  */
+import TomSelect from '../../tom-select.js';
 
 export default TomSelect.define('no_backspace_delete', function(options) {
 

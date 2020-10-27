@@ -128,12 +128,21 @@ module.exports = function(config) {
 		basePath: '../',
 		frameworks: ['mocha', 'chai'],
 		files: [
-			'build/css/tom-select.default.css',
-			'node_modules/jquery/dist/jquery.js',
-			'node_modules/syn/dist/global/syn.js',
+			{
+				pattern: 'src/**/*',
+				included: false,
+				type: 'module',
+			},
+			{
+				pattern: 'test/esm-module.js',
+				type: 'module',
+				included: true,
+			},
 
 			'build/js/tom-select.complete.js',
-
+			'node_modules/syn/dist/global/syn.js',
+			'node_modules/jquery/dist/jquery.js',
+			'build/css/tom-select.default.css',
 			'test/support/*.js',
 			'test/*.js'
 			//'test/events.js'

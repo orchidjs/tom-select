@@ -13,6 +13,7 @@
  *
  */
 
+import TomSelect from '../../tom-select.js';
 import getSettings from '../../settings.js';
 
 export default TomSelect.define('change_listener',function(options){

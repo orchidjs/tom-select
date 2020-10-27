@@ -13,6 +13,7 @@
  *
  */
 
+import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
 import { parentMatch, nodeIndex } from '../../vanilla.js';
 
