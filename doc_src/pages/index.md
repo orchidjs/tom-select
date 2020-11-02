@@ -79,22 +79,9 @@ All pre-built files needed to use Tom Select can be found in the "dist" folder f
 
 ## Files
 - [tom-select.complete.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.complete.js) — Includes dependencies and plugins
-- [tom-select.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.js) — Does not include sifter or microplugin
+- [tom-select.js](https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.base.js) — Does not include any plugins
 - [CSS](https://github.com/orchidjs/tom-select/tree/master/dist/css) — Compiled themes
 - [SCSS](https://github.com/orchidjs/tom-select/tree/master/dist/scss) — Uncompiled theme sources
-
-
-## Custom Builds
-
-By default, all [plugins](/docs/plugins.md) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the files you need from the "build" folder.
-
-```shell
-# dependencies
-npm install
-
-# build tom-select.custom.js
-grunt --plugins=remove_button,restore_on_backspace
-```
 
 
 ## License

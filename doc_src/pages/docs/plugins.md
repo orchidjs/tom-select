@@ -9,15 +9,6 @@ The plugin system is lean, makes very few assumptions, and gives the developer c
 
 **[Plugin Examples](/examples/plugins)**
 
-**A few notes:**
-- All plugins live in their own folders in ["src/plugins"](https://github.com/orchidjs/tom-select/tree/master/src/plugins).
-- Plugin names should follow the format: `/[a-z_]+$`
-- JS source should live in a "plugin.js" file (required).
-- CSS should live in a "plugin.scss" file (optional). It will be bundled at build time.
-- Plugins are initialized right before the control is setup.
-  This means that if you want to listen for events on any of the control's
-  elements, you should override the `setup()` method (see ["DOM Events"](#dom-events)).
-
 ## Plugin Usage
 
 #### Without Options
@@ -42,7 +33,32 @@ tomSelect('#select',{
 For a more detailed description of plugin option formats and how the plugin system works, check out the [microplugin](https://github.com/brianreavis/microplugin.js) documentation.
 
 
+## Including Plugins
+
+By default, all plugins are bundled in <code>tom-select.complete.js</code>.
+To reduce bundle size, you can also use <code>tom-select.base.js</code> along with individually selected plugin files: <code>/js/plugins/remove_button.js</code>, <code>/js/plugins/dropdown_header.js</code>, etc.
+
+You can also hand-pick plugins to create <code>/build/js/tom-select.custom.js</code> by running <code>grunt</code> with the "--plugins" flag.
+
+```shell
+# install dev dependencies
+npm install
+
+# create /build/js/tom-select.custom.js
+grunt --plugins=remove_button,restore_on_backspace
+```
+
+
 ## Creating Plugins
+
+**A few notes:**
+- All plugins live in their own folders in ["src/plugins"](https://github.com/orchidjs/tom-select/tree/master/src/plugins).
+- Plugin names should follow the format: `/[a-z_]+$`
+- JS source should live in a "plugin.js" file (required).
+- CSS should live in a "plugin.scss" file (optional). It will be bundled at build time.
+- Plugins are initialized right before the control is setup.
+  This means that if you want to listen for events on any of the control's
+  elements, you should override the `setup()` method (see ["DOM Events"](#dom-events)).
 
 
 ### Boilerplate
