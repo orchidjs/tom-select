@@ -130,11 +130,11 @@ module.exports = function(config) {
 		files: [
 			{
 				pattern: 'src/**/*',
-				included: false,
 				type: 'module',
+				included: false,
 			},
 			{
-				pattern: 'test/esm-module.js',
+				pattern: 'test/tests/esm-module.js',
 				type: 'module',
 				included: true,
 			},
@@ -144,8 +144,7 @@ module.exports = function(config) {
 			'node_modules/jquery/dist/jquery.js',
 			'build/css/tom-select.default.css',
 			'test/support/*.js',
-			'test/*.js'
-			//'test/events.js'
+			'test/tests/*.js'
 		],
 		preprocessors: {
 			'build/**/*.js': ['sourcemap','coverage'],
