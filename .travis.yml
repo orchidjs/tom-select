@@ -6,6 +6,8 @@ env:
     - TARGET=browserstack
 node_js:
   - 14
+addons:
+  firefox: "67.0"
 before_script:
   - npm install -g grunt-cli
   - npm install
