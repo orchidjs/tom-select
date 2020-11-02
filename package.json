@@ -32,7 +32,6 @@
     "@babel/preset-env": "^7.11.0",
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-commonjs": "^15.1.0",
-    "@rollup/plugin-inject": "^4.0.2",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "autoprefixer": "^9.8.6",
     "bootstrap": "4.5.2",

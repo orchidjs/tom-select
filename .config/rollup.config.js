@@ -2,7 +2,6 @@ import resolve from '@rollup/plugin-node-resolve'; // so Rollup can find `node_m
 import commonjs from '@rollup/plugin-commonjs'; // so Rollup can convert commonjs to an ES module
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
-import inject from '@rollup/plugin-inject';
 import bundleSize from '@atomico/rollup-plugin-sizes';
 import visualizer from 'rollup-plugin-visualizer';
 import pkg from '../package.json';
@@ -66,24 +65,18 @@ function configCore( input, filename, plugins ){
 
 	var config = createConfig( input, output, plugins);
 
-	// add 'import TomSelect from tom_select_path' for each plugin.js
-	// which prevents bundler from creating TomSelect$1 in tom-select.complete.js
-	config.plugins.push(inject({
-		TomSelect: tom_select_path
-	}));
-
 	configs.push( config );
 };
 
 
-function pluginConfig( input, output, plugins ){
+function pluginConfig( input, output ){
 
-	var config			= createConfig( input, output, plugins );
+	var config		= createConfig( input, output, [] );
 
 	// prevents tom-select.js from being bundled in with plugin.js umd
 	config.output.globals = {}
 	config.output.globals[tom_select_path] = 'TomSelect';
-	config.external = [tom_select_path];
+	config.external = [tom_select_path,'TomSelect'];
 	configs.push( config );
 }
 
