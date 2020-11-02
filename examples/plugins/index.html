@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html class="no-js">
 	<head>
@@ -16,7 +12,11 @@
 
 		<script src="/js/jquery.min.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
+
+		
 		<script src="/js/tom-select.complete.js"></script>
+		
+
 		<script src="/js/index.js"></script>
 		<script src="/js/jqueryui.js"></script>
 	</head>
@@ -68,6 +68,15 @@
 
 		
 			Email Contacts
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/esm/">
+
+		
+			ESM Modules
 		
 		</a>
 	
@@ -208,6 +217,14 @@
 
 
 
+<p class="mt-5">
+	Plugins are bundled in <code>tom-select.complete.js</code> but can also be loaded individually.
+	Include <code>tom-select.base.js</code> and any combination of plugins of your choosing.
+	The <a href="/docs/plugins">plugin documentation</a> has more information about custom bundles and plugin development.
+</p>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/tom-select.base.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/change_listener.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/drag_drop.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/dropdown_header.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/input_autogrow.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/no_backspace_delete.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/optgroup_columns.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/remove_button.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/restore_on_backspace.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+
+
 
 
 
@@ -252,12 +269,16 @@ tomSelect('#input-tags',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -274,16 +295,20 @@ tomSelect('#input-tags',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-tags'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'remove_button'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	<span class="token function-variable function">onDelete</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">values</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>		<span class="token keyword">return</span> <span class="token function">confirm</span><span class="token punctuation">(</span>values<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">1</span> <span class="token operator">?</span> <span class="token string">'Are you sure you want to remove these '</span> <span class="token operator">+</span> values<span class="token punctuation">.</span>length <span class="token operator">+</span> <span class="token string">' items?'</span> <span class="token operator">:</span> <span class="token string">'Are you sure you want to remove "'</span> <span class="token operator">+</span> values<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">'"?'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-tags<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -349,12 +374,16 @@ tomSelect('#input-tags2',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -371,16 +400,20 @@ tomSelect('#input-tags2',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-tags2'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'remove_button'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	maxItems<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-tags2<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">></span></span>awesome<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">></span></span>neat<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -448,12 +481,16 @@ tomSelect('#disable-backspace',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-3" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-3" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-3" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -470,16 +507,20 @@ tomSelect('#disable-backspace',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-3" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#disable-backspace'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'no_backspace_delete'</span><span class="token punctuation">,</span><span class="token string">'remove_button'</span><span class="token punctuation">,</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	controlInput<span class="token operator">:</span> <span class="token string">'#input-disable-control'</span><span class="token punctuation">,</span><br>	dropdownParent<span class="token operator">:</span> <span class="token string">'#disable-wrapper'</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-3" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-3" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>disable-wrapper<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">position</span><span class="token punctuation">:</span>relative</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>disable-backspace<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-disable-control<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>form-control mt-2<span class="token punctuation">"</span></span>  <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>How cool is this?<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -541,12 +582,16 @@ tomSelect('#input-tags6',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-4" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-4" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-4" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -563,16 +608,20 @@ tomSelect('#input-tags6',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-4" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-tags6'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'restore_on_backspace'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-4" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-4" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-tags6<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -629,12 +678,16 @@ tomSelect('#input-sortable',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-5" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-5" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-5" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -651,16 +704,20 @@ tomSelect('#input-sortable',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-5" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-sortable'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'drag_drop'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-5" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-5" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-sortable<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>drag,these,items,around<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -746,12 +803,16 @@ tomSelect('#select-code-language',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-6" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-6" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-6" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -768,16 +829,20 @@ tomSelect('#select-code-language',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-6" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-code-language'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	sortField<span class="token operator">:</span> <span class="token string">'text'</span><span class="token punctuation">,</span><br>	hideSelected<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">{</span><br>		<span class="token string">'dropdown_header'</span><span class="token operator">:</span> <span class="token punctuation">{</span><br>			title<span class="token operator">:</span> <span class="token string">'Language'</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-6" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-6" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-code-language<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>demo-code-language<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select a language...<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>txt<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Text<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>md<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Markdown<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>html<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>HTML<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>php<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>PHP<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>python<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Python<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>java<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Java<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>js<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>JavaScript<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Ruby<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>VHDL<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Verilog<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>C#<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c++<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>C/C++<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -843,16 +908,20 @@ document.getElementById('change-input').addEventListener('click',function(evt){
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-7" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-7" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-7" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
 				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link" data-toggle="tab" data-target="#style-tab-7" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -869,16 +938,20 @@ document.getElementById('change-input').addEventListener('click',function(evt){
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-7" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token keyword">var</span> input <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'input-change'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token function">tomSelect</span><span class="token punctuation">(</span>input<span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'change_listener'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'change-input'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">evt</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	evt<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	evt<span class="token punctuation">.</span><span class="token function">stopPropagation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>	input<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">'new value'</span><span class="token punctuation">;</span><br>	<span class="token keyword">var</span> evt <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">'HTMLEvents'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	evt<span class="token punctuation">.</span><span class="token function">initEvent</span><span class="token punctuation">(</span><span class="token string">'change'</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	input<span class="token punctuation">.</span><span class="token function">dispatchEvent</span><span class="token punctuation">(</span>evt<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-7" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-7" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-change<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>original value<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>btn btn-sm btn-success<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>change-input<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Change original input<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -936,12 +1009,16 @@ tomSelect('#input-autogrow',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-8" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-8" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-8" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -958,16 +1035,20 @@ tomSelect('#input-autogrow',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-8" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-autogrow'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'input_autogrow'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-8" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-8" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-autogrow<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>How cool is this?<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
 				</div>
 

@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html class="no-js">
 	<head>
@@ -16,7 +12,11 @@
 
 		<script src="/js/jquery.min.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
+
+		
 		<script src="/js/tom-select.complete.js"></script>
+		
+
 		<script src="/js/index.js"></script>
 		
 	</head>
@@ -68,6 +68,15 @@
 
 		
 			Email Contacts
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/esm/">
+
+		
+			ESM Modules
 		
 		</a>
 	
@@ -255,12 +264,16 @@ tomSelect('#select-words-regex',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -277,16 +290,20 @@ tomSelect('#select-words-regex',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-words-regex'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	createFilter<span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'regex'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-words-regex<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Enter a word matching the pattern...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>control-group form-inline<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>regex<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mr-2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Pattern<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>regex<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>^a+$<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>form-control<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -345,12 +362,16 @@ tomSelect('#select-words-length',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -367,16 +388,20 @@ tomSelect('#select-words-length',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-words-length'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	<span class="token function-variable function">createFilter</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">input</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> input<span class="token punctuation">.</span>length <span class="token operator">>=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'length'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-words-length<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Enter a word longer than the minimum number of characters...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>control-group form-inline<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>length<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mr-2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Minimum length<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>length<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>form-control<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -433,12 +458,16 @@ var unique = tomSelect('#select-words-unique',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-3" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-3" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-3" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -455,16 +484,20 @@ var unique = tomSelect('#select-words-unique',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-3" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token keyword">var</span> unique <span class="token operator">=</span> <span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-words-unique'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	<span class="token function-variable function">createFilter</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">input</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>		input <span class="token operator">=</span> input<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>		<span class="token keyword">return</span> $<span class="token punctuation">.</span><span class="token function">grep</span><span class="token punctuation">(</span>unique<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> value<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">===</span> input<span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-3" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-3" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-words-unique<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Enter unique words (case-insensitive)...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 

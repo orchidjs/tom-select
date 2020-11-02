@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html class="no-js">
 	<head>
@@ -16,7 +12,11 @@
 
 		<script src="/js/jquery.min.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
+
+		
 		<script src="/js/tom-select.complete.js"></script>
+		
+
 		<script src="/js/index.js"></script>
 		
 	</head>
@@ -68,6 +68,15 @@
 
 		
 			Email Contacts
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/esm/">
+
+		
+			ESM Modules
 		
 		</a>
 	
@@ -287,16 +296,20 @@ tomSelect('#select-repo',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
 				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link" data-toggle="tab" data-target="#style-tab-1" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -313,16 +326,20 @@ tomSelect('#select-repo',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-repo'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>		valueField<span class="token operator">:</span> <span class="token string">'url'</span><span class="token punctuation">,</span><br>		labelField<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span><br>		searchField<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span><br>		render<span class="token operator">:</span> <span class="token punctuation">{</span><br>			<span class="token function-variable function">option</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>				<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="py-2 d-flex"><br>							&lt;div class="icon mr-3"><br>								&lt;img class="img-fluid" src="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>owner<span class="token punctuation">.</span>avatar_url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">" /><br>							&lt;/div><br>							&lt;div><br>								&lt;div class="mb-1"><br>									&lt;span class="h4"><br>										</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span> <span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"><br>									&lt;/span><br>									&lt;span class="text-muted">by </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span> <span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>owner<span class="token punctuation">.</span>login<span class="token punctuation">)</span> <span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/span><br>								&lt;/div><br>						 		&lt;div class="description"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span> <span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>description<span class="token punctuation">)</span> <span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div><br>							&lt;/div><br>						&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>			<span class="token punctuation">}</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token function-variable function">load</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">query<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>query<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>			$<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span><br>				url<span class="token operator">:</span> <span class="token string">'https://api.github.com/search/repositories?q='</span> <span class="token operator">+</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">,</span><br>				<span class="token function-variable function">error</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>					<span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>				<span class="token punctuation">}</span><span class="token punctuation">,</span><br>				<span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>					<span class="token function">callback</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>items<span class="token punctuation">)</span><span class="token punctuation">;</span><br>				<span class="token punctuation">}</span><br>			<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-repo<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Pick a repository...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -405,16 +422,20 @@ tomSelect('#select-state',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
 				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link" data-toggle="tab" data-target="#style-tab-2" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -431,16 +452,20 @@ tomSelect('#select-state',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-state'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>		valueField<span class="token operator">:</span> <span class="token string">'text'</span><span class="token punctuation">,</span><br>		<span class="token function-variable function">load</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">query<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">var</span> self <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span><br>			<span class="token keyword">if</span><span class="token punctuation">(</span> self<span class="token punctuation">.</span>loading <span class="token operator">></span> <span class="token number">1</span> <span class="token punctuation">)</span><span class="token punctuation">{</span><br>				<span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>				<span class="token keyword">return</span><span class="token punctuation">;</span><br>			<span class="token punctuation">}</span><br><br>			$<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span><br>				url<span class="token operator">:</span> <span class="token string">'https://tom-select.js.org/js/states.json'</span><span class="token punctuation">,</span><br>				<span class="token function-variable function">error</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>					<span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>				<span class="token punctuation">}</span><span class="token punctuation">,</span><br>				<span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>					<span class="token function">callback</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>states<span class="token punctuation">)</span><span class="token punctuation">;</span><br>					self<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>load <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span><br>				<span class="token punctuation">}</span><br>			<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-state<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Pick a state...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 
@@ -573,16 +598,20 @@ tomSelect('#select-repo2',{
 		<div class="mt-4">
 
 			<ul class="nav nav-tabs" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-3" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
+				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#html-tab-3" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-3" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
 				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link" data-toggle="tab" data-target="#style-tab-3" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
 				</li>
+				
+
 				
 				<li class="nav-item ml-auto">
 					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
@@ -599,16 +628,20 @@ tomSelect('#select-repo2',{
 						<a class="nav-link opensandbox">CodePen</a>
 				</form>
 				</li>
+				
 
 				
 
 			</ul>
 
 			<div class="tab-content">
+				
 				<div class="tab-pane fade show active" id="javascript-tab-3" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-repo2'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>		valueField<span class="token operator">:</span> <span class="token string">'url'</span><span class="token punctuation">,</span><br>		labelField<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span><br>		searchField<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">,</span><span class="token string">'description'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>		options<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>		create<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>		maxOptions<span class="token operator">:</span> <span class="token number">30</span><span class="token punctuation">,</span><br>		dropdownParent<span class="token operator">:</span> <span class="token string">'#select-repo-inline'</span><span class="token punctuation">,</span><br>		render<span class="token operator">:</span> <span class="token punctuation">{</span><br>			<span class="token function-variable function">option</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>				<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="row border-bottom py-2"><br>							&lt;div class="col-sm-1"><br>								&lt;img class="img-fluid" src="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>owner<span class="token punctuation">.</span>avatar_url<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">" /><br>							&lt;/div><br>							&lt;div class="col-sm-11"><br>								&lt;div class="mt-0"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"><br>									&lt;span class="small text-muted">by </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>owner<span class="token punctuation">.</span>login<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/span><br>								&lt;/div><br>								&lt;div class="mb-1"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>description<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div><br>								&lt;div class="d-flex text-muted"><br>									&lt;div class="mr-3">&lt;i class="fa fa-code">&lt;/i> </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>language<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div><br>									&lt;div class="mr-3">&lt;i class="fa fa-flash">&lt;/i> </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>forks_count<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> Forks&lt;/div><br>									&lt;div class="mr-3">&lt;i class="fa fa-star">&lt;/i> </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token function">escape</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>stargazers_count<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> Stars&lt;/div><br>									&lt;div class="mr-3">&lt;i class="fa fa-eye">&lt;/i> </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>watchers_count<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> Watchers&lt;/div><br>								&lt;/div><br>							&lt;/div><br>						&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>			<span class="token punctuation">}</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token function-variable function">score</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">search</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">var</span> score <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getScoreFunction</span><span class="token punctuation">(</span>search<span class="token punctuation">)</span><span class="token punctuation">;</span><br>			<span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>				<span class="token keyword">return</span> <span class="token function">score</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>watchers <span class="token operator">/</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>			<span class="token punctuation">}</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token function-variable function">load</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">query<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>query<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>			$<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span><br>				url<span class="token operator">:</span> <span class="token string">'https://api.github.com/search/repositories?q='</span> <span class="token operator">+</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">,</span><br>				<span class="token function-variable function">error</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>					<span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>				<span class="token punctuation">}</span><span class="token punctuation">,</span><br>				<span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>					<span class="token function">callback</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>items<span class="token punctuation">)</span><span class="token punctuation">;</span><br>				<span class="token punctuation">}</span><br>			<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
-				<div class="tab-pane fade" id="html-tab-3" role="tabpanel" aria-labelledby="profile-tab">
+				
+
+				<div class="tab-pane fade " id="html-tab-3" role="tabpanel" aria-labelledby="profile-tab">
 					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-repo-inline<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-repo2<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Pick a repository...<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
 				</div>
 

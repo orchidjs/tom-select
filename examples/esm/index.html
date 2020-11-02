@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> ESM Modules -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+
+		
+
+
+		<script src="/js/index.js"></script>
+		
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-right px-0 offcanvas pt-5">
+					
+
+	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
+
+	
+
+
+	
+
+
+	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
+	
+	<nav class="nav flex-column">
+		
+		  
+		<a class="nav-link " href="/examples/">
+
+		
+			Basic
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/customization/">
+
+		
+			Custom HTML
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/contacts/">
+
+		
+			Email Contacts
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link  active " href="/examples/esm/">
+
+		
+			ESM Modules
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/events/">
+
+		
+			Events
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/create-filter/">
+
+		
+			Item Creation
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/api/">
+
+		
+			JavaScript API
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/performance/">
+
+		
+			Large Dataset
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/lock/">
+
+		
+			Locking
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/optgroups/">
+
+		
+			Option Groups
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/options/">
+
+		
+			Options Array
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/plugins/">
+
+		
+			Plugins
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/remote/">
+
+		
+			Remote Data
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/required/">
+
+		
+			Required Input
+		
+		</a>
+	
+		
+		  
+		<a class="nav-link " href="/examples/rtl/">
+
+		
+			RTL
+		
+		</a>
+	
+		
+	</nav>
+	
+
+
+	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
+	
+
+	<div class="border-bottom m-4"></div>
+
+	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
+	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
+
+
+	<div class="mt-auto p-4 badges small">
+		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/examples/esm.njk">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-lg-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-light" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">ESM Modules</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+					
+
+
+
+
+
+
+
+
+
+
+	
+
+	<div class="demo py-5 ">
+
+		
+<label class="h2 mb-3">
+	&lt;script type="module"&gt;
+</label>
+<p>In this example, Tom Select is loaded from ECMAScript modules.
+Note: modules are not supported by Internet Explorer and other older browsers.
+<sup><a href="https://caniuse.com/es6-module" target="_blank">1</a></sup>
+<sup><a href="https://caniuse.com/es6-module-dynamic-import" target="_blank">2</a></sup>
+
+</p>
+
+	<div>
+		<div>
+			<div class="demo-html">
+				
+<script type="module">
+  import TomSelect from '/esm/tom-select.js';
+  import plugin from '/esm/plugins/remove_button/plugin.js';
+
+  new TomSelect("#select-tags",{
+  	plugins: ['remove_button'],
+  	create: true,
+  });
+</script>
+
+<select id="select-tags" multiple placeholder="Best movies and TV shows">
+	<option selected>Magnum P.I.</option>
+	<option>Blue Bloods</option>
+	<option>Quigley Down Under</option>
+	<option>Three Men and a Baby</option>
+	<option>Mr. Baseball</option>
+</select>
+
+			</div>
+			<textarea hidden>
+&lt;script type=&quot;module&quot;&gt;
+  import TomSelect from &#39;/esm/tom-select.js&#39;;
+  import plugin from &#39;/esm/plugins/remove_button/plugin.js&#39;;
+
+  new TomSelect(&quot;#select-tags&quot;,{
+  	plugins: [&#39;remove_button&#39;],
+  	create: true,
+  });
+&lt;/script&gt;
+
+&lt;select id=&quot;select-tags&quot; multiple placeholder=&quot;Best movies and TV shows&quot;&gt;
+	&lt;option selected&gt;Magnum P.I.&lt;/option&gt;
+	&lt;option&gt;Blue Bloods&lt;/option&gt;
+	&lt;option&gt;Quigley Down Under&lt;/option&gt;
+	&lt;option&gt;Three Men and a Baby&lt;/option&gt;
+	&lt;option&gt;Mr. Baseball&lt;/option&gt;
+&lt;/select&gt;
+</textarea>
+			<script>false</script>
+			<style></style>
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link  active " data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+
+				
+
+				
+
+			</ul>
+
+			<div class="tab-content">
+				
+
+				<div class="tab-pane fade  show active " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"><br>  <span class="token keyword">import</span> TomSelect <span class="token keyword">from</span> <span class="token string">'/esm/tom-select.js'</span><span class="token punctuation">;</span><br>  <span class="token keyword">import</span> plugin <span class="token keyword">from</span> <span class="token string">'/esm/plugins/remove_button/plugin.js'</span><span class="token punctuation">;</span><br><br>  <span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-tags"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>  	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'remove_button'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>  	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-tags<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Best movies and TV shows<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>Magnum P.I.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">></span></span>Blue Bloods<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">></span></span>Quigley Down Under<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">></span></span>Three Men and a Baby<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">></span></span>Mr. Baseball<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+				</div>
+
+				
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html class="no-js">
 	<head>
@@ -16,7 +12,11 @@
 
 		<script src="/js/jquery.min.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
+
+		
 		<script src="/js/tom-select.complete.js"></script>
+		
+
 		<script src="/js/index.js"></script>
 		
 	</head>
@@ -130,13 +130,10 @@ Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to pro
 <h2 id="files">Files</h2>
 <ul>
 <li><a href="https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.complete.js">tom-select.complete.js</a> — Includes dependencies and plugins</li>
-<li><a href="https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.js">tom-select.js</a> — Does not include sifter or microplugin</li>
+<li><a href="https://github.com/orchidjs/tom-select/tree/master/dist/js/tom-select.base.js">tom-select.js</a> — Does not include any plugins</li>
 <li><a href="https://github.com/orchidjs/tom-select/tree/master/dist/css">CSS</a> — Compiled themes</li>
 <li><a href="https://github.com/orchidjs/tom-select/tree/master/dist/scss">SCSS</a> — Uncompiled theme sources</li>
 </ul>
-<h2 id="custom-builds">Custom Builds</h2>
-<p>By default, all <a href="/docs/plugins">plugins</a> are included. To hand-pick what plugins (if any) to include, run <a href="http://gruntjs.com/"><code>grunt</code></a> with the &quot;--plugins&quot; flag. After this completes, grab the files you need from the &quot;build&quot; folder.</p>
-<pre class="language-shell"><code class="language-shell"><span class="token comment"># dependencies</span><br><span class="token function">npm</span> <span class="token function">install</span><br><br><span class="token comment"># build tom-select</span><br>grunt --plugins<span class="token operator">=</span><br>grunt --plugins<span class="token operator">=</span>*<br>grunt --plugins<span class="token operator">=</span>remove_button,restore_on_backspace</code></pre>
 <h2 id="license">License</h2>
 <p>Copyright © 2013–2020 <a href="https://github.com/orchidjs/tom-select/graphs/contributors">Contributors</a></p>
 <p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0</p>
