@@ -33,6 +33,8 @@
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-commonjs": "^15.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
+    "@types/jquery": "^3.5.4",
+    "@types/jqueryui": "^1.12.13",
     "autoprefixer": "^9.8.6",
     "bootstrap": "4.5.2",
     "bootstrap-sass": "^3.4.1",
@@ -70,11 +72,14 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-visualizer": "^4.1.2",
     "syn": "^0.15.0",
+    "tslib": "^2.0.3",
+    "typescript": "^4.0.5",
     "yargs": "^16.1.0"
   },
   "scripts": {
     "build": "grunt build",
     "test": "karma start",
+    "test:typescript": "tsc -p .config",
     "start": "grunt serve",
     "pretest": "grunt build"
   },
@@ -92,5 +97,6 @@
     "Safari >= 10",
     "Android >= 6",
     "not Explorer <= 11"
-  ]
+  ],
+  "dependencies": {}
 }

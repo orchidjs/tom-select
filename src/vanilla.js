@@ -3,8 +3,8 @@
  * Return a dom element from either a dom query string, jQuery object, a dom element or html string
  * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
  *
- * @param {mixed} query
- * @return {Element}
+ * @param {any} query .. should be {HTMLElement|string|JQuery}
+ * @return {HTMLElement}
  */
 export function getDom( query ){
 
@@ -19,7 +19,7 @@ export function getDom( query ){
 	if( query.indexOf('<') > -1 ){
 		let div = document.createElement('div');
 		div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
-		return div.firstChild;
+		return div.querySelector(':first-child');
 	}
 
 	return document.querySelector(query);
@@ -104,30 +104,6 @@ export function castAsArray(arg){
  	}
 	return arg;
 }
-
-/**
- * Delegate Event
- *
- */
-export function onEvent( el, eventName, elementSelector, handler ){
-
-	let event_names	= eventName.split(/\s/);
-
-	// create intermediate handler that can be used for all event names
-	// loop parent nodes from the target to the delegation node
-	let _handler = function(e) {
-		var target_match = parentMatch(e.target, elementSelector, el);
-		if( target_match ){
-			e.delegateTarget = target_match;
-			handler.call(target_match, e);
-		}
-	};
-
-	for( let i = 0; i<event_names.length; i++){
-		el.addEventListener(event_names[i], _handler, true);
-	}
-
-};
 
 
 /**

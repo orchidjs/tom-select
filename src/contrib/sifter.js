@@ -187,10 +187,10 @@ export default class Sifter{
 	 * If an item is not a match, 0 will be returned by the function.
 	 *
 	 * @param {object|string} search
-	 * @param {object} options (optional)
+	 * @param {object} options
 	 * @returns {function}
 	 */
-	getScoreFunction(search, options) {
+	getScoreFunction(search, options=null ){
 		var self, fields, tokens, token_count, nesting;
 
 		self        = this;
@@ -204,7 +204,7 @@ export default class Sifter{
 		 * Calculates how close of a match the
 		 * given value is against a search token.
 		 *
-		 * @param {mixed} value
+		 * @param {string} value
 		 * @param {object} token
 		 * @return {number}
 		 */
@@ -297,7 +297,7 @@ export default class Sifter{
 		 *
 		 * @param  {string} name
 		 * @param  {object} result
-		 * @return {mixed}
+		 * @return {string}
 		 */
 		get_field = function(name, result) {
 			if (name === '$score') return result.score;

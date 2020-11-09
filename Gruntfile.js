@@ -21,14 +21,15 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', [
 		'clean:pre',
+
+		'shell:buildjs',
+
 		'copy:scss',
 		'copy:scss_plugins',
 		'sass:build',
 		'postcss:prefix',
 		'postcss:min',
 		'replace:css_post',
-
-		'shell:buildjs',
 	]);
 
 	grunt.registerTask('serve', [

@@ -1,12 +1,4 @@
-/**
- * Determines if the provided value has been defined.
- *
- * @param {mixed} object
- * @returns {boolean}
- */
-export function isset(object) {
-	return typeof object !== 'undefined';
-};
+
 
 /**
  * Converts a scalar to its best string representation

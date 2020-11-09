@@ -5,7 +5,7 @@ import Sifter from './contrib/sifter.js';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './settings.js';
-import { isset, hash_key, escape_html, debounce_events, getSelection} from './utils.js';
+import { hash_key, escape_html, debounce_events, getSelection} from './utils.js';
 import {
 	getDom,
 	triggerEvent,
@@ -13,7 +13,6 @@ import {
 	addClasses,
 	removeClasses,
 	castAsArray,
-	onEvent,
 	parentMatch,
 	querySelectorEnd,
 	getTail,
@@ -21,7 +20,7 @@ import {
 	nodeIndex
 } from './vanilla.js';
 
-export default class TomSelect extends MicroEvent{
+export default class TomSelect extends MicroPlugin(MicroEvent){
 
 	constructor( input, settings ){
 		super();
@@ -34,52 +33,61 @@ export default class TomSelect extends MicroEvent{
 			throw new Error('Tom Select already initialized on this element');
 		}
 
-		input.tomselect		= self;
-		settings			= getSettings( input, settings );
 
+		input.tomselect			= self;
+
+		/**
+		 * @param {HTMLInputElement} control_input
+		 */
+		this.control_input		= null;
+		this.wrapper			= null;
+		this.dropdown			= null;
+		this._destroy			= null;
+		this.control			= null;
+		this.sifter				= null;
+		this.dropdown_content	= null;
 
 		// detect rtl environment
-		var computedStyle	= window.getComputedStyle && window.getComputedStyle(input, null);
-		dir					= computedStyle.getPropertyValue('direction');
+		var computedStyle		= window.getComputedStyle && window.getComputedStyle(input, null);
+		dir						= computedStyle.getPropertyValue('direction');
 
 		// setup default state
-		Object.assign(self, {
-			order            : 0,
-			settings         : settings,
-			input            : input,
-			tabIndex         : input.getAttribute('tabindex') || '',
-			is_select_tag    : input.tagName.toLowerCase() === 'select',
-			rtl              : /rtl/i.test(dir),
+		this.order				= 0;
+		this.settings			= getSettings( input, settings );
+		this.input				= input;
+		this.tabIndex			= input.getAttribute('tabindex') || '';
+		this.is_select_tag		= input.tagName.toLowerCase() === 'select';
+		this.rtl				= /rtl/i.test(dir);
 
-			highlightedValue : null,
-			isBlurring       : false,
-			isOpen           : false,
-			isDisabled       : false,
-			isRequired       : input.required,
-			isInvalid        : false,
-			isLocked         : false,
-			isFocused        : false,
-			isInputHidden    : false,
-			isSetup          : false,
-			ignoreFocus      : false,
-			ignoreBlur       : false,
-			ignoreHover      : false,
-			hasOptions       : false,
-			currentResults   : null,
-			lastValue        : '',
-			caretPos         : 0,
-			loading          : 0,
-			loadedSearches   : {},
+		this.highlightedValue	= null;
+		this.isBlurring			= false;
+		this.isOpen				= false;
+		this.isDisabled			= false;
+		this.isRequired			= input.required;
+		this.isInvalid			= false;
+		this.isLocked			= false;
+		this.isFocused			= false;
+		this.isInputHidden		= false;
+		this.isSetup			= false;
+		this.ignoreFocus		= false;
+		this.ignoreBlur			= false;
+		this.ignoreHover		= false;
+		this.hasOptions			= false;
+		this.currentResults		= null;
+		this.lastValue			= '';
+		this.caretPos			= 0;
+		this.loading			= 0;
+		this.loadedSearches		= {};
 
-			activeOption     : null,
-			activeItems      : [],
+		this.activeOption		= null;
+		this.activeItems		= [];
 
-			optgroups        : {},
-			options          : {},
-			userOptions      : {},
-			items            : [],
-			renderCache      : {'item':{},'option':{}},
-		});
+		this.optgroups			= {};
+		this.options			= {};
+		this.userOptions		= {};
+		this.items				= [];
+		this.renderCache		= {'item':{},'option':{}};
+
 
 		// debounce user defined load() if loadThrottle > 0
 		if( self.settings.load && self.settings.loadThrottle ){
@@ -87,7 +95,7 @@ export default class TomSelect extends MicroEvent{
 		}
 
 		// search system
-		self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
+		self.sifter = new Sifter(this.options, {diacritics: self.settings.diacritics});
 
 		self.setupOptions(self.settings.options,self.settings.optgroups);
 		delete self.settings.optgroups;
@@ -121,10 +129,10 @@ export default class TomSelect extends MicroEvent{
 	 *
 	 */
 	setup(){
+
+
 		var self      = this;
 		var settings  = self.settings;
-
-
 		var wrapper;
 		var control;
 		var control_input;
@@ -214,7 +222,6 @@ export default class TomSelect extends MicroEvent{
 		}
 
 
-		control_input.type		= input.type;
 
 		self.control			= control;
 		self.control_input		= control_input;
@@ -222,20 +229,26 @@ export default class TomSelect extends MicroEvent{
 		self.dropdown			= dropdown;
 		self.dropdown_content	= dropdown_content;
 
+		self.control_input.type	= input.type;
 
-		onEvent(dropdown, 'mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
+		dropdown.addEventListener('mouseenter', function(e) {
+
+			var target_match = parentMatch(e.target, '[data-selectable]', dropdown);
+			if( target_match ){
+				return self.onOptionHover.call(self, target_match );
+			}
+		}, true);
 
 		control.addEventListener('mousedown', function(evt){
 
 			var target_match = parentMatch( evt.target, '.'+self.settings.itemClass, control);
 			if( target_match ){
-				evt.delegateTarget = target_match;
-				return self.onItemSelect.call(self, evt);
+				return self.onItemSelect.call(self, target_match, evt);
 			}
 			return self.onMouseDown.call(self, evt);
 		});
 
-		control.addEventListener('click', function() { return self.onClick.apply(self, arguments); });
+		control.addEventListener('click', function() { self.onClick.apply(self, arguments); });
 
 
 		control_input.addEventListener('mousedown', function(e) { e.stopPropagation(); });
@@ -444,15 +457,14 @@ export default class TomSelect extends MicroEvent{
 	 * has a click event.
 	 *
 	 * @param {object} e
-	 * @return {boolean}
 	 */
 	onClick(e) {
 		var self = this;
 
 		// necessary for mobile webkit devices (manual focus triggering
 		// is ignored unless invoked within a click event)
-    // also necessary to reopen a dropdown that has been closed by
-    // closeAfterSelect
+		// also necessary to reopen a dropdown that has been closed by
+		// closeAfterSelect
 		if (!self.isFocused || !self.isOpen) {
 			self.focus();
 			e.preventDefault();
@@ -479,7 +491,7 @@ export default class TomSelect extends MicroEvent{
 					// toggle dropdown
 					self.isOpen ? self.close() : self.open();
 				} else {
-					self.setActiveItem(null);
+					self.setActiveItem();
 				}
 				return false;
 			}
@@ -687,10 +699,10 @@ export default class TomSelect extends MicroEvent{
 	/**
 	 * Triggered on <input> focus.
 	 *
-	 * @param {object} e (optional)
+	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onFocus(e) {
+	onFocus( e = null ){
 		var self = this;
 		var wasFocused = self.isFocused;
 
@@ -708,7 +720,7 @@ export default class TomSelect extends MicroEvent{
 
 		if (!self.activeItems.length) {
 			self.showInput();
-			self.setActiveItem(null);
+			self.setActiveItem();
 			self.refreshOptions(!!self.settings.openOnFocus);
 		}
 
@@ -719,7 +731,7 @@ export default class TomSelect extends MicroEvent{
 	 * Triggered on <input> blur.
 	 *
 	 * @param {object} e
-	 * @param {Element} dest
+	 * @param {HTMLElement} dest
 	 */
 	onBlur(e, dest) {
 		var self = this;
@@ -737,8 +749,8 @@ export default class TomSelect extends MicroEvent{
 
 		var deactivate = function() {
 			self.close();
-			self.setActiveItem(null);
-			self.setActiveOption(null);
+			self.setActiveItem();
+			self.setActiveOption();
 			self.setCaret(self.items.length);
 			self.refreshState();
 
@@ -761,23 +773,23 @@ export default class TomSelect extends MicroEvent{
 	 * Triggered when the user rolls over
 	 * an option in the autocomplete dropdown menu.
 	 *
-	 * @param {object} e
+	 * @param {HTMLElement} option
 	 * @returns {boolean}
 	 */
-	onOptionHover(e) {
+	onOptionHover( option ){
 		if (this.ignoreHover) return;
-		this.setActiveOption(e.delegateTarget, false);
+		this.setActiveOption(option, false);
 	}
 
 	/**
 	 * Triggered when the user clicks on an option
 	 * in the autocomplete dropdown menu.
 	 *
-	 * @param {Element} target
+	 * @param {HTMLElement} target
 	 * @param {boolean} is_mouse_event
 	 * @returns {boolean}
 	 */
-	onOptionSelect(target, is_mouse_event){
+	onOptionSelect( target, is_mouse_event=false ){
 		var value, self = this;
 
 		if( !target ){
@@ -785,13 +797,13 @@ export default class TomSelect extends MicroEvent{
 		}
 
 		// should not be possible to trigger a option under a disabled optgroup
-		if( target.parentNode && target.parentNode.matches('[data-disabled]') ){
+		if( target.parentElement && target.parentElement.matches('[data-disabled]') ){
 			return;
 		}
 
 
 		if( target.classList.contains('create') ){
-			self.createItem(null, function() {
+			self.createItem(null, true, function() {
 				if (self.settings.closeAfterSelect) {
 					self.close();
 				}
@@ -815,16 +827,17 @@ export default class TomSelect extends MicroEvent{
 	 * Triggered when the user clicks on an item
 	 * that has been selected.
 	 *
+	 * @param {HTMLElement} item
 	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onItemSelect(e) {
+	onItemSelect( item, e ){
 		var self = this;
 
 		if (self.isLocked) return;
 		if (self.settings.mode === 'multi') {
 			e.preventDefault();
-			self.setActiveItem(e.delegateTarget, e);
+			self.setActiveItem(item, e);
 		}
 	}
 
@@ -899,7 +912,7 @@ export default class TomSelect extends MicroEvent{
 	 * an array. If only one item can be selected, this
 	 * returns a string.
 	 *
-	 * @returns {mixed}
+	 * @returns {string|array}
 	 */
 	getValue() {
 		if( this.is_select_tag && this.input.hasAttribute('multiple')) {
@@ -912,9 +925,10 @@ export default class TomSelect extends MicroEvent{
 	/**
 	 * Resets the selected items to the given value.
 	 *
-	 * @param {mixed} value
+	 * @param {string|array} value
+	 * @param {boolean} silent
 	 */
-	setValue(value, silent) {
+	setValue( value, silent=false ){
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
@@ -926,15 +940,13 @@ export default class TomSelect extends MicroEvent{
 	/**
 	 * Sets the selected item.
 	 *
-	 * @param {object} item
-	 * @param {object} e (optional)
+	 * @param {HTMLElement} item
+	 * @param {object} e
 	 */
-	setActiveItem( item, e) {
-
-
+	setActiveItem( item=null, e=null ){
 		var self = this;
 		var eventName;
-		var i, begin, end, item, swap;
+		var i, begin, end, swap;
 		var last;
 
 		if (this.settings.mode === 'single') return;
@@ -1021,7 +1033,7 @@ export default class TomSelect extends MicroEvent{
 	 * @param {object} option
 	 * @param {boolean} scroll
 	 */
-	setActiveOption(option, scroll ) {
+	setActiveOption( option=null, scroll=false ){
 		var height_menu, height_item, y;
 
 		if( option === this.activeOption ){
@@ -1036,18 +1048,18 @@ export default class TomSelect extends MicroEvent{
 		this.activeOption = option;
 		addClasses(option,'active');
 
-		if (scroll || !isset(scroll)) {
+		if( scroll ){
 
 			height_menu		= this.dropdown_content.clientHeight;
-			scroll			= this.dropdown_content.scrollTop || 0;
+			let scrollTop	= this.dropdown_content.scrollTop || 0;
 
 			height_item		= this.activeOption.offsetHeight;
-			y				= this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scroll;
+			y				= this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
 
-			if (y + height_item > height_menu + scroll) {
+			if (y + height_item > height_menu + scrollTop) {
 				this.dropdown_content.scrollTop = y - height_menu + height_item;
 
-			} else if (y < scroll) {
+			} else if (y < scrollTop) {
 				this.dropdown_content.scrollTop = y;
 			}
 
@@ -1122,9 +1134,9 @@ export default class TomSelect extends MicroEvent{
 	/**
 	 * Forces the control out of focus.
 	 *
-	 * @param {Element} dest
+	 * @param {HTMLElement} dest
 	 */
-	blur(dest) {
+	blur(dest = null) {
 		this.control_input.blur();
 
 		this.onBlur(null, dest);
@@ -1136,7 +1148,6 @@ export default class TomSelect extends MicroEvent{
 	 * provided query.
 	 *
 	 * @param {string} query
-	 * @param {object} options
 	 * @return {function}
 	 */
 	getScoreFunction(query) {
@@ -1220,15 +1231,9 @@ export default class TomSelect extends MicroEvent{
 	 *
 	 * @param {boolean} triggerDropdown
 	 */
-	refreshOptions(triggerDropdown) {
+	refreshOptions( triggerDropdown = true ){
 		var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
 		var active, active_before, create;
-
-		if (typeof triggerDropdown === 'undefined') {
-			triggerDropdown = true;
-		}
-
-
 
 		var self					= this;
 		var query					= self.inputValue();
@@ -1392,7 +1397,7 @@ export default class TomSelect extends MicroEvent{
 			if( triggerDropdown && !self.isOpen ){ self.open(); }
 
 		}else{
-			self.setActiveOption(null);
+			self.setActiveOption();
 			if( triggerDropdown && self.isOpen ){ self.close(); }
 		}
 	}
@@ -1473,9 +1478,11 @@ export default class TomSelect extends MicroEvent{
 	 * @param {object} data
 	 */
 	addOptionGroup(id, data) {
+		var hashed_id;
 		data[this.settings.optgroupValueField] = id;
-		if (id = this.registerOptionGroup(data)) {
-			this.trigger('optgroup_add', id, data);
+
+		if( hashed_id = this.registerOptionGroup(data) ){
+			this.trigger('optgroup_add', hashed_id, data);
 		}
 	}
 
@@ -1632,7 +1639,7 @@ export default class TomSelect extends MicroEvent{
 	 * Returns the dom element of the next or previous dom element of the same type
 	 *
 	 * @param {object} option
-	 * @param {int} direction  can be 1 for next or -1 for previous
+	 * @param {number} direction  can be 1 for next or -1 for previous
 	 * @param {string} type
 	 * @return {object|undefined}
 	 */
@@ -1669,7 +1676,7 @@ export default class TomSelect extends MicroEvent{
 	 * Finds the first element with a "data-value" attribute
 	 * that matches the given value.
 	 *
-	 * @param {mixed} value
+	 * @param {string} value
 	 * @param {object} els
 	 * @return {object}
 	 */
@@ -1700,19 +1707,19 @@ export default class TomSelect extends MicroEvent{
 	 * "Selects" multiple items at once. Adds them to the list
 	 * at the current caret position.
 	 *
-	 * @param {string} value
+	 * @param {string|array} values
 	 * @param {boolean} silent
 	 */
-	addItems(values, silent) {
+	addItems( values, silent = false ){
 		this.buffer = document.createDocumentFragment();
 
 		var children = this.control.children;
-		for (var i = 0; i < children.length; i++) {
+		for (let i = 0; i < children.length; i++) {
 			this.buffer.appendChild(children[i]);
 		}
 
 		var items = Array.isArray(values) ? values : [values];
-		for (var i = 0, n = items.length; i < n; i++) {
+		for (let i = 0, n = items.length; i < n; i++) {
 			this.isPending = (i < n - 1);
 			this.addItem(items[i], silent);
 		}
@@ -1730,7 +1737,7 @@ export default class TomSelect extends MicroEvent{
 	 * @param {string} value
 	 * @param {boolean} silent
 	 */
-	addItem(value, silent) {
+	addItem( value, silent = false ){
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
@@ -1802,8 +1809,9 @@ export default class TomSelect extends MicroEvent{
 	 * the provided value.
 	 *
 	 * @param {string} value
+	 * @param {boolean} silent
 	 */
-	removeItem(value, silent) {
+	removeItem( value, silent = false ){
 		var i, idx;
 
 		var item	= this.getItem(value);
@@ -1846,23 +1854,18 @@ export default class TomSelect extends MicroEvent{
 	 * Once this completes, it will be added
 	 * to the item list.
 	 *
-	 * @param {string} value
-	 * @param {boolean} [triggerDropdown]
-	 * @param {function} [callback]
+	 * @param {string} input
+	 * @param {boolean} triggerDropdown
+	 * @param {function} callback
 	 * @return {boolean}
 	 */
-	createItem(input, triggerDropdown) {
+	createItem( input=null, triggerDropdown=true, callback=null ){
 		var self  = this;
 		var caret = self.caretPos;
 		var output;
 		input = input || self.inputValue();
 
-		var callback = arguments[arguments.length - 1];
 		if (typeof callback !== 'function') callback = function() {};
-
-		if (typeof triggerDropdown !== 'boolean') {
-			triggerDropdown = true;
-		}
 
 		if (!self.canCreate(input)) {
 			callback();
@@ -1912,7 +1915,7 @@ export default class TomSelect extends MicroEvent{
 		this.lastQuery = null;
 
 		if (this.isSetup) {
-			this.addItem(this.items);
+			this.addItems(this.items);
 		}
 
 		this.refreshState();
@@ -2049,7 +2052,7 @@ export default class TomSelect extends MicroEvent{
 
 		self.isOpen = false;
 		applyCSS(self.dropdown,{display: 'none'});
-		self.setActiveOption(null);
+		self.setActiveOption();
 		self.refreshState();
 
 		if (trigger) self.trigger('dropdown_close', self.dropdown);
@@ -2098,7 +2101,7 @@ export default class TomSelect extends MicroEvent{
 		this.items = [];
 		this.lastQuery = null;
 		this.setCaret(0);
-		this.setActiveItem(null);
+		this.setActiveItem();
 		this.updateOriginalInput({silent: silent});
 		this.refreshState();
 		this.showInput();
@@ -2189,7 +2192,7 @@ export default class TomSelect extends MicroEvent{
 	 * > 0 - right
 	 * < 0 - left
 	 *
-	 * @param {int} direction
+	 * @param {number} direction
 	 * @param {object} e (optional)
 	 */
 	advanceSelection(direction, e) {
@@ -2225,7 +2228,7 @@ export default class TomSelect extends MicroEvent{
 			if( last_active ){
 				idx = nodeIndex(last_active);
 				this.setCaret(direction > 0 ? idx + 1: idx);
-				this.setActiveItem(null);
+				this.setActiveItem();
 			}
 		}
 	}
@@ -2248,7 +2251,7 @@ export default class TomSelect extends MicroEvent{
 	/**
 	 * Moves the caret to the specified index.
 	 *
-	 * @param {int} i
+	 * @param {number} i
 	 */
 	setCaret(i) {
 		var self = this;
@@ -2369,11 +2372,10 @@ export default class TomSelect extends MicroEvent{
 	 *
 	 * @param {string} templateName
 	 * @param {object} data
-	 * @returns {Element}
+	 * @returns {HTMLElement}
 	 */
-	render(templateName, data) {
-		var value, id, label;
-		var html = '';
+	render( templateName, data = null ){
+		var value, id, label, html;
 		var self = this;
 		var regex_tag = /^[\t \r\n]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
 
@@ -2430,9 +2432,9 @@ export default class TomSelect extends MicroEvent{
 	 *
 	 * @param {string} templateName
 	 */
-	clearCache(templateName) {
+	clearCache( templateName = null ){
 		var self = this;
-		if (typeof templateName === 'undefined') {
+		if( templateName === null ){
 			self.renderCache = {'item':{},'option':{}};
 		} else {
 			self.renderCache[templateName] = {};
@@ -2527,5 +2529,3 @@ export default class TomSelect extends MicroEvent{
 	}
 
 };
-
-MicroPlugin(TomSelect);
