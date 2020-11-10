@@ -93,12 +93,6 @@
 	};
 
 	/**
-	 * Determines if the provided value has been defined.
-	 *
-	 * @param {mixed} object
-	 * @returns {boolean}
-	 */
-	/**
 	 * Converts a scalar to its best string representation
 	 * for hash keys and HTML attribute values.
 	 *
@@ -114,7 +108,6 @@
 	 * @param {string} value
 	 * @returns {string|null}
 	 */
-
 	function hash_key(value) {
 	  if (typeof value === 'undefined' || value === null) return null;
 	  if (typeof value === 'boolean') return value ? '1' : '0';

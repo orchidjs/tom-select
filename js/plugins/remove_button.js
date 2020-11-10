@@ -17,8 +17,8 @@
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
 	 * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 	 *
-	 * @param {mixed} query
-	 * @return {Element}
+	 * @param {any} query .. should be {HTMLElement|string|JQuery}
+	 * @return {HTMLElement}
 	 */
 	function getDom(query) {
 	  if (query.jquery) {
@@ -33,17 +33,27 @@
 	    var div = document.createElement('div');
 	    div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
 
-	    return div.firstChild;
+	    return div.querySelector(':first-child');
 	  }
 
 	  return document.querySelector(query);
 	}
 
 	/**
-	 * Determines if the provided value has been defined.
+	 * Converts a scalar to its best string representation
+	 * for hash keys and HTML attribute values.
 	 *
-	 * @param {mixed} object
-	 * @returns {boolean}
+	 * Transformations:
+	 *   'str'     -> 'str'
+	 *   null      -> ''
+	 *   undefined -> ''
+	 *   true      -> '1'
+	 *   false     -> '0'
+	 *   0         -> '0'
+	 *   1         -> '1'
+	 *
+	 * @param {string} value
+	 * @returns {string|null}
 	 */
 	/**
 	 * Escapes a string for use within HTML.

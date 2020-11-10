@@ -86,104 +86,115 @@
    */
   function MicroPlugin(Interface) {
     Interface.plugins = {};
-    /**
-     * Initializes the listed plugins (with options).
-     * Acceptable formats:
-     *
-     * List (without options):
-     *   ['a', 'b', 'c']
-     *
-     * List (with options):
-     *   [{'name': 'a', options: {}}, {'name': 'b', options: {}}]
-     *
-     * Hash (with options):
-     *   {'a': { ... }, 'b': { ... }, 'c': { ... }}
-     *
-     * @param {mixed} plugins
-     */
+    return /*#__PURE__*/function (_Interface) {
+      _inheritsLoose(mixin, _Interface);
 
-    Interface.prototype.initializePlugins = function (plugins) {
-      var i, n, key;
-      var self = this;
-      var queue = [];
-      self.plugins = {
-        names: [],
-        settings: {},
-        requested: {},
-        loaded: {}
-      };
+      function mixin() {
+        return _Interface.apply(this, arguments) || this;
+      }
 
-      if (Array.isArray(plugins)) {
-        for (i = 0, n = plugins.length; i < n; i++) {
-          if (typeof plugins[i] === 'string') {
-            queue.push(plugins[i]);
-          } else {
-            self.plugins.settings[plugins[i].name] = plugins[i].options;
-            queue.push(plugins[i].name);
+      /**
+       * Registers a plugin.
+       *
+       * @param {string} name
+       * @param {function} fn
+       */
+      mixin.define = function define(name, fn) {
+        Interface.plugins[name] = {
+          'name': name,
+          'fn': fn
+        };
+      }
+      /**
+       * Initializes the listed plugins (with options).
+       * Acceptable formats:
+       *
+       * List (without options):
+       *   ['a', 'b', 'c']
+       *
+       * List (with options):
+       *   [{'name': 'a', options: {}}, {'name': 'b', options: {}}]
+       *
+       * Hash (with options):
+       *   {'a': { ... }, 'b': { ... }, 'c': { ... }}
+       *
+       * @param {array|object} plugins
+       */
+      ;
+
+      var _proto = mixin.prototype;
+
+      _proto.initializePlugins = function initializePlugins(plugins) {
+        var i, n, key;
+        var self = this;
+        var queue = [];
+        self.plugins = {
+          names: [],
+          settings: {},
+          requested: {},
+          loaded: {}
+        };
+
+        if (Array.isArray(plugins)) {
+          for (i = 0, n = plugins.length; i < n; i++) {
+            if (typeof plugins[i] === 'string') {
+              queue.push(plugins[i]);
+            } else {
+              self.plugins.settings[plugins[i].name] = plugins[i].options;
+              queue.push(plugins[i].name);
+            }
+          }
+        } else if (plugins) {
+          for (key in plugins) {
+            if (plugins.hasOwnProperty(key)) {
+              self.plugins.settings[key] = plugins[key];
+              queue.push(key);
+            }
           }
         }
-      } else if (plugins) {
-        for (key in plugins) {
-          if (plugins.hasOwnProperty(key)) {
-            self.plugins.settings[key] = plugins[key];
-            queue.push(key);
-          }
+
+        while (queue.length) {
+          self.require(queue.shift());
         }
-      }
-
-      while (queue.length) {
-        self.require(queue.shift());
-      }
-    };
-
-    Interface.prototype.loadPlugin = function (name) {
-      var self = this;
-      var plugins = self.plugins;
-      var plugin = Interface.plugins[name];
-
-      if (!Interface.plugins.hasOwnProperty(name)) {
-        throw new Error('Unable to find "' + name + '" plugin');
-      }
-
-      plugins.requested[name] = true;
-      plugins.loaded[name] = plugin.fn.apply(self, [self.plugins.settings[name] || {}]);
-      plugins.names.push(name);
-    };
-    /**
-     * Initializes a plugin.
-     *
-     * @param {string} name
-     */
-
-
-    Interface.prototype.require = function (name) {
-      var self = this;
-      var plugins = self.plugins;
-
-      if (!self.plugins.loaded.hasOwnProperty(name)) {
-        if (plugins.requested[name]) {
-          throw new Error('Plugin has circular dependency ("' + name + '")');
-        }
-
-        self.loadPlugin(name);
-      }
-
-      return plugins.loaded[name];
-    };
-    /**
-     * Registers a plugin.
-     *
-     * @param {string} name
-     * @param {function} fn
-     */
-
-
-    Interface.define = function (name, fn) {
-      Interface.plugins[name] = {
-        'name': name,
-        'fn': fn
       };
-    };
+
+      _proto.loadPlugin = function loadPlugin(name) {
+        var self = this;
+        var plugins = self.plugins;
+        var plugin = Interface.plugins[name];
+
+        if (!Interface.plugins.hasOwnProperty(name)) {
+          throw new Error('Unable to find "' + name + '" plugin');
+        }
+
+        plugins.requested[name] = true;
+        plugins.loaded[name] = plugin.fn.apply(self, [self.plugins.settings[name] || {}]);
+        plugins.names.push(name);
+      }
+      /**
+       * Initializes a plugin.
+       *
+       * @param {string} name
+       */
+      ;
+
+      _proto.require = function require(name) {
+        var self = this;
+        var plugins = self.plugins;
+
+        if (!self.plugins.loaded.hasOwnProperty(name)) {
+          if (plugins.requested[name]) {
+            throw new Error('Plugin has circular dependency ("' + name + '")');
+          }
+
+          self.loadPlugin(name);
+        }
+
+        return plugins.loaded[name];
+      };
+
+      return mixin;
+    }(Interface);
   }
 
   /**
@@ -384,10 +395,14 @@
      * If an item is not a match, 0 will be returned by the function.
      *
      * @param {object|string} search
-     * @param {object} options (optional)
+     * @param {object} options
      * @returns {function}
      */
     _proto.getScoreFunction = function getScoreFunction(search, options) {
+      if (options === void 0) {
+        options = null;
+      }
+
       var self, fields, tokens, token_count, nesting;
       self = this;
       search = self.prepareSearch(search, options);
@@ -399,7 +414,7 @@
        * Calculates how close of a match the
        * given value is against a search token.
        *
-       * @param {mixed} value
+       * @param {string} value
        * @param {object} token
        * @return {number}
        */
@@ -503,7 +518,7 @@
        *
        * @param  {string} name
        * @param  {object} result
-       * @return {mixed}
+       * @return {string}
        */
 
       get_field = function get_field(name, result) {
@@ -827,15 +842,6 @@
   };
 
   /**
-   * Determines if the provided value has been defined.
-   *
-   * @param {mixed} object
-   * @returns {boolean}
-   */
-  function isset(object) {
-    return typeof object !== 'undefined';
-  }
-  /**
    * Converts a scalar to its best string representation
    * for hash keys and HTML attribute values.
    *
@@ -851,7 +857,6 @@
    * @param {string} value
    * @returns {string|null}
    */
-
   function hash_key(value) {
     if (typeof value === 'undefined' || value === null) return null;
     if (typeof value === 'boolean') return value ? '1' : '0';
@@ -1079,8 +1084,8 @@
    * Return a dom element from either a dom query string, jQuery object, a dom element or html string
    * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
    *
-   * @param {mixed} query
-   * @return {Element}
+   * @param {any} query .. should be {HTMLElement|string|JQuery}
+   * @return {HTMLElement}
    */
   function getDom(query) {
     if (query.jquery) {
@@ -1095,7 +1100,7 @@
       var div = document.createElement('div');
       div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
 
-      return div.firstChild;
+      return div.querySelector(':first-child');
     }
 
     return document.querySelector(query);
@@ -1178,28 +1183,6 @@
     return arg;
   }
   /**
-   * Delegate Event
-   *
-   */
-
-  function onEvent(el, eventName, elementSelector, handler) {
-    var event_names = eventName.split(/\s/); // create intermediate handler that can be used for all event names
-    // loop parent nodes from the target to the delegation node
-
-    var _handler = function _handler(e) {
-      var target_match = parentMatch(e.target, elementSelector, el);
-
-      if (target_match) {
-        e.delegateTarget = target_match;
-        handler.call(target_match, e);
-      }
-    };
-
-    for (var i = 0; i < event_names.length; i++) {
-      el.addEventListener(event_names[i], _handler, true);
-    }
-  }
-  /**
    * Get the closest node to the evt.target matching the selector
    * Stops at wrapper
    *
@@ -1274,13 +1257,13 @@
     return i;
   }
 
-  var TomSelect = /*#__PURE__*/function (_MicroEvent) {
-    _inheritsLoose(TomSelect, _MicroEvent);
+  var TomSelect = /*#__PURE__*/function (_MicroPlugin) {
+    _inheritsLoose(TomSelect, _MicroPlugin);
 
     function TomSelect(input, settings) {
       var _this;
 
-      _this = _MicroEvent.call(this) || this;
+      _this = _MicroPlugin.call(this) || this;
 
       var dir,
           self = _assertThisInitialized(_this);
@@ -1292,48 +1275,56 @@
       }
 
       input.tomselect = self;
-      settings = getSettings(input, settings); // detect rtl environment
+      /**
+       * @param {HTMLInputElement} control_input
+       */
+
+      _this.control_input = null;
+      _this.wrapper = null;
+      _this.dropdown = null;
+      _this._destroy = null;
+      _this.control = null;
+      _this.sifter = null;
+      _this.dropdown_content = null; // detect rtl environment
 
       var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
       dir = computedStyle.getPropertyValue('direction'); // setup default state
 
-      Object.assign(self, {
-        order: 0,
-        settings: settings,
-        input: input,
-        tabIndex: input.getAttribute('tabindex') || '',
-        is_select_tag: input.tagName.toLowerCase() === 'select',
-        rtl: /rtl/i.test(dir),
-        highlightedValue: null,
-        isBlurring: false,
-        isOpen: false,
-        isDisabled: false,
-        isRequired: input.required,
-        isInvalid: false,
-        isLocked: false,
-        isFocused: false,
-        isInputHidden: false,
-        isSetup: false,
-        ignoreFocus: false,
-        ignoreBlur: false,
-        ignoreHover: false,
-        hasOptions: false,
-        currentResults: null,
-        lastValue: '',
-        caretPos: 0,
-        loading: 0,
-        loadedSearches: {},
-        activeOption: null,
-        activeItems: [],
-        optgroups: {},
-        options: {},
-        userOptions: {},
-        items: [],
-        renderCache: {
-          'item': {},
-          'option': {}
-        }
-      }); // debounce user defined load() if loadThrottle > 0
+      _this.order = 0;
+      _this.settings = getSettings(input, settings);
+      _this.input = input;
+      _this.tabIndex = input.getAttribute('tabindex') || '';
+      _this.is_select_tag = input.tagName.toLowerCase() === 'select';
+      _this.rtl = /rtl/i.test(dir);
+      _this.highlightedValue = null;
+      _this.isBlurring = false;
+      _this.isOpen = false;
+      _this.isDisabled = false;
+      _this.isRequired = input.required;
+      _this.isInvalid = false;
+      _this.isLocked = false;
+      _this.isFocused = false;
+      _this.isInputHidden = false;
+      _this.isSetup = false;
+      _this.ignoreFocus = false;
+      _this.ignoreBlur = false;
+      _this.ignoreHover = false;
+      _this.hasOptions = false;
+      _this.currentResults = null;
+      _this.lastValue = '';
+      _this.caretPos = 0;
+      _this.loading = 0;
+      _this.loadedSearches = {};
+      _this.activeOption = null;
+      _this.activeItems = [];
+      _this.optgroups = {};
+      _this.options = {};
+      _this.userOptions = {};
+      _this.items = [];
+      _this.renderCache = {
+        'item': {},
+        'option': {}
+      }; // debounce user defined load() if loadThrottle > 0
 
       if (self.settings.load && self.settings.loadThrottle) {
         self.settings.load = self.loadDebounce(self.settings.load, self.settings.loadThrottle);
@@ -1341,7 +1332,7 @@
 
 
       self.sifter = new Sifter(_this.options, {
-        diacritics: settings.diacritics
+        diacritics: self.settings.diacritics
       });
       self.setupOptions(self.settings.options, self.settings.optgroups);
       delete self.settings.optgroups;
@@ -1453,27 +1444,30 @@
         self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
       }
 
-      control_input.type = input.type;
       self.control = control;
       self.control_input = control_input;
       self.wrapper = wrapper;
       self.dropdown = dropdown;
       self.dropdown_content = dropdown_content;
-      onEvent(dropdown, 'mouseenter', '[data-selectable]', function () {
-        return self.onOptionHover.apply(self, arguments);
-      });
+      self.control_input.type = input.type;
+      dropdown.addEventListener('mouseenter', function (e) {
+        var target_match = parentMatch(e.target, '[data-selectable]', dropdown);
+
+        if (target_match) {
+          return self.onOptionHover.call(self, e, target_match);
+        }
+      }, true);
       control.addEventListener('mousedown', function (evt) {
         var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
 
         if (target_match) {
-          evt.delegateTarget = target_match;
-          return self.onItemSelect.call(self, evt);
+          return self.onItemSelect.call(self, evt, target_match);
         }
 
         return self.onMouseDown.call(self, evt);
       });
       control.addEventListener('click', function () {
-        return self.onClick.apply(self, arguments);
+        self.onClick.apply(self, arguments);
       });
       control_input.addEventListener('mousedown', function (e) {
         e.stopPropagation();
@@ -1503,8 +1497,10 @@
       // clicking on an option should selectit
 
       var doc_mousedown = function doc_mousedown(e) {
-        // outside of this instance
-        if (!self.wrapper.contains(e.target)) {
+        // if dropdownParent is set, options may not be within self.wrapper
+        var option = parentMatch(e.target, '[data-selectable]', self.dropdown); // outside of this instance
+
+        if (!option && !self.wrapper.contains(e.target)) {
           if (self.isFocused) {
             self.blur(e.target);
           }
@@ -1513,12 +1509,10 @@
         }
 
         e.preventDefault();
-        e.stopPropagation(); // option
-
-        var option = parentMatch(e.target, '[data-selectable]', self.wrapper);
+        e.stopPropagation();
 
         if (option) {
-          self.onOptionSelect(option, true);
+          self.onOptionSelect(e, option);
         }
       };
 
@@ -1686,7 +1680,6 @@
      * has a click event.
      *
      * @param {object} e
-     * @return {boolean}
      */
     ;
 
@@ -1722,7 +1715,7 @@
             // toggle dropdown
             self.isOpen ? self.close() : self.open();
           } else {
-            self.setActiveItem(null);
+            self.setActiveItem();
           }
 
           return false;
@@ -1863,7 +1856,7 @@
 
         case KEY_RETURN:
           if (self.isOpen && self.activeOption) {
-            self.onOptionSelect(self.activeOption);
+            self.onOptionSelect(e, self.activeOption);
             e.preventDefault();
           }
 
@@ -1882,7 +1875,7 @@
 
         case KEY_TAB:
           if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
-            self.onOptionSelect(self.activeOption); // prevent default [tab] behaviour of jump to the next field
+            self.onOptionSelect(e, self.activeOption); // prevent default [tab] behaviour of jump to the next field
             // if select isFull, then the dropdown won't be open and [tab] will work normally
 
             e.preventDefault();
@@ -1946,12 +1939,16 @@
     /**
      * Triggered on <input> focus.
      *
-     * @param {object} e (optional)
+     * @param {object} e
      * @returns {boolean}
      */
     ;
 
     _proto.onFocus = function onFocus(e) {
+      if (e === void 0) {
+        e = null;
+      }
+
       var self = this;
       var wasFocused = self.isFocused;
 
@@ -1968,7 +1965,7 @@
 
       if (!self.activeItems.length) {
         self.showInput();
-        self.setActiveItem(null);
+        self.setActiveItem();
         self.refreshOptions(!!self.settings.openOnFocus);
       }
 
@@ -1978,7 +1975,7 @@
      * Triggered on <input> blur.
      *
      * @param {object} e
-     * @param {Element} dest
+     * @param {HTMLElement} dest
      */
     ;
 
@@ -1997,8 +1994,8 @@
 
       var deactivate = function deactivate() {
         self.close();
-        self.setActiveItem(null);
-        self.setActiveOption(null);
+        self.setActiveItem();
+        self.setActiveOption();
         self.setCaret(self.items.length);
         self.refreshState(); // IE11 bug: element still marked as active
 
@@ -2019,46 +2016,47 @@
      * Triggered when the user rolls over
      * an option in the autocomplete dropdown menu.
      *
-     * @param {object} e
+     * @param {object} evt
+     * @param {HTMLElement} option
      * @returns {boolean}
      */
     ;
 
-    _proto.onOptionHover = function onOptionHover(e) {
+    _proto.onOptionHover = function onOptionHover(evt, option) {
       if (this.ignoreHover) return;
-      this.setActiveOption(e.delegateTarget, false);
+      this.setActiveOption(option, false);
     }
     /**
      * Triggered when the user clicks on an option
      * in the autocomplete dropdown menu.
      *
-     * @param {Element} target
-     * @param {boolean} is_mouse_event
+     * @param {object} evt
+     * @param {HTMLElement} option
      * @returns {boolean}
      */
     ;
 
-    _proto.onOptionSelect = function onOptionSelect(target, is_mouse_event) {
+    _proto.onOptionSelect = function onOptionSelect(evt, option) {
       var value,
           self = this;
 
-      if (!target) {
+      if (!option) {
         return;
       } // should not be possible to trigger a option under a disabled optgroup
 
 
-      if (target.parentNode && target.parentNode.matches('[data-disabled]')) {
+      if (option.parentElement && option.parentElement.matches('[data-disabled]')) {
         return;
       }
 
-      if (target.classList.contains('create')) {
-        self.createItem(null, function () {
+      if (option.classList.contains('create')) {
+        self.createItem(null, true, function () {
           if (self.settings.closeAfterSelect) {
             self.close();
           }
         });
       } else {
-        value = target.dataset.value;
+        value = option.dataset.value;
 
         if (typeof value !== 'undefined') {
           self.lastQuery = null;
@@ -2066,7 +2064,7 @@
 
           if (self.settings.closeAfterSelect) {
             self.close();
-          } else if (!self.settings.hideSelected && is_mouse_event) {
+          } else if (!self.settings.hideSelected && evt.type && /mouse/.test(evt.type)) {
             self.setActiveOption(self.getOption(value));
           }
         }
@@ -2076,18 +2074,19 @@
      * Triggered when the user clicks on an item
      * that has been selected.
      *
-     * @param {object} e
+     * @param {object} evt
+     * @param {HTMLElement} item
      * @returns {boolean}
      */
     ;
 
-    _proto.onItemSelect = function onItemSelect(e) {
+    _proto.onItemSelect = function onItemSelect(evt, item) {
       var self = this;
       if (self.isLocked) return;
 
       if (self.settings.mode === 'multi') {
-        e.preventDefault();
-        self.setActiveItem(e.delegateTarget, e);
+        evt.preventDefault();
+        self.setActiveItem(item, evt);
       }
     }
     /**
@@ -2162,7 +2161,7 @@
      * an array. If only one item can be selected, this
      * returns a string.
      *
-     * @returns {mixed}
+     * @returns {string|array}
      */
     ;
 
@@ -2176,11 +2175,16 @@
     /**
      * Resets the selected items to the given value.
      *
-     * @param {mixed} value
+     * @param {string|array} value
+     * @param {boolean} silent
      */
     ;
 
     _proto.setValue = function setValue(value, silent) {
+      if (silent === void 0) {
+        silent = false;
+      }
+
       var events = silent ? [] : ['change'];
       debounce_events(this, events, function () {
         this.clear(silent);
@@ -2190,14 +2194,21 @@
     /**
      * Sets the selected item.
      *
-     * @param {object} item
-     * @param {object} e (optional)
+     * @param {HTMLElement} item
+     * @param {object} e
      */
     ;
 
     _proto.setActiveItem = function setActiveItem(item, e) {
+      if (item === void 0) {
+        item = null;
+      }
+
+      if (e === void 0) {
+        e = null;
+      }
       var eventName;
-      var i, begin, end, item, swap;
+      var i, begin, end, swap;
       var last;
       if (this.settings.mode === 'single') return; // clear the active selection
 
@@ -2290,6 +2301,14 @@
     ;
 
     _proto.setActiveOption = function setActiveOption(option, scroll) {
+      if (option === void 0) {
+        option = null;
+      }
+
+      if (scroll === void 0) {
+        scroll = false;
+      }
+
       var height_menu, height_item, y;
 
       if (option === this.activeOption) {
@@ -2302,15 +2321,15 @@
       this.activeOption = option;
       addClasses(option, 'active');
 
-      if (scroll || !isset(scroll)) {
+      if (scroll) {
         height_menu = this.dropdown_content.clientHeight;
-        scroll = this.dropdown_content.scrollTop || 0;
+        var scrollTop = this.dropdown_content.scrollTop || 0;
         height_item = this.activeOption.offsetHeight;
-        y = this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scroll;
+        y = this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
 
-        if (y + height_item > height_menu + scroll) {
+        if (y + height_item > height_menu + scrollTop) {
           this.dropdown_content.scrollTop = y - height_menu + height_item;
-        } else if (y < scroll) {
+        } else if (y < scrollTop) {
           this.dropdown_content.scrollTop = y;
         }
       }
@@ -2388,11 +2407,15 @@
     /**
      * Forces the control out of focus.
      *
-     * @param {Element} dest
+     * @param {HTMLElement} dest
      */
     ;
 
     _proto.blur = function blur(dest) {
+      if (dest === void 0) {
+        dest = null;
+      }
+
       this.control_input.blur();
       this.onBlur(null, dest);
     }
@@ -2402,7 +2425,6 @@
      * provided query.
      *
      * @param {string} query
-     * @param {object} options
      * @return {function}
      */
     ;
@@ -2497,13 +2519,12 @@
     ;
 
     _proto.refreshOptions = function refreshOptions(triggerDropdown) {
-      var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
-      var active, active_before, create;
-
-      if (typeof triggerDropdown === 'undefined') {
+      if (triggerDropdown === void 0) {
         triggerDropdown = true;
       }
 
+      var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
+      var active, active_before, create;
       var self = this;
       var query = self.inputValue();
       var results = self.search(query);
@@ -2666,7 +2687,7 @@
           self.open();
         }
       } else {
-        self.setActiveOption(null);
+        self.setActiveOption();
 
         if (triggerDropdown && self.isOpen) {
           self.close();
@@ -2756,10 +2777,11 @@
     ;
 
     _proto.addOptionGroup = function addOptionGroup(id, data) {
+      var hashed_id;
       data[this.settings.optgroupValueField] = id;
 
-      if (id = this.registerOptionGroup(data)) {
-        this.trigger('optgroup_add', id, data);
+      if (hashed_id = this.registerOptionGroup(data)) {
+        this.trigger('optgroup_add', hashed_id, data);
       }
     }
     /**
@@ -2913,7 +2935,7 @@
      * Returns the dom element of the next or previous dom element of the same type
      *
      * @param {object} option
-     * @param {int} direction  can be 1 for next or -1 for previous
+     * @param {number} direction  can be 1 for next or -1 for previous
      * @param {string} type
      * @return {object|undefined}
      */
@@ -2955,7 +2977,7 @@
      * Finds the first element with a "data-value" attribute
      * that matches the given value.
      *
-     * @param {mixed} value
+     * @param {string} value
      * @param {object} els
      * @return {object}
      */
@@ -2988,12 +3010,16 @@
      * "Selects" multiple items at once. Adds them to the list
      * at the current caret position.
      *
-     * @param {string} value
+     * @param {string|array} values
      * @param {boolean} silent
      */
     ;
 
     _proto.addItems = function addItems(values, silent) {
+      if (silent === void 0) {
+        silent = false;
+      }
+
       this.buffer = document.createDocumentFragment();
       var children = this.control.children;
 
@@ -3003,9 +3029,9 @@
 
       var items = Array.isArray(values) ? values : [values];
 
-      for (var i = 0, n = items.length; i < n; i++) {
-        this.isPending = i < n - 1;
-        this.addItem(items[i], silent);
+      for (var _i = 0, n = items.length; _i < n; _i++) {
+        this.isPending = _i < n - 1;
+        this.addItem(items[_i], silent);
       }
 
       var control = this.control;
@@ -3022,6 +3048,10 @@
     ;
 
     _proto.addItem = function addItem(value, silent) {
+      if (silent === void 0) {
+        silent = false;
+      }
+
       var events = silent ? [] : ['change'];
       debounce_events(this, events, function () {
         var item;
@@ -3093,10 +3123,15 @@
      * the provided value.
      *
      * @param {string} value
+     * @param {boolean} silent
      */
     ;
 
     _proto.removeItem = function removeItem(value, silent) {
+      if (silent === void 0) {
+        silent = false;
+      }
+
       var i, idx;
       var item = this.getItem(value);
       if (!item) return;
@@ -3139,24 +3174,31 @@
      * Once this completes, it will be added
      * to the item list.
      *
-     * @param {string} value
-     * @param {boolean} [triggerDropdown]
-     * @param {function} [callback]
+     * @param {string} input
+     * @param {boolean} triggerDropdown
+     * @param {function} callback
      * @return {boolean}
      */
     ;
 
-    _proto.createItem = function createItem(input, triggerDropdown) {
+    _proto.createItem = function createItem(input, triggerDropdown, callback) {
+      if (input === void 0) {
+        input = null;
+      }
+
+      if (triggerDropdown === void 0) {
+        triggerDropdown = true;
+      }
+
+      if (callback === void 0) {
+        callback = null;
+      }
+
       var self = this;
       var caret = self.caretPos;
       var output;
       input = input || self.inputValue();
-      var callback = arguments[arguments.length - 1];
       if (typeof callback !== 'function') callback = function callback() {};
-
-      if (typeof triggerDropdown !== 'boolean') {
-        triggerDropdown = true;
-      }
 
       if (!self.canCreate(input)) {
         callback();
@@ -3207,7 +3249,7 @@
       this.lastQuery = null;
 
       if (this.isSetup) {
-        this.addItem(this.items);
+        this.addItems(this.items);
       }
 
       this.refreshState();
@@ -3353,7 +3395,7 @@
       applyCSS(self.dropdown, {
         display: 'none'
       });
-      self.setActiveOption(null);
+      self.setActiveOption();
       self.refreshState();
       if (trigger) self.trigger('dropdown_close', self.dropdown);
     }
@@ -3398,7 +3440,7 @@
       this.items = [];
       this.lastQuery = null;
       this.setCaret(0);
-      this.setActiveItem(null);
+      this.setActiveItem();
       this.updateOriginalInput({
         silent: silent
       });
@@ -3491,7 +3533,7 @@
      * > 0 - right
      * < 0 - left
      *
-     * @param {int} direction
+     * @param {number} direction
      * @param {object} e (optional)
      */
     ;
@@ -3524,7 +3566,7 @@
         if (last_active) {
           idx = nodeIndex(last_active);
           this.setCaret(direction > 0 ? idx + 1 : idx);
-          this.setActiveItem(null);
+          this.setActiveItem();
         }
       }
     }
@@ -3546,7 +3588,7 @@
     /**
      * Moves the caret to the specified index.
      *
-     * @param {int} i
+     * @param {number} i
      */
     ;
 
@@ -3676,13 +3718,16 @@
      *
      * @param {string} templateName
      * @param {object} data
-     * @returns {Element}
+     * @returns {HTMLElement}
      */
     ;
 
     _proto.render = function render(templateName, data) {
-      var value, id;
-      var html = '';
+      if (data === void 0) {
+        data = null;
+      }
+
+      var value, id, html;
       var self = this;
 
       if (templateName === 'option' || templateName === 'item') {
@@ -3734,9 +3779,13 @@
     ;
 
     _proto.clearCache = function clearCache(templateName) {
+      if (templateName === void 0) {
+        templateName = null;
+      }
+
       var self = this;
 
-      if (typeof templateName === 'undefined') {
+      if (templateName === null) {
         self.renderCache = {
           'item': {},
           'option': {}
@@ -3830,8 +3879,7 @@
     };
 
     return TomSelect;
-  }(MicroEvent);
-  MicroPlugin(TomSelect);
+  }(MicroPlugin(MicroEvent));
 
   /**
    * Plugin: "change_listener" (Tom Select)
@@ -3973,7 +4021,7 @@
       test_input.style.top = '-99999px';
       test_input.style.left = '-99999px';
       test_input.style.width = 'auto';
-      test_input.style.padding = 0;
+      test_input.style.padding = '0';
       test_input.style.whiteSpace = 'pre';
       self.wrapper.appendChild(test_input);
       var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
@@ -3985,7 +4033,6 @@
       /**
        * Set the control width
        *
-       * @param {string} str
        */
 
 

@@ -20,8 +20,8 @@
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
 	 * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 	 *
-	 * @param {mixed} query
-	 * @return {Element}
+	 * @param {any} query .. should be {HTMLElement|string|JQuery}
+	 * @return {HTMLElement}
 	 */
 	/**
 	 * Get the closest node to the evt.target matching the selector

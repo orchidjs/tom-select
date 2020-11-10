@@ -35,7 +35,7 @@
 	    test_input.style.top = '-99999px';
 	    test_input.style.left = '-99999px';
 	    test_input.style.width = 'auto';
-	    test_input.style.padding = 0;
+	    test_input.style.padding = '0';
 	    test_input.style.whiteSpace = 'pre';
 	    self.wrapper.appendChild(test_input);
 	    var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
@@ -47,7 +47,6 @@
 	    /**
 	     * Set the control width
 	     *
-	     * @param {string} str
 	     */
 
 
