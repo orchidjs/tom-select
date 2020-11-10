@@ -28,6 +28,8 @@ export function getDom( query ){
 /**
  * Dispatch an event
  *
+ * @param {HTMLElement} dom_el
+ * @param {string} event_name
  */
 export function triggerEvent( dom_el, event_name ){
 	var event = document.createEvent('HTMLEvents');
@@ -38,6 +40,8 @@ export function triggerEvent( dom_el, event_name ){
 /**
  * Apply CSS rules to a dom element
  *
+ * @param {HTMLElement} dom_el
+ * @param {object} css
  */
 export function applyCSS( dom_el, css){
 	Object.keys(css).forEach(function(name){
@@ -82,6 +86,7 @@ export function addClasses( elmts ){
 /**
  * Return arguments
  *
+ * @return {array}
  */
 export function classesArray(){
 	var classes = [];
@@ -98,6 +103,14 @@ export function classesArray(){
 	return classes.filter(Boolean);
 }
 
+
+/**
+ * Create an array from arg if it's not already an array
+ *
+ *
+ * @param {any} arg
+ * @return {array}
+ */
 export function castAsArray(arg){
 	if( !Array.isArray(arg) ){
  		arg = [arg];
@@ -110,8 +123,12 @@ export function castAsArray(arg){
  * Get the closest node to the evt.target matching the selector
  * Stops at wrapper
  *
+ * param {HTMLElement} target
+ * @param {string} selector
+ * @param {HTMLElement} [wrapper=null]
+ * return {HTMLElement}
  */
-export function parentMatch(target, selector, wrapper ){
+export function parentMatch( target, selector, wrapper ){
 
 	if( wrapper && !wrapper.contains(target) ){
 		return;
@@ -133,6 +150,10 @@ export function parentMatch(target, selector, wrapper ){
  * > 0 - right (last)
  * < 0 - left (first)
  *
+ * @param {HTMLElement} el
+ * @param {string} query
+ * @param {number} direction
+ * @return {HTMLElement}
  */
 export function querySelectorEnd( el, query, direction){
 	var result = el.querySelectorAll(query);
@@ -147,6 +168,9 @@ export function querySelectorEnd( el, query, direction){
 /**
  * Get the first or last item from an array
  *
+ * @param {array|NodeList} array
+ * @param {number} direction
+ * @return {any}
  */
 export function getTail( array, direction ){
 
@@ -160,6 +184,8 @@ export function getTail( array, direction ){
 /**
  * Return true if an object is empty
  *
+ * @param {object} obj
+ * @return {boolean}
  */
 export function isEmptyObject(obj){
 	return (Object.keys(obj).length === 0);
@@ -169,6 +195,9 @@ export function isEmptyObject(obj){
 /**
  * Get the index of an element amongst sibling nodes of the same type
  *
+ * @param {Element} el
+ * @param {string} [amongst=null]
+ * @return {number}
  */
 export function nodeIndex( el, amongst ){
 	if (!el) return -1;
