@@ -16,6 +16,20 @@ const banner = `/**
 */
 `;
 
+var terser_config = terser({
+  mangle: true,
+  format: {
+    comments: function (node, comment) {
+      var text = comment.value;
+      var type = comment.type;
+      if (type == "comment2") {
+        // multiline comment
+        return /\* Tom Select/i.test(text);
+      }
+    },
+  },
+});
+
 
 function createConfig( input, output, plugins ){
 
@@ -94,16 +108,16 @@ files.map(function(file){
 var custom_file = path.resolve(__dirname,'../src/tom-select.custom.js');
 if( fs.existsSync(custom_file) ){
 	configCore(custom_file,'tom-select.custom.js');
-	configCore(custom_file,'tom-select.custom.min.js',[terser({mangle:true})]);
+	configCore(custom_file,'tom-select.custom.min.js',[terser_config]);
 }
 
 // tom-select.base
 configCore('src/tom-select.js','tom-select.base.js')
-configCore('src/tom-select.js','tom-select.base.min.js',[terser({mangle:true})]);
+configCore('src/tom-select.js','tom-select.base.min.js',[terser_config]);
 
 // tom-select.complete
 configCore('src/tom-select.complete.js','tom-select.complete.js');
-configCore('src/tom-select.complete.js','tom-select.complete.min.js',[terser({mangle:true})]);
+configCore('src/tom-select.complete.js','tom-select.complete.min.js',[terser_config]);
 
 
 
