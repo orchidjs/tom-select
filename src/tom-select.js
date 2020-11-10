@@ -145,6 +145,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var classes_plugins;
 		var inputId;
 		var input			= self.input;
+		const passive_event = { passive: true };
 
 		inputMode			= self.settings.mode;
 		classes				= input.getAttribute('class') || '';
@@ -255,7 +256,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		control_input.addEventListener('keydown', function() { return self.onKeyDown.apply(self, arguments); });
 		control_input.addEventListener('keyup', function() { return self.onKeyUp.apply(self, arguments); });
 		control_input.addEventListener('keypress', function() { return self.onKeyPress.apply(self, arguments); });
-		control_input.addEventListener('resize', function() { self.positionDropdown.apply(self, []); });
+		control_input.addEventListener('resize', function() { self.positionDropdown.apply(self, []); }, passive_event);
 		control_input.addEventListener('blur', function() { return self.onBlur.apply(self, arguments); });
 		control_input.addEventListener('focus', function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); });
 		control_input.addEventListener('paste', function() { return self.onPaste.apply(self, arguments); });
@@ -294,10 +295,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.ignoreHover = false;
 		};
 
+
 		document.addEventListener('mousedown',doc_mousedown);
-		window.addEventListener('sroll',win_scroll);
-		window.addEventListener('resize',win_scroll);
-		window.addEventListener('mousemove',win_hover);
+		window.addEventListener('sroll', win_scroll, passive_event);
+		window.addEventListener('resize', win_scroll, passive_event);
+		window.addEventListener('mousemove', win_hover, passive_event);
+
 		self._destroy = function(){
 			document.removeEventListener('mousedown',doc_mousedown);
 			window.removeEventListener('mousemove',win_hover);
@@ -1005,6 +1008,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Set the active and last-active classes
 	 *
+	 * @param {HTMLElement} item
 	 */
 	setActiveItemClass( item ){
 
@@ -1020,6 +1024,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Remove active item
 	 *
+	 * @param {HTMLElement} item
 	 */
 	removeActiveItem( item ){
 		var idx = this.activeItems.indexOf(item);
@@ -1032,7 +1037,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Sets the selected item in the dropdown menu
 	 * of available options.
 	 *
-	 * @param {object} option
+	 * @param {HTMLElement} option
 	 * @param {boolean} scroll
 	 */
 	setActiveOption( option=null, scroll=false ){
@@ -1407,6 +1412,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Return list of selectable options
 	 *
+	 * @return {NodeList}
 	 */
 	selectable(){
 		return this.dropdown_content.querySelectorAll('[data-selectable]');
@@ -2465,6 +2471,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
 	 * The current evt may not always set ( eg calling advanceSelection() )
 	 *
+	 * @param {number} key_code
+	 * @param {KeyboardEvent|MouseEvent} evt
 	 */
 	isKeyDown( key_code, evt ){
 
