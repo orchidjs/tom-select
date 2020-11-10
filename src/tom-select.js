@@ -235,7 +235,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			var target_match = parentMatch(e.target, '[data-selectable]', dropdown);
 			if( target_match ){
-				return self.onOptionHover.call(self, target_match );
+				return self.onOptionHover.call(self, e, target_match );
 			}
 		}, true);
 
@@ -243,7 +243,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			var target_match = parentMatch( evt.target, '.'+self.settings.itemClass, control);
 			if( target_match ){
-				return self.onItemSelect.call(self, target_match, evt);
+				return self.onItemSelect.call(self, evt, target_match);
 			}
 			return self.onMouseDown.call(self, evt);
 		});
@@ -265,8 +265,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// clicking on an option should selectit
 		var doc_mousedown = function(e){
 
+			// if dropdownParent is set, options may not be within self.wrapper
+			var option = parentMatch(e.target, '[data-selectable]',self.dropdown);
+
 			// outside of this instance
-			if( !self.wrapper.contains(e.target) ){
+			if( !option && !self.wrapper.contains(e.target) ){
 				if (self.isFocused) {
 					self.blur(e.target);
 				}
@@ -276,10 +279,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			e.preventDefault();
 			e.stopPropagation();
 
-			// option
-			var option = parentMatch(e.target, '[data-selectable]', self.wrapper);
 			if( option ){
-				self.onOptionSelect(option,true);
+				self.onOptionSelect( e, option );
 			}
 		};
 
@@ -619,7 +620,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// doc_src select active option
 			case constants.KEY_RETURN:
 				if (self.isOpen && self.activeOption) {
-					self.onOptionSelect(self.activeOption);
+					self.onOptionSelect(e,self.activeOption);
 					e.preventDefault();
 				}
 				return;
@@ -637,7 +638,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// tab: select active option and/or create item
 			case constants.KEY_TAB:
 				if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
-					self.onOptionSelect(self.activeOption);
+					self.onOptionSelect(e,self.activeOption);
 
 					// prevent default [tab] behaviour of jump to the next field
 					// if select isFull, then the dropdown won't be open and [tab] will work normally
@@ -773,10 +774,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered when the user rolls over
 	 * an option in the autocomplete dropdown menu.
 	 *
+	 * @param {object} evt
 	 * @param {HTMLElement} option
 	 * @returns {boolean}
 	 */
-	onOptionHover( option ){
+	onOptionHover( evt, option ){
 		if (this.ignoreHover) return;
 		this.setActiveOption(option, false);
 	}
@@ -785,37 +787,37 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered when the user clicks on an option
 	 * in the autocomplete dropdown menu.
 	 *
-	 * @param {HTMLElement} target
-	 * @param {boolean} is_mouse_event
+	 * @param {object} evt
+	 * @param {HTMLElement} option
 	 * @returns {boolean}
 	 */
-	onOptionSelect( target, is_mouse_event=false ){
+	onOptionSelect( evt, option ){
 		var value, self = this;
 
-		if( !target ){
+		if( !option ){
 			return;
 		}
 
 		// should not be possible to trigger a option under a disabled optgroup
-		if( target.parentElement && target.parentElement.matches('[data-disabled]') ){
+		if( option.parentElement && option.parentElement.matches('[data-disabled]') ){
 			return;
 		}
 
 
-		if( target.classList.contains('create') ){
+		if( option.classList.contains('create') ){
 			self.createItem(null, true, function() {
 				if (self.settings.closeAfterSelect) {
 					self.close();
 				}
 			});
 		} else {
-			value = target.dataset.value;
+			value = option.dataset.value;
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
-				} else if (!self.settings.hideSelected && is_mouse_event ) {
+				} else if (!self.settings.hideSelected && evt.type && /mouse/.test(evt.type)) {
 					self.setActiveOption(self.getOption(value));
 				}
 
@@ -827,17 +829,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered when the user clicks on an item
 	 * that has been selected.
 	 *
+	 * @param {object} evt
 	 * @param {HTMLElement} item
-	 * @param {object} e
 	 * @returns {boolean}
 	 */
-	onItemSelect( item, e ){
+	onItemSelect( evt, item ){
 		var self = this;
 
 		if (self.isLocked) return;
 		if (self.settings.mode === 'multi') {
-			e.preventDefault();
-			self.setActiveItem(item, e);
+			evt.preventDefault();
+			self.setActiveItem(item, evt);
 		}
 	}
 
