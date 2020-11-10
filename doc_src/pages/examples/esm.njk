@@ -24,7 +24,7 @@ Note: modules are not supported by Internet Explorer and other older browsers.
 {% set html %}
 <script type="module">
   import TomSelect from '/esm/tom-select.js';
-  import plugin from '/esm/plugins/remove_button/plugin.js';
+  import '/esm/plugins/remove_button/plugin.js';
 
   new TomSelect("#select-tags",{
   	plugins: ['remove_button'],
