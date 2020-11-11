@@ -13,7 +13,7 @@
  *
  */
 import TomSelect from '../../tom-select.js';
-import { getDom } from '../../vanilla.js';
+import { getDom } from '../../vanilla';
 import { escape_html } from '../../utils.js';
 
 TomSelect.define('remove_button',function(options) {

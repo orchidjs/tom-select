@@ -12,13 +12,11 @@ import {
 	applyCSS,
 	addClasses,
 	removeClasses,
-	castAsArray,
 	parentMatch,
-	querySelectorEnd,
 	getTail,
 	isEmptyObject,
 	nodeIndex
-} from './vanilla.js';
+} from './vanilla';
 
 export default class TomSelect extends MicroPlugin(MicroEvent){
 
@@ -703,10 +701,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Triggered on <input> focus.
 	 *
-	 * @param {object} e
+	 * @param {object} [e]
 	 * @returns {boolean}
 	 */
-	onFocus( e = null ){
+	onFocus(e) {
 		var self = this;
 		var wasFocused = self.isFocused;
 
@@ -735,7 +733,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered on <input> blur.
 	 *
 	 * @param {object} e
-	 * @param {HTMLElement} dest
+	 * @param {HTMLElement} [dest]
 	 */
 	onBlur(e, dest) {
 		var self = this;
@@ -931,9 +929,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Resets the selected items to the given value.
 	 *
 	 * @param {string|array} value
-	 * @param {boolean} silent
+	 * @param {boolean} [silent]
 	 */
-	setValue( value, silent=false ){
+	setValue( value, silent ){
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
@@ -945,10 +943,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Sets the selected item.
 	 *
-	 * @param {HTMLElement} item
-	 * @param {object} e
+	 * @param {HTMLElement} [item]
+	 * @param {object} [e]
 	 */
-	setActiveItem( item=null, e=null ){
+	setActiveItem( item, e ){
 		var self = this;
 		var eventName;
 		var i, begin, end, swap;
@@ -1037,10 +1035,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Sets the selected item in the dropdown menu
 	 * of available options.
 	 *
-	 * @param {HTMLElement} option
-	 * @param {boolean} scroll
+	 * @param {HTMLElement} [option]
+	 * @param {boolean} [scroll]
 	 */
-	setActiveOption( option=null, scroll=false ){
+	setActiveOption( option, scroll ){
 		var height_menu, height_item, y;
 
 		if( option === this.activeOption ){
@@ -1141,9 +1139,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Forces the control out of focus.
 	 *
-	 * @param {HTMLElement} dest
+	 * @param {HTMLElement} [dest]
 	 */
-	blur(dest = null) {
+	blur(dest) {
 		this.control_input.blur();
 
 		this.onBlur(null, dest);
@@ -1238,7 +1236,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 * @param {boolean} triggerDropdown
 	 */
-	refreshOptions( triggerDropdown = true ){
+	refreshOptions( triggerDropdown = true ){ //
 		var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
 		var active, active_before, create;
 
@@ -1587,7 +1585,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Removes a single option.
 	 *
 	 * @param {string} value
-	 * @param {boolean} silent
+	 * @param {boolean} [silent]
 	 */
 	removeOption(value, silent) {
 		var self = this;
@@ -1716,9 +1714,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * at the current caret position.
 	 *
 	 * @param {string|array} values
-	 * @param {boolean} silent
+	 * @param {boolean} [silent]
 	 */
-	addItems( values, silent = false ){
+	addItems( values, silent ){
 		this.buffer = document.createDocumentFragment();
 
 		var children = this.control.children;
@@ -1743,9 +1741,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * at the current caret position.
 	 *
 	 * @param {string} value
-	 * @param {boolean} silent
+	 * @param {boolean} [silent]
 	 */
-	addItem( value, silent = false ){
+	addItem( value, silent ){
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
@@ -1817,9 +1815,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * the provided value.
 	 *
 	 * @param {string} value
-	 * @param {boolean} silent
+	 * @param {boolean} [silent]
 	 */
-	removeItem( value, silent = false ){
+	removeItem( value, silent ){
 		var i, idx;
 
 		var item	= this.getItem(value);
@@ -1862,12 +1860,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Once this completes, it will be added
 	 * to the item list.
 	 *
-	 * @param {string} input
-	 * @param {boolean} triggerDropdown
-	 * @param {function} callback
+	 * @param {string} [input]
+	 * @param {boolean} [triggerDropdown]
+	 * @param {function} [callback]
 	 * @return {boolean}
 	 */
-	createItem( input=null, triggerDropdown=true, callback=null ){
+	createItem( input, triggerDropdown=true, callback ){ //
 		var self  = this;
 		var caret = self.caretPos;
 		var output;
@@ -1996,6 +1994,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Refreshes the original <select> or <input>
 	 * element to reflect the current state.
+	 *
+	 * @param {object} [opts]
 	 */
 	updateOriginalInput(opts) {
 		var i, n, options, label, self = this;
@@ -2244,6 +2244,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Get the last active item
 	 *
+	 * @param {number} [direction]
 	 */
 	getLastActive(direction){
 
@@ -2252,7 +2253,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			return last_active;
 		}
 
-		return querySelectorEnd(this.control,'.active',direction);
+
+		var result = this.control.querySelectorAll('.active');
+		if( result ){
+			return getTail(result,direction);
+		}
 	}
 
 
@@ -2379,10 +2384,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * "option" templates, given the data.
 	 *
 	 * @param {string} templateName
-	 * @param {object} data
+	 * @param {object} [data]
 	 * @returns {HTMLElement}
 	 */
-	render( templateName, data = null ){
+	render( templateName, data ){
 		var value, id, label, html;
 		var self = this;
 		var regex_tag = /^[\t \r\n]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
@@ -2438,11 +2443,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * no template is given, clears all render
 	 * caches.
 	 *
-	 * @param {string} templateName
+	 * @param {string} [templateName]
 	 */
-	clearCache( templateName = null ){
+	clearCache( templateName ){
 		var self = this;
-		if( templateName === null ){
+
+		if (templateName === void 0) {
 			self.renderCache = {'item':{},'option':{}};
 		} else {
 			self.renderCache[templateName] = {};

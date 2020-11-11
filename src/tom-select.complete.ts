@@ -1,4 +1,4 @@
-import TomSelect from './tom-select.js';
+import TomSelect from './tom-select';
 import './plugins/change_listener/plugin.js';
 import './plugins/drag_drop/plugin.js';
 import './plugins/dropdown_header/plugin.js';

@@ -15,7 +15,7 @@
 
 import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
-import { parentMatch, nodeIndex } from '../../vanilla.js';
+import { parentMatch, nodeIndex } from '../../vanilla';
 
 TomSelect.define('optgroup_columns', function(options) {
 	var self = this;

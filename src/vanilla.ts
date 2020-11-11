@@ -3,10 +3,9 @@
  * Return a dom element from either a dom query string, jQuery object, a dom element or html string
  * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
  *
- * @param {any} query .. should be {HTMLElement|string|JQuery}
- * @return {HTMLElement}
+ * param query should be {}
  */
-export function getDom( query ){
+export function getDom( query:any ):HTMLElement{
 
 	if( query.jquery ){
 		return query[0];
@@ -28,10 +27,8 @@ export function getDom( query ){
 /**
  * Dispatch an event
  *
- * @param {HTMLElement} dom_el
- * @param {string} event_name
  */
-export function triggerEvent( dom_el, event_name ){
+export function triggerEvent( dom_el:HTMLElement, event_name:string ):void{
 	var event = document.createEvent('HTMLEvents');
 	event.initEvent(event_name, true, false);
 	dom_el.dispatchEvent(event)
@@ -40,10 +37,8 @@ export function triggerEvent( dom_el, event_name ){
 /**
  * Apply CSS rules to a dom element
  *
- * @param {HTMLElement} dom_el
- * @param {object} css
  */
-export function applyCSS( dom_el, css){
+export function applyCSS( dom_el:HTMLElement, css:object):void{
 	Object.keys(css).forEach(function(name){
 		dom_el.style[name] = css[name];
 	});
@@ -54,10 +49,10 @@ export function applyCSS( dom_el, css){
  * Add css classes
  *
  */
-export function addClasses( elmts ){
+export function addClasses( elmts, ...classes ){
 
-	var classes		= classesArray.apply(null,arguments);
-	elmts			= castAsArray(elmts);
+	classes		= classesArray(classes);
+	elmts		= castAsArray(elmts);
 
 	elmts.map( el => {
 		classes.map( cls => {
@@ -70,10 +65,10 @@ export function addClasses( elmts ){
  * Remove css classes
  *
  */
- export function removeClasses( elmts ){
+ export function removeClasses( elmts, ...classes ){
 
- 	var classes 	= classesArray.apply(null,arguments);
-	elmts		= castAsArray(elmts);
+ 	classes 		= classesArray(classes);
+	elmts			= castAsArray(elmts);
 
 	elmts.map( el => {
 		classes.map(cls => {
@@ -86,12 +81,11 @@ export function addClasses( elmts ){
 /**
  * Return arguments
  *
- * @return {array}
  */
-export function classesArray(){
+export function classesArray(args):string[]{
 	var classes = [];
-	for( let i = 1; i < arguments.length; i++ ){
-		let _classes = arguments[i];
+	for( let i = 0; i < args.length; i++ ){
+		let _classes = args[i];
 		if( typeof _classes === 'string' ){
 			_classes = _classes.trim().split(/[\11\12\14\15\40]/);
 		}
@@ -107,11 +101,8 @@ export function classesArray(){
 /**
  * Create an array from arg if it's not already an array
  *
- *
- * @param {any} arg
- * @return {array}
  */
-export function castAsArray(arg){
+export function castAsArray(arg:any):Array<any>{
 	if( !Array.isArray(arg) ){
  		arg = [arg];
  	}
@@ -124,11 +115,9 @@ export function castAsArray(arg){
  * Stops at wrapper
  *
  * param {HTMLElement} target
- * @param {string} selector
- * @param {HTMLElement} [wrapper=null]
  * return {HTMLElement}
  */
-export function parentMatch( target, selector, wrapper ){
+export function parentMatch( target, selector:string, wrapper?:HTMLElement ){
 
 	if( wrapper && !wrapper.contains(target) ){
 		return;
@@ -140,54 +129,32 @@ export function parentMatch( target, selector, wrapper ){
 			return target;
 		}
 
-		target = target.parentNode;
+		target = target.parentNode as HTMLElement;
 	}
 }
-
-/**
- * Get the first or last item from a querySelectorAll result
- *
- * > 0 - right (last)
- * < 0 - left (first)
- *
- * @param {HTMLElement} el
- * @param {string} query
- * @param {number} direction
- * @return {HTMLElement}
- */
-export function querySelectorEnd( el, query, direction){
-	var result = el.querySelectorAll(query);
-	if( !result ){
-		return;
-	}
-
-	return getTail(result,direction);
-};
 
 
 /**
  * Get the first or last item from an array
  *
- * @param {array|NodeList} array
- * @param {number} direction
- * @return {any}
+ * > 0 - right (last)
+ * < 0 - left (first)
+ *
  */
-export function getTail( array, direction ){
+export function getTail( list:Array<any>|NodeList, direction:number ):any{
 
 	if( direction > 0 ){
-		return array[array.length-1];
+		return list[list.length-1];
 	}
 
-	return array[0];
+	return list[0];
 }
 
 /**
  * Return true if an object is empty
  *
- * @param {object} obj
- * @return {boolean}
  */
-export function isEmptyObject(obj){
+export function isEmptyObject(obj:object):boolean{
 	return (Object.keys(obj).length === 0);
 }
 
@@ -195,11 +162,8 @@ export function isEmptyObject(obj){
 /**
  * Get the index of an element amongst sibling nodes of the same type
  *
- * @param {Element} el
- * @param {string} [amongst=null]
- * @return {number}
  */
-export function nodeIndex( el, amongst ){
+export function nodeIndex( el:Element, amongst?:string ):number{
 	if (!el) return -1;
 
 	amongst = amongst || el.nodeName;

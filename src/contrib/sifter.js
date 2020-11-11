@@ -187,10 +187,10 @@ export default class Sifter{
 	 * If an item is not a match, 0 will be returned by the function.
 	 *
 	 * @param {object|string} search
-	 * @param {object} options
+	 * @param {object} [options]
 	 * @returns {function}
 	 */
-	getScoreFunction(search, options=null ){
+	getScoreFunction(search, options ){
 		var self, fields, tokens, token_count, nesting;
 
 		self        = this;

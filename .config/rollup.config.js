@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs'; // so Rollup can convert commonj
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import bundleSize from '@atomico/rollup-plugin-sizes';
+import typescript from '@rollup/plugin-typescript';
 import visualizer from 'rollup-plugin-visualizer';
 import pkg from '../package.json';
 import path from 'path';
@@ -15,6 +16,23 @@ const banner = `/**
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 `;
+
+
+// esm
+configs.push({
+	input: path.resolve(__dirname,'../src/tom-select.complete.ts'),
+	output:{
+		dir: path.resolve(__dirname,'../build/esm'),
+		format: 'esm',
+		preserveModules: true,
+		sourcemap: true,
+		banner: banner,
+	},plugins:[
+		typescript()
+	]
+});
+
+
 
 var terser_config = terser({
   mangle: true,
@@ -62,6 +80,7 @@ function createConfig( input, output, plugins ){
 				sourcemap: true,
 				filename: `stats/${config.output.file}.html`,
         	}),
+			typescript(),
 		];
 
 	config.plugins	= config.plugins.concat(plugins);
@@ -116,8 +135,8 @@ configCore('src/tom-select.js','tom-select.base.js')
 configCore('src/tom-select.js','tom-select.base.min.js',[terser_config]);
 
 // tom-select.complete
-configCore('src/tom-select.complete.js','tom-select.complete.js');
-configCore('src/tom-select.complete.js','tom-select.complete.min.js',[terser_config]);
+configCore('src/tom-select.complete.ts','tom-select.complete.js');
+configCore('src/tom-select.complete.ts','tom-select.complete.min.js',[terser_config]);
 
 
 
