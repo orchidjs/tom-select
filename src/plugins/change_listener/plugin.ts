@@ -15,6 +15,7 @@
 
 import TomSelect from '../../tom-select.js';
 import getSettings from '../../settings.js';
+import { TomSettings } from '../../types/settings';
 
 TomSelect.define('change_listener',function(options){
 	var self		= this;
@@ -29,7 +30,7 @@ TomSelect.define('change_listener',function(options){
 		}
 
 		changed			= true;
-		var settings	= getSettings( self.input, {} );
+		var settings	= getSettings( self.input, {} as TomSettings );
 
 		self.setupOptions(settings.options,settings.optgroups);
 		self.setValue(settings.items);

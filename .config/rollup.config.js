@@ -117,7 +117,7 @@ function pluginConfig( input, output ){
 var plugin_dir = path.resolve(__dirname,'../src/plugins');
 var files = fs.readdirSync( plugin_dir );
 files.map(function(file){
-	let input	= path.resolve(__dirname,'../src/plugins',file,'plugin.js');
+	let input	= path.resolve(__dirname,'../src/plugins',file,'plugin.ts');
 	let output	= {file:`build/js/plugins/${file}.js`,'name':file};
 	pluginConfig( input, output);
 });

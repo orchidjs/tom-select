@@ -1,7 +1,8 @@
 import defaults from './defaults.js';
 import { hash_key } from './utils';
+import { TomSettings } from './types/settings';
 
-export default function getSettings( input, settings_user){
+export default function getSettings( input:HTMLInputElement, settings_user:TomSettings):TomSettings{
 	var settings				= Object.assign({}, defaults, settings_user);
 
 	var attr_data				= settings.dataAttr;
@@ -24,10 +25,11 @@ export default function getSettings( input, settings_user){
 	}
 
 	var settings_element		= {
-										'placeholder' : placeholder,
-										'options'     : [],
-										'optgroups'   : [],
-										'items'       : []
+										placeholder	: placeholder,
+										options		: [],
+										optgroups	: [],
+										items		: [],
+										maxItems	: null,
 									};
 
 
@@ -52,7 +54,7 @@ export default function getSettings( input, settings_user){
 			return data;
 		};
 
-		var addOption = function(option, group) {
+		var addOption = function(option, group?:string) {
 
 			var value = hash_key(option.value);
 			if (!value && !settings.allowEmptyOption) return;
@@ -157,5 +159,5 @@ export default function getSettings( input, settings_user){
 		init_textbox();
 	}
 
-	return Object.assign( {}, defaults, settings_element, settings_user);
+	return Object.assign( {}, defaults, settings_element, settings_user) as TomSettings;
 };

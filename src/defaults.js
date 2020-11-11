@@ -8,7 +8,7 @@ export default {
 	splitOn: null, // regexp or string for splitting up values from a paste command
 	persist: true,
 	diacritics: true,
-	create: false,
+	create: null,
 	createOnBlur: false,
 	createFilter: null,
 	highlight: true,
@@ -19,7 +19,7 @@ export default {
 	duplicates: false,
 	addPrecedence: false,
 	selectOnTab: false,
-	preload: false,
+	preload: null,
 	allowEmptyOption: false,
 	closeAfterSelect: false,
 
