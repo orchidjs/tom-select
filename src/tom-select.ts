@@ -2,6 +2,8 @@
 import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from './contrib/sifter.js';
+import { TomSettings } from './types/settings';
+import { TomInput, TomArgObject, TomOption } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './settings.js';
@@ -20,6 +22,53 @@ import {
 
 export default class TomSelect extends MicroPlugin(MicroEvent){
 
+	public control_input			: HTMLInputElement;
+	public wrapper					: HTMLElement;
+	public dropdown					: HTMLElement;
+	public control					: HTMLElement;
+	public dropdown_content			: HTMLElement;
+
+	public order					: number;
+	public settings					: TomSettings;
+	public input					: TomInput;
+	public tabIndex					: number;
+	public is_select_tag			: boolean;
+	public rtl						: boolean;
+
+	private _destroy				: () => void;
+	public sifter					: Sifter;
+
+
+	public isBlurring				: boolean;
+	public isOpen					: boolean;
+	public isDisabled				: boolean;
+	public isRequired				: boolean;
+	public isInvalid				: boolean;
+	public isLocked					: boolean;
+	public isFocused				: boolean;
+	public isInputHidden			: boolean;
+	public isSetup					: boolean;
+	public ignoreFocus				: boolean;
+	public ignoreBlur				: boolean;
+	public ignoreHover				: boolean;
+	public hasOptions				: boolean;
+	public currentResults			: object;
+	public lastValue				: string;
+	public caretPos					: number;
+	public loading					: number;
+	public loadedSearches			: object;
+
+	public activeOption				: HTMLElement;
+	public activeItems				: HTMLElement[];
+
+	public optgroups				: object;
+	public options					: object;
+	public userOptions				: object;
+	public items					: string[];
+	public renderCache				: {'item':object,'option':object};
+
+
+
 	constructor( input, settings ){
 		super();
 
@@ -34,16 +83,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		input.tomselect			= self;
 
-		/**
-		 * @param {HTMLInputElement} control_input
-		 */
-		this.control_input		= null;
-		this.wrapper			= null;
-		this.dropdown			= null;
-		this._destroy			= null;
-		this.control			= null;
-		this.sifter				= null;
-		this.dropdown_content	= null;
 
 		// detect rtl environment
 		var computedStyle		= window.getComputedStyle && window.getComputedStyle(input, null);
@@ -53,11 +92,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.order				= 0;
 		this.settings			= getSettings( input, settings );
 		this.input				= input;
-		this.tabIndex			= input.getAttribute('tabindex') || '';
+		this.tabIndex			= input.getAttribute('tabindex') || null;
 		this.is_select_tag		= input.tagName.toLowerCase() === 'select';
 		this.rtl				= /rtl/i.test(dir);
 
-		this.highlightedValue	= null;
 		this.isBlurring			= false;
 		this.isOpen				= false;
 		this.isDisabled			= false;
@@ -251,13 +289,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		control_input.addEventListener('mousedown', function(e) { e.stopPropagation(); });
-		control_input.addEventListener('keydown', function() { return self.onKeyDown.apply(self, arguments); });
-		control_input.addEventListener('keyup', function() { return self.onKeyUp.apply(self, arguments); });
-		control_input.addEventListener('keypress', function() { return self.onKeyPress.apply(self, arguments); });
+		control_input.addEventListener('keydown', function() { self.onKeyDown.apply(self, arguments); });
+		control_input.addEventListener('keyup', function() { self.onKeyUp.apply(self, arguments); });
+		control_input.addEventListener('keypress', function() { self.onKeyPress.apply(self, arguments); });
 		control_input.addEventListener('resize', function() { self.positionDropdown.apply(self, []); }, passive_event);
-		control_input.addEventListener('blur', function() { return self.onBlur.apply(self, arguments); });
-		control_input.addEventListener('focus', function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); });
-		control_input.addEventListener('paste', function() { return self.onPaste.apply(self, arguments); });
+		control_input.addEventListener('blur', function() { self.onBlur.apply(self, arguments); });
+		control_input.addEventListener('focus', function() { self.ignoreBlur = false; self.onFocus.apply(self, arguments); });
+		control_input.addEventListener('paste', function() { self.onPaste.apply(self, arguments); });
 
 
 		// clicking anywhere in the control should not close the dropdown
@@ -319,7 +357,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		};
 
 
-		input.setAttribute('tabindex',-1)
+		input.tabIndex = -1;
 		input.setAttribute('hidden','hidden');
 		input.insertAdjacentElement('afterend', self.wrapper);
 
@@ -458,9 +496,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered when the main control element
 	 * has a click event.
 	 *
-	 * @param {object} e
 	 */
-	onClick(e) {
+	onClick(e:MouseEvent|KeyboardEvent) {
 		var self = this;
 
 		// necessary for mobile webkit devices (manual focus triggering
@@ -477,10 +514,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered when the main control element
 	 * has a mouse down event.
 	 *
-	 * @param {object} e
-	 * @return {boolean}
 	 */
-	onMouseDown(e) {
+	onMouseDown(e:MouseEvent|KeyboardEvent):boolean {
 		var self = this;
 
 
@@ -517,10 +552,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Triggered on <input> paste.
 	 *
-	 * @param {object} e
-	 * @returns {boolean}
 	 */
-	onPaste(e) {
+	onPaste(e:MouseEvent|KeyboardEvent):void {
 		var self = this;
 
 		if (self.isFull() || self.isInputHidden || self.isLocked) {
@@ -548,26 +581,26 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Triggered on <input> keypress.
 	 *
-	 * @param {object} e
-	 * @returns {boolean}
 	 */
-	onKeyPress(e) {
-		if (this.isLocked) return e && e.preventDefault();
+	onKeyPress(e:KeyboardEvent):void {
+		console.log('onkeypress',this.isLocked);
+		if(this.isLocked){
+			e && e.preventDefault()
+			return;
+		}
 		var character = String.fromCharCode(e.keyCode || e.which);
 		if (this.settings.create && this.settings.mode === 'multi' && character === this.settings.delimiter) {
 			this.createItem();
 			e.preventDefault();
-			return false;
+			return;
 		}
 	}
 
 	/**
 	 * Triggered on <input> keydown.
 	 *
-	 * @param {object} e
-	 * @returns {boolean}
 	 */
-	onKeyDown(e) {
+	onKeyDown(e:KeyboardEvent):void {
 		var self = this;
 		var isInput = e.target === self.control_input;
 		self.ignoreHover = true;
@@ -666,13 +699,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Triggered on <input> keyup.
 	 *
-	 * @param {object} e
-	 * @returns {boolean}
 	 */
-	onKeyUp(e) {
+	onKeyUp(e:MouseEvent|KeyboardEvent):void {
 		var self = this;
 
-		if (self.isLocked) return e && e.preventDefault();
+		if (self.isLocked){
+			e && e.preventDefault();
+			return;
+		}
+
 		var value = self.inputValue();
 		if (self.lastValue !== value) {
 			self.lastValue = value;
@@ -685,9 +720,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Invokes the user-provide option provider / loader.
 	 *
-	 * @param {string} value
 	 */
-	onSearchChange(value) {
+	onSearchChange(value:string):void {
 		var self = this;
 		var fn = self.settings.load;
 		if (!fn) return;
@@ -701,17 +735,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Triggered on <input> focus.
 	 *
-	 * @param {object} [e]
-	 * @returns {boolean}
 	 */
-	onFocus(e) {
+	onFocus(e?:MouseEvent|KeyboardEvent):void {
 		var self = this;
 		var wasFocused = self.isFocused;
 
 		if (self.isDisabled) {
 			self.blur();
 			e && e.preventDefault();
-			return false;
+			return;
 		}
 
 		if (self.ignoreFocus) return;
@@ -732,10 +764,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Triggered on <input> blur.
 	 *
-	 * @param {object} e
-	 * @param {HTMLElement} [dest]
 	 */
-	onBlur(e, dest) {
+	onBlur(e:MouseEvent|KeyboardEvent, dest?:HTMLElement):void {
 		var self = this;
 		if (!self.isFocused) return;
 		self.isFocused = false;
@@ -775,11 +805,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered when the user rolls over
 	 * an option in the autocomplete dropdown menu.
 	 *
-	 * @param {object} evt
-	 * @param {HTMLElement} option
-	 * @returns {boolean}
 	 */
-	onOptionHover( evt, option ){
+	onOptionHover( evt:MouseEvent|KeyboardEvent, option:HTMLElement ):boolean{
 		if (this.ignoreHover) return;
 		this.setActiveOption(option, false);
 	}
@@ -788,11 +815,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered when the user clicks on an option
 	 * in the autocomplete dropdown menu.
 	 *
-	 * @param {object} evt
-	 * @param {HTMLElement} option
-	 * @returns {boolean}
 	 */
-	onOptionSelect( evt, option ){
+	onOptionSelect( evt:MouseEvent|KeyboardEvent, option:HTMLElement ): boolean{
 		var value, self = this;
 
 		if( !option ){
@@ -830,11 +854,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered when the user clicks on an item
 	 * that has been selected.
 	 *
-	 * @param {object} evt
-	 * @param {HTMLElement} item
-	 * @returns {boolean}
 	 */
-	onItemSelect( evt, item ){
+	onItemSelect( evt?:MouseEvent, item?:HTMLElement ):boolean{
 		var self = this;
 
 		if (self.isLocked) return;
@@ -897,9 +918,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Sets the input field of the control to the specified value.
 	 *
-	 * @param {string} value
 	 */
-	setTextboxValue(value) {
+	setTextboxValue(value:string) {
 		var input = this.control_input;
 		var changed = input.value !== value;
 		if (changed) {
@@ -915,23 +935,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * an array. If only one item can be selected, this
 	 * returns a string.
 	 *
-	 * @returns {string|array}
 	 */
-	getValue() {
+	getValue():string|string[] {
+
 		if( this.is_select_tag && this.input.hasAttribute('multiple')) {
 			return this.items;
-		} else {
-			return this.items.join(this.settings.delimiter);
 		}
+
+		return this.items.join(this.settings.delimiter);
 	}
 
 	/**
 	 * Resets the selected items to the given value.
 	 *
-	 * @param {string|array} value
-	 * @param {boolean} [silent]
 	 */
-	setValue( value, silent ){
+	setValue( value:string|string[], silent?:boolean ):void{
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
@@ -943,10 +961,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Sets the selected item.
 	 *
-	 * @param {HTMLElement} [item]
-	 * @param {object} [e]
 	 */
-	setActiveItem( item, e ){
+	setActiveItem( item?:HTMLElement, e?:MouseEvent|KeyboardEvent ){
 		var self = this;
 		var eventName;
 		var i, begin, end, swap;
@@ -978,7 +994,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				end   = swap;
 			}
 			for (i = begin; i <= end; i++) {
-				item = this.control.children[i];
+				item = this.control.children[i] as HTMLElement;
 				if (this.activeItems.indexOf(item) === -1) {
 					this.setActiveItemClass(item);
 				}
@@ -1006,9 +1022,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Set the active and last-active classes
 	 *
-	 * @param {HTMLElement} item
 	 */
-	setActiveItemClass( item ){
+	setActiveItemClass( item:HTMLElement ){
 
 		var last_active = this.control.querySelector('.last-active');
 		if( last_active ) removeClasses(last_active,'last-active');
@@ -1022,9 +1037,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Remove active item
 	 *
-	 * @param {HTMLElement} item
 	 */
-	removeActiveItem( item ){
+	removeActiveItem( item:HTMLElement ){
 		var idx = this.activeItems.indexOf(item);
 		this.activeItems.splice(idx, 1);
 		removeClasses(item,'active');
@@ -1035,10 +1049,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Sets the selected item in the dropdown menu
 	 * of available options.
 	 *
-	 * @param {HTMLElement} [option]
-	 * @param {boolean} [scroll]
 	 */
-	setActiveOption( option, scroll ){
+	setActiveOption( option?:HTMLElement, scroll?:boolean ){
 		var height_menu, height_item, y;
 
 		if( option === this.activeOption ){
@@ -1139,9 +1151,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Forces the control out of focus.
 	 *
-	 * @param {HTMLElement} [dest]
 	 */
-	blur(dest) {
+	blur(dest?:HTMLElement):void {
 		this.control_input.blur();
 
 		this.onBlur(null, dest);
@@ -1152,10 +1163,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * to show how good of a match it is to the
 	 * provided query.
 	 *
-	 * @param {string} query
 	 * @return {function}
 	 */
-	getScoreFunction(query) {
+	getScoreFunction(query:string) {
 		return this.sifter.getScoreFunction(query, this.getSearchOptions());
 	}
 
@@ -1192,10 +1202,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *   - total {int}
 	 *   - items {array}
 	 *
-	 * @param {string} query
 	 * @returns {object}
 	 */
-	search(query) {
+	search(query:string){
 		var i, value, score, result, calculateScore;
 		var self     = this;
 		var settings = self.settings;
@@ -1234,11 +1243,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Refreshes the list of available options shown
 	 * in the autocomplete dropdown menu.
 	 *
-	 * @param {boolean} triggerDropdown
 	 */
-	refreshOptions( triggerDropdown = true ){ //
+	refreshOptions( triggerDropdown:boolean = true ){ //
 		var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
 		var active, active_before, create;
+
 
 		var self					= this;
 		var query					= self.inputValue();
@@ -1410,9 +1419,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Return list of selectable options
 	 *
-	 * @return {NodeList}
 	 */
-	selectable(){
+	selectable():NodeList{
 		return this.dropdown_content.querySelectorAll('[data-selectable]');
 	}
 
@@ -1428,9 +1436,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 *   this.addOption(data)
 	 *
-	 * @param {object|array} data
 	 */
-	addOption(data) {
+	addOption(data:TomOption|TomOption[]):void {
 		var i, n, value, self = this;
 
 		if (Array.isArray(data)) {
@@ -1450,10 +1457,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Registers an option to the pool of options.
 	 *
-	 * @param {object} data
-	 * @return {boolean|string}
 	 */
-	registerOption(data) {
+	registerOption(data:TomOption):boolean|string {
 		var key = hash_key(data[this.settings.valueField]);
 		if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
 		data.$order = data.$order || ++this.order;
@@ -1464,10 +1469,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Registers an option group to the pool of option groups.
 	 *
-	 * @param {object} data
 	 * @return {boolean|string}
 	 */
-	registerOptionGroup(data) {
+	registerOptionGroup(data:TomOption) {
 		var key = hash_key(data[this.settings.optgroupValueField]);
 		if (!key) return false;
 
@@ -1480,10 +1484,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Registers a new optgroup for options
 	 * to be bucketed into.
 	 *
-	 * @param {string} id
-	 * @param {object} data
 	 */
-	addOptionGroup(id, data) {
+	addOptionGroup(id:string, data:TomOption) {
 		var hashed_id;
 		data[this.settings.optgroupValueField] = id;
 
@@ -1495,9 +1497,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Removes an existing option group.
 	 *
-	 * @param {string} id
 	 */
-	removeOptionGroup(id) {
+	removeOptionGroup(id:string) {
 		if (this.optgroups.hasOwnProperty(id)) {
 			delete this.optgroups[id];
 			this.clearCache();
@@ -1519,10 +1520,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * it is visible in the selected items or options
 	 * dropdown, it will be re-rendered automatically.
 	 *
-	 * @param {string} value
-	 * @param {object} data
 	 */
-	updateOption(value, data) {
+	updateOption(value:string, data:TomOption) {
 		var self = this;
 		var item, item_new;
 		var value_new, index_item, cache_items, cache_options, order_old;
@@ -1584,10 +1583,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Removes a single option.
 	 *
-	 * @param {string} value
-	 * @param {boolean} [silent]
 	 */
-	removeOption(value, silent) {
+	removeOption(value:string, silent?:boolean):void {
 		var self = this;
 		value = hash_key(value);
 
@@ -1627,10 +1624,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Returns the dom element of the option
 	 * matching the given value.
 	 *
-	 * @param {string} value
 	 * @returns {object}
 	 */
-	getOption(value) {
+	getOption(value:string) {
 
 		// cached ?
 		if( this.renderCache['option'].hasOwnProperty(value) ){
@@ -1644,12 +1640,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Returns the dom element of the next or previous dom element of the same type
 	 *
-	 * @param {object} option
-	 * @param {number} direction  can be 1 for next or -1 for previous
-	 * @param {string} type
-	 * @return {object|undefined}
 	 */
-	getAdjacent( option, direction, type = 'option' ){
+	getAdjacent( option:HTMLElement, direction:number, type:string = 'option' ) : HTMLElement|void{
 
 		if( !option ){
 			return;
@@ -1671,10 +1663,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			if( direction > 0 ){
-				return all[i+1];
+				return all[i+1] as HTMLElement;
 			}
 
-			return all[i-1];
+			return all[i-1] as HTMLElement;
 		}
 	}
 
@@ -1682,17 +1674,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Finds the first element with a "data-value" attribute
 	 * that matches the given value.
 	 *
-	 * @param {string} value
-	 * @param {object} els
-	 * @return {object}
 	 */
-	getElementWithValue(value, els) {
+	getElementWithValue(value:string, els:HTMLCollection|NodeList|HTMLElement[]):HTMLElement {
 		value = hash_key(value);
 
 		if (typeof value !== 'undefined' && value !== null) {
 			for (var i = 0, n = els.length; i < n; i++) {
-				if (els[i].getAttribute('data-value') === value) {
-					return els[i];
+				let el = els[i] as HTMLElement;
+				if (el.getAttribute('data-value') === value) {
+					return el;
 				}
 			}
 		}
@@ -1702,10 +1692,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Returns the dom element of the item
 	 * matching the given value.
 	 *
-	 * @param {string} value
-	 * @returns {object}
 	 */
-	getItem(value) {
+	getItem(value:string):HTMLElement {
 		return this.getElementWithValue(value, this.control.children);
 	}
 
@@ -1713,10 +1701,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * "Selects" multiple items at once. Adds them to the list
 	 * at the current caret position.
 	 *
-	 * @param {string|array} values
-	 * @param {boolean} [silent]
 	 */
-	addItems( values, silent ){
+	addItems( values:string|string[], silent?:boolean ):void{
 		this.buffer = document.createDocumentFragment();
 
 		var children = this.control.children;
@@ -1740,10 +1726,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * "Selects" an item. Adds it to the list
 	 * at the current caret position.
 	 *
-	 * @param {string} value
-	 * @param {boolean} [silent]
 	 */
-	addItem( value, silent ){
+	addItem( value:string, silent?:boolean ):void{
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
@@ -1814,10 +1798,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Removes the selected item matching
 	 * the provided value.
 	 *
-	 * @param {string} value
-	 * @param {boolean} [silent]
 	 */
-	removeItem( value, silent ){
+	removeItem( value:string, silent?:boolean ){
 		var i, idx;
 
 		var item	= this.getItem(value);
@@ -1860,12 +1842,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Once this completes, it will be added
 	 * to the item list.
 	 *
-	 * @param {string} [input]
-	 * @param {boolean} [triggerDropdown]
-	 * @param {function} [callback]
-	 * @return {boolean}
 	 */
-	createItem( input, triggerDropdown=true, callback ){ //
+	createItem( input?:string, triggerDropdown:boolean=true, callback?:(data?:object)=>void ):boolean{
 		var self  = this;
 		var caret = self.caretPos;
 		var output;
@@ -1995,11 +1973,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Refreshes the original <select> or <input>
 	 * element to reflect the current state.
 	 *
-	 * @param {object} [opts]
 	 */
-	updateOriginalInput(opts) {
+	updateOriginalInput(opts:TomArgObject = {}) {
 		var i, n, options, label, self = this;
-		opts = opts || {};
 
 		if( self.is_select_tag ){
 			options = [];
@@ -2012,7 +1988,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 			self.input.innerHTML = options.join('');
 		} else {
-			self.input.value = self.getValue();
+			self.input.value = self.getValue() as string;
 			self.input.setAttribute('value',self.input.value);
 		}
 
@@ -2095,9 +2071,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Resets / clears all selected items
 	 * from the control.
 	 *
-	 * @param {boolean} silent
 	 */
-	clear(silent) {
+	clear(silent:boolean) {
 
 		if (!this.items.length) return;
 
@@ -2120,9 +2095,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * A helper method for inserting an element
 	 * at the current caret position.
 	 *
-	 * @param {object} el
 	 */
-	insertAtCaret(el) {
+	insertAtCaret(el:HTMLElement) {
 		var caret	= Math.min(this.caretPos, this.items.length);
 		var target	= this.buffer || this.control;
 
@@ -2138,10 +2112,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Removes the current selected item(s).
 	 *
-	 * @param {object} e (optional)
-	 * @returns {boolean}
 	 */
-	deleteSelection(e) {
+	deleteSelection(e:KeyboardEvent):boolean {
 		var i, n, direction, selection, values, caret, tail;
 		var self = this;
 
@@ -2200,10 +2172,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * > 0 - right
 	 * < 0 - left
 	 *
-	 * @param {number} direction
-	 * @param {object} e (optional)
 	 */
-	advanceSelection(direction, e) {
+	advanceSelection(direction:number, e?:MouseEvent|KeyboardEvent) {
 		var selection, idx, last_active;
 
 		if (direction === 0) return;
@@ -2244,9 +2214,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Get the last active item
 	 *
-	 * @param {number} [direction]
 	 */
-	getLastActive(direction){
+	getLastActive(direction?:number){
 
 		let last_active = this.control.querySelector('.last-active');
 		if( last_active ){
@@ -2264,9 +2233,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Moves the caret to the specified index.
 	 *
-	 * @param {number} i
 	 */
-	setCaret(i) {
+	setCaret(i:number) {
 		var self = this;
 
 		if( self.settings.mode === 'single' || self.settings.controlInput ) {
@@ -2383,11 +2351,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * A helper method for rendering "item" and
 	 * "option" templates, given the data.
 	 *
-	 * @param {string} templateName
-	 * @param {object} [data]
-	 * @returns {HTMLElement}
 	 */
-	render( templateName, data ){
+	render( templateName:string, data?:any ):HTMLElement{
 		var value, id, label, html;
 		var self = this;
 		var regex_tag = /^[\t \r\n]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
@@ -2443,9 +2408,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * no template is given, clears all render
 	 * caches.
 	 *
-	 * @param {string} [templateName]
 	 */
-	clearCache( templateName ){
+	clearCache( templateName?:string ){
 		var self = this;
 
 		if (templateName === void 0) {
@@ -2459,10 +2423,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Determines whether or not to display the
 	 * create item prompt, given a user input.
 	 *
-	 * @param {string} input
-	 * @return {boolean}
 	 */
-	canCreate(input) {
+	canCreate(input:string):boolean {
 		if (!this.settings.create) return false;
 		var filter = this.settings.createFilter;
 
@@ -2477,10 +2439,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
 	 * The current evt may not always set ( eg calling advanceSelection() )
 	 *
-	 * @param {number} key_code
-	 * @param {KeyboardEvent|MouseEvent} evt
 	 */
-	isKeyDown( key_code, evt ){
+	isKeyDown( key_code:number, evt:KeyboardEvent|MouseEvent ){
 
 		if( !evt ){
 			return false;
@@ -2512,12 +2472,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * this.hook('instead','onKeyDown',function( arg1, arg2 ...){
 	 *
 	 * });
-	 *
-	 * @param {string} method
-	 * @param {string} when
-	 * @param {function} new_fn
 	 */
-	hook( when, method, new_fn ){
+	hook( when:string, method:string, new_fn:()=>any ){
 		var self = this;
 		var orig_method = self[method];
 

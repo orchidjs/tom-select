@@ -9,7 +9,7 @@ import pkg from '../package.json';
 import path from 'path';
 import fs from 'fs';
 
-var tom_select_path	= path.resolve( 'src/tom-select.js' );
+var tom_select_path	= path.resolve( 'src/tom-select.ts' );
 var configs = [];
 const banner = `/**
 * Tom Select v${pkg.version}
@@ -106,7 +106,7 @@ function pluginConfig( input, output ){
 
 	var config		= createConfig( input, output, [] );
 
-	// prevents tom-select.js from being bundled in with plugin.js umd
+	// prevents tom-select.ts from being bundled in with plugin.js umd
 	config.output.globals = {}
 	config.output.globals[tom_select_path] = 'TomSelect';
 	config.external = [tom_select_path,'TomSelect'];
@@ -131,8 +131,8 @@ if( fs.existsSync(custom_file) ){
 }
 
 // tom-select.base
-configCore('src/tom-select.js','tom-select.base.js')
-configCore('src/tom-select.js','tom-select.base.min.js',[terser_config]);
+configCore('src/tom-select.ts','tom-select.base.js')
+configCore('src/tom-select.ts','tom-select.base.min.js',[terser_config]);
 
 // tom-select.complete
 configCore('src/tom-select.complete.ts','tom-select.complete.js');
