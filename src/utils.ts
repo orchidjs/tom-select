@@ -1,4 +1,5 @@
 
+import TomSelect from './tom-select';
 
 /**
  * Converts a scalar to its best string representation
@@ -13,10 +14,8 @@
  *   0         -> '0'
  *   1         -> '1'
  *
- * @param {string} value
- * @returns {string|null}
  */
-export function hash_key(value) {
+export function hash_key(value:string):string|null {
 	if (typeof value === 'undefined' || value === null) return null;
 	if (typeof value === 'boolean') return value ? '1' : '0';
 	return value + '';
@@ -25,10 +24,8 @@ export function hash_key(value) {
 /**
  * Escapes a string for use within HTML.
  *
- * @param {string} str
- * @returns {string}
  */
-export function escape_html(str) {
+export function escape_html(str:string):string {
 	return (str + '')
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
@@ -41,11 +38,8 @@ export function escape_html(str) {
  * Debounce all fired events types listed in `types`
  * while executing the provided `fn`.
  *
- * @param {object} self
- * @param {array} types
- * @param {function} fn
  */
-export function debounce_events( self, types, fn) {
+export function debounce_events( self:TomSelect, types:string[], fn:() => void ) {
 	var type;
 	var trigger = self.trigger;
 	var event_args = {};
@@ -79,10 +73,8 @@ export function debounce_events( self, types, fn) {
  *   - start
  *   - length
  *
- * @param {object} input
- * @returns {object}
  */
-export function getSelection(input) {
+export function getSelection(input:TomSelect):{ start: number; length: number } {
 	return {
 		start	: input.selectionStart,
 		length	: input.selectionEnd - input.selectionStart,

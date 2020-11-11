@@ -14,7 +14,7 @@
  */
 import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
-import { escape_html } from '../../utils.js';
+import { escape_html } from '../../utils';
 
 TomSelect.define('remove_button',function(options) {
 

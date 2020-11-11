@@ -1,5 +1,5 @@
 import defaults from './defaults.js';
-import { hash_key } from './utils.js';
+import { hash_key } from './utils';
 
 export default function getSettings( input, settings_user){
 	var settings				= Object.assign({}, defaults, settings_user);

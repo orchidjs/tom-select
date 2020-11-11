@@ -5,7 +5,7 @@ import Sifter from './contrib/sifter.js';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './settings.js';
-import { hash_key, escape_html, debounce_events, getSelection} from './utils.js';
+import { hash_key, escape_html, debounce_events, getSelection} from './utils';
 import {
 	getDom,
 	triggerEvent,
