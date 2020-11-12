@@ -583,7 +583,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	onKeyPress(e:KeyboardEvent):void {
-		console.log('onkeypress',this.isLocked);
 		if(this.isLocked){
 			e && e.preventDefault()
 			return;
