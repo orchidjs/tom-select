@@ -8,3 +8,7 @@ export interface TomInput extends HTMLInputElement{
 export type TomArgObject = {
 	silent?: boolean,
 }
+
+export type TomOption = {
+	$order: number,
+}
