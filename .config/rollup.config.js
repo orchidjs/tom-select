@@ -18,6 +18,11 @@ const banner = `/**
 `;
 
 
+var typescript_config = typescript({
+	tsconfig: path.resolve(__dirname,'tsconfig.json'),
+});
+
+
 // esm
 configs.push({
 	input: path.resolve(__dirname,'../src/tom-select.complete.ts'),
@@ -28,7 +33,7 @@ configs.push({
 		sourcemap: true,
 		banner: banner,
 	},plugins:[
-		typescript()
+		typescript_config
 	]
 });
 
@@ -47,6 +52,7 @@ var terser_config = terser({
     },
   },
 });
+
 
 
 function createConfig( input, output, plugins ){
@@ -80,7 +86,7 @@ function createConfig( input, output, plugins ){
 				sourcemap: true,
 				filename: `stats/${config.output.file}.html`,
         	}),
-			typescript(),
+			typescript_config,
 		];
 
 	config.plugins	= config.plugins.concat(plugins);
