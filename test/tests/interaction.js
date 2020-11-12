@@ -101,13 +101,13 @@
 				var test = setup_test('AB_Multi');
 
 				click(test.instance.control, function() {
-					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
+					assert.equal( test.instance.activeOption.dataset.value, 'a', 'not "a" to start');
 
 					syn.type('[down]', test.instance.control_input, function() {
-						expect(test.instance.activeOption.dataset.value).to.be.equal('b');
+						assert.equal( test.instance.activeOption.dataset.value, 'b', 'not changed to "b"');
 
 						syn.type('[up]', test.instance.control_input, function() {
-							expect(test.instance.activeOption.dataset.value).to.be.equal('a');
+							assert.equal( test.instance.activeOption.dataset.value, 'a', 'not changed back to "a"');
 							done();
 						});
 
@@ -362,7 +362,7 @@
 
 		describe('selecting items',function(){
 
-			it_n('should select previous item when [ctrl][left] pressed', function(done) {
+			it_n('should select previous item when ['+shortcut_key+'][left] pressed', function(done) {
 				var test = setup_test('AB_Multi');
 
 				test.instance.addItem('a');
@@ -371,7 +371,7 @@
 
 				click(test.instance.control, function() {
 
-					syn.type('[ctrl][left][ctrl-up]', test.instance.control_input, function() {
+					syn.type('['+shortcut_key+'][left]['+shortcut_key+'-up]', test.instance.control_input, function() {
 						expect( test.instance.activeItems.length ).to.be.equal(2);
 						done();
 					});
@@ -379,7 +379,7 @@
 
 			});
 
-			it_n('should select next item when [ctrl][right] pressed, then unselect when [ctrl][left] pressed', function(done) {
+			it_n('should select next item when ['+shortcut_key+'][right] pressed, then unselect when ['+shortcut_key+'][left] pressed', function(done) {
 				var test = setup_test('AB_Multi');
 
 				test.instance.addItem('a');
@@ -388,10 +388,10 @@
 
 				click(test.instance.control, function() {
 
-					syn.type('[ctrl][right][ctrl-up]', test.instance.control_input, function() {
+					syn.type('['+shortcut_key+'][right]['+shortcut_key+'-up]', test.instance.control_input, function() {
 						expect( test.instance.activeItems.length ).to.be.equal(2);
 
-						syn.type('[ctrl][left][ctrl-up]', test.instance.control_input, function() {
+						syn.type('['+shortcut_key+'][left]['+shortcut_key+'-up]', test.instance.control_input, function() {
 							expect( test.instance.activeItems.length ).to.be.equal(1);
 							done();
 						});
@@ -401,7 +401,7 @@
 
 			});
 
-			it_n('should not select next item when [ctrl][right] pressed at the end of item list', function(done) {
+			it_n('should not select next item when ['+shortcut_key+'][right] pressed at the end of item list', function(done) {
 				var test = setup_test('AB_Multi');
 
 				test.instance.addItem('a');
@@ -410,7 +410,7 @@
 
 				click(test.instance.control, function() {
 
-					syn.type('[ctrl][right][ctrl-up]', test.instance.control_input,function() {
+					syn.type('['+shortcut_key+'][right]['+shortcut_key+'-up]', test.instance.control_input,function() {
 						expect( test.instance.activeItems.length ).to.be.equal(1);
 						done();
 					});
@@ -505,7 +505,7 @@
 			});
 
 
-			it_n('should select all items when [ctrl-a] pressed', function(done) {
+			it_n('should select all items when ['+shortcut_key+'-a] pressed', function(done) {
 
 				var test = setup_test('AB_Multi');
 
@@ -515,7 +515,7 @@
 				click(test.instance.control, function() {
 					assert.equal( test.instance.activeItems.length, 0 );
 
-					syn.type('[ctrl]a[ctrl-up]', test.instance.control_input, function() {
+					syn.type('['+shortcut_key+']a['+shortcut_key+'-up]', test.instance.control_input, function() {
 						assert.equal( test.instance.activeItems.length, 2 );
 						done();
 
@@ -525,7 +525,7 @@
 			});
 
 
-			it_n('should not close dropdown when [ctrl-a] pressed no items', function(done) {
+			it_n('should not close dropdown when ['+shortcut_key+'-a] pressed no items', function(done) {
 
 				var test = setup_test('AB_Multi');
 
@@ -533,7 +533,7 @@
 					assert.equal( test.instance.items.length, 0 );
 					assert.equal( test.instance.isOpen, true );
 
-					syn.type('[ctrl]a[ctrl-up]', test.instance.control_input, function() {
+					syn.type('['+shortcut_key+']a['+shortcut_key+'-up]', test.instance.control_input, function() {
 						assert.equal( test.instance.items.length, 0 );
 						assert.equal( test.instance.isOpen, true );
 						done();
@@ -585,7 +585,7 @@
 			ShiftMousedown('c','a');
 
 
-			it_n('should toggle active item when [ctrl] + mousedown', function(done) {
+			it_n('should toggle active item when ['+shortcut_key+'] + mousedown', function(done) {
 
 				var test = setup_test('AB_Multi');
 
@@ -595,7 +595,7 @@
 				assert.equal( test.instance.activeItems.length, 0 );
 
 				// 1) hold ctrl down
-				syn.type('[ctrl]', test.instance.control_input, function() {
+				syn.type('['+shortcut_key+']', test.instance.control_input, function() {
 
 					// 2) activate itema
 					click(itema,function(){
@@ -606,7 +606,7 @@
 							assert.equal( test.instance.activeItems.length, 0 );
 
 							// 4) release ctrl key
-							syn.type('[ctrl-up]', test.instance.control_input, function() {});
+							syn.type('['+shortcut_key+'-up]', test.instance.control_input, function() {});
 							done();
 
 						});

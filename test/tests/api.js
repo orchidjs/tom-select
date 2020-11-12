@@ -1,5 +1,3 @@
-const KEY_SHIFT			= 16;
-const KEY_CTRL			= 17;
 
 
 	describe('API', function() {
@@ -868,7 +866,7 @@ const KEY_CTRL			= 17;
 			});
 
 
-			let keys = ['shift','ctrl','alt'];
+			let keys = ['shift','ctrl','alt','meta'];
 			for( key in keys){
 				key = keys[key];
 				syn.type('['+key+']', test.instance.control_input, function(evt) {
@@ -887,37 +885,37 @@ const KEY_CTRL			= 17;
 
 			it_n('should return false if [alt] is pressed', function() {
 				syn.type('[alt]', test.instance.control_input, function(evt) {
-					assert.equal( instance.isKeyDown(KEY_SHIFT,last_keydown), false);
+					assert.equal( instance.isKeyDown('shiftKey',last_keydown), false);
 					syn.type('[alt-up]', test.instance.control_input);
 				});
 			});
 
 			it_n('should return false if [alt][shift] is pressed', function() {
 				syn.type('[alt][shift]', test.instance.control_input, function() {
-					assert.equal( instance.isKeyDown(KEY_SHIFT,last_keydown), false);
+					assert.equal( instance.isKeyDown('shiftKey',last_keydown), false);
 					syn.type('[alt-up][shift-up]', test.instance.control_input);
 				});
 			});
 
-			it_n('should return false if [ctrl][shift] is pressed', function() {
-				syn.type('[ctrl][shift]', test.instance.control_input, function() {
-					assert.equal( instance.isKeyDown(KEY_SHIFT,last_keydown), false);
-					assert.equal( instance.isKeyDown(KEY_CTRL,last_keydown), false);
-					syn.type('[ctrl-up][shift-up]', test.instance.control_input);
+			it_n('should return false if ['+shortcut_key+'][shift] is pressed', function() {
+				syn.type('['+shortcut_key+'][shift]', test.instance.control_input, function() {
+					assert.equal( instance.isKeyDown('shiftKey',last_keydown), false);
+					assert.equal( instance.isKeyDown('ctrlKey',last_keydown), false);
+					syn.type('['+shortcut_key+'-up][shift-up]', test.instance.control_input);
 				});
 			});
 
 			it_n('should return true if [shift] is pressed', function() {
 				syn.type('[shift]', test.instance.control_input, function() {
-					assert.equal( instance.isKeyDown(KEY_SHIFT,last_keydown), true);
+					assert.equal( instance.isKeyDown('shiftKey',last_keydown), true);
 					syn.type('[shift-up]', test.instance.control_input);
 				});
 			});
 
-			it_n('should return true if [ctrl] is pressed', function() {
-				syn.type('[ctrl]', test.instance.control_input, function() {
-					assert.equal( instance.isKeyDown(KEY_CTRL,last_keydown), true);
-					syn.type('[ctrl-up]', test.instance.control_input);
+			it_n('should return true if ['+shortcut_key+'] is pressed', function() {
+				syn.type('['+shortcut_key+']', test.instance.control_input, function() {
+					assert.equal( instance.isKeyDown(shortcut_key+'Key',last_keydown), true);
+					syn.type('['+shortcut_key+'-up]', test.instance.control_input);
 				});
 			});
 
