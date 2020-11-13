@@ -7,7 +7,7 @@
 	    "strict": false,
 		"target": "esnext",
 		"module": "esnext",
-		//"noUnusedLocals": true,
+		"noUnusedLocals": true,
 		//"allowSyntheticDefaultImports": true,
     },
 }

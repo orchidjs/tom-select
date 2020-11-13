@@ -356,7 +356,7 @@ export default class Sifter{
 			};
 		} else {
 			return function(a, b) {
-				var i, result, a_value, b_value, field;
+				var i, result, field;
 				for (i = 0; i < fields_count; i++) {
 					field = fields[i].field;
 					result = multipliers[i] * cmp(
@@ -425,7 +425,7 @@ export default class Sifter{
 	 * @returns {object}
 	 */
 	search(query, options) {
-		var self = this, value, score, search, calculateScore;
+		var self = this, score, search;
 		var fn_sort;
 		var fn_score;
 

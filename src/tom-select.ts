@@ -81,7 +81,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	constructor( input, settings ){
 		super();
 
-		var i, n, dir;
+		var dir;
 
 		input				= getDom( input );
 
@@ -184,8 +184,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var dropdown;
 		var dropdown_content;
 		var inputMode;
-		var timeout_blur;
-		var timeout_focus;
 		var classes;
 		var classes_plugins;
 		var inputId;
@@ -610,7 +608,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	onKeyDown(e:KeyboardEvent):void {
 		var self = this;
-		var isInput = e.target === self.control_input;
+
 		self.ignoreHover = true;
 
 		if (self.isLocked) {
@@ -1191,7 +1189,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * @returns {object}
 	 */
 	search(query:string){
-		var i, value, score, result, calculateScore;
+		var i, result, calculateScore;
 		var self     = this;
 		var settings = self.settings;
 		var options  = this.getSearchOptions();
@@ -1720,7 +1718,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			var item;
 			var self = this;
 			var inputMode = self.settings.mode;
-			var i, active, wasFull;
+			var wasFull;
 			value = hash_key(value);
 
 			if( self.items.indexOf(value) !== -1 ){
@@ -2162,7 +2160,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	advanceSelection(direction:number, e?:MouseEvent|KeyboardEvent) {
-		var selection, idx, last_active, self = this;
+		var idx, last_active, self = this;
 
 		if (direction === 0) return;
 		if (self.rtl) direction *= -1;
@@ -2344,9 +2342,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	render( templateName:string, data?:any ):HTMLElement{
-		var value, id, label, html;
+		var value, id, html;
 		var self = this;
-		var regex_tag = /^[\t \r\n]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
 
 		if (templateName === 'option' || templateName === 'item') {
 			value = hash_key(data[self.settings.valueField]);
