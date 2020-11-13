@@ -8,6 +8,5 @@
 		"target": "esnext",
 		"module": "esnext",
 		"noUnusedLocals": true,
-		//"allowSyntheticDefaultImports": true,
     },
 }
