@@ -88,15 +88,13 @@
     "node": "*"
   },
   "browserslist": [
-    ">= 1%",
-    "last 1 major version",
-    "not dead",
+    ">= 0.5%",
+	"not dead",
     "Chrome >= 60",
     "Firefox >= 60",
-    "Edge >= 16",
-    "iOS >= 10",
-    "Safari >= 10",
-    "Android >= 6",
+    "Edge >= 17",
+	"iOS >= 10",
+	"Safari >= 10",
     "not Explorer <= 11"
   ],
   "dependencies": {}
