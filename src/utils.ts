@@ -35,6 +35,27 @@ export function escape_html(str:string):string {
 
 
 /**
+ * Debounce the user provided load function
+ *
+ */
+export function loadDebounce(fn,delay){
+	var timeout;
+	return function() {
+		var args = arguments;
+		if( timeout ){
+			this.loading = Math.max(this.loading - 1, 0);
+		}
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+			timeout = null;
+			fn.apply(self, args);
+
+		}, delay);
+	};
+}
+
+
+/**
  * Debounce all fired events types listed in `types`
  * while executing the provided `fn`.
  *

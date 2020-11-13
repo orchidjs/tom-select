@@ -13,7 +13,8 @@ import {
 	debounce_events,
 	getSelection,
 	preventDefault,
-	addEvent
+	addEvent,
+	loadDebounce
 } from './utils';
 
 import {
@@ -135,7 +136,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// debounce user defined load() if loadThrottle > 0
 		if( this.settings.load && this.settings.loadThrottle ){
-			this.settings.load = this.loadDebounce(this.settings.load,this.settings.loadThrottle)
+			this.settings.load = loadDebounce(this.settings.load,this.settings.loadThrottle)
 		}
 
 		// search system
@@ -899,27 +900,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		});
 	}
 
-
-	/**
-	 * Debounce the user provided load function
-	 *
-	 */
-	loadDebounce(fn,delay){
-		var timeout;
-		return function() {
-			var self = this;
-			var args = arguments;
-			if( timeout ){
-				self.loading = Math.max(self.loading - 1, 0);
-			}
-			clearTimeout(timeout);
-			timeout = setTimeout(function() {
-				timeout = null;
-				fn.apply(self, args);
-
-			}, delay);
-		};
-	}
 
 	/**
 	 * Sets the input field of the control to the specified value.
