@@ -14,7 +14,7 @@
  */
 import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
-import { escape_html } from '../../utils';
+import { escape_html, preventDefault, addEvent } from '../../utils';
 
 TomSelect.define('remove_button',function(options) {
 
@@ -47,19 +47,14 @@ TomSelect.define('remove_button',function(options) {
 			var close_button = getDom(html);
 			rendered.appendChild(close_button);
 
-			close_button.addEventListener('mousedown',function(evt){
-				evt.preventDefault();
-				evt.stopPropagation();
+			addEvent(close_button,'mousedown',function(evt){
+				preventDefault(evt,true);
 			});
 
-			close_button.addEventListener('click',function(evt){
-				evt.preventDefault();
-				evt.stopPropagation();
+			addEvent(close_button,'click',function(evt){
 
 				// propagating will trigger the dropdown to show for single mode
-				if( self.settings.mode !== 'single' ){
-					evt.stopPropagation();
-				}
+				preventDefault(evt,true);
 
 				if (self.isLocked) return;
 

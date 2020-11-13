@@ -80,3 +80,26 @@ export function getSelection(input:HTMLInputElement):{ start: number; length: nu
 		length	: input.selectionEnd - input.selectionStart,
 	};
 };
+
+
+/**
+ * Prevent default
+ *
+ */
+export function preventDefault(evt?:Event, stop:boolean=false):void{
+	if( evt ){
+		evt.preventDefault();
+		if( stop ){
+			evt.stopPropagation();
+		}
+	}
+}
+
+
+/**
+ * Prevent default
+ *
+ */
+export function addEvent(target:EventTarget, type:string, callback:EventListener, options?:object):void{
+	target.addEventListener(type,callback,options);
+}

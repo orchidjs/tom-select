@@ -12,6 +12,7 @@
  *
  */
 import TomSelect from '../../tom-select.js';
+import { addEvent } from '../../utils';
 
 TomSelect.define('input_autogrow', function(options) {
 
@@ -49,10 +50,10 @@ TomSelect.define('input_autogrow', function(options) {
 			control.style.width		= test_input.clientWidth+'px';
 		};
 
-		control.addEventListener('input', resize );
-		control.addEventListener('keyup', resize );
-		control.addEventListener('blur', resize );
-		control.addEventListener('update', resize );
+		addEvent(control,'input', resize );
+		addEvent(control,'keyup', resize );
+		addEvent(control,'blur', resize );
+		addEvent(control,'update', resize );
 	});
 
 });

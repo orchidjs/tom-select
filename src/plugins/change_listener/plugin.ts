@@ -16,12 +16,13 @@
 import TomSelect from '../../tom-select.js';
 import getSettings from '../../settings.js';
 import { TomSettings } from '../../types/settings';
+import { addEvent } from '../../utils';
 
 TomSelect.define('change_listener',function(options){
 	var self		= this;
 	var changed		= false;
 
-	self.input.addEventListener('change',function(){
+	addEvent(self.input,'change',function(){
 
 		// prevent infinite loops
 		if( changed ){

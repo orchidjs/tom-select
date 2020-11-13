@@ -41,7 +41,9 @@ configs.push({
 
 var terser_config = terser({
   mangle: true,
+  toplevel: true,
   format: {
+    semicolons: false,
     comments: function (node, comment) {
       var text = comment.value;
       var type = comment.type;

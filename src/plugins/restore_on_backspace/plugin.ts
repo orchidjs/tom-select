@@ -14,6 +14,7 @@
  */
 import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
+import { preventDefault } from '../../utils';
 
 TomSelect.define('restore_on_backspace',function(options) {
 	var self = this;
@@ -34,7 +35,7 @@ TomSelect.define('restore_on_backspace',function(options) {
 					self.setTextboxValue(options.text.call(self, option));
 					self.refreshOptions(true);
 				}
-				evt.preventDefault();
+				preventDefault(evt);
 				return;
 			}
 		}
