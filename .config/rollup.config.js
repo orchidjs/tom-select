@@ -3,7 +3,6 @@ import commonjs from '@rollup/plugin-commonjs'; // so Rollup can convert commonj
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import bundleSize from '@atomico/rollup-plugin-sizes';
-import typescript from '@rollup/plugin-typescript';
 import visualizer from 'rollup-plugin-visualizer';
 import pkg from '../package.json';
 import path from 'path';
@@ -17,9 +16,22 @@ const banner = `/**
 */
 `;
 
+const extensions = [
+  '.js', '.jsx', '.ts', '.tsx',
+];
 
-var typescript_config = typescript({
-	tsconfig: path.resolve(__dirname,'tsconfig.json'),
+var babel_config = babel({
+	extensions: extensions,
+	babelHelpers: 'bundled',
+	configFile: path.resolve(__dirname,'babel.config.json'),
+});
+
+var resolve_config = resolve({
+	extensions: extensions,
+	// pass custom options to the resolve plugin
+	customResolveOptions: {
+		moduleDirectory: 'node_modules'
+	}
 });
 
 
@@ -32,9 +44,8 @@ configs.push({
 		preserveModules: true,
 		sourcemap: true,
 		banner: banner,
-	},plugins:[
-		typescript_config
-	]
+	},
+	plugins:[babel_config,resolve_config]
 });
 
 
@@ -71,24 +82,14 @@ function createConfig( input, output, plugins ){
 	Object.assign(config.output, output);
 
 	config.plugins = [
-			resolve({
-				// pass custom options to the resolve plugin
-				customResolveOptions: {
-					moduleDirectory: 'node_modules'
-				}
-			}),
-
+			resolve_config,
+			babel_config,
 			commonjs(),
-			babel({
-				babelHelpers: 'bundled',
-				configFile: path.resolve(__dirname,'babel.config.json'),
-			}),
 			bundleSize(),
 			visualizer({
 				sourcemap: true,
 				filename: `stats/${config.output.file}.html`,
-        	}),
-			typescript_config,
+        	})
 		];
 
 	config.plugins	= config.plugins.concat(plugins);

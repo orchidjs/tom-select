@@ -5,5 +5,9 @@
 	    "checkJs": true,
 	    "noEmit": true,
 	    "strict": false,
+		"target": "esnext",
+		"module": "esnext",
+		//"noUnusedLocals": true,
+		//"allowSyntheticDefaultImports": true,
     },
 }
