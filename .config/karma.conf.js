@@ -168,6 +168,9 @@ module.exports = function(config) {
 		colors: true,
 		logLevel: config.LOG_INFO,
 		browsers: browsers,
-		singleRun: true
+		singleRun: true,
+		browserDisconnectTolerance: 3,
+		browserDisconnectTimeout: 10000,
+		browserNoActivityTimeout: 120000
 	});
 };
