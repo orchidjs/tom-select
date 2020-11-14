@@ -12,3 +12,5 @@ export type TomArgObject = {
 export type TomOption = {
 	$order: number,
 }
+
+export type TomCreateFilter = (input:string) => boolean;

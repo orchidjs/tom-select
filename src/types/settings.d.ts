@@ -1,4 +1,5 @@
 import TomSelect from '../tom-select.js';
+import { TomCreateFilter } from './index';
 
 export type TomSettings = {
 	options					: any[],
@@ -12,7 +13,7 @@ export type TomSettings = {
 	diacritics				: boolean,
 	create					: boolean|(()=>any),
 	createOnBlur			: boolean,
-	createFilter			: RegExp|string|(()=>any),
+	createFilter			: RegExp|string|TomCreateFilter,
 	highlight				: boolean,
 	openOnFocus				: boolean,
 	maxOptions				: number,

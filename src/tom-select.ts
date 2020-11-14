@@ -3,7 +3,7 @@ import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from './contrib/sifter.js';
 import { TomSettings } from './types/settings';
-import { TomInput, TomArgObject, TomOption } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomCreateFilter } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './settings.js';
@@ -153,10 +153,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			this.settings.hideSelected = this.settings.mode === 'multi';
 		}
 
-		// create filter regex
-		if( typeof this.settings.createFilter === 'string' ){
-			this.settings.createFilter = new RegExp(this.settings.createFilter);
+		// set up createFilter callback
+		var filter = this.settings.createFilter;
+		if( typeof filter !== 'function' ){
+
+			if( typeof filter === 'string' ){
+				filter = new RegExp(filter);
+			}
+
+			if( filter instanceof RegExp ){
+				this.settings.createFilter = (input) => (filter as RegExp).test(input);
+			}else{
+				this.settings.createFilter = () => true;
+			}
 		}
+
 
 		this.initializePlugins(this.settings.plugins);
 		this.setupCallbacks();
@@ -2410,13 +2421,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * create item prompt, given a user input.
 	 *
 	 */
-	canCreate(input:string):boolean {
-		if (!this.settings.create) return false;
-		var filter = this.settings.createFilter;
-
-		return input.length
-			&& (typeof filter !== 'function' || filter.call(this, input))
-			&& (!(filter instanceof RegExp) || filter.test(input));
+	canCreate( input:string ):boolean {
+		return this.settings.create && input.length && (this.settings.createFilter as TomCreateFilter ).call(this, input);
 	}
 
 	/**
