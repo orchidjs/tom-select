@@ -12,6 +12,7 @@
   ],
   "main": "dist/js/tom-select.complete.js",
   "browser": "dist/js/tom-select.complete.js",
+  "module": "dist/esm/tom-select.complete.js",
   "description": "Tom Select is a versatile and dynamic <select> UI control. Framework agnostic with autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, etc.",
   "homepage": "https://tom-select.js.org",
   "version": "1.0.0-rc.3",
