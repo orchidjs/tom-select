@@ -1,5 +1,4 @@
-import TomSelect from '../tom-select.js';
-import { TomCreateFilter } from './index';
+import { TomCreateFilter, TomCreate } from './index';
 
 export type TomSettings = {
 	options					: any[],
@@ -11,7 +10,7 @@ export type TomSettings = {
 	splitOn					: RegExp|string, // regexp or string for splitting up values from a paste command
 	persist					: boolean,
 	diacritics				: boolean,
-	create					: boolean|(()=>any),
+	create					: boolean|TomCreate,
 	createOnBlur			: boolean,
 	createFilter			: RegExp|string|TomCreateFilter,
 	highlight				: boolean,
@@ -60,7 +59,7 @@ export type TomSettings = {
 	placeholder				: string,
 
 	load					: (value:string, callback:()=>any) => void,
-	score					: (instance:TomSelect, query:string) => () => any,
+	score					: (query:string) => () => any,
 	onInitialize			: (evt:Event) => void,
 	onChange				: (evt:Event) => void,
 	onItemAdd				: (evt:Event) => void,

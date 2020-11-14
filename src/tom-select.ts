@@ -3,7 +3,7 @@ import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from './contrib/sifter.js';
 import { TomSettings } from './types/settings';
-import { TomInput, TomArgObject, TomOption, TomCreateFilter } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomCreateFilter, TomCreateCallback } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './settings.js';
@@ -290,7 +290,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			var target_match = parentMatch(e.target, '[data-selectable]', dropdown);
 			if( target_match ){
-				return self.onOptionHover.call(self, e, target_match );
+				return self.onOptionHover( e as MouseEvent, target_match );
 			}
 		}, {capture:true});
 
@@ -298,9 +298,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			var target_match = parentMatch( evt.target, '.'+self.settings.itemClass, control);
 			if( target_match ){
-				return self.onItemSelect.call(self, evt, target_match);
+				return self.onItemSelect(evt as MouseEvent, target_match);
 			}
-			return self.onMouseDown.call(self, evt);
+			return self.onMouseDown(evt as MouseEvent);
 		});
 
 		addEvent(control,'click', (e) => self.onClick(e as KeyboardEvent) );
@@ -1205,7 +1205,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// validate user-provided result scoring function
 		if (settings.score) {
-			calculateScore = self.settings.score.call(this, query);
+			calculateScore = self.settings.score(query);
 			if (typeof calculateScore !== 'function') {
 				throw new Error('Tom Select "score" setting must be a function that returns a function');
 			}
@@ -1836,7 +1836,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * to the item list.
 	 *
 	 */
-	createItem( input?:string, triggerDropdown:boolean=true, callback?:(data?:object)=>void ):boolean{
+	createItem( input?:string, triggerDropdown:boolean=true, callback?:TomCreateCallback ):boolean{
 		var self  = this;
 		var caret = self.caretPos;
 		var output;
@@ -1852,7 +1852,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.lock();
 
 		var created = false;
-		var create = (data) => {
+		var create = (data:TomOption) => {
 			self.unlock();
 
 			if (!data || typeof data !== 'object') return callback();
@@ -1871,11 +1871,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		};
 
 		if( typeof self.settings.create === 'function' ){
-			output = self.settings.create.apply(this, [input, create]);
+			output = self.settings.create(input, create);
 		}else{
-			output = {};
-			output[self.settings.labelField] = input;
-			output[self.settings.valueField] = input;
+			output = {
+				[self.settings.labelField]: input,
+				[self.settings.valueField]: input,
+			};
 		}
 
 		if( !created ){
@@ -2142,7 +2143,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		// allow the callback to abort
-		if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete.apply(self, [values,e]) === false)) {
+		if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete(values,e) === false)) {
 			return false;
 		}
 
@@ -2366,7 +2367,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// render markup
-		html = getDom( self.settings.render[templateName].apply(this, [data, escape_html]) );
+		html = getDom( self.settings.render[templateName](data, escape_html) );
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
@@ -2422,7 +2423,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	canCreate( input:string ):boolean {
-		return this.settings.create && input.length && (this.settings.createFilter as TomCreateFilter ).call(this, input);
+		return this.settings.create && input.length && (this.settings.createFilter as TomCreateFilter )(input);
 	}
 
 	/**
