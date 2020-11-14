@@ -2441,7 +2441,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			return false;
 		}
 
-		var count = Number(evt.altKey) + Number(evt.ctrlKey) + Number(evt.shiftKey) + Number(evt.metaKey);
+		var count = (evt.altKey?1:0) + (evt.ctrlKey?1:0) + (evt.shiftKey?1:0) + (evt.metaKey?1:0);
 
 		if( count === 1 ){
 			return true;
