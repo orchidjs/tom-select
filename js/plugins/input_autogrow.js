@@ -4,9 +4,9 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('../../tom-select.js')) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
 	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.input_autogrow = factory(global.TomSelect));
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
@@ -26,7 +26,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	var plugin = TomSelect__default['default'].define('input_autogrow', function (options) {
+	TomSelect__default['default'].define('input_autogrow', function (options) {
 	  var self = this;
 	  self.hook('after', 'setup', function () {
 	    var test_input = document.createElement('span');
@@ -61,8 +61,6 @@
 	    control.addEventListener('update', resize);
 	  });
 	});
-
-	return plugin;
 
 })));
 //# sourceMappingURL=input_autogrow.js.map

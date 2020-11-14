@@ -16,7 +16,7 @@
 import TomSelect from '../../tom-select.js';
 import getSettings from '../../settings.js';
 
-export default TomSelect.define('change_listener',function(options){
+TomSelect.define('change_listener',function(options){
 	var self		= this;
 	var changed		= false;
 

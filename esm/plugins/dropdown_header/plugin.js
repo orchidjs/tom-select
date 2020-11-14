@@ -17,7 +17,7 @@ import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla.js';
 
 
-export default TomSelect.define('dropdown_header',function(options) {
+TomSelect.define('dropdown_header',function(options) {
 	var self = this;
 
 	options = Object.assign({

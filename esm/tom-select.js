@@ -145,6 +145,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var classes_plugins;
 		var inputId;
 		var input			= self.input;
+		const passive_event = { passive: true };
 
 		inputMode			= self.settings.mode;
 		classes				= input.getAttribute('class') || '';
@@ -255,7 +256,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		control_input.addEventListener('keydown', function() { return self.onKeyDown.apply(self, arguments); });
 		control_input.addEventListener('keyup', function() { return self.onKeyUp.apply(self, arguments); });
 		control_input.addEventListener('keypress', function() { return self.onKeyPress.apply(self, arguments); });
-		control_input.addEventListener('resize', function() { self.positionDropdown.apply(self, []); });
+		control_input.addEventListener('resize', function() { self.positionDropdown.apply(self, []); }, passive_event);
 		control_input.addEventListener('blur', function() { return self.onBlur.apply(self, arguments); });
 		control_input.addEventListener('focus', function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); });
 		control_input.addEventListener('paste', function() { return self.onPaste.apply(self, arguments); });
@@ -294,10 +295,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.ignoreHover = false;
 		};
 
+
 		document.addEventListener('mousedown',doc_mousedown);
-		window.addEventListener('sroll',win_scroll);
-		window.addEventListener('resize',win_scroll);
-		window.addEventListener('mousemove',win_hover);
+		window.addEventListener('sroll', win_scroll, passive_event);
+		window.addEventListener('resize', win_scroll, passive_event);
+		window.addEventListener('mousemove', win_hover, passive_event);
+
 		self._destroy = function(){
 			document.removeEventListener('mousedown',doc_mousedown);
 			window.removeEventListener('mousemove',win_hover);
@@ -580,9 +583,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		switch (e.keyCode) {
 
-			// cmd+A: select all
+			// ctrl+A: select all
 			case constants.KEY_A:
-				if( self.isKeyDown(constants.KEY_CTRL,e) ){
+				if( self.isKeyDown(constants.KEY_SHORTCUT,e) ){
 					self.selectAll();
 					return;
 				}
@@ -656,7 +659,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				return;
 		}
 
-		if( self.isInputHidden && !self.isKeyDown(constants.KEY_CTRL,e) ){
+		if( self.isInputHidden && !self.isKeyDown(constants.KEY_SHORTCUT,e) ){
 			e.preventDefault();
 			return;
 		}
@@ -966,7 +969,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// modify selection
 		eventName = e && e.type.toLowerCase();
 
-		if (eventName === 'mousedown' && this.isKeyDown(constants.KEY_SHIFT,e) && this.activeItems.length) {
+		if (eventName === 'mousedown' && this.isKeyDown('shiftKey',e) && this.activeItems.length) {
 			last	= this.getLastActive();
 			begin	= Array.prototype.indexOf.call(this.control.children, last);
 			end		= Array.prototype.indexOf.call(this.control.children, item);
@@ -983,7 +986,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 			}
 			e.preventDefault();
-		} else if ((eventName === 'mousedown' && this.isKeyDown(constants.KEY_CTRL,e) ) || (eventName === 'keydown' && this.isKeyDown(constants.KEY_SHIFT,e))) {
+		} else if ((eventName === 'mousedown' && this.isKeyDown(constants.KEY_SHORTCUT,e) ) || (eventName === 'keydown' && this.isKeyDown('shiftKey',e))) {
 			if( item.classList.contains('active') ){
 				this.removeActiveItem( item );
 			} else {
@@ -1005,6 +1008,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Set the active and last-active classes
 	 *
+	 * @param {HTMLElement} item
 	 */
 	setActiveItemClass( item ){
 
@@ -1020,6 +1024,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Remove active item
 	 *
+	 * @param {HTMLElement} item
 	 */
 	removeActiveItem( item ){
 		var idx = this.activeItems.indexOf(item);
@@ -1032,7 +1037,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Sets the selected item in the dropdown menu
 	 * of available options.
 	 *
-	 * @param {object} option
+	 * @param {HTMLElement} option
 	 * @param {boolean} scroll
 	 */
 	setActiveOption( option=null, scroll=false ){
@@ -1407,6 +1412,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Return list of selectable options
 	 *
+	 * @return {NodeList}
 	 */
 	selectable(){
 		return this.dropdown_content.querySelectorAll('[data-selectable]');
@@ -2205,7 +2211,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// add or remove to active items
-		if( this.isKeyDown(constants.KEY_CTRL,e) || this.isKeyDown(constants.KEY_SHIFT,e) ){
+		if( this.isKeyDown(constants.KEY_SHORTCUT,e) || this.isKeyDown('shiftKey',e) ){
 
 			last_active			= this.getLastActive(direction);
 			let adjacent		= this.getAdjacent(last_active,direction,'item');
@@ -2465,27 +2471,22 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
 	 * The current evt may not always set ( eg calling advanceSelection() )
 	 *
+	 * @param {string} key_name
+	 * @param {KeyboardEvent|MouseEvent} evt
 	 */
-	isKeyDown( key_code, evt ){
+	isKeyDown( key_name, evt ){
 
 		if( !evt ){
 			return false;
 		}
 
-		if( evt.altKey ){
+		if( !evt[key_name] ){
 			return false;
 		}
 
-		// if [ctrl+shift], return false
-		if( evt.ctrlKey && evt.shiftKey ){
-			return false;
-		}
+		var count = Number(evt.altKey) + Number(evt.ctrlKey) + Number(evt.shiftKey) + Number(evt.metaKey);
 
-		if( key_code == constants.KEY_CTRL && evt.ctrlKey ){
-			return true;
-		}
-
-		if( key_code == constants.KEY_SHIFT && evt.shiftKey ){
+		if( count === 1 ){
 			return true;
 		}
 

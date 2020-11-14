@@ -15,7 +15,7 @@
 import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
 
-export default TomSelect.define('restore_on_backspace',function(options) {
+TomSelect.define('restore_on_backspace',function(options) {
 	var self = this;
 
 	options.text = options.text || function(option) {

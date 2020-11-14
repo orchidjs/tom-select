@@ -4,9 +4,9 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('../../tom-select.js')) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
 	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.change_listener = factory(global.TomSelect));
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
@@ -285,7 +285,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	var plugin = TomSelect__default['default'].define('change_listener', function (options) {
+	TomSelect__default['default'].define('change_listener', function (options) {
 	  var self = this;
 	  var changed = false;
 	  self.input.addEventListener('change', function () {
@@ -301,8 +301,6 @@
 	    self.setValue(settings.items);
 	  });
 	});
-
-	return plugin;
 
 })));
 //# sourceMappingURL=change_listener.js.map

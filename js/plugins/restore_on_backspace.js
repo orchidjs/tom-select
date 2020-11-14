@@ -4,9 +4,9 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('../../tom-select.js')) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
 	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.restore_on_backspace = factory(global.TomSelect));
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
@@ -14,6 +14,8 @@
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
 
 	var KEY_BACKSPACE = 8;
+	var IS_MAC = /Mac/.test(navigator.userAgent);
+	 // ctrl key or apple key for ma
 
 	/**
 	 * Plugin: "restore_on_backspace" (Tom Select)
@@ -29,7 +31,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	var plugin = TomSelect__default['default'].define('restore_on_backspace', function (options) {
+	TomSelect__default['default'].define('restore_on_backspace', function (options) {
 	  var self = this;
 
 	  options.text = options.text || function (option) {
@@ -59,8 +61,6 @@
 	    return orig_keydown.apply(self, arguments);
 	  });
 	});
-
-	return plugin;
 
 })));
 //# sourceMappingURL=restore_on_backspace.js.map

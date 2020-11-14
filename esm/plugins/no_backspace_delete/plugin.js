@@ -13,7 +13,7 @@
  */
 import TomSelect from '../../tom-select.js';
 
-export default TomSelect.define('no_backspace_delete', function(options) {
+TomSelect.define('no_backspace_delete', function(options) {
 
 	this.hook('instead','setActiveItem',function(){});
 	this.hook('instead','selectAll',function(){});

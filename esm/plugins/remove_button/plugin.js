@@ -16,7 +16,7 @@ import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla.js';
 import { escape_html } from '../../utils.js';
 
-export default TomSelect.define('remove_button',function(options) {
+TomSelect.define('remove_button',function(options) {
 
 	options = Object.assign({
 			label     : '&times;',

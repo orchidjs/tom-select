@@ -4,9 +4,9 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('../../tom-select.js')) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
 	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.drag_drop = factory(global.TomSelect));
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
@@ -27,7 +27,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	var plugin = TomSelect__default['default'].define('drag_drop', function (options) {
+	TomSelect__default['default'].define('drag_drop', function (options) {
 	  if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	  if (this.settings.mode !== 'multi') return;
 	  var self = this;
@@ -67,8 +67,6 @@
 	    });
 	  });
 	});
-
-	return plugin;
 
 })));
 //# sourceMappingURL=drag_drop.js.map
