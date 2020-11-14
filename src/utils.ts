@@ -124,3 +124,29 @@ export function preventDefault(evt?:Event, stop:boolean=false):void{
 export function addEvent(target:EventTarget, type:string, callback:EventListener, options?:object):void{
 	target.addEventListener(type,callback,options);
 }
+
+
+/**
+ * Return true if the requested key is down
+ * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
+ * The current evt may not always set ( eg calling advanceSelection() )
+ *
+ */
+export function isKeyDown( key_name:string, evt:KeyboardEvent|MouseEvent ){
+
+	if( !evt ){
+		return false;
+	}
+
+	if( !evt[key_name] ){
+		return false;
+	}
+
+	var count = (evt.altKey?1:0) + (evt.ctrlKey?1:0) + (evt.shiftKey?1:0) + (evt.metaKey?1:0);
+
+	if( count === 1 ){
+		return true;
+	}
+
+	return false;
+}

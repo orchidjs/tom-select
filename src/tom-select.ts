@@ -14,7 +14,8 @@ import {
 	getSelection,
 	preventDefault,
 	addEvent,
-	loadDebounce
+	loadDebounce,
+	isKeyDown
 } from './utils';
 
 import {
@@ -631,7 +632,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// ctrl+A: select all
 			case constants.KEY_A:
-				if( self.isKeyDown(constants.KEY_SHORTCUT,e) ){
+				if( isKeyDown(constants.KEY_SHORTCUT,e) ){
 					self.selectAll();
 					return;
 				}
@@ -704,7 +705,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				return;
 		}
 
-		if( self.isInputHidden && !self.isKeyDown(constants.KEY_SHORTCUT,e) ){
+		if( self.isInputHidden && !isKeyDown(constants.KEY_SHORTCUT,e) ){
 			preventDefault(e);
 			return;
 		}
@@ -976,7 +977,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// modify selection
 		eventName = e && e.type.toLowerCase();
 
-		if (eventName === 'mousedown' && self.isKeyDown('shiftKey',e) && self.activeItems.length) {
+		if (eventName === 'mousedown' && isKeyDown('shiftKey',e) && self.activeItems.length) {
 			last	= self.getLastActive();
 			begin	= Array.prototype.indexOf.call(self.control.children, last);
 			end		= Array.prototype.indexOf.call(self.control.children, item);
@@ -993,7 +994,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 			}
 			preventDefault(e);
-		} else if ((eventName === 'mousedown' && self.isKeyDown(constants.KEY_SHORTCUT,e) ) || (eventName === 'keydown' && self.isKeyDown('shiftKey',e))) {
+		} else if ((eventName === 'mousedown' && isKeyDown(constants.KEY_SHORTCUT,e) ) || (eventName === 'keydown' && isKeyDown('shiftKey',e))) {
 			if( item.classList.contains('active') ){
 				self.removeActiveItem( item );
 			} else {
@@ -2177,7 +2178,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// add or remove to active items
-		if( self.isKeyDown(constants.KEY_SHORTCUT,e) || self.isKeyDown('shiftKey',e) ){
+		if( isKeyDown(constants.KEY_SHORTCUT,e) || isKeyDown('shiftKey',e) ){
 
 			last_active			= self.getLastActive(direction);
 			let adjacent		= self.getAdjacent(last_active,direction,'item');
@@ -2426,30 +2427,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		return this.settings.create && input.length && (this.settings.createFilter as TomCreateFilter )(input);
 	}
 
-	/**
-	 * Return true if the requested key is down
-	 * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
-	 * The current evt may not always set ( eg calling advanceSelection() )
-	 *
-	 */
-	isKeyDown( key_name:string, evt:KeyboardEvent|MouseEvent ){
-
-		if( !evt ){
-			return false;
-		}
-
-		if( !evt[key_name] ){
-			return false;
-		}
-
-		var count = (evt.altKey?1:0) + (evt.ctrlKey?1:0) + (evt.shiftKey?1:0) + (evt.metaKey?1:0);
-
-		if( count === 1 ){
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 * Wraps this.`method` so that `new_fn` can be invoked 'before', 'after', or 'instead' of the original method

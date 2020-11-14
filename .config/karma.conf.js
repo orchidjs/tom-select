@@ -129,11 +129,6 @@ module.exports = function(config) {
 		frameworks: ['mocha', 'chai'],
 		files: [
 			{
-				pattern: 'src/**/*',
-				type: 'module',
-				included: false,
-			},
-			{
 				pattern: 'test/tests/esm-module.js',
 				type: 'module',
 				included: true,
@@ -144,7 +139,13 @@ module.exports = function(config) {
 			'node_modules/jquery/dist/jquery.js',
 			'build/css/tom-select.default.css',
 			'test/support/*.js',
-			'test/tests/*.js'
+			'test/tests/*.js',
+
+			{
+				pattern: 'build/**/*',
+				included: false,
+			},
+
 		],
 		preprocessors: {
 			'build/**/*.js': ['sourcemap','coverage'],
