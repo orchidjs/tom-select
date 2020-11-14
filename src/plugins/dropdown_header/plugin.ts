@@ -27,7 +27,7 @@ TomSelect.define('dropdown_header',function(options) {
 		labelClass    : 'dropdown-header-label',
 		closeClass    : 'dropdown-header-close',
 
-		html: function(data) {
+		html: (data) => {
 			return (
 				'<div class="' + data.headerClass + '">' +
 					'<div class="' + data.titleRowClass + '">' +
@@ -39,7 +39,7 @@ TomSelect.define('dropdown_header',function(options) {
 		}
 	}, options);
 
-	self.hook('after','setup',function(){
+	self.hook('after','setup',()=>{
 		var header = getDom(options.html(options));
 		self.dropdown.insertBefore(header, self.dropdown.firstChild);
 	});

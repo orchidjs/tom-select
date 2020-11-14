@@ -22,7 +22,7 @@ TomSelect.define('change_listener',function(options){
 	var self		= this;
 	var changed		= false;
 
-	addEvent(self.input,'change',function(){
+	addEvent(self.input,'change',()=>{
 
 		// prevent infinite loops
 		if( changed ){

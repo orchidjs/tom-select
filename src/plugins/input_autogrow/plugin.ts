@@ -18,11 +18,11 @@ TomSelect.define('input_autogrow', function(options) {
 
 	var self					= this;
 
-	self.hook('after','setup',function(){
+	self.hook('after','setup',()=>{
 
 
 		var test_input				= document.createElement('span');
-		var control					= this.control_input;
+		var control					= self.control_input;
 		test_input.style.position	= 'absolute';
 		test_input.style.top		= '-99999px';
 		test_input.style.left		= '-99999px';
@@ -45,7 +45,7 @@ TomSelect.define('input_autogrow', function(options) {
 		 * Set the control width
 		 *
 		 */
-		var resize = function(){
+		var resize = ()=>{
 			test_input.textContent	= control.value;
 			control.style.width		= test_input.clientWidth+'px';
 		};

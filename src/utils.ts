@@ -66,7 +66,7 @@ export function debounce_events( self:TomSelect, types:string[], fn:() => void )
 	var event_args = {};
 
 	// override trigger method
-	self.trigger = function() {
+	self.trigger = function(){
 		var type = arguments[0];
 		if (types.indexOf(type) !== -1) {
 			event_args[type] = arguments;

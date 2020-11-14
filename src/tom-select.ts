@@ -275,7 +275,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.control_input.type	= input.type;
 
-		addEvent(dropdown,'mouseenter', function(e) {
+		addEvent(dropdown,'mouseenter', (e) => {
 
 			var target_match = parentMatch(e.target, '[data-selectable]', dropdown);
 			if( target_match ){
@@ -283,7 +283,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		}, {capture:true});
 
-		addEvent(control,'mousedown', function(evt){
+		addEvent(control,'mousedown', (evt) => {
 
 			var target_match = parentMatch( evt.target, '.'+self.settings.itemClass, control);
 			if( target_match ){
@@ -292,22 +292,22 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			return self.onMouseDown.call(self, evt);
 		});
 
-		addEvent(control,'click', function() { self.onClick.apply(self, arguments); });
+		addEvent(control,'click', (e) => self.onClick(e as KeyboardEvent) );
 
 
-		addEvent(control_input,'mousedown', function(e) { e.stopPropagation(); });
-		addEvent(control_input,'keydown', function() { self.onKeyDown.apply(self, arguments); });
-		addEvent(control_input,'keyup', function() { self.onKeyUp.apply(self, arguments); });
-		addEvent(control_input,'keypress', function() { self.onKeyPress.apply(self, arguments); });
-		addEvent(control_input,'resize', function() { self.positionDropdown.apply(self, []); }, passive_event);
-		addEvent(control_input,'blur', function() { self.onBlur.apply(self, arguments); });
-		addEvent(control_input,'focus', function() { self.ignoreBlur = false; self.onFocus.apply(self, arguments); });
-		addEvent(control_input,'paste', function() { self.onPaste.apply(self, arguments); });
+		addEvent(control_input,'mousedown',	(e) => e.stopPropagation() );
+		addEvent(control_input,'keydown',	(e) => self.onKeyDown(e as KeyboardEvent) );
+		addEvent(control_input,'keyup',		(e) => self.onKeyUp(e as KeyboardEvent) );
+		addEvent(control_input,'keypress',	(e) => self.onKeyPress(e as KeyboardEvent) );
+		addEvent(control_input,'resize',	() => self.positionDropdown(), passive_event);
+		addEvent(control_input,'blur',		(e) => self.onBlur(e as MouseEvent) );
+		addEvent(control_input,'focus',		(e) => { self.ignoreBlur = false; self.onFocus(e as MouseEvent) });
+		addEvent(control_input,'paste',		(e) => self.onPaste(e as MouseEvent) );
 
 
 		// clicking anywhere in the control should not close the dropdown
 		// clicking on an option should selectit
-		var doc_mousedown = function(e){
+		var doc_mousedown = (e) => {
 
 			// if dropdownParent is set, options may not be within self.wrapper
 			var option = parentMatch(e.target, '[data-selectable]',self.dropdown);
@@ -327,13 +327,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		};
 
-		var win_scroll = function() {
+		var win_scroll = () => {
 			if (self.isOpen) {
-				self.positionDropdown.apply(self, arguments);
+				self.positionDropdown();
 			}
 		};
 
-		var win_hover = function() {
+		var win_hover = () => {
 			self.ignoreHover = false;
 		};
 
@@ -343,7 +343,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(window,'resize', win_scroll, passive_event);
 		addEvent(window,'mousemove', win_hover, passive_event);
 
-		self._destroy = function(){
+		self._destroy = () => {
 			document.removeEventListener('mousedown',doc_mousedown);
 			window.removeEventListener('mousemove',win_hover);
 			window.removeEventListener('sroll',win_scroll);
@@ -370,7 +370,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.setValue(settings.items);
 		delete settings.items;
 
-		addEvent(input,'invalid', function(e) {
+		addEvent(input,'invalid', (e) => {
 			preventDefault(e);
 			if( !self.isInvalid ){
 				self.isInvalid = true;
@@ -431,32 +431,32 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var field_optgroup = self.settings.optgroupLabelField;
 
 		var templates = {
-			'optgroup': function(data, escape) {
+			'optgroup': (data, escape) => {
 				let optgroup = document.createElement('div');
 				optgroup.className = 'optgroup';
 				optgroup.appendChild(data.options);
 				return optgroup;
 
 			},
-			'optgroup_header': function(data, escape) {
+			'optgroup_header': (data, escape) => {
 				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 			},
-			'option': function(data, escape) {
+			'option': (data, escape) => {
 				return '<div>' + escape(data[field_label]) + '</div>';
 			},
-			'item': function(data, escape) {
+			'item': (data, escape) => {
 				return '<div>' + escape(data[field_label]) + '</div>';
 			},
-			'option_create': function(data, escape) {
+			'option_create': (data, escape) => {
 				return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
 			},
-			'no_results':function(data,escape){
+			'no_results':(data,escape) => {
 				return '<div class="no-results">No results found</div>';
 			},
-			'loading':function(data,escape){
+			'loading':(data,escape) => {
 				return '<div class="spinner"></div>';
 			},
-			'dropdown':function(){
+			'dropdown':() => {
 				return '<div style="display:none"></div>';
 			}
 		};
@@ -540,9 +540,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		} else {
 			// give control focus
-			setTimeout(function() {
-				self.focus();
-			}, 0);
+			setTimeout(() => self.focus(), 0);
 		}
 	}
 
@@ -572,7 +570,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (self.settings.splitOn) {
 
 			// Wait for pasted text to be recognized in value
-			setTimeout(function() {
+			setTimeout(() => {
 				var pastedText = self.inputValue();
 				if(!pastedText.match(self.settings.splitOn)){ return }
 
@@ -732,7 +730,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (!fn) return;
 		if (self.loadedSearches.hasOwnProperty(value)) return;
 		self.loadedSearches[value] = true;
-		self.load(function(callback) {
+		self.load((callback) => {
 			fn.apply(self, [value, callback]);
 		});
 	}
@@ -784,7 +782,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			return;
 		}
 
-		var deactivate = function() {
+		var deactivate = () => {
 			self.close();
 			self.setActiveItem();
 			self.setActiveOption();
@@ -835,7 +833,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		if( option.classList.contains('create') ){
-			self.createItem(null, true, function() {
+			self.createItem(null, true, () => {
 				if (self.settings.closeAfterSelect) {
 					self.close();
 				}
@@ -882,7 +880,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addClasses(self.wrapper,self.settings.loadingClass);
 
 		self.loading++;
-		fn.call(self, function(options, optgroups) {
+		fn.call(self, (options, optgroups) => {
 			self.loading = Math.max(self.loading - 1, 0);
 			self.lastQuery = null;
 
@@ -936,7 +934,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	setValue( value:string|string[], silent?:boolean ):void{
 		var events = silent ? [] : ['change'];
 
-		debounce_events(this, events, function() {
+		debounce_events(this, events,() => {
 			this.clear(silent);
 			this.addItems(value, silent);
 		});
@@ -1126,7 +1124,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.ignoreFocus = true;
 		self.control_input.focus();
-		setTimeout(function() {
+		setTimeout(() => {
 			self.ignoreFocus = false;
 			self.onFocus();
 		}, 0);
@@ -1290,7 +1288,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// sort optgroups
 		if (this.settings.lockOptgroupOrder) {
-			groups_order.sort(function(a, b) {
+			groups_order.sort((a, b) => {
 				var a_order = self.optgroups[a].$order || 0;
 				var b_order = self.optgroups[b].$order || 0;
 				return a_order - b_order;
@@ -1340,7 +1338,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		// helper method for adding templates to dropdown
-		var add_template = function(template){
+		var add_template = (template) => {
 			show_dropdown = true;
 			let content = self.render(template,{input:query});
 			self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
@@ -1714,7 +1712,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	addItem( value:string, silent?:boolean ):void{
 		var events = silent ? [] : ['change'];
 
-		debounce_events(this, events, function() {
+		debounce_events(this, events, () => {
 			var item;
 			var self = this;
 			var inputMode = self.settings.mode;
@@ -1833,7 +1831,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var output;
 		input = input || self.inputValue();
 
-		if (typeof callback !== 'function') callback = function() {};
+		if (typeof callback !== 'function') callback = () => {};
 
 		if (!self.canCreate(input)) {
 			callback();
@@ -1843,7 +1841,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.lock();
 
 		var created = false;
-		var create = function(data) {
+		var create = (data) => {
 			self.unlock();
 
 			if (!data || typeof data !== 'object') return callback();

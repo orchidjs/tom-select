@@ -22,7 +22,7 @@ TomSelect.define('optgroup_columns', function(options) {
 
 	var orig_keydown = self.onKeyDown;
 
-	self.hook('instead','onKeyDown',function( evt ) {
+	self.hook('instead','onKeyDown',function(evt){
 		var index, option, options, optgroup;
 
 		if( !self.isOpen || !(evt.keyCode === constants.KEY_LEFT || evt.keyCode === constants.KEY_RIGHT)) {

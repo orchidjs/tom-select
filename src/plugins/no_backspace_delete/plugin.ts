@@ -15,8 +15,8 @@ import TomSelect from '../../tom-select.js';
 
 TomSelect.define('no_backspace_delete', function(options) {
 
-	this.hook('instead','setActiveItem',function(){});
-	this.hook('instead','selectAll',function(){});
-	this.hook('instead','deleteSelection',function(){});
+	this.hook('instead','setActiveItem',() => {});
+	this.hook('instead','selectAll',() => {});
+	this.hook('instead','deleteSelection',() => {});
 
 });

@@ -36,7 +36,7 @@ TomSelect.define('remove_button',function(options) {
 
 	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
-	self.hook('after','setupTemplates',function(){
+	self.hook('after','setupTemplates',() => {
 
 		var orig_render_item = self.settings.render.item;
 
@@ -47,11 +47,11 @@ TomSelect.define('remove_button',function(options) {
 			var close_button = getDom(html);
 			rendered.appendChild(close_button);
 
-			addEvent(close_button,'mousedown',function(evt){
+			addEvent(close_button,'mousedown',(evt) => {
 				preventDefault(evt,true);
 			});
 
-			addEvent(close_button,'click',function(evt){
+			addEvent(close_button,'click',(evt) => {
 
 				// propagating will trigger the dropdown to show for single mode
 				preventDefault(evt,true);

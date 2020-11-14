@@ -37,12 +37,12 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 	 * Initialize from a <select> element.
 	 *
 	 */
-	var init_select = function() {
+	var init_select = () => {
 		var i, n, tagName, children;
 		var options = settings_element.options;
 		var optionsMap = {};
 
-		var readData = function(el) {
+		var readData = (el) => {
 
 			var data	= Object.assign({},el.dataset); // get plain object from DOMStringMap
 			var json	= attr_data && data[attr_data];
@@ -54,7 +54,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 			return data;
 		};
 
-		var addOption = function(option, group?:string) {
+		var addOption = (option, group?:string) => {
 
 			var value = hash_key(option.value);
 			if (!value && !settings.allowEmptyOption) return;
@@ -91,7 +91,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 			}
 		};
 
-		var addGroup = function( optgroup ){
+		var addGroup = ( optgroup ) => {
 			var i, n, id, optgroup_data, options;
 
 			id = optgroup.getAttribute('label')
@@ -128,7 +128,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 	 * Initialize from a <input type="text"> element.
 	 *
 	 */
-	var init_textbox = function(){
+	var init_textbox = () => {
 		var i, n, values, option;
 
 		var data_raw = input.getAttribute(attr_data);

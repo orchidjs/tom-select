@@ -19,7 +19,7 @@ import { preventDefault } from '../../utils';
 TomSelect.define('restore_on_backspace',function(options) {
 	var self = this;
 
-	options.text = options.text || function(option) {
+	options.text = options.text || function(option){
 		return option[self.settings.labelField];
 	};
 
