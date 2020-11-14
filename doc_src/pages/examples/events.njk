@@ -80,7 +80,7 @@ var eventHandler = function(name) {
 		document.getElementById('log').innerHTML += `<div><span class="name">${name}</span></div>`;
 	};
 };
-tomSelect('#select-state',{
+new TomSelect('#select-state',{
 	create          : true,
 	onChange        : eventHandler('onChange'),
 	onItemAdd       : eventHandler('onItemAdd'),
@@ -111,7 +111,7 @@ tomSelect('#select-state',{
 {% endset %}
 
 {% set script %}
-tomSelect("#input-tags",{
+new TomSelect("#input-tags",{
 	delimiter: ",",
 	persist: false,
 	onDelete: function(values) {

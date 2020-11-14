@@ -41,7 +41,7 @@ script: <script src="/js/jqueryui.js"></script>
 
 <script>
 {% set script %}
-tomSelect('#input-tags',{
+new TomSelect('#input-tags',{
 	plugins: ['remove_button'],
 	persist: false,
 	create: true,
@@ -76,7 +76,7 @@ tomSelect('#input-tags',{
 
 <script>
 {% set script %}
-tomSelect('#input-tags2',{
+new TomSelect('#input-tags2',{
 	plugins: ['remove_button'],
 	persist: false,
 	create: true,
@@ -110,7 +110,7 @@ tomSelect('#input-tags2',{
 
 <script>
 {% set script %}
-tomSelect('#disable-backspace',{
+new TomSelect('#disable-backspace',{
 	plugins: ['no_backspace_delete','remove_button',],
 	persist: false,
 	create: true,
@@ -144,7 +144,7 @@ tomSelect('#disable-backspace',{
 
 <script>
 {% set script %}
-tomSelect('#input-tags6',{
+new TomSelect('#input-tags6',{
 	plugins: ['restore_on_backspace'],
 	persist: false,
 	create: true
@@ -171,7 +171,7 @@ tomSelect('#input-tags6',{
 
 <script>
 {% set script %}
-tomSelect('#input-sortable',{
+new TomSelect('#input-sortable',{
 	plugins: ['drag_drop'],
 	persist: false,
 	create: true
@@ -210,7 +210,7 @@ tomSelect('#input-sortable',{
 
 <script>
 {% set script %}
-tomSelect('#select-code-language',{
+new TomSelect('#select-code-language',{
 	sortField: 'text',
 	hideSelected: false,
 	plugins: {
@@ -242,7 +242,7 @@ tomSelect('#select-code-language',{
 {% set script %}
 
 var input = document.getElementById('input-change');
-tomSelect(input,{
+new TomSelect(input,{
 	plugins: ['change_listener'],
 });
 document.getElementById('change-input').addEventListener('click',function(evt){
@@ -275,7 +275,7 @@ document.getElementById('change-input').addEventListener('click',function(evt){
 
 <script>
 {% set script %}
-tomSelect('#input-autogrow',{
+new TomSelect('#input-autogrow',{
 	plugins: ['input_autogrow'],
 });
 {% endset %}

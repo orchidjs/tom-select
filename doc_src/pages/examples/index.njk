@@ -12,7 +12,7 @@ tags: demo
 		&lt;input&gt;
 	</label>',
 	'<input id="input-tags" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">',
-	'tomSelect("#input-tags",{
+	'new TomSelect("#input-tags",{
 	persist: false,
 	createOnBlur: true,
 	create: true
@@ -31,7 +31,7 @@ tags: demo
 			<option value="3">Nikola Tesla</option>
 			<option value="5">Arnold Schwarzenegger</option>
 		</select>',
-	'tomSelect("#select-beast",{
+	'new TomSelect("#select-beast",{
 	create: true,
 	sortField: {
 		field: "text",
@@ -51,7 +51,7 @@ tags: demo
 				<option value="3">Nikola Tesla</option>
 				<option value="5">Arnold Schwarzenegger</option>
 			</select>',
-	'tomSelect("#select-beast-empty",{
+	'new TomSelect("#select-beast-empty",{
 	allowEmptyOption: true,
 	create: true
 });','')
@@ -67,7 +67,7 @@ tags: demo
 			<option value="1">Nikola</option>
 			<option value="3" selected>Nikola Tesla</option>
 		</select>',
-	'tomSelect("#select-beast-disabled");','')
+	'new TomSelect("#select-beast-disabled");','')
 }}
 
 
@@ -80,7 +80,7 @@ tags: demo
 			<option value="1">Nikola</option>
 			<option value="3" selected>Nikola Tesla</option>
 		</select>',
-	'tomSelect("#select-beast-single-disabled",{
+	'new TomSelect("#select-beast-single-disabled",{
 	create: true,
 	sortField: {field: "text"}
 });','')
@@ -144,7 +144,7 @@ tags: demo
 			<option value="WI">Wisconsin</option>
 			<option value="WY" selected>Wyoming</option>
 		</select>',
-	'tomSelect("#select-state",{
+	'new TomSelect("#select-state",{
 	maxItems: 3
 });','')
 }}

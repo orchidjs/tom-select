@@ -30,7 +30,7 @@ style: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-
 
 <script>
 {% set script %}
-tomSelect('#select-repo',{
+new TomSelect('#select-repo',{
 		valueField: 'url',
 		labelField: 'name',
 		searchField: 'name',
@@ -93,7 +93,7 @@ tomSelect('#select-repo',{
 
 <script>
 {% set script %}
-tomSelect('#select-state',{
+new TomSelect('#select-state',{
 		valueField: 'text',
 		load: function(query, callback) {
 			var self = this;
@@ -163,7 +163,7 @@ tomSelect('#select-state',{
 
 <script>
 {% set script %}
-tomSelect('#select-repo2',{
+new TomSelect('#select-repo2',{
 		valueField: 'url',
 		labelField: 'name',
 		searchField: ['name','description'],

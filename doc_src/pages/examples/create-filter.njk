@@ -24,7 +24,7 @@ tags: demo
 
 <script>
 {% set script %}
-tomSelect('#select-words-regex',{
+new TomSelect('#select-words-regex',{
 	create: true,
 	createFilter: document.getElementById('regex').value,
 });
@@ -49,7 +49,7 @@ tomSelect('#select-words-regex',{
 
 <script>
 {% set script %}
-tomSelect('#select-words-length',{
+new TomSelect('#select-words-length',{
 	create: true,
 	createFilter: function(input) { return input.length >= parseInt( document.getElementById('length').value, 10); }
 });
@@ -71,7 +71,7 @@ tomSelect('#select-words-length',{
 
 <script>
 {% set script %}
-var unique = tomSelect('#select-words-unique',{
+var unique = new TomSelect('#select-words-unique',{
 	create: true,
 	createFilter: function(input) {
 		input = input.toLowerCase();

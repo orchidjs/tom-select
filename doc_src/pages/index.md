@@ -24,7 +24,7 @@
 	<option>Mr. Baseball</option>
 </select>
 <script>
-tomSelect("#select-tags",{
+new TomSelect("#select-tags",{
 	plugins: ['remove_button'],
 	create: true,
 });
@@ -61,7 +61,7 @@ Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to pro
 <script src="/js/tom-select.complete.js"></script>
 <script>
 var config = {};
-tomSelect('#tom-select-it',config);
+new TomSelect('#tom-select-it',config);
 </script>
 ```
 

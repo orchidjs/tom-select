@@ -11,7 +11,7 @@ Tom Select instances have a basic event emitter interface that mimics jQuery, Ba
 
 ```js
 var handler = function() { /* ... */ };
-var select = tomSelect('#input-id');
+var select = new TomSelect('#input-id');
 select.on('event_name', handler);
 select.off('event_name');
 select.off('event_name', handler);

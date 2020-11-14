@@ -22,7 +22,7 @@ tags: demo
 <script>
 {% set script %}
 
-tomSelect('#select-tools',{
+new TomSelect('#select-tools',{
 	maxItems: null,
 	valueField: 'id',
 	labelField: 'title',
@@ -57,7 +57,7 @@ tomSelect('#select-tools',{
 
 <script>
 {% set script %}
-tomSelect('#data-attr',{
+new TomSelect('#data-attr',{
     render: {
         option: function (item, escape) {
             return `<div><img class="mr-2" src="${item.src}">${item.text}</div>`;

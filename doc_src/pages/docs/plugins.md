@@ -14,7 +14,7 @@ The plugin system is lean, makes very few assumptions, and gives the developer c
 #### Without Options
 
 ```js
-tomSelect('#select',{
+new TomSelect('#select',{
 	plugins: ['plugin_a', 'plugin_b']
 });
 ```
@@ -22,7 +22,7 @@ tomSelect('#select',{
 #### With Options
 
 ```js
-tomSelect('#select',{
+new TomSelect('#select',{
 	plugins: {
 		'plugin_a': { /* ... */ },
 		'plugin_b': { /* ... */ }

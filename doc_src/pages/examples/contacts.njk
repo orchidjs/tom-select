@@ -28,7 +28,7 @@ var formatName = function(item) {
 	return ((item.first_name || '') + ' ' + (item.last_name || '')).trim();
 };
 
-tomSelect('#select-to',{
+new TomSelect('#select-to',{
 	persist: false,
 	maxItems: null,
 	valueField: 'email',

@@ -7,7 +7,7 @@ tags: docs
 Instances of Tom Select can be controlled programmatically via the methods described in this section.
 
 ```js
-var control = tomSelect('#select');
+var control = new TomSelect('#select');
 control.addOption({value:'test'});
 control.addItem('test');
 ```

@@ -9,7 +9,7 @@ tags: docs
 <input id="select" />
 <script>
 var config = {};
-tomSelect('#select',config);
+new TomSelect('#select',config);
 </script>
 ```
 
@@ -449,7 +449,7 @@ create: function(input,callback){
 Custom rendering functions. Each function should accept two arguments: <code>data</code> and <code>escape</code> and return HTML (string or DOM element) with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.
 
 ```js
-tomSelect('#input',{
+new TomSelect('#input',{
 	optionClass: 'option',
 	itemClass: 'item',
 	render:{
