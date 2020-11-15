@@ -24,6 +24,19 @@
 				});
 			});
 
+			it_n('should keep dropdown open when clicking on dropdown if dropdownParent=body', function(done) {
+
+				var test = setup_test('AB_Multi',{dropdownParent:'body'});
+
+				click(test.instance.control, function() {
+					click($('[data-value=a]', test.instance.dropdown_content), function() {
+						expect(test.instance.isOpen).to.be.equal(true);
+						expect(test.instance.isFocused).to.be.equal(true);
+						done();
+					});
+				});
+			});
+
 			it_n('should close dropdown after selection made if closeAfterSelect: true', function(done) {
 
 				var test = setup_test('AB_Multi',{closeAfterSelect: true});
