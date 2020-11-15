@@ -228,3 +228,25 @@ describe('plugin: change_listener', function() {
 	});
 
 });
+
+
+describe('plugin: input_autogrow', function() {
+
+	it_n('width of control should change as text changes', function(done) {
+
+		let test = setup_test('<input>', {plugins: ['input_autogrow']});
+
+		syn.type('a', test.instance.control_input, function() {
+			let width_orig	= test.instance.control_input.clientWidth;
+
+			syn.type('a', test.instance.control_input, function() {
+				let width_now	= test.instance.control_input.clientWidth;
+
+				expect(width_now).to.be.above(width_orig);
+				done();
+			});
+		});
+
+	});
+
+});
