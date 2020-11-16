@@ -3,37 +3,25 @@ title: selectize.js
 tags: docs
 ---
 
-Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> to provide the same usability without the need for jQuery or any other JavaScript framework.
+<div class="lead">
+Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> with the goal of modernizing the code base, decoupling from jQuery, and expanding functionality.
+</div>
 
 
-## New Features
+## New
 - support for external control input
 - dropdownParent other than 'body'
 - no_backspace_delete plugin
-
-
-## Performance and Usability
-- framework agnostic (doesn't require jQuery, Vue or any other JavaScript framework)
+- framework agnostic design (works without jQuery or any other JavaScript framework)
 - improved keyboard control of selected items
 - improved option cache to reduce dom manipulation during searches
 - animated scrolling with css instead of JavaScript
-- ctrl/shift/cmd key detection
-- moved autogrow functionality to input_autogrow plugin
+- improved ctrl/shift/cmd key detection
+- autogrow functionality moved to input_autogrow plugin
 - [integrated plugin hooks](plugins.md)
 
 
-## Breaking Changes
-- removed support for older browsers ES5
-- removed placeholder show/hide
-- dataAttr defaults to null instead of "data-data"
-- options are appended to optgroup template programmatically
-- .ts-* css class names (customizable with scss)
-- scss instead of less
-	- autoprefixer
-	- nanocss
-
-
-## Issues / Pull requests
+## Fixed
 - [#1363](https://github.com/selectize/selectize.js/issues/1363) Autofill disable possibility
 - [#1447](https://github.com/selectize/selectize.js/issues/1447) Enhancement - dropdownParent
 - [#1279](https://github.com/selectize/selectize.js/issues/1279) Adding ability to use load to init opt groups
@@ -49,6 +37,20 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - [#905](https://github.com/selectize/selectize.js/issues/905) Support for Bootstrap 4
 
 
-## Development
-- examples and documentation generated using 11ty
-- compiled with Babel
+## Breaking Changes
+- removed support for older browsers including IE11
+- removed placeholder show/hide
+- dataAttr defaults to null instead of "data-data"
+- options are appended to optgroup template programmatically
+- .ts-* css class names (customizable with scss)
+- scss instead of less
+	- autoprefixer
+	- nanocss
+
+
+## Development Environment
+- code converted to <a href="https://www.typescriptlang.org/">TypeScript</a> (Tom Select 1.1+)
+- compiled with <a href="https://babeljs.io/">Babel</a>
+- bundled with <a href="https://rollupjs.org/guide/en/">rollup.js</a>
+- examples and documentation generated using <a href="https://www.11ty.dev/">11ty</a>
+- tests run on <a href="https://automate.browserstack.com/dashboard/v2/public-build/QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e">Browserstack</a>

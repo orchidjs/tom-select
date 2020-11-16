@@ -35,7 +35,8 @@ new TomSelect("#select-tags",{
 <div class="lead my-5">
 Tom Select is a versatile and dynamic &lt;select&gt; UI control.
 With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
-Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> to provide the same powerful UI and API but with a framework agnostic design.
+Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> with the goal of modernizing the code base, decoupling from jQuery, and expanding functionality.
+
 </div>
 
 
