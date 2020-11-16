@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.0.0-rc.3
+* Tom Select v1.0.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -758,9 +758,9 @@
   var KEY_DOWN = 40;
   var KEY_BACKSPACE = 8;
   var KEY_DELETE = 46;
-  var KEY_SHIFT = 16;
-  var KEY_CTRL = 17;
   var KEY_TAB = 9;
+  var IS_MAC = /Mac/.test(navigator.userAgent);
+  var KEY_SHORTCUT = IS_MAC ? 'metaKey' : 'ctrlKey'; // ctrl key or apple key for ma
 
   var defaults = {
     options: [],
@@ -1108,6 +1108,8 @@
   /**
    * Dispatch an event
    *
+   * @param {HTMLElement} dom_el
+   * @param {string} event_name
    */
 
   function triggerEvent(dom_el, event_name) {
@@ -1118,6 +1120,8 @@
   /**
    * Apply CSS rules to a dom element
    *
+   * @param {HTMLElement} dom_el
+   * @param {object} css
    */
 
   function applyCSS(dom_el, css) {
@@ -1156,6 +1160,7 @@
   /**
    * Return arguments
    *
+   * @return {array}
    */
 
   function classesArray() {
@@ -1175,6 +1180,14 @@
 
     return classes.filter(Boolean);
   }
+  /**
+   * Create an array from arg if it's not already an array
+   *
+   *
+   * @param {any} arg
+   * @return {array}
+   */
+
   function castAsArray(arg) {
     if (!Array.isArray(arg)) {
       arg = [arg];
@@ -1186,6 +1199,10 @@
    * Get the closest node to the evt.target matching the selector
    * Stops at wrapper
    *
+   * param {HTMLElement} target
+   * @param {string} selector
+   * @param {HTMLElement} [wrapper=null]
+   * return {HTMLElement}
    */
 
   function parentMatch(target, selector, wrapper) {
@@ -1207,6 +1224,10 @@
    * > 0 - right (last)
    * < 0 - left (first)
    *
+   * @param {HTMLElement} el
+   * @param {string} query
+   * @param {number} direction
+   * @return {HTMLElement}
    */
 
   function querySelectorEnd(el, query, direction) {
@@ -1221,6 +1242,9 @@
   /**
    * Get the first or last item from an array
    *
+   * @param {array|NodeList} array
+   * @param {number} direction
+   * @return {any}
    */
 
   function getTail(array, direction) {
@@ -1233,6 +1257,8 @@
   /**
    * Return true if an object is empty
    *
+   * @param {object} obj
+   * @return {boolean}
    */
 
   function isEmptyObject(obj) {
@@ -1241,6 +1267,9 @@
   /**
    * Get the index of an element amongst sibling nodes of the same type
    *
+   * @param {Element} el
+   * @param {string} [amongst=null]
+   * @return {number}
    */
 
   function nodeIndex(el, amongst) {
@@ -1378,6 +1407,9 @@
       var classes_plugins;
       var inputId;
       var input = self.input;
+      var passive_event = {
+        passive: true
+      };
       inputMode = self.settings.mode;
       classes = input.getAttribute('class') || '';
       wrapper = getDom('<div>');
@@ -1483,7 +1515,7 @@
       });
       control_input.addEventListener('resize', function () {
         self.positionDropdown.apply(self, []);
-      });
+      }, passive_event);
       control_input.addEventListener('blur', function () {
         return self.onBlur.apply(self, arguments);
       });
@@ -1527,9 +1559,9 @@
       };
 
       document.addEventListener('mousedown', doc_mousedown);
-      window.addEventListener('sroll', win_scroll);
-      window.addEventListener('resize', win_scroll);
-      window.addEventListener('mousemove', win_hover);
+      window.addEventListener('sroll', win_scroll, passive_event);
+      window.addEventListener('resize', win_scroll, passive_event);
+      window.addEventListener('mousemove', win_hover, passive_event);
 
       self._destroy = function () {
         document.removeEventListener('mousedown', doc_mousedown);
@@ -1812,9 +1844,9 @@
       }
 
       switch (e.keyCode) {
-        // cmd+A: select all
+        // ctrl+A: select all
         case KEY_A:
-          if (self.isKeyDown(KEY_CTRL, e)) {
+          if (self.isKeyDown(KEY_SHORTCUT, e)) {
             self.selectAll();
             return;
           }
@@ -1894,7 +1926,7 @@
           return;
       }
 
-      if (self.isInputHidden && !self.isKeyDown(KEY_CTRL, e)) {
+      if (self.isInputHidden && !self.isKeyDown(KEY_SHORTCUT, e)) {
         e.preventDefault();
         return;
       }
@@ -2226,7 +2258,7 @@
 
       eventName = e && e.type.toLowerCase();
 
-      if (eventName === 'mousedown' && this.isKeyDown(KEY_SHIFT, e) && this.activeItems.length) {
+      if (eventName === 'mousedown' && this.isKeyDown('shiftKey', e) && this.activeItems.length) {
         last = this.getLastActive();
         begin = Array.prototype.indexOf.call(this.control.children, last);
         end = Array.prototype.indexOf.call(this.control.children, item);
@@ -2246,7 +2278,7 @@
         }
 
         e.preventDefault();
-      } else if (eventName === 'mousedown' && this.isKeyDown(KEY_CTRL, e) || eventName === 'keydown' && this.isKeyDown(KEY_SHIFT, e)) {
+      } else if (eventName === 'mousedown' && this.isKeyDown(KEY_SHORTCUT, e) || eventName === 'keydown' && this.isKeyDown('shiftKey', e)) {
         if (item.classList.contains('active')) {
           this.removeActiveItem(item);
         } else {
@@ -2268,6 +2300,7 @@
     /**
      * Set the active and last-active classes
      *
+     * @param {HTMLElement} item
      */
     ;
 
@@ -2283,6 +2316,7 @@
     /**
      * Remove active item
      *
+     * @param {HTMLElement} item
      */
     ;
 
@@ -2295,7 +2329,7 @@
      * Sets the selected item in the dropdown menu
      * of available options.
      *
-     * @param {object} option
+     * @param {HTMLElement} option
      * @param {boolean} scroll
      */
     ;
@@ -2697,6 +2731,7 @@
     /**
      * Return list of selectable options
      *
+     * @return {NodeList}
      */
     ;
 
@@ -3543,7 +3578,7 @@
       if (direction === 0) return;
       if (this.rtl) direction *= -1; // add or remove to active items
 
-      if (this.isKeyDown(KEY_CTRL, e) || this.isKeyDown(KEY_SHIFT, e)) {
+      if (this.isKeyDown(KEY_SHORTCUT, e) || this.isKeyDown('shiftKey', e)) {
         last_active = this.getLastActive(direction);
         var adjacent = this.getAdjacent(last_active, direction, 'item');
 
@@ -3813,28 +3848,23 @@
      * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
      * The current evt may not always set ( eg calling advanceSelection() )
      *
+     * @param {string} key_name
+     * @param {KeyboardEvent|MouseEvent} evt
      */
     ;
 
-    _proto.isKeyDown = function isKeyDown(key_code, evt) {
+    _proto.isKeyDown = function isKeyDown(key_name, evt) {
       if (!evt) {
         return false;
       }
 
-      if (evt.altKey) {
-        return false;
-      } // if [ctrl+shift], return false
-
-
-      if (evt.ctrlKey && evt.shiftKey) {
+      if (!evt[key_name]) {
         return false;
       }
 
-      if (key_code == KEY_CTRL && evt.ctrlKey) {
-        return true;
-      }
+      var count = Number(evt.altKey) + Number(evt.ctrlKey) + Number(evt.shiftKey) + Number(evt.metaKey);
 
-      if (key_code == KEY_SHIFT && evt.shiftKey) {
+      if (count === 1) {
         return true;
       }
 
@@ -4017,12 +4047,7 @@
     self.hook('after', 'setup', function () {
       var test_input = document.createElement('span');
       var control = this.control_input;
-      test_input.style.position = 'absolute';
-      test_input.style.top = '-99999px';
-      test_input.style.left = '-99999px';
-      test_input.style.width = 'auto';
-      test_input.style.padding = '0';
-      test_input.style.whiteSpace = 'pre';
+      test_input.style.cssText = 'position:absolute; top:-99999px; left:-99999px; width:auto; padding:0; white-space:pre; ';
       self.wrapper.appendChild(test_input);
       var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
 
