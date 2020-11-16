@@ -1,12 +1,12 @@
 /**
-* Tom Select v1.0.0-rc.3
+* Tom Select v1.0.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('../../tom-select.js')) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
 	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.optgroup_columns = factory(global.TomSelect));
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
@@ -15,6 +15,8 @@
 
 	var KEY_LEFT = 37;
 	var KEY_RIGHT = 39;
+	var IS_MAC = /Mac/.test(navigator.userAgent);
+	 // ctrl key or apple key for ma
 
 	/**
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
@@ -27,6 +29,10 @@
 	 * Get the closest node to the evt.target matching the selector
 	 * Stops at wrapper
 	 *
+	 * param {HTMLElement} target
+	 * @param {string} selector
+	 * @param {HTMLElement} [wrapper=null]
+	 * return {HTMLElement}
 	 */
 
 	function parentMatch(target, selector, wrapper) {
@@ -45,6 +51,9 @@
 	/**
 	 * Get the index of an element amongst sibling nodes of the same type
 	 *
+	 * @param {Element} el
+	 * @param {string} [amongst=null]
+	 * @return {number}
 	 */
 
 	function nodeIndex(el, amongst) {
@@ -75,7 +84,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	var plugin = TomSelect__default['default'].define('optgroup_columns', function (options) {
+	TomSelect__default['default'].define('optgroup_columns', function (options) {
 	  var self = this;
 	  var orig_keydown = self.onKeyDown;
 	  self.hook('instead', 'onKeyDown', function (evt) {
@@ -107,8 +116,6 @@
 	    }
 	  });
 	});
-
-	return plugin;
 
 })));
 //# sourceMappingURL=optgroup_columns.js.map
