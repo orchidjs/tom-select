@@ -22,12 +22,7 @@ TomSelect.define('input_autogrow', function(options) {
 
 		var test_input				= document.createElement('span');
 		var control					= this.control_input;
-		test_input.style.position	= 'absolute';
-		test_input.style.top		= '-99999px';
-		test_input.style.left		= '-99999px';
-		test_input.style.width		= 'auto';
-		test_input.style.padding	= '0';
-		test_input.style.whiteSpace	= 'pre';
+		test_input.style.cssText	= 'position:absolute; top:-99999px; left:-99999px; width:auto; padding:0; white-space:pre; ';
 
 		self.wrapper.appendChild(test_input);
 
