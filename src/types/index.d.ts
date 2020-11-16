@@ -18,3 +18,5 @@ export type TomCreateFilter = (input:string) => boolean;
 export type TomCreateCallback = (data?:TomOption)=>void;
 
 export type TomCreate = (input:string,create:TomCreateCallback) => boolean;
+
+export type TomLoadCallback = (callback:any) => void;

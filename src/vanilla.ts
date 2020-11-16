@@ -18,7 +18,7 @@ export function getDom( query:any ):HTMLElement{
 	if( query.indexOf('<') > -1 ){
 		let div = document.createElement('div');
 		div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
-		return div.querySelector(':first-child');
+		return div.firstChild as HTMLElement;
 	}
 
 	return document.querySelector(query);
@@ -49,13 +49,13 @@ export function applyCSS( dom_el:HTMLElement, css:object):void{
  * Add css classes
  *
  */
-export function addClasses( elmts, ...classes ){
+export function addClasses( elmts:HTMLElement|HTMLElement[], ...classes:string[]|string[][] ){
 
-	classes		= classesArray(classes);
-	elmts		= castAsArray(elmts);
+	var norm_classes 	= classesArray(classes);
+	elmts				= castAsArray(elmts);
 
 	elmts.map( el => {
-		classes.map( cls => {
+		norm_classes.map( cls => {
 			el.classList.add( cls );
 		});
 	});
@@ -65,13 +65,13 @@ export function addClasses( elmts, ...classes ){
  * Remove css classes
  *
  */
- export function removeClasses( elmts, ...classes ){
+ export function removeClasses( elmts:HTMLElement|HTMLElement[], ...classes:string[]|string[][] ){
 
- 	classes 		= classesArray(classes);
-	elmts			= castAsArray(elmts);
+ 	var norm_classes 	= classesArray(classes);
+	elmts				= castAsArray(elmts);
 
 	elmts.map( el => {
-		classes.map(cls => {
+		norm_classes.map(cls => {
 	 		el.classList.remove( cls );
 		});
  	});
@@ -82,8 +82,8 @@ export function addClasses( elmts, ...classes ){
  * Return arguments
  *
  */
-export function classesArray(args):string[]{
-	var classes = [];
+export function classesArray(args:string[]|string[][]):string[]{
+	var classes:string[] = [];
 	for( let i = 0; i < args.length; i++ ){
 		let _classes = args[i];
 		if( typeof _classes === 'string' ){
@@ -114,10 +114,8 @@ export function castAsArray(arg:any):Array<any>{
  * Get the closest node to the evt.target matching the selector
  * Stops at wrapper
  *
- * param {HTMLElement} target
- * return {HTMLElement}
  */
-export function parentMatch( target, selector:string, wrapper?:HTMLElement ){
+export function parentMatch( target:HTMLElement, selector:string, wrapper?:HTMLElement ):HTMLElement|void{
 
 	if( wrapper && !wrapper.contains(target) ){
 		return;

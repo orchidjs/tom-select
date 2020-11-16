@@ -3,7 +3,7 @@ import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from './contrib/sifter.js';
 import { TomSettings } from './types/settings';
-import { TomInput, TomArgObject, TomOption, TomCreateFilter, TomCreateCallback } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomCreateFilter, TomCreateCallback, TomLoadCallback } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './settings.js';
@@ -289,7 +289,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		addEvent(dropdown,'mouseenter', (e) => {
 
-			var target_match = parentMatch(e.target, '[data-selectable]', dropdown);
+			var target_match = parentMatch(e.target as HTMLElement, '[data-selectable]', dropdown);
 			if( target_match ){
 				return self.onOptionHover( e as MouseEvent, target_match );
 			}
@@ -297,7 +297,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		addEvent(control,'mousedown', (evt) => {
 
-			var target_match = parentMatch( evt.target, '.'+self.settings.itemClass, control);
+			var target_match = parentMatch( evt.target as HTMLElement, '.'+self.settings.itemClass, control);
 			if( target_match ){
 				return self.onItemSelect(evt as MouseEvent, target_match);
 			}
@@ -885,9 +885,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * results to a callback---which are then added
 	 * as options to the control.
 	 *
-	 * @param {function} fn
 	 */
-	load(fn) {
+	load(fn:TomLoadCallback) {
 		var self = this;
 		addClasses(self.wrapper,self.settings.loadingClass);
 
@@ -1020,7 +1019,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	setActiveItemClass( item:HTMLElement ){
 
 		var last_active = this.control.querySelector('.last-active');
-		if( last_active ) removeClasses(last_active,'last-active');
+		if( last_active ) removeClasses(last_active as HTMLElement,'last-active');
 
 		addClasses(item,'active last-active');
 		if( this.activeItems.indexOf(item) == -1 ){
