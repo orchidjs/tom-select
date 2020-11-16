@@ -17,13 +17,16 @@ export function highlight(element, pattern) {
 		if (node.nodeType === 3) {
 			var pos = node.data.search(regex);
 			if (pos >= 0 && node.data.length > 0) {
+				var match = node.data.match(regex);
 				var spannode = document.createElement('span');
 				spannode.className = 'highlight';
-				var middlebit = node.splitText(pos);				
+				var middlebit = node.splitText(pos);
+				middlebit.splitText(match[0].length);
 				var middleclone = middlebit.cloneNode(true);
 				spannode.appendChild(middleclone);
 				middlebit.parentNode.replaceChild(spannode, middlebit);
 				skip = 1;
+
 			}
 		}
 		// Recurse element node, looking for child text nodes to highlight, unless element
