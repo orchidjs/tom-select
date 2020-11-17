@@ -40,6 +40,7 @@ export function escape_html(str:string):string {
  */
 export function loadDebounce(fn,delay){
 	var timeout;
+	var self = this;
 	return function() {
 		var args = arguments;
 		if( timeout ){

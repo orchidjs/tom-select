@@ -347,7 +347,7 @@ create: function(input,callback){
 		<th>Default</th>
 	</tr>
 	<tr>
-		<td><code>load(query, callback)</code></td>
+		<td><code>load(query)</code></td>
 		<td>Invoked when new options should be loaded from the server. Called with the current query string and a callback function to call with the results when they are loaded (or nothing when an error arises).</td>
 		<td><code>function</code></td>
 		<td><code>null</code></td>
@@ -437,7 +437,7 @@ create: function(input,callback){
 		<td><code>null</code></td>
 	</tr>
 	<tr>
-		<td><code>onLoad(data)</code></td>
+		<td><code>onLoad(options, optgroup)</code></td>
 		<td>Invoked when new options have been loaded and added to the control (via the <code>load</code> option or <code>load</code> API method).</td>
 		<td><code>function</code></td>
 		<td><code>null</code></td>

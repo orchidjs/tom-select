@@ -3,7 +3,7 @@ import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from './contrib/sifter.js';
 import { TomSettings } from './types/settings';
-import { TomInput, TomArgObject, TomOption, TomCreateFilter, TomCreateCallback, TomLoadCallback } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomCreateFilter, TomCreateCallback } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './settings.js';
@@ -137,7 +137,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// debounce user defined load() if loadThrottle > 0
 		if( this.settings.load && this.settings.loadThrottle ){
-			this.settings.load = loadDebounce(this.settings.load,this.settings.loadThrottle)
+			this.settings.load = loadDebounce.call(this,this.settings.load,this.settings.loadThrottle)
 		}
 
 		// search system
@@ -406,7 +406,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// preload options
 		if (settings.preload === true) {
-			self.onSearchChange('');
+			self.load('');
 		}
 
 	}
@@ -726,26 +726,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var value = self.inputValue();
 		if (self.lastValue !== value) {
 			self.lastValue = value;
-			self.onSearchChange(value);
+			self.load(value);
 			self.refreshOptions();
 			self.trigger('type', value);
 		}
 	}
 
-	/**
-	 * Invokes the user-provide option provider / loader.
-	 *
-	 */
-	onSearchChange(value:string):void {
-		var self = this;
-		var fn = self.settings.load;
-		if (!fn) return;
-		if (self.loadedSearches.hasOwnProperty(value)) return;
-		self.loadedSearches[value] = true;
-		self.load((callback) => {
-			fn.apply(self, [value, callback]);
-		});
-	}
 
 	/**
 	 * Triggered on <input> focus.
@@ -763,7 +749,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if (self.ignoreFocus) return;
 		self.isFocused = true;
-		if (self.settings.preload === 'focus') self.onSearchChange('');
+		if (self.settings.preload === 'focus') self.load('');
 
 		if (!wasFocused) self.trigger('focus');
 
@@ -880,18 +866,23 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 	}
 
+
 	/**
-	 * Invokes the provided method that provides
-	 * results to a callback---which are then added
-	 * as options to the control.
+	 * Invokes the user-provided option provider / loader.
 	 *
 	 */
-	load(fn:TomLoadCallback) {
+	load(value:string):void {
 		var self = this;
-		addClasses(self.wrapper,self.settings.loadingClass);
+		var fn = self.settings.load;
+		if (!fn) return;
+		if (self.loadedSearches.hasOwnProperty(value)) return;
 
+		self.loadedSearches[value] = true;
+		addClasses(self.wrapper,self.settings.loadingClass);
 		self.loading++;
-		fn.call(self, (options, optgroups) => {
+
+
+		fn.call(self, value, function(options, optgroups){
 			self.loading = Math.max(self.loading - 1, 0);
 			self.lastQuery = null;
 
@@ -903,8 +894,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				removeClasses(self.wrapper,self.settings.loadingClass);
 			}
 
-			self.trigger('load', options);
+			self.trigger('load', options, optgroups);
 		});
+	}
+
+	/**
+	 * @deprecated 1.1
+	 *
+	 */
+	onSearchChange(value:string):void {
+		this.load(value);
 	}
 
 
