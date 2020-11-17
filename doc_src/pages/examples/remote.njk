@@ -82,19 +82,21 @@ new TomSelect('#select-repo',{
 
 {% set label %}
 <label class="h2 mb-3">Load Once</label>
-<p>Load remote data once</p>
+<p>Load a list of web technologies once</p>
 {% endset %}
 
 
 {% set html %}
-<select id="select-state" placeholder="Pick a state..."></select>
+<select id="select-state" placeholder="Software: WordPress, Apache ..."></select>
 {% endset %}
 
 
 <script>
 {% set script %}
 new TomSelect('#select-state',{
-		valueField: 'text',
+		valueField: 'label',
+		labelField: 'label',
+		searchField: ['label','type'],
 		load: function(query, callback) {
 			var self = this;
 			if( self.loading > 1 ){
@@ -103,16 +105,28 @@ new TomSelect('#select-state',{
 			}
 
 			$.ajax({
-				url: 'https://tom-select.js.org/js/states.json',
+				url: 'https://whatcms.org/API/List',
 				error: function() {
 					callback();
 				},
 				success: function(res) {
-					callback(res.states);
+					callback(res.result.list);
 					self.settings.load = null;
 				}
 			});
-		}
+		},
+		render: {
+			option: function(item, escape) {
+				return `<div class="py-2 d-flex">
+							<div class="mb-1">
+								<span class="h5">
+									${ escape(item.label) }
+								</span>
+							</div>
+					 		<div class="ml-auto">${ escape(item.type.join(', ')) }</div>
+						</div>`;
+			}
+		},
 	});
 {% endset %}
 </script>
@@ -163,14 +177,21 @@ new TomSelect('#select-state',{
 
 <script>
 {% set script %}
+
+// a small plugin to prevent results from closing
+TomSelect.define('no_close',function(){
+	this.close = function(){};
+});
+
 new TomSelect('#select-repo2',{
 		valueField: 'url',
 		labelField: 'name',
 		searchField: ['name','description'],
 		options: [],
 		create: false,
-		maxOptions: 30,
+		maxOptions: 10,
 		dropdownParent: '#select-repo-inline',
+		plugins:['no_close'],
 		render: {
 			option: function(item, escape) {
 				return `<div class="row border-bottom py-2">
