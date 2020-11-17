@@ -1204,7 +1204,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// validate user-provided result scoring function
 		if (settings.score) {
-			calculateScore = self.settings.score(query);
+			calculateScore = self.settings.score.call(self,query);
 			if (typeof calculateScore !== 'function') {
 				throw new Error('Tom Select "score" setting must be a function that returns a function');
 			}
@@ -1870,7 +1870,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		};
 
 		if( typeof self.settings.create === 'function' ){
-			output = self.settings.create(input, create);
+			output = self.settings.create.call(this, input, create);
 		}else{
 			output = {
 				[self.settings.labelField]: input,
@@ -2142,7 +2142,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		// allow the callback to abort
-		if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete(values,e) === false)) {
+		if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete.call(self,values,e) === false)) {
 			return false;
 		}
 
@@ -2366,7 +2366,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// render markup
-		html = getDom( self.settings.render[templateName](data, escape_html) );
+		html = getDom( self.settings.render[templateName].call(this, data, escape_html) );
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
@@ -2422,7 +2422,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	canCreate( input:string ):boolean {
-		return this.settings.create && input.length && (this.settings.createFilter as TomCreateFilter )(input);
+		return this.settings.create && input.length && (this.settings.createFilter as TomCreateFilter ).call(this, input);
 	}
 
 
