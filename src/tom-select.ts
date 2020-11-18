@@ -1236,7 +1236,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * in the autocomplete dropdown menu.
 	 *
 	 */
-	refreshOptions( triggerDropdown:boolean = true ){ //
+	refreshOptions( triggerDropdown:boolean = true ){
 		var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
 		var active, active_before, create;
 
@@ -1376,17 +1376,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// activate
 		self.hasOptions = results.items.length > 0 || has_create_option;
 		if( show_dropdown ){
+
 			if (results.items.length > 0) {
 
-				active_before = active_before_hash && self.getOption(active_before_hash);
+				active = active_before_hash && self.getOption(active_before_hash);
 
-				if( active_before && self.dropdown_content.contains(active_before) ){
-					active = active_before;
-
-				}else if (self.settings.mode === 'single' && self.items.length ){
-					active = self.getOption(self.items[0]);
-
-				}else{
+				if( !active || !self.dropdown_content.contains(active)  ){
 
 					let active_index = 0;
 					if( create && !self.settings.addPrecedence ){
