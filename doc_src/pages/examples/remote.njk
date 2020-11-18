@@ -24,7 +24,7 @@ style: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-
 
 
 {% set html %}
-<select id="select-repo" placeholder="Pick a repository..."></select>
+<select id="select-repo" placeholder="Pick a repository..." multiple></select>
 {% endset %}
 
 
@@ -34,6 +34,21 @@ new TomSelect('#select-repo',{
 		valueField: 'url',
 		labelField: 'name',
 		searchField: 'name',
+		// fetch remote data https://caniuse.com/fetch
+		load: function(query, callback) {
+			if (!query.length) return callback();
+
+			var url = 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query);
+			fetch(url)
+				.then(response => response.json())
+				.then(json => {
+					callback(json.items);
+				}).catch(()=>{
+					callback();
+				});
+
+		},
+		// custom rendering functions for options and items
 		render: {
 			option: function(item, escape) {
 				return `<div class="py-2 d-flex">
@@ -50,20 +65,24 @@ new TomSelect('#select-repo',{
 						 		<div class="description">${ escape(item.description) }</div>
 							</div>
 						</div>`;
+			},
+			item: function(item, escape) {
+				return `<div class="py-2 d-flex">
+							<div class="icon mr-3">
+								<img class="img-fluid" src="${item.owner.avatar_url}" />
+							</div>
+							<div>
+								<div class="mb-1">
+									<span class="h4">
+										${ escape(item.name) }
+									</span>
+									<span class="text-muted">by ${ escape(item.owner.login) }</span>
+								</div>
+						 		<div class="description">${ escape(item.description) }</div>
+							</div>
+						</div>`;
 			}
 		},
-		load: function(query, callback) {
-			if (!query.length) return callback();
-			$.ajax({
-				url: 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query),
-				error: function() {
-					callback();
-				},
-				success: function(res) {
-					callback(res.items);
-				}
-			});
-		}
 	});
 {% endset %}
 </script>
@@ -87,7 +106,7 @@ new TomSelect('#select-repo',{
 
 
 {% set html %}
-<select id="select-state" placeholder="Software: WordPress, Apache ..."></select>
+<select id="select-state" placeholder="Software: WordPress, Apache ..." multiple></select>
 {% endset %}
 
 
@@ -97,6 +116,7 @@ new TomSelect('#select-state',{
 		valueField: 'label',
 		labelField: 'label',
 		searchField: ['label','type'],
+		// fetch remote data https://caniuse.com/fetch
 		load: function(query, callback) {
 			var self = this;
 			if( self.loading > 1 ){
@@ -104,17 +124,18 @@ new TomSelect('#select-state',{
 				return;
 			}
 
-			$.ajax({
-				url: 'https://whatcms.org/API/List',
-				error: function() {
-					callback();
-				},
-				success: function(res) {
-					callback(res.result.list);
+			var url = 'https://whatcms.org/API/List';
+			fetch(url)
+				.then(response => response.json())
+				.then(json => {
+					callback(json.result.list);
 					self.settings.load = null;
-				}
-			});
+				}).catch(()=>{
+					callback();
+				});
+
 		},
+		// custom rendering function for options
 		render: {
 			option: function(item, escape) {
 				return `<div class="py-2 d-flex">
@@ -159,6 +180,9 @@ new TomSelect('#select-state',{
 #select-repo-inline .option{
 	margin: 0;
 }
+.icon{
+	width: 3rem;
+}
 {% endset %}
 </style>
 
@@ -192,6 +216,28 @@ new TomSelect('#select-repo2',{
 		maxOptions: 10,
 		dropdownParent: '#select-repo-inline',
 		plugins:['no_close'],
+		// custom scoring
+		score: function(search) {
+			var score = this.getScoreFunction(search);
+			return function(item) {
+				return score(item) * (1 + Math.min(item.watchers / 100, 1));
+			};
+		},
+		// fetch remote data https://caniuse.com/fetch
+		load: function(query, callback) {
+			if (!query.length) return callback();
+
+			var url = 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query);
+			fetch(url)
+				.then(response => response.json())
+				.then(json => {
+					callback(json.items);
+				}).catch(()=>{
+					callback();
+				});
+
+		},
+		// custom rendering functions for options and items
 		render: {
 			option: function(item, escape) {
 				return `<div class="row border-bottom py-2">
@@ -211,25 +257,24 @@ new TomSelect('#select-repo2',{
 								</div>
 							</div>
 						</div>`;
+			},
+			item: function(item, escape) {
+				return `<div class="py-2 d-flex">
+							<div class="icon mr-3">
+								<img class="img-fluid" src="${item.owner.avatar_url}" />
+							</div>
+							<div>
+								<div class="mb-1">
+									<span class="h4">
+										${ escape(item.name) }
+									</span>
+									<span class="text-muted">by ${ escape(item.owner.login) }</span>
+								</div>
+						 		<div class="description">${ escape(item.description) }</div>
+							</div>
+						</div>`;
 			}
-		},
-		score: function(search) {
-			var score = this.getScoreFunction(search);
-			return function(item) {
-				return score(item) * (1 + Math.min(item.watchers / 100, 1));
-			};
-		},
-		load: function(query, callback) {
-			if (!query.length) return callback();
-			$.ajax({
-				url: 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query),
-				error: function() {
-					callback();
-				},
-				success: function(res) {
-					callback(res.items);
-				}
-			});
+
 		}
 	});
 {% endset %}
