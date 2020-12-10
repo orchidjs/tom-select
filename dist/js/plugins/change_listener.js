@@ -1,11 +1,11 @@
 /**
-* Tom Select v1.0.0
+* Tom Select v1.1.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.ts')) :
+	typeof define === 'function' && define.amd ? define(['../../tom-select.ts'], factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
@@ -22,7 +22,7 @@
 	  // regexp or string for splitting up values from a paste command
 	  persist: true,
 	  diacritics: true,
-	  create: false,
+	  create: null,
 	  createOnBlur: false,
 	  createFilter: null,
 	  highlight: true,
@@ -33,7 +33,7 @@
 	  duplicates: false,
 	  addPrecedence: false,
 	  selectOnTab: false,
-	  preload: false,
+	  preload: null,
 	  allowEmptyOption: false,
 	  closeAfterSelect: false,
 	  scrollDuration: 60,
@@ -105,13 +105,19 @@
 	 *   0         -> '0'
 	 *   1         -> '1'
 	 *
-	 * @param {string} value
-	 * @returns {string|null}
 	 */
 	function hash_key(value) {
 	  if (typeof value === 'undefined' || value === null) return null;
 	  if (typeof value === 'boolean') return value ? '1' : '0';
 	  return value + '';
+	}
+	/**
+	 * Prevent default
+	 *
+	 */
+
+	function addEvent(target, type, callback, options) {
+	  target.addEventListener(type, callback, options);
 	}
 
 	function getSettings(input, settings_user) {
@@ -127,7 +133,7 @@
 	  var placeholder = input.getAttribute('placeholder') || input.getAttribute('data-placeholder');
 
 	  if (!placeholder && !settings.allowEmptyOption) {
-	    var option = input.querySelector('option[value=""]');
+	    let option = input.querySelector('option[value=""]');
 
 	    if (option) {
 	      placeholder = option.textContent;
@@ -135,22 +141,23 @@
 	  }
 
 	  var settings_element = {
-	    'placeholder': placeholder,
-	    'options': [],
-	    'optgroups': [],
-	    'items': []
+	    placeholder: placeholder,
+	    options: [],
+	    optgroups: [],
+	    items: [],
+	    maxItems: null
 	  };
 	  /**
 	   * Initialize from a <select> element.
 	   *
 	   */
 
-	  var init_select = function init_select() {
+	  var init_select = () => {
 	    var i, n, tagName, children;
 	    var options = settings_element.options;
 	    var optionsMap = {};
 
-	    var readData = function readData(el) {
+	    var readData = el => {
 	      var data = Object.assign({}, el.dataset); // get plain object from DOMStringMap
 
 	      var json = attr_data && data[attr_data];
@@ -162,7 +169,7 @@
 	      return data;
 	    };
 
-	    var addOption = function addOption(option, group) {
+	    var addOption = (option, group) => {
 	      var value = hash_key(option.value);
 	      if (!value && !settings.allowEmptyOption) return; // if the option already exists, it's probably been
 	      // duplicated in another optgroup. in this case, push
@@ -198,7 +205,7 @@
 	      }
 	    };
 
-	    var addGroup = function addGroup(optgroup) {
+	    var addGroup = optgroup => {
 	      var i, n, id, optgroup_data, options;
 	      id = optgroup.getAttribute('label');
 
@@ -236,7 +243,7 @@
 	   */
 
 
-	  var init_textbox = function init_textbox() {
+	  var init_textbox = () => {
 	    var i, n, values, option;
 	    var data_raw = input.getAttribute(attr_data);
 
@@ -288,7 +295,7 @@
 	TomSelect__default['default'].define('change_listener', function (options) {
 	  var self = this;
 	  var changed = false;
-	  self.input.addEventListener('change', function () {
+	  addEvent(self.input, 'change', () => {
 	    // prevent infinite loops
 	    if (changed) {
 	      changed = false;

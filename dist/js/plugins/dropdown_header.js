@@ -1,11 +1,11 @@
 /**
-* Tom Select v1.0.0
+* Tom Select v1.1.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.ts')) :
+	typeof define === 'function' && define.amd ? define(['../../tom-select.ts'], factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
@@ -17,8 +17,7 @@
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
 	 * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 	 *
-	 * @param {any} query .. should be {HTMLElement|string|JQuery}
-	 * @return {HTMLElement}
+	 * param query should be {}
 	 */
 	function getDom(query) {
 	  if (query.jquery) {
@@ -30,10 +29,10 @@
 	  }
 
 	  if (query.indexOf('<') > -1) {
-	    var div = document.createElement('div');
+	    let div = document.createElement('div');
 	    div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
 
-	    return div.querySelector(':first-child');
+	    return div.firstChild;
 	  }
 
 	  return document.querySelector(query);
@@ -61,11 +60,11 @@
 	    titleRowClass: 'dropdown-header-title',
 	    labelClass: 'dropdown-header-label',
 	    closeClass: 'dropdown-header-close',
-	    html: function html(data) {
+	    html: data => {
 	      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
 	    }
 	  }, options);
-	  self.hook('after', 'setup', function () {
+	  self.hook('after', 'setup', () => {
 	    var header = getDom(options.html(options));
 	    self.dropdown.insertBefore(header, self.dropdown.firstChild);
 	  });

@@ -1,11 +1,11 @@
 /**
-* Tom Select v1.0.0
+* Tom Select v1.1.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.ts')) :
+	typeof define === 'function' && define.amd ? define(['../../tom-select.ts'], factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
@@ -28,9 +28,9 @@
 	 *
 	 */
 	TomSelect__default['default'].define('drag_drop', function (options) {
-	  if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
-	  if (this.settings.mode !== 'multi') return;
 	  var self = this;
+	  if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
+	  if (self.settings.mode !== 'multi') return;
 	  var orig_lock = self.lock;
 	  var orig_unlock = self.unlock;
 	  self.hook('instead', 'lock', function () {
@@ -43,18 +43,18 @@
 	    if (sortable) sortable.enable();
 	    return orig_unlock.apply(self, arguments);
 	  });
-	  self.hook('after', 'setup', function () {
+	  self.hook('after', 'setup', () => {
 	    var $control = $(self.control).sortable({
 	      items: '[data-value]',
 	      forcePlaceholderSize: true,
 	      disabled: self.isLocked,
-	      start: function start(e, ui) {
+	      start: (e, ui) => {
 	        ui.placeholder.css('width', ui.helper.css('width'));
 	        $control.css({
 	          overflow: 'visible'
 	        });
 	      },
-	      stop: function stop() {
+	      stop: () => {
 	        $control.css({
 	          overflow: 'hidden'
 	        });

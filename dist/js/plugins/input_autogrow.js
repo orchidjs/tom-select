@@ -1,17 +1,40 @@
 /**
-* Tom Select v1.0.0
+* Tom Select v1.1.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.ts')) :
+	typeof define === 'function' && define.amd ? define(['../../tom-select.ts'], factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
+
+	/**
+	 * Converts a scalar to its best string representation
+	 * for hash keys and HTML attribute values.
+	 *
+	 * Transformations:
+	 *   'str'     -> 'str'
+	 *   null      -> ''
+	 *   undefined -> ''
+	 *   true      -> '1'
+	 *   false     -> '0'
+	 *   0         -> '0'
+	 *   1         -> '1'
+	 *
+	 */
+	/**
+	 * Prevent default
+	 *
+	 */
+
+	function addEvent(target, type, callback, options) {
+	  target.addEventListener(type, callback, options);
+	}
 
 	/**
 	 * Plugin: "input_autogrow" (Tom Select)
@@ -28,15 +51,15 @@
 	 */
 	TomSelect__default['default'].define('input_autogrow', function (options) {
 	  var self = this;
-	  self.hook('after', 'setup', function () {
+	  self.hook('after', 'setup', () => {
 	    var test_input = document.createElement('span');
 	    var control = this.control_input;
 	    test_input.style.cssText = 'position:absolute; top:-99999px; left:-99999px; width:auto; padding:0; white-space:pre; ';
 	    self.wrapper.appendChild(test_input);
 	    var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
 
-	    for (var i = 0, n = transfer_styles.length; i < n; i++) {
-	      var style_name = transfer_styles[i];
+	    for (let i = 0, n = transfer_styles.length; i < n; i++) {
+	      let style_name = transfer_styles[i];
 	      test_input.style[style_name] = control.style[style_name];
 	    }
 	    /**
@@ -45,15 +68,15 @@
 	     */
 
 
-	    var resize = function resize() {
+	    var resize = () => {
 	      test_input.textContent = control.value;
 	      control.style.width = test_input.clientWidth + 'px';
 	    };
 
-	    control.addEventListener('input', resize);
-	    control.addEventListener('keyup', resize);
-	    control.addEventListener('blur', resize);
-	    control.addEventListener('update', resize);
+	    addEvent(control, 'input', resize);
+	    addEvent(control, 'keyup', resize);
+	    addEvent(control, 'blur', resize);
+	    addEvent(control, 'update', resize);
 	  });
 	});
 
