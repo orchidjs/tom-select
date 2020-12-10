@@ -1,13 +1,20 @@
-export const KEY_A				= 65;
-export const KEY_RETURN			= 13;
-export const KEY_ESC			= 27;
-export const KEY_LEFT			= 37;
-export const KEY_UP				= 38;
-export const KEY_RIGHT			= 39;
-export const KEY_DOWN			= 40;
-export const KEY_BACKSPACE		= 8;
-export const KEY_DELETE			= 46;
-export const KEY_TAB			= 9;
+/**
+* Tom Select v1.0.0
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
 
-export const IS_MAC      		= /Mac/.test(navigator.userAgent);
-export const KEY_SHORTCUT		= IS_MAC ? 'metaKey' : 'ctrlKey'; // ctrl key or apple key for ma
+const KEY_A = 65;
+const KEY_RETURN = 13;
+const KEY_ESC = 27;
+const KEY_LEFT = 37;
+const KEY_UP = 38;
+const KEY_RIGHT = 39;
+const KEY_DOWN = 40;
+const KEY_BACKSPACE = 8;
+const KEY_DELETE = 46;
+const KEY_TAB = 9;
+const IS_MAC = /Mac/.test(navigator.userAgent);
+const KEY_SHORTCUT = IS_MAC ? 'metaKey' : 'ctrlKey'; // ctrl key or apple key for ma
+
+export { IS_MAC, KEY_A, KEY_BACKSPACE, KEY_DELETE, KEY_DOWN, KEY_ESC, KEY_LEFT, KEY_RETURN, KEY_RIGHT, KEY_SHORTCUT, KEY_TAB, KEY_UP };
+//# sourceMappingURL=constants.js.map

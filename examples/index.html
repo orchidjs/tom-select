@@ -231,7 +231,7 @@
 				<input id="input-tags" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
 			</div>
 			<textarea hidden>&lt;input id=&quot;input-tags&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot; placeholder=&quot;How cool is this?&quot;&gt;</textarea>
-			<script>tomSelect("#input-tags",{
+			<script>new TomSelect("#input-tags",{
 	persist: false,
 	createOnBlur: true,
 	create: true
@@ -276,7 +276,7 @@
 			<div class="tab-content">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">"#input-tags"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	createOnBlur<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">"#input-tags"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	createOnBlur<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 
@@ -320,7 +320,7 @@
 			&lt;option value=&quot;3&quot;&gt;Nikola Tesla&lt;/option&gt;
 			&lt;option value=&quot;5&quot;&gt;Arnold Schwarzenegger&lt;/option&gt;
 		&lt;/select&gt;</textarea>
-			<script>tomSelect("#select-beast",{
+			<script>new TomSelect("#select-beast",{
 	create: true,
 	sortField: {
 		field: "text",
@@ -367,7 +367,7 @@
 			<div class="tab-content">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-beast"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	sortField<span class="token operator">:</span> <span class="token punctuation">{</span><br>		field<span class="token operator">:</span> <span class="token string">"text"</span><span class="token punctuation">,</span><br>		direction<span class="token operator">:</span> <span class="token string">"asc"</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-beast"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	sortField<span class="token operator">:</span> <span class="token punctuation">{</span><br>		field<span class="token operator">:</span> <span class="token string">"text"</span><span class="token punctuation">,</span><br>		direction<span class="token operator">:</span> <span class="token string">"asc"</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 
@@ -410,7 +410,7 @@
 				&lt;option value=&quot;3&quot;&gt;Nikola Tesla&lt;/option&gt;
 				&lt;option value=&quot;5&quot;&gt;Arnold Schwarzenegger&lt;/option&gt;
 			&lt;/select&gt;</textarea>
-			<script>tomSelect("#select-beast-empty",{
+			<script>new TomSelect("#select-beast-empty",{
 	allowEmptyOption: true,
 	create: true
 });</script>
@@ -454,7 +454,7 @@
 			<div class="tab-content">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-3" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-beast-empty"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	allowEmptyOption<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-beast-empty"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	allowEmptyOption<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 
@@ -495,7 +495,7 @@
 			&lt;option value=&quot;1&quot;&gt;Nikola&lt;/option&gt;
 			&lt;option value=&quot;3&quot; selected&gt;Nikola Tesla&lt;/option&gt;
 		&lt;/select&gt;</textarea>
-			<script>tomSelect("#select-beast-disabled");</script>
+			<script>new TomSelect("#select-beast-disabled");</script>
 			<style></style>
 		</div>
 		<div class="mt-4">
@@ -536,7 +536,7 @@
 			<div class="tab-content">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-4" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-beast-disabled"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-beast-disabled"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 
@@ -577,7 +577,7 @@
 			&lt;option value=&quot;1&quot;&gt;Nikola&lt;/option&gt;
 			&lt;option value=&quot;3&quot; selected&gt;Nikola Tesla&lt;/option&gt;
 		&lt;/select&gt;</textarea>
-			<script>tomSelect("#select-beast-single-disabled",{
+			<script>new TomSelect("#select-beast-single-disabled",{
 	create: true,
 	sortField: {field: "text"}
 });</script>
@@ -621,7 +621,7 @@
 			<div class="tab-content">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-5" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-beast-single-disabled"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	sortField<span class="token operator">:</span> <span class="token punctuation">{</span>field<span class="token operator">:</span> <span class="token string">"text"</span><span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-beast-single-disabled"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	sortField<span class="token operator">:</span> <span class="token punctuation">{</span>field<span class="token operator">:</span> <span class="token string">"text"</span><span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 
@@ -758,7 +758,7 @@
 			&lt;option value=&quot;WI&quot;&gt;Wisconsin&lt;/option&gt;
 			&lt;option value=&quot;WY&quot; selected&gt;Wyoming&lt;/option&gt;
 		&lt;/select&gt;</textarea>
-			<script>tomSelect("#select-state",{
+			<script>new TomSelect("#select-state",{
 	maxItems: 3
 });</script>
 			<style></style>
@@ -801,7 +801,7 @@
 			<div class="tab-content">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-6" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token function">tomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-state"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	maxItems<span class="token operator">:</span> <span class="token number">3</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-state"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	maxItems<span class="token operator">:</span> <span class="token number">3</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 

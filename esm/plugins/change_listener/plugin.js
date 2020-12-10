@@ -1,4 +1,13 @@
 /**
+* Tom Select v1.0.0
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+
+import { addEvent } from '../../utils.js';
+import getSettings from '../../settings.js';
+import TomSelect from '../../tom-select.js';
+
+/**
  * Plugin: "change_listener" (Tom Select)
  * Copyright (c) contributors
  *
@@ -12,27 +21,20 @@
  * governing permissions and limitations under the License.
  *
  */
+TomSelect.define('change_listener', function (options) {
+  var self = this;
+  var changed = false;
+  addEvent(self.input, 'change', () => {
+    // prevent infinite loops
+    if (changed) {
+      changed = false;
+      return;
+    }
 
-import TomSelect from '../../tom-select.js';
-import getSettings from '../../settings.js';
-
-TomSelect.define('change_listener',function(options){
-	var self		= this;
-	var changed		= false;
-
-	self.input.addEventListener('change',function(){
-
-		// prevent infinite loops
-		if( changed ){
-			changed = false;
-			return;
-		}
-
-		changed			= true;
-		var settings	= getSettings( self.input, {} );
-
-		self.setupOptions(settings.options,settings.optgroups);
-		self.setValue(settings.items);
-	});
-
+    changed = true;
+    var settings = getSettings(self.input, {});
+    self.setupOptions(settings.options, settings.optgroups);
+    self.setValue(settings.items);
+  });
 });
+//# sourceMappingURL=plugin.js.map

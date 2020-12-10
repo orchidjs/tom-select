@@ -1,161 +1,168 @@
+/**
+* Tom Select v1.0.0
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+
 import defaults from './defaults.js';
 import { hash_key } from './utils.js';
 
-export default function getSettings( input, settings_user){
-	var settings				= Object.assign({}, defaults, settings_user);
+function getSettings(input, settings_user) {
+  var settings = Object.assign({}, defaults, settings_user);
+  var attr_data = settings.dataAttr;
+  var field_label = settings.labelField;
+  var field_value = settings.valueField;
+  var field_disabled = settings.disabledField;
+  var field_optgroup = settings.optgroupField;
+  var field_optgroup_label = settings.optgroupLabelField;
+  var field_optgroup_value = settings.optgroupValueField;
+  var tag_name = input.tagName.toLowerCase();
+  var placeholder = input.getAttribute('placeholder') || input.getAttribute('data-placeholder');
 
-	var attr_data				= settings.dataAttr;
-	var field_label				= settings.labelField;
-	var field_value				= settings.valueField;
-	var field_disabled			= settings.disabledField;
-	var field_optgroup			= settings.optgroupField;
-	var field_optgroup_label	= settings.optgroupLabelField;
-	var field_optgroup_value	= settings.optgroupValueField;
+  if (!placeholder && !settings.allowEmptyOption) {
+    let option = input.querySelector('option[value=""]');
 
-	var tag_name				= input.tagName.toLowerCase();
-	var placeholder				= input.getAttribute('placeholder') || input.getAttribute('data-placeholder');
+    if (option) {
+      placeholder = option.textContent;
+    }
+  }
 
-	if (!placeholder && !settings.allowEmptyOption) {
-		let option		= input.querySelector('option[value=""]');
-		if( option ){
-			placeholder = option.textContent;
-		}
+  var settings_element = {
+    placeholder: placeholder,
+    options: [],
+    optgroups: [],
+    items: [],
+    maxItems: null
+  };
+  /**
+   * Initialize from a <select> element.
+   *
+   */
 
-	}
+  var init_select = () => {
+    var i, n, tagName, children;
+    var options = settings_element.options;
+    var optionsMap = {};
 
-	var settings_element		= {
-										'placeholder' : placeholder,
-										'options'     : [],
-										'optgroups'   : [],
-										'items'       : []
-									};
+    var readData = el => {
+      var data = Object.assign({}, el.dataset); // get plain object from DOMStringMap
 
+      var json = attr_data && data[attr_data];
 
-	/**
-	 * Initialize from a <select> element.
-	 *
-	 */
-	var init_select = function() {
-		var i, n, tagName, children;
-		var options = settings_element.options;
-		var optionsMap = {};
+      if (typeof json === 'string' && json.length) {
+        data = Object.assign(data, JSON.parse(json));
+      }
 
-		var readData = function(el) {
+      return data;
+    };
 
-			var data	= Object.assign({},el.dataset); // get plain object from DOMStringMap
-			var json	= attr_data && data[attr_data];
+    var addOption = (option, group) => {
+      var value = hash_key(option.value);
+      if (!value && !settings.allowEmptyOption) return; // if the option already exists, it's probably been
+      // duplicated in another optgroup. in this case, push
+      // the current group to the "optgroup" property on the
+      // existing option so that it's rendered in both places.
 
-			if( typeof json === 'string' && json.length ){
-				data = Object.assign(data,JSON.parse(json));
-			}
+      if (optionsMap.hasOwnProperty(value)) {
+        if (group) {
+          var arr = optionsMap[value][field_optgroup];
 
-			return data;
-		};
+          if (!arr) {
+            optionsMap[value][field_optgroup] = group;
+          } else if (!Array.isArray(arr)) {
+            optionsMap[value][field_optgroup] = [arr, group];
+          } else {
+            arr.push(group);
+          }
+        }
 
-		var addOption = function(option, group) {
+        return;
+      }
 
-			var value = hash_key(option.value);
-			if (!value && !settings.allowEmptyOption) return;
+      var option_data = readData(option);
+      option_data[field_label] = option_data[field_label] || option.textContent;
+      option_data[field_value] = option_data[field_value] || value;
+      option_data[field_disabled] = option_data[field_disabled] || option.disabled;
+      option_data[field_optgroup] = option_data[field_optgroup] || group;
+      optionsMap[value] = option_data;
+      options.push(option_data);
 
-			// if the option already exists, it's probably been
-			// duplicated in another optgroup. in this case, push
-			// the current group to the "optgroup" property on the
-			// existing option so that it's rendered in both places.
-			if (optionsMap.hasOwnProperty(value)) {
-				if (group) {
-					var arr = optionsMap[value][field_optgroup];
-					if (!arr) {
-						optionsMap[value][field_optgroup] = group;
-					} else if (!Array.isArray(arr)) {
-						optionsMap[value][field_optgroup] = [arr, group];
-					} else {
-						arr.push(group);
-					}
-				}
-				return;
-			}
+      if (option.selected) {
+        settings_element.items.push(value);
+      }
+    };
 
-			var option_data             = readData(option);
-			option_data[field_label]    = option_data[field_label] || option.textContent;
-			option_data[field_value]    = option_data[field_value] || value;
-			option_data[field_disabled] = option_data[field_disabled] || option.disabled;
-			option_data[field_optgroup] = option_data[field_optgroup] || group;
+    var addGroup = optgroup => {
+      var i, n, id, optgroup_data, options;
+      id = optgroup.getAttribute('label');
 
-			optionsMap[value] = option_data;
-			options.push(option_data);
+      if (id) {
+        optgroup_data = readData(optgroup);
+        optgroup_data[field_optgroup_label] = id;
+        optgroup_data[field_optgroup_value] = id;
+        optgroup_data[field_disabled] = optgroup.disabled;
+        settings_element.optgroups.push(optgroup_data);
+      }
 
-			if( option.selected ){
-				settings_element.items.push(value);
-			}
-		};
+      var options = optgroup.children;
 
-		var addGroup = function( optgroup ){
-			var i, n, id, optgroup_data, options;
+      for (i = 0, n = options.length; i < n; i++) {
+        addOption(options[i], id);
+      }
+    };
 
-			id = optgroup.getAttribute('label')
+    settings_element.maxItems = input.hasAttribute('multiple') ? null : 1;
+    children = input.children;
 
-			if (id) {
-				optgroup_data							= readData(optgroup);
-				optgroup_data[field_optgroup_label]		= id;
-				optgroup_data[field_optgroup_value]		= id;
-				optgroup_data[field_disabled]			= optgroup.disabled;
-				settings_element.optgroups.push(optgroup_data);
-			}
+    for (i = 0, n = children.length; i < n; i++) {
+      tagName = children[i].tagName.toLowerCase();
 
-			var options = optgroup.children;
-			for (i = 0, n = options.length; i < n; i++) {
-				addOption(options[i], id);
-			}
-		};
-
-		settings_element.maxItems = input.hasAttribute('multiple') ? null : 1;
-
-		children = input.children;
-		for (i = 0, n = children.length; i < n; i++) {
-			tagName = children[i].tagName.toLowerCase();
-			if (tagName === 'optgroup') {
-				addGroup(children[i]);
-			} else if (tagName === 'option') {
-				addOption(children[i]);
-			}
-		}
-	};
-
-
-	/**
-	 * Initialize from a <input type="text"> element.
-	 *
-	 */
-	var init_textbox = function(){
-		var i, n, values, option;
-
-		var data_raw = input.getAttribute(attr_data);
-
-		if (!data_raw) {
-			var value = input.value.trim() || '';
-			if (!settings.allowEmptyOption && !value.length) return;
-			values = value.split(settings.delimiter);
-			for (i = 0, n = values.length; i < n; i++) {
-				option = {};
-				option[field_label] = values[i];
-				option[field_value] = values[i];
-				settings_element.options.push(option);
-			}
-			settings_element.items = values;
-		} else {
-			settings_element.options = JSON.parse(data_raw);
-			for (i = 0, n = settings_element.options.length; i < n; i++) {
-				settings_element.items.push(settings_element.options[i][field_value]);
-			}
-		}
-	};
+      if (tagName === 'optgroup') {
+        addGroup(children[i]);
+      } else if (tagName === 'option') {
+        addOption(children[i]);
+      }
+    }
+  };
+  /**
+   * Initialize from a <input type="text"> element.
+   *
+   */
 
 
-	if (tag_name === 'select') {
-		init_select();
-	} else {
-		init_textbox();
-	}
+  var init_textbox = () => {
+    var i, n, values, option;
+    var data_raw = input.getAttribute(attr_data);
 
-	return Object.assign( {}, defaults, settings_element, settings_user);
-};
+    if (!data_raw) {
+      var value = input.value.trim() || '';
+      if (!settings.allowEmptyOption && !value.length) return;
+      values = value.split(settings.delimiter);
+
+      for (i = 0, n = values.length; i < n; i++) {
+        option = {};
+        option[field_label] = values[i];
+        option[field_value] = values[i];
+        settings_element.options.push(option);
+      }
+
+      settings_element.items = values;
+    } else {
+      settings_element.options = JSON.parse(data_raw);
+
+      for (i = 0, n = settings_element.options.length; i < n; i++) {
+        settings_element.items.push(settings_element.options[i][field_value]);
+      }
+    }
+  };
+
+  if (tag_name === 'select') {
+    init_select();
+  } else {
+    init_textbox();
+  }
+
+  return Object.assign({}, defaults, settings_element, settings_user);
+}
+
+export default getSettings;
+//# sourceMappingURL=settings.js.map

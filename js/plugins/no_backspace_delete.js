@@ -4,8 +4,8 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.ts')) :
+	typeof define === 'function' && define.amd ? define(['../../tom-select.ts'], factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
@@ -27,9 +27,9 @@
 	 *
 	 */
 	TomSelect__default['default'].define('no_backspace_delete', function (options) {
-	  this.hook('instead', 'setActiveItem', function () {});
-	  this.hook('instead', 'selectAll', function () {});
-	  this.hook('instead', 'deleteSelection', function () {});
+	  this.hook('instead', 'setActiveItem', () => {});
+	  this.hook('instead', 'selectAll', () => {});
+	  this.hook('instead', 'deleteSelection', () => {});
 	});
 
 })));

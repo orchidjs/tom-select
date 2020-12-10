@@ -1,4 +1,12 @@
 /**
+* Tom Select v1.0.0
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+
+import { addEvent } from '../../utils.js';
+import TomSelect from '../../tom-select.js';
+
+/**
  * Plugin: "input_autogrow" (Tom Select)
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -11,43 +19,34 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select.js';
+TomSelect.define('input_autogrow', function (options) {
+  var self = this;
+  self.hook('after', 'setup', () => {
+    var test_input = document.createElement('span');
+    var control = this.control_input;
+    test_input.style.cssText = 'position:absolute; top:-99999px; left:-99999px; width:auto; padding:0; white-space:pre; ';
+    self.wrapper.appendChild(test_input);
+    var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
 
-TomSelect.define('input_autogrow', function(options) {
-
-	var self					= this;
-
-	self.hook('after','setup',function(){
-
-
-		var test_input				= document.createElement('span');
-		var control					= this.control_input;
-		test_input.style.cssText	= 'position:absolute; top:-99999px; left:-99999px; width:auto; padding:0; white-space:pre; ';
-
-		self.wrapper.appendChild(test_input);
-
-
-		var transfer_styles			= [ 'letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform' ];
-
-		for( let i = 0, n = transfer_styles.length; i < n; i++ ){
-			let style_name = transfer_styles[i];
-			test_input.style[style_name] = control.style[style_name];
-		}
+    for (let i = 0, n = transfer_styles.length; i < n; i++) {
+      let style_name = transfer_styles[i];
+      test_input.style[style_name] = control.style[style_name];
+    }
+    /**
+     * Set the control width
+     *
+     */
 
 
-		/**
-		 * Set the control width
-		 *
-		 */
-		var resize = function(){
-			test_input.textContent	= control.value;
-			control.style.width		= test_input.clientWidth+'px';
-		};
+    var resize = () => {
+      test_input.textContent = control.value;
+      control.style.width = test_input.clientWidth + 'px';
+    };
 
-		control.addEventListener('input', resize );
-		control.addEventListener('keyup', resize );
-		control.addEventListener('blur', resize );
-		control.addEventListener('update', resize );
-	});
-
+    addEvent(control, 'input', resize);
+    addEvent(control, 'keyup', resize);
+    addEvent(control, 'blur', resize);
+    addEvent(control, 'update', resize);
+  });
 });
+//# sourceMappingURL=plugin.js.map

@@ -4,8 +4,8 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.ts')) :
+	typeof define === 'function' && define.amd ? define(['../../tom-select.ts'], factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
@@ -13,26 +13,21 @@
 
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
 
-	var KEY_LEFT = 37;
-	var KEY_RIGHT = 39;
-	var IS_MAC = /Mac/.test(navigator.userAgent);
+	const KEY_LEFT = 37;
+	const KEY_RIGHT = 39;
+	const IS_MAC = /Mac/.test(navigator.userAgent);
 	 // ctrl key or apple key for ma
 
 	/**
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
 	 * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 	 *
-	 * @param {any} query .. should be {HTMLElement|string|JQuery}
-	 * @return {HTMLElement}
+	 * param query should be {}
 	 */
 	/**
 	 * Get the closest node to the evt.target matching the selector
 	 * Stops at wrapper
 	 *
-	 * param {HTMLElement} target
-	 * @param {string} selector
-	 * @param {HTMLElement} [wrapper=null]
-	 * return {HTMLElement}
 	 */
 
 	function parentMatch(target, selector, wrapper) {
@@ -51,9 +46,6 @@
 	/**
 	 * Get the index of an element amongst sibling nodes of the same type
 	 *
-	 * @param {Element} el
-	 * @param {string} [amongst=null]
-	 * @return {number}
 	 */
 
 	function nodeIndex(el, amongst) {

@@ -124,38 +124,23 @@
 						</div>
 					</div>
 					<div class="container mt-3" id="main-container">
-					<p>Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> to provide the same usability without the need for jQuery or any other JavaScript framework.</p>
-<h2 id="new-features">New Features</h2>
+					<div class="lead">
+Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> with the goal of modernizing the code base, decoupling from jQuery, and expanding functionality.
+</div>
+<h2 id="new">New</h2>
 <ul>
 <li>support for external control input</li>
 <li>dropdownParent other than 'body'</li>
 <li>no_backspace_delete plugin</li>
-</ul>
-<h2 id="performance-and-usability">Performance and Usability</h2>
-<ul>
-<li>framework agnostic (doesn't require jQuery, Vue or any other JavaScript framework)</li>
+<li>framework agnostic design (works without jQuery or any other JavaScript framework)</li>
 <li>improved keyboard control of selected items</li>
 <li>improved option cache to reduce dom manipulation during searches</li>
 <li>animated scrolling with css instead of JavaScript</li>
-<li>ctrl/shift/cmd key detection</li>
-<li>moved autogrow functionality to input_autogrow plugin</li>
+<li>improved ctrl/shift/cmd key detection</li>
+<li>autogrow functionality moved to input_autogrow plugin</li>
 <li><a href="../plugins">integrated plugin hooks</a></li>
 </ul>
-<h2 id="breaking-changes">Breaking Changes</h2>
-<ul>
-<li>removed support for older browsers ES5</li>
-<li>removed placeholder show/hide</li>
-<li>dataAttr defaults to null instead of &quot;data-data&quot;</li>
-<li>options are appended to optgroup template programmatically</li>
-<li>.ts-* css class names (customizable with scss)</li>
-<li>scss instead of less
-<ul>
-<li>autoprefixer</li>
-<li>nanocss</li>
-</ul>
-</li>
-</ul>
-<h2 id="issues-%2F-pull-requests">Issues / Pull requests</h2>
+<h2 id="fixed">Fixed</h2>
 <ul>
 <li><a href="https://github.com/selectize/selectize.js/issues/1363">#1363</a> Autofill disable possibility</li>
 <li><a href="https://github.com/selectize/selectize.js/issues/1447">#1447</a> Enhancement - dropdownParent</li>
@@ -171,10 +156,27 @@
 <li><a href="https://github.com/selectize/selectize.js/issues/102">#102</a> Listen to original select changes (via 'change_listener' plugin)</li>
 <li><a href="https://github.com/selectize/selectize.js/issues/905">#905</a> Support for Bootstrap 4</li>
 </ul>
-<h2 id="development">Development</h2>
+<h2 id="breaking-changes">Breaking Changes</h2>
 <ul>
-<li>examples and documentation generated using 11ty</li>
-<li>compiled with Babel</li>
+<li>removed support for older browsers including IE11</li>
+<li>removed placeholder show/hide</li>
+<li>dataAttr defaults to null instead of &quot;data-data&quot;</li>
+<li>options are appended to optgroup template programmatically</li>
+<li>.ts-* css class names (customizable with scss)</li>
+<li>scss instead of less
+<ul>
+<li>autoprefixer</li>
+<li>nanocss</li>
+</ul>
+</li>
+</ul>
+<h2 id="development-environment">Development Environment</h2>
+<ul>
+<li>code converted to <a href="https://www.typescriptlang.org/">TypeScript</a> (Tom Select 1.1+)</li>
+<li>compiled with <a href="https://babeljs.io/">Babel</a></li>
+<li>bundled with <a href="https://rollupjs.org/guide/en/">rollup.js</a></li>
+<li>examples and documentation generated using <a href="https://www.11ty.dev/">11ty</a></li>
+<li>tests run on <a href="https://automate.browserstack.com/dashboard/v2/public-build/QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e">Browserstack</a></li>
 </ul>
 
 					</div>

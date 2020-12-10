@@ -1,4 +1,13 @@
 /**
+* Tom Select v1.0.0
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+
+import { KEY_LEFT, KEY_RIGHT } from '../../constants.js';
+import { parentMatch, nodeIndex } from '../../vanilla.js';
+import TomSelect from '../../tom-select.js';
+
+/**
  * Plugin: "optgroup_columns" (Tom Select.js)
  * Copyright (c) contributors
  *
@@ -12,44 +21,36 @@
  * governing permissions and limitations under the License.
  *
  */
+TomSelect.define('optgroup_columns', function (options) {
+  var self = this;
+  var orig_keydown = self.onKeyDown;
+  self.hook('instead', 'onKeyDown', function (evt) {
+    var index, option, options, optgroup;
 
-import TomSelect from '../../tom-select.js';
-import * as constants from '../../constants.js';
-import { parentMatch, nodeIndex } from '../../vanilla.js';
+    if (!self.isOpen || !(evt.keyCode === KEY_LEFT || evt.keyCode === KEY_RIGHT)) {
+      return orig_keydown.apply(self, arguments);
+    }
 
-TomSelect.define('optgroup_columns', function(options) {
-	var self = this;
+    self.ignoreHover = true;
+    optgroup = parentMatch(self.activeOption, '[data-group]');
+    index = nodeIndex(self.activeOption, '[data-selectable]');
 
-	var orig_keydown = self.onKeyDown;
+    if (evt.keyCode === KEY_LEFT) {
+      optgroup = optgroup.previousSibling;
+    } else {
+      optgroup = optgroup.nextSibling;
+    }
 
-	self.hook('instead','onKeyDown',function( evt ) {
-		var index, option, options, optgroup;
+    if (!optgroup) {
+      return;
+    }
 
-		if( !self.isOpen || !(evt.keyCode === constants.KEY_LEFT || evt.keyCode === constants.KEY_RIGHT)) {
-			return orig_keydown.apply(self,arguments);
-		}
+    options = optgroup.querySelectorAll('[data-selectable]');
+    option = options[Math.min(options.length - 1, index)];
 
-		self.ignoreHover	= true;
-		optgroup			= parentMatch(self.activeOption,'[data-group]');
-		index				= nodeIndex(self.activeOption,'[data-selectable]');
-
-		if( evt.keyCode === constants.KEY_LEFT ){
-			optgroup = optgroup.previousSibling;
-		} else {
-			optgroup = optgroup.nextSibling;
-		}
-
-		if( !optgroup ){
-			return;
-		}
-
-		options				= optgroup.querySelectorAll('[data-selectable]');
-		option				= options[ Math.min(options.length - 1, index) ];
-
-		if( option ){
-			self.setActiveOption(option);
-		}
-
-	});
-
+    if (option) {
+      self.setActiveOption(option);
+    }
+  });
 });
+//# sourceMappingURL=plugin.js.map

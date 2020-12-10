@@ -1,4 +1,11 @@
 /**
+* Tom Select v1.0.0
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+
+import TomSelect from '../../tom-select.js';
+
+/**
  * Plugin: "input_autogrow" (Tom Select)
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -11,12 +18,9 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select.js';
-
-TomSelect.define('no_backspace_delete', function(options) {
-
-	this.hook('instead','setActiveItem',function(){});
-	this.hook('instead','selectAll',function(){});
-	this.hook('instead','deleteSelection',function(){});
-
+TomSelect.define('no_backspace_delete', function (options) {
+  this.hook('instead', 'setActiveItem', () => {});
+  this.hook('instead', 'selectAll', () => {});
+  this.hook('instead', 'deleteSelection', () => {});
 });
+//# sourceMappingURL=plugin.js.map

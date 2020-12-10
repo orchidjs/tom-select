@@ -4,8 +4,8 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.ts')) :
+	typeof define === 'function' && define.amd ? define(['../../tom-select.ts'], factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
@@ -13,9 +13,38 @@
 
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
 
-	var KEY_BACKSPACE = 8;
-	var IS_MAC = /Mac/.test(navigator.userAgent);
+	const KEY_BACKSPACE = 8;
+	const IS_MAC = /Mac/.test(navigator.userAgent);
 	 // ctrl key or apple key for ma
+
+	/**
+	 * Converts a scalar to its best string representation
+	 * for hash keys and HTML attribute values.
+	 *
+	 * Transformations:
+	 *   'str'     -> 'str'
+	 *   null      -> ''
+	 *   undefined -> ''
+	 *   true      -> '1'
+	 *   false     -> '0'
+	 *   0         -> '0'
+	 *   1         -> '1'
+	 *
+	 */
+	/**
+	 * Prevent default
+	 *
+	 */
+
+	function preventDefault(evt, stop = false) {
+	  if (evt) {
+	    evt.preventDefault();
+
+	    if (stop) {
+	      evt.stopPropagation();
+	    }
+	  }
+	}
 
 	/**
 	 * Plugin: "restore_on_backspace" (Tom Select)
@@ -53,7 +82,7 @@
 	          self.refreshOptions(true);
 	        }
 
-	        evt.preventDefault();
+	        preventDefault(evt);
 	        return;
 	      }
 	    }

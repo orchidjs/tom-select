@@ -1,4 +1,13 @@
 /**
+* Tom Select v1.0.0
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+
+import { KEY_BACKSPACE } from '../../constants.js';
+import { preventDefault } from '../../utils.js';
+import TomSelect from '../../tom-select.js';
+
+/**
  * Plugin: "restore_on_backspace" (Tom Select)
  * Copyright (c) contributors
  *
@@ -12,33 +21,34 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select.js';
-import * as constants from '../../constants.js';
+TomSelect.define('restore_on_backspace', function (options) {
+  var self = this;
 
-TomSelect.define('restore_on_backspace',function(options) {
-	var self = this;
+  options.text = options.text || function (option) {
+    return option[self.settings.labelField];
+  };
 
-	options.text = options.text || function(option) {
-		return option[self.settings.labelField];
-	};
+  var orig_keydown = self.onKeyDown;
+  self.hook('instead', 'onKeyDown', function (evt) {
+    var index, option;
 
-	var orig_keydown = self.onKeyDown;
+    if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
+      index = self.caretPos - 1;
 
-	self.hook('instead','onKeyDown',function(evt){
-		var index, option;
-		if (evt.keyCode === constants.KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
-			index = self.caretPos - 1;
-			if (index >= 0 && index < self.items.length) {
-				option = self.options[self.items[index]];
-				if (self.deleteSelection(evt)) {
-					self.setTextboxValue(options.text.call(self, option));
-					self.refreshOptions(true);
-				}
-				evt.preventDefault();
-				return;
-			}
-		}
-		return orig_keydown.apply(self, arguments);
-	});
+      if (index >= 0 && index < self.items.length) {
+        option = self.options[self.items[index]];
 
+        if (self.deleteSelection(evt)) {
+          self.setTextboxValue(options.text.call(self, option));
+          self.refreshOptions(true);
+        }
+
+        preventDefault(evt);
+        return;
+      }
+    }
+
+    return orig_keydown.apply(self, arguments);
+  });
 });
+//# sourceMappingURL=plugin.js.map

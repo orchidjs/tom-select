@@ -1,4 +1,11 @@
 /**
+* Tom Select v1.0.0
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+
+import TomSelect from '../../tom-select.js';
+
+/**
  * Plugin: "drag_drop" (Tom Select)
  * Copyright (c) contributors
  *
@@ -12,49 +19,44 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select.js';
-
-TomSelect.define('drag_drop',function(options) {
-	if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
-	if (this.settings.mode !== 'multi') return;
-	var self = this;
-
-	var orig_lock		= self.lock;
-	var orig_unlock		= self.unlock;
-
-	self.hook('instead','lock',function(){
-		var sortable = self.control.dataset.sortable;
-		if (sortable) sortable.disable();
-		return orig_lock.apply(self, arguments);
-	});
-
-	self.hook('instead','unlock',function(){
-		var sortable = self.control.dataset.sortable;
-		if (sortable) sortable.enable();
-		return orig_unlock.apply(self, arguments);
-	});
-
-	self.hook('after','setup',function(){
-		var $control = $(self.control).sortable({
-			items: '[data-value]',
-			forcePlaceholderSize: true,
-			disabled: self.isLocked,
-			start: function(e, ui) {
-				ui.placeholder.css('width', ui.helper.css('width'));
-				$control.css({overflow: 'visible'});
-			},
-			stop: function() {
-				$control.css({overflow: 'hidden'});
-
-				var values = [];
-				$control.children('[data-value]').each(function() {
-					values.push($(this).attr('data-value'));
-				});
-
-				self.setValue(values);
-			}
-		});
-
-	});
-
+TomSelect.define('drag_drop', function (options) {
+  var self = this;
+  if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
+  if (self.settings.mode !== 'multi') return;
+  var orig_lock = self.lock;
+  var orig_unlock = self.unlock;
+  self.hook('instead', 'lock', function () {
+    var sortable = self.control.dataset.sortable;
+    if (sortable) sortable.disable();
+    return orig_lock.apply(self, arguments);
+  });
+  self.hook('instead', 'unlock', function () {
+    var sortable = self.control.dataset.sortable;
+    if (sortable) sortable.enable();
+    return orig_unlock.apply(self, arguments);
+  });
+  self.hook('after', 'setup', () => {
+    var $control = $(self.control).sortable({
+      items: '[data-value]',
+      forcePlaceholderSize: true,
+      disabled: self.isLocked,
+      start: (e, ui) => {
+        ui.placeholder.css('width', ui.helper.css('width'));
+        $control.css({
+          overflow: 'visible'
+        });
+      },
+      stop: () => {
+        $control.css({
+          overflow: 'hidden'
+        });
+        var values = [];
+        $control.children('[data-value]').each(function () {
+          values.push($(this).attr('data-value'));
+        });
+        self.setValue(values);
+      }
+    });
+  });
 });
+//# sourceMappingURL=plugin.js.map

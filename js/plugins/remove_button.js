@@ -4,8 +4,8 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.js')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select.js'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select.ts')) :
+	typeof define === 'function' && define.amd ? define(['../../tom-select.ts'], factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
 }(this, (function (TomSelect) { 'use strict';
 
@@ -17,8 +17,7 @@
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
 	 * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 	 *
-	 * @param {any} query .. should be {HTMLElement|string|JQuery}
-	 * @return {HTMLElement}
+	 * param query should be {}
 	 */
 	function getDom(query) {
 	  if (query.jquery) {
@@ -30,10 +29,10 @@
 	  }
 
 	  if (query.indexOf('<') > -1) {
-	    var div = document.createElement('div');
+	    let div = document.createElement('div');
 	    div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
 
-	    return div.querySelector(':first-child');
+	    return div.firstChild;
 	  }
 
 	  return document.querySelector(query);
@@ -52,18 +51,36 @@
 	 *   0         -> '0'
 	 *   1         -> '1'
 	 *
-	 * @param {string} value
-	 * @returns {string|null}
 	 */
 	/**
 	 * Escapes a string for use within HTML.
 	 *
-	 * @param {string} str
-	 * @returns {string}
 	 */
 
 	function escape_html(str) {
 	  return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	}
+	/**
+	 * Prevent default
+	 *
+	 */
+
+	function preventDefault(evt, stop = false) {
+	  if (evt) {
+	    evt.preventDefault();
+
+	    if (stop) {
+	      evt.stopPropagation();
+	    }
+	  }
+	}
+	/**
+	 * Prevent default
+	 *
+	 */
+
+	function addEvent(target, type, callback, options) {
+	  target.addEventListener(type, callback, options);
 	}
 
 	/**
@@ -95,25 +112,19 @@
 	  }
 
 	  var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
-	  self.hook('after', 'setupTemplates', function () {
+	  self.hook('after', 'setupTemplates', () => {
 	    var orig_render_item = self.settings.render.item;
 
 	    self.settings.render.item = function () {
 	      var rendered = getDom(orig_render_item.apply(self, arguments));
 	      var close_button = getDom(html);
 	      rendered.appendChild(close_button);
-	      close_button.addEventListener('mousedown', function (evt) {
-	        evt.preventDefault();
-	        evt.stopPropagation();
+	      addEvent(close_button, 'mousedown', evt => {
+	        preventDefault(evt, true);
 	      });
-	      close_button.addEventListener('click', function (evt) {
-	        evt.preventDefault();
-	        evt.stopPropagation(); // propagating will trigger the dropdown to show for single mode
-
-	        if (self.settings.mode !== 'single') {
-	          evt.stopPropagation();
-	        }
-
+	      addEvent(close_button, 'click', evt => {
+	        // propagating will trigger the dropdown to show for single mode
+	        preventDefault(evt, true);
 	        if (self.isLocked) return;
 	        var value = rendered.dataset.value;
 	        self.removeItem(value);

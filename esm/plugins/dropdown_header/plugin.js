@@ -1,4 +1,12 @@
 /**
+* Tom Select v1.0.0
+* Licensed under the Apache License, Version 2.0 (the "License");
+*/
+
+import { getDom } from '../../vanilla.js';
+import TomSelect from '../../tom-select.js';
+
+/**
  * Plugin: "dropdown_header" (Tom Select)
  * Copyright (c) contributors
  *
@@ -12,36 +20,21 @@
  * governing permissions and limitations under the License.
  *
  */
-
-import TomSelect from '../../tom-select.js';
-import { getDom } from '../../vanilla.js';
-
-
-TomSelect.define('dropdown_header',function(options) {
-	var self = this;
-
-	options = Object.assign({
-		title         : 'Untitled',
-		headerClass   : 'dropdown-header',
-		titleRowClass : 'dropdown-header-title',
-		labelClass    : 'dropdown-header-label',
-		closeClass    : 'dropdown-header-close',
-
-		html: function(data) {
-			return (
-				'<div class="' + data.headerClass + '">' +
-					'<div class="' + data.titleRowClass + '">' +
-						'<span class="' + data.labelClass + '">' + data.title + '</span>' +
-						'<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' +
-					'</div>' +
-				'</div>'
-			);
-		}
-	}, options);
-
-	self.hook('after','setup',function(){
-		var header = getDom(options.html(options));
-		self.dropdown.insertBefore(header, self.dropdown.firstChild);
-	});
-
+TomSelect.define('dropdown_header', function (options) {
+  var self = this;
+  options = Object.assign({
+    title: 'Untitled',
+    headerClass: 'dropdown-header',
+    titleRowClass: 'dropdown-header-title',
+    labelClass: 'dropdown-header-label',
+    closeClass: 'dropdown-header-close',
+    html: data => {
+      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
+    }
+  }, options);
+  self.hook('after', 'setup', () => {
+    var header = getDom(options.html(options));
+    self.dropdown.insertBefore(header, self.dropdown.firstChild);
+  });
 });
+//# sourceMappingURL=plugin.js.map
