@@ -72,6 +72,8 @@
 					</div>
 					<div class="container mt-3" id="main-container">
 					
+
+
 <div class="text-center">
 <h1 class="display-2 mt-5">Tom Select</h1>
 
@@ -87,21 +89,77 @@
 
 <div class="row py-5">
 <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mx-auto">
-<h5 class="mt-3">Example</h5>
-<link rel="stylesheet" href="/css/tom-select.bootstrap4.css">
-<select id="select-tags" multiple placeholder="Best movies and TV shows">
-	<option selected>Magnum P.I.</option>
-	<option>Blue Bloods</option>
-	<option>Quigley Down Under</option>
-	<option>Three Men and a Baby</option>
-	<option>Mr. Baseball</option>
-</select>
-<script>
-new TomSelect("#select-tags",{
-	plugins: ['remove_button'],
-	create: true,
-});
-</script>
+	<link rel="stylesheet" href="/css/tom-select.bootstrap4.css">
+
+	
+
+	<script>
+	
+	</script>
+
+	
+
+	<div class="demo demo-mini">
+	<div>
+		<div>
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link disabled">Example</a>
+				</li>
+				
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+				
+			</ul>
+
+
+			<div class="demo-html">
+				
+	<select id="select-tags" multiple placeholder="Best movies and TV shows">
+		<option selected>Magnum P.I.</option>
+		<option>Blue Bloods</option>
+		<option>Quigley Down Under</option>
+		<option>Three Men and a Baby</option>
+		<option>Mr. Baseball</option>
+	</select>
+	
+			</div>
+
+			
+			<textarea hidden>
+	&lt;select id=&quot;select-tags&quot; multiple placeholder=&quot;Best movies and TV shows&quot;&gt;
+		&lt;option selected&gt;Magnum P.I.&lt;/option&gt;
+		&lt;option&gt;Blue Bloods&lt;/option&gt;
+		&lt;option&gt;Quigley Down Under&lt;/option&gt;
+		&lt;option&gt;Three Men and a Baby&lt;/option&gt;
+		&lt;option&gt;Mr. Baseball&lt;/option&gt;
+	&lt;/select&gt;
+	</textarea>
+			<script>
+	new TomSelect("#select-tags",{
+		plugins: ['remove_button'],
+		create: true,
+	});
+	</script>
+			<style></style>
+
+		</div>
+	</div>
+	</div>
+
 </div>
 </div>
 
