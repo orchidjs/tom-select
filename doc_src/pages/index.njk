@@ -1,4 +1,6 @@
 
+{% from "demo.njk" import demo_mini %}
+
 <div class="text-center">
 <h1 class="display-2 mt-5">Tom Select</h1>
 
@@ -14,21 +16,28 @@
 
 <div class="row py-5">
 <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mx-auto">
-<h5 class="mt-3">Example</h5>
-<link rel="stylesheet" href="/css/tom-select.bootstrap4.css">
-<select id="select-tags" multiple placeholder="Best movies and TV shows">
-	<option selected>Magnum P.I.</option>
-	<option>Blue Bloods</option>
-	<option>Quigley Down Under</option>
-	<option>Three Men and a Baby</option>
-	<option>Mr. Baseball</option>
-</select>
-<script>
-new TomSelect("#select-tags",{
-	plugins: ['remove_button'],
-	create: true,
-});
-</script>
+	<link rel="stylesheet" href="/css/tom-select.bootstrap4.css">
+
+	{% set html %}
+	<select id="select-tags" multiple placeholder="Best movies and TV shows">
+		<option selected>Magnum P.I.</option>
+		<option>Blue Bloods</option>
+		<option>Quigley Down Under</option>
+		<option>Three Men and a Baby</option>
+		<option>Mr. Baseball</option>
+	</select>
+	{% endset %}
+
+	<script>
+	{% set script %}
+	new TomSelect("#select-tags",{
+		plugins: ['remove_button'],
+		create: true,
+	});
+	{% endset %}
+	</script>
+
+	{{ demo_mini( 'Example', html, script) }}
 </div>
 </div>
 

@@ -3,7 +3,7 @@
 {% macro demo( label, html, script, style, jquery ) %}
 	{% set dd = demo_count.push('a') %}
 
-	<div class="demo py-5 {% if jquery %} jquery {% endif %}">
+	<div class="demo py-5 {% if jquery %} demo-jquery {% endif %}">
 
 		{{ label | safe }}
 	<div>
@@ -11,9 +11,12 @@
 			<div class="demo-html">
 				{{ html | safe }}
 			</div>
+
+			{# for codepen #}
 			<textarea hidden>{{html}}</textarea>
 			<script>{{ script | safe }}</script>
 			<style>{{ style | safe }}</style>
+
 		</div>
 		<div class="mt-4">
 
@@ -85,6 +88,50 @@
 				{% endif %}
 
 			</div>
+		</div>
+	</div>
+	</div>
+{% endmacro %}
+
+
+{% macro demo_mini( label, html, script, style, jquery ) %}
+
+	<div class="demo demo-mini">
+	<div>
+		<div>
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link disabled">{{ label | safe }}</a>
+				</li>
+				{% if script %}
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+				{% endif %}
+			</ul>
+
+
+			<div class="demo-html">
+				{{ html | safe }}
+			</div>
+
+			{# for codepen #}
+			<textarea hidden>{{html}}</textarea>
+			<script>{{ script | safe }}</script>
+			<style>{{ style | safe }}</style>
+
 		</div>
 	</div>
 	</div>

@@ -18,22 +18,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 	// theme switcher
-	var themes			= ['bootstrap4','bootstrap3','default'];
-	var theme			= localStorage.getItem('theme') || 'bootstrap4';
+	if( !document.querySelectorAll('.demo-mini').length ){
+		var themes			= ['bootstrap4','bootstrap3','default'];
+		var theme			= localStorage.getItem('theme') || 'bootstrap4';
 
-	var themes_div	= document.createElement('div');
-	themes_div.classList.add('theme-selector')
-	var container	= document.getElementById('main-container')
-	container.insertBefore(themes_div, container.firstChild);
+		var themes_div	= document.createElement('div');
+		themes_div.classList.add('theme-selector')
+		var container	= document.getElementById('main-container')
+		container.insertBefore(themes_div, container.firstChild);
 
-	SetTheme(theme);
+		SetTheme(theme);
 
+		// add info about script and current value below each demo
+		for(let i = 0; i < demo_divs.length; i++){
+			let demo	= demo_divs[i];
+			ShowValue(demo);
+		}
 
-	// add info about script and current value below each demo
-	for(let i = 0; i < demo_divs.length; i++){
-		let demo	= demo_divs[i];
-		ShowValue(demo);
 	}
+
 
 	/**
 	 * Set the	current theme
@@ -118,10 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var codepen, codesandbox;
 
 
-		var html			= `<div class="p-4">
-	${demo.querySelector('textarea').value || ''}
-</div>`;
-
+		var html			= `<div class="p-4">${demo.querySelector('textarea').value || ''}</div>`;
 		var css				= demo.querySelector('style').textContent || '';
 		var js				= demo.querySelector('script').textContent || '';
 		var theme			= localStorage.getItem('theme') || 'bootstrap4';
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 		// add jquery when needed
-		if( demo.classList.contains('jquery') ){
+		if( demo.classList.contains('demo-jquery') ){
 			js_urls.push('https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js');
 			js_urls.push('https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.js');
 		}
