@@ -1238,7 +1238,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	refreshOptions( triggerDropdown:boolean = true ){
 		var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
-		var active, active_before, create;
+		var active, create;
 
 
 		var self					= this;
