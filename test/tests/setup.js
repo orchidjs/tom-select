@@ -18,7 +18,11 @@
 		describe('<input type="text">', function() {
 
 			it_n('should complete without exceptions', function() {
-				var test = setup_test('<input type="text">', {});
+				setup_test('<input type="text">');
+			});
+
+			it_n('should complete without exceptions - id with quotes', function() {
+				setup_test('<input id="fo\"o\'bar">');
 			});
 
 			it_n('should populate items,options from "dataAttr" if available', function() {

@@ -20,6 +20,7 @@ import {
 
 import {
 	getDom,
+	escapeQuery,
 	triggerEvent,
 	applyCSS,
 	addClasses,
@@ -248,7 +249,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if( inputId = input.getAttribute('id') ){
 			control_input.setAttribute('id', inputId + '-tomselected');
-			var label = document.querySelector("label[for='"+inputId+"']");
+
+			let query = "label[for='"+escapeQuery(inputId)+"']";
+			let label = document.querySelector(query);
 			if( label ) label.setAttribute('for', inputId + '-tomselected');
 		}
 

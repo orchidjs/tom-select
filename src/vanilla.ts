@@ -24,6 +24,10 @@ export function getDom( query:any ):HTMLElement{
 	return document.querySelector(query);
 };
 
+export function escapeQuery(query:string):string{
+	return query.replace(/['"\\]/g, '\\$&');
+}
+
 /**
  * Dispatch an event
  *
