@@ -954,6 +954,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		});
 	}
 
+
+	/**
+	 * Resets the number of max items to the given value
+	 *
+	 */
+	setMaxItems(value:number){
+		if(value === 0) value = null; //reset to unlimited items.
+		this.settings.maxItems = value;
+		this.refreshState();
+	}
+
 	/**
 	 * Sets the selected item.
 	 *

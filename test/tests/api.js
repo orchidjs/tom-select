@@ -25,6 +25,30 @@
 			});
 		});
 
+		describe('setMaxItems(2)', function(){
+			var test;
+			before(function(done) {
+				test = setup_test('<select>', {});
+				test.instance.setMaxItems(2);
+				window.setTimeout(function() { done(); }, 5);
+			});
+			it_n('should set maxItems setting to 2', function() {
+				expect(test.instance.settings.maxItems).to.be.equal(2);
+			});
+		});
+
+		describe('setMaxItems(0)', function(){
+			var test;
+			before(function(done) {
+				test = setup_test('<select>', {});
+				test.instance.setMaxItems(0);
+				window.setTimeout(function() { done(); }, 5);
+			});
+			it_n('should set maxItems setting to null', function() {
+				expect(test.instance.settings.maxItems).to.be.equal(null);
+			});
+		});
+
 		describe('enable()', function() {
 			var test;
 
