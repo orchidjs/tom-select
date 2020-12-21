@@ -161,7 +161,7 @@
 				}, '2');
 			});
 
-			it('should render optgroups with duplicated options correctly', function(done) {
+			it_n('should render optgroups with duplicated options correctly', function(done) {
 				var test = setup_test(['<select>',
 					'<optgroup label="Group 1">',
 					'<option value="a">Item A</option>',
