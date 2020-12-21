@@ -565,6 +565,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * input / select element.
 	 */
 	onChange() {
+		triggerEvent(this.input, 'input');
 		triggerEvent(this.input, 'change');
 	}
 

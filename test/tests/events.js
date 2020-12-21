@@ -117,6 +117,36 @@ describe('Events', function() {
 		});
 	});
 
+	describe('input', function() {
+		it_n('should be triggered once before change', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
+			var evt = '';
+			test.$select.on('change', function() { evt = evt + 'change'; });
+			test.$select.on('input', function() { evt = evt + 'input'; });
+			test.instance.setValue('b');
+
+			window.setTimeout(function() {
+				expect(evt).to.be.equal('inputchange');
+				done();
+			}, 0);
+		});
+		it_n('should not be triggered when the selected item has not changed', function(done) {
+			var test = setup_test('<select><option value="a" selected="selected">a</option></select>');
+
+			var counter = 0;
+			test.$select.on('input', function() { counter++; });
+
+			syn.click(test.instance.control).delay(0, function() {
+				syn
+					.click($('[data-value="a"]', test.instance.dropdown))
+					.delay(0, function() {
+						expect(counter).to.be.equal(0);
+						done();
+					});
+			});
+		});
+	});
+
 	describe('item_add', function() {
 		it_n('should be triggered', function(done) {
 			var test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
