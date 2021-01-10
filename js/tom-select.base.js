@@ -1130,6 +1130,9 @@
 
 	  return document.querySelector(query);
 	}
+	function escapeQuery(query) {
+	  return query.replace(/['"\\]/g, '\\$&');
+	}
 	/**
 	 * Dispatch an event
 	 *
@@ -1422,7 +1425,8 @@
 
 	    if (inputId = input.getAttribute('id')) {
 	      control_input.setAttribute('id', inputId + '-tomselected');
-	      var label = document.querySelector("label[for='" + inputId + "']");
+	      let query = "label[for='" + escapeQuery(inputId) + "']";
+	      let label = document.querySelector(query);
 	      if (label) label.setAttribute('for', inputId + '-tomselected');
 	    }
 
@@ -1722,6 +1726,7 @@
 
 
 	  onChange() {
+	    triggerEvent(this.input, 'input');
 	    triggerEvent(this.input, 'change');
 	  }
 	  /**
@@ -2123,6 +2128,18 @@
 	      this.clear(silent);
 	      this.addItems(value, silent);
 	    });
+	  }
+	  /**
+	   * Resets the number of max items to the given value
+	   *
+	   */
+
+
+	  setMaxItems(value) {
+	    if (value === 0) value = null; //reset to unlimited items.
+
+	    this.settings.maxItems = value;
+	    this.refreshState();
 	  }
 	  /**
 	   * Sets the selected item.

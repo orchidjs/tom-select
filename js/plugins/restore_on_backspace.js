@@ -71,12 +71,16 @@
 	  self.hook('instead', 'onKeyDown', function (evt) {
 	    var index, option;
 
-	    if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
-	      index = self.caretPos - 1;
+	    if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '') {
+	      index = self.caretPos - 1; // selected item
 
-	      if (index >= 0 && index < self.items.length) {
+	      if (self.activeItems.length > 0) {
+	        option = self.options[self.activeItems[0].dataset.value]; // not selected item
+	      } else if (self.activeItems.length == 0 && index >= 0 && index < self.items.length) {
 	        option = self.options[self.items[index]];
+	      }
 
+	      if (option) {
 	        if (self.deleteSelection(evt)) {
 	          self.setTextboxValue(options.text.call(self, option));
 	          self.refreshOptions(true);

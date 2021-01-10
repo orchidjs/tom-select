@@ -1130,6 +1130,9 @@
 
 	  return document.querySelector(query);
 	}
+	function escapeQuery(query) {
+	  return query.replace(/['"\\]/g, '\\$&');
+	}
 	/**
 	 * Dispatch an event
 	 *
@@ -1422,7 +1425,8 @@
 
 	    if (inputId = input.getAttribute('id')) {
 	      control_input.setAttribute('id', inputId + '-tomselected');
-	      var label = document.querySelector("label[for='" + inputId + "']");
+	      let query = "label[for='" + escapeQuery(inputId) + "']";
+	      let label = document.querySelector(query);
 	      if (label) label.setAttribute('for', inputId + '-tomselected');
 	    }
 
@@ -1722,6 +1726,7 @@
 
 
 	  onChange() {
+	    triggerEvent(this.input, 'input');
 	    triggerEvent(this.input, 'change');
 	  }
 	  /**
@@ -2123,6 +2128,18 @@
 	      this.clear(silent);
 	      this.addItems(value, silent);
 	    });
+	  }
+	  /**
+	   * Resets the number of max items to the given value
+	   *
+	   */
+
+
+	  setMaxItems(value) {
+	    if (value === 0) value = null; //reset to unlimited items.
+
+	    this.settings.maxItems = value;
+	    this.refreshState();
 	  }
 	  /**
 	   * Sets the selected item.
@@ -3980,12 +3997,16 @@
 	  self.hook('instead', 'onKeyDown', function (evt) {
 	    var index, option;
 
-	    if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
-	      index = self.caretPos - 1;
+	    if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '') {
+	      index = self.caretPos - 1; // selected item
 
-	      if (index >= 0 && index < self.items.length) {
+	      if (self.activeItems.length > 0) {
+	        option = self.options[self.activeItems[0].dataset.value]; // not selected item
+	      } else if (self.activeItems.length == 0 && index >= 0 && index < self.items.length) {
 	        option = self.options[self.items[index]];
+	      }
 
+	      if (option) {
 	        if (self.deleteSelection(evt)) {
 	          self.setTextboxValue(options.text.call(self, option));
 	          self.refreshOptions(true);

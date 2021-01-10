@@ -10,7 +10,7 @@ import { removeHighlight, highlight } from './contrib/highlight.js';
 import { KEY_TAB, KEY_DELETE, KEY_BACKSPACE, KEY_RIGHT, KEY_LEFT, KEY_RETURN, KEY_UP, KEY_DOWN, KEY_ESC, KEY_A, KEY_SHORTCUT } from './constants.js';
 import { loadDebounce, addEvent, preventDefault, isKeyDown, debounce_events, hash_key, escape_html, getSelection } from './utils.js';
 import getSettings from './settings.js';
-import { getDom, addClasses, triggerEvent, removeClasses, applyCSS, isEmptyObject, getTail, nodeIndex, parentMatch } from './vanilla.js';
+import { getDom, addClasses, escapeQuery, triggerEvent, removeClasses, applyCSS, isEmptyObject, getTail, nodeIndex, parentMatch } from './vanilla.js';
 
 class TomSelect extends MicroPlugin(MicroEvent) {
   constructor(input, settings) {
@@ -161,7 +161,8 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     if (inputId = input.getAttribute('id')) {
       control_input.setAttribute('id', inputId + '-tomselected');
-      var label = document.querySelector("label[for='" + inputId + "']");
+      let query = "label[for='" + escapeQuery(inputId) + "']";
+      let label = document.querySelector(query);
       if (label) label.setAttribute('for', inputId + '-tomselected');
     }
 
@@ -461,6 +462,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   onChange() {
+    triggerEvent(this.input, 'input');
     triggerEvent(this.input, 'change');
   }
   /**
@@ -862,6 +864,18 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       this.clear(silent);
       this.addItems(value, silent);
     });
+  }
+  /**
+   * Resets the number of max items to the given value
+   *
+   */
+
+
+  setMaxItems(value) {
+    if (value === 0) value = null; //reset to unlimited items.
+
+    this.settings.maxItems = value;
+    this.refreshState();
   }
   /**
    * Sets the selected item.
