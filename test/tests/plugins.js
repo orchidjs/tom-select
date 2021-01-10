@@ -112,6 +112,27 @@ describe('plugin: restore_on_backspace', function() {
 
 	});
 
+	it_n('should fill control_input.value when active item deleted', function(done) {
+
+		var test = setup_test('AB_Multi',{plugins:['restore_on_backspace']});
+
+		test.instance.addItem('a');
+		test.instance.addItem('b');
+		assert.equal( test.instance.items.length, 2 );
+		test.instance.setActiveItem(test.instance.getItem('a'));
+
+		syn.click(test.instance.control_input,function(){
+			syn.type('\b', test.instance.control_input, function() {
+				assert.equal( test.instance.items.length, 1 );
+				assert.equal( test.instance.items[0], 'b' );
+				assert.equal( test.instance.control_input.value, 'a' );
+				done();
+
+			});
+		});
+
+	});
+
 });
 
 

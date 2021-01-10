@@ -27,10 +27,19 @@ TomSelect.define('restore_on_backspace',function(options) {
 
 	self.hook('instead','onKeyDown',function(evt){
 		var index, option;
-		if (evt.keyCode === constants.KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
+		if (evt.keyCode === constants.KEY_BACKSPACE && self.control_input.value === '' ) {
 			index = self.caretPos - 1;
-			if (index >= 0 && index < self.items.length) {
+
+			// selected item
+			if( self.activeItems.length > 0 ){
+				option = self.options[self.activeItems[0].dataset.value];
+
+			// not selected item
+			}else if( self.activeItems.length == 0 && index >= 0 && index < self.items.length) {
 				option = self.options[self.items[index]];
+			}
+
+			if( option ){
 				if (self.deleteSelection(evt)) {
 					self.setTextboxValue(options.text.call(self, option));
 					self.refreshOptions(true);
@@ -38,6 +47,7 @@ TomSelect.define('restore_on_backspace',function(options) {
 				preventDefault(evt);
 				return;
 			}
+
 		}
 		return orig_keydown.apply(self, arguments);
 	});
