@@ -52,7 +52,7 @@ configs.push({
 
 var terser_config = terser({
   mangle: true,
-  toplevel: true,
+  //toplevel: true, // removes tomSelect footer
   format: {
     semicolons: false,
     comments: function (node, comment) {
@@ -102,7 +102,7 @@ function configCore( input, filename, plugins ){
 	var output = {
 		name: 'TomSelect',
 		file: `build/js/${filename}`,
-		footer: 'var tomSelect = function(el,opts){ return new TomSelect(el,opts); } ',
+		footer: 'var tomSelect=function(el,opts){return new TomSelect(el,opts);} ',
 	};
 
 	var config = createConfig( input, output, plugins);
