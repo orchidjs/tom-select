@@ -3,8 +3,8 @@
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
-import { addEvent } from '../../utils.js';
 import TomSelect from '../../tom-select.js';
+import { addEvent } from '../../utils.js';
 
 /**
  * Plugin: "input_autogrow" (Tom Select)

@@ -3,9 +3,9 @@
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
-import { escape_html, addEvent, preventDefault } from '../../utils.js';
-import { getDom } from '../../vanilla.js';
 import TomSelect from '../../tom-select.js';
+import { getDom } from '../../vanilla.js';
+import { escape_html, addEvent, preventDefault } from '../../utils.js';
 
 /**
  * Plugin: "remove_button" (Tom Select)

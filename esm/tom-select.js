@@ -8,8 +8,8 @@ import MicroPlugin from './contrib/microplugin.js';
 import Sifter from './contrib/sifter.js';
 import { removeHighlight, highlight } from './contrib/highlight.js';
 import { KEY_TAB, KEY_DELETE, KEY_BACKSPACE, KEY_RIGHT, KEY_LEFT, KEY_RETURN, KEY_UP, KEY_DOWN, KEY_ESC, KEY_A, KEY_SHORTCUT } from './constants.js';
-import { loadDebounce, addEvent, preventDefault, isKeyDown, debounce_events, hash_key, escape_html, getSelection } from './utils.js';
 import getSettings from './settings.js';
+import { loadDebounce, addEvent, preventDefault, isKeyDown, debounce_events, hash_key, escape_html, getSelection } from './utils.js';
 import { getDom, addClasses, escapeQuery, triggerEvent, removeClasses, applyCSS, isEmptyObject, getTail, nodeIndex, parentMatch } from './vanilla.js';
 
 class TomSelect extends MicroPlugin(MicroEvent) {
