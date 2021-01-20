@@ -381,11 +381,11 @@
 			var $form, $button, test;
 
 			beforeEach(function() {
-				test = setup_test('<select>' +
-					'<option value="">Select an option...</option>' +
-					'<option value="a">A</option>' +
-				'</select>', {});
-				$form = test.$select.parents('form');
+				test = setup_test(`<form><select class="setup-here">
+					<option value="">Select an option...</option>
+					<option value="a">A</option>
+					</select></form>`);
+				$form = test.$html;
 				$button = $('<button type="submit">').appendTo($form);
 			});
 			afterEach(function() {
@@ -399,6 +399,18 @@
 			it_n('should not have the required class', function() {
 				expect(test.instance.control.classList.contains('required')).to.be.equal(false);
 			});
+
+			it_n('should pass validation if no element is selected',function(done) {
+
+				$button.one('click',function(evt){
+					expect($form[0].checkValidity()).to.be.true;
+					evt.preventDefault();
+					done();
+				});
+
+				syn.click($button);
+			});
+
 		});
 
 		describe('<select> (custom string render)', function() {
