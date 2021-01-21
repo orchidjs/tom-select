@@ -842,9 +842,7 @@
 	function loadDebounce(fn, delay) {
 	  var timeout;
 	  var self = this;
-	  return function () {
-	    var args = arguments;
-
+	  return function (value, callback) {
 	    if (timeout) {
 	      this.loading = Math.max(this.loading - 1, 0);
 	    }
@@ -852,7 +850,8 @@
 	    clearTimeout(timeout);
 	    timeout = setTimeout(function () {
 	      timeout = null;
-	      fn.apply(self, args);
+	      self.loadedSearches[value] = true;
+	      fn.call(self, value, callback);
 	    }, delay);
 	  };
 	}
@@ -2059,7 +2058,6 @@
 	    var fn = self.settings.load;
 	    if (!fn) return;
 	    if (self.loadedSearches.hasOwnProperty(value)) return;
-	    self.loadedSearches[value] = true;
 	    addClasses(self.wrapper, self.settings.loadingClass);
 	    self.loading++;
 	    fn.call(self, value, function (options, optgroups) {
@@ -2555,11 +2553,15 @@
 
 
 	    var add_template = template => {
-	      show_dropdown = true;
 	      let content = self.render(template, {
 	        input: query
 	      });
-	      self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+
+	      if (content) {
+	        show_dropdown = true;
+	        self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+	      }
+
 	      return content;
 	    }; // add loading message
 
@@ -3600,7 +3602,13 @@
 	    } // render markup
 
 
-	    html = getDom(self.settings.render[templateName].call(this, data, escape_html)); // add mandatory attributes
+	    html = self.settings.render[templateName].call(this, data, escape_html);
+
+	    if (!html) {
+	      return html;
+	    }
+
+	    html = getDom(html); // add mandatory attributes
 
 	    if (templateName === 'option' || templateName === 'option_create') {
 	      if (!data[self.settings.disabledField]) {

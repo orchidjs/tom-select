@@ -38,9 +38,7 @@ function escape_html(str) {
 function loadDebounce(fn, delay) {
   var timeout;
   var self = this;
-  return function () {
-    var args = arguments;
-
+  return function (value, callback) {
     if (timeout) {
       this.loading = Math.max(this.loading - 1, 0);
     }
@@ -48,7 +46,8 @@ function loadDebounce(fn, delay) {
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       timeout = null;
-      fn.apply(self, args);
+      self.loadedSearches[value] = true;
+      fn.call(self, value, callback);
     }, delay);
   };
 }

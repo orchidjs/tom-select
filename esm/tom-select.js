@@ -795,7 +795,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var fn = self.settings.load;
     if (!fn) return;
     if (self.loadedSearches.hasOwnProperty(value)) return;
-    self.loadedSearches[value] = true;
     addClasses(self.wrapper, self.settings.loadingClass);
     self.loading++;
     fn.call(self, value, function (options, optgroups) {
@@ -1291,11 +1290,15 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
     var add_template = template => {
-      show_dropdown = true;
       let content = self.render(template, {
         input: query
       });
-      self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+
+      if (content) {
+        show_dropdown = true;
+        self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+      }
+
       return content;
     }; // add loading message
 
@@ -2336,7 +2339,13 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     } // render markup
 
 
-    html = getDom(self.settings.render[templateName].call(this, data, escape_html)); // add mandatory attributes
+    html = self.settings.render[templateName].call(this, data, escape_html);
+
+    if (!html) {
+      return html;
+    }
+
+    html = getDom(html); // add mandatory attributes
 
     if (templateName === 'option' || templateName === 'option_create') {
       if (!data[self.settings.disabledField]) {
