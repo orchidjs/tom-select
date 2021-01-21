@@ -1899,7 +1899,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var invalid = !self.input.checkValidity();
     self.isInvalid = invalid;
     self.control_input.required = invalid;
-    self.input.required = !invalid;
+
+    if (this.isRequired) {
+      self.input.required = !invalid;
+    }
   }
   /**
    * Determines whether or not more items can be added
@@ -2303,6 +2306,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     removeClasses(self.input, 'tomselected');
     self.input.removeAttribute('hidden');
+    self.input.required = this.isRequired;
 
     for (let i = 0; i < revertSettings.children.length; i++) {
       self.input.appendChild(revertSettings.children[i]);

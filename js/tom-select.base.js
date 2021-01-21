@@ -3163,7 +3163,10 @@
 	    var invalid = !self.input.checkValidity();
 	    self.isInvalid = invalid;
 	    self.control_input.required = invalid;
-	    self.input.required = !invalid;
+
+	    if (this.isRequired) {
+	      self.input.required = !invalid;
+	    }
 	  }
 	  /**
 	   * Determines whether or not more items can be added
@@ -3567,6 +3570,7 @@
 
 	    removeClasses(self.input, 'tomselected');
 	    self.input.removeAttribute('hidden');
+	    self.input.required = this.isRequired;
 
 	    for (let i = 0; i < revertSettings.children.length; i++) {
 	      self.input.appendChild(revertSettings.children[i]);
