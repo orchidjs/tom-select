@@ -1362,10 +1362,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		// helper method for adding templates to dropdown
-		var add_template = (template) => {
-			show_dropdown = true;
+		var add_template = (template:string) => {
 			let content = self.render(template,{input:query});
-			self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+			if( content ){
+				show_dropdown = true;
+				self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+			}
 			return content;
 		};
 
@@ -2363,7 +2365,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * "option" templates, given the data.
 	 *
 	 */
-	render( templateName:string, data?:any ):HTMLElement{
+	render( templateName:string, data?:any ):null|HTMLElement{
 		var value, id, html;
 		var self = this;
 
@@ -2379,7 +2381,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// render markup
-		html = getDom( self.settings.render[templateName].call(this, data, escape_html) );
+		html = self.settings.render[templateName].call(this, data, escape_html);
+
+		if( !html ){
+			return html;
+		}
+
+		html = getDom( html );
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {

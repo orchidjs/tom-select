@@ -7,11 +7,11 @@ describe('load', function() {
 
 		var test = setup_test('AB_Single',{
 			preload: 'focus',
-			load: function(query, done) {
+			load: function(query, load_cb) {
 				calls_load++;
 				assert.equal(query, '');
 				setTimeout(function() {
-					done([{value: 'c', text: 'C'}]);
+					load_cb([{value: 'c', text: 'C'}]);
 				});
 			}
 		});
@@ -120,6 +120,8 @@ describe('load', function() {
 				if( expected_load_queries.length == 0 ){
 					done();
 				}
+
+				return load_cb();
 			}
 		});
 
@@ -132,5 +134,34 @@ describe('load', function() {
 		});
 
 	});
+
+
+	it_n('dropdown should not open if query length is less', function(done) {
+
+		var test = setup_test('<select>',{
+			load: function(query, load_cb) {
+				if ( query.length < 3 ) return load_cb();
+			},
+			render: {
+	 			no_results: (data,escape) => {
+	        		if( data.input.length < 3) return;
+					return '<div class="no-results">No results found</div>';
+				},
+				loading: (data,escape) => {
+					if( data.input.length < 3 ) return;
+					return '<div class="spinner"></div>';
+				},
+			}
+		});
+
+		syn.type('a', test.instance.control_input,function(){
+			setTimeout(function(){
+				assert.equal(test.instance.isOpen, false);
+				done();
+			},100);
+		});
+
+	});
+
 
 });
