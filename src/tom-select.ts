@@ -881,7 +881,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (!fn) return;
 		if (self.loadedSearches.hasOwnProperty(value)) return;
 
-		self.loadedSearches[value] = true;
 		addClasses(self.wrapper,self.settings.loadingClass);
 		self.loading++;
 

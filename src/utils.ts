@@ -41,15 +41,16 @@ export function escape_html(str:string):string {
 export function loadDebounce(fn,delay){
 	var timeout;
 	var self = this;
-	return function() {
-		var args = arguments;
+	return function(value:string,callback) {
+
 		if( timeout ){
 			this.loading = Math.max(this.loading - 1, 0);
 		}
 		clearTimeout(timeout);
 		timeout = setTimeout(function() {
 			timeout = null;
-			fn.apply(self, args);
+			self.loadedSearches[value] = true;
+			fn.call(self, value, callback);
 
 		}, delay);
 	};

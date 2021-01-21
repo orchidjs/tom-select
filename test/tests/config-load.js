@@ -106,4 +106,31 @@ describe('load', function() {
 
 
 
+	it_n('should load results for "a" after loading results for "ab"', function(done) {
+
+		var expected_load_queries = ['ab','a'];
+
+		var test = setup_test('AB_Single',{
+			load: function(query, load_cb) {
+
+				var expected_load_query = expected_load_queries.shift();
+
+				assert.equal(query, expected_load_query);
+
+				if( expected_load_queries.length == 0 ){
+					done();
+				}
+			}
+		});
+
+		syn.type('a', test.instance.control_input,function(){
+			syn.type('b', test.instance.control_input,function(){
+				setTimeout(function(){
+					syn.type('\b', test.instance.control_input);
+				},400); // greater than load throttle
+			});
+		});
+
+	});
+
 });
