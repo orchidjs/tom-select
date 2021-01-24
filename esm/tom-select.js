@@ -63,7 +63,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     }; // debounce user defined load() if loadThrottle > 0
 
     if (this.settings.load && this.settings.loadThrottle) {
-      this.settings.load = loadDebounce.call(this, this.settings.load, this.settings.loadThrottle);
+      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
     } // search system
 
 

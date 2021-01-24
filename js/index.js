@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// theme switcher
 	if( !document.querySelectorAll('.demo-mini').length ){
-		var themes			= ['bootstrap4','bootstrap3','default'];
+		var themes			= ['bootstrap5','bootstrap4','bootstrap3','default'];
 		var theme			= localStorage.getItem('theme') || 'bootstrap4';
 
 		var themes_div	= document.createElement('div');

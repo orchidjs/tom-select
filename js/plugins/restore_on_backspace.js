@@ -14,7 +14,7 @@
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
 
 	const KEY_BACKSPACE = 8;
-	const IS_MAC = /Mac/.test(navigator.userAgent);
+	/Mac/.test(navigator.userAgent);
 	 // ctrl key or apple key for ma
 
 	/**

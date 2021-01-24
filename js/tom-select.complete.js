@@ -841,10 +841,11 @@
 
 	function loadDebounce(fn, delay) {
 	  var timeout;
-	  var self = this;
 	  return function (value, callback) {
+	    var self = this;
+
 	    if (timeout) {
-	      this.loading = Math.max(this.loading - 1, 0);
+	      self.loading = Math.max(self.loading - 1, 0);
 	    }
 
 	    clearTimeout(timeout);
@@ -1326,7 +1327,7 @@
 	    }; // debounce user defined load() if loadThrottle > 0
 
 	    if (this.settings.load && this.settings.loadThrottle) {
-	      this.settings.load = loadDebounce.call(this, this.settings.load, this.settings.loadThrottle);
+	      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
 	    } // search system
 
 

@@ -15,7 +15,7 @@
 
 	const KEY_LEFT = 37;
 	const KEY_RIGHT = 39;
-	const IS_MAC = /Mac/.test(navigator.userAgent);
+	/Mac/.test(navigator.userAgent);
 	 // ctrl key or apple key for ma
 
 	/**
