@@ -172,6 +172,7 @@ module.exports = function(grunt) {
 					'build/scss/tom-select.default.scss': ['src/scss/tom-select.default.scss'],
 					'build/scss/tom-select.bootstrap3.scss': ['src/scss/tom-select.bootstrap3.scss'],
 					'build/scss/tom-select.bootstrap4.scss': ['src/scss/tom-select.bootstrap4.scss'],
+					'build/scss/tom-select.bootstrap5.scss': ['src/scss/tom-select.bootstrap5.scss'],
 				}]
 			},
 			scss_plugins:{
@@ -214,6 +215,7 @@ module.exports = function(grunt) {
 					'build/css/tom-select.default.css': ['src/scss/tom-select.default.scss'],
 					'build/css/tom-select.bootstrap3.css': ['src/scss/-tom-select.bootstrap3.scss'],
 					'build/css/tom-select.bootstrap4.css': ['src/scss/-tom-select.bootstrap4.scss'],
+					'build/css/tom-select.bootstrap5.css': ['src/scss/-tom-select.bootstrap5.scss'],
 				}]
 			},
 			builddocs: {
