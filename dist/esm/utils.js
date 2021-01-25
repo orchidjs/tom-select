@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.0
+* Tom Select v1.1.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -37,18 +37,18 @@ function escape_html(str) {
 
 function loadDebounce(fn, delay) {
   var timeout;
-  var self = this;
-  return function () {
-    var args = arguments;
+  return function (value, callback) {
+    var self = this;
 
     if (timeout) {
-      this.loading = Math.max(this.loading - 1, 0);
+      self.loading = Math.max(self.loading - 1, 0);
     }
 
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       timeout = null;
-      fn.apply(self, args);
+      self.loadedSearches[value] = true;
+      fn.call(self, value, callback);
     }, delay);
   };
 }

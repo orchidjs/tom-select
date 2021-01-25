@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.0
+* Tom Select v1.1.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -26,6 +26,9 @@ function getDom(query) {
   }
 
   return document.querySelector(query);
+}
+function escapeQuery(query) {
+  return query.replace(/['"\\]/g, '\\$&');
 }
 /**
  * Dispatch an event
@@ -170,5 +173,5 @@ function nodeIndex(el, amongst) {
   return i;
 }
 
-export { addClasses, applyCSS, castAsArray, classesArray, getDom, getTail, isEmptyObject, nodeIndex, parentMatch, removeClasses, triggerEvent };
+export { addClasses, applyCSS, castAsArray, classesArray, escapeQuery, getDom, getTail, isEmptyObject, nodeIndex, parentMatch, removeClasses, triggerEvent };
 //# sourceMappingURL=vanilla.js.map

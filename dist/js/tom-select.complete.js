@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.0
+* Tom Select v1.1.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -841,18 +841,18 @@
 
 	function loadDebounce(fn, delay) {
 	  var timeout;
-	  var self = this;
-	  return function () {
-	    var args = arguments;
+	  return function (value, callback) {
+	    var self = this;
 
 	    if (timeout) {
-	      this.loading = Math.max(this.loading - 1, 0);
+	      self.loading = Math.max(self.loading - 1, 0);
 	    }
 
 	    clearTimeout(timeout);
 	    timeout = setTimeout(function () {
 	      timeout = null;
-	      fn.apply(self, args);
+	      self.loadedSearches[value] = true;
+	      fn.call(self, value, callback);
 	    }, delay);
 	  };
 	}
@@ -1130,6 +1130,9 @@
 
 	  return document.querySelector(query);
 	}
+	function escapeQuery(query) {
+	  return query.replace(/['"\\]/g, '\\$&');
+	}
 	/**
 	 * Dispatch an event
 	 *
@@ -1324,7 +1327,7 @@
 	    }; // debounce user defined load() if loadThrottle > 0
 
 	    if (this.settings.load && this.settings.loadThrottle) {
-	      this.settings.load = loadDebounce.call(this, this.settings.load, this.settings.loadThrottle);
+	      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
 	    } // search system
 
 
@@ -1422,7 +1425,8 @@
 
 	    if (inputId = input.getAttribute('id')) {
 	      control_input.setAttribute('id', inputId + '-tomselected');
-	      var label = document.querySelector("label[for='" + inputId + "']");
+	      let query = "label[for='" + escapeQuery(inputId) + "']";
+	      let label = document.querySelector(query);
 	      if (label) label.setAttribute('for', inputId + '-tomselected');
 	    }
 
@@ -1722,6 +1726,7 @@
 
 
 	  onChange() {
+	    triggerEvent(this.input, 'input');
 	    triggerEvent(this.input, 'change');
 	  }
 	  /**
@@ -2054,7 +2059,6 @@
 	    var fn = self.settings.load;
 	    if (!fn) return;
 	    if (self.loadedSearches.hasOwnProperty(value)) return;
-	    self.loadedSearches[value] = true;
 	    addClasses(self.wrapper, self.settings.loadingClass);
 	    self.loading++;
 	    fn.call(self, value, function (options, optgroups) {
@@ -2123,6 +2127,18 @@
 	      this.clear(silent);
 	      this.addItems(value, silent);
 	    });
+	  }
+	  /**
+	   * Resets the number of max items to the given value
+	   *
+	   */
+
+
+	  setMaxItems(value) {
+	    if (value === 0) value = null; //reset to unlimited items.
+
+	    this.settings.maxItems = value;
+	    this.refreshState();
 	  }
 	  /**
 	   * Sets the selected item.
@@ -2538,11 +2554,15 @@
 
 
 	    var add_template = template => {
-	      show_dropdown = true;
 	      let content = self.render(template, {
 	        input: query
 	      });
-	      self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+
+	      if (content) {
+	        show_dropdown = true;
+	        self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+	      }
+
 	      return content;
 	    }; // add loading message
 
@@ -3146,7 +3166,10 @@
 	    var invalid = !self.input.checkValidity();
 	    self.isInvalid = invalid;
 	    self.control_input.required = invalid;
-	    self.input.required = !invalid;
+
+	    if (this.isRequired) {
+	      self.input.required = !invalid;
+	    }
 	  }
 	  /**
 	   * Determines whether or not more items can be added
@@ -3550,6 +3573,7 @@
 
 	    removeClasses(self.input, 'tomselected');
 	    self.input.removeAttribute('hidden');
+	    self.input.required = this.isRequired;
 
 	    for (let i = 0; i < revertSettings.children.length; i++) {
 	      self.input.appendChild(revertSettings.children[i]);
@@ -3579,7 +3603,13 @@
 	    } // render markup
 
 
-	    html = getDom(self.settings.render[templateName].call(this, data, escape_html)); // add mandatory attributes
+	    html = self.settings.render[templateName].call(this, data, escape_html);
+
+	    if (!html) {
+	      return html;
+	    }
+
+	    html = getDom(html); // add mandatory attributes
 
 	    if (templateName === 'option' || templateName === 'option_create') {
 	      if (!data[self.settings.disabledField]) {
@@ -3980,12 +4010,16 @@
 	  self.hook('instead', 'onKeyDown', function (evt) {
 	    var index, option;
 
-	    if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '' && !self.activeItems.length) {
-	      index = self.caretPos - 1;
+	    if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '') {
+	      index = self.caretPos - 1; // selected item
 
-	      if (index >= 0 && index < self.items.length) {
+	      if (self.activeItems.length > 0) {
+	        option = self.options[self.activeItems[0].dataset.value]; // not selected item
+	      } else if (self.activeItems.length == 0 && index >= 0 && index < self.items.length) {
 	        option = self.options[self.items[index]];
+	      }
 
+	      if (option) {
 	        if (self.deleteSelection(evt)) {
 	          self.setTextboxValue(options.text.call(self, option));
 	          self.refreshOptions(true);
@@ -4003,5 +4037,5 @@
 	return TomSelect;
 
 })));
-var tomSelect = function(el,opts){ return new TomSelect(el,opts); } 
+var tomSelect=function(el,opts){return new TomSelect(el,opts);} 
 //# sourceMappingURL=tom-select.complete.js.map

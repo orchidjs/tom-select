@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.0
+* Tom Select v1.1.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -10,7 +10,7 @@ import { removeHighlight, highlight } from './contrib/highlight.js';
 import { KEY_TAB, KEY_DELETE, KEY_BACKSPACE, KEY_RIGHT, KEY_LEFT, KEY_RETURN, KEY_UP, KEY_DOWN, KEY_ESC, KEY_A, KEY_SHORTCUT } from './constants.js';
 import { loadDebounce, addEvent, preventDefault, isKeyDown, debounce_events, hash_key, escape_html, getSelection } from './utils.js';
 import getSettings from './settings.js';
-import { getDom, addClasses, triggerEvent, removeClasses, applyCSS, isEmptyObject, getTail, nodeIndex, parentMatch } from './vanilla.js';
+import { getDom, addClasses, escapeQuery, triggerEvent, removeClasses, applyCSS, isEmptyObject, getTail, nodeIndex, parentMatch } from './vanilla.js';
 
 class TomSelect extends MicroPlugin(MicroEvent) {
   constructor(input, settings) {
@@ -63,7 +63,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     }; // debounce user defined load() if loadThrottle > 0
 
     if (this.settings.load && this.settings.loadThrottle) {
-      this.settings.load = loadDebounce.call(this, this.settings.load, this.settings.loadThrottle);
+      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
     } // search system
 
 
@@ -161,7 +161,8 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     if (inputId = input.getAttribute('id')) {
       control_input.setAttribute('id', inputId + '-tomselected');
-      var label = document.querySelector("label[for='" + inputId + "']");
+      let query = "label[for='" + escapeQuery(inputId) + "']";
+      let label = document.querySelector(query);
       if (label) label.setAttribute('for', inputId + '-tomselected');
     }
 
@@ -461,6 +462,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   onChange() {
+    triggerEvent(this.input, 'input');
     triggerEvent(this.input, 'change');
   }
   /**
@@ -793,7 +795,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var fn = self.settings.load;
     if (!fn) return;
     if (self.loadedSearches.hasOwnProperty(value)) return;
-    self.loadedSearches[value] = true;
     addClasses(self.wrapper, self.settings.loadingClass);
     self.loading++;
     fn.call(self, value, function (options, optgroups) {
@@ -862,6 +863,18 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       this.clear(silent);
       this.addItems(value, silent);
     });
+  }
+  /**
+   * Resets the number of max items to the given value
+   *
+   */
+
+
+  setMaxItems(value) {
+    if (value === 0) value = null; //reset to unlimited items.
+
+    this.settings.maxItems = value;
+    this.refreshState();
   }
   /**
    * Sets the selected item.
@@ -1277,11 +1290,15 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
     var add_template = template => {
-      show_dropdown = true;
       let content = self.render(template, {
         input: query
       });
-      self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+
+      if (content) {
+        show_dropdown = true;
+        self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+      }
+
       return content;
     }; // add loading message
 
@@ -1885,7 +1902,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var invalid = !self.input.checkValidity();
     self.isInvalid = invalid;
     self.control_input.required = invalid;
-    self.input.required = !invalid;
+
+    if (this.isRequired) {
+      self.input.required = !invalid;
+    }
   }
   /**
    * Determines whether or not more items can be added
@@ -2289,6 +2309,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     removeClasses(self.input, 'tomselected');
     self.input.removeAttribute('hidden');
+    self.input.required = this.isRequired;
 
     for (let i = 0; i < revertSettings.children.length; i++) {
       self.input.appendChild(revertSettings.children[i]);
@@ -2318,7 +2339,13 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     } // render markup
 
 
-    html = getDom(self.settings.render[templateName].call(this, data, escape_html)); // add mandatory attributes
+    html = self.settings.render[templateName].call(this, data, escape_html);
+
+    if (!html) {
+      return html;
+    }
+
+    html = getDom(html); // add mandatory attributes
 
     if (templateName === 'option' || templateName === 'option_create') {
       if (!data[self.settings.disabledField]) {

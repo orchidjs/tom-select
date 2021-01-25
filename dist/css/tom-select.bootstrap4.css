@@ -2,7 +2,7 @@
  * Tom Select bootstrap 4
  */
 /**
- * tom-select.css (v1.1.0)
+ * tom-select.css (v1.1.1)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -234,7 +234,7 @@
     background: #fff;
     cursor: default; }
   .ts-dropdown .active {
-    background-color: #f8f9fa;
+    background-color: #e9ecef;
     color: #16181b; }
     .ts-dropdown .active.create {
       color: #16181b; }
