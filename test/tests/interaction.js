@@ -486,7 +486,7 @@
 
 			it_n('should select option with [tab] keypress when selectOnTab = true', function(done) {
 
-				var test = setup_test('AB_Multi',{selectOnTab:true});
+				var test = setup_test('AB_Single',{selectOnTab:true});
 
 				click(test.instance.control, function() {
 					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
@@ -494,6 +494,7 @@
 					syn.type('[tab]', test.instance.control_input, function() {
 						expect(test.instance.items.length).to.be.equal(1);
 						expect(test.instance.items[0]).to.be.equal('a');
+						expect(test.instance.isFocused).to.be.equal(true);
 						done();
 
 					});
