@@ -50,7 +50,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public sifter					: Sifter;
 
 
-	public isBlurring				: boolean;
+	public tab_key					: boolean;
 	public isOpen					: boolean;
 	public isDisabled				: boolean;
 	public isRequired				: boolean;
@@ -107,7 +107,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.is_select_tag		= input.tagName.toLowerCase() === 'select';
 		this.rtl				= /rtl/i.test(dir);
 
-		this.isBlurring			= false;
+		this.tab_key			= false;
 		this.isOpen				= false;
 		this.isDisabled			= false;
 		this.isRequired			= input.required;
@@ -691,11 +691,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// tab: select active option and/or create item
 			case constants.KEY_TAB:
 				if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
+					self.tab_key = true;
 					self.onOptionSelect(e,self.activeOption);
 
 					// prevent default [tab] behaviour of jump to the next field
 					// if select isFull, then the dropdown won't be open and [tab] will work normally
 					preventDefault(e);
+					self.tab_key = false;
 				}
 				if (self.settings.create && self.createItem()) {
 					preventDefault(e);
@@ -790,12 +792,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.setActiveOption();
 			self.setCaret(self.items.length);
 			self.refreshState();
-
-			self.isBlurring = false;
 			self.trigger('blur');
 		};
 
-		self.isBlurring = true;
 		if (self.settings.create && self.settings.createOnBlur) {
 			self.createItem(null, false, deactivate);
 		} else {
@@ -2034,8 +2033,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// Do not trigger blur while inside a blur event,
 			// this fixes some weird tabbing behavior in FF and IE.
-			// See #1164
-			if (!self.isBlurring) {
+			// See #selectize.js#1164
+			if( !self.tab_key ){
 				self.blur(); // close keyboard on iOS
 			}
 		}

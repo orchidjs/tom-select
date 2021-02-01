@@ -509,6 +509,7 @@
 					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
 
 					syn.type('[tab]', test.instance.control_input, function() {
+						expect(test.instance.isFocused).to.be.equal(true);
 						expect(test.instance.items.length).to.be.equal(0);
 						done();
 
