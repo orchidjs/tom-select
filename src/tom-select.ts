@@ -791,9 +791,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.setCaret(self.items.length);
 			self.refreshState();
 
-			// IE11 bug: element still marked as active
-			dest && dest.focus && dest.focus();
-
 			self.isBlurring = false;
 			self.trigger('blur');
 		};
