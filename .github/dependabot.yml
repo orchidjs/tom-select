@@ -15,9 +15,11 @@ updates:
       - dependency-type: "direct"
 
   # check indirect dependencies weekly
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    allow:
-      - dependency-type: "indirect"
+  # .. can't do this
+  # "The property '#/updates/1' is a duplicate. Update configs must have a unique combination of 'package-ecosystem', 'directory', and 'target-branch'"
+#  - package-ecosystem: "npm"
+#    directory: "/"
+#    schedule:
+#      interval: "weekly"
+#    allow:
+#      - dependency-type: "indirect"
