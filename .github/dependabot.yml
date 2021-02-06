@@ -5,7 +5,19 @@
 
 version: 2
 updates:
+
+  # check direct dependencies daily
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    allow:
+      - dependency-type: "direct"
+
+  # check indirect dependencies weekly
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "indirect"
