@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-replace');
-
+	grunt.loadNpmTasks('@lodder/grunt-postcss');
 
 	const sass = require('node-sass');
 
