@@ -29,9 +29,9 @@ var babel_config = babel({
 var resolve_config = resolve({
 	extensions: extensions,
 	// pass custom options to the resolve plugin
-	customResolveOptions: {
-		moduleDirectory: 'node_modules'
-	}
+	moduleDirectories: [
+		'node_modules',
+	],
 });
 
 
