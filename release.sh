@@ -61,11 +61,6 @@ if ! sed -i 's/"version": "[^"]*"/"version": "'$VERSION'"/' package.json; then
 	exit
 fi
 
-if ! sed -i 's/"version": "[^"]*"/"version": "'$VERSION'"/' package-lock.json; then
-	echo 'version not replaced in package-lock.json'
-	exit
-fi
-
 # build from source
 if ! grunt; then
 	echo 'Build failed... cannot create release'
