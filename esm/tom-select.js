@@ -1986,13 +1986,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var trigger = self.isOpen;
 
     if (self.settings.mode === 'single' && self.items.length) {
-      // Do not trigger blur while inside a blur event,
+      self.hideInput(); // Do not trigger blur while inside a blur event,
       // this fixes some weird tabbing behavior in FF and IE.
       // See #selectize.js#1164
-      if (self.tab_key) {
-        self.hideInput();
-      } else {
-        self.blur(); // close keyboard on iOS				
+
+      if (!self.tab_key) {
+        self.blur(); // close keyboard on iOS
       }
     }
 
