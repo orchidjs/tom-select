@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.1
+* Tom Select v1.1.2
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -33,7 +33,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.tabIndex = input.getAttribute('tabindex') || null;
     this.is_select_tag = input.tagName.toLowerCase() === 'select';
     this.rtl = /rtl/i.test(dir);
-    this.isBlurring = false;
+    this.tab_key = false;
     this.isOpen = false;
     this.isDisabled = false;
     this.isRequired = input.required;
@@ -601,10 +601,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
       case KEY_TAB:
         if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
+          self.tab_key = true;
           self.onOptionSelect(e, self.activeOption); // prevent default [tab] behaviour of jump to the next field
           // if select isFull, then the dropdown won't be open and [tab] will work normally
 
           preventDefault(e);
+          self.tab_key = false;
         }
 
         if (self.settings.create && self.createItem()) {
@@ -701,14 +703,9 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       self.setActiveItem();
       self.setActiveOption();
       self.setCaret(self.items.length);
-      self.refreshState(); // IE11 bug: element still marked as active
-
-      dest && dest.focus && dest.focus();
-      self.isBlurring = false;
+      self.refreshState();
       self.trigger('blur');
     };
-
-    self.isBlurring = true;
 
     if (self.settings.create && self.settings.createOnBlur) {
       self.createItem(null, false, deactivate);
@@ -1991,9 +1988,9 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     if (self.settings.mode === 'single' && self.items.length) {
       self.hideInput(); // Do not trigger blur while inside a blur event,
       // this fixes some weird tabbing behavior in FF and IE.
-      // See #1164
+      // See #selectize.js#1164
 
-      if (!self.isBlurring) {
+      if (!self.tab_key) {
         self.blur(); // close keyboard on iOS
       }
     }

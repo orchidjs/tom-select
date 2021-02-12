@@ -31,7 +31,7 @@ export default class TomSelect extends TomSelect_base {
     rtl: boolean;
     private _destroy;
     sifter: Sifter;
-    isBlurring: boolean;
+    tab_key: boolean;
     isOpen: boolean;
     isDisabled: boolean;
     isRequired: boolean;
