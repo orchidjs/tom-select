@@ -15,7 +15,7 @@
 
 	const KEY_LEFT = 37;
 	const KEY_RIGHT = 39;
-	/Mac/.test(navigator.userAgent);
+	typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
 	 // ctrl key or apple key for ma
 
 	/**

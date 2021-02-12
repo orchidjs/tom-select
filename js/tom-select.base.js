@@ -725,7 +725,7 @@
 	const KEY_BACKSPACE = 8;
 	const KEY_DELETE = 46;
 	const KEY_TAB = 9;
-	const IS_MAC = /Mac/.test(navigator.userAgent);
+	const IS_MAC = typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
 	const KEY_SHORTCUT = IS_MAC ? 'metaKey' : 'ctrlKey'; // ctrl key or apple key for ma
 
 	var defaults = {
