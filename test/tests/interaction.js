@@ -466,22 +466,42 @@
 			});
 
 
-			it_n('should select option with [enter] keypress', function(done) {
+			it_n('should select option with [enter] keypress (single)', function(done) {
+
+				var test = setup_test('AB_Single');
+
+				click(test.instance.control, function() {
+					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
+
+					syn.type('a', test.instance.control_input, function() {
+						syn.type('[enter]', test.instance.control_input, function() {
+							assert.equal( test.instance.items.length, 1);
+							assert.equal( test.instance.items[0], 'a');
+							assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
+							done();
+						});
+					});
+				});
+			});
+
+
+			// differs from above "single" test with the value of the control_input after selection
+			it_n('should select option with [enter] keypress (multiple)', function(done) {
 
 				var test = setup_test('AB_Multi');
 
 				click(test.instance.control, function() {
 					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
 
-					syn.type('[enter]', test.instance.control_input, function() {
-						expect(test.instance.items.length).to.be.equal(1);
-						expect(test.instance.items[0]).to.be.equal('a');
-						done();
-
+					syn.type('a', test.instance.control_input, function() {
+						syn.type('[enter]', test.instance.control_input, function() {
+							assert.equal( test.instance.items.length, 1);
+							assert.equal( test.instance.items[0], 'a');
+							assert.equal( test.instance.control_input.value, 'a', 'control_input.value != "a"' );
+							done();
+						});
 					});
-
 				});
-
 			});
 
 			it_n('should select option with [tab] keypress when selectOnTab = true', function(done) {
@@ -492,9 +512,9 @@
 					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
 
 					syn.type('[tab]', test.instance.control_input, function() {
-						expect(test.instance.items.length).to.be.equal(1);
-						expect(test.instance.items[0]).to.be.equal('a');
-						expect(test.instance.isFocused).to.be.equal(true);
+						assert.equal( test.instance.items.length, 1, 'item.length != 1' );
+						assert.equal( test.instance.items[0], 'a', 'item[0] != a' );
+						assert.equal( test.instance.isFocused, true, 'isFocused != true' );
 						done();
 
 					});
