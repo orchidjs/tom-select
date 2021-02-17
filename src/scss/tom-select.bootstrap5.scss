@@ -119,11 +119,12 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   }
 }
 
-.is-invalid .#{$select-ns}-input {
+.is-invalid .#{$select-ns}-input,
+.was-validated .#{$select-ns}-input.invalid{
   border-color: $select-color-input-error;
   box-shadow: $select-shadow-input-error;
 
-  &:focus {
+  &.focus {
 	border-color: $select-color-input-error-focus;
 	box-shadow: $select-shadow-input-error-focus;
   }

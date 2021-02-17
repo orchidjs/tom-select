@@ -1760,9 +1760,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			wasFull = self.isFull();
 			self.items.splice(self.caretPos, 0, value);
 			self.insertAtCaret(item);
-			if (!self.isPending || (!wasFull && self.isFull())) {
-				self.refreshState();
-			}
 
 			if (self.isSetup) {
 				let options = self.selectable();
@@ -1790,6 +1787,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					self.updateOriginalInput({silent: silent});
 				}
 			}
+
+			if (!self.isPending || (!wasFull && self.isFull())) {
+				self.refreshState();
+			}
+
 		});
 	}
 
@@ -1826,8 +1828,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.setCaret(self.caretPos - 1);
 			}
 
-			self.refreshState();
 			self.updateOriginalInput({silent: silent});
+			self.refreshState();
 			self.positionDropdown();
 			self.trigger('item_remove', value, item);
 		}
@@ -1903,8 +1905,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.addItems(self.items);
 		}
 
-		self.refreshState();
 		self.updateOriginalInput();
+		self.refreshState();
 	}
 
 	/**
@@ -1952,6 +1954,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if( !self.input.checkValidity ){
 			return;
+		}
+
+		// if required, make sure the input required attribute = true so checkValidity() will work
+		if( this.isRequired ){
+			self.input.required = true;
 		}
 
 		var invalid = !self.input.checkValidity();
