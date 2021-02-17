@@ -2965,10 +2965,6 @@
 	      self.items.splice(self.caretPos, 0, value);
 	      self.insertAtCaret(item);
 
-	      if (!self.isPending || !wasFull && self.isFull()) {
-	        self.refreshState();
-	      }
-
 	      if (self.isSetup) {
 	        let options = self.selectable(); // update menu / remove the option (if this is not one item being added as part of series)
 
@@ -2996,6 +2992,10 @@
 	            silent: silent
 	          });
 	        }
+	      }
+
+	      if (!self.isPending || !wasFull && self.isFull()) {
+	        self.refreshState();
 	      }
 	    });
 	  }
@@ -3035,10 +3035,10 @@
 	        self.setCaret(self.caretPos - 1);
 	      }
 
-	      self.refreshState();
 	      self.updateOriginalInput({
 	        silent: silent
 	      });
+	      self.refreshState();
 	      self.positionDropdown();
 	      self.trigger('item_remove', value, item);
 	    }
@@ -3115,8 +3115,8 @@
 	      self.addItems(self.items);
 	    }
 
-	    self.refreshState();
 	    self.updateOriginalInput();
+	    self.refreshState();
 	  }
 	  /**
 	   * Updates all state-dependent attributes
@@ -3158,6 +3158,11 @@
 
 	    if (!self.input.checkValidity) {
 	      return;
+	    } // if required, make sure the input required attribute = true so checkValidity() will work
+
+
+	    if (this.isRequired) {
+	      self.input.required = true;
 	    }
 
 	    var invalid = !self.input.checkValidity();

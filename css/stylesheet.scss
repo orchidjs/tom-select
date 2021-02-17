@@ -85,7 +85,8 @@ li{
 }
 
 .demo{
-	font-size: $font-size-base * .9;
+
+
 	.nav-tabs{
 		border-bottom: 0 !important;
 	}
@@ -94,6 +95,11 @@ li{
 		color:	$secondary;
 		border-bottom: 0 !important;
 	}
+
+	.tab-content{
+		font-size: $font-size-base * .9;
+	}
+
 
 	pre[class*="language-"]{
 		margin:			0 !important;
