@@ -13,12 +13,19 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPlugin(syntaxHighlight);
 
 	eleventyConfig.addCollection('demosAlpha', function(collection) {
-		return collection.getFilteredByGlob("doc_src/pages/examples/*.njk").sort(function(a, b) {
-			let nameA = a.data.title.toUpperCase();
-			let nameB = b.data.title.toUpperCase();
-			if (nameA < nameB) return -1;
-			else if (nameA > nameB) return 1;
-			else return 0;
+		return collection.getFilteredByGlob("doc_src/pages/examples/*.njk")
+			.filter(function(page){
+				if( page.data.destination ){
+					return false;
+				}
+				return true;
+			})
+			.sort(function(a, b) {
+				let nameA = a.data.title.toUpperCase();
+				let nameB = b.data.title.toUpperCase();
+				if (nameA < nameB) return -1;
+				else if (nameA > nameB) return 1;
+				else return 0;
 		});
 	});
 

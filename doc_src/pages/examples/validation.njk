@@ -1,0 +1,194 @@
+---
+title: Form Validation
+nav_title: Form Validation
+tags: demo
+---
+
+<p class="mt-5">
+User input validation in Tom Select is built on standard validation protocols introduced by HTML5.
+As a user changes the items of a Tom Select instance, values are updated on the original <code>&lt;input&gt;</code> or <code>&lt;select&gt;</code> element where validity is then determined.
+Validation criteria can be defined on the original <code>&lt;input&gt;</code> using <code>required</code>, <code>pattern</code>, <code>type</code>, and other standard <a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation">validation attributes</a>.
+</p>
+
+<p>
+To communicate the validation state of an input, Tom Select again gracefully falls back on the default browser functionality.
+You can also enhance your communication with custom styles and messages with a few lines of JavaScript.
+</p>
+
+<!--
+<p>
+
+but also works well with frameworks like Bootstrap.
+
+
+The validation process in Tom Select happens on instantiation and whenever the user changes the value.
+
+Since an empty <code>&lt;input required&gt;</code> element is invalid the moment it's created,
+and since there are a variety of frameworks
+
+Instead of
+but leaves how validation is communicated to the user up to you.
+</p>
+-->
+
+
+{% from "demo.njk" import demo %}
+
+{% set label %}
+<label class="h2 mb-3">
+	Browser Defaults
+</label>
+<p>
+Browsers will prevent users from submitting this form unless the <code>&lt;select required&gt;</code> field has a value.
+Your browser may display a message along the lines of "Please fill out this field" when trying to submit the form.
+</p>
+
+{% endset %}
+
+{% set html %}
+<form>
+	<select id="select-person" required placeholder="Select a person..." required>
+		<option value="">Select a person...</option>
+		<option value="4">Thomas Edison</option>
+		<option value="1">Nikola</option>
+		<option value="3">Nikola Tesla</option>
+		<option value="5">Arnold Schwarzenegger</option>
+	</select>
+	<div style="margin-top:20px">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#select-person',{
+	create: true,
+	sortField: {
+		field: 'text',
+		direction: 'asc'
+	}
+});
+
+
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+{% from "demo.njk" import demo %}
+
+{% set label %}
+<label class="h2 mb-3">
+	Bootstrap
+</label>
+<p>
+With a few changes, you can enhance your communication with features provided by frameworks like Bootstrap.
+</p>
+
+<figure>
+<div class="border-left px-3 py-2 bg-light">
+For custom Bootstrap form validation messages, you’ll need to add the <code>novalidate</code> boolean attribute to your <code>&lt;form&gt;</code>.
+This disables the browser default feedback tooltips, but still provides access to the form validation APIs in JavaScript.
+</div>
+<figcaption class="blockquote-footer">
+  <a href="https://getbootstrap.com/docs/5.0/forms/validation/#custom-styles">Bootstrap docs</a>
+</figcaption>
+</figure>
+
+<p>
+Then, within your submit listener, you can either add the <code>was-validated</code> class to the form or toggle the <code>is-invalid</code> class on the Tom Select wrapper.
+</p>
+{% endset %}
+
+{% set html %}
+<form id="bootstrap-form" novalidate>
+	<select id="select-bootstrap" required placeholder="Select a person..." name="beast">
+		<option value="">Select a person...</option>
+		<option value="4">Thomas Edison</option>
+		<option value="1">Nikola</option>
+		<option value="3">Nikola Tesla</option>
+		<option value="5">Arnold Schwarzenegger</option>
+	</select>
+	<div class="invalid-feedback">
+      Please select a person
+    </div>
+	<div style="margin-top:20px">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+{% endset %}
+
+
+<script>
+{% set script %}
+var my_select = new TomSelect('#select-bootstrap',{
+	create: true,
+	sortField: {
+		field: 'text',
+		direction: 'asc'
+	},
+	onChange:function(){
+		this.wrapper.classList.toggle('is-invalid',this.isInvalid);
+	}
+});
+
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+var form = document.getElementById('bootstrap-form')
+form.addEventListener('submit', function (event){
+
+	// add was-validated to display custom colors
+	form.classList.add('was-validated')
+
+	// or, add is-invalid to the wrapper to display custom colors and invalid-feedback messages
+	my_select.wrapper.classList.toggle('is-invalid',my_select.isInvalid);
+
+	if (!form.checkValidity()) {
+		event.preventDefault()
+		event.stopPropagation()
+	}
+
+}, false)
+
+
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	Pattern Attribute
+</label>
+<p>
+Tom Select works with validation attributes other than just the required attribute.
+</p>
+{% endset %}
+
+{% set html %}
+<form>
+	<input id="pattern" required pattern="[a-z]+">
+	<div style="margin-top:20px">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form>
+{% endset %}
+
+
+<script>
+{% set script %}
+new TomSelect('#pattern',{
+	create: true,
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
