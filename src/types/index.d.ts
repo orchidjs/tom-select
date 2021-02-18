@@ -9,9 +9,9 @@ export type TomArgObject = {
 	silent?: boolean,
 }
 
-export type TomOption = {
-	$order: number,
-}
+export type TomOption = {[key:string]:any}
+
+export type TomOptions = {[key: string]: TomOption };
 
 export type TomCreateFilter = (input:string) => boolean;
 

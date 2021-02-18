@@ -42,10 +42,8 @@ export function triggerEvent( dom_el:HTMLElement, event_name:string ):void{
  * Apply CSS rules to a dom element
  *
  */
-export function applyCSS( dom_el:HTMLElement, css:object):void{
-	Object.keys(css).forEach(function(name){
-		dom_el.style[name] = css[name];
-	});
+export function applyCSS( dom_el:HTMLElement, css:{ [key: string]: string|number }):void{
+	Object.assign(dom_el.style, css);
 }
 
 

@@ -38,9 +38,9 @@ export function escape_html(str:string):string {
  * Debounce the user provided load function
  *
  */
-export function loadDebounce(fn,delay){
-	var timeout;
-	return function(this:TomSelect, value:string,callback) {
+export function loadDebounce(fn,delay:number){
+	var timeout: ReturnType<typeof setTimeout>;
+	return function(this:TomSelect, value:string,callback:() => void) {
 		var self = this;
 
 		if( timeout ){
@@ -65,7 +65,7 @@ export function loadDebounce(fn,delay){
 export function debounce_events( self:TomSelect, types:string[], fn:() => void ) {
 	var type;
 	var trigger = self.trigger;
-	var event_args = {};
+	var event_args:{ [key: string]: any } = {};
 
 	// override trigger method
 	self.trigger = function(){
@@ -83,9 +83,7 @@ export function debounce_events( self:TomSelect, types:string[], fn:() => void )
 
 	// trigger queued events
 	for (type in event_args) {
-		if (event_args.hasOwnProperty(type)) {
-			trigger.apply(self, event_args[type]);
-		}
+		trigger.apply(self, event_args[type]);
 	}
 };
 
@@ -134,7 +132,7 @@ export function addEvent(target:EventTarget, type:string, callback:EventListener
  * The current evt may not always set ( eg calling advanceSelection() )
  *
  */
-export function isKeyDown( key_name:string, evt:KeyboardEvent|MouseEvent ){
+export function isKeyDown( key_name:keyof (KeyboardEvent|MouseEvent), evt:KeyboardEvent|MouseEvent ){
 
 	if( !evt ){
 		return false;

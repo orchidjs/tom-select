@@ -3,7 +3,7 @@ import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from './contrib/sifter.js';
 import { TomSettings } from './types/settings';
-import { TomInput, TomArgObject, TomOption, TomCreateFilter, TomCreateCallback } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './settings.js';
@@ -67,16 +67,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public lastValue				: string;
 	public caretPos					: number;
 	public loading					: number;
-	public loadedSearches			: object;
+	public loadedSearches			: { [key: string]: boolean };
 
 	public activeOption				: HTMLElement;
 	public activeItems				: HTMLElement[];
 
 	public optgroups				: object;
-	public options					: object;
+	public options					: TomOptions;
 	public userOptions				: object;
 	public items					: string[];
-	public renderCache				: {'item':object,'option':object};
+	public renderCache				: {'item':{[key:string]:HTMLElement},'option':{[key:string]:HTMLElement}};
 
 
 
@@ -1298,7 +1298,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				// a child could only have one parent, so if you have more parents clone the child
 				if( j > 0 ){
-					option_el = option_el.cloneNode(true);
+					option_el = option_el.cloneNode(true) as HTMLElement;
 					removeClasses(option_el,'active');
 				}
 
@@ -1607,7 +1607,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.loadedSearches		= {};
 		this.userOptions		= {};
 		this.clearCache();
-		var selected			= {};
+		var selected:TomOptions	= {};
 		for( let key in this.options){
     		if( this.options.hasOwnProperty(key) && this.items.indexOf(key) >= 0 ){
 				selected[key] = this.options[key];
@@ -1754,7 +1754,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			item = self.render('item', self.options[value]);
 
 			if( self.control.contains(item) ){ // duplicates
-				item = item.cloneNode(true);
+				item = item.cloneNode(true) as HTMLElement;
 			}
 
 			wasFull = self.isFull();
@@ -2282,7 +2282,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	controlChildren(){
-		return Array.prototype.filter.call( this.control.children, node => node.nodeName !== 'INPUT' );
+		return Array.prototype.filter.call( this.control.children, (node:HTMLElement) => node.nodeName !== 'INPUT' );
 	}
 
 	/**
@@ -2430,7 +2430,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * caches.
 	 *
 	 */
-	clearCache( templateName?:string ){
+	clearCache( templateName?:'item'|'option' ){
 		var self = this;
 
 		if (templateName === void 0) {

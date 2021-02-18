@@ -79,13 +79,5 @@ export type TomSettings = {
 	onBlur					: (evt:Event) => void,
 	onDelete				: (values:string[], evt:KeyboardEvent|MouseEvent) => boolean,
 
-	render: {
-		/*
-		item: null,
-		optgroup: null,
-		optgroup_header: null,
-		option: null,
-		option_create: null
-		*/
-	}
+	render					: {[key:string]:()=>string|HTMLElement}
 };
