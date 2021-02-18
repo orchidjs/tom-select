@@ -38,7 +38,7 @@ Tom Select was forked from [selectize.js](https://tom-select.js.org/docs/selecti
 <script src="/js/tom-select.complete.js"></script>
 <script>
 var config = {};
-tomSelect('#tom-select-it',config);
+new TomSelect('#tom-select-it',config);
 </script>
 ```
 
