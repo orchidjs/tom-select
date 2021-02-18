@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.2
+* Tom Select v1.1.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -46,9 +46,7 @@ function triggerEvent(dom_el, event_name) {
  */
 
 function applyCSS(dom_el, css) {
-  Object.keys(css).forEach(function (name) {
-    dom_el.style[name] = css[name];
-  });
+  Object.assign(dom_el.style, css);
 }
 /**
  * Add css classes

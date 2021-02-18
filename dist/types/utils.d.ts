@@ -23,7 +23,7 @@ export declare function escape_html(str: string): string;
  * Debounce the user provided load function
  *
  */
-export declare function loadDebounce(fn: any, delay: any): (this: TomSelect, value: string, callback: any) => void;
+export declare function loadDebounce(fn: any, delay: number): (this: TomSelect, value: string, callback: () => void) => void;
 /**
  * Debounce all fired events types listed in `types`
  * while executing the provided `fn`.
@@ -57,4 +57,4 @@ export declare function addEvent(target: EventTarget, type: string, callback: Ev
  * The current evt may not always set ( eg calling advanceSelection() )
  *
  */
-export declare function isKeyDown(key_name: string, evt: KeyboardEvent | MouseEvent): boolean;
+export declare function isKeyDown(key_name: keyof (KeyboardEvent | MouseEvent), evt: KeyboardEvent | MouseEvent): boolean;

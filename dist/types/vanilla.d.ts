@@ -15,7 +15,9 @@ export declare function triggerEvent(dom_el: HTMLElement, event_name: string): v
  * Apply CSS rules to a dom element
  *
  */
-export declare function applyCSS(dom_el: HTMLElement, css: object): void;
+export declare function applyCSS(dom_el: HTMLElement, css: {
+    [key: string]: string | number;
+}): void;
 /**
  * Add css classes
  *

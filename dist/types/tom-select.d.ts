@@ -1,6 +1,6 @@
 import Sifter from './contrib/sifter.js';
 import { TomSettings } from './types/settings';
-import { TomInput, TomArgObject, TomOption, TomCreateCallback } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateCallback } from './types/index';
 declare const TomSelect_base: {
     new (): {
         [x: string]: any;
@@ -48,16 +48,22 @@ export default class TomSelect extends TomSelect_base {
     lastValue: string;
     caretPos: number;
     loading: number;
-    loadedSearches: object;
+    loadedSearches: {
+        [key: string]: boolean;
+    };
     activeOption: HTMLElement;
     activeItems: HTMLElement[];
     optgroups: object;
-    options: object;
+    options: TomOptions;
     userOptions: object;
     items: string[];
     renderCache: {
-        'item': object;
-        'option': object;
+        'item': {
+            [key: string]: HTMLElement;
+        };
+        'option': {
+            [key: string]: HTMLElement;
+        };
     };
     constructor(input: any, settings: any);
     /**
@@ -331,7 +337,7 @@ export default class TomSelect extends TomSelect_base {
      *
      * @returns {object}
      */
-    getOption(value: string): any;
+    getOption(value: string): HTMLElement;
     /**
      * Returns the dom element of the next or previous dom element of the same type
      *
@@ -500,7 +506,7 @@ export default class TomSelect extends TomSelect_base {
      * caches.
      *
      */
-    clearCache(templateName?: string): void;
+    clearCache(templateName?: 'item' | 'option'): void;
     /**
      * Determines whether or not to display the
      * create item prompt, given a user input.

@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.2
+* Tom Select v1.1.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -882,9 +882,7 @@
 	  self.trigger = trigger; // trigger queued events
 
 	  for (type in event_args) {
-	    if (event_args.hasOwnProperty(type)) {
-	      trigger.apply(self, event_args[type]);
-	    }
+	    trigger.apply(self, event_args[type]);
 	  }
 	}
 	/**
@@ -1149,9 +1147,7 @@
 	 */
 
 	function applyCSS(dom_el, css) {
-	  Object.keys(css).forEach(function (name) {
-	    dom_el.style[name] = css[name];
-	  });
+	  Object.assign(dom_el.style, css);
 	}
 	/**
 	 * Add css classes
@@ -2965,10 +2961,6 @@
 	      self.items.splice(self.caretPos, 0, value);
 	      self.insertAtCaret(item);
 
-	      if (!self.isPending || !wasFull && self.isFull()) {
-	        self.refreshState();
-	      }
-
 	      if (self.isSetup) {
 	        let options = self.selectable(); // update menu / remove the option (if this is not one item being added as part of series)
 
@@ -2996,6 +2988,10 @@
 	            silent: silent
 	          });
 	        }
+	      }
+
+	      if (!self.isPending || !wasFull && self.isFull()) {
+	        self.refreshState();
 	      }
 	    });
 	  }
@@ -3035,10 +3031,10 @@
 	        self.setCaret(self.caretPos - 1);
 	      }
 
-	      self.refreshState();
 	      self.updateOriginalInput({
 	        silent: silent
 	      });
+	      self.refreshState();
 	      self.positionDropdown();
 	      self.trigger('item_remove', value, item);
 	    }
@@ -3115,8 +3111,8 @@
 	      self.addItems(self.items);
 	    }
 
-	    self.refreshState();
 	    self.updateOriginalInput();
+	    self.refreshState();
 	  }
 	  /**
 	   * Updates all state-dependent attributes
@@ -3158,6 +3154,11 @@
 
 	    if (!self.input.checkValidity) {
 	      return;
+	    } // if required, make sure the input required attribute = true so checkValidity() will work
+
+
+	    if (this.isRequired) {
+	      self.input.required = true;
 	    }
 
 	    var invalid = !self.input.checkValidity();
