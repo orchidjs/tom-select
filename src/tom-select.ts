@@ -39,7 +39,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public control					: HTMLElement;
 	public dropdown_content			: HTMLElement;
 
-	public order					: number;
+	public order					: number = 0;
 	public settings					: TomSettings;
 	public input					: TomInput;
 	public tabIndex					: number;
@@ -50,33 +50,33 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public sifter					: Sifter;
 
 
-	public tab_key					: boolean;
-	public isOpen					: boolean;
-	public isDisabled				: boolean;
+	public tab_key					: boolean = false;
+	public isOpen					: boolean = false;
+	public isDisabled				: boolean = false;
 	public isRequired				: boolean;
-	public isInvalid				: boolean;
-	public isLocked					: boolean;
-	public isFocused				: boolean;
-	public isInputHidden			: boolean;
-	public isSetup					: boolean;
-	public ignoreFocus				: boolean;
-	public ignoreBlur				: boolean;
-	public ignoreHover				: boolean;
-	public hasOptions				: boolean;
-	public currentResults			: object;
-	public lastValue				: string;
-	public caretPos					: number;
-	public loading					: number;
-	public loadedSearches			: { [key: string]: boolean };
+	public isInvalid				: boolean = false;
+	public isLocked					: boolean = false;
+	public isFocused				: boolean = false;
+	public isInputHidden			: boolean = false;
+	public isSetup					: boolean = false;
+	public ignoreFocus				: boolean = false;
+	public ignoreBlur				: boolean = false;
+	public ignoreHover				: boolean = false;
+	public hasOptions				: boolean = false;
+	public currentResults			: ReturnType<Sifter['search']> = null;
+	public lastValue				: string = '';
+	public caretPos					: number = 0;
+	public loading					: number = 0;
+	public loadedSearches			: { [key: string]: boolean } = {};
 
-	public activeOption				: HTMLElement;
-	public activeItems				: HTMLElement[];
+	public activeOption				: HTMLElement = null;
+	public activeItems				: HTMLElement[] = [];
 
-	public optgroups				: object;
-	public options					: TomOptions;
-	public userOptions				: object;
-	public items					: string[];
-	public renderCache				: {'item':{[key:string]:HTMLElement},'option':{[key:string]:HTMLElement}};
+	public optgroups				: TomOptions = {};
+	public options					: TomOptions = {};
+	public userOptions				: {[key:string]:boolean} = {};
+	public items					: string[] = [];
+	public renderCache				: {'item':{[key:string]:HTMLElement},'option':{[key:string]:HTMLElement}} = {'item':{},'option':{}};
 
 
 
@@ -100,40 +100,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		dir						= computedStyle.getPropertyValue('direction');
 
 		// setup default state
-		this.order				= 0;
 		this.settings			= getSettings( input, settings );
 		this.input				= input;
 		this.tabIndex			= input.getAttribute('tabindex') || null;
 		this.is_select_tag		= input.tagName.toLowerCase() === 'select';
 		this.rtl				= /rtl/i.test(dir);
 
-		this.tab_key			= false;
-		this.isOpen				= false;
-		this.isDisabled			= false;
 		this.isRequired			= input.required;
-		this.isInvalid			= false;
-		this.isLocked			= false;
-		this.isFocused			= false;
-		this.isInputHidden		= false;
-		this.isSetup			= false;
-		this.ignoreFocus		= false;
-		this.ignoreBlur			= false;
-		this.ignoreHover		= false;
-		this.hasOptions			= false;
-		this.currentResults		= null;
-		this.lastValue			= '';
-		this.caretPos			= 0;
-		this.loading			= 0;
-		this.loadedSearches		= {};
-
-		this.activeOption		= null;
-		this.activeItems		= [];
-
-		this.optgroups			= {};
-		this.options			= {};
-		this.userOptions		= {};
-		this.items				= [];
-		this.renderCache		= {'item':{},'option':{}};
 
 
 		// debounce user defined load() if loadThrottle > 0
@@ -419,7 +392,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Register options and optgroups
 	 *
 	 */
-	setupOptions(options, optgroups){
+	setupOptions(options:TomOptions[], optgroups){
 		var i, n;
 
 		options = options || [];
@@ -446,29 +419,29 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var field_optgroup = self.settings.optgroupLabelField;
 
 		var templates = {
-			'optgroup': (data, escape) => {
+			'optgroup': (data, escape:typeof escape_html) => {
 				let optgroup = document.createElement('div');
 				optgroup.className = 'optgroup';
 				optgroup.appendChild(data.options);
 				return optgroup;
 
 			},
-			'optgroup_header': (data, escape) => {
+			'optgroup_header': (data, escape:typeof escape_html) => {
 				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 			},
-			'option': (data, escape) => {
+			'option': (data, escape:typeof escape_html) => {
 				return '<div>' + escape(data[field_label]) + '</div>';
 			},
-			'item': (data, escape) => {
+			'item': (data, escape:typeof escape_html) => {
 				return '<div>' + escape(data[field_label]) + '</div>';
 			},
-			'option_create': (data, escape) => {
+			'option_create': (data, escape:typeof escape_html) => {
 				return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
 			},
-			'no_results':(data,escape) => {
+			'no_results':(data,escape:typeof escape_html) => {
 				return '<div class="no-results">No results found</div>';
 			},
-			'loading':(data,escape) => {
+			'loading':(data,escape:typeof escape_html) => {
 				return '<div class="spinner"></div>';
 			},
 			'dropdown':() => {
@@ -881,7 +854,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.loading++;
 
 
-		fn.call(self, value, function(options, optgroups){
+		fn.call(self, value, function(options:TomOptions[], optgroups){
 			self.loading = Math.max(self.loading - 1, 0);
 			self.lastQuery = null;
 
@@ -1197,16 +1170,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Searches through available options and returns
 	 * a sorted array of matches.
 	 *
-	 * Returns an object containing:
-	 *
-	 *   - query {string}
-	 *   - tokens {array}
-	 *   - total {int}
-	 *   - items {array}
-	 *
-	 * @returns {object}
 	 */
-	search(query:string){
+	search(query:string) : ReturnType<Sifter['search']>{
 		var i, result, calculateScore;
 		var self     = this;
 		var settings = self.settings;
@@ -1247,8 +1212,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	refreshOptions( triggerDropdown:boolean = true ){
-		var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
+		var i, j, k, n, groups_order, optgroup, optgroups, html, has_create_option;
 		var active, create;
+		var groups: {[key:string]:DocumentFragment};
 
 
 		var self					= this;
@@ -1399,7 +1365,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					if( create && !self.settings.addPrecedence ){
 						active_index = 1;
 					}
-					active = self.selectable()[active_index];
+					active = self.selectable()[active_index] as HTMLElement;
 				}
 
 			}else{
@@ -1457,7 +1423,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Registers an option to the pool of options.
 	 *
 	 */
-	registerOption(data:TomOption):boolean|string {
+	registerOption(data:TomOption):false|string {
 		var key = hash_key(data[this.settings.valueField]);
 		if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
 		data.$order = data.$order || ++this.order;
@@ -1625,7 +1591,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 * @returns {object}
 	 */
-	getOption(value:string) {
+	getOption(value:string):HTMLElement {
 
 		// cached ?
 		if( this.renderCache['option'].hasOwnProperty(value) ){
