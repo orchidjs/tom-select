@@ -1425,7 +1425,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	registerOption(data:TomOption):false|string {
 		var key = hash_key(data[this.settings.valueField]);
-		if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
+		if ( key === null || this.options.hasOwnProperty(key)) return false;
 		data.$order = data.$order || ++this.order;
 		this.options[key] = data;
 		return key;
@@ -1643,7 +1643,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	getElementWithValue(value:string, els:HTMLCollection|NodeList|HTMLElement[]):HTMLElement {
 		value = hash_key(value);
 
-		if (typeof value !== 'undefined' && value !== null) {
+		if (value !== null) {
 			for (var i = 0, n = els.length; i < n; i++) {
 				let el = els[i] as HTMLElement;
 				if (el.getAttribute('data-value') === value) {
