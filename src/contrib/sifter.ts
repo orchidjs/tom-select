@@ -14,6 +14,28 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+type TOptions = {
+ 	fields: string|string[],
+ 	sort: any[],
+ 	score?: ()=>any,
+ 	filter?: boolean,
+ 	limit?: number,
+ 	sort_empty?: any,
+ 	nesting?: boolean,
+	respect_word_boundaries?: boolean,
+	conjunction?: string,
+ }
+
+
+type TPrepareObj = {
+	options: TOptions,
+	query: string,
+	tokens: any,
+	total: number,
+	items: any[]
+}
+
+
 
 // utilities
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -99,6 +121,9 @@ var asciifold = (function() {
 
 
 export default class Sifter{
+
+	public items: []|{};
+	public settings: {diacritics:boolean};
 
 	/**
 	 * Textually searches arrays and hashes of objects
@@ -186,15 +211,13 @@ export default class Sifter{
 	 * Good matches will have a higher score than poor matches.
 	 * If an item is not a match, 0 will be returned by the function.
 	 *
-	 * @param {object|string} search
-	 * @param {object} [options]
 	 * @returns {function}
 	 */
-	getScoreFunction(search, options ){
-		var self, fields, tokens, token_count, nesting;
+	getScoreFunction(query:string, options?:TOptions ){
+		var self, fields, tokens, token_count, nesting, search;
 
 		self        = this;
-		search      = self.prepareSearch(search, options);
+		search      = self.prepareSearch(query, options);
 		tokens      = search.tokens;
 		fields      = search.options.fields;
 		token_count = tokens.length;
@@ -281,10 +304,9 @@ export default class Sifter{
 	 * be performed, `null` will be returned.
 	 *
 	 * @param {string|object} search
-	 * @param {object} options
 	 * @return function(a,b)
 	 */
-	getSortFunction(search, options) {
+	getSortFunction(search, options:TOptions) {
 		var i, n, self, field, fields, fields_count, multiplier, multipliers, get_field, implicit_score, sort;
 
 		self   = this;
@@ -375,11 +397,8 @@ export default class Sifter{
 	 * with tokens and fields ready to be populated
 	 * with results.
 	 *
-	 * @param {string} query
-	 * @param {object} options
-	 * @returns {object}
 	 */
-	prepareSearch(query, options) {
+	prepareSearch(query:string|TPrepareObj, options:TOptions):TPrepareObj {
 		if (typeof query === 'object') return query;
 
 		options = Object.assign({},options);
@@ -404,27 +423,8 @@ export default class Sifter{
 	/**
 	 * Searches through all items and returns a sorted array of matches.
 	 *
-	 * The `options` parameter can contain:
-	 *
-	 *   - fields {string|array}
-	 *   - sort {array}
-	 *   - score {function}
-	 *   - filter {bool}
-	 *   - limit {integer}
-	 *
-	 * Returns an object containing:
-	 *
-	 *   - options {object}
-	 *   - query {string}
-	 *   - tokens {array}
-	 *   - total {int}
-	 *   - items {array}
-	 *
-	 * @param {string} query
-	 * @param {object} options
-	 * @returns {object}
 	 */
-	search(query, options) {
+	search(query:string, options:TOptions) : TPrepareObj {
 		var self = this, score, search;
 		var fn_sort;
 		var fn_score;
