@@ -41,6 +41,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 		var i, n, tagName, children;
 		var options = settings_element.options;
 		var optionsMap = {};
+		var group_count = 1;
 
 		var readData = (el) => {
 
@@ -92,35 +93,33 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 		};
 
 		var addGroup = ( optgroup ) => {
-			var i, n, id, optgroup_data, options;
+			var id, optgroup_data
 
-			id = optgroup.getAttribute('label')
+			optgroup_data							= readData(optgroup);
+			optgroup_data[field_optgroup_label]		= optgroup_data[field_optgroup_label] || optgroup.getAttribute('label') || '';
+			optgroup_data[field_optgroup_value]		= optgroup_data[field_optgroup_value] || group_count++;
+			optgroup_data[field_disabled]			= optgroup_data[field_disabled] || optgroup.disabled;
+			settings_element.optgroups.push(optgroup_data);
 
-			if (id) {
-				optgroup_data							= readData(optgroup);
-				optgroup_data[field_optgroup_label]		= id;
-				optgroup_data[field_optgroup_value]		= id;
-				optgroup_data[field_disabled]			= optgroup.disabled;
-				settings_element.optgroups.push(optgroup_data);
+			id = optgroup_data[field_optgroup_value];
+
+			for( const option of optgroup.children ){
+				addOption(option, id);
 			}
 
-			var options = optgroup.children;
-			for (i = 0, n = options.length; i < n; i++) {
-				addOption(options[i], id);
-			}
 		};
 
 		settings_element.maxItems = input.hasAttribute('multiple') ? null : 1;
 
-		children = input.children;
-		for (i = 0, n = children.length; i < n; i++) {
-			tagName = children[i].tagName.toLowerCase();
+		for( const child of input.children ){
+			tagName = child.tagName.toLowerCase();
 			if (tagName === 'optgroup') {
-				addGroup(children[i]);
+				addGroup(child);
 			} else if (tagName === 'option') {
-				addOption(children[i]);
+				addOption(child);
 			}
 		}
+
 	};
 
 

@@ -1275,8 +1275,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// sort optgroups
 		if (this.settings.lockOptgroupOrder) {
 			groups_order.sort((a, b) => {
-				var a_order = self.optgroups[a].$order || 0;
-				var b_order = self.optgroups[b].$order || 0;
+				var a_order = self.optgroups[a] && self.optgroups[a].$order || 0;
+				var b_order = self.optgroups[b] && self.optgroups[b].$order || 0;
 				return a_order - b_order;
 			});
 		}
@@ -1438,7 +1438,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	registerOptionGroup(data:TomOption) {
 		var key = hash_key(data[this.settings.optgroupValueField]);
-		if (!key) return false;
+
+		if ( key === null ) return false;
 
 		data.$order = data.$order || ++this.order;
 		this.optgroups[key] = data;

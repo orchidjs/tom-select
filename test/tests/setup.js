@@ -114,11 +114,11 @@
 			});
 			it_n('should allow for values optgroups with duplicated options', function() {
 				var test = setup_test(['<select>',
-					'<optgroup label="Group 1">',
+					'<optgroup data-val="Group 1" label="Group 1">',
 					'<option value="a">Item A</option>',
 					'<option value="b">Item B</option>',
 					'</optgroup>',
-					'<optgroup label="Group 2">',
+					'<optgroup data-val="Group 2" label="Group 2">',
 					'<option value="a">Item A</option>',
 					'<option value="b">Item B</option>',
 					'</optgroup>',
@@ -136,13 +136,13 @@
 					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: false}
 				}, '2');
 			});
-			it_n('should allow respect disabled flags of option and optgroup', function() {
+			it_n('should respect disabled flags of option and optgroup', function() {
 				var test = setup_test(['<select>',
-					'<optgroup label="Group 1">',
+					'<optgroup data-val="Group 1" label="Group 1">',
 					'<option value="a" disabled>Item A</option>',
 					'<option value="b">Item B</option>',
 					'</optgroup>',
-					'<optgroup label="Group 2" disabled>',
+					'<optgroup data-val="Group 2" label="Group 2" disabled>',
 					'<option value="a">Item A</option>',
 					'<option value="b">Item B</option>',
 					'</optgroup>',
@@ -177,6 +177,54 @@
 				assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length, 4, 'expect 4 options');
 				done();
 			});
+
+			it_n('display non-optgroup items and optgroups with lockOptgroupOrder = true', function(done) {
+				var test = setup_test(`<select>
+					<option>Item</option>
+					<optgroup label="Group 1">
+					<option value="a">Item A</option>
+					<option value="b">Item B</option>
+					</optgroup>
+					<optgroup label="Group 2">
+					<option value="a">Item A</option>
+					<option value="b">Item B</option>
+					</optgroup>
+					</select>`,{lockOptgroupOrder:true});
+				test.instance.refreshOptions(true);
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.optgroup').length, 2, 'expect 2 optgroups');
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length, 5, 'expect 5 options');
+				done();
+			});
+
+
+			it_n('optgroup without label', function(done) {
+				var test = setup_test(`<select>
+					<optgroup>
+					<option>Item</option>
+					</optgroup>
+					</select>`);
+				test.instance.refreshOptions(true);
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.optgroup').length, 1, 'expect 1 optgroups');
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length, 1, 'expect 1 options');
+				done();
+			});
+
+
+			it_n('optgroups with the same label', function(done) {
+				var test = setup_test(`<select>
+					<optgroup label="Group">
+					<option value="a">Item A</option>
+					</optgroup>
+					<optgroup label="Group">
+					<option value="b">Item B</option>
+					</optgroup>
+					</select>`);
+				test.instance.refreshOptions(true);
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.optgroup').length, 2, 'expect 2 optgroups');
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length, 2, 'expect 2 options');
+				done();
+			});
+
 
 			it_n('should add options in text form (no html entities)', function() {
 				var test = setup_test('<select><option selected value="a">&lt;hi&gt;</option></select>', {});
