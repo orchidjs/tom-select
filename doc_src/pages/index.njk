@@ -20,11 +20,18 @@
 
 	{% set html %}
 	<select id="select-tags" multiple placeholder="Best movies and TV shows">
-		<option selected>Magnum P.I.</option>
-		<option>Blue Bloods</option>
-		<option>Quigley Down Under</option>
-		<option>Three Men and a Baby</option>
-		<option>Mr. Baseball</option>
+		<optgroup label="TV Shows">
+			<option data-label="Blue Bloods" data-date="2010-2021">Blue Bloods (2010-2021)</option>
+			<option data-label="Magnum P.I." data-date="1980-1988" selected>Magnum P.I. (1980-1988)</option>
+		</optgroup>
+		<optgroup label="Movies">
+			<option data-label="An Innocent Man" data-date="1989">An Innocent Man (1989)</option>
+			<option data-label="In & Out" data-date="1997">In & Out (1997)</option>
+			<option data-label="Lassiter" data-date="1984">Lassiter (1984)</option>
+			<option data-label="Mr. Baseball" data-date="1992">Mr. Baseball (1992)</option>
+			<option data-label="Quigley Down Under" data-date="1990">Quigley Down Under (1990)</option>
+			<option data-label="Three Men and a Baby" data-date="1987">Three Men and a Baby (1987)</option>
+		</optgroup>
 	</select>
 	{% endset %}
 
@@ -33,6 +40,18 @@
 	new TomSelect("#select-tags",{
 		plugins: ['remove_button'],
 		create: true,
+		onItemAdd:function(){
+			this.setTextboxValue('');
+			this.refreshOptions();
+		},
+		render:{
+			option:function(data,escape){
+				return '<div class="d-flex"><span>' + escape(data['label']) + '</span><span class="ml-auto text-muted">' + escape(data['date']) + '</span></div>';
+			},
+			item:function(data,escape){
+				return '<div>' + escape(data['label']) + '</div>';
+			}
+		}
 	});
 	{% endset %}
 	</script>
