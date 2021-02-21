@@ -13,6 +13,7 @@ export default {
 	createFilter: null,
 	highlight: true,
 	openOnFocus: true,
+	shouldOpen: null,
 	maxOptions: 50,
 	maxItems: null,
 	hideSelected: null,

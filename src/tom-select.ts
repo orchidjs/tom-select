@@ -1221,7 +1221,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var query					= self.inputValue();
 		var results					= self.search(query);
 		var active_before_hash		= self.activeOption && hash_key(self.activeOption.dataset.value);
-		var show_dropdown			= false;
+		var show_dropdown			= self.settings.shouldOpen || false;
 
 
 		// build markup
@@ -1986,12 +1986,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self = this;
 
 		if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
-		self.focus();
 		self.isOpen = true;
 		self.refreshState();
 		applyCSS(self.dropdown,{visibility: 'hidden', display: 'block'});
 		self.positionDropdown();
 		applyCSS(self.dropdown,{visibility: 'visible', display: 'block'});
+		self.focus();
 		self.trigger('dropdown_open', self.dropdown);
 	}
 

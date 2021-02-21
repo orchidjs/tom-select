@@ -15,6 +15,7 @@ export type TomSettings = {
 	createFilter			: RegExp|string|TomCreateFilter,
 	highlight				: boolean,
 	openOnFocus				: boolean,
+	shouldOpen				: boolean,
 	maxOptions				: number,
 	maxItems				: number,
 	hideSelected			: boolean,
