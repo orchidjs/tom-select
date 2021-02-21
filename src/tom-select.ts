@@ -6,7 +6,7 @@ import { TomSettings } from './types/settings';
 import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
-import getSettings from './settings.js';
+import getSettings from './getSettings.js';
 import {
 	hash_key,
 	escape_html,

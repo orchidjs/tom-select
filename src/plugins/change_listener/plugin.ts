@@ -14,7 +14,7 @@
  */
 
 import TomSelect from '../../tom-select.js';
-import getSettings from '../../settings.js';
+import getSettings from '../../getSettings.js';
 import { TomSettings } from '../../types/settings';
 import { addEvent } from '../../utils';
 
