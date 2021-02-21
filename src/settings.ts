@@ -38,7 +38,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 	 *
 	 */
 	var init_select = () => {
-		var i, n, tagName, children;
+		var tagName;
 		var options = settings_element.options;
 		var optionsMap = {};
 		var group_count = 1;
