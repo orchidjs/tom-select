@@ -1,0 +1,34 @@
+---
+title: Restore on Backspace
+nav_title: Restore on Backspace
+tags: demo
+script: <script src="/js/jqueryui.js"></script>
+
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	restore_on_backspace
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-tags6" value="awesome,neat" autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#input-tags6',{
+	plugins: ['restore_on_backspace'],
+	persist: false,
+	create: true
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

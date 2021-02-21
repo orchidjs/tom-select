@@ -1,0 +1,38 @@
+---
+title: No Backspace Delete
+nav_title: No Backspace Delete
+tags: demo
+script: <script src="/js/jqueryui.js"></script>
+
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+{% set label %}
+<label class="h2 mb-3">
+	remove_button &amp; no_backspace_delete
+</label>
+{% endset %}
+
+{% set html %}
+<div id="disable-wrapper" style="position:relative">
+<input type="text" id="disable-backspace" value="awesome,neat" autocomplete="off">
+<input type="text" id="input-disable-control" class="form-control mt-2"  autocomplete="off" placeholder="How cool is this?" >
+</div>
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#disable-backspace',{
+	plugins: ['no_backspace_delete','remove_button',],
+	persist: false,
+	create: true,
+	controlInput: '#input-disable-control',
+	dropdownParent: '#disable-wrapper',
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

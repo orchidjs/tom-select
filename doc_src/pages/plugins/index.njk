@@ -1,0 +1,28 @@
+---
+title: Plugin Examples
+nav_title: Plugins
+tags: demo
+exclude: true
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+<p class="mt-5">
+	Plugins are bundled in <code>tom-select.complete.js</code> but can also be loaded individually.
+	Include <code>tom-select.base.js</code> and any combination of plugins of your choosing.
+	The <a href="/docs/plugins">plugin documentation</a> has more information about custom bundles and plugin development.
+</p>
+{% highlight "html" %}
+<script src="/js/tom-select.base.js"></script>
+<script src="/js/plugins/change_listener.js"></script>
+<script src="/js/plugins/drag_drop.js"></script>
+<script src="/js/plugins/dropdown_header.js"></script>
+<script src="/js/plugins/dropdown_input.js"></script>
+<script src="/js/plugins/input_autogrow.js"></script>
+<script src="/js/plugins/no_backspace_delete.js"></script>
+<script src="/js/plugins/optgroup_columns.js"></script>
+<script src="/js/plugins/remove_button.js"></script>
+<script src="/js/plugins/restore_on_backspace.js"></script>
+{% endhighlight %}

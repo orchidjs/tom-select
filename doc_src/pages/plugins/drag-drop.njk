@@ -1,0 +1,36 @@
+---
+title: Drag 'n Drop
+nav_title: Drag 'n Drop
+tags: demo
+script: <script src="/js/jqueryui.js"></script>
+
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	drag_drop
+</label>
+<p>Drag 'n drop selected items. Requires jQuery + jQuery UI</p>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-sortable" value="drag,these,items,around" autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#input-sortable',{
+	plugins: ['drag_drop'],
+	persist: false,
+	create: true
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script,'',true) }}

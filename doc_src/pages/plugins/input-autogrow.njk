@@ -1,0 +1,31 @@
+---
+title: Input Autogrow
+nav_title: Input Autogrow
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	input_autogrow
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-autogrow" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#input-autogrow',{
+	plugins: ['input_autogrow'],
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

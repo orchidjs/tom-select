@@ -46,7 +46,9 @@
 						</div>
 					</div>
 					<div class="container mt-3" id="main-container">
-					{{ content | safe }}
+						{{ content | safe }}
+						{% block content_foot %}
+						{% endblock %}
 					</div>
 				</div>
 			</div>

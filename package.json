@@ -27,13 +27,13 @@
     "url": "https://github.com/orchidjs/tom-select.git"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^0.11.0",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.1",
+    "@11ty/eleventy": "0.11.1",
+    "@11ty/eleventy-plugin-syntaxhighlight": "3.0.6",
     "@atomico/rollup-plugin-sizes": "^1.1.4",
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-typescript": "^7.12.1",
-	"@lodder/grunt-postcss": "^3.0.0",
+    "@lodder/grunt-postcss": "^3.0.0",
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.1.1",
@@ -82,7 +82,7 @@
   },
   "scripts": {
     "build": "grunt build",
-	"build:types": "tsc -p .config --emitDeclarationOnly",
+    "build:types": "tsc -p .config --emitDeclarationOnly",
     "test": "karma start",
     "test:typescript": "tsc -p .config --noemit",
     "start": "grunt serve",
@@ -93,12 +93,12 @@
   },
   "browserslist": [
     ">= 0.5%",
-	"not dead",
+    "not dead",
     "Chrome >= 60",
     "Firefox >= 60",
     "Edge >= 17",
-	"iOS >= 10",
-	"Safari >= 10",
+    "iOS >= 10",
+    "Safari >= 10",
     "not Explorer <= 11"
   ],
   "dependencies": {}

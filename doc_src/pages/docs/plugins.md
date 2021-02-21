@@ -7,7 +7,7 @@ Feature can be added to Tom Select without modifying via the [microplugin](https
 This helps protect against code bloat, allows for leaner builds and allows for addons to be sanely isolated
 The plugin system is lean, makes very few assumptions, and gives the developer complete control.
 
-**[Plugin Examples](/examples/plugins)**
+**[Plugin Examples](/plugins)**
 
 ## Plugin Usage
 

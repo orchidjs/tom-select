@@ -7,25 +7,20 @@
 	 #}
 
 
-	{% macro nav_link(item) %}
-		<a class="nav-link {% if page.url == item.url or page.filePathStem == item.filePathStem %} active {% endif %}" href="{{ item.url }}">
-
-		{% if item.title %}
-			{{ item.title }}
-		{% elseif item.data.nav_title %}
-			{{ item.data.nav_title }}
-		{% else %}
-			{{ item.data.title }}
-		{% endif %}
-		</a>
-	{% endmacro %}
-
-
 	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
 	{% if 'examples' in page.filePathStem %}
 	<nav class="nav flex-column">
-		{% for demo in collections.demosAlpha %}
-		  {{ nav_link(demo) }}
+		{% for item in collections.demosAlpha %}
+ 			{% nav_link item %}
+		{% endfor %}
+	</nav>
+	{% endif %}
+
+	<a href="/plugins/" class="h5 px-4 py-3 my-0 d-block">Plugins</a>
+	{% if 'plugins' in page.filePathStem %}
+	<nav class="nav flex-column">
+		{% for item in collections.plugins %}
+			{% nav_link item %}
 		{% endfor %}
 	</nav>
 	{% endif %}
@@ -34,12 +29,12 @@
 	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
 	{% if 'docs' in page.filePathStem %}
 	<nav class="nav flex-column">
-		{{ nav_link({url:'/docs/',title:'Usage'}) }}
-		{{ nav_link({url:'/docs/api/',title:'API'}) }}
-		{{ nav_link({url:'/docs/plugins/',title:'Plugins'}) }}
-		{{ nav_link({url:'/docs/events/',title:'Events'}) }}
-		{{ nav_link({url:'/docs/contribute/',title:'Contribute'}) }}
-		{{ nav_link({url:'/docs/selectize.js/',title:'selectize.js'}) }}
+		{% nav_link {url:'/docs/',title:'Usage'} %}
+		{% nav_link {url:'/docs/api/',title:'API'} %}
+		{% nav_link {url:'/docs/plugins/',title:'Plugins'} %}
+		{% nav_link {url:'/docs/events/',title:'Events'} %}
+		{% nav_link {url:'/docs/contribute/',title:'Contribute'} %}
+		{% nav_link {url:'/docs/selectize.js/',title:'selectize.js'} %}
 	</nav>
 	{% endif %}
 

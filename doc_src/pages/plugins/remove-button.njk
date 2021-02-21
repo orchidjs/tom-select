@@ -1,0 +1,71 @@
+---
+title: Remove Button
+nav_title: Remove Button
+tags: demo
+script: <script src="/js/jqueryui.js"></script>
+
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	remove_button
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="input-tags" value="awesome,neat" autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#input-tags',{
+	plugins: ['remove_button'],
+	persist: false,
+	create: true,
+	onDelete: function(values) {
+		return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
+	}
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	remove_button (Single)
+</label>
+{% endset %}
+
+{% set html %}
+<select id="input-tags2" value="awesome" autocomplete="off">
+	<option>awesome</option>
+	<option>neat</option>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#input-tags2',{
+	plugins: ['remove_button'],
+	persist: false,
+	create: true,
+	maxItems: 1,
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

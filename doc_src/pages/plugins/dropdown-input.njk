@@ -1,0 +1,31 @@
+---
+title: Dropdown Input
+nav_title: Dropdown Input
+tags: demo
+script: <script src="/js/jqueryui.js"></script>
+
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+{% set label %}
+<label class="h2 mb-3">
+	dropdown_input
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="ex-dropdown-input" value="awesome,neat" autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#ex-dropdown-input',{
+	plugins: ['dropdown_input'],
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}

@@ -12,22 +12,43 @@ module.exports = function(eleventyConfig) {
 	const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 	eleventyConfig.addPlugin(syntaxHighlight);
 
-	eleventyConfig.addCollection('demosAlpha', function(collection) {
-		return collection.getFilteredByGlob("doc_src/pages/examples/*.njk")
-			.filter(function(page){
-				if( page.data.destination ){
-					return false;
-				}
-				return true;
-			})
-			.sort(function(a, b) {
-				let nameA = a.data.title.toUpperCase();
-				let nameB = b.data.title.toUpperCase();
-				if (nameA < nameB) return -1;
-				else if (nameA > nameB) return 1;
-				else return 0;
+	function GlobCollection(name, glob){
+		eleventyConfig.addCollection(name, function(collection) {
+			return collection.getFilteredByGlob(glob)
+				.filter(function(page){
+					return !page.data.exclude;
+				})
+				.sort(function(a, b) {
+					let nameA = a.data.title.toUpperCase();
+					let nameB = b.data.title.toUpperCase();
+					if (nameA < nameB) return -1;
+					else if (nameA > nameB) return 1;
+					else return 0;
+			});
 		});
+	}
+
+	GlobCollection('plugins','doc_src/pages/plugins/*.njk')
+	GlobCollection('demosAlpha','doc_src/pages/examples/*.njk')
+
+	// link shortcode
+	eleventyConfig.addNunjucksShortcode('nav_link', function(item) {
+		var title = '';
+		if( item.title ){
+			title = item.title;
+		}else if( item.data.nav_title ){
+			title = item.data.nav_title;
+		}else{
+			title = item.data.title;
+		}
+
+		if( this.page.url == item.url || this.page.filePathStem == item.filePathStem  ){
+			return `<span class="nav-link active">${title}</span>`;
+		}
+
+		return `<a class="nav-link" href="${item.url}">${title}</a>`;
 	});
+
 
 	let markdownIt = require('markdown-it');
 

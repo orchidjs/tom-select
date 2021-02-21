@@ -1,0 +1,13 @@
+{% extends "layout_default.njk" %}
+
+
+{% block content_foot %}
+	<h2>Available Plugins</h2>
+	{% if 'plugins' in page.filePathStem %}
+	<nav class="nav flex-column">
+		{% for item in collections.plugins %}
+			{% nav_link item %}
+		{% endfor %}
+	</nav>
+	{% endif %}
+{% endblock %}
