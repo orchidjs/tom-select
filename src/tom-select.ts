@@ -444,6 +444,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			'loading':(data,escape:typeof escape_html) => {
 				return '<div class="spinner"></div>';
 			},
+			'invalid_query':() => {},
 			'dropdown':() => {
 				return '<div style="display:none"></div>';
 			}
@@ -845,7 +846,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	load(value:string):void {
+
 		var self = this;
+		if( !self.settings.shouldQuery.call(self,value) ) return;
 		var fn = self.settings.load;
 		if (!fn) return;
 		if (self.loadedSearches.hasOwnProperty(value)) return;
@@ -1333,15 +1336,20 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			return content;
 		};
 
+		// invalid query
+		if( !self.settings.shouldQuery.call(self,query) ){
+			add_template('invalid_query');
+
 		// add loading message
-		if( self.loading ){
+		}else if( self.loading ){
 			add_template('loading');
 
 		// add no_results message
-		}else if( results.items.length === 0 && self.settings.render['no_results']  && query.length ){
+		}else if( results.items.length === 0 ){
 			add_template('no_results');
 
 		}
+
 
 
 		// add create option

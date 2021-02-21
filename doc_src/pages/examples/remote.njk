@@ -34,9 +34,12 @@ new TomSelect('#select-repo',{
 		valueField: 'url',
 		labelField: 'name',
 		searchField: 'name',
+		// minimum query length
+		shouldQuery:function(query){
+			return query.length >= 1;
+		},
 		// fetch remote data https://caniuse.com/fetch
 		load: function(query, callback) {
-			if (!query.length) return callback();
 
 			var url = 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query);
 			fetch(url)
@@ -216,6 +219,10 @@ new TomSelect('#select-repo2',{
 		maxOptions: 10,
 		dropdownParent: '#select-repo-inline',
 		plugins:['no_close'],
+		// minimum query length
+		shouldQuery:function(query){
+			return query.length >= 1;
+		},
 		// custom scoring
 		score: function(search) {
 			var score = this.getScoreFunction(search);
@@ -225,7 +232,6 @@ new TomSelect('#select-repo2',{
 		},
 		// fetch remote data https://caniuse.com/fetch
 		load: function(query, callback) {
-			if (!query.length) return callback();
 
 			var url = 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query);
 			fetch(url)

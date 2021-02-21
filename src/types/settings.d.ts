@@ -1,4 +1,8 @@
 import { TomCreateFilter, TomCreate } from './index';
+import {
+	escape_html,
+} from '../utils';
+
 
 export type TomSettings = {
 	options					: any[],
@@ -61,6 +65,7 @@ export type TomSettings = {
 
 	load					: (value:string, callback:()=>any) => void,
 	score					: (query:string) => () => any,
+	shouldQuery				: (query:string) => boolean,
 	onInitialize			: (evt:Event) => void,
 	onChange				: (evt:Event) => void,
 	onItemAdd				: (evt:Event) => void,
@@ -80,5 +85,7 @@ export type TomSettings = {
 	onBlur					: (evt:Event) => void,
 	onDelete				: (values:string[], evt:KeyboardEvent|MouseEvent) => boolean,
 
-	render					: {[key:string]:()=>string|HTMLElement}
+	render					: {
+		[key:string]:(data:any, escape:typeof escape_html) => string|HTMLElement
+	}
 };
