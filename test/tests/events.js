@@ -335,7 +335,7 @@ describe('Events', function() {
 			test.instance.on('type', function() {
 				done();
 			});
-			syn.click(test.instance.control).type('a', $(test.instance.control_input));
+			syn.click(test.instance.control).type('a', test.instance.control_input);
 		});
 		it_n('should contain current value', function(done) {
 			var test = setup_test('<select></select>', {create: true});
@@ -343,7 +343,7 @@ describe('Events', function() {
 				expect(value).to.be.equal('a');
 				done();
 			});
-			syn.click(test.instance.control).type('a', $(test.instance.control_input));
+			syn.click(test.instance.control).type('a', test.instance.control_input);
 		});
 	});
 
