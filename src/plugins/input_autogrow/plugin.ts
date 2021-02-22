@@ -41,10 +41,17 @@ TomSelect.define('input_autogrow', function(options) {
 		 *
 		 */
 		var resize = ()=>{
-			test_input.textContent	= control.value;
-			control.style.width		= test_input.clientWidth+'px';
+			if( this.items.length > 0 ){
+				test_input.textContent	= control.value;
+				control.style.width		= test_input.clientWidth+'px';
+			}else{
+				control.style.width		= '';
+			}
+
 		};
 
+		resize();
+		this.on('update item_add item_remove',resize);
 		addEvent(control,'input', resize );
 		addEvent(control,'keyup', resize );
 		addEvent(control,'blur', resize );
