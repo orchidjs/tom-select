@@ -2359,9 +2359,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		}
 
+		var template = self.settings.render[templateName];
+		if( typeof template !== 'function' ){
+			return null;
+		}
 
 		// render markup
-		html = self.settings.render[templateName].call(this, data, escape_html);
+		html = template.call(this, data, escape_html);
 
 		if( !html ){
 			return html;
