@@ -14,18 +14,46 @@
  */
 
 import TomSelect from '../../tom-select.js';
-import { getDom } from '../../vanilla';
-
+import * as constants from '../../constants.js';
+import { getDom, parentMatch } from '../../vanilla';
+import {
+	addEvent,
+} from '../../utils';
 
 
 TomSelect.define('dropdown_input',function() {
 	var self = this;
 
-	var input = getDom('<input type="text" autocomplete="off" class="dropdown-input" />' );
+	var input = self.settings.controlInput || '<input type="text" autocomplete="off" class="dropdown-input" />';
+	input = getDom( input );
 	self.settings.controlInput = input;
 	self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
 	self.hook('after','setup',()=>{
+
+		// set tabIndex on wrapper
+		self.wrapper.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex );
+
+		// keyboard navigation
+		addEvent(self.wrapper,'keypress',(evt) => {
+
+			if( self.control.contains(evt.target) ){
+				return;
+			}
+
+			if( self.dropdown.contains(evt.target) ){
+				return;
+			}
+
+			// open dropdown on enter when wrapper is tab-focused
+			switch (evt.keyCode) {
+				case constants.KEY_RETURN:
+					self.onClick(evt);
+				return;
+			}
+
+		});
+
 		self.dropdown.insertBefore(input, self.dropdown.firstChild);
 	});
 

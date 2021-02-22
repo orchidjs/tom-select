@@ -102,7 +102,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// setup default state
 		this.settings			= getSettings( input, settings );
 		this.input				= input;
-		this.tabIndex			= input.getAttribute('tabindex') || null;
+		this.tabIndex			= input.getAttribute('tabindex') || 0;
 		this.is_select_tag		= input.tagName.toLowerCase() === 'select';
 		this.rtl				= /rtl/i.test(dir);
 

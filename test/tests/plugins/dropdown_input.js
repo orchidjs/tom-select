@@ -24,4 +24,18 @@ describe('plugin: dropdown_input', function() {
 
 	});
 
+	it_n('[enter] on wrapper should open', function(done) {
+
+		let test = setup_test('<input value="a,b" tabindex="1" />', {plugins: ['dropdown_input']});
+		var adjacent = document.getElementById('adjacent-input');
+
+		assert.equal(test.instance.wrapper.tabIndex, 1);
+
+		syn.type('[enter]',test.instance.wrapper,function(){
+			assert.equal(test.instance.isOpen, true);
+			done();
+		});
+
+	});
+
 });
