@@ -2,8 +2,6 @@
 title: Dropdown Input
 nav_title: Dropdown Input
 tags: demo
-script: <script src="/js/jqueryui.js"></script>
-
 ---
 
 
@@ -17,7 +15,16 @@ script: <script src="/js/jqueryui.js"></script>
 {% endset %}
 
 {% set html %}
-<input type="text" id="ex-dropdown-input" value="awesome,neat" autocomplete="off">
+<select id="ex-dropdown-input" autocomplete="off">
+	<option>amazing</option>
+	<option selected>awesome</option>
+	<option>cool</option>
+	<option>excellent</option>
+	<option>great</option>
+	<option>neat</option>
+	<option>superb</option>
+	<option>wonderful</option>
+</select>
 {% endset %}
 
 <script>
