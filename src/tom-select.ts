@@ -2027,6 +2027,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		applyCSS(self.dropdown,{display: 'none'});
 		self.setActiveOption();
 		self.refreshState();
+		self.setTextboxValue('');
 
 		if (trigger) self.trigger('dropdown_close', self.dropdown);
 	}
