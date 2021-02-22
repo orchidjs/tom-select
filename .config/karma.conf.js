@@ -139,7 +139,7 @@ module.exports = function(config) {
 			'node_modules/jquery/dist/jquery.js',
 			'build/css/tom-select.default.css',
 			'test/support/*.js',
-			'test/tests/*.js',
+			'test/tests/**/*.js',
 
 			{
 				pattern: 'build/**/*',
