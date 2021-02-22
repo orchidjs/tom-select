@@ -65,7 +65,7 @@ export type TomSettings = {
 
 	load					: (value:string, callback:()=>any) => void,
 	score					: (query:string) => () => any,
-	shouldQuery				: (query:string) => boolean,
+	shouldLoad				: (query:string) => boolean,
 	onInitialize			: (evt:Event) => void,
 	onChange				: (evt:Event) => void,
 	onItemAdd				: (evt:Event) => void,

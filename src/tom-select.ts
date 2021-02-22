@@ -707,7 +707,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (self.lastValue !== value) {
 			self.lastValue = value;
 
-			if( self.settings.shouldQuery.call(self,value) ){
+			if( self.settings.shouldLoad.call(self,value) ){
 				self.load(value);
 				self.refreshOptions();
 			}
@@ -1339,7 +1339,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		};
 
 		// invalid query
-		if( !self.settings.shouldQuery.call(self,query) ){
+		if( !self.settings.shouldLoad.call(self,query) ){
 			add_template('invalid_query');
 
 		// add loading message

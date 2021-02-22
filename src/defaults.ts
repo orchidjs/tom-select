@@ -54,7 +54,7 @@ export default {
 
 	copyClassesToDropdown: true,
 
-	shouldQuery: function(query:string):boolean{
+	shouldLoad: function(query:string):boolean{
 		return query.length > 0;
 	},
 
