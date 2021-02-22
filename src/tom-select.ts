@@ -706,8 +706,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var value = self.inputValue();
 		if (self.lastValue !== value) {
 			self.lastValue = value;
-			self.load(value);
-			self.refreshOptions();
+
+			if( self.settings.shouldQuery.call(self,value) ){
+				self.load(value);
+				self.refreshOptions();
+			}
 			self.trigger('type', value);
 		}
 	}
@@ -848,7 +851,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	load(value:string):void {
 
 		var self = this;
-		if( !self.settings.shouldQuery.call(self,value) ) return;
 		var fn = self.settings.load;
 		if (!fn) return;
 		if (self.loadedSearches.hasOwnProperty(value)) return;
