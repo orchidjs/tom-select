@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -28,8 +28,7 @@ TomSelect.define('input_autogrow', function (options) {
     self.wrapper.appendChild(test_input);
     var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
 
-    for (let i = 0, n = transfer_styles.length; i < n; i++) {
-      let style_name = transfer_styles[i];
+    for (const style_name of transfer_styles) {
       test_input.style[style_name] = control.style[style_name];
     }
     /**
@@ -39,10 +38,16 @@ TomSelect.define('input_autogrow', function (options) {
 
 
     var resize = () => {
-      test_input.textContent = control.value;
-      control.style.width = test_input.clientWidth + 'px';
+      if (this.items.length > 0) {
+        test_input.textContent = control.value;
+        control.style.width = test_input.clientWidth + 'px';
+      } else {
+        control.style.width = '';
+      }
     };
 
+    resize();
+    this.on('update item_add item_remove', resize);
     addEvent(control, 'input', resize);
     addEvent(control, 'keyup', resize);
     addEvent(control, 'blur', resize);

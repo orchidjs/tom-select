@@ -38,149 +38,42 @@
 	
 
 
-	
-
-
 	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
 	
 	<nav class="nav flex-column">
 		
-		  
-		<a class="nav-link " href="/examples/">
-
+ 			<a class="nav-link" href="/examples/">Basic</a>
 		
-			Basic
+ 			<a class="nav-link" href="/examples/customization/">Custom HTML</a>
 		
-		</a>
-	
+ 			<a class="nav-link" href="/examples/contacts/">Email Contacts</a>
 		
-		  
-		<a class="nav-link " href="/examples/customization/">
-
+ 			<a class="nav-link" href="/examples/esm/">ESM Modules</a>
 		
-			Custom HTML
+ 			<a class="nav-link" href="/examples/events/">Events</a>
 		
-		</a>
-	
+ 			<a class="nav-link" href="/examples/validation/">Form Validation</a>
 		
-		  
-		<a class="nav-link " href="/examples/contacts/">
-
+ 			<a class="nav-link" href="/examples/create-filter/">Item Creation</a>
 		
-			Email Contacts
+ 			<a class="nav-link" href="/examples/api/">JavaScript API</a>
 		
-		</a>
-	
+ 			<a class="nav-link" href="/examples/performance/">Large Dataset</a>
 		
-		  
-		<a class="nav-link " href="/examples/esm/">
-
+ 			<a class="nav-link" href="/examples/lock/">Locking</a>
 		
-			ESM Modules
+ 			<span class="nav-link active">Option Groups</span>
 		
-		</a>
-	
+ 			<a class="nav-link" href="/examples/options/">Options Array</a>
 		
-		  
-		<a class="nav-link " href="/examples/events/">
-
+ 			<a class="nav-link" href="/examples/remote/">Remote Data</a>
 		
-			Events
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link " href="/examples/validation/">
-
-		
-			Form Validation
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link " href="/examples/create-filter/">
-
-		
-			Item Creation
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link " href="/examples/api/">
-
-		
-			JavaScript API
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link " href="/examples/performance/">
-
-		
-			Large Dataset
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link " href="/examples/lock/">
-
-		
-			Locking
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link  active " href="/examples/optgroups/">
-
-		
-			Option Groups
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link " href="/examples/options/">
-
-		
-			Options Array
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link " href="/examples/plugins/">
-
-		
-			Plugins
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link " href="/examples/remote/">
-
-		
-			Remote Data
-		
-		</a>
-	
-		
-		  
-		<a class="nav-link " href="/examples/rtl/">
-
-		
-			RTL
-		
-		</a>
-	
+ 			<a class="nav-link" href="/examples/rtl/">RTL</a>
 		
 	</nav>
+	
+
+	<a href="/plugins/" class="h5 px-4 py-3 my-0 d-block">Plugins</a>
 	
 
 
@@ -203,7 +96,7 @@
 				<div class="col-md-9 col-lg-10 pb-5">
 					<div class="my-4">
 						<div class="container">
-							<button class="toggle-offcanvas btn btn-light" type="button">
+							<button class="toggle-offcanvas btn btn-secondary" type="button">
 								<span class="navbar-toggler-icon"></span>
 							</button>
 							
@@ -212,7 +105,7 @@
 						</div>
 					</div>
 					<div class="container mt-3" id="main-container">
-					
+						
 
 
 
@@ -727,137 +620,8 @@ new TomSelect('#select-animal',{
 	</div>
 
 
-
-
-
-
-
-
-
-
-<script>
-
-</script>
-
-
-	
-
-	<div class="demo py-5 ">
-
-		
-<label class="h2 mb-3">
-	Plugin: optgroup_columns
-</label>
-
-	<div>
-		<div>
-			<div class="demo-html">
-				
-<input type="text" id="select-car" placeholder="Select cars...">
-
-			</div>
-
-			
-			<textarea hidden>
-&lt;input type=&quot;text&quot; id=&quot;select-car&quot; placeholder=&quot;Select cars...&quot;&gt;
-</textarea>
-			<script>
-new TomSelect("#select-car",{
-	options: [
-		{id: 'avenger', make: 'dodge', model: 'Avenger'},
-		{id: 'caliber', make: 'dodge', model: 'Caliber'},
-		{id: 'caravan-grand-passenger', make: 'dodge', model: 'Caravan Grand Passenger'},
-		{id: 'challenger', make: 'dodge', model: 'Challenger'},
-		{id: 'ram-1500', make: 'dodge', model: 'Ram 1500'},
-		{id: 'viper', make: 'dodge', model: 'Viper'},
-		{id: 'a3', make: 'audi', model: 'A3'},
-		{id: 'a6', make: 'audi', model: 'A6'},
-		{id: 'r8', make: 'audi', model: 'R8'},
-		{id: 'rs-4', make: 'audi', model: 'RS 4'},
-		{id: 's4', make: 'audi', model: 'S4'},
-		{id: 's8', make: 'audi', model: 'S8'},
-		{id: 'tt', make: 'audi', model: 'TT'},
-		{id: 'avalanche', make: 'chevrolet', model: 'Avalanche'},
-		{id: 'aveo', make: 'chevrolet', model: 'Aveo'},
-		{id: 'cobalt', make: 'chevrolet', model: 'Cobalt'},
-		{id: 'silverado', make: 'chevrolet', model: 'Silverado'},
-		{id: 'suburban', make: 'chevrolet', model: 'Suburban'},
-		{id: 'tahoe', make: 'chevrolet', model: 'Tahoe'},
-		{id: 'trail-blazer', make: 'chevrolet', model: 'TrailBlazer'},
-	],
-	optgroups: [
-		{$order: 3, id: 'dodge', name: 'Dodge'},
-		{$order: 2, id: 'audi', name: 'Audi'},
-		{$order: 1, id: 'chevrolet', name: 'Chevrolet'}
-	],
-	labelField: 'model',
-	valueField: 'id',
-	optgroupField: 'make',
-	optgroupLabelField: 'name',
-	optgroupValueField: 'id',
-	lockOptgroupOrder: true,
-	searchField: ['model'],
-	plugins: ['optgroup_columns'],
-	openOnFocus: false
-});
-</script>
-			<style></style>
-
-		</div>
-		<div class="mt-4">
-
-			<ul class="nav nav-tabs" role="tablist">
-				
-				<li class="nav-item" role="presentation">
-					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-5" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
-				</li>
-				
-				<li class="nav-item" role="presentation">
-					<a class="nav-link " data-toggle="tab" data-target="#html-tab-5" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
-				</li>
-				
-
-				
-				<li class="nav-item ml-auto">
-					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
-							<a class="nav-link opensandbox">JSFiddle</a>
-					</form>
-				</li>
-				<li class="nav-item">
-				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-					<input class="codepen" type="hidden" name="data" value=""/>
-						<a class="nav-link opensandbox">CodePen</a>
-				</form>
-				</li>
-				
-
-				
-
-			</ul>
-
-			<div class="tab-content">
-				
-				<div class="tab-pane fade show active" id="javascript-tab-5" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">"#select-car"</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	options<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'avenger'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'dodge'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Avenger'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'caliber'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'dodge'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Caliber'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'caravan-grand-passenger'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'dodge'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Caravan Grand Passenger'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'challenger'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'dodge'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Challenger'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'ram-1500'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'dodge'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Ram 1500'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'viper'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'dodge'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Viper'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'a3'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'A3'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'a6'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'A6'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'r8'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'R8'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'rs-4'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'RS 4'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'s4'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'S4'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'s8'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'S8'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'tt'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'TT'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'avalanche'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'chevrolet'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Avalanche'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'aveo'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'chevrolet'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Aveo'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'cobalt'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'chevrolet'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Cobalt'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'silverado'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'chevrolet'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Silverado'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'suburban'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'chevrolet'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Suburban'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'tahoe'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'chevrolet'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'Tahoe'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>id<span class="token operator">:</span> <span class="token string">'trail-blazer'</span><span class="token punctuation">,</span> make<span class="token operator">:</span> <span class="token string">'chevrolet'</span><span class="token punctuation">,</span> model<span class="token operator">:</span> <span class="token string">'TrailBlazer'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	optgroups<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span>$order<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> id<span class="token operator">:</span> <span class="token string">'dodge'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Dodge'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>$order<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> id<span class="token operator">:</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Audi'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>$order<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> id<span class="token operator">:</span> <span class="token string">'chevrolet'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Chevrolet'</span><span class="token punctuation">}</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'model'</span><span class="token punctuation">,</span><br>	valueField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span><br>	optgroupField<span class="token operator">:</span> <span class="token string">'make'</span><span class="token punctuation">,</span><br>	optgroupLabelField<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span><br>	optgroupValueField<span class="token operator">:</span> <span class="token string">'id'</span><span class="token punctuation">,</span><br>	lockOptgroupOrder<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'model'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'optgroup_columns'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	openOnFocus<span class="token operator">:</span> <span class="token boolean">false</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-				</div>
-				
-
-				<div class="tab-pane fade " id="html-tab-5" role="tabpanel" aria-labelledby="profile-tab">
-					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-car<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select cars...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
-				</div>
-
-				
-
-			</div>
-		</div>
-	</div>
-	</div>
-
-
+						
+						
 					</div>
 				</div>
 			</div>

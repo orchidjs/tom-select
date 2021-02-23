@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> Change Listener -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+
+		
+		<script src="/js/tom-select.complete.js"></script>
+		
+
+		<script src="/js/index.js"></script>
+		
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-right px-0 offcanvas pt-5">
+					
+
+	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
+
+	
+
+
+	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
+	
+
+	<a href="/plugins/" class="h5 px-4 py-3 my-0 d-block">Plugins</a>
+	
+	<nav class="nav flex-column">
+		
+			<span class="nav-link active">Change Listener</span>
+		
+			<a class="nav-link" href="/plugins/drag-drop/">Drag 'n Drop</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-input/">Dropdown Input</a>
+		
+			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
+		
+			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
+		
+			<a class="nav-link" href="/plugins/optgroup_columns/">Option Group Columns</a>
+		
+			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
+		
+			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+	</nav>
+	
+
+
+	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
+	
+
+	<div class="border-bottom m-4"></div>
+
+	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
+	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
+
+
+	<div class="mt-auto p-4 badges small">
+		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/plugins/change-listener.njk">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-lg-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-secondary" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">Change Listener</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+						
+
+
+
+
+
+
+
+
+
+<script>
+
+</script>
+
+
+	
+
+	<div class="demo py-5 ">
+
+		
+<label class="h2 mb-3">change_listener</label>
+<p>Listen for 'change' events on the original input/select and update Tom Select accordingly</p>
+
+	<div>
+		<div>
+			<div class="demo-html">
+				
+<input type="text" id="input-change" value="original value" autocomplete="off">
+<button type="button" class="btn btn-sm btn-success" id="change-input">Change original input</button>
+
+			</div>
+
+			
+			<textarea hidden>
+&lt;input type=&quot;text&quot; id=&quot;input-change&quot; value=&quot;original value&quot; autocomplete=&quot;off&quot;&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-sm btn-success&quot; id=&quot;change-input&quot;&gt;Change original input&lt;/button&gt;
+</textarea>
+			<script>
+
+var input = document.getElementById('input-change');
+new TomSelect(input,{
+	plugins: ['change_listener'],
+});
+document.getElementById('change-input').addEventListener('click',function(evt){
+	evt.preventDefault();
+	evt.stopPropagation();
+
+	input.value = 'new value';
+	var evt = document.createEvent('HTMLEvents');
+	evt.initEvent('change', false, true);
+	input.dispatchEvent(evt);
+});
+</script>
+			<style></style>
+
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+
+				
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+				
+
+				
+
+			</ul>
+
+			<div class="tab-content">
+				
+				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token keyword">var</span> input <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'input-change'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span>input<span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'change_listener'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'change-input'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">evt</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	evt<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	evt<span class="token punctuation">.</span><span class="token function">stopPropagation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>	input<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">'new value'</span><span class="token punctuation">;</span><br>	<span class="token keyword">var</span> evt <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createEvent</span><span class="token punctuation">(</span><span class="token string">'HTMLEvents'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	evt<span class="token punctuation">.</span><span class="token function">initEvent</span><span class="token punctuation">(</span><span class="token string">'change'</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	input<span class="token punctuation">.</span><span class="token function">dispatchEvent</span><span class="token punctuation">(</span>evt<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				
+
+				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-change<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>original value<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>btn btn-sm btn-success<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>change-input<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Change original input<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span></code></pre>
+				</div>
+
+				
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+						
+	<h2>Available Plugins</h2>
+	
+	<nav class="nav flex-column">
+		
+			<span class="nav-link active">Change Listener</span>
+		
+			<a class="nav-link" href="/plugins/drag-drop/">Drag 'n Drop</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-input/">Dropdown Input</a>
+		
+			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
+		
+			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
+		
+			<a class="nav-link" href="/plugins/optgroup_columns/">Option Group Columns</a>
+		
+			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
+		
+			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+	</nav>
+	
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

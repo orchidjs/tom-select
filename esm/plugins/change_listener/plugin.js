@@ -1,10 +1,10 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
 import TomSelect from '../../tom-select.js';
-import getSettings from '../../settings.js';
+import getSettings from '../../getSettings.js';
 import { addEvent } from '../../utils.js';
 
 /**

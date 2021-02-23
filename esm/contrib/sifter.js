@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -117,6 +117,8 @@ class Sifter {
    * @param {object} items
    */
   constructor(items, settings) {
+    this.items = void 0;
+    this.settings = void 0;
     this.items = items;
     this.settings = settings || {
       diacritics: true

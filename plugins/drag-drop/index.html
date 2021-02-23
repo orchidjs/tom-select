@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> Drag &#39;n Drop -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		
+
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+
+		
+		<script src="/js/tom-select.complete.js"></script>
+		
+
+		<script src="/js/index.js"></script>
+		<script src="/js/jqueryui.js"></script>
+	</head>
+    <body>
+		<div class="">
+
+			<div class="row flex-lg-nowrap no-gutters">
+				<div class="col-md-9 col-xl-10">
+				</div>
+			</div>
+
+			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+
+				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-right px-0 offcanvas pt-5">
+					
+
+	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
+
+	
+
+
+	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
+	
+
+	<a href="/plugins/" class="h5 px-4 py-3 my-0 d-block">Plugins</a>
+	
+	<nav class="nav flex-column">
+		
+			<a class="nav-link" href="/plugins/change-listener/">Change Listener</a>
+		
+			<span class="nav-link active">Drag 'n Drop</span>
+		
+			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-input/">Dropdown Input</a>
+		
+			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
+		
+			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
+		
+			<a class="nav-link" href="/plugins/optgroup_columns/">Option Group Columns</a>
+		
+			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
+		
+			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+	</nav>
+	
+
+
+	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
+	
+
+	<div class="border-bottom m-4"></div>
+
+	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
+	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
+
+
+	<div class="mt-auto p-4 badges small">
+		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/plugins/drag-drop.njk">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+	</div>
+
+				</div>
+
+				<div class="col-md-9 col-lg-10 pb-5">
+					<div class="my-4">
+						<div class="container">
+							<button class="toggle-offcanvas btn btn-secondary" type="button">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							
+							<h1 class="display-4 mt-0">Drag &#39;n Drop</h1>
+							
+						</div>
+					</div>
+					<div class="container mt-3" id="main-container">
+						
+
+
+
+
+
+
+
+
+
+
+<script>
+
+</script>
+
+
+	
+
+	<div class="demo py-5  demo-jquery ">
+
+		
+<label class="h2 mb-3">
+	drag_drop
+</label>
+<p>Drag 'n drop selected items. Requires jQuery + jQuery UI</p>
+
+	<div>
+		<div>
+			<div class="demo-html">
+				
+<input type="text" id="input-sortable" value="drag,these,items,around" autocomplete="off">
+
+			</div>
+
+			
+			<textarea hidden>
+&lt;input type=&quot;text&quot; id=&quot;input-sortable&quot; value=&quot;drag,these,items,around&quot; autocomplete=&quot;off&quot;&gt;
+</textarea>
+			<script>
+new TomSelect('#input-sortable',{
+	plugins: ['drag_drop'],
+	persist: false,
+	create: true
+});
+</script>
+			<style></style>
+
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist">
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link " data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+
+				
+				<li class="nav-item ml-auto">
+					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+							<a class="nav-link opensandbox">JSFiddle</a>
+					</form>
+				</li>
+				<li class="nav-item">
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+					<input class="codepen" type="hidden" name="data" value=""/>
+						<a class="nav-link opensandbox">CodePen</a>
+				</form>
+				</li>
+				
+
+				
+
+			</ul>
+
+			<div class="tab-content">
+				
+				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-sortable'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'drag_drop'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				
+
+				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-sortable<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>drag,these,items,around<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre>
+				</div>
+
+				
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+						
+	<h2>Available Plugins</h2>
+	
+	<nav class="nav flex-column">
+		
+			<a class="nav-link" href="/plugins/change-listener/">Change Listener</a>
+		
+			<span class="nav-link active">Drag 'n Drop</span>
+		
+			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-input/">Dropdown Input</a>
+		
+			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
+		
+			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
+		
+			<a class="nav-link" href="/plugins/optgroup_columns/">Option Group Columns</a>
+		
+			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
+		
+			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+	</nav>
+	
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+	    </footer>
+	</body>
+</html>

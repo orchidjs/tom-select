@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -125,7 +125,7 @@ function getSettings(input, settings_user) {
 
 
   var init_textbox = () => {
-    var i, n, values, option;
+    var values, option;
     var data_raw = input.getAttribute(attr_data);
 
     if (!data_raw) {
@@ -133,10 +133,10 @@ function getSettings(input, settings_user) {
       if (!settings.allowEmptyOption && !value.length) return;
       values = value.split(settings.delimiter);
 
-      for (i = 0, n = values.length; i < n; i++) {
+      for (const _value of values) {
         option = {};
-        option[field_label] = values[i];
-        option[field_value] = values[i];
+        option[field_label] = _value;
+        option[field_value] = _value;
         settings_element.options.push(option);
       }
 
@@ -144,8 +144,8 @@ function getSettings(input, settings_user) {
     } else {
       settings_element.options = JSON.parse(data_raw);
 
-      for (i = 0, n = settings_element.options.length; i < n; i++) {
-        settings_element.items.push(settings_element.options[i][field_value]);
+      for (const opt of settings_element.options) {
+        settings_element.items.push(opt[field_value]);
       }
     }
   };
@@ -160,4 +160,4 @@ function getSettings(input, settings_user) {
 }
 
 export default getSettings;
-//# sourceMappingURL=settings.js.map
+//# sourceMappingURL=getSettings.js.map
