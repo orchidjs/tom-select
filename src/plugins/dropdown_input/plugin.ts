@@ -15,10 +15,8 @@
 
 import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
-import { getDom, parentMatch } from '../../vanilla';
-import {
-	addEvent,
-} from '../../utils';
+import { getDom } from '../../vanilla';
+import { addEvent } from '../../utils';
 
 
 TomSelect.define('dropdown_input',function() {
@@ -35,7 +33,7 @@ TomSelect.define('dropdown_input',function() {
 		self.wrapper.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex );
 
 		// keyboard navigation
-		addEvent(self.wrapper,'keypress',(evt) => {
+		addEvent(self.wrapper,'keypress',(evt:KeyboardEvent) => {
 
 			if( self.control.contains(evt.target) ){
 				return;
