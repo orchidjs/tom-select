@@ -15,17 +15,22 @@
 import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
 import { preventDefault } from '../../utils';
+import { TomOption } from '../../types/index';
 
-TomSelect.define('restore_on_backspace',function(options) {
+type TPluginOptions = {
+	text:(option:TomOption)=>string,
+};
+
+TomSelect.define('restore_on_backspace',function(options:TPluginOptions) {
 	var self = this;
 
-	options.text = options.text || function(option){
+	options.text = options.text || function(option:TomOption){
 		return option[self.settings.labelField];
 	};
 
 	var orig_keydown = self.onKeyDown;
 
-	self.hook('instead','onKeyDown',function(evt){
+	self.hook('instead','onKeyDown',function(evt:KeyboardEvent){
 		var index, option;
 		if (evt.keyCode === constants.KEY_BACKSPACE && self.control_input.value === '' ) {
 			index = self.caretPos - 1;

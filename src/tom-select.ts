@@ -80,12 +80,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 
-	constructor( input, settings ){
+	constructor( input_arg: string|TomInput, settings:TomSettings ){
 		super();
 
 		var dir;
-
-		input				= getDom( input );
+		var input				= getDom( input_arg ) as TomInput;
 
 		if( input.tomselect ){
 			throw new Error('Tom Select already initialized on this element');
@@ -162,14 +161,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	setup(){
 
 
-		var self      = this;
-		var settings  = self.settings;
-		var wrapper;
-		var control;
-		var control_input;
-		var dropdown;
-		var dropdown_content;
-		var inputMode;
+		var self = this;
+		var settings:TomSettings = self.settings;
+		var wrapper: HTMLElement;
+		var control: HTMLElement;
+		var control_input: HTMLInputElement;
+		var dropdown: HTMLElement;
+		var dropdown_content: HTMLElement;
+		var inputMode: string;
 		var classes;
 		var classes_plugins;
 		var inputId;
@@ -199,9 +198,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		getDom( settings.dropdownParent || wrapper ).appendChild( dropdown );
 
 		if( settings.controlInput ){
-			control_input		= getDom( settings.controlInput );
+			control_input		= getDom( settings.controlInput ) as HTMLInputElement;
 		}else{
-			control_input		= getDom('<input type="text" autocomplete="off" />' );
+			control_input		= getDom('<input type="text" autocomplete="off" />' ) as HTMLInputElement;
 
 			// set attributes
 			var attrs = ['autocorrect','autocapitalize','autocomplete'];
