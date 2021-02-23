@@ -86,8 +86,7 @@ export function addClasses( elmts:HTMLElement|HTMLElement[], ...classes:string[]
  */
 export function classesArray(args:string[]|string[][]):string[]{
 	var classes:string[] = [];
-	for( let i = 0; i < args.length; i++ ){
-		let _classes = args[i];
+	for( let _classes of args ){
 		if( typeof _classes === 'string' ){
 			_classes = _classes.trim().split(/[\11\12\14\15\40]/);
 		}

@@ -30,8 +30,7 @@ TomSelect.define('input_autogrow', function(options) {
 
 		var transfer_styles			= [ 'letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform' ];
 
-		for( let i = 0, n = transfer_styles.length; i < n; i++ ){
-			let style_name = transfer_styles[i];
+		for( const style_name of transfer_styles ){
 			test_input.style[style_name] = control.style[style_name];
 		}
 

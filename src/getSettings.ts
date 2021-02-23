@@ -128,7 +128,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 	 *
 	 */
 	var init_textbox = () => {
-		var i, n, values, option;
+		var values, option;
 
 		var data_raw = input.getAttribute(attr_data);
 
@@ -136,17 +136,18 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 			var value = input.value.trim() || '';
 			if (!settings.allowEmptyOption && !value.length) return;
 			values = value.split(settings.delimiter);
-			for (i = 0, n = values.length; i < n; i++) {
+
+			for( const value of values ){
 				option = {};
-				option[field_label] = values[i];
-				option[field_value] = values[i];
+				option[field_label] = value;
+				option[field_value] = value;
 				settings_element.options.push(option);
 			}
 			settings_element.items = values;
 		} else {
 			settings_element.options = JSON.parse(data_raw);
-			for (i = 0, n = settings_element.options.length; i < n; i++) {
-				settings_element.items.push(settings_element.options[i][field_value]);
+			for( const opt of settings_element.options ){
+				settings_element.items.push(opt[field_value]);
 			}
 		}
 	};
