@@ -343,104 +343,80 @@ create: function(input,callback){
 	<tr>
 		<th>Setting</a></th>
 		<th>Description</th>
-		<th>Type</th>
-		<th>Default</th>
 	</tr>
 	<tr>
 		<td><code>load(query)</code></td>
-		<td>Invoked when new options should be loaded from the server. Called with the current query string and a callback function to call with the results when they are loaded (or nothing when an error arises).</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
+		<td>Invoked when new options should be loaded from the server. Called with the current query string and a callback function to call with the results when they are loaded (or nothing when an error arises).
+		<a href="/examples/remote">Remote data examples</a></td>
+	</tr>
+	<tr>
+		<td><code>shouldLoad(query)</code></td>
+		<td>Use the <code>shouldLoad()</code> callback to implement minimum input length or other input validation.
+		If the callback returns false, <code>load()</code> will not be called and the <code>not_loading</code> template will be added to the dropdown instead of the <code>loading</code> or <code>no_results</code> templates.
+		</td>
 	</tr>
 	<tr>
 		<td><code>score(search)</code></td>
-		<td>Overrides the scoring function used to sort available options. The provided function should return a <strong>function</strong> that returns a number greater than or equal to zero to represent the <code>score</code> of an item (the function's first argument). If 0, the option is declared not a match. The <code>search</code> argument is a <a href="#search">Search</a> object. For an example, see the <a href="/examples/options">scoring example</a>.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
+		<td>Overrides the scoring function used to sort available options.
+		The provided function should return a <strong>function</strong> that returns a number greater than or equal to zero to represent the <code>score</code> of an item (the function's first argument).
+		If 0, the option is declared not a match.
+		See the <a href="/examples/remote/">remote data examples</a> for a sample implementation.</td>
 	</tr>
 	<tr>
 		<td><code>onInitialize()</code></td>
 		<td>Invoked once the control is completely initialized.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onFocus()</code></td>
 		<td>Invoked when the control gains focus.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onBlur()</code></td>
 		<td>Invoked when the control loses focus.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onChange(value)</code></td>
 		<td>Invoked when the value of the control changes.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onItemAdd(value, $item)</code></td>
 		<td>Invoked when an item is selected.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onItemRemove(value)</code></td>
 		<td>Invoked when an item is deselected.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onClear()</code></td>
 		<td>Invoked when the control is manually cleared via the clear() method.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onDelete(values, event)</code></td>
 		<td>Invoked when the user attempts to delete the current selection. Selected items will not be deleted if the callback returns <code>false</code>.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onOptionAdd(value, data)</code></td>
 		<td>Invoked when a new option is added to the available options list.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onOptionRemove(value)</code></td>
 		<td>Invoked when an option is removed from the available options.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onDropdownOpen(dropdown)</code></td>
 		<td>Invoked when the dropdown opens.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onDropdownClose(dropdown)</code></td>
 		<td>Invoked when the dropdown closes.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onType(str)</code></td>
 		<td>Invoked when the user types while filtering options.</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>onLoad(options, optgroup)</code></td>
 		<td>Invoked when new options have been loaded and added to the control (via the <code>load</code> option or <code>load</code> API method).</td>
-		<td><code>function</code></td>
-		<td><code>null</code></td>
 	</tr>
 </table>
 
@@ -464,6 +440,9 @@ new TomSelect('#input',{
 		},
 		'no_results':function(data,escape){
 			return '<div class="no-results">No results found for "'+escape(data.input)+'"</div>';
+		},
+		'not_loading':function(data,escape){
+			// no default content
 		},
 		'optgroup': function(data) {
 			let optgroup = document.createElement('div');

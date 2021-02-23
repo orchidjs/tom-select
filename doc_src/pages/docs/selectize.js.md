@@ -4,11 +4,12 @@ tags: docs
 ---
 
 <div class="lead">
-Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> with the goal of modernizing the code base, decoupling from jQuery, and expanding functionality.
+Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> with four main objectives: modernizing the code base, decoupling from jQuery, expanding functionality, and addressing issue backlogs.
 </div>
 
+## Highlights as of v1.1.0
 
-## New
+### New
 - support for external control input
 - dropdownParent other than 'body'
 - no_backspace_delete plugin
@@ -21,7 +22,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - [integrated plugin hooks](plugins.md)
 
 
-## Fixed
+### Fixed
 - [#1363](https://github.com/selectize/selectize.js/issues/1363) Autofill disable possibility
 - [#1447](https://github.com/selectize/selectize.js/issues/1447) Enhancement - dropdownParent
 - [#1279](https://github.com/selectize/selectize.js/issues/1279) Adding ability to use load to init opt groups
@@ -37,7 +38,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 - [#905](https://github.com/selectize/selectize.js/issues/905) Support for Bootstrap 4
 
 
-## Breaking Changes
+### Breaking Changes
 - removed support for older browsers including IE11
 - removed placeholder show/hide
 - dataAttr defaults to null instead of "data-data"
@@ -48,7 +49,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 	- nanocss
 
 
-## Development Environment
+### Development Environment
 - code converted to <a href="https://www.typescriptlang.org/">TypeScript</a> (Tom Select 1.1+)
 - compiled with <a href="https://babeljs.io/">Babel</a>
 - bundled with <a href="https://rollupjs.org/guide/en/">rollup.js</a>

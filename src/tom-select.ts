@@ -444,7 +444,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			'loading':(data,escape:typeof escape_html) => {
 				return '<div class="spinner"></div>';
 			},
-			'invalid_query':() => {},
+			'not_loading':() => {},
 			'dropdown':() => {
 				return '<div style="display:none"></div>';
 			}
@@ -1340,7 +1340,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// invalid query
 		if( !self.settings.shouldLoad.call(self,query) ){
-			add_template('invalid_query');
+			add_template('not_loading');
 
 		// add loading message
 		}else if( self.loading ){
