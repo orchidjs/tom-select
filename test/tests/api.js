@@ -787,12 +787,7 @@
 				var test = setup_test('<select tabindex="9999">' + children + '</select>', {});
 				test.instance.destroy();
 				expect(test.$select.html(),'restoring children failed').to.be.equal(children);
-				expect(test.$select.attr('tabindex'),'restoring tabindex failed').to.be.equal('9999');
-			});
-			it_n('should remove tabindex if it was originally undefined', function() {
-				var test = setup_test('<select>', {});
-				test.instance.destroy();
-				expect(test.$select.attr('tabindex')).to.be.equal(undefined);
+				expect(test.$select[0].tabIndex,'restoring tabindex failed').to.be.equal(9999);
 			});
 		});
 

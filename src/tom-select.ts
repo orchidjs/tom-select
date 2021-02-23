@@ -102,7 +102,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// setup default state
 		this.settings			= getSettings( input, settings );
 		this.input				= input;
-		this.tabIndex			= input.getAttribute('tabindex') || 0;
+		this.tabIndex			= input.tabIndex || 0;
 		this.is_select_tag		= input.tagName.toLowerCase() === 'select';
 		this.rtl				= /rtl/i.test(dir);
 
@@ -213,7 +213,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		if( !settings.controlInput ){
-			control_input.setAttribute('tabindex', input.disabled ? '-1' : self.tabIndex);
+			control_input.tabIndex = input.disabled ? -1 : self.tabIndex;
 			control.appendChild( control_input );
 		}
 
@@ -346,7 +346,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 		this.revertSettings = {
 			children : children,
-			tabindex  : input.getAttribute('tabindex')
+			tabIndex : input.tabIndex
 		};
 
 
@@ -2316,11 +2316,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.dropdown.remove();
 
 		self.input.innerHTML = '';
-		if( revertSettings.tabindex ){
-			self.input.setAttribute('tabindex', revertSettings.tabindex );
-		}else{
-			self.input.removeAttribute('tabindex' );
-		}
+		self.input.tabIndex = revertSettings.tabIndex;
 
 		removeClasses(self.input,'tomselected');
 		self.input.removeAttribute('hidden');
