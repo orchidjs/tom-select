@@ -13,6 +13,10 @@
 
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
 
+	const KEY_RETURN = 13;
+	typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
+	 // ctrl key or apple key for ma
+
 	/**
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
 	 * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
@@ -39,7 +43,30 @@
 	}
 
 	/**
-	 * Plugin: "dropdown_header" (Tom Select)
+	 * Converts a scalar to its best string representation
+	 * for hash keys and HTML attribute values.
+	 *
+	 * Transformations:
+	 *   'str'     -> 'str'
+	 *   null      -> ''
+	 *   undefined -> ''
+	 *   true      -> '1'
+	 *   false     -> '0'
+	 *   0         -> '0'
+	 *   1         -> '1'
+	 *
+	 */
+	/**
+	 * Prevent default
+	 *
+	 */
+
+	function addEvent(target, type, callback, options) {
+	  target.addEventListener(type, callback, options);
+	}
+
+	/**
+	 * Plugin: "dropdown_input" (Tom Select)
 	 * Copyright (c) contributors
 	 *
 	 * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -52,23 +79,36 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('dropdown_header', function (options) {
+	TomSelect__default['default'].define('dropdown_input', function () {
 	  var self = this;
-	  options = Object.assign({
-	    title: 'Untitled',
-	    headerClass: 'dropdown-header',
-	    titleRowClass: 'dropdown-header-title',
-	    labelClass: 'dropdown-header-label',
-	    closeClass: 'dropdown-header-close',
-	    html: data => {
-	      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
-	    }
-	  }, options);
+	  var input = self.settings.controlInput || '<input type="text" autocomplete="off" class="dropdown-input" />';
+	  input = getDom(input);
+	  self.settings.controlInput = input;
+	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
+
 	  self.hook('after', 'setup', () => {
-	    var header = getDom(options.html(options));
-	    self.dropdown.insertBefore(header, self.dropdown.firstChild);
+	    // set tabIndex on wrapper
+	    self.wrapper.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex); // keyboard navigation
+
+	    addEvent(self.wrapper, 'keypress', evt => {
+	      if (self.control.contains(evt.target)) {
+	        return;
+	      }
+
+	      if (self.dropdown.contains(evt.target)) {
+	        return;
+	      } // open dropdown on enter when wrapper is tab-focused
+
+
+	      switch (evt.keyCode) {
+	        case KEY_RETURN:
+	          self.onClick(evt);
+	          return;
+	      }
+	    });
+	    self.dropdown.insertBefore(input, self.dropdown.firstChild);
 	  });
 	});
 
 })));
-//# sourceMappingURL=dropdown_header.js.map
+//# sourceMappingURL=dropdown_input.js.map

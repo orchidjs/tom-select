@@ -1,11 +1,11 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
+import TomSelect from '../../tom-select.js';
 import { KEY_LEFT, KEY_RIGHT } from '../../constants.js';
 import { parentMatch, nodeIndex } from '../../vanilla.js';
-import TomSelect from '../../tom-select.js';
 
 /**
  * Plugin: "optgroup_columns" (Tom Select.js)

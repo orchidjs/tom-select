@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -27,6 +27,7 @@
 	  createFilter: null,
 	  highlight: true,
 	  openOnFocus: true,
+	  shouldOpen: null,
 	  maxOptions: 50,
 	  maxItems: null,
 	  hideSelected: null,
@@ -61,6 +62,9 @@
 	  dropdownParent: null,
 	  controlInput: null,
 	  copyClassesToDropdown: true,
+	  shouldLoad: function (query) {
+	    return query.length > 0;
+	  },
 
 	  /*
 	  load                 : null, // function(query, callback) { ... }
@@ -153,9 +157,10 @@
 	   */
 
 	  var init_select = () => {
-	    var i, n, tagName, children;
+	    var tagName;
 	    var options = settings_element.options;
 	    var optionsMap = {};
+	    var group_count = 1;
 
 	    var readData = el => {
 	      var data = Object.assign({}, el.dataset); // get plain object from DOMStringMap
@@ -206,34 +211,28 @@
 	    };
 
 	    var addGroup = optgroup => {
-	      var i, n, id, optgroup_data, options;
-	      id = optgroup.getAttribute('label');
+	      var id, optgroup_data;
+	      optgroup_data = readData(optgroup);
+	      optgroup_data[field_optgroup_label] = optgroup_data[field_optgroup_label] || optgroup.getAttribute('label') || '';
+	      optgroup_data[field_optgroup_value] = optgroup_data[field_optgroup_value] || group_count++;
+	      optgroup_data[field_disabled] = optgroup_data[field_disabled] || optgroup.disabled;
+	      settings_element.optgroups.push(optgroup_data);
+	      id = optgroup_data[field_optgroup_value];
 
-	      if (id) {
-	        optgroup_data = readData(optgroup);
-	        optgroup_data[field_optgroup_label] = id;
-	        optgroup_data[field_optgroup_value] = id;
-	        optgroup_data[field_disabled] = optgroup.disabled;
-	        settings_element.optgroups.push(optgroup_data);
-	      }
-
-	      var options = optgroup.children;
-
-	      for (i = 0, n = options.length; i < n; i++) {
-	        addOption(options[i], id);
+	      for (const option of optgroup.children) {
+	        addOption(option, id);
 	      }
 	    };
 
 	    settings_element.maxItems = input.hasAttribute('multiple') ? null : 1;
-	    children = input.children;
 
-	    for (i = 0, n = children.length; i < n; i++) {
-	      tagName = children[i].tagName.toLowerCase();
+	    for (const child of input.children) {
+	      tagName = child.tagName.toLowerCase();
 
 	      if (tagName === 'optgroup') {
-	        addGroup(children[i]);
+	        addGroup(child);
 	      } else if (tagName === 'option') {
-	        addOption(children[i]);
+	        addOption(child);
 	      }
 	    }
 	  };
@@ -244,7 +243,7 @@
 
 
 	  var init_textbox = () => {
-	    var i, n, values, option;
+	    var values, option;
 	    var data_raw = input.getAttribute(attr_data);
 
 	    if (!data_raw) {
@@ -252,10 +251,10 @@
 	      if (!settings.allowEmptyOption && !value.length) return;
 	      values = value.split(settings.delimiter);
 
-	      for (i = 0, n = values.length; i < n; i++) {
+	      for (const _value of values) {
 	        option = {};
-	        option[field_label] = values[i];
-	        option[field_value] = values[i];
+	        option[field_label] = _value;
+	        option[field_value] = _value;
 	        settings_element.options.push(option);
 	      }
 
@@ -263,8 +262,8 @@
 	    } else {
 	      settings_element.options = JSON.parse(data_raw);
 
-	      for (i = 0, n = settings_element.options.length; i < n; i++) {
-	        settings_element.items.push(settings_element.options[i][field_value]);
+	      for (const opt of settings_element.options) {
+	        settings_element.items.push(opt[field_value]);
 	      }
 	    }
 	  };

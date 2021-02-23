@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -14,7 +14,7 @@
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
 
 	const KEY_BACKSPACE = 8;
-	const IS_MAC = typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
+	typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
 	 // ctrl key or apple key for ma
 
 	/**

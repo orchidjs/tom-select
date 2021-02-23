@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -285,6 +285,8 @@
 	   * @param {object} items
 	   */
 	  constructor(items, settings) {
+	    this.items = void 0;
+	    this.settings = void 0;
 	    this.items = items;
 	    this.settings = settings || {
 	      diacritics: true
@@ -365,14 +367,12 @@
 	   * Good matches will have a higher score than poor matches.
 	   * If an item is not a match, 0 will be returned by the function.
 	   *
-	   * @param {object|string} search
-	   * @param {object} [options]
 	   * @returns {function}
 	   */
-	  getScoreFunction(search, options) {
-	    var self, fields, tokens, token_count, nesting;
+	  getScoreFunction(query, options) {
+	    var self, fields, tokens, token_count, nesting, search;
 	    self = this;
-	    search = self.prepareSearch(search, options);
+	    search = self.prepareSearch(query, options);
 	    tokens = search.tokens;
 	    fields = search.options.fields;
 	    token_count = tokens.length;
@@ -471,7 +471,6 @@
 	   * be performed, `null` will be returned.
 	   *
 	   * @param {string|object} search
-	   * @param {object} options
 	   * @return function(a,b)
 	   */
 	  getSortFunction(search, options) {
@@ -568,9 +567,6 @@
 	   * with tokens and fields ready to be populated
 	   * with results.
 	   *
-	   * @param {string} query
-	   * @param {object} options
-	   * @returns {object}
 	   */
 	  prepareSearch(query, options) {
 	    if (typeof query === 'object') return query;
@@ -593,25 +589,6 @@
 	  /**
 	   * Searches through all items and returns a sorted array of matches.
 	   *
-	   * The `options` parameter can contain:
-	   *
-	   *   - fields {string|array}
-	   *   - sort {array}
-	   *   - score {function}
-	   *   - filter {bool}
-	   *   - limit {integer}
-	   *
-	   * Returns an object containing:
-	   *
-	   *   - options {object}
-	   *   - query {string}
-	   *   - tokens {array}
-	   *   - total {int}
-	   *   - items {array}
-	   *
-	   * @param {string} query
-	   * @param {object} options
-	   * @returns {object}
 	   */
 	  search(query, options) {
 	    var self = this,
@@ -742,6 +719,7 @@
 	  createFilter: null,
 	  highlight: true,
 	  openOnFocus: true,
+	  shouldOpen: null,
 	  maxOptions: 50,
 	  maxItems: null,
 	  hideSelected: null,
@@ -776,6 +754,9 @@
 	  dropdownParent: null,
 	  controlInput: null,
 	  copyClassesToDropdown: true,
+	  shouldLoad: function (query) {
+	    return query.length > 0;
+	  },
 
 	  /*
 	  load                 : null, // function(query, callback) { ... }
@@ -979,9 +960,10 @@
 	   */
 
 	  var init_select = () => {
-	    var i, n, tagName, children;
+	    var tagName;
 	    var options = settings_element.options;
 	    var optionsMap = {};
+	    var group_count = 1;
 
 	    var readData = el => {
 	      var data = Object.assign({}, el.dataset); // get plain object from DOMStringMap
@@ -1032,34 +1014,28 @@
 	    };
 
 	    var addGroup = optgroup => {
-	      var i, n, id, optgroup_data, options;
-	      id = optgroup.getAttribute('label');
+	      var id, optgroup_data;
+	      optgroup_data = readData(optgroup);
+	      optgroup_data[field_optgroup_label] = optgroup_data[field_optgroup_label] || optgroup.getAttribute('label') || '';
+	      optgroup_data[field_optgroup_value] = optgroup_data[field_optgroup_value] || group_count++;
+	      optgroup_data[field_disabled] = optgroup_data[field_disabled] || optgroup.disabled;
+	      settings_element.optgroups.push(optgroup_data);
+	      id = optgroup_data[field_optgroup_value];
 
-	      if (id) {
-	        optgroup_data = readData(optgroup);
-	        optgroup_data[field_optgroup_label] = id;
-	        optgroup_data[field_optgroup_value] = id;
-	        optgroup_data[field_disabled] = optgroup.disabled;
-	        settings_element.optgroups.push(optgroup_data);
-	      }
-
-	      var options = optgroup.children;
-
-	      for (i = 0, n = options.length; i < n; i++) {
-	        addOption(options[i], id);
+	      for (const option of optgroup.children) {
+	        addOption(option, id);
 	      }
 	    };
 
 	    settings_element.maxItems = input.hasAttribute('multiple') ? null : 1;
-	    children = input.children;
 
-	    for (i = 0, n = children.length; i < n; i++) {
-	      tagName = children[i].tagName.toLowerCase();
+	    for (const child of input.children) {
+	      tagName = child.tagName.toLowerCase();
 
 	      if (tagName === 'optgroup') {
-	        addGroup(children[i]);
+	        addGroup(child);
 	      } else if (tagName === 'option') {
-	        addOption(children[i]);
+	        addOption(child);
 	      }
 	    }
 	  };
@@ -1070,7 +1046,7 @@
 
 
 	  var init_textbox = () => {
-	    var i, n, values, option;
+	    var values, option;
 	    var data_raw = input.getAttribute(attr_data);
 
 	    if (!data_raw) {
@@ -1078,10 +1054,10 @@
 	      if (!settings.allowEmptyOption && !value.length) return;
 	      values = value.split(settings.delimiter);
 
-	      for (i = 0, n = values.length; i < n; i++) {
+	      for (const _value of values) {
 	        option = {};
-	        option[field_label] = values[i];
-	        option[field_value] = values[i];
+	        option[field_label] = _value;
+	        option[field_value] = _value;
 	        settings_element.options.push(option);
 	      }
 
@@ -1089,8 +1065,8 @@
 	    } else {
 	      settings_element.options = JSON.parse(data_raw);
 
-	      for (i = 0, n = settings_element.options.length; i < n; i++) {
-	        settings_element.items.push(settings_element.options[i][field_value]);
+	      for (const opt of settings_element.options) {
+	        settings_element.items.push(opt[field_value]);
 	      }
 	    }
 	  };
@@ -1185,9 +1161,7 @@
 	function classesArray(args) {
 	  var classes = [];
 
-	  for (let i = 0; i < args.length; i++) {
-	    let _classes = args[i];
-
+	  for (let _classes of args) {
 	    if (typeof _classes === 'string') {
 	      _classes = _classes.trim().split(/[\11\12\14\15\40]/);
 	    }
@@ -1273,30 +1247,25 @@
 	}
 
 	class TomSelect extends MicroPlugin(MicroEvent) {
-	  constructor(input, settings) {
+	  constructor(input_arg, settings) {
 	    super();
-	    var dir;
-	    input = getDom(input);
-
-	    if (input.tomselect) {
-	      throw new Error('Tom Select already initialized on this element');
-	    }
-
-	    input.tomselect = this; // detect rtl environment
-
-	    var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
-	    dir = computedStyle.getPropertyValue('direction'); // setup default state
-
+	    this.control_input = void 0;
+	    this.wrapper = void 0;
+	    this.dropdown = void 0;
+	    this.control = void 0;
+	    this.dropdown_content = void 0;
 	    this.order = 0;
-	    this.settings = getSettings(input, settings);
-	    this.input = input;
-	    this.tabIndex = input.getAttribute('tabindex') || null;
-	    this.is_select_tag = input.tagName.toLowerCase() === 'select';
-	    this.rtl = /rtl/i.test(dir);
+	    this.settings = void 0;
+	    this.input = void 0;
+	    this.tabIndex = void 0;
+	    this.is_select_tag = void 0;
+	    this.rtl = void 0;
+	    this._destroy = void 0;
+	    this.sifter = void 0;
 	    this.tab_key = false;
 	    this.isOpen = false;
 	    this.isDisabled = false;
-	    this.isRequired = input.required;
+	    this.isRequired = void 0;
 	    this.isInvalid = false;
 	    this.isLocked = false;
 	    this.isFocused = false;
@@ -1320,7 +1289,25 @@
 	    this.renderCache = {
 	      'item': {},
 	      'option': {}
-	    }; // debounce user defined load() if loadThrottle > 0
+	    };
+	    var dir;
+	    var input = getDom(input_arg);
+
+	    if (input.tomselect) {
+	      throw new Error('Tom Select already initialized on this element');
+	    }
+
+	    input.tomselect = this; // detect rtl environment
+
+	    var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
+	    dir = computedStyle.getPropertyValue('direction'); // setup default state
+
+	    this.settings = getSettings(input, settings);
+	    this.input = input;
+	    this.tabIndex = input.tabIndex || 0;
+	    this.is_select_tag = input.tagName.toLowerCase() === 'select';
+	    this.rtl = /rtl/i.test(dir);
+	    this.isRequired = input.required; // debounce user defined load() if loadThrottle > 0
 
 	    if (this.settings.load && this.settings.loadThrottle) {
 	      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
@@ -1405,9 +1392,7 @@
 
 	      var attrs = ['autocorrect', 'autocapitalize', 'autocomplete'];
 
-	      for (let i = 0; i < attrs.length; i++) {
-	        let attr = attrs[i];
-
+	      for (const attr of attrs) {
 	        if (input.getAttribute(attr)) {
 	          control_input.setAttribute(attr, input.getAttribute(attr));
 	        }
@@ -1415,7 +1400,7 @@
 	    }
 
 	    if (!settings.controlInput) {
-	      control_input.setAttribute('tabindex', input.disabled ? '-1' : self.tabIndex);
+	      control_input.tabIndex = input.disabled ? -1 : self.tabIndex;
 	      control.appendChild(control_input);
 	    }
 
@@ -1495,7 +1480,7 @@
 
 	      if (!option && !self.wrapper.contains(e.target)) {
 	        if (self.isFocused) {
-	          self.blur(e.target);
+	          self.blur();
 	        }
 
 	        return;
@@ -1541,7 +1526,7 @@
 
 	    this.revertSettings = {
 	      children: children,
-	      tabindex: input.getAttribute('tabindex')
+	      tabIndex: input.tabIndex
 	    };
 	    input.tabIndex = -1;
 	    input.setAttribute('hidden', 'hidden');
@@ -1579,18 +1564,15 @@
 	   */
 
 
-	  setupOptions(options, optgroups) {
-	    var i, n;
-	    options = options || [];
-	    optgroups = optgroups || []; // build options table
-
-	    for (i = 0, n = options.length; i < n; i++) {
-	      this.registerOption(options[i]);
+	  setupOptions(options = [], optgroups = []) {
+	    // build options table
+	    for (const option of options) {
+	      this.registerOption(option);
 	    } // build optgroup table
 
 
-	    for (i = 0, n = optgroups.length; i < n; i++) {
-	      this.registerOptionGroup(optgroups[i]);
+	    for (const optgroup of optgroups) {
+	      this.registerOptionGroup(optgroup);
 	    }
 	  }
 	  /**
@@ -1627,6 +1609,7 @@
 	      'loading': (data, escape) => {
 	        return '<div class="spinner"></div>';
 	      },
+	      'not_loading': () => {},
 	      'dropdown': () => {
 	        return '<div style="display:none"></div>';
 	      }
@@ -1640,9 +1623,8 @@
 
 
 	  setupCallbacks() {
-	    var key,
-	        fn,
-	        callbacks = {
+	    var key, fn;
+	    var callbacks = {
 	      'initialize': 'onInitialize',
 	      'change': 'onChange',
 	      'item_add': 'onItemAdd',
@@ -1752,8 +1734,8 @@
 
 	        var splitInput = pastedText.trim().split(self.settings.splitOn);
 
-	        for (var i = 0, n = splitInput.length; i < n; i++) {
-	          self.createItem(splitInput[i]);
+	        for (const piece of splitInput) {
+	          self.createItem(piece);
 	        }
 	      }, 0);
 	    }
@@ -1905,8 +1887,12 @@
 
 	    if (self.lastValue !== value) {
 	      self.lastValue = value;
-	      self.load(value);
-	      self.refreshOptions();
+
+	      if (self.settings.shouldLoad.call(self, value)) {
+	        self.load(value);
+	        self.refreshOptions();
+	      }
+
 	      self.trigger('type', value);
 	    }
 	  }
@@ -1945,7 +1931,7 @@
 	   */
 
 
-	  onBlur(e, dest) {
+	  onBlur(e) {
 	    var self = this;
 	    if (!self.isFocused) return;
 	    self.isFocused = false;
@@ -2334,9 +2320,9 @@
 	   */
 
 
-	  blur(dest) {
+	  blur() {
 	    this.control_input.blur();
-	    this.onBlur(null, dest);
+	    this.onBlur(null);
 	  }
 	  /**
 	   * Returns a function that scores an object
@@ -2380,14 +2366,6 @@
 	   * Searches through available options and returns
 	   * a sorted array of matches.
 	   *
-	   * Returns an object containing:
-	   *
-	   *   - query {string}
-	   *   - tokens {array}
-	   *   - total {int}
-	   *   - items {array}
-	   *
-	   * @returns {object}
 	   */
 
 
@@ -2435,13 +2413,14 @@
 
 
 	  refreshOptions(triggerDropdown = true) {
-	    var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
+	    var i, j, k, n, groups_order, optgroup, optgroups, html, has_create_option;
 	    var active, create;
+	    var groups;
 	    var self = this;
 	    var query = self.inputValue();
 	    var results = self.search(query);
 	    var active_before_hash = self.activeOption && hash_key(self.activeOption.dataset.value);
-	    var show_dropdown = false; // build markup
+	    var show_dropdown = self.settings.shouldOpen || false; // build markup
 
 	    n = results.items.length;
 
@@ -2495,8 +2474,8 @@
 
 	    if (this.settings.lockOptgroupOrder) {
 	      groups_order.sort((a, b) => {
-	        var a_order = self.optgroups[a].$order || 0;
-	        var b_order = self.optgroups[b].$order || 0;
+	        var a_order = self.optgroups[a] && self.optgroups[a].$order || 0;
+	        var b_order = self.optgroups[b] && self.optgroups[b].$order || 0;
 	        return a_order - b_order;
 	      });
 	    } // render optgroup headers & join groups
@@ -2504,9 +2483,7 @@
 
 	    html = document.createDocumentFragment();
 
-	    for (i = 0, n = groups_order.length; i < n; i++) {
-	      optgroup = groups_order[i];
-
+	    for (optgroup of groups_order) {
 	      if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 	        let group_options = document.createDocumentFragment();
 	        group_options.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
@@ -2528,16 +2505,16 @@
 	      removeHighlight(self.dropdown_content);
 
 	      if (results.query.length && results.tokens.length) {
-	        for (i = 0, n = results.tokens.length; i < n; i++) {
-	          highlight(self.dropdown_content, results.tokens[i].regex);
+	        for (const tok of results.tokens) {
+	          highlight(self.dropdown_content, tok.regex);
 	        }
 	      }
 	    } // add "selected" class to selected options
 
 
 	    if (!self.settings.hideSelected) {
-	      for (i = 0, n = self.items.length; i < n; i++) {
-	        let option = self.getOption(self.items[i]);
+	      for (const item of self.items) {
+	        let option = self.getOption(item);
 
 	        if (option) {
 	          addClasses(option, 'selected');
@@ -2557,12 +2534,14 @@
 	      }
 
 	      return content;
-	    }; // add loading message
+	    }; // invalid query
 
 
-	    if (self.loading) {
+	    if (!self.settings.shouldLoad.call(self, query)) {
+	      add_template('not_loading'); // add loading message
+	    } else if (self.loading) {
 	      add_template('loading'); // add no_results message
-	    } else if (results.items.length === 0 && self.settings.render['no_results'] && query.length) {
+	    } else if (results.items.length === 0) {
 	      add_template('no_results');
 	    } // add create option
 
@@ -2629,14 +2608,12 @@
 
 
 	  addOption(data) {
-	    var i,
-	        n,
-	        value,
+	    var value,
 	        self = this;
 
 	    if (Array.isArray(data)) {
-	      for (i = 0, n = data.length; i < n; i++) {
-	        self.addOption(data[i]);
+	      for (const dat of data) {
+	        self.addOption(dat);
 	      }
 
 	      return;
@@ -2656,7 +2633,7 @@
 
 	  registerOption(data) {
 	    var key = hash_key(data[this.settings.valueField]);
-	    if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
+	    if (key === null || this.options.hasOwnProperty(key)) return false;
 	    data.$order = data.$order || ++this.order;
 	    this.options[key] = data;
 	    return key;
@@ -2670,7 +2647,7 @@
 
 	  registerOptionGroup(data) {
 	    var key = hash_key(data[this.settings.optgroupValueField]);
-	    if (!key) return false;
+	    if (key === null) return false;
 	    data.$order = data.$order || ++this.order;
 	    this.optgroups[key] = data;
 	    return key;
@@ -2875,9 +2852,9 @@
 	  getElementWithValue(value, els) {
 	    value = hash_key(value);
 
-	    if (typeof value !== 'undefined' && value !== null) {
-	      for (var i = 0, n = els.length; i < n; i++) {
-	        let el = els[i];
+	    if (value !== null) {
+	      for (const node of els) {
+	        let el = node;
 
 	        if (el.getAttribute('data-value') === value) {
 	          return el;
@@ -2904,10 +2881,9 @@
 
 	  addItems(values, silent) {
 	    this.buffer = document.createDocumentFragment();
-	    var children = this.control.children;
 
-	    for (let i = 0; i < children.length; i++) {
-	      this.buffer.appendChild(children[i]);
+	    for (const child of this.control.children) {
+	      this.buffer.appendChild(child);
 	    }
 
 	    var items = Array.isArray(values) ? values : [values];
@@ -3188,18 +3164,16 @@
 
 
 	  updateOriginalInput(opts = {}) {
-	    var i,
-	        n,
-	        options,
+	    var options,
 	        label,
 	        self = this;
 
 	    if (self.is_select_tag) {
 	      options = [];
 
-	      for (i = 0, n = self.items.length; i < n; i++) {
-	        label = self.options[self.items[i]][self.settings.labelField] || '';
-	        options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
+	      for (const item of self.items) {
+	        label = self.options[item][self.settings.labelField] || '';
+	        options.push('<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>');
 	      }
 
 	      if (!options.length && !this.input.hasAttribute('multiple')) {
@@ -3227,7 +3201,6 @@
 	  open() {
 	    var self = this;
 	    if (self.isLocked || self.isOpen || self.settings.mode === 'multi' && self.isFull()) return;
-	    self.focus();
 	    self.isOpen = true;
 	    self.refreshState();
 	    applyCSS(self.dropdown, {
@@ -3239,6 +3212,7 @@
 	      visibility: 'visible',
 	      display: 'block'
 	    });
+	    self.focus();
 	    self.trigger('dropdown_open', self.dropdown);
 	  }
 	  /**
@@ -3266,6 +3240,7 @@
 	    });
 	    self.setActiveOption();
 	    self.refreshState();
+	    self.setTextboxValue('');
 	    if (trigger) self.trigger('dropdown_close', self.dropdown);
 	  }
 	  /**
@@ -3302,8 +3277,8 @@
 	    if (!self.items.length) return;
 	    var items = self.controlChildren();
 
-	    for (let i = 0; i < items.length; i++) {
-	      items[i].remove();
+	    for (const item of items) {
+	      item.remove();
 	    }
 
 	    self.items = [];
@@ -3344,7 +3319,7 @@
 
 
 	  deleteSelection(e) {
-	    var i, n, direction, selection, values, caret, tail;
+	    var direction, selection, values, caret, tail;
 	    var self = this;
 	    direction = e && e.keyCode === KEY_BACKSPACE ? -1 : 1;
 	    selection = getSelection(self.control_input); // determine items that will be removed
@@ -3359,8 +3334,8 @@
 	        caret++;
 	      }
 
-	      for (i = 0, n = self.activeItems.length; i < n; i++) {
-	        values.push(self.activeItems[i].dataset.value);
+	      for (const item of self.activeItems) {
+	        values.push(item.dataset.value);
 	      }
 
 	      preventDefault(e, true);
@@ -3562,19 +3537,13 @@
 	    self.wrapper.remove();
 	    self.dropdown.remove();
 	    self.input.innerHTML = '';
-
-	    if (revertSettings.tabindex) {
-	      self.input.setAttribute('tabindex', revertSettings.tabindex);
-	    } else {
-	      self.input.removeAttribute('tabindex');
-	    }
-
+	    self.input.tabIndex = revertSettings.tabIndex;
 	    removeClasses(self.input, 'tomselected');
 	    self.input.removeAttribute('hidden');
 	    self.input.required = this.isRequired;
 
-	    for (let i = 0; i < revertSettings.children.length; i++) {
-	      self.input.appendChild(revertSettings.children[i]);
+	    for (const child of revertSettings.children) {
+	      self.input.appendChild(child);
 	    }
 
 	    self._destroy();
@@ -3598,10 +3567,16 @@
 	      if (self.renderCache[templateName].hasOwnProperty(value)) {
 	        return self.renderCache[templateName][value];
 	      }
+	    }
+
+	    var template = self.settings.render[templateName];
+
+	    if (typeof template !== 'function') {
+	      return null;
 	    } // render markup
 
 
-	    html = self.settings.render[templateName].call(this, data, escape_html);
+	    html = template.call(this, data, escape_html);
 
 	    if (!html) {
 	      return html;
@@ -3822,6 +3797,51 @@
 	});
 
 	/**
+	 * Plugin: "dropdown_input" (Tom Select)
+	 * Copyright (c) contributors
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+	 * file except in compliance with the License. You may obtain a copy of the License at:
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software distributed under
+	 * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+	 * ANY KIND, either express or implied. See the License for the specific language
+	 * governing permissions and limitations under the License.
+	 *
+	 */
+	TomSelect.define('dropdown_input', function () {
+	  var self = this;
+	  var input = self.settings.controlInput || '<input type="text" autocomplete="off" class="dropdown-input" />';
+	  input = getDom(input);
+	  self.settings.controlInput = input;
+	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
+
+	  self.hook('after', 'setup', () => {
+	    // set tabIndex on wrapper
+	    self.wrapper.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex); // keyboard navigation
+
+	    addEvent(self.wrapper, 'keypress', evt => {
+	      if (self.control.contains(evt.target)) {
+	        return;
+	      }
+
+	      if (self.dropdown.contains(evt.target)) {
+	        return;
+	      } // open dropdown on enter when wrapper is tab-focused
+
+
+	      switch (evt.keyCode) {
+	        case KEY_RETURN:
+	          self.onClick(evt);
+	          return;
+	      }
+	    });
+	    self.dropdown.insertBefore(input, self.dropdown.firstChild);
+	  });
+	});
+
+	/**
 	 * Plugin: "input_autogrow" (Tom Select)
 	 *
 	 * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -3843,8 +3863,7 @@
 	    self.wrapper.appendChild(test_input);
 	    var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
 
-	    for (let i = 0, n = transfer_styles.length; i < n; i++) {
-	      let style_name = transfer_styles[i];
+	    for (const style_name of transfer_styles) {
 	      test_input.style[style_name] = control.style[style_name];
 	    }
 	    /**
@@ -3854,10 +3873,16 @@
 
 
 	    var resize = () => {
-	      test_input.textContent = control.value;
-	      control.style.width = test_input.clientWidth + 'px';
+	      if (this.items.length > 0) {
+	        test_input.textContent = control.value;
+	        control.style.width = test_input.clientWidth + 'px';
+	      } else {
+	        control.style.width = '';
+	      }
 	    };
 
+	    resize();
+	    this.on('update item_add item_remove', resize);
 	    addEvent(control, 'input', resize);
 	    addEvent(control, 'keyup', resize);
 	    addEvent(control, 'blur', resize);

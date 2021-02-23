@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.1.3)
+ * tom-select.css (v1.2.0)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -85,6 +85,7 @@ $select-spinner-border-color:					$select-color-border;
 
 @import "../plugins/drag_drop/plugin.scss";
 @import "../plugins/dropdown_header/plugin.scss";
+@import "../plugins/dropdown_input/plugin.scss";
 @import "../plugins/optgroup_columns/plugin.scss";
 @import "../plugins/remove_button/plugin.scss";
 

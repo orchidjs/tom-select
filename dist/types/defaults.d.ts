@@ -11,6 +11,7 @@ declare const _default: {
     createFilter: any;
     highlight: boolean;
     openOnFocus: boolean;
+    shouldOpen: any;
     maxOptions: number;
     maxItems: any;
     hideSelected: any;
@@ -44,6 +45,7 @@ declare const _default: {
     dropdownParent: any;
     controlInput: any;
     copyClassesToDropdown: boolean;
+    shouldLoad: (query: string) => boolean;
     render: {};
 };
 export default _default;

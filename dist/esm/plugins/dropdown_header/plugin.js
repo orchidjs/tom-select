@@ -1,10 +1,10 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
-import { getDom } from '../../vanilla.js';
 import TomSelect from '../../tom-select.js';
+import { getDom } from '../../vanilla.js';
 
 /**
  * Plugin: "dropdown_header" (Tom Select)

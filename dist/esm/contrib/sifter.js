@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -117,6 +117,8 @@ class Sifter {
    * @param {object} items
    */
   constructor(items, settings) {
+    this.items = void 0;
+    this.settings = void 0;
     this.items = items;
     this.settings = settings || {
       diacritics: true
@@ -197,14 +199,12 @@ class Sifter {
    * Good matches will have a higher score than poor matches.
    * If an item is not a match, 0 will be returned by the function.
    *
-   * @param {object|string} search
-   * @param {object} [options]
    * @returns {function}
    */
-  getScoreFunction(search, options) {
-    var self, fields, tokens, token_count, nesting;
+  getScoreFunction(query, options) {
+    var self, fields, tokens, token_count, nesting, search;
     self = this;
-    search = self.prepareSearch(search, options);
+    search = self.prepareSearch(query, options);
     tokens = search.tokens;
     fields = search.options.fields;
     token_count = tokens.length;
@@ -303,7 +303,6 @@ class Sifter {
    * be performed, `null` will be returned.
    *
    * @param {string|object} search
-   * @param {object} options
    * @return function(a,b)
    */
   getSortFunction(search, options) {
@@ -400,9 +399,6 @@ class Sifter {
    * with tokens and fields ready to be populated
    * with results.
    *
-   * @param {string} query
-   * @param {object} options
-   * @returns {object}
    */
   prepareSearch(query, options) {
     if (typeof query === 'object') return query;
@@ -425,25 +421,6 @@ class Sifter {
   /**
    * Searches through all items and returns a sorted array of matches.
    *
-   * The `options` parameter can contain:
-   *
-   *   - fields {string|array}
-   *   - sort {array}
-   *   - score {function}
-   *   - filter {bool}
-   *   - limit {integer}
-   *
-   * Returns an object containing:
-   *
-   *   - options {object}
-   *   - query {string}
-   *   - tokens {array}
-   *   - total {int}
-   *   - items {array}
-   *
-   * @param {string} query
-   * @param {object} options
-   * @returns {object}
    */
   search(query, options) {
     var self = this,

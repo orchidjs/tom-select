@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.1.3
+* Tom Select v1.2.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -84,9 +84,7 @@ function removeClasses(elmts, ...classes) {
 function classesArray(args) {
   var classes = [];
 
-  for (let i = 0; i < args.length; i++) {
-    let _classes = args[i];
-
+  for (let _classes of args) {
     if (typeof _classes === 'string') {
       _classes = _classes.trim().split(/[\11\12\14\15\40]/);
     }

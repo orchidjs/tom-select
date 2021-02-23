@@ -44,7 +44,7 @@ export default class TomSelect extends TomSelect_base {
     ignoreBlur: boolean;
     ignoreHover: boolean;
     hasOptions: boolean;
-    currentResults: object;
+    currentResults: ReturnType<Sifter['search']>;
     lastValue: string;
     caretPos: number;
     loading: number;
@@ -53,9 +53,11 @@ export default class TomSelect extends TomSelect_base {
     };
     activeOption: HTMLElement;
     activeItems: HTMLElement[];
-    optgroups: object;
+    optgroups: TomOptions;
     options: TomOptions;
-    userOptions: object;
+    userOptions: {
+        [key: string]: boolean;
+    };
     items: string[];
     renderCache: {
         'item': {
@@ -65,7 +67,7 @@ export default class TomSelect extends TomSelect_base {
             [key: string]: HTMLElement;
         };
     };
-    constructor(input: any, settings: any);
+    constructor(input_arg: string | TomInput, settings: TomSettings);
     /**
      * Creates all elements and sets up event bindings.
      *
@@ -75,7 +77,7 @@ export default class TomSelect extends TomSelect_base {
      * Register options and optgroups
      *
      */
-    setupOptions(options: any, optgroups: any): void;
+    setupOptions(options?: TomOption[], optgroups?: TomOption[]): void;
     /**
      * Sets up default rendering functions.
      */
@@ -132,7 +134,7 @@ export default class TomSelect extends TomSelect_base {
      * Triggered on <input> blur.
      *
      */
-    onBlur(e: MouseEvent | KeyboardEvent, dest?: HTMLElement): void;
+    onBlur(e: MouseEvent | KeyboardEvent): void;
     /**
      * Triggered when the user rolls over
      * an option in the autocomplete dropdown menu.
@@ -230,7 +232,7 @@ export default class TomSelect extends TomSelect_base {
      * Forces the control out of focus.
      *
      */
-    blur(dest?: HTMLElement): void;
+    blur(): void;
     /**
      * Returns a function that scores an object
      * to show how good of a match it is to the
@@ -238,7 +240,7 @@ export default class TomSelect extends TomSelect_base {
      *
      * @return {function}
      */
-    getScoreFunction(query: string): Function;
+    getScoreFunction(query: string): (data: any) => any;
     /**
      * Returns search options for sifter (the system
      * for scoring and sorting results).
@@ -256,16 +258,8 @@ export default class TomSelect extends TomSelect_base {
      * Searches through available options and returns
      * a sorted array of matches.
      *
-     * Returns an object containing:
-     *
-     *   - query {string}
-     *   - tokens {array}
-     *   - total {int}
-     *   - items {array}
-     *
-     * @returns {object}
      */
-    search(query: string): any;
+    search(query: string): ReturnType<Sifter['search']>;
     /**
      * Refreshes the list of available options shown
      * in the autocomplete dropdown menu.
@@ -293,7 +287,7 @@ export default class TomSelect extends TomSelect_base {
      * Registers an option to the pool of options.
      *
      */
-    registerOption(data: TomOption): boolean | string;
+    registerOption(data: TomOption): false | string;
     /**
      * Registers an option group to the pool of option groups.
      *
