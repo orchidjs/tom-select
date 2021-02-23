@@ -294,15 +294,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// clicking anywhere in the control should not close the dropdown
 		// clicking on an option should selectit
-		var doc_mousedown = (e) => {
+		var doc_mousedown = (e:MouseEvent) => {
 
 			// if dropdownParent is set, options may not be within self.wrapper
-			var option = parentMatch(e.target, '[data-selectable]',self.dropdown);
+			var option = parentMatch(e.target as HTMLElement, '[data-selectable]',self.dropdown);
 
 			// outside of this instance
-			if( !option && !self.wrapper.contains(e.target) ){
+			if( !option && !self.wrapper.contains(e.target as HTMLElement) ){
 				if (self.isFocused) {
-					self.blur(e.target);
+					self.blur();
 				}
 				return;
 			}
@@ -745,7 +745,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered on <input> blur.
 	 *
 	 */
-	onBlur(e:MouseEvent|KeyboardEvent, dest?:HTMLElement):void {
+	onBlur(e:MouseEvent|KeyboardEvent):void {
 		var self = this;
 		if (!self.isFocused) return;
 		self.isFocused = false;
@@ -1128,10 +1128,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Forces the control out of focus.
 	 *
 	 */
-	blur(dest?:HTMLElement):void {
+	blur():void {
 		this.control_input.blur();
 
-		this.onBlur(null, dest);
+		this.onBlur(null);
 	}
 
 	/**
