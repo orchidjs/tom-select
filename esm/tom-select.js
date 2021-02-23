@@ -13,6 +13,35 @@ import { loadDebounce, addEvent, preventDefault, isKeyDown, debounce_events, has
 import { getDom, addClasses, escapeQuery, triggerEvent, removeClasses, applyCSS, isEmptyObject, getTail, nodeIndex, parentMatch } from './vanilla.js';
 
 class TomSelect extends MicroPlugin(MicroEvent) {
+  order = 0;
+  tab_key = false;
+  isOpen = false;
+  isDisabled = false;
+  isInvalid = false;
+  isLocked = false;
+  isFocused = false;
+  isInputHidden = false;
+  isSetup = false;
+  ignoreFocus = false;
+  ignoreBlur = false;
+  ignoreHover = false;
+  hasOptions = false;
+  currentResults = null;
+  lastValue = '';
+  caretPos = 0;
+  loading = 0;
+  loadedSearches = {};
+  activeOption = null;
+  activeItems = [];
+  optgroups = {};
+  options = {};
+  userOptions = {};
+  items = [];
+  renderCache = {
+    'item': {},
+    'option': {}
+  };
+
   constructor(input, settings) {
     super();
     var dir;
@@ -27,40 +56,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
     dir = computedStyle.getPropertyValue('direction'); // setup default state
 
-    this.order = 0;
     this.settings = getSettings(input, settings);
     this.input = input;
     this.tabIndex = input.getAttribute('tabindex') || null;
     this.is_select_tag = input.tagName.toLowerCase() === 'select';
     this.rtl = /rtl/i.test(dir);
-    this.tab_key = false;
-    this.isOpen = false;
-    this.isDisabled = false;
-    this.isRequired = input.required;
-    this.isInvalid = false;
-    this.isLocked = false;
-    this.isFocused = false;
-    this.isInputHidden = false;
-    this.isSetup = false;
-    this.ignoreFocus = false;
-    this.ignoreBlur = false;
-    this.ignoreHover = false;
-    this.hasOptions = false;
-    this.currentResults = null;
-    this.lastValue = '';
-    this.caretPos = 0;
-    this.loading = 0;
-    this.loadedSearches = {};
-    this.activeOption = null;
-    this.activeItems = [];
-    this.optgroups = {};
-    this.options = {};
-    this.userOptions = {};
-    this.items = [];
-    this.renderCache = {
-      'item': {},
-      'option': {}
-    }; // debounce user defined load() if loadThrottle > 0
+    this.isRequired = input.required; // debounce user defined load() if loadThrottle > 0
 
     if (this.settings.load && this.settings.loadThrottle) {
       this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
@@ -1120,14 +1121,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    * Searches through available options and returns
    * a sorted array of matches.
    *
-   * Returns an object containing:
-   *
-   *   - query {string}
-   *   - tokens {array}
-   *   - total {int}
-   *   - items {array}
-   *
-   * @returns {object}
    */
 
 
@@ -1175,8 +1168,9 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   refreshOptions(triggerDropdown = true) {
-    var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
+    var i, j, k, n, groups_order, optgroup, optgroups, html, has_create_option;
     var active, create;
+    var groups;
     var self = this;
     var query = self.inputValue();
     var results = self.search(query);
@@ -1235,8 +1229,8 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     if (this.settings.lockOptgroupOrder) {
       groups_order.sort((a, b) => {
-        var a_order = self.optgroups[a].$order || 0;
-        var b_order = self.optgroups[b].$order || 0;
+        var a_order = self.optgroups[a] && self.optgroups[a].$order || 0;
+        var b_order = self.optgroups[b] && self.optgroups[b].$order || 0;
         return a_order - b_order;
       });
     } // render optgroup headers & join groups
@@ -1396,7 +1390,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
   registerOption(data) {
     var key = hash_key(data[this.settings.valueField]);
-    if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
+    if (key === null || this.options.hasOwnProperty(key)) return false;
     data.$order = data.$order || ++this.order;
     this.options[key] = data;
     return key;
@@ -1410,7 +1404,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
   registerOptionGroup(data) {
     var key = hash_key(data[this.settings.optgroupValueField]);
-    if (!key) return false;
+    if (key === null) return false;
     data.$order = data.$order || ++this.order;
     this.optgroups[key] = data;
     return key;
@@ -1615,7 +1609,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
   getElementWithValue(value, els) {
     value = hash_key(value);
 
-    if (typeof value !== 'undefined' && value !== null) {
+    if (value !== null) {
       for (var i = 0, n = els.length; i < n; i++) {
         let el = els[i];
 

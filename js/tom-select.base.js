@@ -365,14 +365,12 @@
 	   * Good matches will have a higher score than poor matches.
 	   * If an item is not a match, 0 will be returned by the function.
 	   *
-	   * @param {object|string} search
-	   * @param {object} [options]
 	   * @returns {function}
 	   */
-	  getScoreFunction(search, options) {
-	    var self, fields, tokens, token_count, nesting;
+	  getScoreFunction(query, options) {
+	    var self, fields, tokens, token_count, nesting, search;
 	    self = this;
-	    search = self.prepareSearch(search, options);
+	    search = self.prepareSearch(query, options);
 	    tokens = search.tokens;
 	    fields = search.options.fields;
 	    token_count = tokens.length;
@@ -471,7 +469,6 @@
 	   * be performed, `null` will be returned.
 	   *
 	   * @param {string|object} search
-	   * @param {object} options
 	   * @return function(a,b)
 	   */
 	  getSortFunction(search, options) {
@@ -568,9 +565,6 @@
 	   * with tokens and fields ready to be populated
 	   * with results.
 	   *
-	   * @param {string} query
-	   * @param {object} options
-	   * @returns {object}
 	   */
 	  prepareSearch(query, options) {
 	    if (typeof query === 'object') return query;
@@ -593,25 +587,6 @@
 	  /**
 	   * Searches through all items and returns a sorted array of matches.
 	   *
-	   * The `options` parameter can contain:
-	   *
-	   *   - fields {string|array}
-	   *   - sort {array}
-	   *   - score {function}
-	   *   - filter {bool}
-	   *   - limit {integer}
-	   *
-	   * Returns an object containing:
-	   *
-	   *   - options {object}
-	   *   - query {string}
-	   *   - tokens {array}
-	   *   - total {int}
-	   *   - items {array}
-	   *
-	   * @param {string} query
-	   * @param {object} options
-	   * @returns {object}
 	   */
 	  search(query, options) {
 	    var self = this,
@@ -979,9 +954,10 @@
 	   */
 
 	  var init_select = () => {
-	    var i, n, tagName, children;
+	    var tagName;
 	    var options = settings_element.options;
 	    var optionsMap = {};
+	    var group_count = 1;
 
 	    var readData = el => {
 	      var data = Object.assign({}, el.dataset); // get plain object from DOMStringMap
@@ -1032,34 +1008,28 @@
 	    };
 
 	    var addGroup = optgroup => {
-	      var i, n, id, optgroup_data, options;
-	      id = optgroup.getAttribute('label');
+	      var id, optgroup_data;
+	      optgroup_data = readData(optgroup);
+	      optgroup_data[field_optgroup_label] = optgroup_data[field_optgroup_label] || optgroup.getAttribute('label') || '';
+	      optgroup_data[field_optgroup_value] = optgroup_data[field_optgroup_value] || group_count++;
+	      optgroup_data[field_disabled] = optgroup_data[field_disabled] || optgroup.disabled;
+	      settings_element.optgroups.push(optgroup_data);
+	      id = optgroup_data[field_optgroup_value];
 
-	      if (id) {
-	        optgroup_data = readData(optgroup);
-	        optgroup_data[field_optgroup_label] = id;
-	        optgroup_data[field_optgroup_value] = id;
-	        optgroup_data[field_disabled] = optgroup.disabled;
-	        settings_element.optgroups.push(optgroup_data);
-	      }
-
-	      var options = optgroup.children;
-
-	      for (i = 0, n = options.length; i < n; i++) {
-	        addOption(options[i], id);
+	      for (const option of optgroup.children) {
+	        addOption(option, id);
 	      }
 	    };
 
 	    settings_element.maxItems = input.hasAttribute('multiple') ? null : 1;
-	    children = input.children;
 
-	    for (i = 0, n = children.length; i < n; i++) {
-	      tagName = children[i].tagName.toLowerCase();
+	    for (const child of input.children) {
+	      tagName = child.tagName.toLowerCase();
 
 	      if (tagName === 'optgroup') {
-	        addGroup(children[i]);
+	        addGroup(child);
 	      } else if (tagName === 'option') {
-	        addOption(children[i]);
+	        addOption(child);
 	      }
 	    }
 	  };
@@ -1273,6 +1243,35 @@
 	}
 
 	class TomSelect extends MicroPlugin(MicroEvent) {
+	  order = 0;
+	  tab_key = false;
+	  isOpen = false;
+	  isDisabled = false;
+	  isInvalid = false;
+	  isLocked = false;
+	  isFocused = false;
+	  isInputHidden = false;
+	  isSetup = false;
+	  ignoreFocus = false;
+	  ignoreBlur = false;
+	  ignoreHover = false;
+	  hasOptions = false;
+	  currentResults = null;
+	  lastValue = '';
+	  caretPos = 0;
+	  loading = 0;
+	  loadedSearches = {};
+	  activeOption = null;
+	  activeItems = [];
+	  optgroups = {};
+	  options = {};
+	  userOptions = {};
+	  items = [];
+	  renderCache = {
+	    'item': {},
+	    'option': {}
+	  };
+
 	  constructor(input, settings) {
 	    super();
 	    var dir;
@@ -1287,40 +1286,12 @@
 	    var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
 	    dir = computedStyle.getPropertyValue('direction'); // setup default state
 
-	    this.order = 0;
 	    this.settings = getSettings(input, settings);
 	    this.input = input;
 	    this.tabIndex = input.getAttribute('tabindex') || null;
 	    this.is_select_tag = input.tagName.toLowerCase() === 'select';
 	    this.rtl = /rtl/i.test(dir);
-	    this.tab_key = false;
-	    this.isOpen = false;
-	    this.isDisabled = false;
-	    this.isRequired = input.required;
-	    this.isInvalid = false;
-	    this.isLocked = false;
-	    this.isFocused = false;
-	    this.isInputHidden = false;
-	    this.isSetup = false;
-	    this.ignoreFocus = false;
-	    this.ignoreBlur = false;
-	    this.ignoreHover = false;
-	    this.hasOptions = false;
-	    this.currentResults = null;
-	    this.lastValue = '';
-	    this.caretPos = 0;
-	    this.loading = 0;
-	    this.loadedSearches = {};
-	    this.activeOption = null;
-	    this.activeItems = [];
-	    this.optgroups = {};
-	    this.options = {};
-	    this.userOptions = {};
-	    this.items = [];
-	    this.renderCache = {
-	      'item': {},
-	      'option': {}
-	    }; // debounce user defined load() if loadThrottle > 0
+	    this.isRequired = input.required; // debounce user defined load() if loadThrottle > 0
 
 	    if (this.settings.load && this.settings.loadThrottle) {
 	      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
@@ -2380,14 +2351,6 @@
 	   * Searches through available options and returns
 	   * a sorted array of matches.
 	   *
-	   * Returns an object containing:
-	   *
-	   *   - query {string}
-	   *   - tokens {array}
-	   *   - total {int}
-	   *   - items {array}
-	   *
-	   * @returns {object}
 	   */
 
 
@@ -2435,8 +2398,9 @@
 
 
 	  refreshOptions(triggerDropdown = true) {
-	    var i, j, k, n, groups, groups_order, optgroup, optgroups, html, has_create_option;
+	    var i, j, k, n, groups_order, optgroup, optgroups, html, has_create_option;
 	    var active, create;
+	    var groups;
 	    var self = this;
 	    var query = self.inputValue();
 	    var results = self.search(query);
@@ -2495,8 +2459,8 @@
 
 	    if (this.settings.lockOptgroupOrder) {
 	      groups_order.sort((a, b) => {
-	        var a_order = self.optgroups[a].$order || 0;
-	        var b_order = self.optgroups[b].$order || 0;
+	        var a_order = self.optgroups[a] && self.optgroups[a].$order || 0;
+	        var b_order = self.optgroups[b] && self.optgroups[b].$order || 0;
 	        return a_order - b_order;
 	      });
 	    } // render optgroup headers & join groups
@@ -2656,7 +2620,7 @@
 
 	  registerOption(data) {
 	    var key = hash_key(data[this.settings.valueField]);
-	    if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
+	    if (key === null || this.options.hasOwnProperty(key)) return false;
 	    data.$order = data.$order || ++this.order;
 	    this.options[key] = data;
 	    return key;
@@ -2670,7 +2634,7 @@
 
 	  registerOptionGroup(data) {
 	    var key = hash_key(data[this.settings.optgroupValueField]);
-	    if (!key) return false;
+	    if (key === null) return false;
 	    data.$order = data.$order || ++this.order;
 	    this.optgroups[key] = data;
 	    return key;
@@ -2875,7 +2839,7 @@
 	  getElementWithValue(value, els) {
 	    value = hash_key(value);
 
-	    if (typeof value !== 'undefined' && value !== null) {
+	    if (value !== null) {
 	      for (var i = 0, n = els.length; i < n; i++) {
 	        let el = els[i];
 

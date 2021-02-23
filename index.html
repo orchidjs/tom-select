@@ -129,11 +129,18 @@
 			<div class="demo-html">
 				
 	<select id="select-tags" multiple placeholder="Best movies and TV shows">
-		<option selected>Magnum P.I.</option>
-		<option>Blue Bloods</option>
-		<option>Quigley Down Under</option>
-		<option>Three Men and a Baby</option>
-		<option>Mr. Baseball</option>
+		<optgroup label="TV Shows">
+			<option data-label="Blue Bloods" data-date="2010-2021">Blue Bloods (2010-2021)</option>
+			<option data-label="Magnum P.I." data-date="1980-1988" selected>Magnum P.I. (1980-1988)</option>
+		</optgroup>
+		<optgroup label="Movies">
+			<option data-label="An Innocent Man" data-date="1989">An Innocent Man (1989)</option>
+			<option data-label="In & Out" data-date="1997">In & Out (1997)</option>
+			<option data-label="Lassiter" data-date="1984">Lassiter (1984)</option>
+			<option data-label="Mr. Baseball" data-date="1992">Mr. Baseball (1992)</option>
+			<option data-label="Quigley Down Under" data-date="1990">Quigley Down Under (1990)</option>
+			<option data-label="Three Men and a Baby" data-date="1987">Three Men and a Baby (1987)</option>
+		</optgroup>
 	</select>
 	
 			</div>
@@ -141,17 +148,36 @@
 			
 			<textarea hidden>
 	&lt;select id=&quot;select-tags&quot; multiple placeholder=&quot;Best movies and TV shows&quot;&gt;
-		&lt;option selected&gt;Magnum P.I.&lt;/option&gt;
-		&lt;option&gt;Blue Bloods&lt;/option&gt;
-		&lt;option&gt;Quigley Down Under&lt;/option&gt;
-		&lt;option&gt;Three Men and a Baby&lt;/option&gt;
-		&lt;option&gt;Mr. Baseball&lt;/option&gt;
+		&lt;optgroup label=&quot;TV Shows&quot;&gt;
+			&lt;option data-label=&quot;Blue Bloods&quot; data-date=&quot;2010-2021&quot;&gt;Blue Bloods (2010-2021)&lt;/option&gt;
+			&lt;option data-label=&quot;Magnum P.I.&quot; data-date=&quot;1980-1988&quot; selected&gt;Magnum P.I. (1980-1988)&lt;/option&gt;
+		&lt;/optgroup&gt;
+		&lt;optgroup label=&quot;Movies&quot;&gt;
+			&lt;option data-label=&quot;An Innocent Man&quot; data-date=&quot;1989&quot;&gt;An Innocent Man (1989)&lt;/option&gt;
+			&lt;option data-label=&quot;In &amp; Out&quot; data-date=&quot;1997&quot;&gt;In &amp; Out (1997)&lt;/option&gt;
+			&lt;option data-label=&quot;Lassiter&quot; data-date=&quot;1984&quot;&gt;Lassiter (1984)&lt;/option&gt;
+			&lt;option data-label=&quot;Mr. Baseball&quot; data-date=&quot;1992&quot;&gt;Mr. Baseball (1992)&lt;/option&gt;
+			&lt;option data-label=&quot;Quigley Down Under&quot; data-date=&quot;1990&quot;&gt;Quigley Down Under (1990)&lt;/option&gt;
+			&lt;option data-label=&quot;Three Men and a Baby&quot; data-date=&quot;1987&quot;&gt;Three Men and a Baby (1987)&lt;/option&gt;
+		&lt;/optgroup&gt;
 	&lt;/select&gt;
 	</textarea>
 			<script>
 	new TomSelect("#select-tags",{
 		plugins: ['remove_button'],
 		create: true,
+		onItemAdd:function(){
+			this.setTextboxValue('');
+			this.refreshOptions();
+		},
+		render:{
+			option:function(data,escape){
+				return '<div class="d-flex"><span>' + escape(data['label']) + '</span><span class="ml-auto text-muted">' + escape(data['date']) + '</span></div>';
+			},
+			item:function(data,escape){
+				return '<div>' + escape(data['label']) + '</div>';
+			}
+		}
 	});
 	</script>
 			<style></style>

@@ -153,9 +153,10 @@
 	   */
 
 	  var init_select = () => {
-	    var i, n, tagName, children;
+	    var tagName;
 	    var options = settings_element.options;
 	    var optionsMap = {};
+	    var group_count = 1;
 
 	    var readData = el => {
 	      var data = Object.assign({}, el.dataset); // get plain object from DOMStringMap
@@ -206,34 +207,28 @@
 	    };
 
 	    var addGroup = optgroup => {
-	      var i, n, id, optgroup_data, options;
-	      id = optgroup.getAttribute('label');
+	      var id, optgroup_data;
+	      optgroup_data = readData(optgroup);
+	      optgroup_data[field_optgroup_label] = optgroup_data[field_optgroup_label] || optgroup.getAttribute('label') || '';
+	      optgroup_data[field_optgroup_value] = optgroup_data[field_optgroup_value] || group_count++;
+	      optgroup_data[field_disabled] = optgroup_data[field_disabled] || optgroup.disabled;
+	      settings_element.optgroups.push(optgroup_data);
+	      id = optgroup_data[field_optgroup_value];
 
-	      if (id) {
-	        optgroup_data = readData(optgroup);
-	        optgroup_data[field_optgroup_label] = id;
-	        optgroup_data[field_optgroup_value] = id;
-	        optgroup_data[field_disabled] = optgroup.disabled;
-	        settings_element.optgroups.push(optgroup_data);
-	      }
-
-	      var options = optgroup.children;
-
-	      for (i = 0, n = options.length; i < n; i++) {
-	        addOption(options[i], id);
+	      for (const option of optgroup.children) {
+	        addOption(option, id);
 	      }
 	    };
 
 	    settings_element.maxItems = input.hasAttribute('multiple') ? null : 1;
-	    children = input.children;
 
-	    for (i = 0, n = children.length; i < n; i++) {
-	      tagName = children[i].tagName.toLowerCase();
+	    for (const child of input.children) {
+	      tagName = child.tagName.toLowerCase();
 
 	      if (tagName === 'optgroup') {
-	        addGroup(children[i]);
+	        addGroup(child);
 	      } else if (tagName === 'option') {
-	        addOption(children[i]);
+	        addOption(child);
 	      }
 	    }
 	  };
