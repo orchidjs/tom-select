@@ -60,4 +60,48 @@ describe('plugin: remove_button', function() {
 
 	});
 
+
+	it_n('should not remove item if locked', function(done) {
+
+		let test = setup_test('AB_Multi', {plugins: ['remove_button']});
+
+		test.instance.addItem('a');
+		test.instance.addItem('b');
+		test.instance.lock();
+		assert.equal( test.instance.items.length, 2 );
+
+		var itema			= test.instance.getItem('b');
+		var remove_button	= itema.querySelector('.remove');
+
+		syn.click( remove_button, function() {
+			assert.equal( test.instance.items.length, 2 );
+			done();
+		});
+
+	});
+
+	it_n('remove_button options', function(done) {
+
+		let config = {
+			plugins: {
+				remove_button:{
+					className: 'customclass',
+				}
+			}
+
+		}
+		
+		let test			= setup_test('<select><option selected value="a">a</option><option>b</option></select>', config);
+		var itema			= test.instance.getItem('a');
+		var remove_button	= itema.querySelector('.customclass');
+
+		assert.equal( test.instance.items.length, 1 );
+
+		syn.click( remove_button, function() {
+			assert.equal( test.instance.items.length, 0 );
+			done();
+		});
+
+	});
+
 });
