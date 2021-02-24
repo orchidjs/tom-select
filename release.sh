@@ -42,6 +42,14 @@ ask() {
     done
 }
 
+# make sure the release is being made from the master branch
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+if [[ "$BRANCH" != "master" ]]; then
+  echo 'Not on master branch';
+  exit 1;
+fi
+
+
 # make sure release number is valid
 if ! [[ "$VERSION" =~ ^([0-9]\.[0-9]\.[0-9]) ]]; then
 	echo "Release number must match a semver pattern similar to 1.0.0"
