@@ -789,7 +789,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * in the autocomplete dropdown menu.
 	 *
 	 */
-	onOptionSelect( evt:MouseEvent|KeyboardEvent, option:HTMLElement ): boolean{
+	onOptionSelect( evt:MouseEvent|KeyboardEvent, option:HTMLElement ){
 		var value, self = this;
 
 		if( !option ){
