@@ -1,0 +1,38 @@
+---
+title: Checkbox Options
+nav_title: Checkbox Options
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+{% set label %}
+<label class="h2 mb-3">
+	checkbox_options
+</label>
+{% endset %}
+
+{% set html %}
+<select id="ex-checkbox-options" autocomplete="off" multiple>
+	<option>amazing</option>
+	<option selected>awesome</option>
+	<option>cool</option>
+	<option selected>excellent</option>
+	<option>great</option>
+	<option>neat</option>
+	<option>superb</option>
+	<option>wonderful</option>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#ex-checkbox-options',{
+	plugins: ['checkbox_options'],
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
