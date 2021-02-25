@@ -146,7 +146,7 @@ export default class TomSelect extends TomSelect_base {
      * in the autocomplete dropdown menu.
      *
      */
-    onOptionSelect(evt: MouseEvent | KeyboardEvent, option: HTMLElement): boolean;
+    onOptionSelect(evt: MouseEvent | KeyboardEvent, option: HTMLElement): void;
     /**
      * Triggered when the user clicks on an item
      * that has been selected.
