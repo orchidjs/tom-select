@@ -737,7 +737,7 @@
 							expect($(test.instance.dropdown).is(':visible')).to.be.equal(true);
 
 							syn
-								.click($("body"))
+								.click(document.body)
 								.delay(5, function() {
 									expect(test.instance.isOpen).to.be.equal(false);
 									expect($(test.instance.dropdown).is(':visible')).to.be.equal(false);
