@@ -264,12 +264,31 @@
 				click(test.instance.control, function() {
 					syn.type('a', test.instance.control_input)
 					.delay(0, function() {
-						expect($('[data-value="a"]', $(test.instance.dropdown)).length).to.be.equal(1);
-						expect($('[data-value="b"]', $(test.instance.dropdown)).length).to.be.equal(0);
+						expect($('[data-value="a"]', test.instance.dropdown).length).to.be.equal(1);
+						expect($('[data-value="b"]', test.instance.dropdown).length).to.be.equal(0);
 						done();
 					});
 				});
 			});
+
+			it_n('should refreshOptions when deleting filter', function(done) {
+				var test = setup_test('AB_Single');
+
+				click(test.instance.control, function() {
+					syn.type('a', test.instance.control_input)
+					.delay(0, function() {
+						assert.equal(test.instance.dropdown_content.children.length,1);
+
+						syn.type('\b',test.instance.control_input)
+						.delay(0, function() {
+							assert.equal(test.instance.dropdown_content.children.length,3);
+							done();
+						});
+
+					});
+				});
+			});
+
 
 			it_n('should hide dropdown if no results present and no_result template is null', function(done) {
 				var test = setup_test('AB_Multi', {
