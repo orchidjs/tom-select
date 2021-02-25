@@ -656,9 +656,9 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
       if (self.settings.shouldLoad.call(self, value)) {
         self.load(value);
-        self.refreshOptions();
       }
 
+      self.refreshOptions();
       self.trigger('type', value);
     }
   }
