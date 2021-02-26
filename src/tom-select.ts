@@ -520,8 +520,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if (self.settings.mode !== 'single') {
 				self.setActiveItem();
 			}
-			// toggle dropdown
-			self.isOpen ? self.close() : self.open();
+			self.open();
 			return false;
 		} else {
 			// give control focus
