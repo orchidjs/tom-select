@@ -62,8 +62,11 @@ TomSelect.define('checkbox_options',function(options:TPluginOptions) {
 	// uncheck when item removed
 	self.on('item_remove',(value) => {
 		var option = self.getOption(value);
-		option.classList.remove('selected'); // selected class won't be removed yet
-		UpdateCheckbox(option);
+
+		if( option ){ // if dropdown hasn't been opened yet, the option won't exist
+			option.classList.remove('selected'); // selected class won't be removed yet
+			UpdateCheckbox(option);
+		}
 	});
 
 
