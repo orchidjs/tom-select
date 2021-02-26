@@ -271,6 +271,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		addEvent(control,'mousedown', (evt) => {
 
+			// retain focus by preventing native handling. if the
+			// event target is the input it should not be modified.
+			// otherwise, text selection within the input won't work.
+			if (evt.target == control_input) {
+				evt.stopPropagation();
+				return;
+			}
+
 			var target_match = parentMatch( evt.target as HTMLElement, '.'+self.settings.itemClass, control);
 			if( target_match ){
 				return self.onItemSelect(evt as MouseEvent, target_match);
@@ -281,7 +289,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(control,'click', (e) => self.onClick(e as KeyboardEvent) );
 
 
-		addEvent(control_input,'mousedown',	(e) => e.stopPropagation() );
 		addEvent(control_input,'keydown',	(e) => self.onKeyDown(e as KeyboardEvent) );
 		addEvent(control_input,'keyup',		(e) => self.onKeyUp(e as KeyboardEvent) );
 		addEvent(control_input,'keypress',	(e) => self.onKeyPress(e as KeyboardEvent) );
@@ -510,18 +517,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		if (self.isFocused) {
-			// retain focus by preventing native handling. if the
-			// event target is the input it should not be modified.
-			// otherwise, text selection within the input won't work.
-			if (e.target !== self.control_input) {
-				if (self.settings.mode === 'single') {
-					// toggle dropdown
-					self.isOpen ? self.close() : self.open();
-				} else {
-					self.setActiveItem();
-				}
-				return false;
+			if (self.settings.mode !== 'single') {
+				self.setActiveItem();
 			}
+			// toggle dropdown
+			self.isOpen ? self.close() : self.open();
+			return false;
 		} else {
 			// give control focus
 			setTimeout(() => self.focus(), 0);
