@@ -1452,6 +1452,14 @@
 	      capture: true
 	    });
 	    addEvent(control, 'mousedown', evt => {
+	      // retain focus by preventing native handling. if the
+	      // event target is the input it should not be modified.
+	      // otherwise, text selection within the input won't work.
+	      if (evt.target == control_input) {
+	        evt.stopPropagation();
+	        return;
+	      }
+
 	      var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
 
 	      if (target_match) {
@@ -1461,7 +1469,6 @@
 	      return self.onMouseDown(evt);
 	    });
 	    addEvent(control, 'click', e => self.onClick(e));
-	    addEvent(control_input, 'mousedown', e => e.stopPropagation());
 	    addEvent(control_input, 'keydown', e => self.onKeyDown(e));
 	    addEvent(control_input, 'keyup', e => self.onKeyUp(e));
 	    addEvent(control_input, 'keypress', e => self.onKeyPress(e));
@@ -1678,19 +1685,13 @@
 	    var self = this;
 
 	    if (self.isFocused) {
-	      // retain focus by preventing native handling. if the
-	      // event target is the input it should not be modified.
-	      // otherwise, text selection within the input won't work.
-	      if (e.target !== self.control_input) {
-	        if (self.settings.mode === 'single') {
-	          // toggle dropdown
-	          self.isOpen ? self.close() : self.open();
-	        } else {
-	          self.setActiveItem();
-	        }
+	      if (self.settings.mode !== 'single') {
+	        self.setActiveItem();
+	      } // toggle dropdown
 
-	        return false;
-	      }
+
+	      self.isOpen ? self.close() : self.open();
+	      return false;
 	    } else {
 	      // give control focus
 	      setTimeout(() => self.focus(), 0);
@@ -3814,6 +3815,11 @@
 	  var self = this;
 	  var input = self.settings.controlInput || '<input type="text" autocomplete="off" class="dropdown-input" />';
 	  input = getDom(input);
+
+	  if (self.settings.placeholder) {
+	    input.setAttribute('placeholder', self.settings.placeholder);
+	  }
+
 	  self.settings.controlInput = input;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 

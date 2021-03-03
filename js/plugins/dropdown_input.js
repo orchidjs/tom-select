@@ -83,6 +83,11 @@
 	  var self = this;
 	  var input = self.settings.controlInput || '<input type="text" autocomplete="off" class="dropdown-input" />';
 	  input = getDom(input);
+
+	  if (self.settings.placeholder) {
+	    input.setAttribute('placeholder', self.settings.placeholder);
+	  }
+
 	  self.settings.controlInput = input;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
