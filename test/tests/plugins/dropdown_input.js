@@ -4,10 +4,13 @@
 describe('plugin: dropdown_input', function() {
 
 	it_n('dropdown should open onclick', function(done) {
-		let test = setup_test('AB_Multi', {plugins: ['dropdown_input']});
+		let test = setup_test('<input value="a,b" tabindex="1" placeholder="test placeholder" />', {plugins: ['dropdown_input']});
 
 		// confirm controlInput is in dropdown
 		assert.equal( test.instance.dropdown.contains(test.instance.settings.controlInput), true);
+
+		// confirm placeholder has been applied to dropdown input
+		assert.equal( test.instance.settings.controlInput.getAttribute('placeholder'), 'test placeholder');
 
 		syn.click(test.instance.control).delay(0,function(){
 			assert.equal(test.instance.isOpen, true);
