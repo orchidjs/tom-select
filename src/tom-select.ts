@@ -2158,7 +2158,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	advanceSelection(direction:number, e?:MouseEvent|KeyboardEvent) {
-		var idx, last_active, self = this;
+		var idx, last_active, adjacent, self = this;
 
 		if (direction === 0) return;
 		if (self.rtl) direction *= -1;
@@ -2168,7 +2168,22 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( isKeyDown(constants.KEY_SHORTCUT,e) || isKeyDown('shiftKey',e) ){
 
 			last_active			= self.getLastActive(direction);
-			let adjacent		= self.getAdjacent(last_active,direction,'item');
+			if( last_active ){
+
+				if( !last_active.classList.contains('active') ){
+					adjacent			= last_active;
+				}else{
+					adjacent			= self.getAdjacent(last_active,direction,'item');
+				}
+
+			// if no active item, get items adjacent to the control input
+			}else if( direction > 0 ){
+				adjacent			= self.control_input.nextElementSibling;
+			}else{
+				adjacent			= self.control_input.previousElementSibling;
+			}
+
+
 			if( adjacent ){
 				if( adjacent.classList.contains('active') ){
 					self.removeActiveItem(last_active);

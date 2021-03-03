@@ -433,6 +433,49 @@
 
 			});
 
+			it_n('should select item before control when ['+shortcut_key+'][left] pressed', function(done) {
+				var test = setup_test('AB_Multi');
+
+				test.instance.addItem('a');
+				test.instance.addItem('b');
+				var itemb = test.instance.getItem('b');
+
+				click(test.instance.control, function() {
+
+					syn.type('['+shortcut_key+'][left]['+shortcut_key+'-up]', test.instance.control_input, function() {
+						console.log('test.instance.activeItems',test.instance.activeItems);
+						assert.equal( test.instance.activeItems.length , 1);
+						assert.equal( test.instance.activeItems[0] , itemb);
+
+						done();
+					});
+				});
+
+			});
+
+			it_n('should move caret left when [left] pressed, then should select item after control when ['+shortcut_key+'][right] pressed', function(done) {
+				var test = setup_test('AB_Multi');
+
+				test.instance.addItem('a');
+				test.instance.addItem('b');
+				var itemb = test.instance.getItem('b');
+				var itema = test.instance.getItem('a');
+
+				click(test.instance.control, function() {
+
+					syn.type('[left]['+shortcut_key+'][right]['+shortcut_key+'-up]', test.instance.control_input, function() {
+
+						assert.equal( test.instance.activeItems.length , 1);
+						assert.equal( test.instance.activeItems[0] , itemb);
+						assert.equal( itemb.previousElementSibling, test.instance.control_input );
+
+						done();
+					});
+				});
+
+			});
+
+
 			it_n('should not select next item when ['+shortcut_key+'][right] pressed at the end of item list', function(done) {
 				var test = setup_test('AB_Multi');
 
