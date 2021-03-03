@@ -617,6 +617,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					preventDefault(e,true);
 					self.close();
 				}
+				self.clearActiveItems();
 				return;
 
 			// down: open dropdown or move selection down

@@ -93,15 +93,19 @@
 				});
 			});
 
-			it_n('should close dropdown after [escape] key press', function(done) {
+			it_n('should close dropdown and clear active items after [escape] key press', function(done) {
 
 				var test = setup_test('AB_Multi');
 
+
 				click(test.instance.control, function() {
-					expect(test.instance.isOpen).to.be.equal(true);
+					assert.equal( test.instance.isOpen, true, 'not open' );
+					test.instance.addItem('a');
+					test.instance.setActiveItem(test.instance.getItem('a'));
 
 					syn.type('[escape]', test.instance.control_input, function() {
-						expect(test.instance.isOpen).to.be.equal(false);
+						assert.equal( test.instance.isOpen, false, 'not closed' );
+						assert.equal( test.instance.activeItems.length, 0 , 'not cleared' );
 						done();
 					});
 
@@ -443,7 +447,6 @@
 				click(test.instance.control, function() {
 
 					syn.type('['+shortcut_key+'][left]['+shortcut_key+'-up]', test.instance.control_input, function() {
-						console.log('test.instance.activeItems',test.instance.activeItems);
 						assert.equal( test.instance.activeItems.length , 1);
 						assert.equal( test.instance.activeItems[0] , itemb);
 
