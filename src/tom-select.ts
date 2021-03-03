@@ -948,8 +948,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// clear the active selection
 		if( !item ){
-			removeClasses(self.activeItems,'active');
-			self.activeItems = [];
+			self.clearActiveItems();
 			if (self.isFocused) {
 				self.showInput();
 			}
@@ -983,8 +982,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.setActiveItemClass(item);
 			}
 		} else {
-			removeClasses(self.activeItems,'active');
-			self.activeItems = [];
+			self.clearActiveItems();
 			self.setActiveItemClass(item);
 		}
 
@@ -1020,6 +1018,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		removeClasses(item,'active');
 	}
 
+	/**
+	 * Clears all the active items
+	 *
+	 */
+	clearActiveItems(){
+		removeClasses(this.activeItems,'active');
+		this.activeItems = [];
+	}
 
 	/**
 	 * Sets the selected item in the dropdown menu
