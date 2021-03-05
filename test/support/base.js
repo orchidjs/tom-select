@@ -11,7 +11,6 @@ var IS_MAC      		= /Mac/.test(navigator.userAgent);
 var shortcut_key		= IS_MAC ? 'meta' : 'ctrl';
 var test_number			= 0;
 var $current_test_label = $('<h1 style="white-space:nowrap;overflow:hidden"></h1>').prependTo(sandbox);
-$('<div style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:10000">').prependTo(sandbox);
 
 
 var teardownLast = function(){

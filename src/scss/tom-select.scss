@@ -255,6 +255,8 @@ $select-spinner-border-color:					$select-color-border;
 		background: $select-color-optgroup;
 		cursor: default;
 	}
+
+	.option:hover,
 	.active {
 		background-color: $select-color-dropdown-item-active;
 		color: $select-color-dropdown-item-active-text;

@@ -61,7 +61,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public isSetup					: boolean = false;
 	public ignoreFocus				: boolean = false;
 	public ignoreBlur				: boolean = false;
-	public ignoreHover				: boolean = false;
 	public hasOptions				: boolean = false;
 	public currentResults			: ReturnType<Sifter['search']> = null;
 	public lastValue				: string = '';
@@ -326,19 +325,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		};
 
-		var win_hover = () => {
-			self.ignoreHover = false;
-		};
-
 
 		addEvent(document,'mousedown',doc_mousedown);
 		addEvent(window,'sroll', win_scroll, passive_event);
 		addEvent(window,'resize', win_scroll, passive_event);
-		addEvent(window,'mousemove', win_hover, passive_event);
 
 		self._destroy = () => {
 			document.removeEventListener('mousedown',doc_mousedown);
-			window.removeEventListener('mousemove',win_hover);
 			window.removeEventListener('sroll',win_scroll);
 			window.removeEventListener('resize',win_scroll);
 		};
@@ -592,8 +585,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	onKeyDown(e:KeyboardEvent):void {
 		var self = this;
 
-		self.ignoreHover = true;
-
 		if (self.isLocked) {
 			if (e.keyCode !== constants.KEY_TAB) {
 				preventDefault(e);
@@ -779,12 +770,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Triggered when the user rolls over
 	 * an option in the autocomplete dropdown menu.
-	 *
+	 * @deprecated v1.3
 	 */
-	onOptionHover( evt:MouseEvent|KeyboardEvent, option:HTMLElement ):boolean{
-		if (this.ignoreHover) return;
-		this.setActiveOption(option, false);
-	}
+	onOptionHover( evt:MouseEvent|KeyboardEvent, option:HTMLElement ){}
 
 	/**
 	 * Triggered when the user clicks on an option
