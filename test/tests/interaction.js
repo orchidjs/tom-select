@@ -779,6 +779,21 @@
 			});
 
 
+			it_n('should prevent typing when there are active items', function(done) {
+
+				var test = setup_test('AB_Multi');
+				test.instance.addItem('a');
+				test.instance.setActiveItem(test.instance.getItem('a'));
+
+				click(test.instance.control, function() {
+					syn.type('a', test.instance.control_input, function() {
+						assert.equal( test.instance.control_input.value, '' );
+						done();
+					});
+				});
+
+			});
+
 		});
 
 		describe('blurring the input', function() {

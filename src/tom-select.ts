@@ -672,9 +672,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				return;
 		}
 
+		// don't enter text in the control_input when active items are selected
 		if( self.isInputHidden && !isKeyDown(constants.KEY_SHORTCUT,e) ){
 			preventDefault(e);
-			return;
 		}
 	}
 
