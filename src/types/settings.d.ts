@@ -62,6 +62,7 @@ export type TomSettings = {
 	copyClassesToDropdown	: boolean,
 
 	placeholder				: string,
+	hidePlaceholder			: boolean,
 
 	load					: (value:string, callback:()=>any) => void,
 	score					: (query:string) => () => any,

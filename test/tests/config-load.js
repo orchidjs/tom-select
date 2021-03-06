@@ -125,11 +125,13 @@ describe('load', function() {
 			}
 		});
 
-		syn.type('a', test.instance.control_input,function(){
-			syn.type('b', test.instance.control_input,function(){
-				setTimeout(function(){
-					syn.type('\b', test.instance.control_input);
-				},400); // greater than load throttle
+		click(test.instance.control, function(){
+			syn.type('a', test.instance.control_input,function(){
+				syn.type('b', test.instance.control_input,function(){
+					setTimeout(function(){
+						syn.type('\b', test.instance.control_input);
+					},400); // greater than load throttle
+				});
 			});
 		});
 

@@ -126,6 +126,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			this.settings.hideSelected = this.settings.mode === 'multi';
 		}
 
+		if( typeof this.settings.hidePlaceholder !== 'boolean' ){
+			this.settings.hidePlaceholder = this.settings.mode !== 'multi';
+		}
+
 		// set up createFilter callback
 		var filter = this.settings.createFilter;
 		if( typeof filter !== 'function' ){
@@ -274,7 +278,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// event target is the input it should not be modified.
 			// otherwise, text selection within the input won't work.
 			if (evt.target == control_input) {
+				self.clearActiveItems();
 				evt.stopPropagation();
+				self.inputState();
 				return;
 			}
 
@@ -309,6 +315,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				if (self.isFocused) {
 					self.blur();
 				}
+				self.inputState();
 				return;
 			}
 
@@ -367,6 +374,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.updateOriginalInput();
 		self.refreshItems();
 		self.refreshState();
+		self.inputState();
 		self.isSetup = true;
 
 		if( input.disabled ){
@@ -1074,27 +1082,39 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	}
 
 	/**
+	 * Determines if the control_input should be in a hidden or visible state
+	 *
+	 */
+	inputState(){
+		var self = this;
+
+		if( self.settings.controlInput ) return;
+
+		if( self.activeItems.length > 0 || (!self.isFocused && this.settings.hidePlaceholder && self.items.length > 0) ){
+			self.setTextboxValue('');
+			self.isInputHidden = true;
+			addClasses(self.wrapper,'input-hidden');
+		}else{
+			self.isInputHidden = false;
+			removeClasses(self.wrapper,'input-hidden');
+		}
+	}
+
+	/**
 	 * Hides the input element out of view, while
 	 * retaining its focus.
+	 * @deprecated 1.3
 	 */
 	hideInput() {
-
-		if( this.settings.controlInput ) return;
-
-		this.setTextboxValue('');
-		applyCSS(this.control_input, {opacity: 0, position: 'absolute', left: (this.rtl ? 10000 : -10000)+'px'} );
-		this.isInputHidden = true;
+		this.inputState();
 	}
 
 	/**
 	 * Restores input visibility.
+	 * @deprecated 1.3
 	 */
 	showInput() {
-
-		if( this.settings.controlInput ) return;
-
-		applyCSS(this.control_input, {opacity: 1, position: 'relative', left: 0} );
-		this.isInputHidden = false;
+		this.inputState();
 	}
 
 	/**
