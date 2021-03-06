@@ -2175,8 +2175,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	advanceSelection(direction:number, e?:MouseEvent|KeyboardEvent) {
 		var idx, last_active, adjacent, self = this;
 
-		if (direction === 0) return;
 		if (self.rtl) direction *= -1;
+		if( self.inputValue().length ) return;
 
 
 		// add or remove to active items
@@ -2206,24 +2206,22 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.setActiveItemClass(adjacent); // mark as last_active !! after removeActiveItem() on last_active
 			}
 
-		}else if( !self.inputValue().length ){
+		// move caret to the left or right
+		}else if( self.isFocused && !self.activeItems.length ){
 
-			// move caret to the left or right
-			if( self.isFocused && !self.activeItems.length ){
+			self.setCaret(self.caretPos + direction);
 
-				self.setCaret(self.caretPos + direction);
+		// move caret before or after selected items
+		}else{
 
-			// move caret before or after selected items
-			}else{
-
-				last_active		= self.getLastActive(direction);
-				if( last_active ){
-					idx = nodeIndex(last_active);
-					self.setCaret(direction > 0 ? idx + 1: idx);
-					self.setActiveItem();
-				}
+			last_active		= self.getLastActive(direction);
+			if( last_active ){
+				idx = nodeIndex(last_active);
+				self.setCaret(direction > 0 ? idx + 1: idx);
+				self.setActiveItem();
 			}
 		}
+
 	}
 
 	/**

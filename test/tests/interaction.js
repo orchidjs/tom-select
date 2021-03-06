@@ -362,6 +362,17 @@
 				});
 			});
 
+			it_n('should not move caret when [left] or [right] pressed and control_input is not empty', function(done) {
+				var test = setup_test('<input type="text" value="a,b,c,d">', {create: true});
+
+				click(test.instance.control, function() {
+					syn.type('whatt[left]', test.instance.control_input, function() {
+						expect(test.instance.caretPos).to.be.equal(4);
+						done();
+					});
+				});
+			});
+
 			it_n('should not create input if comma entered in single select mode', function(done) {
 				var test = setup_test('<select>' +
 					'<option value="">Select an option...</option>' +
