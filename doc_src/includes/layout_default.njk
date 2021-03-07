@@ -11,7 +11,7 @@
 		{{ style | safe }}
 
 		<script src="/js/jquery.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/bootstrap.bundle.min.js"></script>
 
 		{% block tomselectjs %}
 		<script src="/js/tom-select.complete.js"></script>
@@ -23,18 +23,18 @@
     <body>
 		<div class="">
 
-			<div class="row flex-lg-nowrap no-gutters">
+			<div class="row flex-lg-nowrap g-0">
 				<div class="col-md-9 col-xl-10">
 				</div>
 			</div>
 
-			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
 
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-right px-0 offcanvas pt-5">
+				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
 					{% include "nav.njk" %}
 				</div>
 
-				<div class="col-md-9 col-lg-10 pb-5">
+				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
 					<div class="my-4">
 						<div class="container">
 							<button class="toggle-offcanvas btn btn-link" type="button">

@@ -16,7 +16,6 @@
 
 <div class="row py-5">
 <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mx-auto">
-	<link rel="stylesheet" href="/css/tom-select.bootstrap4.css">
 
 	{% set html %}
 	<select id="select-tags" multiple placeholder="Best movies and TV shows">
@@ -46,7 +45,7 @@
 		},
 		render:{
 			option:function(data,escape){
-				return '<div class="d-flex"><span>' + escape(data['label']) + '</span><span class="ml-auto text-muted">' + escape(data['date']) + '</span></div>';
+				return '<div class="d-flex"><span>' + escape(data['label']) + '</span><span class="ms-auto text-muted">' + escape(data['date']) + '</span></div>';
 			},
 			item:function(data,escape){
 				return '<div>' + escape(data['label']) + '</div>';

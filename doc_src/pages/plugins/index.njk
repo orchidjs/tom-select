@@ -3,26 +3,336 @@ title: Plugin Examples
 nav_title: Plugins
 tags: demo
 exclude: true
+layout: layout_default
+script: <script src="/js/jqueryui.js"></script>
 ---
 
 
-{% from "demo.njk" import demo %}
+{% from "demo.njk" import demo_small %}
 
 
 <p class="mt-5">
 	Plugins are bundled in <code>tom-select.complete.js</code> but can also be loaded individually.
-	Include <code>tom-select.base.js</code> and any combination of plugins of your choosing.
+	To load individually, include <code>tom-select.base.js</code> and any combination of plugins of your choosing.
 	The <a href="/docs/plugins">plugin documentation</a> has more information about custom bundles and plugin development.
 </p>
-{% highlight "html" %}
-<script src="/js/tom-select.base.js"></script>
-<script src="/js/plugins/change_listener.js"></script>
-<script src="/js/plugins/drag_drop.js"></script>
-<script src="/js/plugins/dropdown_header.js"></script>
-<script src="/js/plugins/dropdown_input.js"></script>
-<script src="/js/plugins/input_autogrow.js"></script>
-<script src="/js/plugins/no_backspace_delete.js"></script>
-<script src="/js/plugins/optgroup_columns.js"></script>
-<script src="/js/plugins/remove_button.js"></script>
-<script src="/js/plugins/restore_on_backspace.js"></script>
-{% endhighlight %}
+
+<h2 class="border-bottom pt-5">Items</h2>
+<p class="mb-2">Plugins that modify the behavior and/or display of items.</p>
+
+
+<div class="row gx-5">
+
+	{# Remove Button #}
+	<div class="col-sm-6">
+
+		{% set html %}
+		<input type="text" id="input-tags" value="awesome,neat" autocomplete="off">
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#input-tags',{
+			plugins: ['remove_button'],
+			persist: false,
+			create: true,
+			onDelete: function(values) {
+				return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
+			}
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/remove-button">Remove Button</a>', html, script) }}
+	</div>
+
+
+	{# no backspace delete #}
+	<div class="col-sm-6">
+
+		{% set html %}
+		<input type="text" id="disable-backspace" value="awesome,neat" autocomplete="off">
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#disable-backspace',{
+			plugins: ['no_backspace_delete','remove_button',],
+			persist: false,
+			create: true,
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/no-backspace-delete">No Backspace Delete</a>', html, script) }}
+	</div>
+
+	{# drag-drop #}
+	<div class="col-sm-6">
+
+		{% set html %}
+		<input type="text" id="input-sortable" value="drag,these,items,around" autocomplete="off">
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#input-sortable',{
+			plugins: ['drag_drop'],
+			persist: false,
+			create: true
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/drag-drop">Drag Drop</a>', html, script) }}
+	</div>
+
+	{# restore on backspace #}
+	<div class="col-sm-6">
+
+		{% set html %}
+		<input type="text" id="input-tags6" value="awesome,neat" autocomplete="off">
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#input-tags6',{
+			plugins: ['restore_on_backspace'],
+			persist: false,
+			create: true
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/restore-on-backspace">Restore on Backspace</a>', html, script) }}
+	</div>
+
+</div>
+
+
+<h2 class="border-bottom pt-5">Control Input</h2>
+<p class="mb-4">Plugins that modify the behavior and/or display of the control input.</p>
+
+
+<div class="row gx-5">
+
+	{# Dropdown input #}
+	<div class="col-sm-6">
+
+		{% set html %}
+		<select id="ex-dropdown-input" autocomplete="off" placeholder="How cool is this?">
+			<option>amazing</option>
+			<option selected>awesome</option>
+			<option>cool</option>
+			<option>excellent</option>
+			<option>great</option>
+			<option>neat</option>
+			<option>superb</option>
+			<option>wonderful</option>
+		</select>
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#ex-dropdown-input',{
+			plugins: ['dropdown_input'],
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/dropdown-input">Dropdown Input</a>', html, script) }}
+	</div>
+
+
+	{# Input Autogrow #}
+	<div class="col-sm-6">
+
+		{% set html %}
+		<select id="input-autogrow" multiple autocomplete="off" placeholder="How cool is this?">
+			<option>amazing</option>
+			<option>awesome</option>
+			<option>cool</option>
+			<option>excellent</option>
+			<option>great</option>
+			<option>neat</option>
+			<option>superb</option>
+			<option>wonderful</option>
+		</select>
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#input-autogrow',{
+			plugins: ['input_autogrow'],
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/input-autogrow">Input Autogrow</a>', html, script) }}
+	</div>
+
+</div>
+
+
+<h2 class="border-bottom pt-5">Dropdown</h2>
+<p class="mb-4">Plugins that modify the behavior and/or display of the dropdown content.</p>
+
+
+<div class="row gx-5">
+
+	{# Checkbox options #}
+	<div class="col-sm-6">
+
+		{% set html %}
+		<select id="ex-checkbox-options" autocomplete="off" multiple>
+			<option>amazing</option>
+			<option selected>awesome</option>
+			<option>cool</option>
+			<option selected>excellent</option>
+			<option>great</option>
+			<option>neat</option>
+			<option>superb</option>
+			<option>wonderful</option>
+		</select>
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#ex-checkbox-options',{
+			plugins: ['checkbox_options'],
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/checkbox-options">Checkbox Options</a>', html, script) }}
+	</div>
+
+	{# optgroup columns #}
+	<div class="col-sm-6">
+
+		{% set html %}
+		<input type="text" id="select-car" placeholder="Select cars...">
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect("#select-car",{
+			options: [
+				{id: 'avenger', make: 'dodge', model: 'Avenger'},
+				{id: 'caliber', make: 'dodge', model: 'Caliber'},
+				{id: 'caravan-grand-passenger', make: 'dodge', model: 'Caravan Grand Passenger'},
+				{id: 'challenger', make: 'dodge', model: 'Challenger'},
+				{id: 'ram-1500', make: 'dodge', model: 'Ram 1500'},
+				{id: 'viper', make: 'dodge', model: 'Viper'},
+				{id: 'a3', make: 'audi', model: 'A3'},
+				{id: 'a6', make: 'audi', model: 'A6'},
+				{id: 'r8', make: 'audi', model: 'R8'},
+				{id: 'rs-4', make: 'audi', model: 'RS 4'},
+				{id: 's4', make: 'audi', model: 'S4'},
+				{id: 's8', make: 'audi', model: 'S8'},
+				{id: 'tt', make: 'audi', model: 'TT'},
+				{id: 'avalanche', make: 'chevrolet', model: 'Avalanche'},
+				{id: 'aveo', make: 'chevrolet', model: 'Aveo'},
+				{id: 'cobalt', make: 'chevrolet', model: 'Cobalt'},
+				{id: 'silverado', make: 'chevrolet', model: 'Silverado'},
+				{id: 'suburban', make: 'chevrolet', model: 'Suburban'},
+				{id: 'tahoe', make: 'chevrolet', model: 'Tahoe'},
+				{id: 'trail-blazer', make: 'chevrolet', model: 'TrailBlazer'},
+			],
+			optgroups: [
+				{$order: 3, id: 'dodge', name: 'Dodge'},
+				{$order: 2, id: 'audi', name: 'Audi'},
+				{$order: 1, id: 'chevrolet', name: 'Chevrolet'}
+			],
+			labelField: 'model',
+			valueField: 'id',
+			optgroupField: 'make',
+			optgroupLabelField: 'name',
+			optgroupValueField: 'id',
+			lockOptgroupOrder: true,
+			searchField: ['model'],
+			plugins: ['optgroup_columns'],
+			openOnFocus: false
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/optgroup-columns">Optgroup Columns</a>', html, script) }}
+	</div>
+
+	{# dropdown header #}
+	<div class="col-sm-6">
+		{% set html %}
+		<select id="select-code-language" class="demo-code-language" placeholder="Select a language..." autocomplete="off">
+			<option value="txt">Text</option>
+			<option value="md">Markdown</option>
+			<option value="html">HTML</option>
+			<option value="php">PHP</option>
+			<option value="python">Python</option>
+			<option value="java">Java</option>
+			<option value="js" selected>JavaScript</option>
+			<option value="c#">Ruby</option>
+			<option value="c#">VHDL</option>
+			<option value="c#">Verilog</option>
+			<option value="c#">C#</option>
+			<option value="c++">C/C++</option>
+		</select>
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#select-code-language',{
+			sortField: 'text',
+			hideSelected: false,
+			plugins: {
+				'dropdown_header': {
+					title: 'Language'
+				}
+			}
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/dropdown-header">Dropdown Header</a>', html, script) }}
+	</div>
+
+</div>
+
+
+
+<h2 class="border-bottom pt-5">Other</h2>
+
+
+<div class="row gx-5">
+
+	{# Change listener #}
+	<div class="col-sm-6">
+
+
+		{% set html %}
+		<input type="text" id="input-change" value="original value" autocomplete="off">
+		<button type="button" class="btn btn-sm btn-success" id="change-input">Change original input</button>
+		{% endset %}
+
+		<script>
+		{% set script %}
+
+		var input = document.getElementById('input-change');
+		new TomSelect(input,{
+			plugins: ['change_listener'],
+		});
+		document.getElementById('change-input').addEventListener('click',function(evt){
+			evt.preventDefault();
+			evt.stopPropagation();
+
+			input.value = 'new value';
+			var evt = document.createEvent('HTMLEvents');
+			evt.initEvent('change', false, true);
+			input.dispatchEvent(evt);
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( '<a href="/plugins/change-listener">Change Listener</a>', html, script) }}
+	</div>
+</div>

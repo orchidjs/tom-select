@@ -1,5 +1,42 @@
 {% set demo_count = [] %}
 
+
+{% macro sandbox_links( script ) %}
+
+	{% if script %}
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Sandbox</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+			<input class="codepen" type="hidden" name="data" value=""/>
+			<a class="dropdown-item opensandbox">CodePen</a>
+			</form>
+		</li>
+		<li>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+					<a class="dropdown-item opensandbox">JSFiddle</a>
+			</form>
+		</li>
+		</ul>
+	</li>
+	{#
+	<li class="nav-item" role="presentation">
+	<form action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
+		<input class="codesandbox" type="hidden" name="parameters" value="" />
+			<a class="nav-link opensandbox">CodeSandbox</a>
+	</form>
+	</li>
+	#}
+
+	{% endif %}
+{% endmacro %}
+
+
 {% macro demo( label, html, script, style, jquery ) %}
 	{% set dd = demo_count.push('a') %}
 
@@ -35,33 +72,7 @@
 				</li>
 				{% endif %}
 
-				{% if script %}
-				<li class="nav-item ml-auto">
-					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
-							<a class="nav-link opensandbox">JSFiddle</a>
-					</form>
-				</li>
-				<li class="nav-item">
-				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-					<input class="codepen" type="hidden" name="data" value=""/>
-						<a class="nav-link opensandbox">CodePen</a>
-				</form>
-				</li>
-				{% endif %}
-
-				{#
-				<li class="nav-item" role="presentation">
-				<form action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
-					<input class="codesandbox" type="hidden" name="parameters" value="" />
-						<a class="nav-link opensandbox">CodeSandbox</a>
-				</form>
-				</li>
-				#}
-
+				{{ sandbox_links(script) }}
 			</ul>
 
 			<div class="tab-content">
@@ -93,6 +104,35 @@
 	</div>
 {% endmacro %}
 
+{% macro demo_small( label, html, script, style, jquery ) %}
+
+	<div class="demo demo-small">
+	<div>
+		<div>
+			<div class="d-flex align-items-end flex-wrap">
+				<h4 class="text-nowrap">
+					{{ label | safe }}
+				</h4>
+				<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+					{{ sandbox_links(script) }}
+				</ul>
+			</div>
+
+
+			<div class="demo-html">
+				{{ html | safe }}
+			</div>
+
+			{# for codepen #}
+			<textarea hidden>{{html}}</textarea>
+			<script>{{ script | safe }}</script>
+			<style>{{ style | safe }}</style>
+
+		</div>
+	</div>
+	</div>
+{% endmacro %}
+
 
 {% macro demo_mini( label, html, script, style, jquery ) %}
 
@@ -103,23 +143,7 @@
 				<li class="nav-item">
 					<a class="nav-link disabled">{{ label | safe }}</a>
 				</li>
-				{% if script %}
-				<li class="nav-item ml-auto">
-					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
-							<a class="nav-link opensandbox">JSFiddle</a>
-					</form>
-				</li>
-				<li class="nav-item">
-				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-					<input class="codepen" type="hidden" name="data" value=""/>
-						<a class="nav-link opensandbox">CodePen</a>
-				</form>
-				</li>
-				{% endif %}
+				{{ sandbox_links(script) }}
 			</ul>
 
 

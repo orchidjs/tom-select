@@ -1,5 +1,5 @@
-@import "../../node_modules/bootstrap/scss/_functions.scss";
-@import "../../node_modules/bootstrap/scss/_variables.scss";
+@import "../../node_modules/bootstrap5/scss/_functions.scss";
+@import "../../node_modules/bootstrap5/scss/_variables.scss";
 
 $enable-responsive-font-sizes: true;
 
@@ -15,7 +15,7 @@ $headings-color:			$gray-700;
 $body-color:                $gray-800;
 
 
-@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../node_modules/bootstrap5/scss/bootstrap.scss";
 
 
 
@@ -86,12 +86,15 @@ li{
 
 .demo{
 
-
 	.nav-tabs{
 		border-bottom: 0 !important;
 	}
 
+	h3 a,
+	h4 a,
+	h5 a,
 	.nav-tabs a{
+		text-decoration: none;
 		color:	$secondary;
 		border-bottom: 0 !important;
 	}
@@ -178,7 +181,7 @@ pre[class*="language-"]{
 	display:none;
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
 
 	.toggle-offcanvas{
 		display:			block;

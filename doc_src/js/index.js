@@ -18,24 +18,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 	// theme switcher
+	var themes			= ['bootstrap5','bootstrap4','bootstrap3','default'];
+	var theme			= localStorage.getItem('theme') || 'bootstrap4';
+	var themes_div	= document.createElement('div');
+	themes_div.classList.add('theme-selector')
+	var container	= document.getElementById('main-container')
+
 	if( !document.querySelectorAll('.demo-mini').length ){
-		var themes			= ['bootstrap5','bootstrap4','bootstrap3','default'];
-		var theme			= localStorage.getItem('theme') || 'bootstrap4';
-
-		var themes_div	= document.createElement('div');
-		themes_div.classList.add('theme-selector')
-		var container	= document.getElementById('main-container')
 		container.insertBefore(themes_div, container.firstChild);
-
-		SetTheme(theme);
-
-		// add info about script and current value below each demo
-		for(let i = 0; i < demo_divs.length; i++){
-			let demo	= demo_divs[i];
-			ShowValue(demo);
-		}
-
 	}
+
+	SetTheme(theme);
+
+	// add info about script and current value below each demo
+	for(let i = 0; i < demo_divs.length; i++){
+		let demo	= demo_divs[i];
+		ShowValue(demo);
+	}
+
 
 
 	/**
