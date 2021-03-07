@@ -46,6 +46,10 @@ TomSelect.define('checkbox_options',function(options:TPluginOptions) {
 		self.settings.render.option = function(data){
 			var rendered = getDom(orig_render_option.apply(self, arguments));
 			var checkbox = document.createElement('input');
+			checkbox.addEventListener('click',function(evt){
+				preventDefault(evt);
+			});
+
 			checkbox.type = 'checkbox';
 			var value = hash_key(data[self.settings.valueField]);
 
