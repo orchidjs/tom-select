@@ -20,8 +20,10 @@ $body-color:                $gray-800;
 
 
 
-a{
+a,
+.btn-link{
 	cursor:	pointer;
+	text-decoration:none;
 }
 
 label {
@@ -65,6 +67,15 @@ h1, h2, h3, h4, h5{
 	margin-top:		3rem;
 }
 
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a{
+	color:	$body-color;
+}
+
+
 strong,
 b{
 	color:			$headings-color;
@@ -90,13 +101,8 @@ li{
 		border-bottom: 0 !important;
 	}
 
-	h3 a,
-	h4 a,
-	h5 a,
 	.nav-tabs a{
-		text-decoration: none;
 		color:	$secondary;
-		border-bottom: 0 !important;
 	}
 
 	.tab-content{

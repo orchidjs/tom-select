@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		demo.querySelector('.jsfiddle-resources').value = js_urls.join(',') + ','+css_urls.join(',');
 
 		setTimeout(function(){
-			$this.closest('form').submit();
+			$this.siblings('form').submit();
 		},50);
 	});
 

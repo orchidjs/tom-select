@@ -5,21 +5,21 @@
 
 	{% if script %}
 	<li class="nav-item dropdown ms-auto">
-		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Sandbox</a>
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
 		<ul class="dropdown-menu dropdown-menu-end">
       	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-			<input class="codepen" type="hidden" name="data" value=""/>
-			<a class="dropdown-item opensandbox">CodePen</a>
+				<input class="codepen" type="hidden" name="data" value=""/>
 			</form>
 		</li>
 		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
 				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
 				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
 				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
 				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
-					<a class="dropdown-item opensandbox">JSFiddle</a>
 			</form>
 		</li>
 		</ul>
@@ -57,25 +57,25 @@
 		</div>
 		<div class="mt-4">
 
-			<ul class="nav nav-tabs" role="tablist">
+			<ul class="nav nav-tabs" role="tablist" id="demoTab-{{ demo_count | length }}">
 				{% if script %}
 				<li class="nav-item" role="presentation">
-					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-{{ demo_count | length }}" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+					<a class="nav-link active" data-bs-toggle="tab" data-bs-target="#javascript-tab-{{ demo_count | length }}" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
 				{% endif %}
 				<li class="nav-item" role="presentation">
-					<a class="nav-link {% if not script %} active {% endif %}" data-toggle="tab" data-target="#html-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link {% if not script %} active {% endif %}" data-bs-toggle="tab" data-bs-target="#html-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
 				{% if style %}
 				<li class="nav-item" role="presentation">
-					<a class="nav-link" data-toggle="tab" data-target="#style-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
+					<a class="nav-link" data-bs-toggle="tab" data-bs-target="#style-tab-{{ demo_count | length }}" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
 				</li>
 				{% endif %}
 
 				{{ sandbox_links(script) }}
 			</ul>
 
-			<div class="tab-content">
+			<div class="tab-content" id="demoTabContent-{{ demo_count | length }}">
 				{% if script %}
 				<div class="tab-pane fade show active" id="javascript-tab-{{ demo_count | length }}" role="tabpanel" aria-labelledby="home-tab">
 					{% highlight "js" %}
@@ -104,15 +104,12 @@
 	</div>
 {% endmacro %}
 
-{% macro demo_small( label, html, script, style, jquery ) %}
+{% macro demo_small( html, script, style, jquery ) %}
 
 	<div class="demo demo-small">
 	<div>
 		<div>
 			<div class="d-flex align-items-end flex-wrap">
-				<h4 class="text-nowrap">
-					{{ label | safe }}
-				</h4>
 				<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
 					{{ sandbox_links(script) }}
 				</ul>

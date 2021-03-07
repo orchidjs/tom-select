@@ -18,12 +18,16 @@ script: <script src="/js/jqueryui.js"></script>
 </p>
 
 <h2 class="border-bottom pt-5">Items</h2>
-<p class="mb-2">Plugins that modify the behavior and/or display of items.</p>
+<p class="mb-2">Plugins that modify the behavior and/or display of items (selected options).</p>
 
 
-<div class="row gx-5">
+<div class="row">
 
 	{# Remove Button #}
+	<div class="col-sm-6">
+		<h4><a href="/plugins/remove-button">Remove Button</a></h4>
+		<p>Adds one-click removal of each item</p>
+	</div>
 	<div class="col-sm-6">
 
 		{% set html %}
@@ -43,11 +47,17 @@ script: <script src="/js/jqueryui.js"></script>
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/remove-button">Remove Button</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
+</div>
 
 
-	{# no backspace delete #}
+{# no backspace delete #}
+<div class="row">
+	<div class="col-sm-6">
+		<h4><a href="/plugins/no-backspace-delete">No Backspace Delete</a></h4>
+		<p>Prevents the user from removing items with <kbd>backspace</kbd> </p>
+	</div>
 	<div class="col-sm-6">
 
 		{% set html %}
@@ -57,17 +67,24 @@ script: <script src="/js/jqueryui.js"></script>
 		<script>
 		{% set script %}
 		new TomSelect('#disable-backspace',{
-			plugins: ['no_backspace_delete','remove_button',],
+			plugins: ['no_backspace_delete'],
 			persist: false,
 			create: true,
 		});
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/no-backspace-delete">No Backspace Delete</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
+</div>
 
-	{# drag-drop #}
+
+{# drag-drop #}
+<div class="row">
+	<div class="col-sm-6">
+		<h4><a href="/plugins/drag-drop">Drag Drop</a></h4>
+		<p>Allows users to sort items with drag-n-drop </p>
+	</div>
 	<div class="col-sm-6">
 
 		{% set html %}
@@ -84,10 +101,16 @@ script: <script src="/js/jqueryui.js"></script>
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/drag-drop">Drag Drop</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
+</div>
 
 	{# restore on backspace #}
+<div class="row">
+	<div class="col-sm-6">
+		<h4><a href="/plugins/restore-on-backspace">Restore on Backspace</a></h4>
+		<p>Fills the control input with the value of deleted items upon deletion </p>
+	</div>
 	<div class="col-sm-6">
 
 		{% set html %}
@@ -104,7 +127,7 @@ script: <script src="/js/jqueryui.js"></script>
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/restore-on-backspace">Restore on Backspace</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
 
 </div>
@@ -114,9 +137,13 @@ script: <script src="/js/jqueryui.js"></script>
 <p class="mb-4">Plugins that modify the behavior and/or display of the control input.</p>
 
 
-<div class="row gx-5">
 
-	{# Dropdown input #}
+{# Dropdown input #}
+<div class="row">
+	<div class="col-sm-6">
+		<h4><a href="/plugins/dropdown-input">Dropdown Input</a></h4>
+		<p>Positions the control input in the select dropdown</p>
+	</div>
 	<div class="col-sm-6">
 
 		{% set html %}
@@ -140,11 +167,17 @@ script: <script src="/js/jqueryui.js"></script>
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/dropdown-input">Dropdown Input</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
+</div>
 
 
-	{# Input Autogrow #}
+{# Input Autogrow #}
+<div class="row">
+	<div class="col-sm-6">
+		<h4><a href="/plugins/input-autogrow">Input Autogrow</a></h4>
+		<p>Resizes the control input as the user types</p>
+	</div>
 	<div class="col-sm-6">
 
 		{% set html %}
@@ -168,9 +201,8 @@ script: <script src="/js/jqueryui.js"></script>
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/input-autogrow">Input Autogrow</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
-
 </div>
 
 
@@ -178,9 +210,12 @@ script: <script src="/js/jqueryui.js"></script>
 <p class="mb-4">Plugins that modify the behavior and/or display of the dropdown content.</p>
 
 
-<div class="row gx-5">
-
-	{# Checkbox options #}
+{# Checkbox options #}
+<div class="row">
+	<div class="col-sm-6">
+		<h4><a href="/plugins/checkbox-options">Checkbox Options</a></h4>
+		<p>Displays checkboxes next to each option in the dropdown</p>
+	</div>
 	<div class="col-sm-6">
 
 		{% set html %}
@@ -204,10 +239,16 @@ script: <script src="/js/jqueryui.js"></script>
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/checkbox-options">Checkbox Options</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
+</div>
 
-	{# optgroup columns #}
+{# optgroup columns #}
+<div class="row">
+	<div class="col-sm-6">
+		<h4><a href="/plugins/optgroup-columns">Optgroup Columns</a></h4>
+		<p>Divides option groups into columns and allows users to navigate columns with <kbd>left</kbd> and <kbd>right</kbd> keys</p>
+	</div>
 	<div class="col-sm-6">
 
 		{% set html %}
@@ -257,10 +298,17 @@ script: <script src="/js/jqueryui.js"></script>
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/optgroup-columns">Optgroup Columns</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
+</div>
 
-	{# dropdown header #}
+
+{# dropdown header #}
+<div class="row">
+	<div class="col-sm-6">
+		<h4><a href="/plugins/dropdown-header">Dropdown Header</a></h4>
+		<p>Adds a customizable header to the select dropdown</p>
+	</div>
 	<div class="col-sm-6">
 		{% set html %}
 		<select id="select-code-language" class="demo-code-language" placeholder="Select a language..." autocomplete="off">
@@ -293,7 +341,7 @@ script: <script src="/js/jqueryui.js"></script>
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/dropdown-header">Dropdown Header</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
 
 </div>
@@ -303,9 +351,12 @@ script: <script src="/js/jqueryui.js"></script>
 <h2 class="border-bottom pt-5">Other</h2>
 
 
-<div class="row gx-5">
-
 	{# Change listener #}
+<div class="row">
+	<div class="col-sm-6">
+		<h4><a href="/plugins/change-listener">Change Listener</a></h4>
+		<p>Updates the value of the Tom Select instance when the value of the underlying &lt;input&gt; element changes</p>
+	</div>
 	<div class="col-sm-6">
 
 
@@ -333,6 +384,6 @@ script: <script src="/js/jqueryui.js"></script>
 		{% endset %}
 		</script>
 
-		{{ demo_small( '<a href="/plugins/change-listener">Change Listener</a>', html, script) }}
+		{{ demo_small( html, script) }}
 	</div>
 </div>
