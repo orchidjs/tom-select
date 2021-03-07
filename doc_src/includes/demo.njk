@@ -107,26 +107,21 @@
 {% macro demo_small( html, script, style, jquery ) %}
 
 	<div class="demo demo-small">
-	<div>
-		<div>
-			<div class="d-flex align-items-end flex-wrap">
-				<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
-					{{ sandbox_links(script) }}
-				</ul>
-			</div>
-
-
-			<div class="demo-html">
-				{{ html | safe }}
-			</div>
-
-			{# for codepen #}
-			<textarea hidden>{{html}}</textarea>
-			<script>{{ script | safe }}</script>
-			<style>{{ style | safe }}</style>
-
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				{{ sandbox_links(script) }}
+			</ul>
 		</div>
-	</div>
+
+
+		<div class="demo-html">
+			{{ html | safe }}
+		</div>
+
+		{# for codepen #}
+		<textarea hidden>{{html}}</textarea>
+		<script>{{ script | safe }}</script>
+		<style>{{ style | safe }}</style>
 	</div>
 {% endmacro %}
 
