@@ -2135,7 +2135,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			for( const item of self.activeItems ){
 				values.push( item.dataset.value );
 			}
-			preventDefault(e,true);
 
 		} else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
 			if (direction < 0 && selection.start === 0 && selection.length === 0) {
@@ -2149,6 +2148,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete.call(self,values,e) === false)) {
 			return false;
 		}
+
+		preventDefault(e,true);
 
 		// perform removal
 		if (typeof caret !== 'undefined') {
