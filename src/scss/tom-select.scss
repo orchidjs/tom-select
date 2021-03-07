@@ -193,8 +193,9 @@ $select-spinner-border-color:					$select-color-border;
 }
 
 // hide input, while retaining its focus, and maintain layout so users can still click on the space to bring the display back
+// visibility:hidden can prevent the input from receiving focus
 .input-hidden .items input{
-	visibility:	hidden;
+	opacity: 0;
 }
 
 .#{$select-ns}-input::after {
