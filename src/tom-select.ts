@@ -762,7 +762,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var deactivate = () => {
 			self.close();
 			self.setActiveItem();
-			self.setActiveOption();
+			self.clearActiveOption();
 			self.setCaret(self.items.length);
 			self.refreshState();
 			self.trigger('blur');
@@ -856,6 +856,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.loading = Math.max(self.loading - 1, 0);
 			self.lastQuery = null;
 
+			self.clearActiveOption(); // when new results load, focus should be on first option
 			self.setupOptions(options,optgroups);
 
 			self.refreshOptions(self.isFocused && !self.isInputHidden);
@@ -1029,16 +1030,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * of available options.
 	 *
 	 */
-	setActiveOption( option?:HTMLElement, scroll?:boolean ){
+	setActiveOption( option:HTMLElement, scroll?:boolean ){
 		var height_menu, height_item, y;
 
 		if( option === this.activeOption ){
 			return;
 		}
 
-		if( this.activeOption ) removeClasses(this.activeOption,'active');
-		this.activeOption = null;
-
+		this.clearActiveOption();
 		if( !option ) return;
 
 		this.activeOption = option;
@@ -1062,6 +1061,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		}
 	}
+
+
+	/**
+	 * Clears the active option
+	 *
+	 */
+	clearActiveOption(){
+		if( this.activeOption ) removeClasses(this.activeOption,'active');
+		this.activeOption = null;
+	}
+
 
 	/**
 	 * Selects all items (CTRL + A).
@@ -1396,7 +1406,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if( triggerDropdown && !self.isOpen ){ self.open(); }
 
 		}else{
-			self.setActiveOption();
+			self.clearActiveOption();
 			if( triggerDropdown && self.isOpen ){ self.close(); }
 		}
 	}
@@ -2034,7 +2044,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.isOpen = false;
 		applyCSS(self.dropdown,{display: 'none'});
-		self.setActiveOption();
+		self.clearActiveOption();
 		self.refreshState();
 		self.setTextboxValue('');
 
