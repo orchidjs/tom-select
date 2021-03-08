@@ -51,7 +51,7 @@ new TomSelect('#select-repo',{
 		render: {
 			option: function(item, escape) {
 				return `<div class="py-2 d-flex">
-							<div class="icon mr-3">
+							<div class="icon me-3">
 								<img class="img-fluid" src="${item.owner.avatar_url}" />
 							</div>
 							<div>
@@ -67,7 +67,7 @@ new TomSelect('#select-repo',{
 			},
 			item: function(item, escape) {
 				return `<div class="py-2 d-flex">
-							<div class="icon mr-3">
+							<div class="icon me-3">
 								<img class="img-fluid" src="${item.owner.avatar_url}" />
 							</div>
 							<div>
@@ -252,17 +252,17 @@ new TomSelect('#select-repo2',{
 								</div>
 								<div class="mb-1">${escape(item.description)}</div>
 								<div class="d-flex text-muted">
-									<div class="mr-3"><i class="fa fa-code"></i> ${escape(item.language)}</div>
-									<div class="mr-3"><i class="fa fa-flash"></i> ${escape(item.forks_count)} Forks</div>
-									<div class="mr-3"><i class="fa fa-star"></i> ${escape(item.stargazers_count)} Stars</div>
-									<div class="mr-3"><i class="fa fa-eye"></i> ${item.watchers_count} Watchers</div>
+									<div class="me-3"><i class="fa fa-code"></i> ${escape(item.language)}</div>
+									<div class="me-3"><i class="fa fa-flash"></i> ${escape(item.forks_count)} Forks</div>
+									<div class="me-3"><i class="fa fa-star"></i> ${escape(item.stargazers_count)} Stars</div>
+									<div class="me-3"><i class="fa fa-eye"></i> ${item.watchers_count} Watchers</div>
 								</div>
 							</div>
 						</div>`;
 			},
 			item: function(item, escape) {
 				return `<div class="py-2 d-flex">
-							<div class="icon mr-3">
+							<div class="icon me-3">
 								<img class="img-fluid" src="${item.owner.avatar_url}" />
 							</div>
 							<div>

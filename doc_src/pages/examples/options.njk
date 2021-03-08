@@ -60,10 +60,10 @@ new TomSelect('#select-tools',{
 new TomSelect('#data-attr',{
     render: {
         option: function (item, escape) {
-            return `<div><img class="mr-2" src="${item.src}">${item.text}</div>`;
+            return `<div><img class="me-2" src="${item.src}">${item.text}</div>`;
         },
         item: function (item, escape) {
-			return `<div><img class="mr-2" src="${item.src}">${item.text}</div>`;
+			return `<div><img class="me-2" src="${item.src}">${item.text}</div>`;
         }
     }
 });
