@@ -625,7 +625,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					self.open();
 				} else if (self.activeOption) {
 					let next = self.getAdjacent(self.activeOption, 1);
-					if (next) self.setActiveOption(next, true );
+					if (next) self.setActiveOption(next);
 				}
 				preventDefault(e);
 				return;
@@ -634,7 +634,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			case constants.KEY_UP:
 				if (self.activeOption) {
 					let prev = self.getAdjacent(self.activeOption, -1);
-					if (prev) self.setActiveOption(prev, true);
+					if (prev) self.setActiveOption(prev);
 				}
 				preventDefault(e);
 				return;
@@ -1030,7 +1030,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * of available options.
 	 *
 	 */
-	setActiveOption( option:HTMLElement, scroll?:boolean ){
+	setActiveOption( option:HTMLElement ){
 		var height_menu, height_item, y;
 
 		if( option === this.activeOption ){
@@ -1043,22 +1043,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.activeOption = option;
 		addClasses(option,'active');
 
-		if( scroll ){
+		height_menu		= this.dropdown_content.clientHeight;
+		let scrollTop	= this.dropdown_content.scrollTop || 0;
 
-			height_menu		= this.dropdown_content.clientHeight;
-			let scrollTop	= this.dropdown_content.scrollTop || 0;
+		height_item		= this.activeOption.offsetHeight;
+		y				= this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
 
-			height_item		= this.activeOption.offsetHeight;
-			y				= this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
+		if (y + height_item > height_menu + scrollTop) {
+			this.dropdown_content.scrollTop = y - height_menu + height_item;
 
-			if (y + height_item > height_menu + scrollTop) {
-				this.dropdown_content.scrollTop = y - height_menu + height_item;
-
-			} else if (y < scrollTop) {
-				this.dropdown_content.scrollTop = y;
-			}
-
-
+		} else if (y < scrollTop) {
+			this.dropdown_content.scrollTop = y;
 		}
 	}
 
