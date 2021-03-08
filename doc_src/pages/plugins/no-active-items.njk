@@ -1,0 +1,33 @@
+---
+title: No Active Items
+nav_title: No Active Items
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+{% set label %}
+<label class="h2 mb-3">
+	no_active_items
+</label>
+{% endset %}
+
+
+{% set html %}
+<input type="text" id="no-active-items" value="awesome,neat" autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#no-active-items',{
+	plugins: ['no_active_items'],
+	persist: false,
+	create: true,
+});
+{% endset %}
+</script>
+
+
+{{ demo( label, html, script) }}

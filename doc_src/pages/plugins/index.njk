@@ -21,11 +21,10 @@ script: <script src="/js/jqueryui.js"></script>
 <p class="mb-2">Plugins that modify the behavior and/or display of items (selected options).</p>
 
 
-<div class="row">
-
-	{# Remove Button #}
+{# Remove Button #}
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/remove-button">Remove Button</a></h4>
+		<h4 class="mt-0"><a href="/plugins/remove-button">Remove Button</a></h4>
 		<p>Adds one-click removal of each item</p>
 	</div>
 	<div class="col-sm-6">
@@ -53,10 +52,12 @@ script: <script src="/js/jqueryui.js"></script>
 
 
 {# no backspace delete #}
-<div class="row">
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/no-backspace-delete">No Backspace Delete</a></h4>
-		<p>Prevents the user from removing items with <kbd>backspace</kbd> </p>
+		<h4 class="mt-0"><a href="/plugins/no-backspace-delete">No Backspace Delete</a></h4>
+		<p>Prevents the user from removing items with <kbd>backspace</kbd> and <kdb>delete</kdb> keys unless items are active.
+		Use with <code>no_active_items</code> to disable deleting with keyboard events entirely.
+		</p>
 	</div>
 	<div class="col-sm-6">
 
@@ -80,9 +81,9 @@ script: <script src="/js/jqueryui.js"></script>
 
 
 {# drag-drop #}
-<div class="row">
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/drag-drop">Drag Drop</a></h4>
+		<h4 class="mt-0"><a href="/plugins/drag-drop">Drag Drop</a></h4>
 		<p>Allows users to sort items with drag-n-drop </p>
 	</div>
 	<div class="col-sm-6">
@@ -105,10 +106,10 @@ script: <script src="/js/jqueryui.js"></script>
 	</div>
 </div>
 
-	{# restore on backspace #}
-<div class="row">
+{# restore on backspace #}
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/restore-on-backspace">Restore on Backspace</a></h4>
+		<h4 class="mt-0"><a href="/plugins/restore-on-backspace">Restore on Backspace</a></h4>
 		<p>Fills the control input with the value of deleted items upon deletion </p>
 	</div>
 	<div class="col-sm-6">
@@ -133,15 +134,43 @@ script: <script src="/js/jqueryui.js"></script>
 </div>
 
 
+{# no active items #}
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/no-active-items">No Active Items</a></h4>
+		<p>Disables selecting items</p>
+	</div>
+	<div class="col-sm-6">
+
+		{% set html %}
+		<input type="text" id="no-active-items" value="awesome,neat" autocomplete="off">
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#no-active-items',{
+			plugins: ['no_active_items'],
+			persist: false,
+			create: true,
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( html, script) }}
+	</div>
+</div>
+
+
+
 <h2 class="border-bottom pt-5">Control Input</h2>
 <p class="mb-4">Plugins that modify the behavior and/or display of the control input.</p>
 
 
 
 {# Dropdown input #}
-<div class="row">
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/dropdown-input">Dropdown Input</a></h4>
+		<h4 class="mt-0"><a href="/plugins/dropdown-input">Dropdown Input</a></h4>
 		<p>Positions the control input in the select dropdown</p>
 	</div>
 	<div class="col-sm-6">
@@ -173,9 +202,9 @@ script: <script src="/js/jqueryui.js"></script>
 
 
 {# Input Autogrow #}
-<div class="row">
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/input-autogrow">Input Autogrow</a></h4>
+		<h4 class="mt-0"><a href="/plugins/input-autogrow">Input Autogrow</a></h4>
 		<p>Resizes the control input as the user types</p>
 	</div>
 	<div class="col-sm-6">
@@ -211,9 +240,9 @@ script: <script src="/js/jqueryui.js"></script>
 
 
 {# Checkbox options #}
-<div class="row">
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/checkbox-options">Checkbox Options</a></h4>
+		<h4 class="mt-0"><a href="/plugins/checkbox-options">Checkbox Options</a></h4>
 		<p>Displays checkboxes next to each option in the dropdown</p>
 	</div>
 	<div class="col-sm-6">
@@ -244,9 +273,9 @@ script: <script src="/js/jqueryui.js"></script>
 </div>
 
 {# optgroup columns #}
-<div class="row">
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/optgroup-columns">Optgroup Columns</a></h4>
+		<h4 class="mt-0"><a href="/plugins/optgroup-columns">Optgroup Columns</a></h4>
 		<p>Divides option groups into columns and allows users to navigate columns with <kbd>left</kbd> and <kbd>right</kbd> keys</p>
 	</div>
 	<div class="col-sm-6">
@@ -304,9 +333,9 @@ script: <script src="/js/jqueryui.js"></script>
 
 
 {# dropdown header #}
-<div class="row">
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/dropdown-header">Dropdown Header</a></h4>
+		<h4 class="mt-0"><a href="/plugins/dropdown-header">Dropdown Header</a></h4>
 		<p>Adds a customizable header to the select dropdown</p>
 	</div>
 	<div class="col-sm-6">
@@ -351,10 +380,10 @@ script: <script src="/js/jqueryui.js"></script>
 <h2 class="border-bottom pt-5">Other</h2>
 
 
-	{# Change listener #}
-<div class="row">
+{# Change listener #}
+<div class="row mt-5">
 	<div class="col-sm-6">
-		<h4><a href="/plugins/change-listener">Change Listener</a></h4>
+		<h4 class="mt-0"><a href="/plugins/change-listener">Change Listener</a></h4>
 		<p>Updates the value of the Tom Select instance when the value of the underlying &lt;input&gt; element changes</p>
 	</div>
 	<div class="col-sm-6">

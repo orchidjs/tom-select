@@ -737,6 +737,7 @@
 					test.instance.addItem('b');
 					test.instance.setActiveItem(test.instance.getItem('b'));
 					assert.equal( test.instance.items.length, 2 );
+					assert.equal( test.instance.activeItems.length, 1 );
 
 					syn.type(keypress, test.instance.control_input, function() {
 
