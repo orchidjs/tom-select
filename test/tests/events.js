@@ -64,6 +64,16 @@ describe('Events', function() {
 			});
 			test.instance.setValue('c');
 		});
+
+		it_n('should contain current value (multiple)', function(done) {
+			var test = setup_test('<select multiple><option value="a" selected></option><option value="b"></option><option value="c"></option></select>');
+			test.instance.on('change', function(value) {
+				assert.deepEqual(value,['a','c']);
+				done();
+			});
+			test.instance.addItem('c');
+		});
+
 		it_n('should not be triggered when the selected item has not changed', function(done) {
 			var test = eventTest('change','<select><option value="a" selected="selected">a</option></select>');
 

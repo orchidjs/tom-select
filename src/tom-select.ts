@@ -1997,7 +1997,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if (self.isSetup) {
 			if (!opts.silent) {
-				self.trigger('change', self.input.value );
+				self.trigger('change', self.getValue() );
 			}
 		}
 	}
