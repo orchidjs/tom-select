@@ -4,8 +4,6 @@
 */
 
 import TomSelect from '../../tom-select.js';
-import { KEY_BACKSPACE } from '../../constants.js';
-import { preventDefault } from '../../utils.js';
 
 /**
  * Plugin: "restore_on_backspace" (Tom Select)
@@ -28,31 +26,14 @@ TomSelect.define('restore_on_backspace', function (options) {
     return option[self.settings.labelField];
   };
 
-  var orig_keydown = self.onKeyDown;
-  self.hook('instead', 'onKeyDown', function (evt) {
-    var index, option;
-
-    if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '') {
-      index = self.caretPos - 1; // selected item
-
-      if (self.activeItems.length > 0) {
-        option = self.options[self.activeItems[0].dataset.value]; // not selected item
-      } else if (self.activeItems.length == 0 && index >= 0 && index < self.items.length) {
-        option = self.options[self.items[index]];
-      }
+  self.on('item_remove', function (value) {
+    if (self.control_input.value.trim() === '') {
+      var option = self.options[value];
 
       if (option) {
-        if (self.deleteSelection(evt)) {
-          self.setTextboxValue(options.text.call(self, option));
-          self.refreshOptions(true);
-        }
-
-        preventDefault(evt);
-        return;
+        self.setTextboxValue(options.text.call(self, option));
       }
     }
-
-    return orig_keydown.apply(self, arguments);
   });
 });
 //# sourceMappingURL=plugin.js.map

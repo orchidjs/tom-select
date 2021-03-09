@@ -86,7 +86,6 @@
 	      return orig_keydown.apply(self, arguments);
 	    }
 
-	    self.ignoreHover = true;
 	    optgroup = parentMatch(self.activeOption, '[data-group]');
 	    index = nodeIndex(self.activeOption, '[data-selectable]');
 

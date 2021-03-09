@@ -754,6 +754,8 @@
 	  dropdownParent: null,
 	  controlInput: null,
 	  copyClassesToDropdown: true,
+	  placeholder: null,
+	  hidePlaceholder: null,
 	  shouldLoad: function (query) {
 	    return query.length > 0;
 	  },
@@ -1273,7 +1275,6 @@
 	    this.isSetup = false;
 	    this.ignoreFocus = false;
 	    this.ignoreBlur = false;
-	    this.ignoreHover = false;
 	    this.hasOptions = false;
 	    this.currentResults = null;
 	    this.lastValue = '';
@@ -1325,6 +1326,10 @@
 
 	    if (typeof this.settings.hideSelected !== 'boolean') {
 	      this.settings.hideSelected = this.settings.mode === 'multi';
+	    }
+
+	    if (typeof this.settings.hidePlaceholder !== 'boolean') {
+	      this.settings.hidePlaceholder = this.settings.mode !== 'multi';
 	    } // set up createFilter callback
 
 
@@ -1456,7 +1461,9 @@
 	      // event target is the input it should not be modified.
 	      // otherwise, text selection within the input won't work.
 	      if (evt.target == control_input) {
+	        self.clearActiveItems();
 	        evt.stopPropagation();
+	        self.inputState();
 	        return;
 	      }
 
@@ -1490,6 +1497,7 @@
 	          self.blur();
 	        }
 
+	        self.inputState();
 	        return;
 	      }
 
@@ -1506,18 +1514,12 @@
 	      }
 	    };
 
-	    var win_hover = () => {
-	      self.ignoreHover = false;
-	    };
-
 	    addEvent(document, 'mousedown', doc_mousedown);
 	    addEvent(window, 'sroll', win_scroll, passive_event);
 	    addEvent(window, 'resize', win_scroll, passive_event);
-	    addEvent(window, 'mousemove', win_hover, passive_event);
 
 	    self._destroy = () => {
 	      document.removeEventListener('mousedown', doc_mousedown);
-	      window.removeEventListener('mousemove', win_hover);
 	      window.removeEventListener('sroll', win_scroll);
 	      window.removeEventListener('resize', win_scroll);
 	    }; // store original children and tab index so that they can be
@@ -1551,6 +1553,7 @@
 	    self.updateOriginalInput();
 	    self.refreshItems();
 	    self.refreshState();
+	    self.inputState();
 	    self.isSetup = true;
 
 	    if (input.disabled) {
@@ -1687,10 +1690,9 @@
 	    if (self.isFocused) {
 	      if (self.settings.mode !== 'single') {
 	        self.setActiveItem();
-	      } // toggle dropdown
+	      }
 
-
-	      self.isOpen ? self.close() : self.open();
+	      self.open();
 	      return false;
 	    } else {
 	      // give control focus
@@ -1771,7 +1773,6 @@
 
 	  onKeyDown(e) {
 	    var self = this;
-	    self.ignoreHover = true;
 
 	    if (self.isLocked) {
 	      if (e.keyCode !== KEY_TAB) {
@@ -1798,6 +1799,7 @@
 	          self.close();
 	        }
 
+	        self.clearActiveItems();
 	        return;
 	      // down: open dropdown or move selection down
 
@@ -1806,7 +1808,7 @@
 	          self.open();
 	        } else if (self.activeOption) {
 	          let next = self.getAdjacent(self.activeOption, 1);
-	          if (next) self.setActiveOption(next, true);
+	          if (next) self.setActiveOption(next);
 	        }
 
 	        preventDefault(e);
@@ -1816,7 +1818,7 @@
 	      case KEY_UP:
 	        if (self.activeOption) {
 	          let prev = self.getAdjacent(self.activeOption, -1);
-	          if (prev) self.setActiveOption(prev, true);
+	          if (prev) self.setActiveOption(prev);
 	        }
 
 	        preventDefault(e);
@@ -1863,11 +1865,11 @@
 	      case KEY_DELETE:
 	        self.deleteSelection(e);
 	        return;
-	    }
+	    } // don't enter text in the control_input when active items are selected
+
 
 	    if (self.isInputHidden && !isKeyDown(KEY_SHORTCUT, e)) {
 	      preventDefault(e);
-	      return;
 	    }
 	  }
 	  /**
@@ -1948,7 +1950,7 @@
 	    var deactivate = () => {
 	      self.close();
 	      self.setActiveItem();
-	      self.setActiveOption();
+	      self.clearActiveOption();
 	      self.setCaret(self.items.length);
 	      self.refreshState();
 	      self.trigger('blur');
@@ -1963,14 +1965,11 @@
 	  /**
 	   * Triggered when the user rolls over
 	   * an option in the autocomplete dropdown menu.
-	   *
+	   * @deprecated v1.3
 	   */
 
 
-	  onOptionHover(evt, option) {
-	    if (this.ignoreHover) return;
-	    this.setActiveOption(option, false);
-	  }
+	  onOptionHover(evt, option) {}
 	  /**
 	   * Triggered when the user clicks on an option
 	   * in the autocomplete dropdown menu.
@@ -2044,6 +2043,8 @@
 	    fn.call(self, value, function (options, optgroups) {
 	      self.loading = Math.max(self.loading - 1, 0);
 	      self.lastQuery = null;
+	      self.clearActiveOption(); // when new results load, focus should be on first option
+
 	      self.setupOptions(options, optgroups);
 	      self.refreshOptions(self.isFocused && !self.isInputHidden);
 
@@ -2134,8 +2135,7 @@
 	    if (self.settings.mode === 'single') return; // clear the active selection
 
 	    if (!item) {
-	      removeClasses(self.activeItems, 'active');
-	      self.activeItems = [];
+	      self.clearActiveItems();
 
 	      if (self.isFocused) {
 	        self.showInput();
@@ -2174,8 +2174,7 @@
 	        self.setActiveItemClass(item);
 	      }
 	    } else {
-	      removeClasses(self.activeItems, 'active');
-	      self.activeItems = [];
+	      self.clearActiveItems();
 	      self.setActiveItemClass(item);
 	    } // ensure control has focus
 
@@ -2213,37 +2212,53 @@
 	    removeClasses(item, 'active');
 	  }
 	  /**
+	   * Clears all the active items
+	   *
+	   */
+
+
+	  clearActiveItems() {
+	    removeClasses(this.activeItems, 'active');
+	    this.activeItems = [];
+	  }
+	  /**
 	   * Sets the selected item in the dropdown menu
 	   * of available options.
 	   *
 	   */
 
 
-	  setActiveOption(option, scroll) {
+	  setActiveOption(option) {
 	    var height_menu, height_item, y;
 
 	    if (option === this.activeOption) {
 	      return;
 	    }
 
-	    if (this.activeOption) removeClasses(this.activeOption, 'active');
-	    this.activeOption = null;
+	    this.clearActiveOption();
 	    if (!option) return;
 	    this.activeOption = option;
 	    addClasses(option, 'active');
+	    height_menu = this.dropdown_content.clientHeight;
+	    let scrollTop = this.dropdown_content.scrollTop || 0;
+	    height_item = this.activeOption.offsetHeight;
+	    y = this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
 
-	    if (scroll) {
-	      height_menu = this.dropdown_content.clientHeight;
-	      let scrollTop = this.dropdown_content.scrollTop || 0;
-	      height_item = this.activeOption.offsetHeight;
-	      y = this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
-
-	      if (y + height_item > height_menu + scrollTop) {
-	        this.dropdown_content.scrollTop = y - height_menu + height_item;
-	      } else if (y < scrollTop) {
-	        this.dropdown_content.scrollTop = y;
-	      }
+	    if (y + height_item > height_menu + scrollTop) {
+	      this.dropdown_content.scrollTop = y - height_menu + height_item;
+	    } else if (y < scrollTop) {
+	      this.dropdown_content.scrollTop = y;
 	    }
+	  }
+	  /**
+	   * Clears the active option
+	   *
+	   */
+
+
+	  clearActiveOption() {
+	    if (this.activeOption) removeClasses(this.activeOption, 'active');
+	    this.activeOption = null;
 	  }
 	  /**
 	   * Selects all items (CTRL + A).
@@ -2263,34 +2278,42 @@
 	    this.focus();
 	  }
 	  /**
+	   * Determines if the control_input should be in a hidden or visible state
+	   *
+	   */
+
+
+	  inputState() {
+	    var self = this;
+	    if (self.settings.controlInput) return;
+
+	    if (self.activeItems.length > 0 || !self.isFocused && this.settings.hidePlaceholder && self.items.length > 0) {
+	      self.setTextboxValue('');
+	      self.isInputHidden = true;
+	      addClasses(self.wrapper, 'input-hidden');
+	    } else {
+	      self.isInputHidden = false;
+	      removeClasses(self.wrapper, 'input-hidden');
+	    }
+	  }
+	  /**
 	   * Hides the input element out of view, while
 	   * retaining its focus.
+	   * @deprecated 1.3
 	   */
 
 
 	  hideInput() {
-	    if (this.settings.controlInput) return;
-	    this.setTextboxValue('');
-	    applyCSS(this.control_input, {
-	      opacity: 0,
-	      position: 'absolute',
-	      left: (this.rtl ? 10000 : -10000) + 'px'
-	    });
-	    this.isInputHidden = true;
+	    this.inputState();
 	  }
 	  /**
 	   * Restores input visibility.
+	   * @deprecated 1.3
 	   */
 
 
 	  showInput() {
-	    if (this.settings.controlInput) return;
-	    applyCSS(this.control_input, {
-	      opacity: 1,
-	      position: 'relative',
-	      left: 0
-	    });
-	    this.isInputHidden = false;
+	    this.inputState();
 	  }
 	  /**
 	   * Get the input value
@@ -2579,7 +2602,7 @@
 	        self.open();
 	      }
 	    } else {
-	      self.setActiveOption();
+	      self.clearActiveOption();
 
 	      if (triggerDropdown && self.isOpen) {
 	        self.close();
@@ -3189,7 +3212,7 @@
 
 	    if (self.isSetup) {
 	      if (!opts.silent) {
-	        self.trigger('change', self.input.value);
+	        self.trigger('change', self.getValue());
 	      }
 	    }
 	  }
@@ -3239,7 +3262,7 @@
 	    applyCSS(self.dropdown, {
 	      display: 'none'
 	    });
-	    self.setActiveOption();
+	    self.clearActiveOption();
 	    self.refreshState();
 	    self.setTextboxValue('');
 	    if (trigger) self.trigger('dropdown_close', self.dropdown);
@@ -3338,8 +3361,6 @@
 	      for (const item of self.activeItems) {
 	        values.push(item.dataset.value);
 	      }
-
-	      preventDefault(e, true);
 	    } else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
 	      if (direction < 0 && selection.start === 0 && selection.length === 0) {
 	        values.push(self.items[self.caretPos - 1]);
@@ -3351,8 +3372,9 @@
 
 	    if (!values.length || typeof self.settings.onDelete === 'function' && self.settings.onDelete.call(self, values, e) === false) {
 	      return false;
-	    } // perform removal
+	    }
 
+	    preventDefault(e, true); // perform removal
 
 	    if (typeof caret !== 'undefined') {
 	      self.setCaret(caret);
@@ -3379,13 +3401,26 @@
 	  advanceSelection(direction, e) {
 	    var idx,
 	        last_active,
+	        adjacent,
 	        self = this;
-	    if (direction === 0) return;
-	    if (self.rtl) direction *= -1; // add or remove to active items
+	    if (self.rtl) direction *= -1;
+	    if (self.inputValue().length) return; // add or remove to active items
 
 	    if (isKeyDown(KEY_SHORTCUT, e) || isKeyDown('shiftKey', e)) {
 	      last_active = self.getLastActive(direction);
-	      let adjacent = self.getAdjacent(last_active, direction, 'item');
+
+	      if (last_active) {
+	        if (!last_active.classList.contains('active')) {
+	          adjacent = last_active;
+	        } else {
+	          adjacent = self.getAdjacent(last_active, direction, 'item');
+	        } // if no active item, get items adjacent to the control input
+
+	      } else if (direction > 0) {
+	        adjacent = self.control_input.nextElementSibling;
+	      } else {
+	        adjacent = self.control_input.previousElementSibling;
+	      }
 
 	      if (adjacent) {
 	        if (adjacent.classList.contains('active')) {
@@ -3395,11 +3430,8 @@
 	        self.setActiveItemClass(adjacent); // mark as last_active !! after removeActiveItem() on last_active
 	      } // move caret to the left or right
 
-	    } else if (self.isFocused && !self.isInputHidden) {
-	      if (!self.inputValue().length) {
-	        self.setCaret(self.caretPos + direction);
-	      } // move caret before or after selected items
-
+	    } else if (self.isFocused && !self.activeItems.length) {
+	      self.setCaret(self.caretPos + direction); // move caret before or after selected items
 	    } else {
 	      last_active = self.getLastActive(direction);
 

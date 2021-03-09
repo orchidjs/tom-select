@@ -62,6 +62,8 @@
 	  dropdownParent: null,
 	  controlInput: null,
 	  copyClassesToDropdown: true,
+	  placeholder: null,
+	  hidePlaceholder: null,
 	  shouldLoad: function (query) {
 	    return query.length > 0;
 	  },

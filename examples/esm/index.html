@@ -11,7 +11,7 @@
 		
 
 		<script src="/js/jquery.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/bootstrap.bundle.min.js"></script>
 
 		
 
@@ -22,14 +22,14 @@
     <body>
 		<div class="">
 
-			<div class="row flex-lg-nowrap no-gutters">
+			<div class="row flex-lg-nowrap g-0">
 				<div class="col-md-9 col-xl-10">
 				</div>
 			</div>
 
-			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
 
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-right px-0 offcanvas pt-5">
+				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
 					
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
@@ -92,7 +92,7 @@
 
 				</div>
 
-				<div class="col-md-9 col-lg-10 pb-5">
+				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
 					<div class="my-4">
 						<div class="container">
 							<button class="toggle-offcanvas btn btn-link" type="button">
@@ -180,20 +180,20 @@ Note: modules are not supported by Internet Explorer and other older browsers.
 		</div>
 		<div class="mt-4">
 
-			<ul class="nav nav-tabs" role="tablist">
+			<ul class="nav nav-tabs" role="tablist" id="demoTab-1">
 				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link  active " data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link  active " data-bs-toggle="tab" data-bs-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
 				
 
 				
 
-				
+	
 
 			</ul>
 
-			<div class="tab-content">
+			<div class="tab-content" id="demoTabContent-1">
 				
 
 				<div class="tab-pane fade  show active " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">

@@ -111,7 +111,9 @@
 	          return;
 	      }
 	    });
-	    self.dropdown.insertBefore(input, self.dropdown.firstChild);
+	    let div = getDom('<div class="dropdown-input-wrap">');
+	    div.appendChild(input);
+	    self.dropdown.insertBefore(div, self.dropdown.firstChild);
 	  });
 	});
 

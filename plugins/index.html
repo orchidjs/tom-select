@@ -11,26 +11,26 @@
 		
 
 		<script src="/js/jquery.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/bootstrap.bundle.min.js"></script>
 
 		
 		<script src="/js/tom-select.complete.js"></script>
 		
 
 		<script src="/js/index.js"></script>
-		
+		<script src="/js/jqueryui.js"></script>
 	</head>
     <body>
 		<div class="">
 
-			<div class="row flex-lg-nowrap no-gutters">
+			<div class="row flex-lg-nowrap g-0">
 				<div class="col-md-9 col-xl-10">
 				</div>
 			</div>
 
-			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
 
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-right px-0 offcanvas pt-5">
+				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
 					
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
@@ -47,6 +47,10 @@
 		
 			<a class="nav-link" href="/plugins/change-listener/">Change Listener</a>
 		
+			<a class="nav-link" href="/plugins/checkbox-options/">Checkbox Options</a>
+		
+			<a class="nav-link" href="/plugins/clear-button/">Clear Button</a>
+		
 			<a class="nav-link" href="/plugins/drag-drop/">Drag 'n Drop</a>
 		
 			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
@@ -55,9 +59,11 @@
 		
 			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
 		
+			<a class="nav-link" href="/plugins/no-active-items/">No Active Items</a>
+		
 			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
 		
-			<a class="nav-link" href="/plugins/optgroup_columns/">Option Group Columns</a>
+			<a class="nav-link" href="/plugins/optgroup-columns/">Option Group Columns</a>
 		
 			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
 		
@@ -83,7 +89,7 @@
 
 				</div>
 
-				<div class="col-md-9 col-lg-10 pb-5">
+				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
 					<div class="my-4">
 						<div class="container">
 							<button class="toggle-offcanvas btn btn-link" type="button">
@@ -102,37 +108,1044 @@
 
 <p class="mt-5">
 	Plugins are bundled in <code>tom-select.complete.js</code> but can also be loaded individually.
-	Include <code>tom-select.base.js</code> and any combination of plugins of your choosing.
+	To load individually, include <code>tom-select.base.js</code> and any combination of plugins of your choosing.
 	The <a href="/docs/plugins">plugin documentation</a> has more information about custom bundles and plugin development.
 </p>
-<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/tom-select.base.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/change_listener.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/drag_drop.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/dropdown_header.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/dropdown_input.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/input_autogrow.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/no_backspace_delete.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/optgroup_columns.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/remove_button.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/js/plugins/restore_on_backspace.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+
+<h2 class="border-bottom pt-5">Items</h2>
+<p class="mb-2">Plugins that modify the behavior and/or display of items (selected options).</p>
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/remove-button">Remove Button</a></h4>
+		<p>Adds one-click removal of each item</p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<input type="text" id="input-tags" value="awesome,neat" autocomplete="off">
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;input type=&quot;text&quot; id=&quot;input-tags&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		</textarea>
+		<script>
+		new TomSelect('#input-tags',{
+			plugins: ['remove_button'],
+			persist: false,
+			create: true,
+			onDelete: function(values) {
+				return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
+			}
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/no-backspace-delete">No Backspace Delete</a></h4>
+		<p>Prevents the user from removing items with <kbd>backspace</kbd> and <kdb>delete</kdb> keys unless items are active.
+		Use with <code>no_active_items</code> to disable deleting with keyboard events entirely.
+		</p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<input type="text" id="disable-backspace" value="awesome,neat" autocomplete="off">
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;input type=&quot;text&quot; id=&quot;disable-backspace&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		</textarea>
+		<script>
+		new TomSelect('#disable-backspace',{
+			plugins: ['no_backspace_delete'],
+			persist: false,
+			create: true,
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/drag-drop">Drag Drop</a></h4>
+		<p>Allows users to sort items with drag-n-drop </p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<input type="text" id="input-sortable" value="drag,these,items,around" autocomplete="off">
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;input type=&quot;text&quot; id=&quot;input-sortable&quot; value=&quot;drag,these,items,around&quot; autocomplete=&quot;off&quot;&gt;
+		</textarea>
+		<script>
+		new TomSelect('#input-sortable',{
+			plugins: ['drag_drop'],
+			persist: false,
+			create: true
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/restore-on-backspace">Restore on Backspace</a></h4>
+		<p>Fills the control input with the value of deleted items upon deletion </p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<input type="text" id="input-tags6" value="awesome,neat" autocomplete="off">
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;input type=&quot;text&quot; id=&quot;input-tags6&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		</textarea>
+		<script>
+		new TomSelect('#input-tags6',{
+			plugins: ['restore_on_backspace'],
+			persist: false,
+			create: true
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+
+</div>
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/clear-button">Clear Button</a></h4>
+		<p>Disables selecting items</p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<input type="text" id="clear-button" value="awesome,neat" autocomplete="off">
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;input type=&quot;text&quot; id=&quot;clear-button&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		</textarea>
+		<script>
+		new TomSelect('#clear-button',{
+			plugins: ['clear_button'],
+			persist: false,
+			create: true,
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/no-active-items">No Active Items</a></h4>
+		<p>Disables selecting items</p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<input type="text" id="no-active-items" value="awesome,neat" autocomplete="off">
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;input type=&quot;text&quot; id=&quot;no-active-items&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		</textarea>
+		<script>
+		new TomSelect('#no-active-items',{
+			plugins: ['no_active_items'],
+			persist: false,
+			create: true,
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
+
+
+
+<h2 class="border-bottom pt-5">Control Input</h2>
+<p class="mb-4">Plugins that modify the behavior and/or display of the control input.</p>
+
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/dropdown-input">Dropdown Input</a></h4>
+		<p>Positions the control input in the select dropdown</p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<select id="ex-dropdown-input" autocomplete="off" placeholder="How cool is this?">
+			<option>amazing</option>
+			<option selected>awesome</option>
+			<option>cool</option>
+			<option>excellent</option>
+			<option>great</option>
+			<option>neat</option>
+			<option>superb</option>
+			<option>wonderful</option>
+		</select>
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;select id=&quot;ex-dropdown-input&quot; autocomplete=&quot;off&quot; placeholder=&quot;How cool is this?&quot;&gt;
+			&lt;option&gt;amazing&lt;/option&gt;
+			&lt;option selected&gt;awesome&lt;/option&gt;
+			&lt;option&gt;cool&lt;/option&gt;
+			&lt;option&gt;excellent&lt;/option&gt;
+			&lt;option&gt;great&lt;/option&gt;
+			&lt;option&gt;neat&lt;/option&gt;
+			&lt;option&gt;superb&lt;/option&gt;
+			&lt;option&gt;wonderful&lt;/option&gt;
+		&lt;/select&gt;
+		</textarea>
+		<script>
+		new TomSelect('#ex-dropdown-input',{
+			plugins: ['dropdown_input'],
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/input-autogrow">Input Autogrow</a></h4>
+		<p>Resizes the control input as the user types</p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<select id="input-autogrow" multiple autocomplete="off" placeholder="How cool is this?">
+			<option>amazing</option>
+			<option>awesome</option>
+			<option>cool</option>
+			<option>excellent</option>
+			<option>great</option>
+			<option>neat</option>
+			<option>superb</option>
+			<option>wonderful</option>
+		</select>
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;select id=&quot;input-autogrow&quot; multiple autocomplete=&quot;off&quot; placeholder=&quot;How cool is this?&quot;&gt;
+			&lt;option&gt;amazing&lt;/option&gt;
+			&lt;option&gt;awesome&lt;/option&gt;
+			&lt;option&gt;cool&lt;/option&gt;
+			&lt;option&gt;excellent&lt;/option&gt;
+			&lt;option&gt;great&lt;/option&gt;
+			&lt;option&gt;neat&lt;/option&gt;
+			&lt;option&gt;superb&lt;/option&gt;
+			&lt;option&gt;wonderful&lt;/option&gt;
+		&lt;/select&gt;
+		</textarea>
+		<script>
+		new TomSelect('#input-autogrow',{
+			plugins: ['input_autogrow'],
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
+
+
+<h2 class="border-bottom pt-5">Dropdown</h2>
+<p class="mb-4">Plugins that modify the behavior and/or display of the dropdown content.</p>
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/checkbox-options">Checkbox Options</a></h4>
+		<p>Displays checkboxes next to each option in the dropdown</p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<select id="ex-checkbox-options" autocomplete="off" multiple>
+			<option>amazing</option>
+			<option selected>awesome</option>
+			<option>cool</option>
+			<option selected>excellent</option>
+			<option>great</option>
+			<option>neat</option>
+			<option>superb</option>
+			<option>wonderful</option>
+		</select>
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;select id=&quot;ex-checkbox-options&quot; autocomplete=&quot;off&quot; multiple&gt;
+			&lt;option&gt;amazing&lt;/option&gt;
+			&lt;option selected&gt;awesome&lt;/option&gt;
+			&lt;option&gt;cool&lt;/option&gt;
+			&lt;option selected&gt;excellent&lt;/option&gt;
+			&lt;option&gt;great&lt;/option&gt;
+			&lt;option&gt;neat&lt;/option&gt;
+			&lt;option&gt;superb&lt;/option&gt;
+			&lt;option&gt;wonderful&lt;/option&gt;
+		&lt;/select&gt;
+		</textarea>
+		<script>
+		new TomSelect('#ex-checkbox-options',{
+			plugins: ['checkbox_options'],
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/optgroup-columns">Optgroup Columns</a></h4>
+		<p>Divides option groups into columns and allows users to navigate columns with <kbd>left</kbd> and <kbd>right</kbd> keys</p>
+	</div>
+	<div class="col-sm-6">
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<input type="text" id="select-car" placeholder="Select cars...">
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;input type=&quot;text&quot; id=&quot;select-car&quot; placeholder=&quot;Select cars...&quot;&gt;
+		</textarea>
+		<script>
+		new TomSelect("#select-car",{
+			options: [
+				{id: 'avenger', make: 'dodge', model: 'Avenger'},
+				{id: 'caliber', make: 'dodge', model: 'Caliber'},
+				{id: 'caravan-grand-passenger', make: 'dodge', model: 'Caravan Grand Passenger'},
+				{id: 'challenger', make: 'dodge', model: 'Challenger'},
+				{id: 'ram-1500', make: 'dodge', model: 'Ram 1500'},
+				{id: 'viper', make: 'dodge', model: 'Viper'},
+				{id: 'a3', make: 'audi', model: 'A3'},
+				{id: 'a6', make: 'audi', model: 'A6'},
+				{id: 'r8', make: 'audi', model: 'R8'},
+				{id: 'rs-4', make: 'audi', model: 'RS 4'},
+				{id: 's4', make: 'audi', model: 'S4'},
+				{id: 's8', make: 'audi', model: 'S8'},
+				{id: 'tt', make: 'audi', model: 'TT'},
+				{id: 'avalanche', make: 'chevrolet', model: 'Avalanche'},
+				{id: 'aveo', make: 'chevrolet', model: 'Aveo'},
+				{id: 'cobalt', make: 'chevrolet', model: 'Cobalt'},
+				{id: 'silverado', make: 'chevrolet', model: 'Silverado'},
+				{id: 'suburban', make: 'chevrolet', model: 'Suburban'},
+				{id: 'tahoe', make: 'chevrolet', model: 'Tahoe'},
+				{id: 'trail-blazer', make: 'chevrolet', model: 'TrailBlazer'},
+			],
+			optgroups: [
+				{$order: 3, id: 'dodge', name: 'Dodge'},
+				{$order: 2, id: 'audi', name: 'Audi'},
+				{$order: 1, id: 'chevrolet', name: 'Chevrolet'}
+			],
+			labelField: 'model',
+			valueField: 'id',
+			optgroupField: 'make',
+			optgroupLabelField: 'name',
+			optgroupValueField: 'id',
+			lockOptgroupOrder: true,
+			searchField: ['model'],
+			plugins: ['optgroup_columns'],
+			openOnFocus: false
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/dropdown-header">Dropdown Header</a></h4>
+		<p>Adds a customizable header to the select dropdown</p>
+	</div>
+	<div class="col-sm-6">
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<select id="select-code-language" class="demo-code-language" placeholder="Select a language..." autocomplete="off">
+			<option value="txt">Text</option>
+			<option value="md">Markdown</option>
+			<option value="html">HTML</option>
+			<option value="php">PHP</option>
+			<option value="python">Python</option>
+			<option value="java">Java</option>
+			<option value="js" selected>JavaScript</option>
+			<option value="c#">Ruby</option>
+			<option value="c#">VHDL</option>
+			<option value="c#">Verilog</option>
+			<option value="c#">C#</option>
+			<option value="c++">C/C++</option>
+		</select>
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;select id=&quot;select-code-language&quot; class=&quot;demo-code-language&quot; placeholder=&quot;Select a language...&quot; autocomplete=&quot;off&quot;&gt;
+			&lt;option value=&quot;txt&quot;&gt;Text&lt;/option&gt;
+			&lt;option value=&quot;md&quot;&gt;Markdown&lt;/option&gt;
+			&lt;option value=&quot;html&quot;&gt;HTML&lt;/option&gt;
+			&lt;option value=&quot;php&quot;&gt;PHP&lt;/option&gt;
+			&lt;option value=&quot;python&quot;&gt;Python&lt;/option&gt;
+			&lt;option value=&quot;java&quot;&gt;Java&lt;/option&gt;
+			&lt;option value=&quot;js&quot; selected&gt;JavaScript&lt;/option&gt;
+			&lt;option value=&quot;c#&quot;&gt;Ruby&lt;/option&gt;
+			&lt;option value=&quot;c#&quot;&gt;VHDL&lt;/option&gt;
+			&lt;option value=&quot;c#&quot;&gt;Verilog&lt;/option&gt;
+			&lt;option value=&quot;c#&quot;&gt;C#&lt;/option&gt;
+			&lt;option value=&quot;c++&quot;&gt;C/C++&lt;/option&gt;
+		&lt;/select&gt;
+		</textarea>
+		<script>
+		new TomSelect('#select-code-language',{
+			sortField: 'text',
+			hideSelected: false,
+			plugins: {
+				'dropdown_header': {
+					title: 'Language'
+				}
+			}
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+
+</div>
+
+
+
+<h2 class="border-bottom pt-5">Other</h2>
+
+
+
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/change-listener">Change Listener</a></h4>
+		<p>Updates the value of the Tom Select instance when the value of the underlying &lt;input&gt; element changes</p>
+	</div>
+	<div class="col-sm-6">
+
+
+		
+
+		<script>
+		
+		</script>
+
+		
+
+	<div class="demo demo-small">
+		<div class="d-flex align-items-end flex-wrap">
+			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				
+
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
+
+			</ul>
+		</div>
+
+
+		<div class="demo-html">
+			
+		<input type="text" id="input-change" value="original value" autocomplete="off">
+		<button type="button" class="btn btn-sm btn-success" id="change-input">Change original input</button>
+		
+		</div>
+
+		
+		<textarea hidden>
+		&lt;input type=&quot;text&quot; id=&quot;input-change&quot; value=&quot;original value&quot; autocomplete=&quot;off&quot;&gt;
+		&lt;button type=&quot;button&quot; class=&quot;btn btn-sm btn-success&quot; id=&quot;change-input&quot;&gt;Change original input&lt;/button&gt;
+		</textarea>
+		<script>
+
+		var input = document.getElementById('input-change');
+		new TomSelect(input,{
+			plugins: ['change_listener'],
+		});
+		document.getElementById('change-input').addEventListener('click',function(evt){
+			evt.preventDefault();
+			evt.stopPropagation();
+
+			input.value = 'new value';
+			var evt = document.createEvent('HTMLEvents');
+			evt.initEvent('change', false, true);
+			input.dispatchEvent(evt);
+		});
+		</script>
+		<style></style>
+	</div>
+
+	</div>
+</div>
 
 						
-	<h2>Available Plugins</h2>
-	
-	<nav class="nav flex-column">
-		
-			<a class="nav-link" href="/plugins/change-listener/">Change Listener</a>
-		
-			<a class="nav-link" href="/plugins/drag-drop/">Drag 'n Drop</a>
-		
-			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
-		
-			<a class="nav-link" href="/plugins/dropdown-input/">Dropdown Input</a>
-		
-			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
-		
-			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
-		
-			<a class="nav-link" href="/plugins/optgroup_columns/">Option Group Columns</a>
-		
-			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
-		
-			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
-		
-	</nav>
-	
-
+						
 					</div>
 				</div>
 			</div>

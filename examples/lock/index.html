@@ -11,7 +11,7 @@
 		
 
 		<script src="/js/jquery.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/bootstrap.bundle.min.js"></script>
 
 		
 		<script src="/js/tom-select.complete.js"></script>
@@ -23,14 +23,14 @@
     <body>
 		<div class="">
 
-			<div class="row flex-lg-nowrap no-gutters">
+			<div class="row flex-lg-nowrap g-0">
 				<div class="col-md-9 col-xl-10">
 				</div>
 			</div>
 
-			<div class="row flex-lg-nowrap no-gutters" style="min-height:100vh;">
+			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
 
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-right px-0 offcanvas pt-5">
+				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
 					
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
@@ -93,7 +93,7 @@
 
 				</div>
 
-				<div class="col-md-9 col-lg-10 pb-5">
+				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
 					<div class="my-4">
 						<div class="container">
 							<button class="toggle-offcanvas btn btn-link" type="button">
@@ -157,40 +157,47 @@
 		</div>
 		<div class="mt-4">
 
-			<ul class="nav nav-tabs" role="tablist">
+			<ul class="nav nav-tabs" role="tablist" id="demoTab-1">
 				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+					<a class="nav-link active" data-bs-toggle="tab" data-bs-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
 				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link " data-toggle="tab" data-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-bs-toggle="tab" data-bs-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
 				
 
 				
-				<li class="nav-item ml-auto">
-					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
-							<a class="nav-link opensandbox">JSFiddle</a>
-					</form>
-				</li>
-				<li class="nav-item">
-				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-					<input class="codepen" type="hidden" name="data" value=""/>
-						<a class="nav-link opensandbox">CodePen</a>
-				</form>
-				</li>
-				
 
-				
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
 
 			</ul>
 
-			<div class="tab-content">
+			<div class="tab-content" id="demoTabContent-1">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-locked-single'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
@@ -256,40 +263,47 @@
 		</div>
 		<div class="mt-4">
 
-			<ul class="nav nav-tabs" role="tablist">
+			<ul class="nav nav-tabs" role="tablist" id="demoTab-2">
 				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link active" data-toggle="tab" data-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+					<a class="nav-link active" data-bs-toggle="tab" data-bs-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
 				</li>
 				
 				<li class="nav-item" role="presentation">
-					<a class="nav-link " data-toggle="tab" data-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+					<a class="nav-link " data-bs-toggle="tab" data-bs-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
 				</li>
 				
 
 				
-				<li class="nav-item ml-auto">
-					<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-						<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-						<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-						<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-						<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
-							<a class="nav-link opensandbox">JSFiddle</a>
-					</form>
-				</li>
-				<li class="nav-item">
-				<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-					<input class="codepen" type="hidden" name="data" value=""/>
-						<a class="nav-link opensandbox">CodePen</a>
-				</form>
-				</li>
-				
 
-				
+	
+	<li class="nav-item dropdown ms-auto">
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value=""/>
+			</form>
+		</li>
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
+				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
+				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
+				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+			</form>
+		</li>
+		</ul>
+	</li>
+	
+
+	
 
 			</ul>
 
-			<div class="tab-content">
+			<div class="tab-content" id="demoTabContent-2">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-locked'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
