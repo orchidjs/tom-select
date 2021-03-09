@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.2.2
+* Tom Select v1.3.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -12,39 +12,6 @@
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
-
-	const KEY_BACKSPACE = 8;
-	typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
-	 // ctrl key or apple key for ma
-
-	/**
-	 * Converts a scalar to its best string representation
-	 * for hash keys and HTML attribute values.
-	 *
-	 * Transformations:
-	 *   'str'     -> 'str'
-	 *   null      -> ''
-	 *   undefined -> ''
-	 *   true      -> '1'
-	 *   false     -> '0'
-	 *   0         -> '0'
-	 *   1         -> '1'
-	 *
-	 */
-	/**
-	 * Prevent default
-	 *
-	 */
-
-	function preventDefault(evt, stop = false) {
-	  if (evt) {
-	    evt.preventDefault();
-
-	    if (stop) {
-	      evt.stopPropagation();
-	    }
-	  }
-	}
 
 	/**
 	 * Plugin: "restore_on_backspace" (Tom Select)
@@ -67,31 +34,14 @@
 	    return option[self.settings.labelField];
 	  };
 
-	  var orig_keydown = self.onKeyDown;
-	  self.hook('instead', 'onKeyDown', function (evt) {
-	    var index, option;
-
-	    if (evt.keyCode === KEY_BACKSPACE && self.control_input.value === '') {
-	      index = self.caretPos - 1; // selected item
-
-	      if (self.activeItems.length > 0) {
-	        option = self.options[self.activeItems[0].dataset.value]; // not selected item
-	      } else if (self.activeItems.length == 0 && index >= 0 && index < self.items.length) {
-	        option = self.options[self.items[index]];
-	      }
+	  self.on('item_remove', function (value) {
+	    if (self.control_input.value.trim() === '') {
+	      var option = self.options[value];
 
 	      if (option) {
-	        if (self.deleteSelection(evt)) {
-	          self.setTextboxValue(options.text.call(self, option));
-	          self.refreshOptions(true);
-	        }
-
-	        preventDefault(evt);
-	        return;
+	        self.setTextboxValue(options.text.call(self, option));
 	      }
 	    }
-
-	    return orig_keydown.apply(self, arguments);
 	  });
 	});
 

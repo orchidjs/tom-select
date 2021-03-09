@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.2.2
+* Tom Select v1.3.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -62,6 +62,8 @@
 	  dropdownParent: null,
 	  controlInput: null,
 	  copyClassesToDropdown: true,
+	  placeholder: null,
+	  hidePlaceholder: null,
 	  shouldLoad: function (query) {
 	    return query.length > 0;
 	  },

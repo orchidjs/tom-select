@@ -45,6 +45,8 @@ declare const _default: {
     dropdownParent: any;
     controlInput: any;
     copyClassesToDropdown: boolean;
+    placeholder: any;
+    hidePlaceholder: any;
     shouldLoad: (query: string) => boolean;
     render: {};
 };

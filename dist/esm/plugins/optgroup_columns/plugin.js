@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.2.2
+* Tom Select v1.3.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -31,7 +31,6 @@ TomSelect.define('optgroup_columns', function (options) {
       return orig_keydown.apply(self, arguments);
     }
 
-    self.ignoreHover = true;
     optgroup = parentMatch(self.activeOption, '[data-group]');
     index = nodeIndex(self.activeOption, '[data-selectable]');
 

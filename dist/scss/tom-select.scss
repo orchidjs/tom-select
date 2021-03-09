@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.2.2)
+ * tom-select.css (v1.3.0)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -84,6 +84,8 @@ $select-spinner-border-color:					$select-color-border;
 
 
 @import "../plugins/drag_drop/plugin.scss";
+@import "../plugins/checkbox_options/plugin.scss";
+@import "../plugins/clear_button/plugin.scss";
 @import "../plugins/dropdown_header/plugin.scss";
 @import "../plugins/dropdown_input/plugin.scss";
 @import "../plugins/optgroup_columns/plugin.scss";
@@ -191,6 +193,12 @@ $select-spinner-border-color:					$select-color-border;
 	}
 }
 
+// hide input, while retaining its focus, and maintain layout so users can still click on the space to bring the display back
+// visibility:hidden can prevent the input from receiving focus
+.input-hidden .items input{
+	opacity: 0;
+}
+
 .#{$select-ns}-input::after {
 	content: ' ';
 	display: block;
@@ -254,6 +262,8 @@ $select-spinner-border-color:					$select-color-border;
 		background: $select-color-optgroup;
 		cursor: default;
 	}
+
+	.option:hover,
 	.active {
 		background-color: $select-color-dropdown-item-active;
 		color: $select-color-dropdown-item-active-text;

@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.2.2
+* Tom Select v1.3.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -19,8 +19,14 @@ import TomSelect from '../../tom-select.js';
  *
  */
 TomSelect.define('no_backspace_delete', function (options) {
-  this.hook('instead', 'setActiveItem', () => {});
-  this.hook('instead', 'selectAll', () => {});
-  this.hook('instead', 'deleteSelection', () => {});
+  var self = this;
+  var orig_deleteSelection = self.deleteSelection;
+  this.hook('instead', 'deleteSelection', function () {
+    if (self.activeItems.length) {
+      return orig_deleteSelection.apply(self, arguments);
+    }
+
+    return false;
+  });
 });
 //# sourceMappingURL=plugin.js.map

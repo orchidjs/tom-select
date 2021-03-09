@@ -42,7 +42,6 @@ export default class TomSelect extends TomSelect_base {
     isSetup: boolean;
     ignoreFocus: boolean;
     ignoreBlur: boolean;
-    ignoreHover: boolean;
     hasOptions: boolean;
     currentResults: ReturnType<Sifter['search']>;
     lastValue: string;
@@ -138,9 +137,9 @@ export default class TomSelect extends TomSelect_base {
     /**
      * Triggered when the user rolls over
      * an option in the autocomplete dropdown menu.
-     *
+     * @deprecated v1.3
      */
-    onOptionHover(evt: MouseEvent | KeyboardEvent, option: HTMLElement): boolean;
+    onOptionHover(evt: MouseEvent | KeyboardEvent, option: HTMLElement): void;
     /**
      * Triggered when the user clicks on an option
      * in the autocomplete dropdown menu.
@@ -202,22 +201,39 @@ export default class TomSelect extends TomSelect_base {
      */
     removeActiveItem(item: HTMLElement): void;
     /**
+     * Clears all the active items
+     *
+     */
+    clearActiveItems(): void;
+    /**
      * Sets the selected item in the dropdown menu
      * of available options.
      *
      */
-    setActiveOption(option?: HTMLElement, scroll?: boolean): void;
+    setActiveOption(option: HTMLElement): void;
+    /**
+     * Clears the active option
+     *
+     */
+    clearActiveOption(): void;
     /**
      * Selects all items (CTRL + A).
      */
     selectAll(): void;
     /**
+     * Determines if the control_input should be in a hidden or visible state
+     *
+     */
+    inputState(): void;
+    /**
      * Hides the input element out of view, while
      * retaining its focus.
+     * @deprecated 1.3
      */
     hideInput(): void;
     /**
      * Restores input visibility.
+     * @deprecated 1.3
      */
     showInput(): void;
     /**
