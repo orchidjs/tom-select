@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "0.11.1",
-    "@11ty/eleventy-plugin-syntaxhighlight": "3.0.6",
+    "@11ty/eleventy-plugin-syntaxhighlight": "3.1.0",
     "@atomico/rollup-plugin-sizes": "^1.1.4",
     "@babel/core": "^7.13.1",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
