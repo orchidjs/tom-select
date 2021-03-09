@@ -101,5 +101,9 @@
     "iOS >= 10",
     "Safari >= 10",
     "not Explorer <= 11"
-  ]
+  ],
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/tom-select"
+  }
 }
