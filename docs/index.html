@@ -218,9 +218,16 @@ element.
 	</tr>
 	<tr>
 		<td><code>placeholder</code></td>
-		<td>The placeholder of the control (displayed when nothing is selected / typed). Defaults to input element's placeholder, unless this one is specified.</td>
+		<td>The placeholder of the control. Defaults to input element's placeholder, unless this one is specified.</td>
 		<td><code>string</code></td>
 		<td><code>undefined</code></td>
+	</tr>
+	<tr>
+		<td><code>hidePlaceholder</code></td>
+		<td>If true, the placeholder will be hidden when the control has one or more items (selected options).
+		This defaults to <code>false</code> when in a multi-selection control, and to <code>true</code> otherwise.</td>
+		<td><code>boolean</code></td>
+		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>preload</code></td>
