@@ -1,6 +1,7 @@
 import TomSelect from './tom-select';
 import './plugins/change_listener/plugin.js';
 import './plugins/checkbox_options/plugin.js';
+import './plugins/clear_button/plugin.js';
 import './plugins/drag_drop/plugin.js';
 import './plugins/dropdown_header/plugin.js';
 import './plugins/dropdown_input/plugin.js';

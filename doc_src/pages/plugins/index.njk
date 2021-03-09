@@ -134,6 +134,33 @@ script: <script src="/js/jqueryui.js"></script>
 </div>
 
 
+{# clear button #}
+<div class="row mt-5">
+	<div class="col-sm-6">
+		<h4 class="mt-0"><a href="/plugins/clear-button">Clear Button</a></h4>
+		<p>Disables selecting items</p>
+	</div>
+	<div class="col-sm-6">
+
+		{% set html %}
+		<input type="text" id="clear-button" value="awesome,neat" autocomplete="off">
+		{% endset %}
+
+		<script>
+		{% set script %}
+		new TomSelect('#clear-button',{
+			plugins: ['clear_button'],
+			persist: false,
+			create: true,
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( html, script) }}
+	</div>
+</div>
+
+
 {# no active items #}
 <div class="row mt-5">
 	<div class="col-sm-6">
