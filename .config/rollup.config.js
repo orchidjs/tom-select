@@ -147,6 +147,9 @@ configCore('src/tom-select.ts','tom-select.base.min.js',[terser_config]);
 configCore('src/tom-select.complete.ts','tom-select.complete.js');
 configCore('src/tom-select.complete.ts','tom-select.complete.min.js',[terser_config]);
 
+// tom-select.popular
+configCore('src/tom-select.popular.ts','tom-select.popular.js');
+configCore('src/tom-select.popular.ts','tom-select.popular.min.js',[terser_config]);
 
 
 export default configs;
