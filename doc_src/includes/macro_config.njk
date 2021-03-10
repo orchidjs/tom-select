@@ -1,0 +1,29 @@
+
+{% macro config_table(data) %}
+	<table class="table table-striped">
+	<tr>
+		<th>Setting</a></th>
+		<th>Description</th>
+		<th>Type</th>
+	</tr>
+	{% for row in data %}
+		{{ config_row(row.name,row.desc,row.type,row.default) }}
+	{% endfor %}
+	</table>
+{% endmacro %}
+
+{% macro config_row( setting, desc, type, default ) %}
+
+	<tr>
+	<td><code>{{ setting }}</code></td>
+	<td>
+		{{ desc | safe }}
+
+		<div><span>Default:</span>
+		<code>{{ default }}</code>
+		</div>
+	</td>
+	<td><code>{{ type }}</code></td>
+	</tr>
+
+{% endmacro %}

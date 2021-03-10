@@ -6,11 +6,12 @@ tags: demo
 
 
 {% from "demo.njk" import demo %}
+{% from "macro_config.njk" import config_table %}
 
 
 {% set label %}
 <label class="h2 mb-3">
-	clear_button
+	Example
 </label>
 {% endset %}
 
@@ -23,7 +24,11 @@ tags: demo
 <script>
 {% set script %}
 new TomSelect('#clear-button',{
-	plugins: ['clear_button'],
+	plugins: {
+		'clear_button':{
+			'title':'Remove all selected options',
+		}
+	},
 	persist: false,
 	create: true,
 });
@@ -32,3 +37,13 @@ new TomSelect('#clear-button',{
 
 
 {{ demo( label, html, script) }}
+
+
+<h2>Plugin Configuration</h2>
+
+{{ config_table([
+		{name:'html',desc:'<p>An html string used to create the button</p>',type:'string',default:'<div class="${data.className}" title="${data.title}">&times;</div>'},
+		{name:'title',desc:'<p>The value of the title attribute on the close button</p>',type:'string',default:'Clear All'},
+		{name:'className',desc:'<p>The CSS class name of the close button</p>',type:'string',default:'clear-button'}
+	])
+}}
