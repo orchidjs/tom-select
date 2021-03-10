@@ -87,7 +87,7 @@ All pre-built files needed to use Tom Select can be found in the "dist" folder v
 
 ## License
 
-Copyright &copy; 2013–2020 [Contributors](https://github.com/orchidjs/tom-select/graphs/contributors)
+Copyright &copy; 2013–2021 [Contributors](https://github.com/orchidjs/tom-select/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 

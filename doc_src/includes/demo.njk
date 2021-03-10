@@ -3,8 +3,6 @@
 
 {% macro sandbox_links( script ) %}
 
-	{% if script %}
-	<li class="nav-item dropdown ms-auto">
 		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
 		<ul class="dropdown-menu dropdown-menu-end">
       	<li>
@@ -23,7 +21,6 @@
 			</form>
 		</li>
 		</ul>
-	</li>
 	{#
 	<li class="nav-item" role="presentation">
 	<form action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
@@ -33,7 +30,6 @@
 	</li>
 	#}
 
-	{% endif %}
 {% endmacro %}
 
 
@@ -72,7 +68,12 @@
 				</li>
 				{% endif %}
 
+				{% if script %}
+				<li class="nav-item dropdown ms-auto">
 				{{ sandbox_links(script) }}
+				</li>
+				{% endif %}
+
 			</ul>
 
 			<div class="tab-content" id="demoTabContent-{{ demo_count | length }}">
@@ -109,7 +110,11 @@
 	<div class="demo demo-small">
 		<div class="d-flex align-items-end flex-wrap">
 			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
+				{% if script %}
+				<li class="nav-item dropdown ms-auto">
 				{{ sandbox_links(script) }}
+				</li>
+				{% endif %}
 			</ul>
 		</div>
 
@@ -135,7 +140,11 @@
 				<li class="nav-item">
 					<a class="nav-link disabled">{{ label | safe }}</a>
 				</li>
-				{{ sandbox_links(script) }}
+				{% if script %}
+				<li class="nav-item dropdown ms-auto">
+					{{ sandbox_links(script) }}
+				</li>
+				{% endif %}
 			</ul>
 
 
