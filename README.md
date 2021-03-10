@@ -85,6 +85,13 @@ All pre-built files needed to use Tom Select can be found in the "dist" folder v
 - [SCSS](https://github.com/orchidjs/tom-select/tree/master/dist/scss) — Uncompiled theme sources
 
 
+## Sponsors
+
+Many thanks to our sponsors who help make Tom Select development possible. Vist <a href="https://opencollective/tom-select">opencollective/tom-select</a> to learn more about sponsorship.
+
+<a href="http://www.peopleforce.io"><img src="https://cdn.jsdelivr.net/gh/orchidjs/tom-select/doc_src/img/peopleforce.png"></a>
+
+
 ## License
 
 Copyright &copy; 2013–2021 [Contributors](https://github.com/orchidjs/tom-select/graphs/contributors)
