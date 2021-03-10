@@ -42,7 +42,13 @@ new TomSelect('#clear-button',{
 <h2>Plugin Configuration</h2>
 
 {{ config_table([
-		{name:'html',desc:'<p>An html string used to create the button</p>',type:'string',default:'<div class="${data.className}" title="${data.title}">&times;</div>'},
+		{
+			name:'html',
+			desc:'<p>A callback that returns an html string used to create the button</p>',
+			type:'callback',
+			default:'function(data){\n	return `<div class="${data.className}" title="${data.title}">&times;</div>`;\n}',
+			highlight:true
+		},
 		{name:'title',desc:'<p>The value of the title attribute on the close button</p>',type:'string',default:'Clear All'},
 		{name:'className',desc:'<p>The CSS class name of the close button</p>',type:'string',default:'clear-button'}
 	])

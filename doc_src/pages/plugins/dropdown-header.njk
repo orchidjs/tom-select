@@ -6,12 +6,13 @@ tags: demo
 
 
 {% from "demo.njk" import demo %}
+{% from "macro_config.njk" import config_table %}
 
 
 
 {% set label %}
 <label class="h2 mb-3">
-	dropdown_header
+	Example
 </label>
 {% endset %}
 
@@ -47,3 +48,27 @@ new TomSelect('#select-code-language',{
 </script>
 
 {{ demo( label, html, script) }}
+
+
+<h2>Plugin Configuration</h2>
+
+{{ config_table([
+		{	name:'html',
+			desc:'<p>An html string used to generate the header</p>',
+			type:'callback',
+			default:'function(data){\n	return `<div class="${data.headerClass}">\n				<div class="${data.titleRowClass}">\n					<span class="${data.labelClass}">${data.title}</span>\n					<a href="javascript:void(0)" class="${data.closeClass}">&times;</a>\n				</div>\n			</div>`;\n}',
+			highlight:true
+		},
+		{name:'title',desc:'<p>The text of the header</p>',type:'string',default:'Untitled'},
+		{name:'headerClass',desc:'<p>The CSS class name of the header</p>',type:'string',default:'dropdown-header'},
+		{name:'titleRowClass',desc:'<p>The CSS class name of the dropdown header title</p>',type:'string',default:'dropdown-header-title'},
+		{name:'labelClass',desc:'<p>The CSS class name of the dropdown header label row</p>',type:'string',default:'dropdown-header-label'},
+		{name:'closeClass',desc:'<p>The CSS class name of the dropdown header close button</p>',type:'string',default:'dropdown-header-close'}
+	])
+}}
+
+
+{#
+
+
+#}

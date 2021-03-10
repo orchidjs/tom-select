@@ -6,13 +6,15 @@ tags: demo
 
 
 {% from "demo.njk" import demo %}
+{% from "macro_config.njk" import config_table %}
+
 
 
 
 
 {% set label %}
 <label class="h2 mb-3">
-	remove_button
+	Example - Multiple
 </label>
 {% endset %}
 
@@ -23,7 +25,11 @@ tags: demo
 <script>
 {% set script %}
 new TomSelect('#input-tags',{
-	plugins: ['remove_button'],
+	plugins: {
+		remove_button:{
+			title:'Remove this item',
+		}
+	},
 	persist: false,
 	create: true,
 	onDelete: function(values) {
@@ -44,7 +50,7 @@ new TomSelect('#input-tags',{
 
 {% set label %}
 <label class="h2 mb-3">
-	remove_button (Single)
+	Example - Single
 </label>
 {% endset %}
 
@@ -67,3 +73,14 @@ new TomSelect('#input-tags2',{
 </script>
 
 {{ demo( label, html, script) }}
+
+
+
+<h2>Plugin Configuration</h2>
+
+{{ config_table([
+		{name:'label',desc:'<p>The text that will be displayed in each button</p>',type:'string',default:'&times;'},
+		{name:'title',desc:'<p>The value of the title attribute on each button</p>',type:'string',default:'Remove'},
+		{name:'className',desc:'<p>The CSS class name of each button</p>',type:'string',default:'remove'}
+	])
+}}

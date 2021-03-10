@@ -6,12 +6,13 @@ tags: demo
 
 
 {% from "demo.njk" import demo %}
+{% from "macro_config.njk" import config_table %}
 
 
 
 {% set label %}
 <label class="h2 mb-3">
-	restore_on_backspace
+	Example
 </label>
 {% endset %}
 
@@ -30,3 +31,17 @@ new TomSelect('#input-tags6',{
 </script>
 
 {{ demo( label, html, script) }}
+
+
+<h2>Plugin Configuration</h2>
+
+{{ config_table([
+		{
+			name:'html',
+			desc:'<p>A function taking option data as an argument and returning a text string that will be assigned to the control input value</p>',
+			type:'callback',
+			default:'function(option){\n		return option[self.settings.labelField];\n}',
+			highlight:true
+		}
+	])
+}}

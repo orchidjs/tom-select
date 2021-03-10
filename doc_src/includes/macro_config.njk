@@ -7,12 +7,12 @@
 		<th>Type</th>
 	</tr>
 	{% for row in data %}
-		{{ config_row(row.name,row.desc,row.type,row.default) }}
+		{{ config_row( row.name, row.desc, row.type, row.default, row.highlight) }}
 	{% endfor %}
 	</table>
 {% endmacro %}
 
-{% macro config_row( setting, desc, type, default ) %}
+{% macro config_row( setting, desc, type, default, highlight ) %}
 
 	<tr>
 	<td><code>{{ setting }}</code></td>
@@ -20,7 +20,14 @@
 		{{ desc | safe }}
 
 		<div><span>Default:</span>
-		<code>{{ default }}</code>
+
+		{% if highlight %}
+			{% highlight "js" %}
+			{{ default | safe }}
+			{% endhighlight %}
+		{% else %}
+			<code>{{ default }}</code>
+		{% endif %}
 		</div>
 	</td>
 	<td><code>{{ type }}</code></td>
