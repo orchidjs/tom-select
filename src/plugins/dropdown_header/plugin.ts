@@ -15,6 +15,7 @@
 
 import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
+import { preventDefault } from '../../utils';
 
 
 TomSelect.define('dropdown_header',function(options) {
@@ -32,7 +33,7 @@ TomSelect.define('dropdown_header',function(options) {
 				'<div class="' + data.headerClass + '">' +
 					'<div class="' + data.titleRowClass + '">' +
 						'<span class="' + data.labelClass + '">' + data.title + '</span>' +
-						'<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' +
+						'<a class="' + data.closeClass + '">&times;</a>' +
 					'</div>' +
 				'</div>'
 			);
@@ -41,6 +42,15 @@ TomSelect.define('dropdown_header',function(options) {
 
 	self.hook('after','setup',()=>{
 		var header = getDom(options.html(options));
+
+		var close_link = header.querySelector('.'+options.closeClass);
+		if( close_link ){
+			close_link.addEventListener('click',(evt)=>{
+				preventDefault(evt,true);
+				self.close();
+			});
+		}
+
 		self.dropdown.insertBefore(header, self.dropdown.firstChild);
 	});
 

@@ -56,7 +56,7 @@ new TomSelect('#select-code-language',{
 		{	name:'html',
 			desc:'<p>An html string used to generate the header</p>',
 			type:'callback',
-			default:'function(data){\n	return `<div class="${data.headerClass}">\n				<div class="${data.titleRowClass}">\n					<span class="${data.labelClass}">${data.title}</span>\n					<a href="javascript:void(0)" class="${data.closeClass}">&times;</a>\n				</div>\n			</div>`;\n}',
+			default:'function(data){\n	return `<div class="${data.headerClass}">\n				<div class="${data.titleRowClass}">\n					<span class="${data.labelClass}">${data.title}</span>\n					<a class="${data.closeClass}">&times;</a>\n				</div>\n			</div>`;\n}',
 			highlight:true
 		},
 		{name:'title',desc:'<p>The text of the header</p>',type:'string',default:'Untitled'},
