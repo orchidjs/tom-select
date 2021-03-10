@@ -84,7 +84,7 @@
 
 	<div class="mt-auto p-4 badges small">
 		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/plugins/remove-button.njk">Edit this page on GitHub</a>
-		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
 				</div>
@@ -112,6 +112,8 @@
 
 
 
+
+
 <script>
 
 </script>
@@ -123,7 +125,7 @@
 
 		
 <label class="h2 mb-3">
-	remove_button
+	Example - Multiple
 </label>
 
 	<div>
@@ -140,7 +142,11 @@
 </textarea>
 			<script>
 new TomSelect('#input-tags',{
-	plugins: ['remove_button'],
+	plugins: {
+		remove_button:{
+			title:'Remove this item',
+		}
+	},
 	persist: false,
 	create: true,
 	onDelete: function(values) {
@@ -165,9 +171,9 @@ new TomSelect('#input-tags',{
 				
 
 				
+				<li class="nav-item dropdown ms-auto">
+				
 
-	
-	<li class="nav-item dropdown ms-auto">
 		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
 		<ul class="dropdown-menu dropdown-menu-end">
       	<li>
@@ -186,17 +192,18 @@ new TomSelect('#input-tags',{
 			</form>
 		</li>
 		</ul>
-	</li>
 	
 
-	
+
+				</li>
+				
 
 			</ul>
 
 			<div class="tab-content" id="demoTabContent-1">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-tags'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'remove_button'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	<span class="token function-variable function">onDelete</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">values</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>		<span class="token keyword">return</span> <span class="token function">confirm</span><span class="token punctuation">(</span>values<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">1</span> <span class="token operator">?</span> <span class="token string">'Are you sure you want to remove these '</span> <span class="token operator">+</span> values<span class="token punctuation">.</span>length <span class="token operator">+</span> <span class="token string">' items?'</span> <span class="token operator">:</span> <span class="token string">'Are you sure you want to remove "'</span> <span class="token operator">+</span> values<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">'"?'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-tags'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">{</span><br>		remove_button<span class="token operator">:</span><span class="token punctuation">{</span><br>			title<span class="token operator">:</span><span class="token string">'Remove this item'</span><span class="token punctuation">,</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	<span class="token function-variable function">onDelete</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">values</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>		<span class="token keyword">return</span> <span class="token function">confirm</span><span class="token punctuation">(</span>values<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">1</span> <span class="token operator">?</span> <span class="token string">'Are you sure you want to remove these '</span> <span class="token operator">+</span> values<span class="token punctuation">.</span>length <span class="token operator">+</span> <span class="token string">' items?'</span> <span class="token operator">:</span> <span class="token string">'Are you sure you want to remove "'</span> <span class="token operator">+</span> values<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">'"?'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 
@@ -234,7 +241,7 @@ new TomSelect('#input-tags',{
 
 		
 <label class="h2 mb-3">
-	remove_button (Single)
+	Example - Single
 </label>
 
 	<div>
@@ -280,9 +287,9 @@ new TomSelect('#input-tags2',{
 				
 
 				
+				<li class="nav-item dropdown ms-auto">
+				
 
-	
-	<li class="nav-item dropdown ms-auto">
 		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
 		<ul class="dropdown-menu dropdown-menu-end">
       	<li>
@@ -301,10 +308,11 @@ new TomSelect('#input-tags2',{
 			</form>
 		</li>
 		</ul>
-	</li>
 	
 
-	
+
+				</li>
+				
 
 			</ul>
 
@@ -325,6 +333,78 @@ new TomSelect('#input-tags2',{
 		</div>
 	</div>
 	</div>
+
+
+
+
+<h2>Plugin Configuration</h2>
+
+
+	<table class="table table-striped">
+	<tr>
+		<th>Setting</a></th>
+		<th>Description</th>
+		<th>Type</th>
+	</tr>
+	
+		
+
+	<tr>
+	<td><code>label</code></td>
+	<td>
+		<p>The text that will be displayed in each button</p>
+
+		<div><span>Default:</span>
+
+		
+			<code>&amp;times;</code>
+		
+		</div>
+	</td>
+	<td><code>string</code></td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td><code>title</code></td>
+	<td>
+		<p>The value of the title attribute on each button</p>
+
+		<div><span>Default:</span>
+
+		
+			<code>Remove</code>
+		
+		</div>
+	</td>
+	<td><code>string</code></td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td><code>className</code></td>
+	<td>
+		<p>The CSS class name of each button</p>
+
+		<div><span>Default:</span>
+
+		
+			<code>remove</code>
+		
+		</div>
+	</td>
+	<td><code>string</code></td>
+	</tr>
+
+
+	
+	</table>
 
 
 						

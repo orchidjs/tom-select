@@ -3936,11 +3936,20 @@
 	    labelClass: 'dropdown-header-label',
 	    closeClass: 'dropdown-header-close',
 	    html: data => {
-	      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
+	      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
 	    }
 	  }, options);
 	  self.hook('after', 'setup', () => {
 	    var header = getDom(options.html(options));
+	    var close_link = header.querySelector('.' + options.closeClass);
+
+	    if (close_link) {
+	      close_link.addEventListener('click', evt => {
+	        preventDefault(evt, true);
+	        self.close();
+	      });
+	    }
+
 	    self.dropdown.insertBefore(header, self.dropdown.firstChild);
 	  });
 	});
@@ -4010,7 +4019,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('input_autogrow', function (options) {
+	TomSelect.define('input_autogrow', function () {
 	  var self = this;
 	  self.hook('after', 'setup', () => {
 	    var test_input = document.createElement('span');
@@ -4059,7 +4068,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('no_backspace_delete', function (options) {
+	TomSelect.define('no_backspace_delete', function () {
 	  var self = this;
 	  var orig_deleteSelection = self.deleteSelection;
 	  this.hook('instead', 'deleteSelection', function () {
@@ -4103,7 +4112,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('optgroup_columns', function (options) {
+	TomSelect.define('optgroup_columns', function () {
 	  var self = this;
 	  var orig_keydown = self.onKeyDown;
 	  self.hook('instead', 'onKeyDown', function (evt) {

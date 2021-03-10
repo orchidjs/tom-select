@@ -49,7 +49,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('input_autogrow', function (options) {
+	TomSelect__default['default'].define('input_autogrow', function () {
 	  var self = this;
 	  self.hook('after', 'setup', () => {
 	    var test_input = document.createElement('span');

@@ -3776,7 +3776,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('no_backspace_delete', function (options) {
+	TomSelect.define('no_backspace_delete', function () {
 	  var self = this;
 	  var orig_deleteSelection = self.deleteSelection;
 	  this.hook('instead', 'deleteSelection', function () {

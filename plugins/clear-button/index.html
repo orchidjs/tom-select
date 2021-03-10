@@ -84,7 +84,7 @@
 
 	<div class="mt-auto p-4 badges small">
 		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/plugins/clear-button.njk">Edit this page on GitHub</a>
-		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2020 Contributors</a></div>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
 				</div>
@@ -112,6 +112,7 @@
 
 
 
+
 <script>
 
 </script>
@@ -124,7 +125,7 @@
 
 		
 <label class="h2 mb-3">
-	clear_button
+	Example
 </label>
 
 	<div>
@@ -141,7 +142,11 @@
 </textarea>
 			<script>
 new TomSelect('#clear-button',{
-	plugins: ['clear_button'],
+	plugins: {
+		'clear_button':{
+			'title':'Remove all selected options',
+		}
+	},
 	persist: false,
 	create: true,
 });
@@ -163,9 +168,9 @@ new TomSelect('#clear-button',{
 				
 
 				
+				<li class="nav-item dropdown ms-auto">
+				
 
-	
-	<li class="nav-item dropdown ms-auto">
 		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
 		<ul class="dropdown-menu dropdown-menu-end">
       	<li>
@@ -184,17 +189,18 @@ new TomSelect('#clear-button',{
 			</form>
 		</li>
 		</ul>
-	</li>
 	
 
-	
+
+				</li>
+				
 
 			</ul>
 
 			<div class="tab-content" id="demoTabContent-1">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#clear-button'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'clear_button'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#clear-button'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">{</span><br>		<span class="token string">'clear_button'</span><span class="token operator">:</span><span class="token punctuation">{</span><br>			<span class="token string">'title'</span><span class="token operator">:</span><span class="token string">'Remove all selected options'</span><span class="token punctuation">,</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 
@@ -208,6 +214,77 @@ new TomSelect('#clear-button',{
 		</div>
 	</div>
 	</div>
+
+
+
+<h2>Plugin Configuration</h2>
+
+
+	<table class="table table-striped">
+	<tr>
+		<th>Setting</a></th>
+		<th>Description</th>
+		<th>Type</th>
+	</tr>
+	
+		
+
+	<tr>
+	<td><code>html</code></td>
+	<td>
+		<p>A callback that returns an html string used to create the button</p>
+
+		<div><span>Default:</span>
+
+		
+			<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>className<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">" title="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">">&amp;times;&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+		
+		</div>
+	</td>
+	<td><code>callback</code></td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td><code>title</code></td>
+	<td>
+		<p>The value of the title attribute on the close button</p>
+
+		<div><span>Default:</span>
+
+		
+			<code>Clear All</code>
+		
+		</div>
+	</td>
+	<td><code>string</code></td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td><code>className</code></td>
+	<td>
+		<p>The CSS class name of the close button</p>
+
+		<div><span>Default:</span>
+
+		
+			<code>clear-button</code>
+		
+		</div>
+	</td>
+	<td><code>string</code></td>
+	</tr>
+
+
+	
+	</table>
 
 
 						

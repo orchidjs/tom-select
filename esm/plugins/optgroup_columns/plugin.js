@@ -21,7 +21,7 @@ import { parentMatch, nodeIndex } from '../../vanilla.js';
  * governing permissions and limitations under the License.
  *
  */
-TomSelect.define('optgroup_columns', function (options) {
+TomSelect.define('optgroup_columns', function () {
   var self = this;
   var orig_keydown = self.onKeyDown;
   self.hook('instead', 'onKeyDown', function (evt) {
