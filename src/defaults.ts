@@ -24,7 +24,6 @@ export default {
 	allowEmptyOption: false,
 	closeAfterSelect: false,
 
-	scrollDuration: 60,
 	loadThrottle: 300,
 	loadingClass: 'loading',
 

@@ -165,12 +165,6 @@ create: function(input,callback){
 		<td><code>false</code></td>
 	</tr>
 	<tr>
-		<td><code>scrollDuration</code></td>
-		<td>The animation duration (in milliseconds) of the scroll animation triggered when going [up] and [down] in the options dropdown.</td>
-		<td><code>int</code></td>
-		<td><code>60</code></td>
-	</tr>
-	<tr>
 		<td><code>loadThrottle</code></td>
 		<td>The number of milliseconds to wait before requesting options from the server or null. If null, throttling is disabled. Useful when loading options dynamically while the user types a search / filter expression.</td>
 		<td><code>int</code></td>

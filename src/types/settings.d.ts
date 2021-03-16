@@ -30,7 +30,6 @@ export type TomSettings = {
 	allowEmptyOption		: boolean,
 	closeAfterSelect		: boolean,
 
-	scrollDuration			: number,
 	loadThrottle			: number,
 	loadingClass			: string,
 
