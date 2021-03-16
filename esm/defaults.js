@@ -27,7 +27,6 @@ var defaults = {
   preload: null,
   allowEmptyOption: false,
   closeAfterSelect: false,
-  scrollDuration: 60,
   loadThrottle: 300,
   loadingClass: 'loading',
   dataAttr: null,
