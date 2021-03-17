@@ -5,6 +5,7 @@ window.has_focus = function(elem) {
 };
 
 var sandbox = document.createElement('div');
+sandbox.setAttribute('role','main');
 document.body.appendChild(sandbox);
 
 var IS_MAC      		= /Mac/.test(navigator.userAgent);
