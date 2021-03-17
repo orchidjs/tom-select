@@ -35,19 +35,29 @@
 
 				expect(test.instance.getValue()).to.be.equal('a,b');
 				assert.deepEqual(test.instance.items, ['a','b']);
-				assert.deepEqual(test.instance.options, {
-					'a': {val: 'a', lbl: 'Hello', $order: 1},
-					'b': {val: 'b', lbl: 'World', $order: 2}
-				});
+
+				assert.equal( test.instance.options['a'].val,'a');
+				assert.equal( test.instance.options['a'].lbl,'Hello');
+				assert.equal( test.instance.options['a'].$order,1);
+
+				assert.equal( test.instance.options['b'].val,'b');
+				assert.equal( test.instance.options['b'].lbl,'World');
+				assert.equal( test.instance.options['b'].$order,2);
+
 			});
 
 			it_n('should populate options from data attributes',function(){
 
 				var test = setup_test('<select><option value="a" data-test="b">c</option></select>');
 
-				assert.deepEqual(test.instance.options, {
-					'a': {value: 'a', test: 'b', text: 'c', disabled:false, optgroup: undefined, $order: 1},
-				});
+
+				assert.equal( test.instance.options['a'].value,'a');
+				assert.equal( test.instance.options['a'].test,'b');
+				assert.equal( test.instance.options['a'].text,'c');
+				assert.equal( test.instance.options['a'].$order,1);
+				assert.equal( test.instance.options['a'].disabled,false);
+				assert.equal( test.instance.options['a'].optgroup,undefined);
+
 			});
 
 			it_n('should treat bool values as integers', function() {
@@ -55,10 +65,14 @@
 					options:[{value: true, label: 'Hello'}, {value: false, label: 'World'}]
 				});
 
-				assert.deepEqual(test.instance.options, {
-					1: {value: true, label: 'Hello', $order: 1},
-					0: {value: false, label: 'World', $order: 2}
-				});
+				assert.equal( test.instance.options[1].value,true);
+				assert.equal( test.instance.options[1].label,'Hello');
+				assert.equal( test.instance.options[1].$order,1);
+
+				assert.equal( test.instance.options[0].value,false);
+				assert.equal( test.instance.options[0].label,'World');
+				assert.equal( test.instance.options[0].$order,2);
+
 			});
 
 
@@ -127,10 +141,20 @@
 					optgroupField: 'grp',
 					disabledField: 'dis'
 				});
-				assert.deepEqual(test.instance.options, {
-					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: false},
-					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
-				});
+
+				assert.equal( test.instance.options['a'].text,'Item A');
+				assert.equal( test.instance.options['a'].value,'a');
+				assert.deepEqual( test.instance.options['a'].grp,['Group 1', 'Group 2']);
+				assert.equal( test.instance.options['a'].$order,1);
+				assert.equal( test.instance.options['a'].dis,false);
+
+				assert.equal( test.instance.options['b'].text,'Item B');
+				assert.equal( test.instance.options['b'].value,'b');
+				assert.deepEqual( test.instance.options['b'].grp,['Group 1', 'Group 2']);
+				assert.equal( test.instance.options['b'].$order,2);
+				assert.equal( test.instance.options['b'].dis,false);
+
+
 				assert.deepEqual(test.instance.optgroups, {
 					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
 					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: false}
@@ -151,10 +175,19 @@
 					optgroupField: 'grp',
 					disabledField: 'dis'
 				});
-				assert.deepEqual(test.instance.options, {
-					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: true},
-					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
-				});
+
+				assert.equal( test.instance.options['a'].text,'Item A');
+				assert.equal( test.instance.options['a'].value,'a');
+				assert.deepEqual( test.instance.options['a'].grp,['Group 1', 'Group 2']);
+				assert.equal( test.instance.options['a'].$order,1);
+				assert.equal( test.instance.options['a'].dis,true);
+
+				assert.equal( test.instance.options['b'].text,'Item B');
+				assert.equal( test.instance.options['b'].value,'b');
+				assert.deepEqual( test.instance.options['b'].grp,['Group 1', 'Group 2']);
+				assert.equal( test.instance.options['b'].$order,2);
+				assert.equal( test.instance.options['b'].dis,false);
+
 				assert.deepEqual(test.instance.optgroups, {
 					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
 					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: true}
