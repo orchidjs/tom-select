@@ -5,7 +5,7 @@ env:
     - TARGET=HeadlessChrome
     - TARGET=browserstack
 node_js:
-  - 12
+  - 14
 addons:
   firefox: "67.0"
 before_script:
