@@ -359,12 +359,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
-		var children = [];
-		for( const child of input.children ){
-			children.push(child);
-		}
 		this.revertSettings = {
-			children : children,
+			children : [...input.children],
 			tabIndex : input.tabIndex
 		};
 
