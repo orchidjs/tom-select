@@ -346,9 +346,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
 		var children = [];
-		while( input.children.length > 0 ){
-			children.push( input.children[0] );
-			input.children[0].remove();
+		for( const child of input.children ){
+			children.push(child);
 		}
 		this.revertSettings = {
 			children : children,
@@ -1977,19 +1976,36 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * element to reflect the current state.
 	 *
 	 */
-	updateOriginalInput(opts:TomArgObject = {}) {
-		var options, label, self = this;
+	updateOriginalInput( opts:TomArgObject = {} ){
+		var existing, label, self = this;
 
 		if( self.is_select_tag ){
-			options = [];
-			for( const item of self.items ){
+			existing  = [];
+
+			// get list of values from existing <option> tags
+			// update selected attribute
+			self.input.querySelectorAll('option').forEach(function(option) {
+				existing.push(option.value);
+
+				if( self.items.indexOf(option.value) == -1 ){
+					option.selected = false;
+				}else{
+					option.selected = true;
+				}
+			});
+
+			// add <option>s for items not in existing list
+			self.items.forEach(function(item) {
+
+				if( existing.indexOf(item) != -1 ){
+					return;
+				}
+
 				label = self.options[item][self.settings.labelField] || '';
-				options.push('<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>');
-			}
-			if (!options.length && !this.input.hasAttribute('multiple')) {
-				options.push('<option value="" selected="selected"></option>');
-			}
-			self.input.innerHTML = options.join('');
+				self.input.innerHTML += '<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>';
+			});
+
+
 		} else {
 			self.input.value = self.getValue() as string;
 			self.input.setAttribute('value',self.input.value);

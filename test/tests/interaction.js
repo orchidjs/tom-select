@@ -238,9 +238,13 @@
 				'</select>', {});
 
 				click(test.instance.control, function() {
+					assert.equal(test.instance.input.querySelectorAll('option').length, 3,'should keep original options');
+					var option_before = test.instance.input.querySelector('option[value="b"]');
+
 					click($('[data-value="b"]', test.instance.dropdown), function() {
-						expect(test.instance.input.value).to.be.equal('b');
-						expect(test.instance.input.textContent).to.be.equal('B');
+						var option_after = test.instance.input.querySelector('option[value="b"]');
+						assert.equal(option_before, option_after,'should not recreate original <option>');
+						assert.equal(test.instance.input.value,'b','should select "b" value');
 						done();
 					});
 				});
@@ -755,6 +759,7 @@
 			it_n('should remove item when backspace pressed', function(done) {
 
 				var test = setup_test('AB_Multi');
+				var option_before = test.instance.input.querySelector('option[value="b"]');
 
 				test.instance.addItem('a');
 				test.instance.addItem('b');
@@ -763,8 +768,10 @@
 				click(test.instance.control, function() {
 					syn.type('\b', test.instance.control_input, function() {
 
+						var option_after = test.instance.input.querySelector('option[value="b"]');
 						assert.equal( test.instance.items.length, 1 );
 						assert.equal( test.instance.items[0], 'a' );
+						assert.equal( option_before, option_after, 'should not remove original <option>' );
 						done();
 					});
 				});
