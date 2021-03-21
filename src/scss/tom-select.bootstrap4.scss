@@ -4,6 +4,8 @@
 
 //Import Boostrap 4 functions and variables
 
+$state-valid: map-get($form-validation-states,'valid') !default;
+$state-invalid: map-get($form-validation-states,'invalid') !default;
 
 $enable-shadows: true !default;
 $select-font-family: inherit !default;
@@ -14,7 +16,7 @@ $select-color-text: gray("800") !default; //$gray-800
 $select-color-highlight: rgba(255,237,40,0.4) !default;
 $select-color-input: $input-bg !default;
 $select-color-input-full: $input-bg !default;
-$select-color-input-error: theme-color("danger") !default;
+$select-color-input-error: map-get($state-invalid,'color') !default;
 $select-color-input-error-focus: darken($select-color-input-error, 10%) !default;
 $select-color-disabled: $input-bg !default;
 $select-color-item: #efefef !default;
@@ -31,10 +33,7 @@ $select-color-dropdown-item-active: $dropdown-link-hover-bg !default;
 $select-color-dropdown-item-active-text: $dropdown-link-hover-color !default;
 $select-color-dropdown-item-create-active-text: $dropdown-link-hover-color !default;
 $select-opacity-disabled: 0.5 !default;
-$select-shadow-input: none !default;
-$select-shadow-input-focus: inset 0 1px 2px rgba(0,0,0,0.15) !default;
-$select-shadow-input-error: inset 0 1px 1px rgba(0, 0, 0, .075) !default;
-$select-shadow-input-error-focus: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px lighten($select-color-input-error, 20%) !default;
+
 $select-border: 1px solid $input-border-color !default;
 $select-border-radius: $input-border-radius !default;
 
@@ -56,10 +55,10 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 @import "tom-select";
 
 
-.#{$select-ns}-dropdown, .#{$select-ns}-dropdown.form-control {
+.#{$select-ns}-dropdown,
+.#{$select-ns}-dropdown.form-control {
   height: auto;
   padding: 0;
-  margin: 2px 0 0 0;
   z-index: $zindex-dropdown;
   background: $select-color-dropdown;
   border: 1px solid $dropdown-border-color; //$dropdown-fallback-border
@@ -120,12 +119,23 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 .is-invalid .#{$select-ns}-input,
 .was-validated .#{$select-ns}-input.invalid{
   border-color: $select-color-input-error;
-  box-shadow: $select-shadow-input-error;
 
   &.focus {
 	border-color: $select-color-input-error-focus;
-	box-shadow: $select-shadow-input-error-focus;
+	box-shadow: 0 0 0 $input-focus-width rgba($select-color-input-error, .25);
   }
+}
+
+.is-valid .#{$select-ns}-input{
+  $_color: map-get($state-valid,'color');
+  //$_icon: map-get($state-valid,'icon');
+
+  border-color: $_color;
+
+  &.focus{
+    border-color: $_color;
+	box-shadow: 0 0 0 $input-focus-width rgba($_color, .25);
+ }
 }
 
 .#{$select-ns}-control {
@@ -155,7 +165,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   height: auto;
   border: none;
   background: none;
-  box-shadow: none;
+  //box-shadow: none;
   border-radius: 0;
 }
 

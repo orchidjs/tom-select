@@ -47,8 +47,8 @@ $select-lighten-disabled-item-text:				30% !default;
 $select-lighten-disabled-item-border:			30% !default;
 $select-opacity-disabled:						0.5 !default;
 
-$select-shadow-input:							inset 0 1px 1px rgba(0,0,0,0.1) !default;
-$select-shadow-input-focus:						inset 0 1px 2px rgba(0,0,0,0.15) !default;
+$select-shadow-input:							none !default;
+$select-shadow-input-focus:						none !default;
 $select-border:									1px solid $select-color-border !default;
 $select-dropdown-border:						1px solid $select-color-dropdown-border !default;
 $select-border-radius:							3px !default;
@@ -109,13 +109,11 @@ $select-spinner-border-color:					$select-color-border;
 .#{$select-ns}-control.single .#{$select-ns}-input.input-active {
 	background: $select-color-input;
 	cursor: text;
-	display: inline-block;
 }
 
 .#{$select-ns}-input {
 	border: $select-border;
 	padding: $select-padding-y $select-padding-x;
-	display: inline-block;
 	width: 100%;
 	overflow: hidden;
 	position: relative;
@@ -225,7 +223,7 @@ $select-spinner-border-color:					$select-color-border;
 
 	border: $select-dropdown-border;
 	background: $select-color-dropdown;
-	margin: -1px 0 0 0;
+	margin: 0.25rem 0 0 0;
 	border-top: 0 none;
 	box-sizing: border-box;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
