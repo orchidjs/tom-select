@@ -113,9 +113,9 @@ module.exports = function(config) {
 		'HeadlessChrome': ['HeadlessChrome']
 	};
 
-	var reporters = ['mocha','coverage'];
+	var reporters = ['mocha','coverage','aChecker'];
 	if( process.env.TRAVIS_CI ){
-		reporters = ['mocha', 'coverage', 'coveralls']
+		reporters = ['mocha', 'coverage', 'coveralls','aChecker']
 	}
 
 	var browsers = targets[process.env.TARGET || 'HeadlessFirefox'];
@@ -126,7 +126,7 @@ module.exports = function(config) {
 
 	config.set({
 		basePath: '../',
-		frameworks: ['mocha', 'chai'],
+		frameworks: ['mocha', 'chai','aChecker'],
 		files: [
 			{
 				pattern: 'test/tests/esm-module.js',

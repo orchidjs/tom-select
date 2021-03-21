@@ -150,3 +150,19 @@ export function isKeyDown( key_name:keyof (KeyboardEvent|MouseEvent), evt:Keyboa
 
 	return false;
 }
+
+
+/**
+ * Get the id of an element
+ * If the id attribute is not set, set the attribute with the given id
+ *
+ */
+export function getId(el:HTMLElement,id:string){
+	const existing_id = el.getAttribute('id');
+	if( existing_id ){
+		return existing_id;
+	}
+
+	el.setAttribute('id',id);
+	return id;
+}

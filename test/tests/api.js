@@ -315,10 +315,8 @@
 				var opt2 = {value: 'world'};
 				test.instance.addOption(opt1);
 				test.instance.addOption(opt2);
-				assert.deepEqual(test.instance.options, {
-					'hello': {value: 'hello', $order: 1},
-					'world': {value: 'world', $order: 2}
-				});
+				assert.equal(test.instance.options['hello'].$order, 1);
+				assert.equal(test.instance.options['world'].$order, 2);
 			});
 			it_n('should allow string values', function() {
 				test.instance.addOption({value: 'stringtest'});
