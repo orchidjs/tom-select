@@ -1294,6 +1294,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				option_el = self.render('option', option);
 			}
 
+			// toggle 'selected' class
+			if( !self.settings.hideSelected ){
+				option_el.classList.toggle('selected', self.items.includes(opt_value) );
+			}
 
 			optgroup    = option[self.settings.optgroupField] || '';
 			optgroups   = Array.isArray(optgroup) ? optgroup : [optgroup];
@@ -1355,16 +1359,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if (results.query.length && results.tokens.length) {
 				for( const tok of results.tokens ){
 					highlight( self.dropdown_content, tok.regex);
-				}
-			}
-		}
-
-		// add "selected" class to selected options
-		if (!self.settings.hideSelected) {
-			for( const item of self.items ){
-				let option = self.getOption(item)
-				if( option ){
-					addClasses(option,'selected');
 				}
 			}
 		}

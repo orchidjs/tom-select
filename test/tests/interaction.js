@@ -245,7 +245,15 @@
 						var option_after = test.instance.input.querySelector('option[value="b"]');
 						assert.equal(option_before, option_after,'should not recreate original <option>');
 						assert.equal(test.instance.input.value,'b','should select "b" value');
-						done();
+						assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
+
+						click($('[data-value="a"]', test.instance.dropdown), function() {
+							var option_after = test.instance.input.querySelector('option[value="b"]');
+							assert.equal(option_before, option_after,'should not recreate original <option>');
+							assert.equal(test.instance.input.value,'a','should select "a" value');
+							assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
+							done();
+						});
 					});
 				});
 			});
