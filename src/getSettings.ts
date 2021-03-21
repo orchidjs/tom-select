@@ -83,6 +83,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 			option_data[field_value]    = option_data[field_value] || value;
 			option_data[field_disabled] = option_data[field_disabled] || option.disabled;
 			option_data[field_optgroup] = option_data[field_optgroup] || group;
+			option_data.$option			= option;
 
 			optionsMap[value] = option_data;
 			options.push(option_data);

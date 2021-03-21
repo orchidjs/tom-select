@@ -49,6 +49,7 @@
 			it_n('should populate options from data attributes',function(){
 
 				var test = setup_test('<select><option value="a" data-test="b">c</option></select>');
+				var option = test.instance.input.querySelector('option[value="a"]');
 
 
 				assert.equal( test.instance.options['a'].value,'a');
@@ -57,6 +58,7 @@
 				assert.equal( test.instance.options['a'].$order,1);
 				assert.equal( test.instance.options['a'].disabled,false);
 				assert.equal( test.instance.options['a'].optgroup,undefined);
+				assert.equal( test.instance.options['a'].$option,option);
 
 			});
 
