@@ -58,7 +58,8 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 
 .#{$select-ns}-dropdown,
-.#{$select-ns}-dropdown.form-control {
+.#{$select-ns}-dropdown.form-control,
+.#{$select-ns}-dropdown.form-select{
   height: auto;
   padding: 0;
   z-index: $zindex-dropdown;
@@ -141,6 +142,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{$select-ns}-control {
+  &.form-select-sm,
   &.form-control-sm{
     .#{$select-ns}-input.has-items{
       min-height: $input-height-sm !important;
@@ -162,6 +164,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   }
 }
 
+.form-select.#{$select-ns}-control,
 .form-control.#{$select-ns}-control {
   padding: 0;
   height: auto;
