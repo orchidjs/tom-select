@@ -47,7 +47,7 @@ $select-arrow-offset: $select-padding-x + 5px;
 
 
 @import 'tom-select';
-
+@include ts-caret();
 
 .#{$select-ns}-dropdown, .#{$select-ns}-dropdown.form-control {
 	height: auto;

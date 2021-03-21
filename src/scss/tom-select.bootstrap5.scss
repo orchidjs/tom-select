@@ -131,14 +131,13 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 .is-valid .#{$select-ns}-input{
   $_color: map-get($state-valid,'color');
-  //$_icon: map-get($state-valid,'icon');
 
   border-color: $_color;
 
   &.focus{
     border-color: $_color;
 	box-shadow: 0 0 0 $input-focus-width rgba($_color, .25);
- }
+  }
 }
 
 .#{$select-ns}-control {
@@ -164,15 +163,35 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   }
 }
 
-.form-select.#{$select-ns}-control,
-.form-control.#{$select-ns}-control {
-  padding: 0;
-  height: auto;
-  border: none;
-  background: none;
-  box-shadow: none;
-  border-radius: 0;
+
+.#{$select-ns}-control:not(.form-select){
+	padding: 0;
+    border: none;
+    height: auto;
+    box-shadow: none;
+    background: none;
+
+	.#{$select-ns}-input,
+	&.single .#{$select-ns}-input,
+	&.single .#{$select-ns}-input.input-active {
+		background: escape-svg($form-select-indicator) no-repeat $form-select-bg-position/$form-select-bg-size;
+	}
+
 }
+
+.#{$select-ns}-control.form-select{
+	padding: 0;
+    height: auto;
+    box-shadow: none;
+
+	.#{$select-ns}-input,
+	&.single .#{$select-ns}-input.input-active {
+		border:		none !important;
+		background: transparent !important; // let the background of .form-select show through
+	}
+
+}
+
 
 .input-group .#{$select-ns}-input {
 	overflow: unset;
