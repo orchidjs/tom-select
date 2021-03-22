@@ -93,10 +93,17 @@ The plugin system is lean, makes very few assumptions, and gives the developer c
 <pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">{</span><br>		<span class="token string">'plugin_a'</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'plugin_b'</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>For a more detailed description of plugin option formats and how the plugin system works, check out the <a href="https://github.com/brianreavis/microplugin.js">microplugin</a> documentation.</p>
 <h2 id="including-plugins">Including Plugins</h2>
-<p>By default, all plugins are bundled in <code>tom-select.complete.js</code>.
-To reduce bundle size, you can also use <code>tom-select.base.js</code> along with individually selected plugin files: <code>/js/plugins/remove_button.js</code>, <code>/js/plugins/dropdown_header.js</code>, etc.</p>
-<p>You can also hand-pick plugins to create <code>/build/js/tom-select.custom.js</code> by running <code>grunt</code> with the &quot;--plugins&quot; flag.</p>
-<pre class="language-shell"><code class="language-shell"><span class="token comment"># install dev dependencies</span><br><span class="token function">npm</span> <span class="token function">install</span><br><br><span class="token comment"># create /build/js/tom-select.custom.js</span><br>grunt --plugins<span class="token operator">=</span>remove_button,restore_on_backspace</code></pre>
+<p>Plugins can be included in your projects in four different ways:</p>
+<h4 id="tom-select.complete.js">tom-select.complete.js</h4>
+<p>Using <code>tom-select.complete.js</code> in your projects will give you immediate access to all plugins</p>
+<h4 id="tom-select.popular.js">tom-select.popular.js</h4>
+<p>Save some bandwidth with a bundle that's about 4kb smaller. <code>tom-select.popular.js</code> includes dropdown_input, remove_button, no_backspace_delete, and restore_on_backspace plugins.</p>
+<h4 id="tom-select.base.js">tom-select.base.js</h4>
+<p>If you don't need any plugins, or want to load plugins individually, use <code>tom-select.base.js</code>.
+Add plugins to your project by including their js files: <code>/js/plugins/remove_button.js</code>, <code>/js/plugins/dropdown_header.js</code>, etc.</p>
+<h4 id="tom-select.custom.js">tom-select.custom.js</h4>
+<p>Use NPM to hand-pick plugins and create <code>/build/js/tom-select.custom.js</code></p>
+<pre class="language-shell"><code class="language-shell"><span class="token comment"># clone the repo</span><br><span class="token function">git</span> clone https://github.com/orchidjs/tom-select.git<br><span class="token builtin class-name">cd</span> tom-select<br><br><span class="token comment"># install dev dependencies</span><br><span class="token function">npm</span> <span class="token function">install</span><br><br><span class="token comment"># create /build/js/tom-select.custom.js</span><br>grunt --plugins<span class="token operator">=</span>remove_button,restore_on_backspace</code></pre>
 <h2 id="creating-plugins">Creating Plugins</h2>
 <p><strong>A few notes:</strong></p>
 <ul>

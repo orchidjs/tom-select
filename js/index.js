@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	// add info about script and current value below each demo
 	for(let i = 0; i < demo_divs.length; i++){
 		let demo	= demo_divs[i];
-		ShowValue(demo);
 	}
 
 
@@ -74,31 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		link.setAttribute('href','/css/tom-select.' + theme + '.css');
 		document.getElementsByTagName('head')[0].appendChild(link);
 
-	}
-
-
-	/**
-	 * Show current input values
-	 *
-	 */
-	function ShowValue(demo){
-
-		var demo_html = demo.querySelector('.demo-html');
-
-		var select_or_input = demo.querySelectorAll('select.tomselected,input.tomselected');
-		for(let i = 0; i < select_or_input.length; i++){
-
-			let el		= select_or_input[i];
-			let div		= document.createElement('div');
-			div.classList.add('value');
-			let update	= function(){
-				div.textContent = 'Current Value: ' + JSON.stringify(el.value);
-			};
-
-			el.addEventListener('change',update);
-			update();
-			demo_html.appendChild( div);
-		}
 	}
 
 

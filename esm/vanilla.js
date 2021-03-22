@@ -168,6 +168,16 @@ function nodeIndex(el, amongst) {
 
   return i;
 }
+/**
+ * Set attributes of an element
+ *
+ */
 
-export { addClasses, applyCSS, castAsArray, classesArray, escapeQuery, getDom, getTail, isEmptyObject, nodeIndex, parentMatch, removeClasses, triggerEvent };
+function setAttr(el, attrs) {
+  for (const attr in attrs) {
+    el.setAttribute(attr, attrs[attr]);
+  }
+}
+
+export { addClasses, applyCSS, castAsArray, classesArray, escapeQuery, getDom, getTail, isEmptyObject, nodeIndex, parentMatch, removeClasses, setAttr, triggerEvent };
 //# sourceMappingURL=vanilla.js.map

@@ -927,6 +927,22 @@
 
 	  return false;
 	}
+	/**
+	 * Get the id of an element
+	 * If the id attribute is not set, set the attribute with the given id
+	 *
+	 */
+
+	function getId(el, id) {
+	  const existing_id = el.getAttribute('id');
+
+	  if (existing_id) {
+	    return existing_id;
+	  }
+
+	  el.setAttribute('id', id);
+	  return id;
+	}
 
 	function getSettings(input, settings_user) {
 	  var settings = Object.assign({}, defaults, settings_user);
@@ -1006,6 +1022,7 @@
 	      option_data[field_value] = option_data[field_value] || value;
 	      option_data[field_disabled] = option_data[field_disabled] || option.disabled;
 	      option_data[field_optgroup] = option_data[field_optgroup] || group;
+	      option_data.$option = option;
 	      optionsMap[value] = option_data;
 	      options.push(option_data);
 
@@ -1246,7 +1263,18 @@
 
 	  return i;
 	}
+	/**
+	 * Set attributes of an element
+	 *
+	 */
 
+	function setAttr(el, attrs) {
+	  for (const attr in attrs) {
+	    el.setAttribute(attr, attrs[attr]);
+	  }
+	}
+
+	var instance_i = 0;
 	class TomSelect extends MicroPlugin(MicroEvent) {
 	  constructor(input_arg, settings) {
 	    super();
@@ -1261,6 +1289,7 @@
 	    this.tabIndex = void 0;
 	    this.is_select_tag = void 0;
 	    this.rtl = void 0;
+	    this.inputId = void 0;
 	    this._destroy = void 0;
 	    this.sifter = void 0;
 	    this.tab_key = false;
@@ -1290,6 +1319,7 @@
 	      'item': {},
 	      'option': {}
 	    };
+	    instance_i++;
 	    var dir;
 	    var input = getDom(input_arg);
 
@@ -1307,6 +1337,7 @@
 	    this.tabIndex = input.tabIndex || 0;
 	    this.is_select_tag = input.tagName.toLowerCase() === 'select';
 	    this.rtl = /rtl/i.test(dir);
+	    this.inputId = getId(input, 'tomselect-' + instance_i);
 	    this.isRequired = input.required; // debounce user defined load() if loadThrottle > 0
 
 	    if (this.settings.load && this.settings.loadThrottle) {
@@ -1370,11 +1401,12 @@
 	    var inputMode;
 	    var classes;
 	    var classes_plugins;
-	    var inputId;
 	    var input = self.input;
+	    var control_id;
 	    const passive_event = {
 	      passive: true
 	    };
+	    const listboxId = self.inputId + '-ts-dropdown';
 	    inputMode = self.settings.mode;
 	    classes = input.getAttribute('class') || '';
 	    wrapper = getDom('<div>');
@@ -1384,7 +1416,7 @@
 	    wrapper.append(control);
 	    dropdown = self.render('dropdown');
 	    addClasses(dropdown, settings.dropdownClass, inputMode);
-	    dropdown_content = getDom('<div style="scroll-behavior: smooth;">');
+	    dropdown_content = getDom(`<div style="scroll-behavior: smooth;" role="listbox" id="${listboxId}">`);
 	    addClasses(dropdown_content, settings.dropdownContentClass);
 	    dropdown.append(dropdown_content);
 	    getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
@@ -1398,7 +1430,9 @@
 
 	      for (const attr of attrs) {
 	        if (input.getAttribute(attr)) {
-	          control_input.setAttribute(attr, input.getAttribute(attr));
+	          setAttr(control_input, {
+	            [attr]: input.getAttribute(attr)
+	          });
 	        }
 	      }
 	    }
@@ -1408,11 +1442,24 @@
 	      control.appendChild(control_input);
 	    }
 
-	    if (inputId = input.getAttribute('id')) {
-	      control_input.setAttribute('id', inputId + '-tomselected');
-	      let query = "label[for='" + escapeQuery(inputId) + "']";
-	      let label = document.querySelector(query);
-	      if (label) label.setAttribute('for', inputId + '-tomselected');
+	    setAttr(control_input, {
+	      role: 'combobox',
+	      haspopup: 'listbox',
+	      'aria-expanded': 'false',
+	      'aria-controls': listboxId
+	    });
+	    control_id = getId(control_input, self.inputId + '-tomselected');
+	    let query = "label[for='" + escapeQuery(self.inputId) + "']";
+	    let label = document.querySelector(query);
+
+	    if (label) {
+	      setAttr(label, {
+	        for: control_id
+	      });
+	      let label_id = getId(label, self.inputId + '-ts-label');
+	      setAttr(dropdown_content, {
+	        'aria-labelledby': label_id
+	      });
 	    }
 
 	    if (self.settings.copyClassesToDropdown) {
@@ -1427,11 +1474,15 @@
 	    }
 
 	    if ((settings.maxItems === null || settings.maxItems > 1) && self.is_select_tag) {
-	      input.setAttribute('multiple', 'multiple');
+	      setAttr(input, {
+	        multiple: 'multiple'
+	      });
 	    }
 
 	    if (self.settings.placeholder) {
-	      control_input.setAttribute('placeholder', settings.placeholder);
+	      setAttr(control_input, {
+	        placeholder: settings.placeholder
+	      });
 	    } // if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 
 
@@ -1525,19 +1576,14 @@
 	    // restored when the destroy() method is called.
 
 
-	    var children = [];
-
-	    while (input.children.length > 0) {
-	      children.push(input.children[0]);
-	      input.children[0].remove();
-	    }
-
 	    this.revertSettings = {
-	      children: children,
+	      children: [...input.children],
 	      tabIndex: input.tabIndex
 	    };
 	    input.tabIndex = -1;
-	    input.setAttribute('hidden', 'hidden');
+	    setAttr(input, {
+	      hidden: 'hidden'
+	    });
 	    input.insertAdjacentElement('afterend', self.wrapper);
 	    self.setValue(settings.items);
 	    delete settings.items;
@@ -2237,6 +2283,12 @@
 	    this.clearActiveOption();
 	    if (!option) return;
 	    this.activeOption = option;
+	    setAttr(this.control_input, {
+	      'aria-activedescendant': option.getAttribute('id')
+	    });
+	    setAttr(option, {
+	      'aria-selected': 'true'
+	    });
 	    addClasses(option, 'active');
 	    height_menu = this.dropdown_content.clientHeight;
 	    let scrollTop = this.dropdown_content.scrollTop || 0;
@@ -2256,8 +2308,13 @@
 
 
 	  clearActiveOption() {
-	    if (this.activeOption) removeClasses(this.activeOption, 'active');
+	    if (this.activeOption) {
+	      removeClasses(this.activeOption, 'active');
+	      this.activeOption.removeAttribute('aria-selected');
+	    }
+
 	    this.activeOption = null;
+	    this.control_input.removeAttribute('aria-activedescendant');
 	  }
 	  /**
 	   * Selects all items (CTRL + A).
@@ -2467,6 +2524,11 @@
 
 	      if (!option_el) {
 	        option_el = self.render('option', option);
+	      } // toggle 'selected' class
+
+
+	      if (!self.settings.hideSelected) {
+	        option_el.classList.toggle('selected', self.items.includes(opt_value));
 	      }
 
 	      optgroup = option[self.settings.optgroupField] || '';
@@ -2488,6 +2550,7 @@
 	        if (j > 0) {
 	          option_el = option_el.cloneNode(true);
 	          removeClasses(option_el, 'active');
+	          option_el.removeAttribute('aria-selected');
 	        }
 
 	        groups[optgroup].appendChild(option_el);
@@ -2530,17 +2593,6 @@
 	      if (results.query.length && results.tokens.length) {
 	        for (const tok of results.tokens) {
 	          highlight(self.dropdown_content, tok.regex);
-	        }
-	      }
-	    } // add "selected" class to selected options
-
-
-	    if (!self.settings.hideSelected) {
-	      for (const item of self.items) {
-	        let option = self.getOption(item);
-
-	        if (option) {
-	          addClasses(option, 'selected');
 	        }
 	      }
 	    } // helper method for adding templates to dropdown
@@ -2658,6 +2710,7 @@
 	    var key = hash_key(data[this.settings.valueField]);
 	    if (key === null || this.options.hasOwnProperty(key)) return false;
 	    data.$order = data.$order || ++this.order;
+	    data.$id = this.inputId + '-opt-' + Object.keys(this.options).length;
 	    this.options[key] = data;
 	    return key;
 	  }
@@ -3187,26 +3240,34 @@
 
 
 	  updateOriginalInput(opts = {}) {
-	    var options,
+	    var existing,
 	        label,
 	        self = this;
 
 	    if (self.is_select_tag) {
-	      options = [];
+	      existing = []; // get list of values from existing <option> tags
+	      // update selected attribute
 
-	      for (const item of self.items) {
+	      self.input.querySelectorAll('option').forEach(function (option) {
+	        existing.push(option.value);
+
+	        if (self.items.indexOf(option.value) == -1) {
+	          option.selected = false;
+	        } else {
+	          option.selected = true;
+	        }
+	      }); // add <option>s for items not in existing list
+
+	      self.items.forEach(function (item) {
+	        if (existing.indexOf(item) != -1) {
+	          return;
+	        }
+
 	        label = self.options[item][self.settings.labelField] || '';
-	        options.push('<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>');
-	      }
-
-	      if (!options.length && !this.input.hasAttribute('multiple')) {
-	        options.push('<option value="" selected="selected"></option>');
-	      }
-
-	      self.input.innerHTML = options.join('');
+	        self.input.innerHTML += '<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>';
+	      });
 	    } else {
 	      self.input.value = self.getValue();
-	      self.input.setAttribute('value', self.input.value);
 	    }
 
 	    if (self.isSetup) {
@@ -3225,6 +3286,9 @@
 	    var self = this;
 	    if (self.isLocked || self.isOpen || self.settings.mode === 'multi' && self.isFull()) return;
 	    self.isOpen = true;
+	    setAttr(self.control_input, {
+	      'aria-expanded': 'true'
+	    });
 	    self.refreshState();
 	    applyCSS(self.dropdown, {
 	      visibility: 'hidden',
@@ -3258,6 +3322,9 @@
 	    }
 
 	    self.isOpen = false;
+	    setAttr(self.control_input, {
+	      'aria-expanded': 'false'
+	    });
 	    applyCSS(self.dropdown, {
 	      display: 'none'
 	    });
@@ -3618,24 +3685,36 @@
 
 	    if (templateName === 'option' || templateName === 'option_create') {
 	      if (!data[self.settings.disabledField]) {
-	        html.setAttribute('data-selectable', '');
+	        setAttr(html, {
+	          'data-selectable': ''
+	        });
 	      }
 	    } else if (templateName === 'optgroup') {
 	      id = data.group[self.settings.optgroupValueField];
-	      html.setAttribute('data-group', id);
+	      setAttr(html, {
+	        'data-group': id
+	      });
 
 	      if (data.group[self.settings.disabledField]) {
-	        html.setAttribute('data-disabled', '');
+	        setAttr(html, {
+	          'data-disabled': ''
+	        });
 	      }
 	    }
 
 	    if (templateName === 'option' || templateName === 'item') {
-	      html.setAttribute('data-value', value); // make sure we have some classes if a template is overwritten
+	      setAttr(html, {
+	        'data-value': value
+	      }); // make sure we have some classes if a template is overwritten
 
 	      if (templateName === 'item') {
 	        addClasses(html, self.settings.itemClass);
 	      } else {
 	        addClasses(html, self.settings.optionClass);
+	        setAttr(html, {
+	          role: 'option',
+	          id: data.$id
+	        });
 	      } // update cache
 
 
@@ -3973,7 +4052,9 @@
 	  input = getDom(input);
 
 	  if (self.settings.placeholder) {
-	    input.setAttribute('placeholder', self.settings.placeholder);
+	    setAttr(input, {
+	      placeholder: self.settings.placeholder
+	    });
 	  }
 
 	  self.settings.controlInput = input;
@@ -3981,7 +4062,9 @@
 
 	  self.hook('after', 'setup', () => {
 	    // set tabIndex on wrapper
-	    self.wrapper.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex); // keyboard navigation
+	    setAttr(self.wrapper, {
+	      tabindex: self.input.disabled ? '-1' : self.tabIndex
+	    }); // keyboard navigation
 
 	    addEvent(self.wrapper, 'keypress', evt => {
 	      if (self.control.contains(evt.target)) {

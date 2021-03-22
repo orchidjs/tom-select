@@ -41,6 +41,16 @@
 
 	  return document.querySelector(query);
 	}
+	/**
+	 * Set attributes of an element
+	 *
+	 */
+
+	function setAttr(el, attrs) {
+	  for (const attr in attrs) {
+	    el.setAttribute(attr, attrs[attr]);
+	  }
+	}
 
 	/**
 	 * Converts a scalar to its best string representation
@@ -85,7 +95,9 @@
 	  input = getDom(input);
 
 	  if (self.settings.placeholder) {
-	    input.setAttribute('placeholder', self.settings.placeholder);
+	    setAttr(input, {
+	      placeholder: self.settings.placeholder
+	    });
 	  }
 
 	  self.settings.controlInput = input;
@@ -93,7 +105,9 @@
 
 	  self.hook('after', 'setup', () => {
 	    // set tabIndex on wrapper
-	    self.wrapper.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex); // keyboard navigation
+	    setAttr(self.wrapper, {
+	      tabindex: self.input.disabled ? '-1' : self.tabIndex
+	    }); // keyboard navigation
 
 	    addEvent(self.wrapper, 'keypress', evt => {
 	      if (self.control.contains(evt.target)) {

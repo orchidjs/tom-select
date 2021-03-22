@@ -141,6 +141,22 @@ function isKeyDown(key_name, evt) {
 
   return false;
 }
+/**
+ * Get the id of an element
+ * If the id attribute is not set, set the attribute with the given id
+ *
+ */
 
-export { addEvent, debounce_events, escape_html, getSelection, hash_key, isKeyDown, loadDebounce, preventDefault };
+function getId(el, id) {
+  const existing_id = el.getAttribute('id');
+
+  if (existing_id) {
+    return existing_id;
+  }
+
+  el.setAttribute('id', id);
+  return id;
+}
+
+export { addEvent, debounce_events, escape_html, getId, getSelection, hash_key, isKeyDown, loadDebounce, preventDefault };
 //# sourceMappingURL=utils.js.map
