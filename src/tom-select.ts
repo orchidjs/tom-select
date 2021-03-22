@@ -2026,7 +2026,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		} else {
 			self.input.value = self.getValue() as string;
-			setAttr(self.input,{value:self.input.value});
 		}
 
 		if (self.isSetup) {
