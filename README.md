@@ -26,9 +26,8 @@ Tom Select was forked from [selectize.js](https://tom-select.js.org/docs/selecti
 - **Díåcritîçs supported**<br>Great for international environments.
 - **Item creation**<br>Allow users to create items on the fly (async saving is supported; the control locks until the callback is fired).
 - **Remote data loading**<br>For when you have thousands of options and want them provided by the server as the user types.
-- **Clean API &amp; code**<br>Interface with it and make modifications easily. Pull requests welcome!
 - **Extensible**<br> [Plugin API](https://tom-select.js.org/docs/plugins/) for developing custom features (uses [microplugin](https://github.com/brianreavis/microplugin.js)).
-- **Touch Support**<br> Plays nice with iOS 5+ devices.
+- **Accessible**, **Touch Support**, **Clean API**, ...
 
 ## Usage
 
