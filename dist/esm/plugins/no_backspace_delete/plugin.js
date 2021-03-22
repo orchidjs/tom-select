@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.3.0
+* Tom Select v1.4.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -18,7 +18,7 @@ import TomSelect from '../../tom-select.js';
  * governing permissions and limitations under the License.
  *
  */
-TomSelect.define('no_backspace_delete', function (options) {
+TomSelect.define('no_backspace_delete', function () {
   var self = this;
   var orig_deleteSelection = self.deleteSelection;
   this.hook('instead', 'deleteSelection', function () {

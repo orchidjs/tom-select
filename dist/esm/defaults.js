@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.3.0
+* Tom Select v1.4.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -27,7 +27,6 @@ var defaults = {
   preload: null,
   allowEmptyOption: false,
   closeAfterSelect: false,
-  scrollDuration: 60,
   loadThrottle: 300,
   loadingClass: 'loading',
   dataAttr: null,

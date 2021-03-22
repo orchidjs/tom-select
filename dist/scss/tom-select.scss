@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.3.0)
+ * tom-select.css (v1.4.0)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -47,8 +47,8 @@ $select-lighten-disabled-item-text:				30% !default;
 $select-lighten-disabled-item-border:			30% !default;
 $select-opacity-disabled:						0.5 !default;
 
-$select-shadow-input:							inset 0 1px 1px rgba(0,0,0,0.1) !default;
-$select-shadow-input-focus:						inset 0 1px 2px rgba(0,0,0,0.15) !default;
+$select-shadow-input:							none !default;
+$select-shadow-input-focus:						none !default;
 $select-border:									1px solid $select-color-border !default;
 $select-dropdown-border:						1px solid $select-color-dropdown-border !default;
 $select-border-radius:							3px !default;
@@ -83,6 +83,33 @@ $select-spinner-border-color:					$select-color-border;
 }
 
 
+@mixin ts-caret(){
+
+	.#{$select-ns}-control.single .#{$select-ns}-input {
+		&, input { cursor: pointer; }
+		&.input-active, &.input-active input { cursor: text; }
+
+		&:after {
+			content: ' ';
+			display: block;
+			position: absolute;
+			top: 50%;
+			right: $select-arrow-offset;
+			margin-top: round((-1 * $select-arrow-size / 2));
+			width: 0;
+			height: 0;
+			border-style: solid;
+			border-width: $select-arrow-size $select-arrow-size 0 $select-arrow-size;
+			border-color: $select-arrow-color transparent transparent transparent;
+		}
+		&.dropdown-active:after {
+			margin-top: $select-arrow-size * -0.8;
+			border-width: 0 $select-arrow-size $select-arrow-size $select-arrow-size;
+			border-color: transparent transparent $select-arrow-color transparent;
+		}
+	}
+}
+
 @import "../plugins/drag_drop/plugin.scss";
 @import "../plugins/checkbox_options/plugin.scss";
 @import "../plugins/clear_button/plugin.scss";
@@ -109,13 +136,11 @@ $select-spinner-border-color:					$select-color-border;
 .#{$select-ns}-control.single .#{$select-ns}-input.input-active {
 	background: $select-color-input;
 	cursor: text;
-	display: inline-block;
 }
 
 .#{$select-ns}-input {
 	border: $select-border;
 	padding: $select-padding-y $select-padding-x;
-	display: inline-block;
 	width: 100%;
 	overflow: hidden;
 	position: relative;
@@ -225,7 +250,7 @@ $select-spinner-border-color:					$select-color-border;
 
 	border: $select-dropdown-border;
 	background: $select-color-dropdown;
-	margin: -1px 0 0 0;
+	margin: 0.25rem 0 0 0;
 	border-top: 0 none;
 	box-sizing: border-box;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -312,30 +337,6 @@ $select-spinner-border-color:					$select-color-border;
 }
 
 
-
-.#{$select-ns}-control.single .#{$select-ns}-input {
-	&, input { cursor: pointer; }
-	&.input-active, &.input-active input { cursor: text; }
-
-	&:after {
-		content: ' ';
-		display: block;
-		position: absolute;
-		top: 50%;
-		right: $select-arrow-offset;
-		margin-top: round((-1 * $select-arrow-size / 2));
-		width: 0;
-		height: 0;
-		border-style: solid;
-		border-width: $select-arrow-size $select-arrow-size 0 $select-arrow-size;
-		border-color: $select-arrow-color transparent transparent transparent;
-	}
-	&.dropdown-active:after {
-		margin-top: $select-arrow-size * -0.8;
-		border-width: 0 $select-arrow-size $select-arrow-size $select-arrow-size;
-		border-color: transparent transparent $select-arrow-color transparent;
-	}
-}
 
 .#{$select-ns}-control.rtl {
 	text-align: right;

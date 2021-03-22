@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.3.0
+* Tom Select v1.4.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -84,6 +84,7 @@ function getSettings(input, settings_user) {
       option_data[field_value] = option_data[field_value] || value;
       option_data[field_disabled] = option_data[field_disabled] || option.disabled;
       option_data[field_optgroup] = option_data[field_optgroup] || group;
+      option_data.$option = option;
       optionsMap[value] = option_data;
       options.push(option_data);
 

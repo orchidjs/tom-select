@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.3.0)
+ * tom-select.css (v1.4.0)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -145,13 +145,11 @@
 .ts-input,
 .ts-control.single .ts-input.input-active {
   background: #fff;
-  cursor: text;
-  display: inline-block; }
+  cursor: text; }
 
 .ts-input {
   border: 1px solid #ccc;
   padding: 6px 12px;
-  display: inline-block;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -166,7 +164,7 @@
   .ts-input.disabled, .ts-input.disabled * {
     cursor: default !important; }
   .ts-input.focus {
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15); }
+    box-shadow: none; }
   .ts-input.dropdown-active {
     border-radius: 4px 4px 0 0; }
   .ts-input > * {
@@ -237,7 +235,7 @@
   z-index: 10;
   border: 1px solid #d0d0d0;
   background: #fff;
-  margin: -1px 0 0 0;
+  margin: 0.25rem 0 0 0;
   border-top: 0 none;
   box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -303,6 +301,18 @@
   100% {
     transform: rotate(360deg); } }
 
+.ts-control.rtl {
+  text-align: right; }
+  .ts-control.rtl.single .ts-input:after {
+    left: 17px;
+    right: auto; }
+  .ts-control.rtl .ts-input > input {
+    margin: 0 4px 0 -2px !important; }
+
+.ts-control .ts-input.disabled {
+  opacity: 0.5;
+  background-color: #fff; }
+
 .ts-control.single .ts-input, .ts-control.single .ts-input input {
   cursor: pointer; }
 
@@ -326,18 +336,6 @@
   margin-top: -4px;
   border-width: 0 5px 5px 5px;
   border-color: transparent transparent #333333 transparent; }
-
-.ts-control.rtl {
-  text-align: right; }
-  .ts-control.rtl.single .ts-input:after {
-    left: 17px;
-    right: auto; }
-  .ts-control.rtl .ts-input > input {
-    margin: 0 4px 0 -2px !important; }
-
-.ts-control .ts-input.disabled {
-  opacity: 0.5;
-  background-color: #fff; }
 
 .ts-dropdown, .ts-dropdown.form-control {
   height: auto;

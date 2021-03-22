@@ -29,6 +29,7 @@ export default class TomSelect extends TomSelect_base {
     tabIndex: number;
     is_select_tag: boolean;
     rtl: boolean;
+    private inputId;
     private _destroy;
     sifter: Sifter;
     tab_key: boolean;

@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.3.0
+* Tom Select v1.4.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -76,7 +76,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('optgroup_columns', function (options) {
+	TomSelect__default['default'].define('optgroup_columns', function () {
 	  var self = this;
 	  var orig_keydown = self.onKeyDown;
 	  self.hook('instead', 'onKeyDown', function (evt) {

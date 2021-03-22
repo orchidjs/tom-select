@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.3.0
+* Tom Select v1.4.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -168,6 +168,16 @@ function nodeIndex(el, amongst) {
 
   return i;
 }
+/**
+ * Set attributes of an element
+ *
+ */
 
-export { addClasses, applyCSS, castAsArray, classesArray, escapeQuery, getDom, getTail, isEmptyObject, nodeIndex, parentMatch, removeClasses, triggerEvent };
+function setAttr(el, attrs) {
+  for (const attr in attrs) {
+    el.setAttribute(attr, attrs[attr]);
+  }
+}
+
+export { addClasses, applyCSS, castAsArray, classesArray, escapeQuery, getDom, getTail, isEmptyObject, nodeIndex, parentMatch, removeClasses, setAttr, triggerEvent };
 //# sourceMappingURL=vanilla.js.map

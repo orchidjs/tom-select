@@ -21,7 +21,6 @@ declare const _default: {
     preload: any;
     allowEmptyOption: boolean;
     closeAfterSelect: boolean;
-    scrollDuration: number;
     loadThrottle: number;
     loadingClass: string;
     dataAttr: any;

@@ -2,7 +2,7 @@
  * Tom Select bootstrap 5
  */
 /**
- * tom-select.css (v1.3.0)
+ * tom-select.css (v1.4.0)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -153,13 +153,11 @@
 .ts-input,
 .ts-control.single .ts-input.input-active {
   background: #fff;
-  cursor: text;
-  display: inline-block; }
+  cursor: text; }
 
 .ts-input {
   border: 1px solid #ced4da;
   padding: 0.375rem 0.75rem;
-  display: inline-block;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -174,7 +172,7 @@
   .ts-input.disabled, .ts-input.disabled * {
     cursor: default !important; }
   .ts-input.focus {
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15); }
+    box-shadow: none; }
   .ts-input.dropdown-active {
     border-radius: 0.25rem 0.25rem 0 0; }
   .ts-input > * {
@@ -245,7 +243,7 @@
   z-index: 10;
   border: 1px solid #d0d0d0;
   background: #fff;
-  margin: -1px 0 0 0;
+  margin: 0.25rem 0 0 0;
   border-top: 0 none;
   box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -311,30 +309,6 @@
   100% {
     transform: rotate(360deg); } }
 
-.ts-control.single .ts-input, .ts-control.single .ts-input input {
-  cursor: pointer; }
-
-.ts-control.single .ts-input.input-active, .ts-control.single .ts-input.input-active input {
-  cursor: text; }
-
-.ts-control.single .ts-input:after {
-  content: ' ';
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: calc(0.75rem + 5px);
-  margin-top: -3px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 5px 0 5px;
-  border-color: #343a40 transparent transparent transparent; }
-
-.ts-control.single .ts-input.dropdown-active:after {
-  margin-top: -4px;
-  border-width: 0 5px 5px 5px;
-  border-color: transparent transparent #343a40 transparent; }
-
 .ts-control.rtl {
   text-align: right; }
   .ts-control.rtl.single .ts-input:after {
@@ -347,10 +321,11 @@
   opacity: 0.5;
   background-color: #fff; }
 
-.ts-dropdown, .ts-dropdown.form-control {
+.ts-dropdown,
+.ts-dropdown.form-control,
+.ts-dropdown.form-select {
   height: auto;
   padding: 0;
-  margin: 2px 0 0 0;
   z-index: 1000;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -397,14 +372,19 @@
 
 .is-invalid .ts-input,
 .was-validated .ts-input.invalid {
-  border-color: #dc3545;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+  border-color: #dc3545; }
   .is-invalid .ts-input.focus,
   .was-validated .ts-input.invalid.focus {
     border-color: #bd2130;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #eb8c95; }
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25); }
 
-.ts-control.form-control-sm .ts-input.has-items {
+.is-valid .ts-input {
+  border-color: #198754; }
+  .is-valid .ts-input.focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25); }
+
+.ts-control.form-select-sm .ts-input.has-items, .ts-control.form-control-sm .ts-input.has-items {
   min-height: calc(1.5em + 0.5rem + 2px) !important;
   height: calc(1.5em + 0.5rem + 2px) !important;
   padding: 0.25rem 0.5rem !important;
@@ -417,13 +397,25 @@
 .ts-control.multi .ts-input > div {
   border-radius: calc(0.25rem - 1px); }
 
-.form-control.ts-control {
+.ts-control:not(.form-select) {
+  padding: 0;
+  border: none;
+  height: auto;
+  box-shadow: none;
+  background: none; }
+  .ts-control:not(.form-select) .ts-input,
+  .ts-control:not(.form-select).single .ts-input,
+  .ts-control:not(.form-select).single .ts-input.input-active {
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 0.75rem center/16px 12px; }
+
+.ts-control.form-select {
   padding: 0;
   height: auto;
-  border: none;
-  background: none;
-  box-shadow: none;
-  border-radius: 0; }
+  box-shadow: none; }
+  .ts-control.form-select .ts-input,
+  .ts-control.form-select.single .ts-input.input-active {
+    border: none !important;
+    background: transparent !important; }
 
 .input-group .ts-input {
   overflow: unset;

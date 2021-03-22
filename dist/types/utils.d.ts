@@ -58,3 +58,9 @@ export declare function addEvent(target: EventTarget, type: string, callback: Ev
  *
  */
 export declare function isKeyDown(key_name: keyof (KeyboardEvent | MouseEvent), evt: KeyboardEvent | MouseEvent): boolean;
+/**
+ * Get the id of an element
+ * If the id attribute is not set, set the attribute with the given id
+ *
+ */
+export declare function getId(el: Element, id: string): string;

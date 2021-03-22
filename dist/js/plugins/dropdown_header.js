@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.3.0
+* Tom Select v1.4.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -39,6 +39,35 @@
 	}
 
 	/**
+	 * Converts a scalar to its best string representation
+	 * for hash keys and HTML attribute values.
+	 *
+	 * Transformations:
+	 *   'str'     -> 'str'
+	 *   null      -> ''
+	 *   undefined -> ''
+	 *   true      -> '1'
+	 *   false     -> '0'
+	 *   0         -> '0'
+	 *   1         -> '1'
+	 *
+	 */
+	/**
+	 * Prevent default
+	 *
+	 */
+
+	function preventDefault(evt, stop = false) {
+	  if (evt) {
+	    evt.preventDefault();
+
+	    if (stop) {
+	      evt.stopPropagation();
+	    }
+	  }
+	}
+
+	/**
 	 * Plugin: "dropdown_header" (Tom Select)
 	 * Copyright (c) contributors
 	 *
@@ -61,11 +90,20 @@
 	    labelClass: 'dropdown-header-label',
 	    closeClass: 'dropdown-header-close',
 	    html: data => {
-	      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
+	      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
 	    }
 	  }, options);
 	  self.hook('after', 'setup', () => {
 	    var header = getDom(options.html(options));
+	    var close_link = header.querySelector('.' + options.closeClass);
+
+	    if (close_link) {
+	      close_link.addEventListener('click', evt => {
+	        preventDefault(evt, true);
+	        self.close();
+	      });
+	    }
+
 	    self.dropdown.insertBefore(header, self.dropdown.firstChild);
 	  });
 	});

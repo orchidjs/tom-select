@@ -62,3 +62,10 @@ export declare function isEmptyObject(obj: object): boolean;
  *
  */
 export declare function nodeIndex(el: Element, amongst?: string): number;
+/**
+ * Set attributes of an element
+ *
+ */
+export declare function setAttr(el: Element, attrs: {
+    [key: string]: string;
+}): void;

@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.3.0
+* Tom Select v1.4.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -19,7 +19,7 @@ import { addEvent } from '../../utils.js';
  * governing permissions and limitations under the License.
  *
  */
-TomSelect.define('input_autogrow', function (options) {
+TomSelect.define('input_autogrow', function () {
   var self = this;
   self.hook('after', 'setup', () => {
     var test_input = document.createElement('span');

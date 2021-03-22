@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.3.0
+* Tom Select v1.4.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -9,9 +9,10 @@ import Sifter from './contrib/sifter.js';
 import { removeHighlight, highlight } from './contrib/highlight.js';
 import { KEY_TAB, KEY_DELETE, KEY_BACKSPACE, KEY_RIGHT, KEY_LEFT, KEY_RETURN, KEY_UP, KEY_DOWN, KEY_ESC, KEY_A, KEY_SHORTCUT } from './constants.js';
 import getSettings from './getSettings.js';
-import { loadDebounce, addEvent, preventDefault, isKeyDown, debounce_events, hash_key, escape_html, getSelection } from './utils.js';
-import { getDom, addClasses, escapeQuery, triggerEvent, removeClasses, isEmptyObject, applyCSS, getTail, nodeIndex, parentMatch } from './vanilla.js';
+import { getId, loadDebounce, addEvent, preventDefault, isKeyDown, debounce_events, hash_key, escape_html, getSelection } from './utils.js';
+import { getDom, addClasses, setAttr, escapeQuery, triggerEvent, removeClasses, isEmptyObject, applyCSS, getTail, nodeIndex, parentMatch } from './vanilla.js';
 
+var instance_i = 0;
 class TomSelect extends MicroPlugin(MicroEvent) {
   constructor(input_arg, settings) {
     super();
@@ -26,6 +27,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.tabIndex = void 0;
     this.is_select_tag = void 0;
     this.rtl = void 0;
+    this.inputId = void 0;
     this._destroy = void 0;
     this.sifter = void 0;
     this.tab_key = false;
@@ -55,6 +57,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       'item': {},
       'option': {}
     };
+    instance_i++;
     var dir;
     var input = getDom(input_arg);
 
@@ -72,6 +75,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.tabIndex = input.tabIndex || 0;
     this.is_select_tag = input.tagName.toLowerCase() === 'select';
     this.rtl = /rtl/i.test(dir);
+    this.inputId = getId(input, 'tomselect-' + instance_i);
     this.isRequired = input.required; // debounce user defined load() if loadThrottle > 0
 
     if (this.settings.load && this.settings.loadThrottle) {
@@ -135,11 +139,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var inputMode;
     var classes;
     var classes_plugins;
-    var inputId;
     var input = self.input;
+    var control_id;
     const passive_event = {
       passive: true
     };
+    const listboxId = self.inputId + '-ts-dropdown';
     inputMode = self.settings.mode;
     classes = input.getAttribute('class') || '';
     wrapper = getDom('<div>');
@@ -149,7 +154,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     wrapper.append(control);
     dropdown = self.render('dropdown');
     addClasses(dropdown, settings.dropdownClass, inputMode);
-    dropdown_content = getDom('<div style="scroll-behavior: smooth;">');
+    dropdown_content = getDom(`<div style="scroll-behavior: smooth;" role="listbox" id="${listboxId}">`);
     addClasses(dropdown_content, settings.dropdownContentClass);
     dropdown.append(dropdown_content);
     getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
@@ -163,7 +168,9 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
       for (const attr of attrs) {
         if (input.getAttribute(attr)) {
-          control_input.setAttribute(attr, input.getAttribute(attr));
+          setAttr(control_input, {
+            [attr]: input.getAttribute(attr)
+          });
         }
       }
     }
@@ -173,11 +180,24 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       control.appendChild(control_input);
     }
 
-    if (inputId = input.getAttribute('id')) {
-      control_input.setAttribute('id', inputId + '-tomselected');
-      let query = "label[for='" + escapeQuery(inputId) + "']";
-      let label = document.querySelector(query);
-      if (label) label.setAttribute('for', inputId + '-tomselected');
+    setAttr(control_input, {
+      role: 'combobox',
+      haspopup: 'listbox',
+      'aria-expanded': 'false',
+      'aria-controls': listboxId
+    });
+    control_id = getId(control_input, self.inputId + '-tomselected');
+    let query = "label[for='" + escapeQuery(self.inputId) + "']";
+    let label = document.querySelector(query);
+
+    if (label) {
+      setAttr(label, {
+        for: control_id
+      });
+      let label_id = getId(label, self.inputId + '-ts-label');
+      setAttr(dropdown_content, {
+        'aria-labelledby': label_id
+      });
     }
 
     if (self.settings.copyClassesToDropdown) {
@@ -192,11 +212,15 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     }
 
     if ((settings.maxItems === null || settings.maxItems > 1) && self.is_select_tag) {
-      input.setAttribute('multiple', 'multiple');
+      setAttr(input, {
+        multiple: 'multiple'
+      });
     }
 
     if (self.settings.placeholder) {
-      control_input.setAttribute('placeholder', settings.placeholder);
+      setAttr(control_input, {
+        placeholder: settings.placeholder
+      });
     } // if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 
 
@@ -290,19 +314,14 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     // restored when the destroy() method is called.
 
 
-    var children = [];
-
-    while (input.children.length > 0) {
-      children.push(input.children[0]);
-      input.children[0].remove();
-    }
-
     this.revertSettings = {
-      children: children,
+      children: [...input.children],
       tabIndex: input.tabIndex
     };
     input.tabIndex = -1;
-    input.setAttribute('hidden', 'hidden');
+    setAttr(input, {
+      hidden: 'hidden'
+    });
     input.insertAdjacentElement('afterend', self.wrapper);
     self.setValue(settings.items);
     delete settings.items;
@@ -1002,6 +1021,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.clearActiveOption();
     if (!option) return;
     this.activeOption = option;
+    setAttr(this.control_input, {
+      'aria-activedescendant': option.getAttribute('id')
+    });
+    setAttr(option, {
+      'aria-selected': 'true'
+    });
     addClasses(option, 'active');
     height_menu = this.dropdown_content.clientHeight;
     let scrollTop = this.dropdown_content.scrollTop || 0;
@@ -1021,8 +1046,13 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   clearActiveOption() {
-    if (this.activeOption) removeClasses(this.activeOption, 'active');
+    if (this.activeOption) {
+      removeClasses(this.activeOption, 'active');
+      this.activeOption.removeAttribute('aria-selected');
+    }
+
     this.activeOption = null;
+    this.control_input.removeAttribute('aria-activedescendant');
   }
   /**
    * Selects all items (CTRL + A).
@@ -1232,6 +1262,11 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
       if (!option_el) {
         option_el = self.render('option', option);
+      } // toggle 'selected' class
+
+
+      if (!self.settings.hideSelected) {
+        option_el.classList.toggle('selected', self.items.includes(opt_value));
       }
 
       optgroup = option[self.settings.optgroupField] || '';
@@ -1253,6 +1288,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
         if (j > 0) {
           option_el = option_el.cloneNode(true);
           removeClasses(option_el, 'active');
+          option_el.removeAttribute('aria-selected');
         }
 
         groups[optgroup].appendChild(option_el);
@@ -1295,17 +1331,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       if (results.query.length && results.tokens.length) {
         for (const tok of results.tokens) {
           highlight(self.dropdown_content, tok.regex);
-        }
-      }
-    } // add "selected" class to selected options
-
-
-    if (!self.settings.hideSelected) {
-      for (const item of self.items) {
-        let option = self.getOption(item);
-
-        if (option) {
-          addClasses(option, 'selected');
         }
       }
     } // helper method for adding templates to dropdown
@@ -1423,6 +1448,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var key = hash_key(data[this.settings.valueField]);
     if (key === null || this.options.hasOwnProperty(key)) return false;
     data.$order = data.$order || ++this.order;
+    data.$id = this.inputId + '-opt-' + Object.keys(this.options).length;
     this.options[key] = data;
     return key;
   }
@@ -1952,26 +1978,34 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   updateOriginalInput(opts = {}) {
-    var options,
+    var existing,
         label,
         self = this;
 
     if (self.is_select_tag) {
-      options = [];
+      existing = []; // get list of values from existing <option> tags
+      // update selected attribute
 
-      for (const item of self.items) {
+      self.input.querySelectorAll('option').forEach(function (option) {
+        existing.push(option.value);
+
+        if (self.items.indexOf(option.value) == -1) {
+          option.selected = false;
+        } else {
+          option.selected = true;
+        }
+      }); // add <option>s for items not in existing list
+
+      self.items.forEach(function (item) {
+        if (existing.indexOf(item) != -1) {
+          return;
+        }
+
         label = self.options[item][self.settings.labelField] || '';
-        options.push('<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>');
-      }
-
-      if (!options.length && !this.input.hasAttribute('multiple')) {
-        options.push('<option value="" selected="selected"></option>');
-      }
-
-      self.input.innerHTML = options.join('');
+        self.input.innerHTML += '<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>';
+      });
     } else {
       self.input.value = self.getValue();
-      self.input.setAttribute('value', self.input.value);
     }
 
     if (self.isSetup) {
@@ -1990,6 +2024,9 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var self = this;
     if (self.isLocked || self.isOpen || self.settings.mode === 'multi' && self.isFull()) return;
     self.isOpen = true;
+    setAttr(self.control_input, {
+      'aria-expanded': 'true'
+    });
     self.refreshState();
     applyCSS(self.dropdown, {
       visibility: 'hidden',
@@ -2023,6 +2060,9 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     }
 
     self.isOpen = false;
+    setAttr(self.control_input, {
+      'aria-expanded': 'false'
+    });
     applyCSS(self.dropdown, {
       display: 'none'
     });
@@ -2383,24 +2423,36 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     if (templateName === 'option' || templateName === 'option_create') {
       if (!data[self.settings.disabledField]) {
-        html.setAttribute('data-selectable', '');
+        setAttr(html, {
+          'data-selectable': ''
+        });
       }
     } else if (templateName === 'optgroup') {
       id = data.group[self.settings.optgroupValueField];
-      html.setAttribute('data-group', id);
+      setAttr(html, {
+        'data-group': id
+      });
 
       if (data.group[self.settings.disabledField]) {
-        html.setAttribute('data-disabled', '');
+        setAttr(html, {
+          'data-disabled': ''
+        });
       }
     }
 
     if (templateName === 'option' || templateName === 'item') {
-      html.setAttribute('data-value', value); // make sure we have some classes if a template is overwritten
+      setAttr(html, {
+        'data-value': value
+      }); // make sure we have some classes if a template is overwritten
 
       if (templateName === 'item') {
         addClasses(html, self.settings.itemClass);
       } else {
         addClasses(html, self.settings.optionClass);
+        setAttr(html, {
+          role: 'option',
+          id: data.$id
+        });
       } // update cache
 
 
