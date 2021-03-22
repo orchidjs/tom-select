@@ -15,7 +15,7 @@
 
 import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
-import { getDom } from '../../vanilla';
+import { getDom, setAttr } from '../../vanilla';
 import { addEvent } from '../../utils';
 
 
@@ -26,7 +26,7 @@ TomSelect.define('dropdown_input',function() {
 	input = getDom( input );
 
 	if (self.settings.placeholder) {
-		input.setAttribute('placeholder', self.settings.placeholder);
+		setAttr(input,{placeholder:self.settings.placeholder});
 	}
 
 	self.settings.controlInput = input;
@@ -35,7 +35,8 @@ TomSelect.define('dropdown_input',function() {
 	self.hook('after','setup',()=>{
 
 		// set tabIndex on wrapper
-		self.wrapper.setAttribute('tabindex', self.input.disabled ? '-1' : self.tabIndex );
+		setAttr(self.wrapper,{tabindex:self.input.disabled ? '-1' : self.tabIndex});
+
 
 		// keyboard navigation
 		addEvent(self.wrapper,'keypress',(evt:KeyboardEvent) => {

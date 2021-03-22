@@ -176,3 +176,14 @@ export function nodeIndex( el:Element, amongst?:string ):number{
 	}
 	return i;
 }
+
+
+/**
+ * Set attributes of an element
+ *
+ */
+export function setAttr(el:Element,attrs:{ [key: string]: string }){
+	for( const attr in attrs ){
+		el.setAttribute(attr, attrs[attr]);
+	}
+}
