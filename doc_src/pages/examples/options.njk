@@ -60,7 +60,7 @@ new TomSelect('#select-tools',{
 new TomSelect('#data-attr',{
     render: {
         option: function (data, escape) {
-            return `<div class="${data.$option.className}"><img class="me-2" src="${data.src}">${data.text}</div>`;
+            return `<div><img class="me-2" src="${data.src}">${data.text}</div>`;
         },
         item: function (item, escape) {
 			return `<div><img class="me-2" src="${item.src}">${item.text}</div>`;
