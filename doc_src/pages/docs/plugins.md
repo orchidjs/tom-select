@@ -35,12 +35,26 @@ For a more detailed description of plugin option formats and how the plugin syst
 
 ## Including Plugins
 
-By default, all plugins are bundled in <code>tom-select.complete.js</code>.
-To reduce bundle size, you can also use <code>tom-select.base.js</code> along with individually selected plugin files: <code>/js/plugins/remove_button.js</code>, <code>/js/plugins/dropdown_header.js</code>, etc.
+Plugins can be included in your projects in four different ways:
 
-You can also hand-pick plugins to create <code>/build/js/tom-select.custom.js</code> by running <code>grunt</code> with the "--plugins" flag.
+#### tom-select.complete.js
+Using <code>tom-select.complete.js</code> in your projects will give you immediate access to all plugins
+
+#### tom-select.popular.js
+Save some bandwidth with a bundle that's about 4kb smaller. <code>tom-select.popular.js</code> includes dropdown_input, remove_button, no_backspace_delete, and restore_on_backspace plugins.
+
+#### tom-select.base.js
+If you don't need any plugins, or want to load plugins individually, use <code>tom-select.base.js</code>.
+Add plugins to your project by including their js files: <code>/js/plugins/remove_button.js</code>, <code>/js/plugins/dropdown_header.js</code>, etc.
+
+#### tom-select.custom.js
+Use NPM to hand-pick plugins and create <code>/build/js/tom-select.custom.js</code>
 
 ```shell
+# clone the repo
+git clone https://github.com/orchidjs/tom-select.git
+cd tom-select
+
 # install dev dependencies
 npm install
 
