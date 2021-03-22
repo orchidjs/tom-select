@@ -369,7 +369,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		input.setAttribute('hidden','hidden');
 		input.insertAdjacentElement('afterend', self.wrapper);
 
-		var a11y_label = wrapper.closest('[data-accessibility-selectize-label]');
+		var a11y_label = wrapper.closest('[data-accessibility-selectize-label]') as HTMLElement;
 		if( a11y_label ){
 			control_input.setAttribute('aria-label', a11y_label.dataset.accessibilitySelectizeLabel );
 		}
