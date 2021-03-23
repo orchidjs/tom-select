@@ -2320,8 +2320,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Return list of item dom elements
 	 *
 	 */
-	controlChildren(){
-		return Array.prototype.filter.call( this.control.children, (node:HTMLElement) => node.nodeName !== 'INPUT' );
+	controlChildren():HTMLElement[]{
+		return [...this.control.getElementsByClassName(this.settings.itemClass)] as HTMLElement[];
 	}
 
 	/**
