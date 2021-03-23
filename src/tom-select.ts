@@ -2287,6 +2287,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Moves the caret to the specified index.
 	 *
+	 * The input must be moved by leaving it in place and moving the
+	 * siblings, due to the fact that focus cannot be restored once lost
+	 * on mobile webkit devices
+	 *
 	 */
 	setCaret(i:number) {
 		var self = this;
@@ -2295,23 +2299,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			i = self.items.length;
 		} else {
 			i = Math.max(0, Math.min(self.items.length, i));
-		}
 
-		if (!self.settings.controlInput && !self.isPending) {
-			// the input must be moved by leaving it in place and moving the
-			// siblings, due to the fact that focus cannot be restored once lost
-			// on mobile webkit devices
-			var j, child,
-			children = self.controlChildren(),
-			n = children.length;
+			if( i != self.caretPos && !self.isPending ){
+				var j, children = self.controlChildren();
 
-			for( j = 0; j < n; j++ ){
-				child = children[j];
-
-				if( j < i ){
-					self.control_input.insertAdjacentElement('beforebegin', child );
-				} else {
-					self.control.appendChild(child);
+				for( j in children ){
+					if( j < i ){
+						self.control_input.insertAdjacentElement('beforebegin', children[j] );
+					} else {
+						self.control.appendChild( children[j] );
+					}
 				}
 			}
 		}
