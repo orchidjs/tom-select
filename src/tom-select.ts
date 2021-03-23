@@ -894,7 +894,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Sets the input field of the control to the specified value.
 	 *
 	 */
-	setTextboxValue(value:string) {
+	setTextboxValue(value:string = '') {
 		var input = this.control_input;
 		var changed = input.value !== value;
 		if (changed) {
@@ -1114,7 +1114,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( self.settings.controlInput ) return;
 
 		if( self.activeItems.length > 0 || (!self.isFocused && this.settings.hidePlaceholder && self.items.length > 0) ){
-			self.setTextboxValue('');
+			self.setTextboxValue();
 			self.isInputHidden = true;
 			addClasses(self.wrapper,'input-hidden');
 		}else{
@@ -1874,7 +1874,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				return callback();
 			}
 
-			self.setTextboxValue('');
+			self.setTextboxValue();
 			self.addOption(data);
 			self.setCaret(caret);
 			self.addItem(value);
@@ -2073,7 +2073,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		applyCSS(self.dropdown,{display: 'none'});
 		self.clearActiveOption();
 		self.refreshState();
-		self.setTextboxValue('');
+		self.setTextboxValue();
 
 		if (trigger) self.trigger('dropdown_close', self.dropdown);
 	}
