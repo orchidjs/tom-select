@@ -776,9 +776,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var deactivate = () => {
 			self.close();
 			self.setActiveItem();
-			self.clearActiveOption();
 			self.setCaret(self.items.length);
-			self.refreshState();
 			self.trigger('blur');
 		};
 
@@ -2432,7 +2430,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
-			
+
 			if( data[self.settings.disabledField] ){
 				setAttr(html,{'aria-disabled':'true'});
 			}else{
