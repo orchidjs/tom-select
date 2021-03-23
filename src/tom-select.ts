@@ -203,7 +203,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		dropdown			= self.render('dropdown');
 		addClasses(dropdown, settings.dropdownClass, inputMode);
 
-		dropdown_content	= getDom(`<div style="scroll-behavior: smooth;" role="listbox" id="${listboxId}">`)
+		dropdown_content	= getDom(`<div style="scroll-behavior: smooth;" role="listbox" id="${listboxId}" tabindex="-1">`);
 		addClasses(dropdown_content, settings.dropdownContentClass);
 		dropdown.append(dropdown_content);
 
