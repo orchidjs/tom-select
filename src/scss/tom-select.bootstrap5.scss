@@ -171,9 +171,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
     box-shadow: none;
     background: none;
 
-	.#{$select-ns}-input,
-	&.single .#{$select-ns}-input,
-	&.single .#{$select-ns}-input.input-active {
+	&.single .#{$select-ns}-input{
 		background: escape-svg($form-select-indicator) no-repeat $form-select-bg-position/$form-select-bg-size;
 	}
 
