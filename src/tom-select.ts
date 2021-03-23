@@ -2436,7 +2436,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
-			if (!data[self.settings.disabledField]) {
+			
+			if( data[self.settings.disabledField] ){
+				setAttr(html,{'aria-disabled':'true'});
+			}else{
 				setAttr(html,{'data-selectable': ''});
 			}
 
