@@ -154,7 +154,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     wrapper.append(control);
     dropdown = self.render('dropdown');
     addClasses(dropdown, settings.dropdownClass, inputMode);
-    dropdown_content = getDom(`<div style="scroll-behavior: smooth;" role="listbox" id="${listboxId}">`);
+    dropdown_content = getDom(`<div style="scroll-behavior: smooth;" role="listbox" id="${listboxId}" tabindex="-1">`);
     addClasses(dropdown_content, settings.dropdownContentClass);
     dropdown.append(dropdown_content);
     getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
@@ -733,9 +733,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var deactivate = () => {
       self.close();
       self.setActiveItem();
-      self.clearActiveOption();
       self.setCaret(self.items.length);
-      self.refreshState();
       self.trigger('blur');
     };
 
@@ -853,7 +851,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  setTextboxValue(value) {
+  setTextboxValue(value = '') {
     var input = this.control_input;
     var changed = input.value !== value;
 
@@ -1082,7 +1080,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     if (self.settings.controlInput) return;
 
     if (self.activeItems.length > 0 || !self.isFocused && this.settings.hidePlaceholder && self.items.length > 0) {
-      self.setTextboxValue('');
+      self.setTextboxValue();
       self.isInputHidden = true;
       addClasses(self.wrapper, 'input-hidden');
     } else {
@@ -1629,32 +1627,31 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   getAdjacent(option, direction, type = 'option') {
+    var self = this,
+        class_type,
+        sibling = option;
+
     if (!option) {
       return;
     }
 
-    var self = this;
-    var type_class = self.settings.optionClass;
-    var parent = self.dropdown;
-
     if (type == 'item') {
-      parent = self.control;
-      type_class = self.settings.itemClass;
+      class_type = self.settings.itemClass;
+    } else {
+      class_type = self.settings.optionClass;
     }
 
-    var all = parent.querySelectorAll('.' + type_class);
-
-    for (let i = 0; i < all.length; i++) {
-      if (all[i] != option) {
-        continue;
-      }
-
+    do {
       if (direction > 0) {
-        return all[i + 1];
+        sibling = sibling.nextSibling;
+      } else {
+        sibling = sibling.previousSibling;
       }
 
-      return all[i - 1];
-    }
+      if (sibling && sibling.classList.contains(class_type)) {
+        return sibling;
+      }
+    } while (sibling);
   }
   /**
    * Finds the first element with a "data-value" attribute
@@ -1864,7 +1861,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
         return callback();
       }
 
-      self.setTextboxValue('');
+      self.setTextboxValue();
       self.addOption(data);
       self.setCaret(caret);
       self.addItem(value);
@@ -2068,7 +2065,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     });
     self.clearActiveOption();
     self.refreshState();
-    self.setTextboxValue('');
+    self.setTextboxValue();
     if (trigger) self.trigger('dropdown_close', self.dropdown);
   }
   /**
@@ -2268,6 +2265,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
   /**
    * Moves the caret to the specified index.
    *
+   * The input must be moved by leaving it in place and moving the
+   * siblings, due to the fact that focus cannot be restored once lost
+   * on mobile webkit devices
+   *
    */
 
 
@@ -2278,24 +2279,17 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       i = self.items.length;
     } else {
       i = Math.max(0, Math.min(self.items.length, i));
-    }
 
-    if (!self.settings.controlInput && !self.isPending) {
-      // the input must be moved by leaving it in place and moving the
-      // siblings, due to the fact that focus cannot be restored once lost
-      // on mobile webkit devices
-      var j,
-          child,
-          children = self.controlChildren(),
-          n = children.length;
+      if (i != self.caretPos && !self.isPending) {
+        var j,
+            children = self.controlChildren();
 
-      for (j = 0; j < n; j++) {
-        child = children[j];
-
-        if (j < i) {
-          self.control_input.insertAdjacentElement('beforebegin', child);
-        } else {
-          self.control.appendChild(child);
+        for (j in children) {
+          if (j < i) {
+            self.control_input.insertAdjacentElement('beforebegin', children[j]);
+          } else {
+            self.control.appendChild(children[j]);
+          }
         }
       }
     }
@@ -2309,7 +2303,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   controlChildren() {
-    return Array.prototype.filter.call(this.control.children, node => node.nodeName !== 'INPUT');
+    return [...this.control.getElementsByClassName(this.settings.itemClass)];
   }
   /**
    * Disables user input on the control. Used while
@@ -2422,7 +2416,11 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     html = getDom(html); // add mandatory attributes
 
     if (templateName === 'option' || templateName === 'option_create') {
-      if (!data[self.settings.disabledField]) {
+      if (data[self.settings.disabledField]) {
+        setAttr(html, {
+          'aria-disabled': 'true'
+        });
+      } else {
         setAttr(html, {
           'data-selectable': ''
         });
