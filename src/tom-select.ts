@@ -1650,32 +1650,31 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	getAdjacent( option:HTMLElement, direction:number, type:string = 'option' ) : HTMLElement|void{
+		var self = this, class_type, sibling = option;
 
 		if( !option ){
 			return;
 		}
 
-		var self		= this;
-		var type_class	= self.settings.optionClass;
-		var parent		= self.dropdown;
-
 		if( type == 'item' ){
-			parent		= self.control;
-			type_class	= self.settings.itemClass;
+			class_type = self.settings.itemClass;
+		}else{
+			class_type = self.settings.optionClass;
 		}
 
-		var all			= parent.querySelectorAll('.'+type_class);
-		for( let i = 0; i < all.length; i++ ){
-			if( all[i] != option ){
-				continue;
-			}
-
+		do{
 			if( direction > 0 ){
-				return all[i+1] as HTMLElement;
+				sibling = sibling.nextSibling as HTMLElement;
+			}else{
+				sibling = sibling.previousSibling as HTMLElement;
 			}
 
-			return all[i-1] as HTMLElement;
-		}
+			if( sibling && sibling.classList.contains(class_type) ){
+				return sibling;
+			}
+
+		}while( sibling );
+
 	}
 
 	/**
