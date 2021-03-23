@@ -2,7 +2,7 @@
  * Tom Select bootstrap 5
  */
 /**
- * tom-select.css (v1.4.0)
+ * tom-select.css (v1.4.1)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -177,8 +177,7 @@
     border-radius: 0.25rem 0.25rem 0 0; }
   .ts-input > * {
     vertical-align: baseline;
-    display: inline-block;
-    zoom: 1; }
+    display: inline-block; }
   .ts-control.multi .ts-input > div {
     cursor: pointer;
     margin: 0 3px 3px 0;
@@ -403,9 +402,7 @@
   height: auto;
   box-shadow: none;
   background: none; }
-  .ts-control:not(.form-select) .ts-input,
-  .ts-control:not(.form-select).single .ts-input,
-  .ts-control:not(.form-select).single .ts-input.input-active {
+  .ts-control:not(.form-select).single .ts-input {
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 0.75rem center/16px 12px; }
 
 .ts-control.form-select {

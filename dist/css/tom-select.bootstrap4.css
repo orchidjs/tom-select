@@ -2,7 +2,7 @@
  * Tom Select bootstrap 4
  */
 /**
- * tom-select.css (v1.4.0)
+ * tom-select.css (v1.4.1)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -177,8 +177,7 @@
     border-radius: 0.25rem 0.25rem 0 0; }
   .ts-input > * {
     vertical-align: baseline;
-    display: inline-block;
-    zoom: 1; }
+    display: inline-block; }
   .ts-control.multi .ts-input > div {
     cursor: pointer;
     margin: 0 3px 3px 0;

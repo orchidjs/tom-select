@@ -167,7 +167,7 @@ export default class TomSelect extends TomSelect_base {
      * Sets the input field of the control to the specified value.
      *
      */
-    setTextboxValue(value: string): void;
+    setTextboxValue(value?: string): void;
     /**
      * Returns the value of the control. If multiple items
      * can be selected (e.g. <select multiple>), this returns
@@ -473,13 +473,17 @@ export default class TomSelect extends TomSelect_base {
     /**
      * Moves the caret to the specified index.
      *
+     * The input must be moved by leaving it in place and moving the
+     * siblings, due to the fact that focus cannot be restored once lost
+     * on mobile webkit devices
+     *
      */
     setCaret(i: number): void;
     /**
      * Return list of item dom elements
      *
      */
-    controlChildren(): any;
+    controlChildren(): HTMLElement[];
     /**
      * Disables user input on the control. Used while
      * items are being asynchronously created.
