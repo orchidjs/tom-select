@@ -172,7 +172,6 @@ $select-spinner-border-color:					$select-color-border;
 	> * {
 		vertical-align: baseline;
 		display: inline-block;
-		zoom: 1;
 	}
 	.#{$select-ns}-control.multi & > div {
 		cursor: pointer;
