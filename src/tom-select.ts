@@ -361,10 +361,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			window.removeEventListener('resize',win_scroll);
 		};
 
-		// store original children and tab index so that they can be
+		// store original html and tab index so that they can be
 		// restored when the destroy() method is called.
 		this.revertSettings = {
-			children : [...input.children],
+			innerHTML : input.innerHTML,
 			tabIndex : input.tabIndex
 		};
 
@@ -1991,20 +1991,22 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	updateOriginalInput( opts:TomArgObject = {} ){
-		var existing, label, self = this;
+		var existing, label, selected, self = this;
 
 		if( self.is_select_tag ){
-			existing  = [];
+			existing = [];
+			selected = [];
 
 			// get list of values from existing <option> tags
 			// update selected attribute
-			self.input.querySelectorAll('option').forEach(function(option) {
+			self.input.querySelectorAll('option').forEach(function(option){
 				existing.push(option.value);
 
 				if( self.items.indexOf(option.value) == -1 ){
-					option.selected = false;
+					option.removeAttribute('selected');
 				}else{
-					option.selected = true;
+					setAttr(option,{selected:'true'});
+					selected.push(option);
 				}
 			});
 
@@ -2016,9 +2018,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 
 				label = self.options[item][self.settings.labelField] || '';
-				self.input.innerHTML += '<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>';
+				selected.push(getDom('<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>'));
 			});
 
+			self.input.prepend(...selected);
 
 		} else {
 			self.input.value = self.getValue() as string;
@@ -2378,16 +2381,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.wrapper.remove();
 		self.dropdown.remove();
 
-		self.input.innerHTML = '';
+		self.input.innerHTML = revertSettings.innerHTML;
 		self.input.tabIndex = revertSettings.tabIndex;
 
 		removeClasses(self.input,'tomselected');
 		self.input.removeAttribute('hidden');
 		self.input.required = this.isRequired;
-
-		for( const child of revertSettings.children ){
-			self.input.appendChild( child );
-		}
 
 		self._destroy();
 
