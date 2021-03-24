@@ -78,6 +78,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 	public optgroups				: TomOptions = {};
 	public options					: TomOptions = {};
+	private options_i				: number = 0;
 	public userOptions				: {[key:string]:boolean} = {};
 	public items					: string[] = [];
 	public renderCache				: {'item':{[key:string]:HTMLElement},'option':{[key:string]:HTMLElement}} = {'item':{},'option':{}};
@@ -1466,7 +1467,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if ( key === null || this.options.hasOwnProperty(key)) return false;
 
 		data.$order			= data.$order || ++this.order;
-		data.$id			= this.inputId + '-opt-' + Object.keys(this.options).length;
+		data.$id			= this.inputId + '-opt-' + (this.options_i++);
 		this.options[key]	= data;
 		return key;
 	}
