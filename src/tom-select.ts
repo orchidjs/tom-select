@@ -1991,37 +1991,31 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	updateOriginalInput( opts:TomArgObject = {} ){
-		var existing, label, selected, self = this;
+		var i, value, option, self = this;
 
 		if( self.is_select_tag ){
-			existing = [];
-			selected = [];
 
-			// get list of values from existing <option> tags
-			// update selected attribute
-			self.input.querySelectorAll('option').forEach(function(option){
-				existing.push(option.value);
-
+			// remove selected attribute from options whose values are not in self.items
+			self.input.querySelectorAll('option[selected]').forEach((option) => {
 				if( self.items.indexOf(option.value) == -1 ){
 					option.removeAttribute('selected');
-				}else{
-					setAttr(option,{selected:'true'});
-					selected.push(option);
 				}
 			});
 
-			// add <option>s for items not in existing list
-			self.items.forEach(function(item) {
+			// order selected <option> tags for values in self.items
+			for( i = self.items.length - 1; i >= 0; i-- ){
+				value = self.items[i];
 
-				if( existing.indexOf(item) != -1 ){
-					return;
+				var option = self.options[value].$option;
+				if( !option ){
+					const label = self.options[value][self.settings.labelField] || '';
+					option = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
+					self.options[value].$option = option;
 				}
 
-				label = self.options[item][self.settings.labelField] || '';
-				selected.push(getDom('<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>'));
-			});
-
-			self.input.prepend(...selected);
+				setAttr(option,{selected:'true'});
+				self.input.prepend(option);
+			}
 
 		} else {
 			self.input.value = self.getValue() as string;

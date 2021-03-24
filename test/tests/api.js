@@ -421,6 +421,35 @@
 				});
 				expect(found).to.be.equal(true);
 			});
+
+		});
+
+		describe('addItems()',function(){
+
+			// this test ensures <option> elements are ordered properly in the original <select> element
+			it_n('should add items in order',function(done){
+
+				var test = setup_test('AB_Multi', {
+					create:true,
+				});
+
+				test.instance.addOption([{value: 'new1'}, {value: 'new2'}]);
+				test.instance.addItems(['a','new1','b','new2']);
+
+				var selected		= test.$html[0].querySelectorAll('option[selected]');
+				var option_a		= test.$html[0].querySelector('option[value="a"]');
+				var option_new1		= test.$html[0].querySelector('option[value="new1"]');
+				var option_b		= test.$html[0].querySelector('option[value="b"]');
+				var option_new2		= test.$html[0].querySelector('option[value="new2"]');
+
+				assert.equal(selected.length, 4,'should have four selected options');
+				assert.equal(option_a.nextSibling, option_new1 ,'"new1" should be after "a"');
+				assert.equal(option_new1.nextSibling, option_b ,'"b" should be after "new1"');
+				assert.equal(option_b.nextSibling, option_new2 ,'"new2" should be after "b"');
+				done();
+
+			});
+
 		});
 
 		describe('updateOption()', function() {
