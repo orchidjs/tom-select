@@ -1645,34 +1645,33 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 	/**
 	 * Returns the dom element of the next or previous dom element of the same type
+	 * Note: adjacent options may not be adjacent DOM elements (optgroups)
 	 *
 	 */
 	getAdjacent( option:HTMLElement, direction:number, type:string = 'option' ) : HTMLElement|void{
-		var self = this, class_type, sibling = option;
+		var self = this, all;
 
 		if( !option ){
 			return;
 		}
 
 		if( type == 'item' ){
-			class_type = self.settings.itemClass;
+			all			= self.controlChildren();
 		}else{
-			class_type = self.settings.optionClass;
+			all			= self.dropdown_content.querySelectorAll('[data-selectable]');
 		}
 
-		do{
+		for( let i = 0; i < all.length; i++ ){
+			if( all[i] != option ){
+				continue;
+			}
+
 			if( direction > 0 ){
-				sibling = sibling.nextSibling as HTMLElement;
-			}else{
-				sibling = sibling.previousSibling as HTMLElement;
+				return all[i+1] as HTMLElement;
 			}
 
-			if( sibling && sibling.classList.contains(class_type) ){
-				return sibling;
-			}
-
-		}while( sibling );
-
+			return all[i-1] as HTMLElement;
+		}
 	}
 
 	/**

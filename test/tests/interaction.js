@@ -115,16 +115,24 @@
 
 			it_n('should change activeOption with [down] and [up] keypress', function(done) {
 
-				var test = setup_test('AB_Multi');
+				var test = setup_test(`<select>
+										<optgroup>
+											<option>a</option>
+										</optgroup>
+										<optgroup>
+											<option>b</option>
+										</optgroup>
+										</select>
+										`);
 
 				click(test.instance.control, function() {
-					assert.equal( test.instance.activeOption.dataset.value, 'a', 'not "a" to start');
+					assert.equal( test.instance.activeOption.dataset.value, 'a', 'activeOption should be "a" to start');
 
 					syn.type('[down]', test.instance.control_input, function() {
-						assert.equal( test.instance.activeOption.dataset.value, 'b', 'not changed to "b"');
+						assert.equal( test.instance.activeOption.dataset.value, 'b', 'activeOption should be changed to "b"');
 
 						syn.type('[up]', test.instance.control_input, function() {
-							assert.equal( test.instance.activeOption.dataset.value, 'a', 'not changed back to "a"');
+							assert.equal( test.instance.activeOption.dataset.value, 'a', 'activeOption should be changed back to "a"');
 							done();
 						});
 
@@ -868,8 +876,9 @@
 					// 2) type "d"
 					syn.type('d', test.instance.control_input, function() {
 
-						// 2) hit enter to create
-						syn.type('[enter]', test.instance.control_input, function() {
+						// 3) click on create option to create
+						var create_option = test.instance.dropdown.querySelector('.create');
+						click(create_option,function(){
 							expect(test.instance.items[0]).to.be.equal('d');
 							done();
 						});
@@ -904,6 +913,32 @@
 
 				});
 			});
+
+
+			it_n('should focus create option with [up] keypress', function(done) {
+
+				var test = setup_test('<select><option>aa</option><option>bb</option></select>',{create:true});
+
+				click(test.instance.control, function() {
+					assert.equal( test.instance.activeOption.dataset.value, 'aa', 'activeOption should be "aa" to start');
+
+					syn.type('a', test.instance.control_input, function() {
+
+						assert.equal( test.instance.activeOption.dataset.value, 'aa', 'activeOption should still be "aa"');
+
+						syn.type('[up]', test.instance.control_input, function() {
+							assert.equal( test.instance.activeOption.classList.contains('create'), true, 'activeOption should be create option');
+
+							syn.type('[enter]', test.instance.control_input, function() {
+								assert.equal(test.instance.items[0],'a','should create "a"');
+								done();
+							});
+
+						});
+					});
+				});
+			});
+
 
 
 			describe('filtering created items', function() {
