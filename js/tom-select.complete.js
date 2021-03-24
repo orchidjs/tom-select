@@ -2884,36 +2884,36 @@
 	  }
 	  /**
 	   * Returns the dom element of the next or previous dom element of the same type
+	   * Note: adjacent options may not be adjacent DOM elements (optgroups)
 	   *
 	   */
 
 
 	  getAdjacent(option, direction, type = 'option') {
 	    var self = this,
-	        class_type,
-	        sibling = option;
+	        all;
 
 	    if (!option) {
 	      return;
 	    }
 
 	    if (type == 'item') {
-	      class_type = self.settings.itemClass;
+	      all = self.controlChildren();
 	    } else {
-	      class_type = self.settings.optionClass;
+	      all = self.dropdown_content.querySelectorAll('[data-selectable]');
 	    }
 
-	    do {
-	      if (direction > 0) {
-	        sibling = sibling.nextSibling;
-	      } else {
-	        sibling = sibling.previousSibling;
+	    for (let i = 0; i < all.length; i++) {
+	      if (all[i] != option) {
+	        continue;
 	      }
 
-	      if (sibling && sibling.classList.contains(class_type)) {
-	        return sibling;
+	      if (direction > 0) {
+	        return all[i + 1];
 	      }
-	    } while (sibling);
+
+	      return all[i - 1];
+	    }
 	  }
 	  /**
 	   * Finds the first element with a "data-value" attribute
