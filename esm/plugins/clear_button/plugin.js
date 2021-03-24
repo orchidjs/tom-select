@@ -33,9 +33,10 @@ TomSelect.define('clear_button', function (options) {
     var button = getDom(options.html(options));
     button.addEventListener('click', evt => {
       while (self.items.length > 0) {
-        self.removeItem(self.items[0]);
+        self.removeItem(self.items[0], true);
       }
 
+      self.updateOriginalInput();
       evt.preventDefault();
       evt.stopPropagation();
     });
