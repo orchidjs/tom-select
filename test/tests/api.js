@@ -873,4 +873,17 @@
 
 		});
 
+		describe('Unit Tests', function() {
+			var test;
+
+			before(function() {
+				test = setup_test('AB_Multi');
+			});
+
+			it_n('controlChilden() should return empty array',function(){
+				assert.equal(test.instance.controlChildren().length,0);
+			});
+
+		});
+
 	});
