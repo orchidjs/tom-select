@@ -20,16 +20,16 @@
 	{% set html %}
 	<select id="select-tags" multiple placeholder="Best movies and TV shows">
 		<optgroup label="TV Shows">
-			<option data-label="Blue Bloods" data-date="2010-2021">Blue Bloods (2010-2021)</option>
-			<option data-label="Magnum P.I." data-date="1980-1988" selected>Magnum P.I. (1980-1988)</option>
+			<option data-text="Blue Bloods" data-date="2010-2021">Blue Bloods (2010-2021)</option>
+			<option data-text="Magnum P.I." data-date="1980-1988" selected>Magnum P.I. (1980-1988)</option>
 		</optgroup>
 		<optgroup label="Movies">
-			<option data-label="An Innocent Man" data-date="1989">An Innocent Man (1989)</option>
-			<option data-label="In & Out" data-date="1997">In & Out (1997)</option>
-			<option data-label="Lassiter" data-date="1984">Lassiter (1984)</option>
-			<option data-label="Mr. Baseball" data-date="1992">Mr. Baseball (1992)</option>
-			<option data-label="Quigley Down Under" data-date="1990">Quigley Down Under (1990)</option>
-			<option data-label="Three Men and a Baby" data-date="1987">Three Men and a Baby (1987)</option>
+			<option data-text="An Innocent Man" data-date="1989">An Innocent Man (1989)</option>
+			<option data-text="In & Out" data-date="1997">In & Out (1997)</option>
+			<option data-text="Lassiter" data-date="1984">Lassiter (1984)</option>
+			<option data-text="Mr. Baseball" data-date="1992">Mr. Baseball (1992)</option>
+			<option data-text="Quigley Down Under" data-date="1990">Quigley Down Under (1990)</option>
+			<option data-text="Three Men and a Baby" data-date="1987">Three Men and a Baby (1987)</option>
 		</optgroup>
 	</select>
 	{% endset %}
@@ -45,10 +45,10 @@
 		},
 		render:{
 			option:function(data,escape){
-				return '<div class="d-flex"><span>' + escape(data['label']) + '</span><span class="ms-auto text-muted">' + escape(data['date']) + '</span></div>';
+				return '<div class="d-flex"><span>' + escape(data.text) + '</span><span class="ms-auto text-muted">' + escape(data.date) + '</span></div>';
 			},
 			item:function(data,escape){
-				return '<div>' + escape(data['label']) + '</div>';
+				return '<div>' + escape(data.text) + '</div>';
 			}
 		}
 	});
