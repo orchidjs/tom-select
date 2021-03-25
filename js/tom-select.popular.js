@@ -1425,7 +1425,7 @@
 	    if (settings.controlInput) {
 	      control_input = getDom(settings.controlInput);
 	    } else {
-	      control_input = getDom('<input type="text" autocomplete="off" />'); // set attributes
+	      control_input = getDom('<input type="text" autocomplete="off" size="1" />'); // set attributes
 
 	      var attrs = ['autocorrect', 'autocapitalize', 'autocomplete'];
 
