@@ -28,6 +28,10 @@ var test_html = {
 	AB_Single			: '<select><option value="a">a</option><option value="b">b</option><option value="c">c</option></select>',
 }
 
+Array.prototype.foo = function(){
+    return true;
+}
+
 window.setup_test = function(html, options, callback) {
 	teardownLast();
 
