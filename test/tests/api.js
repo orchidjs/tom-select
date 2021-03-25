@@ -443,11 +443,28 @@
 				var option_new2		= test.$html[0].querySelector('option[value="new2"]');
 
 				assert.equal(selected.length, 4,'should have four selected options');
+				assert.equal(test.instance.items.length, 4,'should have four items');
 				assert.equal(option_a.nextSibling, option_new1 ,'"new1" should be after "a"');
 				assert.equal(option_new1.nextSibling, option_b ,'"b" should be after "new1"');
 				assert.equal(option_b.nextSibling, option_new2 ,'"new2" should be after "b"');
 				done();
 
+			});
+
+			it_n('should add items when last item is a duplicate',function(done){
+
+				var test = setup_test('AB_Multi', {
+					create:true,
+				});
+
+				test.instance.createItem('new1');
+				test.instance.createItem('new2');
+				test.instance.addItems(['a','new1','b','new2']);
+
+				var selected		= test.$html[0].querySelectorAll('option[selected]');
+				assert.equal(selected.length, 4,'should have four selected options');
+				assert.equal(test.instance.items.length, 4,'should have four items');
+				done();
 			});
 
 		});

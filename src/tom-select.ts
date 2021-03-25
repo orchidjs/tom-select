@@ -1708,22 +1708,24 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	addItems( values:string|string[], silent?:boolean ):void{
-		this.buffer = document.createDocumentFragment();
+		var self = this;
+		self.buffer = document.createDocumentFragment();
 
-		for( const child of this.control.children ){
-			this.buffer.appendChild(child);
+		for( const child of self.control.children ){
+			self.buffer.appendChild(child);
 		}
 
 		var items = Array.isArray(values) ? values : [values];
+		items = items.filter(x => self.items.indexOf(x) === -1);
 		for (let i = 0, n = items.length; i < n; i++) {
-			this.isPending = (i < n - 1);
-			this.addItem(items[i], silent);
+			self.isPending = (i < n - 1);
+			self.addItem(items[i], silent);
 		}
 
-		var control = this.control;
-		control.insertBefore(this.buffer, control.firstChild);
+		var control = self.control;
+		control.insertBefore(self.buffer, control.firstChild);
 
-		this.buffer = null;
+		self.buffer = null;
 	}
 
 	/**
