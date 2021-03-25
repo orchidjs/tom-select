@@ -86,7 +86,7 @@ All pre-built files needed to use Tom Select can be found in the "dist" folder v
 
 ## Sponsors
 
-Many thanks to our sponsors who help make Tom Select development possible. Vist <a href="https://opencollective/tom-select">opencollective/tom-select</a> to learn more about sponsorship.
+Many thanks to our sponsors who help make Tom Select development possible. Vist <a href="https://opencollective.com/tom-select">opencollective.com/tom-select</a> to learn more about sponsorship.
 
 <a href="http://www.peopleforce.io"><img src="https://raw.githubusercontent.com/orchidjs/tom-select/master/doc_src/img/peopleforce.png"></a>
 
