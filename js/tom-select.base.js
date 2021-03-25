@@ -3568,9 +3568,12 @@
 
 	      if (i != self.caretPos && !self.isPending) {
 	        var j,
-	            children = self.controlChildren();
+	            children = self.controlChildren(),
+	            n = children.length;
 
-	        for (j in children) {
+	        for (j = 0; j < n; j++) {
+	          children[j];
+
 	          if (j < i) {
 	            self.control_input.insertAdjacentElement('beforebegin', children[j]);
 	          } else {
