@@ -18,36 +18,55 @@
 	 *
 	 * @author Jerome Etienne (https://github.com/jeromeetienne)
 	 */
+
+	/**
+	 * Execute callback for each event in space separated list of event names
+	 *
+	 */
+	function forEvents(events, callback) {
+	  events.split(/\s+/).forEach(event => {
+	    callback(event);
+	  });
+	}
+
 	class MicroEvent {
 	  constructor() {
 	    this._events = {};
 	  }
 
-	  on(event, fct) {
-	    this._events[event] = this._events[event] || [];
+	  on(events, fct) {
+	    forEvents(events, event => {
+	      this._events[event] = this._events[event] || [];
 
-	    this._events[event].push(fct);
+	      this._events[event].push(fct);
+	    });
 	  }
 
-	  off(event, fct) {
+	  off(events, fct) {
 	    var n = arguments.length;
-	    if (n === 0) return delete this._events;
-	    if (n === 1) return delete this._events[event];
-	    this._events = this._events || {};
-	    if (event in this._events === false) return;
 
-	    this._events[event].splice(this._events[event].indexOf(fct), 1);
+	    if (n === 0) {
+	      this._events = {};
+	      return;
+	    }
+
+	    forEvents(events, event => {
+	      if (n === 1) return delete this._events[event];
+	      if (event in this._events === false) return;
+
+	      this._events[event].splice(this._events[event].indexOf(fct), 1);
+	    });
 	  }
 
-	  trigger(event
-	  /* , args... */
-	  ) {
-	    this._events = this._events || {};
-	    if (event in this._events === false) return;
+	  trigger(events, ...args) {
+	    var self = this;
+	    forEvents(events, event => {
+	      if (event in self._events === false) return;
 
-	    for (var i = 0; i < this._events[event].length; i++) {
-	      this._events[event][i].apply(this, Array.prototype.slice.call(arguments, 1));
-	    }
+	      for (let fct of self._events[event]) {
+	        fct.apply(self, args);
+	      }
+	    });
 	  }
 
 	}
@@ -4105,7 +4124,7 @@
 	  var self = this;
 	  self.hook('after', 'setup', () => {
 	    var test_input = document.createElement('span');
-	    var control = this.control_input;
+	    var control = self.control_input;
 	    test_input.style.cssText = 'position:absolute; top:-99999px; left:-99999px; width:auto; padding:0; white-space:pre; ';
 	    self.wrapper.appendChild(test_input);
 	    var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
@@ -4120,7 +4139,7 @@
 
 
 	    var resize = () => {
-	      if (this.items.length > 0) {
+	      if (self.items.length > 0) {
 	        test_input.textContent = control.value;
 	        control.style.width = test_input.clientWidth + 'px';
 	      } else {
@@ -4129,7 +4148,7 @@
 	    };
 
 	    resize();
-	    this.on('update item_add item_remove', resize);
+	    self.on('update item_add item_remove', resize);
 	    addEvent(control, 'input', resize);
 	    addEvent(control, 'keyup', resize);
 	    addEvent(control, 'blur', resize);
