@@ -22,7 +22,7 @@ TomSelect.define('input_autogrow', function() {
 
 
 		var test_input				= document.createElement('span');
-		var control					= this.control_input;
+		var control					= self.control_input;
 		test_input.style.cssText	= 'position:absolute; top:-99999px; left:-99999px; width:auto; padding:0; white-space:pre; ';
 
 		self.wrapper.appendChild(test_input);
@@ -40,7 +40,7 @@ TomSelect.define('input_autogrow', function() {
 		 *
 		 */
 		var resize = ()=>{
-			if( this.items.length > 0 ){
+			if( self.items.length > 0 ){
 				test_input.textContent	= control.value;
 				control.style.width		= test_input.clientWidth+'px';
 			}else{
@@ -50,7 +50,7 @@ TomSelect.define('input_autogrow', function() {
 		};
 
 		resize();
-		this.on('update item_add item_remove',resize);
+		self.on('update item_add item_remove',resize);
 		addEvent(control,'input', resize );
 		addEvent(control,'keyup', resize );
 		addEvent(control,'blur', resize );
