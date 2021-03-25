@@ -480,7 +480,7 @@ export default class TomSelect extends TomSelect_base {
      * on mobile webkit devices
      *
      */
-    setCaret(i: number): void;
+    setCaret(new_pos: number): void;
     /**
      * Return list of item dom elements
      *
