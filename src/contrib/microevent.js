@@ -8,31 +8,53 @@
  * @author Jerome Etienne (https://github.com/jeromeetienne)
  */
 
+
+/**
+ * Execute callback for each event in space separated list of event names
+ *
+ */
+function forEvents(events,callback){
+	events.split(/\s+/).forEach((event) =>{
+		callback(event);
+	});
+}
+
 export default class MicroEvent{
 	constructor(){
 		this._events = {};
 	}
 
-	on(event, fct){
-		this._events[event] = this._events[event] || [];
-		this._events[event].push(fct);
+	on(events, fct){
+		forEvents(events,(event) => {
+			this._events[event] = this._events[event] || [];
+			this._events[event].push(fct);
+		});
 	}
 
-	off(event, fct){
+	off(events, fct){
 		var n = arguments.length;
-		if (n === 0) return delete this._events;
-		if (n === 1) return delete this._events[event];
+		if( n === 0 ){
+			this._events = {};
+			return;
+		}
 
-		this._events = this._events || {};
-		if (event in this._events === false) return;
-		this._events[event].splice(this._events[event].indexOf(fct), 1);
+		forEvents(events,(event) => {
+
+			if (n === 1) return delete this._events[event];
+
+			if (event in this._events === false) return;
+			this._events[event].splice(this._events[event].indexOf(fct), 1);
+		});
 	}
 
-	trigger(event /* , args... */){
-		this._events = this._events || {};
-		if (event in this._events === false) return;
-		for (var i = 0; i < this._events[event].length; i++){
-			this._events[event][i].apply(this, Array.prototype.slice.call(arguments, 1));
-		}
+	trigger(events, ...args){
+		var self = this;
+
+		forEvents(events,(event) => {
+			if(event in self._events === false) return;
+			for( let fct of self._events[event] ){
+				fct.apply(self,args );
+			}
+		});
 	}
 };
