@@ -2277,32 +2277,26 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  setCaret(i) {
+  setCaret(new_pos) {
     var self = this;
 
     if (self.settings.mode === 'single' || self.settings.controlInput) {
-      i = self.items.length;
+      new_pos = self.items.length;
     } else {
-      i = Math.max(0, Math.min(self.items.length, i));
+      new_pos = Math.max(0, Math.min(self.items.length, new_pos));
 
-      if (i != self.caretPos && !self.isPending) {
-        var j,
-            children = self.controlChildren(),
-            n = children.length;
-
-        for (j = 0; j < n; j++) {
-          children[j];
-
-          if (j < i) {
-            self.control_input.insertAdjacentElement('beforebegin', children[j]);
+      if (new_pos != self.caretPos && !self.isPending) {
+        self.controlChildren().forEach((child, j) => {
+          if (j < new_pos) {
+            self.control_input.insertAdjacentElement('beforebegin', child);
           } else {
-            self.control.appendChild(children[j]);
+            self.control.appendChild(child);
           }
-        }
+        });
       }
     }
 
-    self.caretPos = i;
+    self.caretPos = new_pos;
   }
   /**
    * Return list of item dom elements
