@@ -51,6 +51,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.activeItems = [];
     this.optgroups = {};
     this.options = {};
+    this.options_i = 0;
     this.userOptions = {};
     this.items = [];
     this.renderCache = {
@@ -310,12 +311,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       document.removeEventListener('mousedown', doc_mousedown);
       window.removeEventListener('sroll', win_scroll);
       window.removeEventListener('resize', win_scroll);
-    }; // store original children and tab index so that they can be
+    }; // store original html and tab index so that they can be
     // restored when the destroy() method is called.
 
 
     this.revertSettings = {
-      children: [...input.children],
+      innerHTML: input.innerHTML,
       tabIndex: input.tabIndex
     };
     input.tabIndex = -1;
@@ -1446,7 +1447,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var key = hash_key(data[this.settings.valueField]);
     if (key === null || this.options.hasOwnProperty(key)) return false;
     data.$order = data.$order || ++this.order;
-    data.$id = this.inputId + '-opt-' + Object.keys(this.options).length;
+    data.$id = this.inputId + '-opt-' + this.options_i++;
     this.options[key] = data;
     return key;
   }
@@ -1691,22 +1692,24 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   addItems(values, silent) {
-    this.buffer = document.createDocumentFragment();
+    var self = this;
+    self.buffer = document.createDocumentFragment();
 
-    for (const child of this.control.children) {
-      this.buffer.appendChild(child);
+    for (const child of self.control.children) {
+      self.buffer.appendChild(child);
     }
 
     var items = Array.isArray(values) ? values : [values];
+    items = items.filter(x => self.items.indexOf(x) === -1);
 
     for (let i = 0, n = items.length; i < n; i++) {
-      this.isPending = i < n - 1;
-      this.addItem(items[i], silent);
+      self.isPending = i < n - 1;
+      self.addItem(items[i], silent);
     }
 
-    var control = this.control;
-    control.insertBefore(this.buffer, control.firstChild);
-    this.buffer = null;
+    var control = self.control;
+    control.insertBefore(self.buffer, control.firstChild);
+    self.buffer = null;
   }
   /**
    * "Selects" an item. Adds it to the list
@@ -1975,32 +1978,34 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   updateOriginalInput(opts = {}) {
-    var existing,
-        label,
+    var i,
+        value,
+        option,
         self = this;
 
     if (self.is_select_tag) {
-      existing = []; // get list of values from existing <option> tags
-      // update selected attribute
-
-      self.input.querySelectorAll('option').forEach(function (option) {
-        existing.push(option.value);
-
+      // remove selected attribute from options whose values are not in self.items
+      self.input.querySelectorAll('option[selected]').forEach(option => {
         if (self.items.indexOf(option.value) == -1) {
-          option.selected = false;
-        } else {
-          option.selected = true;
+          option.removeAttribute('selected');
         }
-      }); // add <option>s for items not in existing list
+      }); // order selected <option> tags for values in self.items
 
-      self.items.forEach(function (item) {
-        if (existing.indexOf(item) != -1) {
-          return;
+      for (i = self.items.length - 1; i >= 0; i--) {
+        value = self.items[i];
+        var option = self.options[value].$option;
+
+        if (!option) {
+          const label = self.options[value][self.settings.labelField] || '';
+          option = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
+          self.options[value].$option = option;
         }
 
-        label = self.options[item][self.settings.labelField] || '';
-        self.input.innerHTML += '<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>';
-      });
+        setAttr(option, {
+          selected: 'true'
+        });
+        self.input.prepend(option);
+      }
     } else {
       self.input.value = self.getValue();
     }
@@ -2303,7 +2308,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   controlChildren() {
-    return [...this.control.getElementsByClassName(this.settings.itemClass)];
+    return Array.from(this.control.getElementsByClassName(this.settings.itemClass));
   }
   /**
    * Disables user input on the control. Used while
@@ -2367,15 +2372,11 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     self.off();
     self.wrapper.remove();
     self.dropdown.remove();
-    self.input.innerHTML = '';
+    self.input.innerHTML = revertSettings.innerHTML;
     self.input.tabIndex = revertSettings.tabIndex;
     removeClasses(self.input, 'tomselected');
     self.input.removeAttribute('hidden');
     self.input.required = this.isRequired;
-
-    for (const child of revertSettings.children) {
-      self.input.appendChild(child);
-    }
 
     self._destroy();
 
