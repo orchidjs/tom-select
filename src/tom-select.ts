@@ -213,7 +213,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( settings.controlInput ){
 			control_input		= getDom( settings.controlInput ) as HTMLInputElement;
 		}else{
-			control_input		= getDom('<input type="text" autocomplete="off" />' ) as HTMLInputElement;
+			control_input		= getDom('<input type="text" autocomplete="off" size="1" />' ) as HTMLInputElement;
 
 			// set attributes
 			var attrs = ['autocorrect','autocapitalize','autocomplete'];
