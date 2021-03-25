@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.4.1)
+ * tom-select.css (v1.4.2)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -78,6 +78,12 @@
   width: 100%;
   background: transparent; }
 
+.ts-control.plugin-input_autogrow .ts-input.has-items > input {
+  min-width: 0; }
+
+.ts-control.plugin-input_autogrow .ts-input.focus.has-items > input {
+  flex: none; }
+
 .ts-dropdown.plugin-optgroup_columns .ts-dropdown-content {
   display: flex; }
 
@@ -135,7 +141,8 @@
   position: relative; }
 
 .ts-dropdown,
-.ts-input, .ts-input input {
+.ts-input,
+.ts-input input {
   color: #303030;
   font-family: inherit;
   font-size: 13px;
@@ -156,7 +163,9 @@
   z-index: 1;
   box-sizing: border-box;
   box-shadow: none;
-  border-radius: 3px; }
+  border-radius: 3px;
+  display: flex;
+  flex-wrap: wrap; }
   .ts-control.multi .ts-input.has-items {
     padding: calc( 8px - 2px - 0) 8px calc( 8px - 2px - 3px - 0); }
   .ts-input.full {
@@ -186,6 +195,8 @@
     background: white;
     border: 0 solid white; }
   .ts-input > input {
+    flex: 1 1 auto;
+    min-width: 7rem;
     display: inline-block !important;
     padding: 0 !important;
     min-height: 0 !important;
@@ -207,24 +218,31 @@
       outline: none !important; }
   .ts-input.has-items > input {
     margin: 0 4px !important; }
-
-.input-hidden .items input {
-  opacity: 0; }
-
-.ts-input::after {
-  content: ' ';
-  display: block;
-  clear: left; }
-
-.ts-input.dropdown-active::before {
-  content: ' ';
-  display: block;
-  position: absolute;
-  background: #f0f0f0;
-  height: 1px;
-  bottom: 0;
-  left: 0;
-  right: 0; }
+  .ts-input::after {
+    content: ' ';
+    display: block;
+    clear: left; }
+  .ts-input.dropdown-active::before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    background: #f0f0f0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    right: 0; }
+  .ts-input.rtl {
+    text-align: right; }
+    .ts-input.rtl.single .ts-input:after {
+      left: 15px;
+      right: auto; }
+    .ts-input.rtl .ts-input > input {
+      margin: 0 4px 0 -2px !important; }
+  .ts-input .ts-input.disabled {
+    opacity: 0.5;
+    background-color: #fafafa; }
+  .input-hidden .ts-input > input {
+    opacity: 0; }
 
 .ts-dropdown {
   position: absolute;
@@ -262,37 +280,32 @@
     color: #303030;
     background: #fff;
     cursor: default; }
+  .ts-dropdown .create:hover,
   .ts-dropdown .option:hover,
   .ts-dropdown .active {
     background-color: #f5fafd;
     color: #495c68; }
+    .ts-dropdown .create:hover.create,
     .ts-dropdown .option:hover.create,
     .ts-dropdown .active.create {
       color: #495c68; }
   .ts-dropdown .create {
     color: rgba(48, 48, 48, 0.5); }
-
-.ts-dropdown-content {
-  overflow-y: auto;
-  overflow-x: hidden;
-  max-height: 200px;
-  overflow-scrolling: touch; }
-
-.ts-dropdown .spinner {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  margin: 5px 8px; }
-  .ts-dropdown .spinner:after {
-    content: " ";
-    display: block;
-    width: 24px;
-    height: 24px;
-    margin: 3px;
-    border-radius: 50%;
-    border: 5px solid #d0d0d0;
-    border-color: #d0d0d0 transparent #d0d0d0 transparent;
-    animation: lds-dual-ring 1.2s linear infinite; }
+  .ts-dropdown .spinner {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 5px 8px; }
+    .ts-dropdown .spinner:after {
+      content: " ";
+      display: block;
+      width: 24px;
+      height: 24px;
+      margin: 3px;
+      border-radius: 50%;
+      border: 5px solid #d0d0d0;
+      border-color: #d0d0d0 transparent #d0d0d0 transparent;
+      animation: lds-dual-ring 1.2s linear infinite; }
 
 @keyframes lds-dual-ring {
   0% {
@@ -300,16 +313,10 @@
   100% {
     transform: rotate(360deg); } }
 
-.ts-control.rtl {
-  text-align: right; }
-  .ts-control.rtl.single .ts-input:after {
-    left: 15px;
-    right: auto; }
-  .ts-control.rtl .ts-input > input {
-    margin: 0 4px 0 -2px !important; }
-
-.ts-control .ts-input.disabled {
-  opacity: 0.5;
-  background-color: #fafafa; }
+.ts-dropdown-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 200px;
+  overflow-scrolling: touch; }
 
 /*# sourceMappingURL=tom-select.css.map */

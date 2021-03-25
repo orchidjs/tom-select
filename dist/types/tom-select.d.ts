@@ -55,6 +55,7 @@ export default class TomSelect extends TomSelect_base {
     activeItems: HTMLElement[];
     optgroups: TomOptions;
     options: TomOptions;
+    private options_i;
     userOptions: {
         [key: string]: boolean;
     };
@@ -351,6 +352,7 @@ export default class TomSelect extends TomSelect_base {
     getOption(value: string): HTMLElement;
     /**
      * Returns the dom element of the next or previous dom element of the same type
+     * Note: adjacent options may not be adjacent DOM elements (optgroups)
      *
      */
     getAdjacent(option: HTMLElement, direction: number, type?: string): HTMLElement | void;

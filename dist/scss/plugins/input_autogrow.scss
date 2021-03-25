@@ -1,0 +1,13 @@
+
+.#{$select-ns}-control.plugin-input_autogrow{
+
+	.#{$select-ns}-input{
+		&.has-items > input {
+			min-width: 0;
+		}
+
+		&.focus.has-items > input {
+			flex: none;
+		}
+	}
+}

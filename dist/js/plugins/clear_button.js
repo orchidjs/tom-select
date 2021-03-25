@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.4.1
+* Tom Select v1.4.2
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -65,9 +65,10 @@
 	    var button = getDom(options.html(options));
 	    button.addEventListener('click', evt => {
 	      while (self.items.length > 0) {
-	        self.removeItem(self.items[0]);
+	        self.removeItem(self.items[0], true);
 	      }
 
+	      self.updateOriginalInput();
 	      evt.preventDefault();
 	      evt.stopPropagation();
 	    });
