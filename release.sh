@@ -50,6 +50,13 @@ if [[ "$BRANCH" != "master" ]]; then
 fi
 
 
+# make sure there aren't any uncommited changes
+if ! git diff-index --quiet HEAD --; then
+	echo 'Commit all changes before releas before making release'
+	exit
+fi
+
+
 # make sure release number is valid
 if ! [[ "$VERSION" =~ ^([0-9]\.[0-9]\.[0-9]) ]]; then
 	echo "Release number must match a semver pattern similar to 1.0.0"
