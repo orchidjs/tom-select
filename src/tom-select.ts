@@ -1999,7 +1999,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( self.is_select_tag ){
 
 			// remove selected attribute from options whose values are not in self.items
-			self.input.querySelectorAll('option[selected]').forEach((option) => {
+			self.input.querySelectorAll('option[selected]').forEach((option:HTMLOptionElement) => {
 				if( self.items.indexOf(option.value) == -1 ){
 					option.removeAttribute('selected');
 				}
