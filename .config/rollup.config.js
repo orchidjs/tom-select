@@ -2,8 +2,6 @@ import resolve from '@rollup/plugin-node-resolve'; // so Rollup can find `node_m
 import commonjs from '@rollup/plugin-commonjs'; // so Rollup can convert commonjs to an ES module
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
-import bundleSize from '@atomico/rollup-plugin-sizes';
-import visualizer from 'rollup-plugin-visualizer';
 import pkg from '../package.json';
 import path from 'path';
 import fs from 'fs';
@@ -85,11 +83,6 @@ function createConfig( input, output, plugins ){
 			resolve_config,
 			babel_config,
 			commonjs(),
-			bundleSize(),
-			visualizer({
-				sourcemap: true,
-				filename: `stats/${config.output.file}.html`,
-        	})
 		];
 
 	config.plugins	= config.plugins.concat(plugins);
