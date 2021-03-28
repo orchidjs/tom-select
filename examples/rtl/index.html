@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html class="no-js">
-	<head>
+<!DOCTYPE html><html class="no-js"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Right-to-left Example -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; style-src 'self' unpkg.com ; script-src 'self'      'sha256-WROyR9EguojQOsDfFA4gDS2Bl4lo2gzaEPryupkavXo='  'sha256-bvhvZ/m8wT812rLA7mInmpl0A/uFLBy9SJG5WmL1mT4=';">
 		<link rel="stylesheet" href="/css/stylesheet.css">
-		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
 		<script src="/js/jquery.min.js"></script>
@@ -21,17 +20,11 @@
 		
 	</head>
     <body>
-		<div class="">
 
-			<div class="row flex-lg-nowrap g-0">
-				<div class="col-md-9 col-xl-10">
-				</div>
-			</div>
+		<div class="row flex-lg-nowrap g-0">
 
-			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
-
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-					
+			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
+				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -91,21 +84,21 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-				</div>
+			</div>
 
-				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
-					<div class="my-4">
-						<div class="container">
-							<button class="toggle-offcanvas btn btn-link" type="button">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							
-							<h1 class="display-4 mt-0">Right-to-left Example</h1>
-							
-						</div>
-					</div>
-					<div class="container mt-3" id="main-container">
+			<div class="col-md-9 col-lg-10 px-3 main-col">
+				<div class="my-4">
+					<div class="container">
+						<button class="toggle-offcanvas btn btn-link" type="button">
+							<span class="navbar-toggler-icon"></span>
+						</button>
 						
+						<h1 class="display-4 mt-0">Right-to-left Example</h1>
+						
+					</div>
+				</div>
+				<div class="container mt-3" id="main-container">
+					
 
 
 
@@ -114,9 +107,7 @@
 
 
 
-<script>
 
-</script>
 
 
 	
@@ -139,18 +130,28 @@
 			</div>
 
 			
-			<textarea hidden>
-&lt;div dir=&quot;rtl&quot;&gt;
-&lt;input type=&quot;text&quot; id=&quot;input-tags&quot; value=&quot;awesome,neat&quot;&gt;
+			<textarea hidden="">&lt;div dir="rtl"&gt;
+&lt;input type="text" id="input-tags" value="awesome,neat"&gt;
 &lt;/div&gt;
 </textarea>
-			<script>
+			
+
+	
+		
+		<script csp-hash="sha256-WROyR9EguojQOsDfFA4gDS2Bl4lo2gzaEPryupkavXo=">
 new TomSelect('#input-tags',{
 	persist: false,
 	create: true
 });
 </script>
-			<style></style>
+	
+
+
+			
+
+	
+
+
 
 		</div>
 		<div class="mt-4">
@@ -175,16 +176,16 @@ new TomSelect('#input-tags',{
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -204,7 +205,7 @@ new TomSelect('#input-tags',{
 				
 
 				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
-					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">dir</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rtl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-tags<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">dir</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rtl<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-tags<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
 				</div>
 
 				
@@ -221,9 +222,7 @@ new TomSelect('#input-tags',{
 
 
 
-<script>
 
-</script>
 
 
 	
@@ -250,19 +249,29 @@ new TomSelect('#input-tags',{
 			</div>
 
 			
-			<textarea hidden>
-&lt;select id=&quot;select-beast&quot; placeholder=&quot;Select a person...&quot; dir=&quot;rtl&quot;&gt;
-	&lt;option value=&quot;&quot;&gt;Select a person...&lt;/option&gt;
-	&lt;option value=&quot;4&quot;&gt;Thomas Edison&lt;/option&gt;
-	&lt;option value=&quot;1&quot;&gt;Nikola&lt;/option&gt;
-	&lt;option value=&quot;3&quot;&gt;Nikola Tesla&lt;/option&gt;
-	&lt;option value=&quot;5&quot;&gt;Arnold Schwarzenegger&lt;/option&gt;
+			<textarea hidden="">&lt;select id="select-beast" placeholder="Select a person..." dir="rtl"&gt;
+	&lt;option value=""&gt;Select a person...&lt;/option&gt;
+	&lt;option value="4"&gt;Thomas Edison&lt;/option&gt;
+	&lt;option value="1"&gt;Nikola&lt;/option&gt;
+	&lt;option value="3"&gt;Nikola Tesla&lt;/option&gt;
+	&lt;option value="5"&gt;Arnold Schwarzenegger&lt;/option&gt;
 &lt;/select&gt;
 </textarea>
-			<script>
+			
+
+	
+		
+		<script csp-hash="sha256-bvhvZ/m8wT812rLA7mInmpl0A/uFLBy9SJG5WmL1mT4=">
 new TomSelect('#select-beast');
 </script>
-			<style></style>
+	
+
+
+			
+
+	
+
+
 
 		</div>
 		<div class="mt-4">
@@ -287,16 +296,16 @@ new TomSelect('#select-beast');
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -316,7 +325,7 @@ new TomSelect('#select-beast');
 				
 
 				<div class="tab-pane fade " id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
-					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-beast<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select a person...<span class="token punctuation">"</span></span> <span class="token attr-name">dir</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rtl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Select a person...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Thomas Edison<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Nikola<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Nikola Tesla<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>5<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Arnold Schwarzenegger<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-beast<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select a person...<span class="token punctuation">"</span></span> <span class="token attr-name">dir</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rtl<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Select a person...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>4<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Thomas Edison<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Nikola<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Nikola Tesla<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>5<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Arnold Schwarzenegger<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span></code></pre>
 				</div>
 
 				
@@ -327,14 +336,11 @@ new TomSelect('#select-beast');
 	</div>
 
 
-						
-						
-					</div>
+					
+					
 				</div>
 			</div>
 		</div>
+	
 
-		<footer>
-	    </footer>
-	</body>
-</html>
+</body></html>

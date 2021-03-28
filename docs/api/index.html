@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html class="no-js">
-	<head>
+<!DOCTYPE html><html class="no-js"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> API -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; style-src 'self' unpkg.com ; script-src 'self'    ;">
 		<link rel="stylesheet" href="/css/stylesheet.css">
-		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
 		<script src="/js/jquery.min.js"></script>
@@ -21,17 +20,11 @@
 		
 	</head>
     <body>
-		<div class="">
 
-			<div class="row flex-lg-nowrap g-0">
-				<div class="col-md-9 col-xl-10">
-				</div>
-			</div>
+		<div class="row flex-lg-nowrap g-0">
 
-			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
-
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-					
+			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
+				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -68,25 +61,25 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-				</div>
+			</div>
 
-				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
-					<div class="my-4">
-						<div class="container">
-							<button class="toggle-offcanvas btn btn-link" type="button">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							
-							<h1 class="display-4 mt-0">API</h1>
-							
-						</div>
+			<div class="col-md-9 col-lg-10 px-3 main-col">
+				<div class="my-4">
+					<div class="container">
+						<button class="toggle-offcanvas btn btn-link" type="button">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						
+						<h1 class="display-4 mt-0">API</h1>
+						
 					</div>
-					<div class="container mt-3" id="main-container">
-						<p>Instances of Tom Select can be controlled programmatically via the methods described in this section.</p>
+				</div>
+				<div class="container mt-3" id="main-container">
+					<p>Instances of Tom Select can be controlled programmatically via the methods described in this section.</p>
 <pre class="language-js"><code class="language-js"><span class="token keyword">var</span> control <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>control<span class="token punctuation">.</span><span class="token function">addOption</span><span class="token punctuation">(</span><span class="token punctuation">{</span>value<span class="token operator">:</span><span class="token string">'test'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>control<span class="token punctuation">.</span><span class="token function">addItem</span><span class="token punctuation">(</span><span class="token string">'test'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h2 id="option-methods">Option Methods</h2>
 <table class="table table-striped">
-	<tr>
+	<tbody><tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
@@ -118,10 +111,10 @@
 		<td><code>refreshOptions(triggerDropdown)</code></td>
 		<td>Refreshes the list of available options shown in the autocomplete dropdown menu.</td>
 	</tr>
-</table>
+</tbody></table>
 <h2 id="item-methods">Item Methods</h2>
 <table class="table table-striped">
-	<tr>
+	<tbody><tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
@@ -149,10 +142,10 @@
 		<td><code>refreshItems()</code></td>
 		<td>Re-renders the selected item lists.</td>
 	</tr>
-</table>
+</tbody></table>
 <h2 id="optgroup-methods">Optgroup Methods</h2>
 <table class="table table-striped">
-	<tr>
+	<tbody><tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
@@ -168,10 +161,10 @@
 		<td><code>clearOptionGroups()</code></td>
 		<td>Removes all existing option groups.</td>
 	</tr>
-</table>
+</tbody></table>
 <h2 id="event-methods">Event Methods</h2>
 <table class="table table-striped">
-	<tr>
+	<tbody><tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
@@ -191,10 +184,10 @@
 		<td><code>trigger(event, ...)</code></td>
 		<td>Triggers event listeners.</td>
 	</tr>
-</table>
+</tbody></table>
 <h2 id="dropdown-methods">Dropdown Methods</h2>
 <table class="table table-striped">
-	<tr>
+	<tbody><tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
@@ -210,10 +203,10 @@
 		<td><code>positionDropdown()</code></td>
 		<td>Calculates and applies the appropriate position of the dropdown.</td>
 	</tr>
-</table>
+</tbody></table>
 <h2 id="other-methods">Other Methods</h2>
 <table class="table table-striped">
-	<tr>
+	<tbody><tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
@@ -278,11 +271,11 @@
 		<td><code>setTextboxValue(str)</code></td>
 		<td>Sets the value of the input field.</td>
 	</tr>
-</table>
+</tbody></table>
 <h2 id="related-objects">Related Objects</h2>
 <h4 id="search">Search</h4>
 <table class="table table-striped">
-	<tr>
+	<tbody><tr>
 		<th width="120px">Option</th>
 		<th>Description</th>
 		<th width="60px">Type</th>
@@ -312,16 +305,13 @@
 		<td>A list of matched results. Each result is an object containing two properties: <code>score</code> and <code>id</code> .</td>
 		<td><code>array</code></td>
 	</tr>
-</table>
+</tbody></table>
 
-						
-						
-					</div>
+					
+					
 				</div>
 			</div>
 		</div>
+	
 
-		<footer>
-	    </footer>
-	</body>
-</html>
+</body></html>

@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html class="no-js">
-	<head>
+<!DOCTYPE html><html class="no-js"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Plugin Examples -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; style-src 'self' unpkg.com ; script-src 'self'       'sha256-c12uzRvCT7ZLHbT1BhdItt46nB3UkhM8bwYwEFS1j20='  'sha256-pnNQ2Rcp5FEkj9Wwa9P0gyUeP5TJX0O5QewKEoFgr2M='  'sha256-uWOZDjdxQO7JBhTKnVWifip2L7RsyDL08gUUYxwE7pY='  'sha256-HgAa8DWQNJFYm67SGZnoCy9Ho/JJWiNBAVuZYR8CvGM='  'sha256-wiqcTsVzk1LO6d1eyR26NRUyvQYSMzHhXcXvXMPNPhA='  'sha256-v5nOMK361f6C4F7oxnQ9PSy2mnn/22mtSkpDxRjD6JU='  'sha256-U/Ns/3pC3+AdL0kcaw81jsdoG1XZ9YDey9g0NhKn2d4='  'sha256-iVniZQ3p/u2OnaGmQD5yph/dKzWyH+SoViffZi22hdI='  'sha256-aTNp3517MCdTGYP6t4/WzAT95i8Q+8ealqlrHWqsOAU='  'sha256-JBPXi2Tkg6GaBJ0V5ZhSsmnQfJ69VHXi4W/CXgKaEu4='  'sha256-mpsfI3foucpyiFGfA7HnunRXrxumomZrLFkP8Avpv6c='  'sha256-tBI6qGFVpDWLxsON+MY8oKKsITS3cnKGVezzJE4ruYk=';">
 		<link rel="stylesheet" href="/css/stylesheet.css">
-		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
 		<script src="/js/jquery.min.js"></script>
@@ -21,17 +20,11 @@
 		<script src="/js/jqueryui.js"></script>
 	</head>
     <body>
-		<div class="">
 
-			<div class="row flex-lg-nowrap g-0">
-				<div class="col-md-9 col-xl-10">
-				</div>
-			</div>
+		<div class="row flex-lg-nowrap g-0">
 
-			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
-
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-					
+			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
+				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -87,21 +80,21 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-				</div>
+			</div>
 
-				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
-					<div class="my-4">
-						<div class="container">
-							<button class="toggle-offcanvas btn btn-link" type="button">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							
-							<h1 class="display-4 mt-0">Plugin Examples</h1>
-							
-						</div>
-					</div>
-					<div class="container mt-3" id="main-container">
+			<div class="col-md-9 col-lg-10 px-3 main-col">
+				<div class="my-4">
+					<div class="container">
+						<button class="toggle-offcanvas btn btn-link" type="button">
+							<span class="navbar-toggler-icon"></span>
+						</button>
 						
+						<h1 class="display-4 mt-0">Plugin Examples</h1>
+						
+					</div>
+				</div>
+				<div class="container mt-3" id="main-container">
+					
 
 
 
@@ -122,16 +115,14 @@
 		<h4 class="mt-0"><a href="/plugins/remove-button">Remove Button</a></h4>
 		<p>
 			Adds one-click removal of each item.
-			<br/><a href="/plugins/remove-button">More info...</a>
+			<br><a href="/plugins/remove-button">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -147,16 +138,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -176,10 +167,13 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;input type=&quot;text&quot; id=&quot;input-tags&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		<textarea hidden="">		&lt;input type="text" id="input-tags" value="awesome,neat" autocomplete="off"&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-c12uzRvCT7ZLHbT1BhdItt46nB3UkhM8bwYwEFS1j20=">
 		new TomSelect('#input-tags',{
 			plugins: ['remove_button'],
 			persist: false,
@@ -189,7 +183,14 @@
 			}
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -203,16 +204,14 @@
 		<p>
 			Prevents the user from removing items with <kbd>backspace</kbd> and <kdb>delete</kdb> keys unless items are active.
 			Use with <code>no_active_items</code> to disable deleting with keyboard events entirely.
-			<br/><a href="/plugins/no-backspace-delete">More info...</a>
+			<br><a href="/plugins/no-backspace-delete">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -228,16 +227,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -257,17 +256,27 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;input type=&quot;text&quot; id=&quot;disable-backspace&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		<textarea hidden="">		&lt;input type="text" id="disable-backspace" value="awesome,neat" autocomplete="off"&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-pnNQ2Rcp5FEkj9Wwa9P0gyUeP5TJX0O5QewKEoFgr2M=">
 		new TomSelect('#disable-backspace',{
 			plugins: ['no_backspace_delete'],
 			persist: false,
 			create: true,
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -280,16 +289,14 @@
 		<h4 class="mt-0"><a href="/plugins/drag-drop">Drag Drop</a></h4>
 		<p>
 			Allows users to sort items with drag-n-drop.
-			<br/><a href="/plugins/drag-drop">More info...</a>
+			<br><a href="/plugins/drag-drop">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -305,16 +312,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -334,17 +341,27 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;input type=&quot;text&quot; id=&quot;input-sortable&quot; value=&quot;drag,these,items,around&quot; autocomplete=&quot;off&quot;&gt;
+		<textarea hidden="">		&lt;input type="text" id="input-sortable" value="drag,these,items,around" autocomplete="off"&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-uWOZDjdxQO7JBhTKnVWifip2L7RsyDL08gUUYxwE7pY=">
 		new TomSelect('#input-sortable',{
 			plugins: ['drag_drop'],
 			persist: false,
 			create: true
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -356,16 +373,14 @@
 		<h4 class="mt-0"><a href="/plugins/restore-on-backspace">Restore on Backspace</a></h4>
 		<p>
 			Fills the control input with the value of deleted items upon deletion.
-			<br/><a href="/plugins/restore-on-backspace">More info...</a>
+			<br><a href="/plugins/restore-on-backspace">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -381,16 +396,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -410,17 +425,27 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;input type=&quot;text&quot; id=&quot;input-tags6&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		<textarea hidden="">		&lt;input type="text" id="input-tags6" value="awesome,neat" autocomplete="off"&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-HgAa8DWQNJFYm67SGZnoCy9Ho/JJWiNBAVuZYR8CvGM=">
 		new TomSelect('#input-tags6',{
 			plugins: ['restore_on_backspace'],
 			persist: false,
 			create: true
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -434,16 +459,14 @@
 		<h4 class="mt-0"><a href="/plugins/clear-button">Clear Button</a></h4>
 		<p>
 			Adds a small button to the right side of the control that, when clicked, removes all of the items (selected options).
-			<br/><a href="/plugins/clear-button">More info...</a>
+			<br><a href="/plugins/clear-button">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -459,16 +482,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -488,17 +511,27 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;input type=&quot;text&quot; id=&quot;clear-button&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		<textarea hidden="">		&lt;input type="text" id="clear-button" value="awesome,neat" autocomplete="off"&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-wiqcTsVzk1LO6d1eyR26NRUyvQYSMzHhXcXvXMPNPhA=">
 		new TomSelect('#clear-button',{
 			plugins: ['clear_button'],
 			persist: false,
 			create: true,
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -511,16 +544,14 @@
 		<h4 class="mt-0"><a href="/plugins/no-active-items">No Active Items</a></h4>
 		<p>
 			Disables selecting items.
-			<br/><a href="/plugins/no-active-items">More info...</a>
+			<br><a href="/plugins/no-active-items">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -536,16 +567,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -565,17 +596,27 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;input type=&quot;text&quot; id=&quot;no-active-items&quot; value=&quot;awesome,neat&quot; autocomplete=&quot;off&quot;&gt;
+		<textarea hidden="">		&lt;input type="text" id="no-active-items" value="awesome,neat" autocomplete="off"&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-v5nOMK361f6C4F7oxnQ9PSy2mnn/22mtSkpDxRjD6JU=">
 		new TomSelect('#no-active-items',{
 			plugins: ['no_active_items'],
 			persist: false,
 			create: true,
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -594,16 +635,14 @@
 		<h4 class="mt-0"><a href="/plugins/dropdown-input">Dropdown Input</a></h4>
 		<p>
 			Positions the control input in the select dropdown.
-			<br/><a href="/plugins/dropdown-input">More info...</a>
+			<br><a href="/plugins/dropdown-input">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -619,16 +658,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -645,7 +684,7 @@
 			
 		<select id="ex-dropdown-input" autocomplete="off" placeholder="How cool is this?">
 			<option>amazing</option>
-			<option selected>awesome</option>
+			<option selected="">awesome</option>
 			<option>cool</option>
 			<option>excellent</option>
 			<option>great</option>
@@ -657,8 +696,7 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;select id=&quot;ex-dropdown-input&quot; autocomplete=&quot;off&quot; placeholder=&quot;How cool is this?&quot;&gt;
+		<textarea hidden="">		&lt;select id="ex-dropdown-input" autocomplete="off" placeholder="How cool is this?"&gt;
 			&lt;option&gt;amazing&lt;/option&gt;
 			&lt;option selected&gt;awesome&lt;/option&gt;
 			&lt;option&gt;cool&lt;/option&gt;
@@ -669,12 +707,23 @@
 			&lt;option&gt;wonderful&lt;/option&gt;
 		&lt;/select&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-U/Ns/3pC3+AdL0kcaw81jsdoG1XZ9YDey9g0NhKn2d4=">
 		new TomSelect('#ex-dropdown-input',{
 			plugins: ['dropdown_input'],
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -687,16 +736,14 @@
 		<h4 class="mt-0"><a href="/plugins/input-autogrow">Input Autogrow</a></h4>
 		<p>
 			Resizes the control input as the user types.
-			<br/><a href="/plugins/input-autogrow">More info...</a>
+			<br><a href="/plugins/input-autogrow">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -712,16 +759,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -736,7 +783,7 @@
 
 		<div class="demo-html">
 			
-		<select id="input-autogrow" multiple autocomplete="off" placeholder="How cool is this?">
+		<select id="input-autogrow" multiple="" autocomplete="off" placeholder="How cool is this?">
 			<option>amazing</option>
 			<option>awesome</option>
 			<option>cool</option>
@@ -750,8 +797,7 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;select id=&quot;input-autogrow&quot; multiple autocomplete=&quot;off&quot; placeholder=&quot;How cool is this?&quot;&gt;
+		<textarea hidden="">		&lt;select id="input-autogrow" multiple autocomplete="off" placeholder="How cool is this?"&gt;
 			&lt;option&gt;amazing&lt;/option&gt;
 			&lt;option&gt;awesome&lt;/option&gt;
 			&lt;option&gt;cool&lt;/option&gt;
@@ -762,12 +808,23 @@
 			&lt;option&gt;wonderful&lt;/option&gt;
 		&lt;/select&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-iVniZQ3p/u2OnaGmQD5yph/dKzWyH+SoViffZi22hdI=">
 		new TomSelect('#input-autogrow',{
 			plugins: ['input_autogrow'],
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -784,16 +841,14 @@
 		<h4 class="mt-0"><a href="/plugins/checkbox-options">Checkbox Options</a></h4>
 		<p>
 			Displays checkboxes next to each option in the dropdown.
-			<br/><a href="/plugins/checkbox-options">More info...</a>
+			<br><a href="/plugins/checkbox-options">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -809,16 +864,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -833,11 +888,11 @@
 
 		<div class="demo-html">
 			
-		<select id="ex-checkbox-options" autocomplete="off" multiple>
+		<select id="ex-checkbox-options" autocomplete="off" multiple="">
 			<option>amazing</option>
-			<option selected>awesome</option>
+			<option selected="">awesome</option>
 			<option>cool</option>
-			<option selected>excellent</option>
+			<option selected="">excellent</option>
 			<option>great</option>
 			<option>neat</option>
 			<option>superb</option>
@@ -847,8 +902,7 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;select id=&quot;ex-checkbox-options&quot; autocomplete=&quot;off&quot; multiple&gt;
+		<textarea hidden="">		&lt;select id="ex-checkbox-options" autocomplete="off" multiple&gt;
 			&lt;option&gt;amazing&lt;/option&gt;
 			&lt;option selected&gt;awesome&lt;/option&gt;
 			&lt;option&gt;cool&lt;/option&gt;
@@ -859,12 +913,23 @@
 			&lt;option&gt;wonderful&lt;/option&gt;
 		&lt;/select&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-aTNp3517MCdTGYP6t4/WzAT95i8Q+8ealqlrHWqsOAU=">
 		new TomSelect('#ex-checkbox-options',{
 			plugins: ['checkbox_options'],
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -876,16 +941,14 @@
 		<h4 class="mt-0"><a href="/plugins/optgroup-columns">Optgroup Columns</a></h4>
 		<p>
 			Divides option groups into columns and allows users to navigate columns with <kbd>left</kbd> and <kbd>right</kbd> keys.
-			<br/><a href="/plugins/optgroup-columns">More info...</a>
+			<br><a href="/plugins/optgroup-columns">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -901,16 +964,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -930,10 +993,13 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;input type=&quot;text&quot; id=&quot;select-car&quot; placeholder=&quot;Select cars...&quot;&gt;
+		<textarea hidden="">		&lt;input type="text" id="select-car" placeholder="Select cars..."&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-JBPXi2Tkg6GaBJ0V5ZhSsmnQfJ69VHXi4W/CXgKaEu4=">
 		new TomSelect("#select-car",{
 			options: [
 				{id: 'avenger', make: 'dodge', model: 'Avenger'},
@@ -973,7 +1039,14 @@
 			openOnFocus: false
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -986,15 +1059,13 @@
 		<h4 class="mt-0"><a href="/plugins/dropdown-header">Dropdown Header</a></h4>
 		<p>
 			Adds a customizable header to the select dropdown.
-			<br/><a href="/plugins/dropdown-header">More info...</a>
+			<br><a href="/plugins/dropdown-header">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -1010,16 +1081,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -1041,7 +1112,7 @@
 			<option value="php">PHP</option>
 			<option value="python">Python</option>
 			<option value="java">Java</option>
-			<option value="js" selected>JavaScript</option>
+			<option value="js" selected="">JavaScript</option>
 			<option value="c#">Ruby</option>
 			<option value="c#">VHDL</option>
 			<option value="c#">Verilog</option>
@@ -1052,23 +1123,26 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;select id=&quot;select-code-language&quot; class=&quot;demo-code-language&quot; placeholder=&quot;Select a language...&quot; autocomplete=&quot;off&quot;&gt;
-			&lt;option value=&quot;txt&quot;&gt;Text&lt;/option&gt;
-			&lt;option value=&quot;md&quot;&gt;Markdown&lt;/option&gt;
-			&lt;option value=&quot;html&quot;&gt;HTML&lt;/option&gt;
-			&lt;option value=&quot;php&quot;&gt;PHP&lt;/option&gt;
-			&lt;option value=&quot;python&quot;&gt;Python&lt;/option&gt;
-			&lt;option value=&quot;java&quot;&gt;Java&lt;/option&gt;
-			&lt;option value=&quot;js&quot; selected&gt;JavaScript&lt;/option&gt;
-			&lt;option value=&quot;c#&quot;&gt;Ruby&lt;/option&gt;
-			&lt;option value=&quot;c#&quot;&gt;VHDL&lt;/option&gt;
-			&lt;option value=&quot;c#&quot;&gt;Verilog&lt;/option&gt;
-			&lt;option value=&quot;c#&quot;&gt;C#&lt;/option&gt;
-			&lt;option value=&quot;c++&quot;&gt;C/C++&lt;/option&gt;
+		<textarea hidden="">		&lt;select id="select-code-language" class="demo-code-language" placeholder="Select a language..." autocomplete="off"&gt;
+			&lt;option value="txt"&gt;Text&lt;/option&gt;
+			&lt;option value="md"&gt;Markdown&lt;/option&gt;
+			&lt;option value="html"&gt;HTML&lt;/option&gt;
+			&lt;option value="php"&gt;PHP&lt;/option&gt;
+			&lt;option value="python"&gt;Python&lt;/option&gt;
+			&lt;option value="java"&gt;Java&lt;/option&gt;
+			&lt;option value="js" selected&gt;JavaScript&lt;/option&gt;
+			&lt;option value="c#"&gt;Ruby&lt;/option&gt;
+			&lt;option value="c#"&gt;VHDL&lt;/option&gt;
+			&lt;option value="c#"&gt;Verilog&lt;/option&gt;
+			&lt;option value="c#"&gt;C#&lt;/option&gt;
+			&lt;option value="c++"&gt;C/C++&lt;/option&gt;
 		&lt;/select&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-mpsfI3foucpyiFGfA7HnunRXrxumomZrLFkP8Avpv6c=">
 		new TomSelect('#select-code-language',{
 			sortField: 'text',
 			hideSelected: false,
@@ -1079,7 +1153,14 @@
 			}
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
@@ -1097,7 +1178,7 @@
 		<h4 class="mt-0"><a href="/plugins/change-listener">Change Listener</a></h4>
 		<p>
 			Updates the value of the Tom Select instance when the value of the underlying &lt;input&gt; element changes.
-			<br/><a href="/plugins/change-listener">More info...</a>
+			<br><a href="/plugins/change-listener">More info...</a>
 		</p>
 	</div>
 	<div class="col-sm-6">
@@ -1105,9 +1186,7 @@
 
 		
 
-		<script>
 		
-		</script>
 
 		
 
@@ -1123,16 +1202,16 @@
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -1153,11 +1232,14 @@
 		</div>
 
 		
-		<textarea hidden>
-		&lt;input type=&quot;text&quot; id=&quot;input-change&quot; value=&quot;original value&quot; autocomplete=&quot;off&quot;&gt;
-		&lt;button type=&quot;button&quot; class=&quot;btn btn-sm btn-success mt-2&quot; id=&quot;change-input&quot;&gt;Change original input&lt;/button&gt;
+		<textarea hidden="">		&lt;input type="text" id="input-change" value="original value" autocomplete="off"&gt;
+		&lt;button type="button" class="btn btn-sm btn-success mt-2" id="change-input"&gt;Change original input&lt;/button&gt;
 		</textarea>
-		<script>
+		
+
+	
+		
+		<script csp-hash="sha256-tBI6qGFVpDWLxsON+MY8oKKsITS3cnKGVezzJE4ruYk=">
 
 		var input = document.getElementById('input-change');
 		new TomSelect(input,{
@@ -1173,20 +1255,24 @@
 			input.dispatchEvent(evt);
 		});
 		</script>
-		<style></style>
+	
+
+
+		
+
+	
+
+
 	</div>
 
 	</div>
 </div>
 
-						
-						
-					</div>
+					
+					
 				</div>
 			</div>
 		</div>
+	
 
-		<footer>
-	    </footer>
-	</body>
-</html>
+</body></html>

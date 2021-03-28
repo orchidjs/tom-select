@@ -155,7 +155,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     wrapper.append(control);
     dropdown = self.render('dropdown');
     addClasses(dropdown, settings.dropdownClass, inputMode);
-    dropdown_content = getDom(`<div style="scroll-behavior: smooth;" role="listbox" id="${listboxId}" tabindex="-1">`);
+    dropdown_content = getDom(`<div role="listbox" id="${listboxId}" tabindex="-1">`);
     addClasses(dropdown_content, settings.dropdownContentClass);
     dropdown.append(dropdown_content);
     getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
@@ -405,7 +405,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       },
       'not_loading': () => {},
       'dropdown': () => {
-        return '<div style="display:none"></div>';
+        return '<div></div>';
       }
     };
     self.settings.render = Object.assign({}, templates, self.settings.render);

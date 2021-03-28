@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html class="no-js">
-	<head>
+<!DOCTYPE html><html class="no-js"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Option Group Examples -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; style-src 'self' unpkg.com  'sha256-0Fji0hwWPVKFpYXkKQ34iZH6GJC95tOU50oCeo7/GPQ='; script-src 'self'      'sha256-7MwfvE/WkZX67pa7nbdldntR5bNBW0k8hrkCiifs6pg='  'sha256-oCV22BuFXtflRkUGiFFv398Naaycq+lpBUrWzAgOwCY='  'sha256-R00+nWPw1D3izGaM3vYWSJSYtAM92Gn9aRsJxUcNpXc='  'sha256-8kHV94N56aVtrUtuMukgo8OzyVXzYRrY4vnJeREN0Gk=';">
 		<link rel="stylesheet" href="/css/stylesheet.css">
-		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
 		<script src="/js/jquery.min.js"></script>
@@ -21,17 +20,11 @@
 		
 	</head>
     <body>
-		<div class="">
 
-			<div class="row flex-lg-nowrap g-0">
-				<div class="col-md-9 col-xl-10">
-				</div>
-			</div>
+		<div class="row flex-lg-nowrap g-0">
 
-			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
-
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-					
+			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
+				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -91,21 +84,21 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-				</div>
+			</div>
 
-				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
-					<div class="my-4">
-						<div class="container">
-							<button class="toggle-offcanvas btn btn-link" type="button">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							
-							<h1 class="display-4 mt-0">Option Group Examples</h1>
-							
-						</div>
-					</div>
-					<div class="container mt-3" id="main-container">
+			<div class="col-md-9 col-lg-10 px-3 main-col">
+				<div class="my-4">
+					<div class="container">
+						<button class="toggle-offcanvas btn btn-link" type="button">
+							<span class="navbar-toggler-icon"></span>
+						</button>
 						
+						<h1 class="display-4 mt-0">Option Group Examples</h1>
+						
+					</div>
+				</div>
+				<div class="container mt-3" id="main-container">
+					
 
 
 
@@ -114,9 +107,7 @@
 
 
 
-<script>
 
-</script>
 
 
 	
@@ -132,7 +123,7 @@
 		<div>
 			<div class="demo-html">
 				
-<select id="select-gear" multiple placeholder="Select gear...">
+<select id="select-gear" multiple="" placeholder="Select gear...">
 	<option value="">Select gear...</option>
 	<optgroup label="Climbing">
 		<option value="pitons">Pitons</option>
@@ -152,30 +143,40 @@
 			</div>
 
 			
-			<textarea hidden>
-&lt;select id=&quot;select-gear&quot; multiple placeholder=&quot;Select gear...&quot;&gt;
-	&lt;option value=&quot;&quot;&gt;Select gear...&lt;/option&gt;
-	&lt;optgroup label=&quot;Climbing&quot;&gt;
-		&lt;option value=&quot;pitons&quot;&gt;Pitons&lt;/option&gt;
-		&lt;option value=&quot;cams&quot;&gt;Cams&lt;/option&gt;
-		&lt;option value=&quot;nuts&quot;&gt;Nuts&lt;/option&gt;
-		&lt;option value=&quot;bolts&quot;&gt;Bolts&lt;/option&gt;
-		&lt;option value=&quot;stoppers&quot;&gt;Stoppers&lt;/option&gt;
-		&lt;option value=&quot;sling&quot;&gt;Sling&lt;/option&gt;
+			<textarea hidden="">&lt;select id="select-gear" multiple placeholder="Select gear..."&gt;
+	&lt;option value=""&gt;Select gear...&lt;/option&gt;
+	&lt;optgroup label="Climbing"&gt;
+		&lt;option value="pitons"&gt;Pitons&lt;/option&gt;
+		&lt;option value="cams"&gt;Cams&lt;/option&gt;
+		&lt;option value="nuts"&gt;Nuts&lt;/option&gt;
+		&lt;option value="bolts"&gt;Bolts&lt;/option&gt;
+		&lt;option value="stoppers"&gt;Stoppers&lt;/option&gt;
+		&lt;option value="sling"&gt;Sling&lt;/option&gt;
 	&lt;/optgroup&gt;
-	&lt;optgroup label=&quot;Skiing&quot;&gt;
-		&lt;option value=&quot;skis&quot;&gt;Skis&lt;/option&gt;
-		&lt;option value=&quot;skins&quot;&gt;Skins&lt;/option&gt;
-		&lt;option value=&quot;poles&quot;&gt;Poles&lt;/option&gt;
+	&lt;optgroup label="Skiing"&gt;
+		&lt;option value="skis"&gt;Skis&lt;/option&gt;
+		&lt;option value="skins"&gt;Skins&lt;/option&gt;
+		&lt;option value="poles"&gt;Poles&lt;/option&gt;
 	&lt;/optgroup&gt;
 &lt;/select&gt;
 </textarea>
-			<script>
+			
+
+	
+		
+		<script csp-hash="sha256-7MwfvE/WkZX67pa7nbdldntR5bNBW0k8hrkCiifs6pg=">
 new TomSelect('#select-gear',{
 	sortField: 'text'
 });
 </script>
-			<style></style>
+	
+
+
+			
+
+	
+
+
 
 		</div>
 		<div class="mt-4">
@@ -200,16 +201,16 @@ new TomSelect('#select-gear',{
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -229,7 +230,7 @@ new TomSelect('#select-gear',{
 				
 
 				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
-					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-gear<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select gear...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Select gear...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Climbing<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pitons<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Pitons<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>cams<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Cams<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nuts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Nuts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bolts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Bolts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stoppers<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Stoppers<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sling<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Sling<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Skiing<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>skis<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Skis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>skins<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Skins<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>poles<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Poles<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-gear<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select gear...<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Select gear...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Climbing<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pitons<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Pitons<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>cams<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Cams<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nuts<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Nuts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bolts<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Bolts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stoppers<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Stoppers<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sling<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Sling<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Skiing<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>skis<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Skis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>skins<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Skins<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>poles<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Poles<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span></code></pre>
 				</div>
 
 				
@@ -246,9 +247,7 @@ new TomSelect('#select-gear',{
 
 
 
-<script>
 
-</script>
 
 
 	
@@ -264,7 +263,7 @@ new TomSelect('#select-gear',{
 		<div>
 			<div class="demo-html">
 				
-<select id="select-gear-disabled" multiple placeholder="Select gear...">
+<select id="select-gear-disabled" multiple="" placeholder="Select gear...">
 	<option value="">Select gear...</option>
 	<optgroup label="Climbing">
 		<option value="pitons">Pitons</option>
@@ -274,7 +273,7 @@ new TomSelect('#select-gear',{
 		<option value="stoppers">Stoppers</option>
 		<option value="sling">Sling</option>
 	</optgroup>
-	<optgroup label="Skiing" disabled>
+	<optgroup label="Skiing" disabled="">
 		<option value="skis">Skis</option>
 		<option value="skins">Skins</option>
 		<option value="poles">Poles</option>
@@ -284,30 +283,40 @@ new TomSelect('#select-gear',{
 			</div>
 
 			
-			<textarea hidden>
-&lt;select id=&quot;select-gear-disabled&quot; multiple placeholder=&quot;Select gear...&quot;&gt;
-	&lt;option value=&quot;&quot;&gt;Select gear...&lt;/option&gt;
-	&lt;optgroup label=&quot;Climbing&quot;&gt;
-		&lt;option value=&quot;pitons&quot;&gt;Pitons&lt;/option&gt;
-		&lt;option value=&quot;cams&quot;&gt;Cams&lt;/option&gt;
-		&lt;option value=&quot;nuts&quot;&gt;Nuts&lt;/option&gt;
-		&lt;option value=&quot;bolts&quot;&gt;Bolts&lt;/option&gt;
-		&lt;option value=&quot;stoppers&quot;&gt;Stoppers&lt;/option&gt;
-		&lt;option value=&quot;sling&quot;&gt;Sling&lt;/option&gt;
+			<textarea hidden="">&lt;select id="select-gear-disabled" multiple placeholder="Select gear..."&gt;
+	&lt;option value=""&gt;Select gear...&lt;/option&gt;
+	&lt;optgroup label="Climbing"&gt;
+		&lt;option value="pitons"&gt;Pitons&lt;/option&gt;
+		&lt;option value="cams"&gt;Cams&lt;/option&gt;
+		&lt;option value="nuts"&gt;Nuts&lt;/option&gt;
+		&lt;option value="bolts"&gt;Bolts&lt;/option&gt;
+		&lt;option value="stoppers"&gt;Stoppers&lt;/option&gt;
+		&lt;option value="sling"&gt;Sling&lt;/option&gt;
 	&lt;/optgroup&gt;
-	&lt;optgroup label=&quot;Skiing&quot; disabled&gt;
-		&lt;option value=&quot;skis&quot;&gt;Skis&lt;/option&gt;
-		&lt;option value=&quot;skins&quot;&gt;Skins&lt;/option&gt;
-		&lt;option value=&quot;poles&quot;&gt;Poles&lt;/option&gt;
+	&lt;optgroup label="Skiing" disabled&gt;
+		&lt;option value="skis"&gt;Skis&lt;/option&gt;
+		&lt;option value="skins"&gt;Skins&lt;/option&gt;
+		&lt;option value="poles"&gt;Poles&lt;/option&gt;
 	&lt;/optgroup&gt;
 &lt;/select&gt;
 </textarea>
-			<script>
+			
+
+	
+		
+		<script csp-hash="sha256-oCV22BuFXtflRkUGiFFv398Naaycq+lpBUrWzAgOwCY=">
 new TomSelect('#select-gear-disabled',{
 	sortField: 'text'
 });
 </script>
-			<style></style>
+	
+
+
+			
+
+	
+
+
 
 		</div>
 		<div class="mt-4">
@@ -332,16 +341,16 @@ new TomSelect('#select-gear-disabled',{
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -361,7 +370,7 @@ new TomSelect('#select-gear-disabled',{
 				
 
 				<div class="tab-pane fade " id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
-					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-gear-disabled<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select gear...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Select gear...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Climbing<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pitons<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Pitons<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>cams<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Cams<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nuts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Nuts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bolts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Bolts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stoppers<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Stoppers<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sling<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Sling<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Skiing<span class="token punctuation">"</span></span> <span class="token attr-name">disabled</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>skis<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Skis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>skins<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Skins<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>poles<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Poles<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-gear-disabled<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select gear...<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Select gear...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Climbing<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pitons<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Pitons<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>cams<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Cams<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nuts<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Nuts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bolts<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Bolts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stoppers<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Stoppers<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sling<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Sling<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Skiing<span class="token punctuation">"</span></span> <span class="token attr-name">disabled</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>skis<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Skis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>skins<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Skins<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>poles<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Poles<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span></code></pre>
 				</div>
 
 				
@@ -378,9 +387,7 @@ new TomSelect('#select-gear-disabled',{
 
 
 
-<script>
 
-</script>
 
 
 	
@@ -396,7 +403,7 @@ new TomSelect('#select-gear-disabled',{
 		<div>
 			<div class="demo-html">
 				
-<select id="select-repeated-options" multiple>
+<select id="select-repeated-options" multiple="">
 	<option value="">Select...</option>
 	<optgroup label="Group 1">
 		<option value="a">Item A</option>
@@ -411,27 +418,37 @@ new TomSelect('#select-gear-disabled',{
 			</div>
 
 			
-			<textarea hidden>
-&lt;select id=&quot;select-repeated-options&quot; multiple&gt;
-	&lt;option value=&quot;&quot;&gt;Select...&lt;/option&gt;
-	&lt;optgroup label=&quot;Group 1&quot;&gt;
-		&lt;option value=&quot;a&quot;&gt;Item A&lt;/option&gt;
-		&lt;option value=&quot;b&quot;&gt;Item B&lt;/option&gt;
+			<textarea hidden="">&lt;select id="select-repeated-options" multiple&gt;
+	&lt;option value=""&gt;Select...&lt;/option&gt;
+	&lt;optgroup label="Group 1"&gt;
+		&lt;option value="a"&gt;Item A&lt;/option&gt;
+		&lt;option value="b"&gt;Item B&lt;/option&gt;
 	&lt;/optgroup&gt;
-	&lt;optgroup label=&quot;Group 2&quot;&gt;
-		&lt;option value=&quot;a&quot;&gt;Item A&lt;/option&gt;
-		&lt;option value=&quot;b&quot;&gt;Item B&lt;/option&gt;
+	&lt;optgroup label="Group 2"&gt;
+		&lt;option value="a"&gt;Item A&lt;/option&gt;
+		&lt;option value="b"&gt;Item B&lt;/option&gt;
 	&lt;/optgroup&gt;
 &lt;/select&gt;
 </textarea>
-			<script>
+			
+
+	
+		
+		<script csp-hash="sha256-R00+nWPw1D3izGaM3vYWSJSYtAM92Gn9aRsJxUcNpXc=">
 new TomSelect('#select-repeated-options',{
 	sortField: 'text',
 	hideSelected: false,
 	duplicates: true,
 });
 </script>
-			<style></style>
+	
+
+
+			
+
+	
+
+
 
 		</div>
 		<div class="mt-4">
@@ -456,16 +473,16 @@ new TomSelect('#select-repeated-options',{
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -485,7 +502,7 @@ new TomSelect('#select-repeated-options',{
 				
 
 				<div class="tab-pane fade " id="html-tab-3" role="tabpanel" aria-labelledby="profile-tab">
-					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-repeated-options<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Select...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Group 1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>a<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Item A<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>b<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Item B<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Group 2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>a<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Item A<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>b<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Item B<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-repeated-options<span class="token punctuation">"</span></span> <span class="token attr-name">multiple</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Select...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Group 1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>a<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Item A<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>b<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Item B<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optgroup</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Group 2<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>a<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Item A<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>b<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Item B<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optgroup</span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span></code></pre>
 				</div>
 
 				
@@ -504,14 +521,10 @@ new TomSelect('#select-repeated-options',{
 
 
 
-<script>
-
-</script>
 
 
-<style type="text/css">
 
-</style>
+
 
 
 
@@ -533,10 +546,13 @@ new TomSelect('#select-repeated-options',{
 			</div>
 
 			
-			<textarea hidden>
-&lt;select id=&quot;select-animal&quot; class=&quot;demo-animals&quot; placeholder=&quot;Select animal...&quot;&gt;&lt;/select&gt;
+			<textarea hidden="">&lt;select id="select-animal" class="demo-animals" placeholder="Select animal..."&gt;&lt;/select&gt;
 </textarea>
-			<script>
+			
+
+	
+		
+		<script csp-hash="sha256-8kHV94N56aVtrUtuMukgo8OzyVXzYRrY4vnJeREN0Gk=">
 new TomSelect('#select-animal',{
 	options: [
 		{class: 'mammal', value: "dog", name: "Dog" },
@@ -567,7 +583,14 @@ new TomSelect('#select-animal',{
 	}
 });
 </script>
-			<style>
+	
+
+
+			
+
+	
+		
+		<style csp-hash="sha256-0Fji0hwWPVKFpYXkKQ34iZH6GJC95tOU50oCeo7/GPQ=">
 .demo-animals .scientific {
 	font-weight: normal;
 	opacity: 0.3;
@@ -580,6 +603,9 @@ new TomSelect('#select-animal',{
 	content: ')';
 }
 </style>
+	
+
+
 
 		</div>
 		<div class="mt-4">
@@ -608,16 +634,16 @@ new TomSelect('#select-animal',{
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -632,12 +658,12 @@ new TomSelect('#select-animal',{
 			<div class="tab-content" id="demoTabContent-4">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-4" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-animal'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	options<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"dog"</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">"Dog"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"cat"</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">"Cat"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"horse"</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">"Horse"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"kangaroo"</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">"Kangaroo"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'duck'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Duck'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'chicken'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Chicken'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'ostrich'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Ostrich'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'seagull'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Seagull'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'snake'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Snake'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'lizard'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Lizard'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'alligator'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Alligator'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'turtle'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Turtle'</span><span class="token punctuation">}</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	optgroups<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span>value<span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> label<span class="token operator">:</span> <span class="token string">'Mammal'</span><span class="token punctuation">,</span> label_scientific<span class="token operator">:</span> <span class="token string">'Mammalia'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>value<span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> label<span class="token operator">:</span> <span class="token string">'Bird'</span><span class="token punctuation">,</span> label_scientific<span class="token operator">:</span> <span class="token string">'Aves'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>value<span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> label<span class="token operator">:</span> <span class="token string">'Reptile'</span><span class="token punctuation">,</span> label_scientific<span class="token operator">:</span> <span class="token string">'Reptilia'</span><span class="token punctuation">}</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	optgroupField<span class="token operator">:</span> <span class="token string">'class'</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	render<span class="token operator">:</span> <span class="token punctuation">{</span><br>		<span class="token function-variable function">optgroup_header</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="optgroup-header">'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>label<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">' &lt;span class="scientific">'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>label_scientific<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/span>&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select-animal'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	options<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"dog"</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">"Dog"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"cat"</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">"Cat"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"horse"</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">"Horse"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"kangaroo"</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">"Kangaroo"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'duck'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Duck'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'chicken'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Chicken'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'ostrich'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Ostrich'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'seagull'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Seagull'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'snake'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Snake'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'lizard'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Lizard'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'alligator'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Alligator'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span><span class="token keyword">class</span><span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">'turtle'</span><span class="token punctuation">,</span> name<span class="token operator">:</span> <span class="token string">'Turtle'</span><span class="token punctuation">}</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	optgroups<span class="token operator">:</span> <span class="token punctuation">[</span><br>		<span class="token punctuation">{</span>value<span class="token operator">:</span> <span class="token string">'mammal'</span><span class="token punctuation">,</span> label<span class="token operator">:</span> <span class="token string">'Mammal'</span><span class="token punctuation">,</span> label_scientific<span class="token operator">:</span> <span class="token string">'Mammalia'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>value<span class="token operator">:</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> label<span class="token operator">:</span> <span class="token string">'Bird'</span><span class="token punctuation">,</span> label_scientific<span class="token operator">:</span> <span class="token string">'Aves'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token punctuation">{</span>value<span class="token operator">:</span> <span class="token string">'reptile'</span><span class="token punctuation">,</span> label<span class="token operator">:</span> <span class="token string">'Reptile'</span><span class="token punctuation">,</span> label_scientific<span class="token operator">:</span> <span class="token string">'Reptilia'</span><span class="token punctuation">}</span><br>	<span class="token punctuation">]</span><span class="token punctuation">,</span><br>	optgroupField<span class="token operator">:</span> <span class="token string">'class'</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	render<span class="token operator">:</span> <span class="token punctuation">{</span><br>		<span class="token function-variable function">optgroup_header</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="optgroup-header"&gt;'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>label<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">' &lt;span class="scientific"&gt;'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>label_scientific<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/span&gt;&lt;/div&gt;'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 
 				<div class="tab-pane fade " id="html-tab-4" role="tabpanel" aria-labelledby="profile-tab">
-					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-animal<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>demo-animals<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select animal...<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-animal<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>demo-animals<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select animal...<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span></code></pre>
 				</div>
 
 				
@@ -652,14 +678,11 @@ new TomSelect('#select-animal',{
 	</div>
 
 
-						
-						
-					</div>
+					
+					
 				</div>
 			</div>
 		</div>
+	
 
-		<footer>
-	    </footer>
-	</body>
-</html>
+</body></html>

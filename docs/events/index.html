@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html class="no-js">
-	<head>
+<!DOCTYPE html><html class="no-js"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Events API -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; style-src 'self' unpkg.com ; script-src 'self'    ;">
 		<link rel="stylesheet" href="/css/stylesheet.css">
-		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
 		<script src="/js/jquery.min.js"></script>
@@ -21,17 +20,11 @@
 		
 	</head>
     <body>
-		<div class="">
 
-			<div class="row flex-lg-nowrap g-0">
-				<div class="col-md-9 col-xl-10">
-				</div>
-			</div>
+		<div class="row flex-lg-nowrap g-0">
 
-			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
-
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-					
+			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
+				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -68,28 +61,28 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-				</div>
+			</div>
 
-				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
-					<div class="my-4">
-						<div class="container">
-							<button class="toggle-offcanvas btn btn-link" type="button">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							
-							<h1 class="display-4 mt-0">Events API</h1>
-							
-						</div>
+			<div class="col-md-9 col-lg-10 px-3 main-col">
+				<div class="my-4">
+					<div class="container">
+						<button class="toggle-offcanvas btn btn-link" type="button">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						
+						<h1 class="display-4 mt-0">Events API</h1>
+						
 					</div>
-					<div class="container mt-3" id="main-container">
-						<p>In the <a href="/docs">usage documentation</a>, a few callbacks are listed that
+				</div>
+				<div class="container mt-3" id="main-container">
+					<p>In the <a href="/docs">usage documentation</a>, a few callbacks are listed that
 allow you to listen for certain events. Callbacks aren't always ideal though;
 specifically when you wish to have multiple handlers.</p>
 <p>Tom Select instances have a basic event emitter interface that mimics jQuery, Backbone.js, et al:</p>
 <pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">handler</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token keyword">var</span> select <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-id'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>select<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'event_name'</span><span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span><br>select<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'event_name'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>select<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'event_name'</span><span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h3 id="list-of-events">List of Events</h3>
 <table class="table table-striped">
-	<tr>
+	<tbody><tr>
 		<th width="200px" align="left">Event</th>
 		<th width="150px" align="left">Params</th>
 		<th align="left">Description</th>
@@ -184,16 +177,13 @@ specifically when you wish to have multiple handlers.</p>
 		<td></td>
 		<td>Invoked right before the control is destroyed.</td>
 	</tr>
-</table>
+</tbody></table>
 
-						
-						
-					</div>
+					
+					
 				</div>
 			</div>
 		</div>
+	
 
-		<footer>
-	    </footer>
-	</body>
-</html>
+</body></html>

@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html class="no-js">
-	<head>
+<!DOCTYPE html><html class="no-js"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Dropdown Header -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; style-src 'self' unpkg.com ; script-src 'self'      'sha256-sKYBicUqBQIzoSLgwuM1flrVzK91jfdPzPH1bpKiHXA=';">
 		<link rel="stylesheet" href="/css/stylesheet.css">
-		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
 		<script src="/js/jquery.min.js"></script>
@@ -21,17 +20,11 @@
 		
 	</head>
     <body>
-		<div class="">
 
-			<div class="row flex-lg-nowrap g-0">
-				<div class="col-md-9 col-xl-10">
-				</div>
-			</div>
+		<div class="row flex-lg-nowrap g-0">
 
-			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
-
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-					
+			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
+				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -87,21 +80,21 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-				</div>
+			</div>
 
-				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
-					<div class="my-4">
-						<div class="container">
-							<button class="toggle-offcanvas btn btn-link" type="button">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							
-							<h1 class="display-4 mt-0">Dropdown Header</h1>
-							
-						</div>
-					</div>
-					<div class="container mt-3" id="main-container">
+			<div class="col-md-9 col-lg-10 px-3 main-col">
+				<div class="my-4">
+					<div class="container">
+						<button class="toggle-offcanvas btn btn-link" type="button">
+							<span class="navbar-toggler-icon"></span>
+						</button>
 						
+						<h1 class="display-4 mt-0">Dropdown Header</h1>
+						
+					</div>
+				</div>
+				<div class="container mt-3" id="main-container">
+					
 
 
 
@@ -112,9 +105,7 @@
 
 
 
-<script>
 
-</script>
 
 
 	
@@ -137,7 +128,7 @@
 	<option value="php">PHP</option>
 	<option value="python">Python</option>
 	<option value="java">Java</option>
-	<option value="js" selected>JavaScript</option>
+	<option value="js" selected="">JavaScript</option>
 	<option value="c#">Ruby</option>
 	<option value="c#">VHDL</option>
 	<option value="c#">Verilog</option>
@@ -148,23 +139,26 @@
 			</div>
 
 			
-			<textarea hidden>
-&lt;select id=&quot;select-code-language&quot; class=&quot;demo-code-language&quot; placeholder=&quot;Select a language...&quot; autocomplete=&quot;off&quot;&gt;
-	&lt;option value=&quot;txt&quot;&gt;Text&lt;/option&gt;
-	&lt;option value=&quot;md&quot;&gt;Markdown&lt;/option&gt;
-	&lt;option value=&quot;html&quot;&gt;HTML&lt;/option&gt;
-	&lt;option value=&quot;php&quot;&gt;PHP&lt;/option&gt;
-	&lt;option value=&quot;python&quot;&gt;Python&lt;/option&gt;
-	&lt;option value=&quot;java&quot;&gt;Java&lt;/option&gt;
-	&lt;option value=&quot;js&quot; selected&gt;JavaScript&lt;/option&gt;
-	&lt;option value=&quot;c#&quot;&gt;Ruby&lt;/option&gt;
-	&lt;option value=&quot;c#&quot;&gt;VHDL&lt;/option&gt;
-	&lt;option value=&quot;c#&quot;&gt;Verilog&lt;/option&gt;
-	&lt;option value=&quot;c#&quot;&gt;C#&lt;/option&gt;
-	&lt;option value=&quot;c++&quot;&gt;C/C++&lt;/option&gt;
+			<textarea hidden="">&lt;select id="select-code-language" class="demo-code-language" placeholder="Select a language..." autocomplete="off"&gt;
+	&lt;option value="txt"&gt;Text&lt;/option&gt;
+	&lt;option value="md"&gt;Markdown&lt;/option&gt;
+	&lt;option value="html"&gt;HTML&lt;/option&gt;
+	&lt;option value="php"&gt;PHP&lt;/option&gt;
+	&lt;option value="python"&gt;Python&lt;/option&gt;
+	&lt;option value="java"&gt;Java&lt;/option&gt;
+	&lt;option value="js" selected&gt;JavaScript&lt;/option&gt;
+	&lt;option value="c#"&gt;Ruby&lt;/option&gt;
+	&lt;option value="c#"&gt;VHDL&lt;/option&gt;
+	&lt;option value="c#"&gt;Verilog&lt;/option&gt;
+	&lt;option value="c#"&gt;C#&lt;/option&gt;
+	&lt;option value="c++"&gt;C/C++&lt;/option&gt;
 &lt;/select&gt;
 </textarea>
-			<script>
+			
+
+	
+		
+		<script csp-hash="sha256-sKYBicUqBQIzoSLgwuM1flrVzK91jfdPzPH1bpKiHXA=">
 new TomSelect('#select-code-language',{
 	sortField: 'text',
 	hideSelected: false,
@@ -175,7 +169,14 @@ new TomSelect('#select-code-language',{
 	}
 });
 </script>
-			<style></style>
+	
+
+
+			
+
+	
+
+
 
 		</div>
 		<div class="mt-4">
@@ -200,16 +201,16 @@ new TomSelect('#select-code-language',{
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
 			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
-				<input class="jsfiddle-html" type="hidden" name="html" value=""/>
-				<input class="jsfiddle-js" type="hidden" name="js" value=""/>
-				<input class="jsfiddle-css" type="hidden" name="css" value=""/>
-				<input class="jsfiddle-resources" type="hidden" name="resources" value=""/>
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
 			</form>
 		</li>
       	<li>
 			<a class="opensandbox dropdown-item">CodePen</a>
 			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
-				<input class="codepen" type="hidden" name="data" value=""/>
+				<input class="codepen" type="hidden" name="data" value="">
 			</form>
 		</li>
 		</ul>
@@ -229,7 +230,7 @@ new TomSelect('#select-code-language',{
 				
 
 				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
-					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-code-language<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>demo-code-language<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select a language...<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>txt<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Text<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>md<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Markdown<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>html<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>HTML<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>php<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>PHP<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>python<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Python<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>java<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Java<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>js<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">></span></span>JavaScript<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Ruby<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>VHDL<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Verilog<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>C#<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c++<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>C/C++<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span></code></pre>
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select-code-language<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>demo-code-language<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Select a language...<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>txt<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Text<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>md<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Markdown<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>html<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>HTML<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>php<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>PHP<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>python<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Python<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>java<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Java<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>js<span class="token punctuation">"</span></span> <span class="token attr-name">selected</span><span class="token punctuation">&gt;</span></span>JavaScript<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Ruby<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>VHDL<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Verilog<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c#<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>C#<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c++<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>C/C++<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span></code></pre>
 				</div>
 
 				
@@ -245,8 +246,8 @@ new TomSelect('#select-code-language',{
 
 
 	<table class="table table-striped">
-	<tr>
-		<th>Setting</a></th>
+	<tbody><tr>
+		<th>Setting</th>
 		<th>Description</th>
 		<th>Type</th>
 	</tr>
@@ -261,7 +262,7 @@ new TomSelect('#select-code-language',{
 		<div><span>Default:</span>
 
 		
-			<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>headerClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"><br>				&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>titleRowClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"><br>					&lt;span class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>labelClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/span><br>					&lt;a class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>closeClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">">&amp;times;&lt;/a><br>				&lt;/div><br>			&lt;/div></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+			<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>headerClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;<br>				&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>titleRowClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;<br>					&lt;span class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>labelClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/span&gt;<br>					&lt;a class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>closeClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;&amp;times;&lt;/a&gt;<br>				&lt;/div&gt;<br>			&lt;/div&gt;</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
 		
 		</div>
 	</td>
@@ -365,13 +366,13 @@ new TomSelect('#select-code-language',{
 
 
 	
-	</table>
+	</tbody></table>
 
 
 
 
 
-						
+					
 	<h2>Available Plugins</h2>
 	
 	<nav class="nav flex-column">
@@ -403,12 +404,9 @@ new TomSelect('#select-code-language',{
 	</nav>
 	
 
-					</div>
 				</div>
 			</div>
 		</div>
+	
 
-		<footer>
-	    </footer>
-	</body>
-</html>
+</body></html>

@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html class="no-js">
-	<head>
+<!DOCTYPE html><html class="no-js"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> selectize.js -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; style-src 'self' unpkg.com ; script-src 'self'    ;">
 		<link rel="stylesheet" href="/css/stylesheet.css">
-		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
 		<script src="/js/jquery.min.js"></script>
@@ -21,17 +20,11 @@
 		
 	</head>
     <body>
-		<div class="">
 
-			<div class="row flex-lg-nowrap g-0">
-				<div class="col-md-9 col-xl-10">
-				</div>
-			</div>
+		<div class="row flex-lg-nowrap g-0">
 
-			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
-
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-					
+			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
+				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -68,21 +61,21 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-				</div>
+			</div>
 
-				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
-					<div class="my-4">
-						<div class="container">
-							<button class="toggle-offcanvas btn btn-link" type="button">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							
-							<h1 class="display-4 mt-0">selectize.js</h1>
-							
-						</div>
+			<div class="col-md-9 col-lg-10 px-3 main-col">
+				<div class="my-4">
+					<div class="container">
+						<button class="toggle-offcanvas btn btn-link" type="button">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						
+						<h1 class="display-4 mt-0">selectize.js</h1>
+						
 					</div>
-					<div class="container mt-3" id="main-container">
-						<div class="lead">
+				</div>
+				<div class="container mt-3" id="main-container">
+					<div class="lead">
 Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> with four main objectives: modernizing the code base, decoupling from jQuery, expanding functionality, and addressing issue backlogs.
 </div>
 <h2 id="highlights-as-of-v1.1.0">Highlights as of v1.1.0</h2>
@@ -108,7 +101,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 <li><a href="https://github.com/selectize/selectize.js/issues/239">#239</a> Preserve custom HTML5 data attributes</li>
 <li><a href="https://github.com/selectize/selectize.js/issues/1128">#1128</a> Duplicated options in different optgroups doesn't render correctly</li>
 <li><a href="https://github.com/selectize/selectize.js/issues/129">#129</a> Allow duplicate values in an input</li>
-<li><a href="https://github.com/selectize/selectize.js/issues/470">#470</a> &quot;No results found&quot; message</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/470">#470</a> "No results found" message</li>
 <li><a href="https://github.com/selectize/selectize.js/issues/999">#999</a> Don't clear the text box value on blur</li>
 <li><a href="https://github.com/selectize/selectize.js/issues/1104">#1104</a> Replace values in single-item selection</li>
 <li><a href="https://github.com/selectize/selectize.js/issues/1132">#1132</a> Can't enter 'ą' character in tags mode</li>
@@ -119,7 +112,7 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 <ul>
 <li>removed support for older browsers including IE11</li>
 <li>removed placeholder show/hide</li>
-<li>dataAttr defaults to null instead of &quot;data-data&quot;</li>
+<li>dataAttr defaults to null instead of "data-data"</li>
 <li>options are appended to optgroup template programmatically</li>
 <li>.ts-* css class names (customizable with scss)</li>
 <li>scss instead of less
@@ -138,14 +131,11 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 <li>tests run on <a href="https://automate.browserstack.com/dashboard/v2/public-build/QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e">Browserstack</a></li>
 </ul>
 
-						
-						
-					</div>
+					
+					
 				</div>
 			</div>
 		</div>
+	
 
-		<footer>
-	    </footer>
-	</body>
-</html>
+</body></html>

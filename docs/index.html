@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html class="no-js">
-	<head>
+<!DOCTYPE html><html class="no-js"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Usage Documentation -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; style-src 'self' unpkg.com ; script-src 'self'    ;">
 		<link rel="stylesheet" href="/css/stylesheet.css">
-		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> 
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
 		<script src="/js/jquery.min.js"></script>
@@ -21,17 +20,11 @@
 		
 	</head>
     <body>
-		<div class="">
 
-			<div class="row flex-lg-nowrap g-0">
-				<div class="col-md-9 col-xl-10">
-				</div>
-			</div>
+		<div class="row flex-lg-nowrap g-0">
 
-			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
-
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-					
+			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
+				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -68,21 +61,21 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-				</div>
+			</div>
 
-				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
-					<div class="my-4">
-						<div class="container">
-							<button class="toggle-offcanvas btn btn-link" type="button">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							
-							<h1 class="display-4 mt-0">Usage Documentation</h1>
-							
-						</div>
+			<div class="col-md-9 col-lg-10 px-3 main-col">
+				<div class="my-4">
+					<div class="container">
+						<button class="toggle-offcanvas btn btn-link" type="button">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						
+						<h1 class="display-4 mt-0">Usage Documentation</h1>
+						
 					</div>
-					<div class="container mt-3" id="main-container">
-						<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tom-select.complete.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tom-select.bootstrap4.css<span class="token punctuation">"</span></span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript"><br><span class="token keyword">var</span> config <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select'</span><span class="token punctuation">,</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+				</div>
+				<div class="container mt-3" id="main-container">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tom-select.complete.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tom-select.bootstrap4.css<span class="token punctuation">"</span></span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>select<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript"><br><span class="token keyword">var</span> config <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select'</span><span class="token punctuation">,</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span><br></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre>
 <h3 id="glossary">Glossary</h3>
 <ul>
 <li>Config / configuration: settings passed to the object constructor</li>
@@ -95,8 +88,8 @@ The options can have other properties, ignored, unless referenced by other setti
 </ul>
 <h2 id="general-configuration">General Configuration</h2>
 <table class="table table-striped">
-	<tr>
-		<th>Setting</a></th>
+	<tbody><tr>
+		<th>Setting</th>
 		<th>Description</th>
 		<th>Type</th>
 		<th>Default</th>
@@ -134,7 +127,7 @@ element.
 	<td><code>createOnBlur</code></td>
 	<td>
 		If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
-	<td><code>boolean</code></td>
+	</td><td><code>boolean</code></td>
 	<td><code>false</code></td>
 </tr>
 <tr>
@@ -262,14 +255,14 @@ element.
 	<tr>
 		<td><code>duplicates</code></td>
 		<td>Allow selecting the same option more than once. <code>hideSelected</code> should also be set to false.</td>
-		<td><code>boolean</td>
+		<td><code>boolean</code></td>
 		<td><code>false</code></td>
 	</tr>
-</table>
+</tbody></table>
 <h2 id="data-%2F-searching">Data / Searching</h2>
 <table class="table table-striped">
-	<tr>
-		<th>Setting</a></th>
+	<tbody><tr>
+		<th>Setting</th>
 		<th>Description</th>
 		<th>Type</th>
 		<th>Default</th>
@@ -345,19 +338,19 @@ element.
 		<td><code>'$order'</code></td>
 	</tr>
 	<tr>
-		<td><code>searchField</td>
+		<td><code>searchField</code></td>
 		<td>An array of property names to analyze when filtering options.</td>
 		<td><code>array</code></td>
 		<td><code>['text']</code></td>
 	</tr>
 	<tr>
-		<td><code>searchConjunction</td>
+		<td><code>searchConjunction</code></td>
 		<td>When searching for multiple terms (separated by space), this is the operator used. Can be <code>'and'</code> or <code>'or'</code> .</td>
 		<td><code>string</code></td>
 		<td><code>'and'</code></td>
 	</tr>
 	<tr>
-		<td><code>lockOptgroupOrder</td>
+		<td><code>lockOptgroupOrder</code></td>
 		<td>If truthy, all optgroups will be displayed in the same order as they were added (by the `$order` property). Otherwise, it will order based on the score of the results in each.</td>
 		<td><code>boolean</code></td>
 		<td><code>false</code></td>
@@ -368,11 +361,11 @@ element.
 		<td><code>boolean</code></td>
 		<td><code>true</code></td>
 	</tr>
-</table>
+</tbody></table>
 <h2 id="callbacks">Callbacks</h2>
 <table class="table table-striped">
-	<tr>
-		<th>Setting</a></th>
+	<tbody><tr>
+		<th>Setting</th>
 		<th>Description</th>
 	</tr>
 	<tr>
@@ -449,13 +442,13 @@ element.
 		<td><code>onLoad(options, optgroup)</code></td>
 		<td>Invoked when new options have been loaded and added to the control (via the <code>load</code> option or <code>load</code> API method).</td>
 	</tr>
-</table>
+</tbody></table>
 <h2 id="rendering">Rendering</h2>
 <p>Custom rendering functions. Each function should accept two arguments: <code>data</code> and <code>escape</code> and return HTML (string or DOM element) with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#input'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	optionClass<span class="token operator">:</span> <span class="token string">'option'</span><span class="token punctuation">,</span><br>	itemClass<span class="token operator">:</span> <span class="token string">'item'</span><span class="token punctuation">,</span><br>	render<span class="token operator">:</span><span class="token punctuation">{</span><br>		<span class="token string">'option'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div>'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>field_label<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'item'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div>'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>field_label<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'option_create'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="create">Add &lt;strong>'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>input<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/strong>&amp;hellip;&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'no_results'</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span>escape</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="no-results">No results found for "'</span><span class="token operator">+</span><span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>input<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'"&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'not_loading'</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span>escape</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>			<span class="token comment">// no default content</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'optgroup'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">let</span> optgroup <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>			optgroup<span class="token punctuation">.</span>className <span class="token operator">=</span> <span class="token string">'optgroup'</span><span class="token punctuation">;</span><br>			optgroup<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span><br>			<span class="token keyword">return</span> optgroup<span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'optgroup_header'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="optgroup-header">'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>field_optgroup<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'loading'</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span>escape</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="spinner">&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'dropdown'</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div style="display:none">&lt;/div>'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#input'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	optionClass<span class="token operator">:</span> <span class="token string">'option'</span><span class="token punctuation">,</span><br>	itemClass<span class="token operator">:</span> <span class="token string">'item'</span><span class="token punctuation">,</span><br>	render<span class="token operator">:</span><span class="token punctuation">{</span><br>		<span class="token string">'option'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div&gt;'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>field_label<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/div&gt;'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'item'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div&gt;'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>field_label<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/div&gt;'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'option_create'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="create"&gt;Add &lt;strong&gt;'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>input<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/strong&gt;&amp;hellip;&lt;/div&gt;'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'no_results'</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span>escape</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="no-results"&gt;No results found for "'</span><span class="token operator">+</span><span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>input<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'"&lt;/div&gt;'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'not_loading'</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span>escape</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>			<span class="token comment">// no default content</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'optgroup'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">let</span> optgroup <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>			optgroup<span class="token punctuation">.</span>className <span class="token operator">=</span> <span class="token string">'optgroup'</span><span class="token punctuation">;</span><br>			optgroup<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span><br>			<span class="token keyword">return</span> optgroup<span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'optgroup_header'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="optgroup-header"&gt;'</span> <span class="token operator">+</span> <span class="token function">escape</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span>field_optgroup<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'&lt;/div&gt;'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'loading'</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span>escape</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div class="spinner"&gt;&lt;/div&gt;'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'dropdown'</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token string">'&lt;div style="display:none"&gt;&lt;/div&gt;'</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <table class="table table-striped">
-	<tr>
-		<th>Setting</a></th>
+	<tbody><tr>
+		<th>Setting</th>
 		<th>Description</th>
 		<th>Type</th>
 		<th>Default</th>
@@ -508,16 +501,13 @@ element.
 		<td><code>function</code></td>
 		<td><code>null</code></td>
 	</tr>
-</table>
+</tbody></table>
 
-						
-						
-					</div>
+					
+					
 				</div>
 			</div>
 		</div>
+	
 
-		<footer>
-	    </footer>
-	</body>
-</html>
+</body></html>

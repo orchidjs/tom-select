@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+	// load syntax highlighting css async
+	// https://stackoverflow.com/questions/32759272/how-to-load-css-asynchronously
+	document.getElementById('prism-css').media='all';
+
 
 	/**
 	 * show/hide offcanvas navigation
