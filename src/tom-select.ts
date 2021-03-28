@@ -2056,6 +2056,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self = this;
 		var trigger = self.isOpen;
 
+		// before blur() to prevent form onchange event
+		self.setTextboxValue();
+
 		if (self.settings.mode === 'single' && self.items.length) {
 			self.hideInput();
 
@@ -2072,7 +2075,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		applyCSS(self.dropdown,{display: 'none'});
 		self.clearActiveOption();
 		self.refreshState();
-		self.setTextboxValue();
 
 		if (trigger) self.trigger('dropdown_close', self.dropdown);
 	}
