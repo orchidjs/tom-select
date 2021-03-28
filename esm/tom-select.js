@@ -2049,7 +2049,9 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
   close() {
     var self = this;
-    var trigger = self.isOpen;
+    var trigger = self.isOpen; // before blur() to prevent form onchange event
+
+    self.setTextboxValue();
 
     if (self.settings.mode === 'single' && self.items.length) {
       self.hideInput(); // Do not trigger blur while inside a blur event,
@@ -2070,7 +2072,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     });
     self.clearActiveOption();
     self.refreshState();
-    self.setTextboxValue();
     if (trigger) self.trigger('dropdown_close', self.dropdown);
   }
   /**
