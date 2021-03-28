@@ -1,3 +1,5 @@
+var crypto = require('crypto');
+const { JSDOM } = require("jsdom");
 
 module.exports = function(eleventyConfig) {
 	// Aliases are in relation to the _includes folder
@@ -48,6 +50,49 @@ module.exports = function(eleventyConfig) {
 
 		return `<a class="nav-link" href="${item.url}">${title}</a>`;
 	});
+
+
+
+	// csp hashes
+	// based on https://github.com/google/eleventy-high-performance-blog
+	eleventyConfig.addTransform("csp", async (rawContent, outputPath) => {
+		let content = rawContent;
+
+		if( outputPath && outputPath.endsWith(".html") ){
+			content = await AddCSP(content,'script');
+			content = await AddCSP(content,'style');
+		}
+
+		return content;
+	});
+
+	async function AddCSP(content,type){
+
+		const dom			= new JSDOM(content);
+		const csp_js		= [...dom.window.document.querySelectorAll(type)];
+
+
+
+		const hashes = csp_js.map((element) => {
+			if( element.hasAttribute('csp-hash') ){
+				const hash = 'sha256-'+crypto.createHash('sha256').update(element.textContent).digest('base64')
+				element.setAttribute("csp-hash", hash);
+				return `'${hash}'`;
+			}else if( element.textContent.trim() == '' && element.getAttribute('src') === null ){
+				element.remove();
+			}
+		});
+
+		const csp = dom.window.document.querySelector("meta[http-equiv='Content-Security-Policy']");
+		if( csp ){
+			csp.setAttribute("content", csp.getAttribute("content").replace("hashes-"+type, hashes.join(" ")));
+		}
+
+		content = dom.serialize();
+
+		return content;
+	}
+
 
 
 	let markdownIt = require('markdown-it');

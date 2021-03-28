@@ -1,6 +1,17 @@
 {% set demo_count = [] %}
 
 
+{# output inline code and add hash to csp header #}
+{% macro demo_code( type, code ) %}
+
+	{% if code %}
+		{# <style>{{ style | safe }}</style> #}
+		<{{ type }} csp-hash>{{ code | safe }}</{{ type }}>
+	{% endif %}
+
+{% endmacro %}
+
+
 {% macro sandbox_links( script ) %}
 
 		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
@@ -47,8 +58,8 @@
 
 			{# for codepen #}
 			<textarea hidden>{{html}}</textarea>
-			<script>{{ script | safe }}</script>
-			<style>{{ style | safe }}</style>
+			{{ demo_code('script', script ) }}
+			{{ demo_code('style', style ) }}
 
 		</div>
 		<div class="mt-4">
@@ -125,8 +136,8 @@
 
 		{# for codepen #}
 		<textarea hidden>{{html}}</textarea>
-		<script>{{ script | safe }}</script>
-		<style>{{ style | safe }}</style>
+		{{ demo_code('script', script ) }}
+		{{ demo_code('style', style ) }}
 	</div>
 {% endmacro %}
 
@@ -154,8 +165,8 @@
 
 			{# for codepen #}
 			<textarea hidden>{{html}}</textarea>
-			<script>{{ script | safe }}</script>
-			<style>{{ style | safe }}</style>
+			{{ demo_code('script', script ) }}
+			{{ demo_code('style', style ) }}
 
 		</div>
 	</div>

@@ -6,8 +6,9 @@
 		<title>{% if title %} {{ title }} - {% endif %} Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; style-src 'self' unpkg.com hashes-style; script-src 'self' hashes-script;">
 		<link rel="stylesheet" href="/css/stylesheet.css">
-		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'"> {# syntax highlighting #}
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		{{ style | safe }}
 
 		<script src="/js/jquery.min.js"></script>
@@ -21,40 +22,30 @@
 		{{ script | safe }}
 	</head>
     <body>
-		<div class="">
 
-			<div class="row flex-lg-nowrap g-0">
-				<div class="col-md-9 col-xl-10">
-				</div>
+		<div class="row flex-lg-nowrap g-0">
+
+			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
+				{% include "nav.njk" %}
 			</div>
 
-			<div class="row flex-lg-nowrap g-0" style="min-height:100vh;">
-
-				<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-					{% include "nav.njk" %}
+			<div class="col-md-9 col-lg-10 px-3 main-col">
+				<div class="my-4">
+					<div class="container">
+						<button class="toggle-offcanvas btn btn-link" type="button">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						{% if title %}
+						<h1 class="display-4 mt-0">{{ title }}</h1>
+						{% endif %}
+					</div>
 				</div>
-
-				<div class="col-md-9 col-lg-10 px-3" style="padding-bottom:15rem">
-					<div class="my-4">
-						<div class="container">
-							<button class="toggle-offcanvas btn btn-link" type="button">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							{% if title %}
-							<h1 class="display-4 mt-0">{{ title }}</h1>
-							{% endif %}
-						</div>
-					</div>
-					<div class="container mt-3" id="main-container">
-						{{ content | safe }}
-						{% block content_foot %}
-						{% endblock %}
-					</div>
+				<div class="container mt-3" id="main-container">
+					{{ content | safe }}
+					{% block content_foot %}
+					{% endblock %}
 				</div>
 			</div>
 		</div>
-
-		<footer>
-	    </footer>
 	</body>
 </html>
