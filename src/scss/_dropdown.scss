@@ -6,6 +6,7 @@
 	left: 0;
 	width: 100%;
 	z-index: 10;
+	display: none;
 
 	border: $select-dropdown-border;
 	background: $select-color-dropdown;
@@ -24,7 +25,7 @@
 			border-radius: 1px;
 		}
 	}
-	
+
 	.option,
 	.optgroup-header,
 	.no-results,
@@ -100,4 +101,5 @@
 	overflow-x: hidden;
 	max-height: $select-max-height-dropdown;
 	overflow-scrolling: touch;
+	scroll-behavior: smooth;
 }
