@@ -12,6 +12,9 @@ style: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-
 .icon{
 	width: 3rem;
 }
+.item{
+	width: 100%;
+}
 {% endset %}
 </style>
 
@@ -34,7 +37,7 @@ new TomSelect('#select-repo',{
 		valueField: 'url',
 		labelField: 'name',
 		searchField: 'name',
-		// fetch remote data https://caniuse.com/fetch
+		// fetch remote data
 		load: function(query, callback) {
 
 			var url = 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query);
@@ -115,7 +118,7 @@ new TomSelect('#select-state',{
 		valueField: 'label',
 		labelField: 'label',
 		searchField: ['label','type'],
-		// fetch remote data https://caniuse.com/fetch
+		// fetch remote data
 		load: function(query, callback) {
 			var self = this;
 			if( self.loading > 1 ){
@@ -182,6 +185,9 @@ new TomSelect('#select-state',{
 .icon{
 	width: 3rem;
 }
+.item{
+	width: 100%;
+}
 {% endset %}
 </style>
 
@@ -226,7 +232,7 @@ new TomSelect('#select-repo2',{
 				return score(item) * (1 + Math.min(item.watchers / 100, 1));
 			};
 		},
-		// fetch remote data https://caniuse.com/fetch
+		// fetch remote data
 		load: function(query, callback) {
 
 			var url = 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query);
