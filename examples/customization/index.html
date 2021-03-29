@@ -4,7 +4,6 @@
 		<title> Customizing HTML -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://* data:; style-src 'self' unpkg.com  'sha256-k0IEPCsd94mVHcwfqY8HrnCjK6VOGItKEKxlqjrKBYE='; script-src 'self'      'sha256-k9mhA51Hjn8MQ4w71AvGP6DmjzGHcLC+swPwAUzArZ4=';">
 		<link rel="stylesheet" href="/css/stylesheet.css">
 		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
@@ -18,7 +17,7 @@
 
 		<script src="/js/index.js"></script>
 		
-	</head>
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com 'sha256-k0IEPCsd94mVHcwfqY8HrnCjK6VOGItKEKxlqjrKBYE=';script-src 'self' 'sha256-k9mhA51Hjn8MQ4w71AvGP6DmjzGHcLC+swPwAUzArZ4=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com"></head>
     <body>
 
 		<div class="row flex-lg-nowrap g-0">
