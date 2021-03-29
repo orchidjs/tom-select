@@ -35,7 +35,7 @@
     "@babel/preset-typescript": "^7.13.0",
     "@lodder/grunt-postcss": "^3.0.0",
     "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-commonjs": "^18.0.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "@types/jquery": "^3.5.4",
     "@types/jqueryui": "^1.12.14",
