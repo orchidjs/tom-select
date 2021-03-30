@@ -2001,6 +2001,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// remove selected attribute from options whose values are not in self.items
 			self.input.querySelectorAll('option[selected]').forEach((option:HTMLOptionElement) => {
 				if( self.items.indexOf(option.value) == -1 ){
+					option.selected = false;
 					option.removeAttribute('selected');
 				}
 			});
@@ -2016,6 +2017,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					self.options[value].$option = option;
 				}
 
+				option.selected = true;
 				setAttr(option,{selected:'true'});
 				self.input.prepend(option);
 			}

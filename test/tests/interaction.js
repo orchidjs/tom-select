@@ -799,14 +799,29 @@
 			DeleteActiveItem('\b');
 			DeleteActiveItem('[delete]');
 
+
 			it_n('should remove item when backspace pressed', function(done) {
 
-				var test = setup_test('AB_Multi');
-				var option_before = test.instance.input.querySelector('option[value="b"]');
+				var select				= document.createElement('select');
+				select.multiple			= true;
+				select.innerHTML		= '<option selected value="a">a</option>';
 
-				test.instance.addItem('a');
-				test.instance.addItem('b');
-				assert.equal( test.instance.items.length, 2 );
+				var option_b			= document.createElement('option');
+				option_b.value			= "b";
+				option_b.textContent	= "b";
+				option_b.selected		= true;
+
+				select.append(option_b);
+
+
+				var test = setup_test(select);
+
+				//test.instance.addItem('a');
+				//test.instance.addItem('b');
+				assert.equal( test.instance.items.length, 2 ,'items.length should = 2' );
+				assert.equal( Array.from(test.instance.input.options).filter(option => option.getAttribute('selected')).length, 2,'getAttribute(selected).length should = 2' );
+				assert.equal( Array.from(test.instance.input.options).filter(option => option.selected).length, 2,'option.selected.length should = 2' );
+
 
 				click(test.instance.control, function() {
 					syn.type('\b', test.instance.control_input, function() {
@@ -814,8 +829,22 @@
 						var option_after = test.instance.input.querySelector('option[value="b"]');
 						assert.equal( test.instance.items.length, 1 );
 						assert.equal( test.instance.items[0], 'a' );
-						assert.equal( option_before, option_after, 'should not remove original <option>' );
-						done();
+						assert.equal( option_b, option_after, 'should not remove original <option>' );
+						assert.equal( Array.from(test.instance.input.options).filter(option => option.getAttribute('selected') ).length, 1, 'getAttribute(selected).length should = 1' );
+						assert.equal( Array.from(test.instance.input.options).filter(option => option.selected).length, 1, 'option.selected.length should = 1' );
+
+						syn.type('\b', test.instance.control_input, function() {
+
+							var option_after = test.instance.input.querySelector('option[value="b"]');
+							assert.equal( test.instance.items.length, 0 );
+							assert.equal( option_b, option_after, 'should not remove original <option>' );
+							assert.equal( Array.from(test.instance.input.options).filter(option => option.getAttribute('selected') ).length, 0, 'getAttribute(selected).length should = 0' );
+							assert.equal( Array.from(test.instance.input.options).filter(option => option.selected).length, 0, 'option.selected.length should = 0' );
+
+							done();
+						});
+
+
 					});
 				});
 
