@@ -26,3 +26,8 @@ Add any other context about the problem here.
  - Browser [e.g. chrome, safari]
  - Version [e.g. 22]
  - Device: [e.g. iPhone6]
+
+
+<!--
+Thanks for taking the time to submit your bug report,
+anbd don't forget to star our repo!
