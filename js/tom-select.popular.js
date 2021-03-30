@@ -3268,6 +3268,7 @@
 	      // remove selected attribute from options whose values are not in self.items
 	      self.input.querySelectorAll('option[selected]').forEach(option => {
 	        if (self.items.indexOf(option.value) == -1) {
+	          option.selected = false;
 	          option.removeAttribute('selected');
 	        }
 	      }); // order selected <option> tags for values in self.items
@@ -3282,6 +3283,7 @@
 	          self.options[value].$option = option;
 	        }
 
+	        option.selected = true;
 	        setAttr(option, {
 	          selected: 'true'
 	        });
