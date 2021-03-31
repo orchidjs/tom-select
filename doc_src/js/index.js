@@ -95,13 +95,20 @@ document.addEventListener('DOMContentLoaded', function() {
 	$('.opensandbox').click(function(){
 		var $this = $(this);
 		var demo = $this.closest('.demo')[0];
-
 		var codepen, codesandbox;
+
+		function getTextContent(tag){
+			var el = demo.querySelector(tag);
+			if( el ){
+				return el.textContent || '';
+			}
+			return '';
+		}
 
 
 		var html			= `<div class="p-4">${demo.querySelector('textarea').value || ''}</div>`;
-		var css				= demo.querySelector('style').textContent || '';
-		var js				= demo.querySelector('script').textContent || '';
+		var css				= getTextContent('style');
+		var js				= getTextContent('script');
 		var theme			= localStorage.getItem('theme') || 'bootstrap4';
 		var css_urls		= [
 									`https://cdn.jsdelivr.net/gh/orchidjs/tom-select@//@@version/dist/css/tom-select.${theme}.min.css`,
