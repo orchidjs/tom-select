@@ -659,6 +659,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				if (self.isOpen && self.activeOption) {
 					self.onOptionSelect(e,self.activeOption);
 					preventDefault(e);
+
+				// if the option_create=null, the dropdown might be closed
+				}else if (self.settings.create && self.createItem()) {
+					preventDefault(e);
 				}
 				return;
 
@@ -1416,7 +1420,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		}else{
 			self.clearActiveOption();
-			if( triggerDropdown && self.isOpen ){ self.close(); }
+			if( triggerDropdown && self.isOpen ){
+				self.close(false); // if create_option=null, we wan't the dropdown to close but not reset the textbox value
+			}
 		}
 	}
 
@@ -2054,12 +2060,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Closes the autocomplete dropdown menu.
 	 */
-	close() {
+	close(setTextboxValue=true) {
 		var self = this;
 		var trigger = self.isOpen;
 
 		// before blur() to prevent form onchange event
-		self.setTextboxValue();
+		if( setTextboxValue ) self.setTextboxValue();
 
 		if (self.settings.mode === 'single' && self.items.length) {
 			self.hideInput();
