@@ -396,26 +396,29 @@
 
 
 		describe('<select> (custom string render)', function() {
-			var test;
 
-			beforeEach(function() {
-				test = setup_test('<select>' +
-					'<option value="">Select an option...</option>' +
-					'<option value="a">A</option>' +
-				'</select>', {
+			it_n('should render the custom option element', function(done) {
+
+				const test = setup_test(`<select>
+					<option value="">Select an option...</option>
+					<option value="a">A</option>
+					<optgroup>
+						<option value="b">B</option>
+					</optgroup>
+				</select>`, {
 					render: {
 						option: function(item, escape) {
 							return '<div class="option custom-option">' + escape(item.text) + '</div>'
-						}
+						},
+						optgroup_header: null,
 					}
 				});
-			});
 
-			it_n('should render the custom option element', function(done) {
+
 				test.instance.focus();
 
 				window.setTimeout(function() {
-					expect($(test.instance.dropdown).find('.custom-option').length).to.be.equal(1);
+					assert.equal( test.instance.dropdown.querySelectorAll('.custom-option').length, 2);
 					done();
 				}, 5);
 			});

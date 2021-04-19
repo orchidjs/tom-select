@@ -1338,20 +1338,20 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 
 				let group_options = document.createDocumentFragment();
-				group_options.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
-				group_options.appendChild(groups[optgroup]);
+				group_options.append(self.render('optgroup_header', self.optgroups[optgroup]));
+				group_options.append(groups[optgroup]);
 
 				let group_html = self.render('optgroup', {group:self.optgroups[optgroup],options:group_options} );
 
-				html.appendChild(group_html);
+				html.append(group_html);
 
 			} else {
-				html.appendChild(groups[optgroup]);
+				html.append(groups[optgroup]);
 			}
 		}
 
 		self.dropdown_content.innerHTML = '';
-		self.dropdown_content.appendChild(html);
+		self.dropdown_content.append(html);
 
 		// highlight matching terms inline
 		if (self.settings.highlight) {
