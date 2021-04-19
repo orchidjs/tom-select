@@ -46,6 +46,7 @@
     "broken-link-checker": "^0.7.8",
     "chai": "^4.3.0",
     "cssnano": "^4.1.10",
+    "icon-blender": "file:../icon-blender",
     "grunt": "^1.3.0",
     "grunt-cli": "^1.3.2",
     "grunt-contrib-clean": "^2.0.0",

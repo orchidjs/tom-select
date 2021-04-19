@@ -18,6 +18,15 @@ $body-color:                $gray-800;
 @import "../../node_modules/bootstrap5/scss/bootstrap.scss";
 
 
+// optionally define the class prefix. defaults to 'cs'
+$blender_prefix: 'fa';
+@import "../../node_modules/icon-blender/scss/icon-blender.scss";
+@import "../../node_modules/icon-blender/scss/icons/fa.scss";
+@include icon($icons-fa,'code');
+@include icon($icons-fa,'flash');
+@include icon($icons-fa,'star');
+@include icon($icons-fa,'eye');
+
 
 
 a,
@@ -206,6 +215,7 @@ pre[class*="language-"]{
 
 	.navbar-toggler-icon{
 		background-image: escape-svg($navbar-light-toggler-icon-bg);
+
 	}
 
 	.offcanvas{
