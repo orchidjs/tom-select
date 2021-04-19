@@ -171,26 +171,6 @@
 
 			});
 
-
-			it_n('should create item on [enter] when option_create template is null', function(done) {
-
-				var test = setup_test('AB_Multi',{
-					create:true,
-					render:{
-						no_results: null,
-						option_create: null,
-					}
-				});
-
-				click(test.instance.control, function() {
-					syn.type('abcd[enter]',test.instance.control_input,function(){
-						assert.equal( test.instance.items.length, 1);
-						assert.equal( test.instance.items[0], 'abcd');
-						done();
-					});
-				});
-			});
-
 		});
 
 
@@ -902,6 +882,44 @@
 					});
 				});
 
+			});
+
+
+			it_n('should create item on [enter] when option_create template is null', function(done) {
+
+				var test = setup_test('AB_Multi',{
+					create:true,
+					render:{
+						no_results: null,
+						option_create: null,
+					}
+				});
+
+				click(test.instance.control, function() {
+					syn.type('abcd[enter]',test.instance.control_input,function(){
+						assert.equal( test.instance.items.length, 1);
+						assert.equal( test.instance.items[0], 'abcd');
+						done();
+					});
+				});
+			});
+
+			it_n('should not create item on [tab] when option_create template is null', function(done) {
+
+				var test = setup_test('AB_Multi',{
+					create:true,
+					render:{
+						no_results: null,
+						option_create: null,
+					}
+				});
+
+				click(test.instance.control, function() {
+					syn.type('abcd[tab]',test.instance.control_input,function(){
+						assert.equal( test.instance.items.length, 0);
+						done();
+					});
+				});
 			});
 
 		});

@@ -678,17 +678,19 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// tab: select active option and/or create item
 			case constants.KEY_TAB:
-				if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
-					self.tab_key = true;
-					self.onOptionSelect(e,self.activeOption);
+				if( self.settings.selectOnTab ){
+					if( self.isOpen && self.activeOption) {
+						self.tab_key = true;
+						self.onOptionSelect(e,self.activeOption);
 
-					// prevent default [tab] behaviour of jump to the next field
-					// if select isFull, then the dropdown won't be open and [tab] will work normally
-					preventDefault(e);
-					self.tab_key = false;
-				}
-				if (self.settings.create && self.createItem()) {
-					preventDefault(e);
+						// prevent default [tab] behaviour of jump to the next field
+						// if select isFull, then the dropdown won't be open and [tab] will work normally
+						preventDefault(e);
+						self.tab_key = false;
+					}
+					if (self.settings.create && self.createItem()) {
+						preventDefault(e);
+					}
 				}
 				return;
 
