@@ -319,31 +319,44 @@
 	   * @param {string} query
 	   * @returns {array}
 	   */
-	  tokenize(query, respect_word_boundaries) {
+	  tokenize(query, options) {
 	    query = String(query || '').toLowerCase().trim();
 	    if (!query || !query.length) return [];
-	    var i, n, regex, letter;
+	    var letter;
 	    var tokens = [];
-	    var words = query.split(/ +/);
+	    var words = query.split(/\s+/);
+	    const field_regex = new RegExp('^(' + options.fields.map(escape_regex).join('|') + ')\:(.*)$');
+	    words.forEach(word => {
+	      let field_match;
+	      let field = null;
+	      let regex = null; // look for "field:query" tokens
 
-	    for (i = 0, n = words.length; i < n; i++) {
-	      regex = escape_regex(words[i]);
-
-	      if (this.settings.diacritics) {
-	        for (letter in DIACRITICS) {
-	          if (DIACRITICS.hasOwnProperty(letter)) {
-	            regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
-	          }
-	        }
+	      if (options.fields.length > 1 && (field_match = word.match(field_regex))) {
+	        field = field_match[1];
+	        word = field_match[2];
 	      }
 
-	      if (respect_word_boundaries) regex = "\\b" + regex;
-	      tokens.push({
-	        string: words[i],
-	        regex: new RegExp(regex, 'i')
-	      });
-	    }
+	      if (word.length > 0) {
+	        regex = escape_regex(word);
 
+	        if (this.settings.diacritics) {
+	          for (letter in DIACRITICS) {
+	            if (DIACRITICS.hasOwnProperty(letter)) {
+	              regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
+	            }
+	          }
+	        }
+
+	        if (options.respect_word_boundaries) regex = "\\b" + regex;
+	        regex = new RegExp(regex, 'i');
+	      }
+
+	      tokens.push({
+	        string: word,
+	        regex: regex,
+	        field: field
+	      });
+	    });
 	    return tokens;
 	  }
 
@@ -441,8 +454,21 @@
 	      }
 
 	      return function (token, data) {
-	        for (var i = 0, sum = 0; i < field_count; i++) {
-	          sum += scoreValue(getattr(data, fields[i], nesting), token);
+	        var sum = 0;
+	 // is the token specific to a field?
+
+	        if (token.field) {
+	          const field = getattr(data, token.field, nesting);
+
+	          if (!token.regex && field) {
+	            sum += 0.1;
+	          } else {
+	            sum += scoreValue(field, token);
+	          }
+	        } else {
+	          fields.forEach(field => {
+	            sum += scoreValue(getattr(data, field, nesting), token);
+	          });
 	        }
 
 	        return sum / field_count;
@@ -599,7 +625,7 @@
 	    return {
 	      options: options,
 	      query: String(query || '').toLowerCase(),
-	      tokens: this.tokenize(query, options.respect_word_boundaries),
+	      tokens: this.tokenize(query, options),
 	      total: 0,
 	      items: []
 	    };
@@ -662,9 +688,13 @@
 	 * - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
 	 * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
 	 */
-	function highlight(element, pattern) {
-	  if (typeof pattern === 'string' && !pattern.length) return;
-	  var regex = typeof pattern === 'string' ? new RegExp(pattern, 'i') : pattern;
+	function highlight(element, regex) {
+	  if (regex === null) return; // convet string to regex
+
+	  if (typeof regex === 'string') {
+	    if (!regex.length) return;
+	    regex = new RegExp(regex, 'i');
+	  }
 
 	  var highlight = function highlight(node) {
 	    var skip = 0; // Wrap matching part of text node with highlighting <span>, e.g.

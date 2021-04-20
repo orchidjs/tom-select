@@ -10,9 +10,13 @@
  * - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
  * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
-function highlight(element, pattern) {
-  if (typeof pattern === 'string' && !pattern.length) return;
-  var regex = typeof pattern === 'string' ? new RegExp(pattern, 'i') : pattern;
+function highlight(element, regex) {
+  if (regex === null) return; // convet string to regex
+
+  if (typeof regex === 'string') {
+    if (!regex.length) return;
+    regex = new RegExp(regex, 'i');
+  }
 
   var highlight = function highlight(node) {
     var skip = 0; // Wrap matching part of text node with highlighting <span>, e.g.
