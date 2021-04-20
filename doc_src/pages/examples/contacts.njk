@@ -9,10 +9,9 @@ tags: demo
 {% from "demo.njk" import demo %}
 
 {% set label %}
-<label class="h2 mb-3">
-	Email Contacts
-</label>
+<label class="h2 mb-3">Email Contacts</label>
 <p>An example showing how you might go about creating contact selector like those used in Email apps.</p>
+<p>Search by email address with "email:gmail.com" or last name with "last:tesla"</p>
 {% endset %}
 
 {% set html %}
@@ -25,7 +24,7 @@ var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~
                   '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
 
 var formatName = function(item) {
-	return ((item.first_name || '') + ' ' + (item.last_name || '')).trim();
+	return ((item.first || '') + ' ' + (item.last || '')).trim();
 };
 
 new TomSelect('#select-to',{
@@ -33,15 +32,16 @@ new TomSelect('#select-to',{
 	maxItems: null,
 	valueField: 'email',
 	labelField: 'name',
-	searchField: ['first_name', 'last_name', 'email'],
+	searchField: ['first', 'last', 'email'],
 	sortField: [
-		{field: 'first_name', direction: 'asc'},
-		{field: 'last_name', direction: 'asc'}
+		{field: 'first', direction: 'asc'},
+		{field: 'last', direction: 'asc'}
 	],
 	options: [
-		{email: 'nikola@tesla.com', first_name: 'Nikola', last_name: 'Tesla'},
-		{email: 'brian@thirdroute.com', first_name: 'Brian', last_name: 'Reavis'},
-		{email: 'someone@gmail.com'}
+		{email: 'nikola@tesla.com', first: 'Nikola', last: 'Tesla'},
+		{email: 'brian@thirdroute.com', first: 'Brian', last: 'Reavis'},
+		{email: 'someone@gmail.com'},
+		{email: 'example@gmail.com'},
 	],
 	render: {
 		item: function(item, escape) {
@@ -74,13 +74,13 @@ new TomSelect('#select-to',{
 		if (match) {
 			var name       = match[1].trim();
 			var pos_space  = name.indexOf(' ');
-			var first_name = name.substring(0, pos_space);
-			var last_name  = name.substring(pos_space + 1);
+			var first = name.substring(0, pos_space);
+			var last  = name.substring(pos_space + 1);
 
 			return {
 				email: match[2],
-				first_name: first_name,
-				last_name: last_name
+				first: first,
+				last: last
 			};
 		}
 		alert('Invalid email address.');
@@ -92,55 +92,23 @@ new TomSelect('#select-to',{
 
 <style>
 {% set style %}
-	.ts-control.contacts .ts-input > div {
-		padding: 1px 10px;
-		font-size: 13px;
-		font-weight: normal;
-		-webkit-font-smoothing: auto;
-		color: #f7fbff;
-		text-shadow: 0 1px 0 rgba(8,32,65,0.2);
-		background: #2183f5;
-		background: -moz-linear-gradient(top, #2183f5 0%, #1d77f3 100%);
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2183f5), color-stop(100%,#1d77f3));
-		background: -webkit-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
-		background: -o-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
-		background: -ms-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
-		background: linear-gradient(to bottom,  #2183f5 0%,#1d77f3 100%);
-		border: 1px solid #0f65d2;
-		-webkit-border-radius: 999px;
-		-moz-border-radius: 999px;
-		border-radius: 999px;
-		-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-		-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-		box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-	}
-	.ts-control.contacts .ts-input > div.active {
-		background: #0059c7;
-		background: -moz-linear-gradient(top, #0059c7 0%, #0051c1 100%);
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0059c7), color-stop(100%,#0051c1));
-		background: -webkit-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
-		background: -o-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
-		background: -ms-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
-		background: linear-gradient(to bottom,  #0059c7 0%,#0051c1 100%);
-		border-color: #0051c1;
-	}
-	.ts-control.contacts .ts-input > div .email {
-		opacity: 0.8;
-	}
-	.ts-control.contacts .ts-input > div .name + .email {
-		margin-left: 5px;
-	}
-	.ts-control.contacts .ts-input > div .email:before {
-		content: '<';
-	}
-	.ts-control.contacts .ts-input > div .email:after {
-		content: '>';
-	}
-	.ts-control.contacts .ts-dropdown .caption {
-		font-size: 12px;
-		display: block;
-		color: #a0a0a0;
-	}
+.ts-control.contacts .ts-input > div .email {
+	opacity: 0.7;
+}
+.ts-control.contacts .ts-input > div .name + .email {
+	margin-left: 5px;
+}
+.ts-control.contacts .ts-input > div .email:before {
+	content: '<';
+}
+.ts-control.contacts .ts-input > div .email:after {
+	content: '>';
+}
+.ts-control.contacts .ts-dropdown .caption {
+	font-size: 12px;
+	display: block;
+	color: #a0a0a0;
+}
 {% endset %}
 </style>
 
