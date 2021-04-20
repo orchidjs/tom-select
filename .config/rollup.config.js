@@ -46,6 +46,18 @@ configs.push({
 	plugins:[babel_config,resolve_config]
 });
 
+// cjs
+configs.push({
+	input: path.resolve(__dirname,'../src/tom-select.complete.ts'),
+	output:{
+		dir: path.resolve(__dirname,'../build/cjs'),
+		format: 'cjs',
+		preserveModules: true,
+		sourcemap: true,
+		banner: banner,
+	},
+	plugins:[babel_config,resolve_config]
+});
 
 
 var terser_config = terser({
