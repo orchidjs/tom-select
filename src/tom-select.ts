@@ -115,11 +115,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.isRequired			= input.required;
 
 
-		// debounce user defined load() if loadThrottle > 0
-		if( this.settings.load && this.settings.loadThrottle ){
-			this.settings.load = loadDebounce(this.settings.load,this.settings.loadThrottle)
-		}
-
 		// search system
 		this.sifter = new Sifter(this.options, {diacritics: this.settings.diacritics});
 
@@ -273,6 +268,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
 		}
 
+		// debounce user defined load() if loadThrottle > 0
+		// after initializePlugins() so plugins can create/modify user defined loaders
+		if( this.settings.load && this.settings.loadThrottle ){
+			this.settings.load = loadDebounce(this.settings.load,this.settings.loadThrottle)
+		}
 
 
 		self.control			= control;
