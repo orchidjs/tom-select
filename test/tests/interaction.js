@@ -451,6 +451,35 @@
 				});
 			});
 
+			it_n('should search user defined field', function(done) {
+				var test = setup_test(`<select>
+					<option value="aa" data-fieldx="a" data-fieldy="a">a</option>
+					<option value="ab" data-fieldx="a" data-fieldy="b">b</option>
+				</select>`, {
+					searchField:['value','fieldx','fieldy'],
+				});
+
+				click(test.instance.control, function() {
+
+					syn.type('fieldx:', test.instance.control_input, function() {
+						assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 2 );
+						test.instance.setTextboxValue();
+
+						syn.type('fieldx:a', test.instance.control_input, function() {
+							assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 2 );
+							test.instance.setTextboxValue();
+
+							syn.type('fieldy:a', test.instance.control_input, function() {
+								assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 1 );
+								done();
+							});
+						});
+					});
+
+				});
+			});
+
+
 		});
 
 		describe('selecting items',function(){

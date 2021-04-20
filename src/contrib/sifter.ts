@@ -146,29 +146,46 @@ export default class Sifter{
 	 * @param {string} query
 	 * @returns {array}
 	 */
-	tokenize(query, respect_word_boundaries) {
+	tokenize(query, options ) {
 		query = String(query || '').toLowerCase().trim();
 		if (!query || !query.length) return [];
 
-		var i, n, regex, letter;
+		var letter;
 		var tokens = [];
-		var words = query.split(/ +/);
+		var words = query.split(/\s+/);
 
-		for (i = 0, n = words.length; i < n; i++) {
-			regex = escape_regex(words[i]);
-			if (this.settings.diacritics) {
-				for (letter in DIACRITICS) {
-					if (DIACRITICS.hasOwnProperty(letter)) {
-						regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
+		const field_regex = new RegExp( '^('+options.fields.map(escape_regex).join('|')+')\:(.*)$');
+
+		words.forEach((word) => {
+			let field_match;
+			let field = null;
+			let regex = null;
+
+			// look for "field:query" tokens
+			if( options.fields.length > 1 && (field_match = word.match(field_regex)) ){
+				field	= field_match[1];
+				word	= field_match[2];
+			}
+
+			if( word.length > 0 ){
+				regex = escape_regex(word);
+				if (this.settings.diacritics) {
+					for (letter in DIACRITICS) {
+						if (DIACRITICS.hasOwnProperty(letter)) {
+							regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
+						}
 					}
 				}
+				if (options.respect_word_boundaries) regex = "\\b"+regex
+				regex = new RegExp(regex, 'i');
 			}
-			if (respect_word_boundaries) regex = "\\b"+regex
+
 			tokens.push({
-				string : words[i],
-				regex  : new RegExp(regex, 'i')
+				string : word,
+				regex  : regex,
+				field  : field,
 			});
-		}
+		});
 
 		return tokens;
 	};
@@ -253,6 +270,7 @@ export default class Sifter{
 		 */
 		var scoreObject = (function() {
 			var field_count = fields.length;
+
 			if (!field_count) {
 				return function() { return 0; };
 			}
@@ -262,9 +280,25 @@ export default class Sifter{
 				};
 			}
 			return function(token, data) {
-				for (var i = 0, sum = 0; i < field_count; i++) {
-					sum += scoreValue(getattr(data, fields[i], nesting), token);
+				var sum = 0, field_score;
+
+				// is the token specific to a field?
+				if( token.field ){
+
+					const field = getattr(data, token.field, nesting);
+
+					if( !token.regex && field ){
+						sum += 0.1;
+					}else{
+						sum += scoreValue(field, token);
+					}
+
+				}else{
+					fields.forEach((field) => {
+						sum += scoreValue(getattr(data, field, nesting), token);
+					});
 				}
+
 				return sum / field_count;
 			};
 		})();
@@ -414,7 +448,7 @@ export default class Sifter{
 		return {
 			options : options,
 			query   : String(query || '').toLowerCase(),
-			tokens  : this.tokenize(query, options.respect_word_boundaries),
+			tokens  : this.tokenize(query, options),
 			total   : 0,
 			items   : []
 		};
