@@ -15,7 +15,7 @@ module.exports = function(eleventyConfig) {
 			'default-src':		["'self'"],
 			'img-src':			['https://*','data:'],
 			'style-src':		["'self'",'unpkg.com','cdnjs.cloudflare.com'],
-			'script-src':		["'self'"],
+			'script-src':		["'self' 'unsafe-inline'"], // unsafe-inline needed for esm imports
 			'font-src':			["'self'",'cdnjs.cloudflare.com'],
 			'connect-src':		['api.github.com','whatcms.org','api.reddit.com'],
 		}
