@@ -1893,6 +1893,8 @@
 	      case KEY_RETURN:
 	        if (self.isOpen && self.activeOption) {
 	          self.onOptionSelect(e, self.activeOption);
+	          preventDefault(e); // if the option_create=null, the dropdown might be closed
+	        } else if (self.settings.create && self.createItem()) {
 	          preventDefault(e);
 	        }
 
@@ -1910,17 +1912,19 @@
 	      // tab: select active option and/or create item
 
 	      case KEY_TAB:
-	        if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
-	          self.tab_key = true;
-	          self.onOptionSelect(e, self.activeOption); // prevent default [tab] behaviour of jump to the next field
-	          // if select isFull, then the dropdown won't be open and [tab] will work normally
+	        if (self.settings.selectOnTab) {
+	          if (self.isOpen && self.activeOption) {
+	            self.tab_key = true;
+	            self.onOptionSelect(e, self.activeOption); // prevent default [tab] behaviour of jump to the next field
+	            // if select isFull, then the dropdown won't be open and [tab] will work normally
 
-	          preventDefault(e);
-	          self.tab_key = false;
-	        }
+	            preventDefault(e);
+	            self.tab_key = false;
+	          }
 
-	        if (self.settings.create && self.createItem()) {
-	          preventDefault(e);
+	          if (self.settings.create && self.createItem()) {
+	            preventDefault(e);
+	          }
 	        }
 
 	        return;
@@ -2590,20 +2594,20 @@
 	    for (optgroup of groups_order) {
 	      if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 	        let group_options = document.createDocumentFragment();
-	        group_options.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
-	        group_options.appendChild(groups[optgroup]);
+	        group_options.append(self.render('optgroup_header', self.optgroups[optgroup]));
+	        group_options.append(groups[optgroup]);
 	        let group_html = self.render('optgroup', {
 	          group: self.optgroups[optgroup],
 	          options: group_options
 	        });
-	        html.appendChild(group_html);
+	        html.append(group_html);
 	      } else {
-	        html.appendChild(groups[optgroup]);
+	        html.append(groups[optgroup]);
 	      }
 	    }
 
 	    self.dropdown_content.innerHTML = '';
-	    self.dropdown_content.appendChild(html); // highlight matching terms inline
+	    self.dropdown_content.append(html); // highlight matching terms inline
 
 	    if (self.settings.highlight) {
 	      removeHighlight(self.dropdown_content);
@@ -2674,7 +2678,7 @@
 	      self.clearActiveOption();
 
 	      if (triggerDropdown && self.isOpen) {
-	        self.close();
+	        self.close(false); // if create_option=null, we wan't the dropdown to close but not reset the textbox value
 	      }
 	    }
 	  }
@@ -3330,11 +3334,11 @@
 	   */
 
 
-	  close() {
+	  close(setTextboxValue = true) {
 	    var self = this;
 	    var trigger = self.isOpen; // before blur() to prevent form onchange event
 
-	    self.setTextboxValue();
+	    if (setTextboxValue) self.setTextboxValue();
 
 	    if (self.settings.mode === 'single' && self.items.length) {
 	      self.hideInput(); // Do not trigger blur while inside a blur event,
