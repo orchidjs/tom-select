@@ -6,9 +6,17 @@
  * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
 
-export function highlight(element, pattern) {
-	if (typeof pattern === 'string' && !pattern.length) return;
-	var regex = (typeof pattern === 'string') ? new RegExp(pattern, 'i') : pattern;
+export function highlight(element, regex) {
+
+	if( regex === null ) return;
+
+	// convet string to regex
+	if( typeof regex === 'string' ){
+
+		if( !regex.length ) return;
+		regex = new RegExp(regex, 'i');
+	}
+
 
 	var highlight = function(node) {
 		var skip = 0;

@@ -461,12 +461,18 @@
 
 				click(test.instance.control, function() {
 
-					syn.type('fieldx:a', test.instance.control_input, function() {
+					syn.type('fieldx:', test.instance.control_input, function() {
 						assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 2 );
 						test.instance.setTextboxValue();
-						syn.type('fieldy:a', test.instance.control_input, function() {
-							assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 1 );
-							done();
+
+						syn.type('fieldx:a', test.instance.control_input, function() {
+							assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 2 );
+							test.instance.setTextboxValue();
+
+							syn.type('fieldy:a', test.instance.control_input, function() {
+								assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 1 );
+								done();
+							});
 						});
 					});
 

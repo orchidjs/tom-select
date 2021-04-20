@@ -150,7 +150,7 @@ export default class Sifter{
 		query = String(query || '').toLowerCase().trim();
 		if (!query || !query.length) return [];
 
-		var regex, letter;
+		var letter;
 		var tokens = [];
 		var words = query.split(/\s+/);
 
@@ -159,30 +159,30 @@ export default class Sifter{
 		words.forEach((word) => {
 			let field_match;
 			let field = null;
+			let regex = null;
 
 			// look for "field:query" tokens
 			if( options.fields.length > 1 && (field_match = word.match(field_regex)) ){
-
 				field	= field_match[1];
 				word	= field_match[2];
-
-				if( word == '' ){
-					return;
-				}
 			}
 
-			regex = escape_regex(word);
-			if (this.settings.diacritics) {
-				for (letter in DIACRITICS) {
-					if (DIACRITICS.hasOwnProperty(letter)) {
-						regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
+			if( word.length > 0 ){
+				regex = escape_regex(word);
+				if (this.settings.diacritics) {
+					for (letter in DIACRITICS) {
+						if (DIACRITICS.hasOwnProperty(letter)) {
+							regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
+						}
 					}
 				}
+				if (options.respect_word_boundaries) regex = "\\b"+regex
+				regex = new RegExp(regex, 'i');
 			}
-			if (options.respect_word_boundaries) regex = "\\b"+regex
+
 			tokens.push({
 				string : word,
-				regex  : new RegExp(regex, 'i'),
+				regex  : regex,
 				field  : field,
 			});
 		});
@@ -284,14 +284,14 @@ export default class Sifter{
 
 				// is the token specific to a field?
 				if( token.field ){
-					field_score = scoreValue(getattr(data, token.field, nesting), token);
 
-					// if a "field:query" returns 0
-					if( field_score <= 0 ){
-						return 0;
+					const field = getattr(data, token.field, nesting);
+
+					if( !token.regex && field ){
+						sum += 0.1;
+					}else{
+						sum += scoreValue(field, token);
 					}
-
-					sum += field_score;
 
 				}else{
 					fields.forEach((field) => {
