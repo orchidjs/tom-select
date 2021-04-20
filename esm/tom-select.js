@@ -77,12 +77,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.is_select_tag = input.tagName.toLowerCase() === 'select';
     this.rtl = /rtl/i.test(dir);
     this.inputId = getId(input, 'tomselect-' + instance_i);
-    this.isRequired = input.required; // debounce user defined load() if loadThrottle > 0
-
-    if (this.settings.load && this.settings.loadThrottle) {
-      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
-    } // search system
-
+    this.isRequired = input.required; // search system
 
     this.sifter = new Sifter(this.options, {
       diacritics: this.settings.diacritics
@@ -228,6 +223,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     if (!self.settings.splitOn && self.settings.delimiter) {
       var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
       self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
+    } // debounce user defined load() if loadThrottle > 0
+    // after initializePlugins() so plugins can create/modify user defined loaders
+
+
+    if (this.settings.load && this.settings.loadThrottle) {
+      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
     }
 
     self.control = control;
@@ -826,20 +827,29 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     if (self.loadedSearches.hasOwnProperty(value)) return;
     addClasses(self.wrapper, self.settings.loadingClass);
     self.loading++;
-    fn.call(self, value, function (options, optgroups) {
-      self.loading = Math.max(self.loading - 1, 0);
-      self.lastQuery = null;
-      self.clearActiveOption(); // when new results load, focus should be on first option
+    const callback = self.loadCallback.bind(self);
+    fn.call(self, value, callback);
+  }
+  /**
+   * Invoked by the user-provided option provider
+   *
+   */
 
-      self.setupOptions(options, optgroups);
-      self.refreshOptions(self.isFocused && !self.isInputHidden);
 
-      if (!self.loading) {
-        removeClasses(self.wrapper, self.settings.loadingClass);
-      }
+  loadCallback(options, optgroups) {
+    const self = this;
+    self.loading = Math.max(self.loading - 1, 0);
+    self.lastQuery = null;
+    self.clearActiveOption(); // when new results load, focus should be on first option
 
-      self.trigger('load', options, optgroups);
-    });
+    self.setupOptions(options, optgroups);
+    self.refreshOptions(self.isFocused && !self.isInputHidden);
+
+    if (!self.loading) {
+      removeClasses(self.wrapper, self.settings.loadingClass);
+    }
+
+    self.trigger('load', options, optgroups);
   }
   /**
    * @deprecated 1.1
