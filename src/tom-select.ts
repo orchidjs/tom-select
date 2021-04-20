@@ -870,22 +870,29 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addClasses(self.wrapper,self.settings.loadingClass);
 		self.loading++;
 
+		const callback = self.loadCallback.bind(self);
+		fn.call(self, value, callback);
+	}
 
-		fn.call(self, value, function(options:TomOption[], optgroups:TomOption[]){
-			self.loading = Math.max(self.loading - 1, 0);
-			self.lastQuery = null;
+	/**
+	 * Invoked by the user-provided option provider
+	 *
+	 */
+	loadCallback(options:TomOption[], optgroups:TomOption[]){
+		const self = this;
+		self.loading = Math.max(self.loading - 1, 0);
+		self.lastQuery = null;
 
-			self.clearActiveOption(); // when new results load, focus should be on first option
-			self.setupOptions(options,optgroups);
+		self.clearActiveOption(); // when new results load, focus should be on first option
+		self.setupOptions(options,optgroups);
 
-			self.refreshOptions(self.isFocused && !self.isInputHidden);
+		self.refreshOptions(self.isFocused && !self.isInputHidden);
 
-			if (!self.loading) {
-				removeClasses(self.wrapper,self.settings.loadingClass);
-			}
+		if (!self.loading) {
+			removeClasses(self.wrapper,self.settings.loadingClass);
+		}
 
-			self.trigger('load', options, optgroups);
-		});
+		self.trigger('load', options, optgroups);
 	}
 
 	/**
