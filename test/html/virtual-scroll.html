@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+	<head>
+		<link rel="stylesheet" href="../../build/css/tom-select.bootstrap5.css">
+		<script src="../../build/js/tom-select.base.js"></script>
+	</head>
+	<body>
+		<select id="reddit-search" placeholder="Search Reddit ..." multiple></select>	</body>
+	<script>
+
+
+	TomSelect.define('virtual_scroll',function(options) {
+		var self = this;
+		var pagination = {};
+
+
+		self.setNextUrl = function(value,next_url){
+			pagination[value] = pagination[value] || [];
+			pagination[value].push(next_url);
+			console.log('new pagination',value,pagination);
+		};
+
+		self.hook('before','setup',()=>{
+			self.settings.load = function(query, callback){
+				var url = self.settings.getUrl(query);
+				self.settings.loadUrl.call(self, query, url, callback);
+			};
+		});
+
+
+		self.hook('after','setup',()=>{
+			var content = self.dropdown_content;
+
+
+			// watch dropdown content scroll position
+			content.addEventListener('scroll',function(){
+
+				if( typeof self.settings.maxOptions === 'number' && content.children.length >= self.settings.maxOptions ){
+					return;
+				}
+
+				var scroll_percent = content.clientHeight / (content.scrollHeight - content.scrollTop);
+				if( scroll_percent < 0.95 ){
+					return;
+				}
+
+				var query		= self.lastValue;
+
+				if( !pagination[query] ){
+					return;
+				}
+
+				// load more data
+				// 	? page number
+				var load_fn		= self.settings.loadUrl;
+				if( !load_fn ){
+					return;
+				}
+
+
+				var next_url	= pagination[query].shift();
+				if( !next_url ){
+					return;
+				}
+
+
+				//addClasses(self.wrapper,self.settings.loadingClass);
+				self.loading++;
+
+				load_fn.call(self, query, next_url, function(options, optgroups){
+					self.loading = Math.max(self.loading - 1, 0);
+					self.setupOptions(options,optgroups);
+					self.lastQuery = null;
+
+					self.refreshOptions(self.isFocused && !self.isInputHidden);
+
+					if (!self.loading) {
+						//removeClasses(self.wrapper,self.settings.loadingClass);
+					}
+
+					self.trigger('load', options, optgroups);
+				});
+
+			});
+		});
+
+	});
+
+	new TomSelect('#reddit-search',{
+		valueField: 'permalink',
+		labelField: 'title',
+		searchField: ['title'],
+		plugins:['virtual_scroll'],
+		maxOptions: 200,
+
+		// fetch remote data
+		getUrl: function(query){
+			return 'https://api.reddit.com/search?q=' + encodeURIComponent(query);
+		},
+		loadUrl: function(query, url, callback) {
+
+			fetch(url)
+				.then(response => response.json())
+				.then(json => {
+
+					// add data to the results
+					let data = json.data.children.map(row => row.data);
+					callback(data);
+
+					console.log('options.length',Object.keys(this.options).length);
+
+
+					// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
+					var next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
+					this.setNextUrl(query, next_url);
+
+				}).catch((e)=>{
+					console.log('e',e);
+					callback();
+				});
+
+		},
+		render: {
+			option: function(data, escape) {
+				return `<div>${ escape(data.title) }</div>`;
+			}
+		},
+	});
+
+
+	</script>
+</html>
