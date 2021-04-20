@@ -152,21 +152,19 @@ export default class Sifter{
 
 		var regex, letter;
 		var tokens = [];
-		var words = query.split(/ +/);
+		var words = query.split(/\s+/);
 
-		var field_regex = new RegExp( '('+options.fields.map(escape_regex).join('|')+')\:','g');
+		const field_regex = new RegExp( '^('+options.fields.map(escape_regex).join('|')+')\:(.*)$');
 
 		words.forEach((word) => {
 			let field_match;
 			let field = null;
 
 			// look for "field:query" tokens
-			if( //options.fields.length > 1 &&
-				field_match = word.match(field_regex) ){
-				let parts = word.split(':');
-				field = parts[0];
-				word = parts[1];
-				console.log('after field',field,'word',word);
+			if( options.fields.length > 1 && (field_match = word.match(field_regex)) ){
+
+				field	= field_match[1];
+				word	= field_match[2];
 
 				if( word == '' ){
 					return;
@@ -185,7 +183,7 @@ export default class Sifter{
 			tokens.push({
 				string : word,
 				regex  : new RegExp(regex, 'i'),
-				field: null,
+				field  : field,
 			});
 		});
 
@@ -292,6 +290,8 @@ export default class Sifter{
 					if( field_score <= 0 ){
 						return 0;
 					}
+
+					sum += field_score;
 
 				}else{
 					fields.forEach((field) => {
