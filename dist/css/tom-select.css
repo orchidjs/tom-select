@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.4.3)
+ * tom-select.css (v1.5.0)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -250,6 +250,7 @@
   left: 0;
   width: 100%;
   z-index: 10;
+  display: none;
   border: 1px solid #d0d0d0;
   background: #fff;
   margin: 0.25rem 0 0 0;
@@ -317,6 +318,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 200px;
-  overflow-scrolling: touch; }
+  overflow-scrolling: touch;
+  scroll-behavior: smooth; }
 
 /*# sourceMappingURL=tom-select.css.map */

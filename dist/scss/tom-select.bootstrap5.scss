@@ -172,7 +172,10 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
     background: none;
 
 	&.single .#{$select-ns}-input{
-		background: escape-svg($form-select-indicator) no-repeat $form-select-bg-position/$form-select-bg-size;
+		background-image: escape-svg($form-select-indicator);
+		background-repeat: no-repeat;
+		background-position: $form-select-bg-position;
+		background-size: $form-select-bg-size;
 	}
 
 }

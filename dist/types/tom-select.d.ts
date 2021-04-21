@@ -160,6 +160,11 @@ export default class TomSelect extends TomSelect_base {
      */
     load(value: string): void;
     /**
+     * Invoked by the user-provided option provider
+     *
+     */
+    loadCallback(options: TomOption[], optgroups: TomOption[]): void;
+    /**
      * @deprecated 1.1
      *
      */
@@ -435,7 +440,7 @@ export default class TomSelect extends TomSelect_base {
     /**
      * Closes the autocomplete dropdown menu.
      */
-    close(): void;
+    close(setTextboxValue?: boolean): void;
     /**
      * Calculates and applies the appropriate
      * position of the dropdown if dropdownParent = 'body'.

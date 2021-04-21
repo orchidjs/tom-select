@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.4.3
+* Tom Select v1.5.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -319,31 +319,44 @@
 	   * @param {string} query
 	   * @returns {array}
 	   */
-	  tokenize(query, respect_word_boundaries) {
+	  tokenize(query, options) {
 	    query = String(query || '').toLowerCase().trim();
 	    if (!query || !query.length) return [];
-	    var i, n, regex, letter;
+	    var letter;
 	    var tokens = [];
-	    var words = query.split(/ +/);
+	    var words = query.split(/\s+/);
+	    const field_regex = new RegExp('^(' + options.fields.map(escape_regex).join('|') + ')\:(.*)$');
+	    words.forEach(word => {
+	      let field_match;
+	      let field = null;
+	      let regex = null; // look for "field:query" tokens
 
-	    for (i = 0, n = words.length; i < n; i++) {
-	      regex = escape_regex(words[i]);
-
-	      if (this.settings.diacritics) {
-	        for (letter in DIACRITICS) {
-	          if (DIACRITICS.hasOwnProperty(letter)) {
-	            regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
-	          }
-	        }
+	      if (options.fields.length > 1 && (field_match = word.match(field_regex))) {
+	        field = field_match[1];
+	        word = field_match[2];
 	      }
 
-	      if (respect_word_boundaries) regex = "\\b" + regex;
-	      tokens.push({
-	        string: words[i],
-	        regex: new RegExp(regex, 'i')
-	      });
-	    }
+	      if (word.length > 0) {
+	        regex = escape_regex(word);
 
+	        if (this.settings.diacritics) {
+	          for (letter in DIACRITICS) {
+	            if (DIACRITICS.hasOwnProperty(letter)) {
+	              regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
+	            }
+	          }
+	        }
+
+	        if (options.respect_word_boundaries) regex = "\\b" + regex;
+	        regex = new RegExp(regex, 'i');
+	      }
+
+	      tokens.push({
+	        string: word,
+	        regex: regex,
+	        field: field
+	      });
+	    });
 	    return tokens;
 	  }
 
@@ -441,8 +454,20 @@
 	      }
 
 	      return function (token, data) {
-	        for (var i = 0, sum = 0; i < field_count; i++) {
-	          sum += scoreValue(getattr(data, fields[i], nesting), token);
+	        var sum = 0; // is the token specific to a field?
+
+	        if (token.field) {
+	          const field = getattr(data, token.field, nesting);
+
+	          if (!token.regex && field) {
+	            sum += 0.1;
+	          } else {
+	            sum += scoreValue(field, token);
+	          }
+	        } else {
+	          fields.forEach(field => {
+	            sum += scoreValue(getattr(data, field, nesting), token);
+	          });
 	        }
 
 	        return sum / field_count;
@@ -599,7 +624,7 @@
 	    return {
 	      options: options,
 	      query: String(query || '').toLowerCase(),
-	      tokens: this.tokenize(query, options.respect_word_boundaries),
+	      tokens: this.tokenize(query, options),
 	      total: 0,
 	      items: []
 	    };
@@ -662,9 +687,13 @@
 	 * - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
 	 * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
 	 */
-	function highlight(element, pattern) {
-	  if (typeof pattern === 'string' && !pattern.length) return;
-	  var regex = typeof pattern === 'string' ? new RegExp(pattern, 'i') : pattern;
+	function highlight(element, regex) {
+	  if (regex === null) return; // convet string to regex
+
+	  if (typeof regex === 'string') {
+	    if (!regex.length) return;
+	    regex = new RegExp(regex, 'i');
+	  }
 
 	  var highlight = function highlight(node) {
 	    var skip = 0; // Wrap matching part of text node with highlighting <span>, e.g.
@@ -1358,12 +1387,7 @@
 	    this.is_select_tag = input.tagName.toLowerCase() === 'select';
 	    this.rtl = /rtl/i.test(dir);
 	    this.inputId = getId(input, 'tomselect-' + instance_i);
-	    this.isRequired = input.required; // debounce user defined load() if loadThrottle > 0
-
-	    if (this.settings.load && this.settings.loadThrottle) {
-	      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
-	    } // search system
-
+	    this.isRequired = input.required; // search system
 
 	    this.sifter = new Sifter(this.options, {
 	      diacritics: this.settings.diacritics
@@ -1436,7 +1460,7 @@
 	    wrapper.append(control);
 	    dropdown = self.render('dropdown');
 	    addClasses(dropdown, settings.dropdownClass, inputMode);
-	    dropdown_content = getDom(`<div style="scroll-behavior: smooth;" role="listbox" id="${listboxId}" tabindex="-1">`);
+	    dropdown_content = getDom(`<div role="listbox" id="${listboxId}" tabindex="-1">`);
 	    addClasses(dropdown_content, settings.dropdownContentClass);
 	    dropdown.append(dropdown_content);
 	    getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
@@ -1509,6 +1533,12 @@
 	    if (!self.settings.splitOn && self.settings.delimiter) {
 	      var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 	      self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
+	    } // debounce user defined load() if loadThrottle > 0
+	    // after initializePlugins() so plugins can create/modify user defined loaders
+
+
+	    if (this.settings.load && this.settings.loadThrottle) {
+	      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
 	    }
 
 	    self.control = control;
@@ -1686,7 +1716,7 @@
 	      },
 	      'not_loading': () => {},
 	      'dropdown': () => {
-	        return '<div style="display:none"></div>';
+	        return '<div></div>';
 	      }
 	    };
 	    self.settings.render = Object.assign({}, templates, self.settings.render);
@@ -1893,6 +1923,8 @@
 	      case KEY_RETURN:
 	        if (self.isOpen && self.activeOption) {
 	          self.onOptionSelect(e, self.activeOption);
+	          preventDefault(e); // if the option_create=null, the dropdown might be closed
+	        } else if (self.settings.create && self.createItem()) {
 	          preventDefault(e);
 	        }
 
@@ -1910,17 +1942,19 @@
 	      // tab: select active option and/or create item
 
 	      case KEY_TAB:
-	        if (self.settings.selectOnTab && self.isOpen && self.activeOption) {
-	          self.tab_key = true;
-	          self.onOptionSelect(e, self.activeOption); // prevent default [tab] behaviour of jump to the next field
-	          // if select isFull, then the dropdown won't be open and [tab] will work normally
+	        if (self.settings.selectOnTab) {
+	          if (self.isOpen && self.activeOption) {
+	            self.tab_key = true;
+	            self.onOptionSelect(e, self.activeOption); // prevent default [tab] behaviour of jump to the next field
+	            // if select isFull, then the dropdown won't be open and [tab] will work normally
 
-	          preventDefault(e);
-	          self.tab_key = false;
-	        }
+	            preventDefault(e);
+	            self.tab_key = false;
+	          }
 
-	        if (self.settings.create && self.createItem()) {
-	          preventDefault(e);
+	          if (self.settings.create && self.createItem()) {
+	            preventDefault(e);
+	          }
 	        }
 
 	        return;
@@ -2103,20 +2137,29 @@
 	    if (self.loadedSearches.hasOwnProperty(value)) return;
 	    addClasses(self.wrapper, self.settings.loadingClass);
 	    self.loading++;
-	    fn.call(self, value, function (options, optgroups) {
-	      self.loading = Math.max(self.loading - 1, 0);
-	      self.lastQuery = null;
-	      self.clearActiveOption(); // when new results load, focus should be on first option
+	    const callback = self.loadCallback.bind(self);
+	    fn.call(self, value, callback);
+	  }
+	  /**
+	   * Invoked by the user-provided option provider
+	   *
+	   */
 
-	      self.setupOptions(options, optgroups);
-	      self.refreshOptions(self.isFocused && !self.isInputHidden);
 
-	      if (!self.loading) {
-	        removeClasses(self.wrapper, self.settings.loadingClass);
-	      }
+	  loadCallback(options, optgroups) {
+	    const self = this;
+	    self.loading = Math.max(self.loading - 1, 0);
+	    self.lastQuery = null;
+	    self.clearActiveOption(); // when new results load, focus should be on first option
 
-	      self.trigger('load', options, optgroups);
-	    });
+	    self.setupOptions(options, optgroups);
+	    self.refreshOptions(self.isFocused && !self.isInputHidden);
+
+	    if (!self.loading) {
+	      removeClasses(self.wrapper, self.settings.loadingClass);
+	    }
+
+	    self.trigger('load', options, optgroups);
 	  }
 	  /**
 	   * @deprecated 1.1
@@ -2590,20 +2633,20 @@
 	    for (optgroup of groups_order) {
 	      if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 	        let group_options = document.createDocumentFragment();
-	        group_options.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
-	        group_options.appendChild(groups[optgroup]);
+	        group_options.append(self.render('optgroup_header', self.optgroups[optgroup]));
+	        group_options.append(groups[optgroup]);
 	        let group_html = self.render('optgroup', {
 	          group: self.optgroups[optgroup],
 	          options: group_options
 	        });
-	        html.appendChild(group_html);
+	        html.append(group_html);
 	      } else {
-	        html.appendChild(groups[optgroup]);
+	        html.append(groups[optgroup]);
 	      }
 	    }
 
 	    self.dropdown_content.innerHTML = '';
-	    self.dropdown_content.appendChild(html); // highlight matching terms inline
+	    self.dropdown_content.append(html); // highlight matching terms inline
 
 	    if (self.settings.highlight) {
 	      removeHighlight(self.dropdown_content);
@@ -2674,7 +2717,7 @@
 	      self.clearActiveOption();
 
 	      if (triggerDropdown && self.isOpen) {
-	        self.close();
+	        self.close(false); // if create_option=null, we wan't the dropdown to close but not reset the textbox value
 	      }
 	    }
 	  }
@@ -3268,6 +3311,7 @@
 	      // remove selected attribute from options whose values are not in self.items
 	      self.input.querySelectorAll('option[selected]').forEach(option => {
 	        if (self.items.indexOf(option.value) == -1) {
+	          option.selected = false;
 	          option.removeAttribute('selected');
 	        }
 	      }); // order selected <option> tags for values in self.items
@@ -3282,6 +3326,7 @@
 	          self.options[value].$option = option;
 	        }
 
+	        option.selected = true;
 	        setAttr(option, {
 	          selected: 'true'
 	        });
@@ -3328,9 +3373,11 @@
 	   */
 
 
-	  close() {
+	  close(setTextboxValue = true) {
 	    var self = this;
-	    var trigger = self.isOpen;
+	    var trigger = self.isOpen; // before blur() to prevent form onchange event
+
+	    if (setTextboxValue) self.setTextboxValue();
 
 	    if (self.settings.mode === 'single' && self.items.length) {
 	      self.hideInput(); // Do not trigger blur while inside a blur event,
@@ -3351,7 +3398,6 @@
 	    });
 	    self.clearActiveOption();
 	    self.refreshState();
-	    self.setTextboxValue();
 	    if (trigger) self.trigger('dropdown_close', self.dropdown);
 	  }
 	  /**

@@ -53,7 +53,7 @@ export default class Sifter {
      * @param {string} query
      * @returns {array}
      */
-    tokenize(query: any, respect_word_boundaries: any): any[];
+    tokenize(query: any, options: any): any[];
     /**
      * Iterates over arrays and hashes.
      *

@@ -2,7 +2,7 @@
  * Tom Select bootstrap 5
  */
 /**
- * tom-select.css (v1.4.3)
+ * tom-select.css (v1.5.0)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -258,6 +258,7 @@
   left: 0;
   width: 100%;
   z-index: 10;
+  display: none;
   border: 1px solid #d0d0d0;
   background: #fff;
   margin: 0.25rem 0 0 0;
@@ -325,7 +326,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 200px;
-  overflow-scrolling: touch; }
+  overflow-scrolling: touch;
+  scroll-behavior: smooth; }
 
 .ts-dropdown,
 .ts-dropdown.form-control,
@@ -410,7 +412,10 @@
   box-shadow: none;
   background: none; }
   .ts-control:not(.form-select).single .ts-input {
-    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 0.75rem center/16px 12px; }
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px; }
 
 .ts-control.form-select {
   padding: 0;
