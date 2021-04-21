@@ -267,8 +267,7 @@ class Sifter {
       }
 
       return function (token, data) {
-        var sum = 0;
- // is the token specific to a field?
+        var sum = 0; // is the token specific to a field?
 
         if (token.field) {
           const field = getattr(data, token.field, nesting);
