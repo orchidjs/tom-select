@@ -280,7 +280,7 @@ export default class Sifter{
 				};
 			}
 			return function(token, data) {
-				var sum = 0, field_score;
+				var sum = 0;
 
 				// is the token specific to a field?
 				if( token.field ){
