@@ -106,5 +106,8 @@
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/tom-select"
+  },
+  "dependencies": {
+    "@orchidjs/sifter": "^0.7.0"
   }
 }

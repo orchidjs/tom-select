@@ -1,7 +1,7 @@
 
 import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
-import Sifter from './contrib/sifter.js';
+import Sifter from '@orchidjs/sifter/dist/esm/sifter.js';
 import { TomSettings } from './types/settings';
 import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';

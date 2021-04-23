@@ -1,4 +1,4 @@
-import resolve from '@rollup/plugin-node-resolve'; // so Rollup can find `node_modules`
+import resolve from '@rollup/plugin-node-resolve'; // so Rollup can resolve imports without file extensions and `node_modules`
 import commonjs from '@rollup/plugin-commonjs'; // so Rollup can convert commonjs to an ES module
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
@@ -22,41 +22,55 @@ var babel_config = babel({
 	extensions: extensions,
 	babelHelpers: 'bundled',
 	configFile: path.resolve(__dirname,'babel.config.json'),
+	exclude:'node_modules/**'
 });
 
 var resolve_config = resolve({
 	extensions: extensions,
-	// pass custom options to the resolve plugin
-	moduleDirectories: [
-		'node_modules',
-	],
 });
 
 
-// esm
-configs.push({
-	input: path.resolve(__dirname,'../src/tom-select.complete.ts'),
-	output:{
-		dir: path.resolve(__dirname,'../build/esm'),
-		format: 'esm',
-		preserveModules: true,
-		sourcemap: true,
-		banner: banner,
-	},
-	plugins:[babel_config,resolve_config]
-});
+// esm & cjs
+const inputs = [
+	'tom-select.ts',
+	'tom-select.complete.ts',
+	'tom-select.popular.ts',
+	'utils.ts',
+];
 
-// cjs
-configs.push({
-	input: path.resolve(__dirname,'../src/tom-select.complete.ts'),
-	output:{
-		dir: path.resolve(__dirname,'../build/cjs'),
-		format: 'cjs',
-		preserveModules: true,
-		sourcemap: true,
-		banner: banner,
-	},
-	plugins:[babel_config,resolve_config]
+inputs.forEach((slug)=>{
+
+	let input = path.resolve(__dirname,'../src',slug)
+
+	// esm
+	configs.push({
+		input: input,
+		output:{
+			//file: path.resolve(__dirname,'../build/esm',slug),
+			dir: path.resolve(__dirname,'../build/esm'),
+			format: 'esm',
+			preserveModules: false,
+			sourcemap: true,
+			banner: banner,
+		},
+		plugins:[babel_config,resolve_config,],
+		//external: ['@orchidjs/sifter/dist/esm/sifter.js'],
+	});
+
+	// cjs
+	configs.push({
+		input: input,
+		output:{
+			dir: path.resolve(__dirname,'../build/cjs'),
+			format: 'cjs',
+			preserveModules: false,
+			sourcemap: true,
+			banner: banner,
+		},
+		plugins:[babel_config,resolve_config],
+		//external: ['@orchidjs/sifter/dist/esm/sifter.js'],
+	});
+
 });
 
 
@@ -134,6 +148,22 @@ files.map(function(file){
 	let input	= path.resolve(__dirname,'../src/plugins',file,'plugin.ts');
 	let output	= {file:`build/js/plugins/${file}.js`,'name':file};
 	pluginConfig( input, output);
+
+
+	// esm
+	configs.push({
+		input: input,
+		output:{
+			file: path.resolve(__dirname,'../build/esm/plugins',file,'plugin.js'),
+			format: 'esm',
+			preserveModules: false,
+			sourcemap: true,
+			banner: banner,
+		},
+		plugins:[babel_config,resolve_config,],
+		external: ['../../tom-select.js'],
+	});
+
 });
 
 
