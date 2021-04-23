@@ -684,9 +684,9 @@
 					test.instance.clear();
 					test.instance.focus();
 					window.setTimeout(function() {
-						expect($(test.instance.dropdown_content).find('[data-value=1]').length).to.be.equal(1);
-						expect($(test.instance.dropdown_content).find('[data-value=2]').length).to.be.equal(1);
-						expect($(test.instance.dropdown_content).find('[data-value=3]').length).to.be.equal(1);
+						expect( test.instance.dropdown_content.querySelectorAll('[data-value="1"]').length).to.be.equal(1);
+						expect( test.instance.dropdown_content.querySelectorAll('[data-value="2"]').length).to.be.equal(1);
+						expect( test.instance.dropdown_content.querySelectorAll('[data-value="3"]').length).to.be.equal(1);
 						done();
 					}, 0);
 				}, 0);
@@ -697,9 +697,9 @@
 			});
 			it_n('should update DOM (3)', function() {
 				test.instance.clear();
-				expect($(test.instance.control).find('[data-value=1]').length).to.be.equal(0);
-				expect($(test.instance.control).find('[data-value=2]').length).to.be.equal(0);
-				expect($(test.instance.control).find('[data-value=3]').length).to.be.equal(0);
+				expect( test.instance.control.querySelectorAll('[data-value="1"]').length).to.be.equal(0);
+				expect( test.instance.control.querySelectorAll('[data-value="2"]').length).to.be.equal(0);
+				expect( test.instance.control.querySelectorAll('[data-value="3"]').length).to.be.equal(0);
 			});
 			it_n('should not fire "change" if silent is truthy', function(done) {
 				var watcher = function(e) { throw new Error('Change fired'); };
@@ -853,20 +853,20 @@
 				test.instance.refreshItems();
 
 			it_n('should clear the whole renderCache', function () {
-				expect($.isEmptyObject(test.instance.renderCache['item'])).to.be.equal(false);
-				expect($.isEmptyObject(test.instance.renderCache['option'])).to.be.equal(false);
+				expect( Object.keys(test.instance.renderCache['item']).length === 0).to.be.equal(false);
+				expect( Object.keys(test.instance.renderCache['option']).length === 0).to.be.equal(false);
 				test.instance.clearCache();
-				expect($.isEmptyObject(test.instance.renderCache['item'])).to.be.equal(true);
-				expect($.isEmptyObject(test.instance.renderCache['option'])).to.be.equal(true);
+				expect( Object.keys(test.instance.renderCache['item']).length === 0).to.be.equal(true);
+				expect( Object.keys(test.instance.renderCache['option']).length === 0).to.be.equal(true);
 			});
 			it_n('should allow clearing just one template type from the renderCache', function () {
 				test.instance.render('item', test.instance.options[0]);
 				test.instance.render('option', test.instance.options[0]);
-				expect($.isEmptyObject(test.instance.renderCache['option']),'option cache empty').to.be.equal(false);
-				expect($.isEmptyObject(test.instance.renderCache['item']),'item cache empty').to.be.equal(false);
+				expect( Object.keys(test.instance.renderCache['option']).length === 0,'option cache empty').to.be.equal(false);
+				expect( Object.keys(test.instance.renderCache['item']).length === 0,'item cache empty').to.be.equal(false);
 				test.instance.clearCache('option');
-				expect($.isEmptyObject(test.instance.renderCache['option']),'option cache not emptied').to.be.equal(true);
-				expect($.isEmptyObject(test.instance.renderCache['item']),'item cache emptied').to.be.equal(false);
+				expect( Object.keys(test.instance.renderCache['option']).length === 0, 'option cache not emptied').to.be.equal(true);
+				expect( Object.keys(test.instance.renderCache['item']).length === 0, 'item cache emptied').to.be.equal(false);
 			});
 
 			it_n('should return identical item dom', function () {
