@@ -20,7 +20,7 @@ Tom Select was forked from [selectize.js](https://tom-select.js.org/docs/selecti
 
 ### Features
 
-- **Smart Option Searching / Ranking**<br>Options are efficiently scored and sorted on-the-fly (using [sifter](https://github.com/brianreavis/sifter.js)). Want to search an item's title *and* description? No problem.
+- **Smart Option Searching / Ranking**<br>Options are efficiently scored and sorted on-the-fly (using [sifter](https://github.com/orchidjs/sifter.js)). Want to search an item's title *and* description? No problem.
 - **Caret between items**<br>Order matters sometimes. Use the <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> arrow keys to move between selected items.</li>
 - **Select &amp; delete multiple items at once**<br>Hold down <kbd>command</kbd> on Mac or <kbd>ctrl</kbd> on Windows to select more than one item to delete.
 - **Díåcritîçs supported**<br>Great for international environments.
