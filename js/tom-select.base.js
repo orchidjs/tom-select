@@ -3439,17 +3439,20 @@
 
 	  close(setTextboxValue = true) {
 	    var self = this;
-	    var trigger = self.isOpen; // before blur() to prevent form onchange event
+	    var trigger = self.isOpen;
 
-	    if (setTextboxValue) self.setTextboxValue();
+	    if (setTextboxValue) {
+	      // before blur() to prevent form onchange event
+	      self.setTextboxValue();
 
-	    if (self.settings.mode === 'single' && self.items.length) {
-	      self.hideInput(); // Do not trigger blur while inside a blur event,
-	      // this fixes some weird tabbing behavior in FF and IE.
-	      // See #selectize.js#1164
+	      if (self.settings.mode === 'single' && self.items.length) {
+	        self.hideInput(); // Do not trigger blur while inside a blur event,
+	        // this fixes some weird tabbing behavior in FF and IE.
+	        // See #selectize.js#1164
 
-	      if (!self.tab_key) {
-	        self.blur(); // close keyboard on iOS
+	        if (!self.tab_key) {
+	          self.blur(); // close keyboard on iOS
+	        }
 	      }
 	    }
 
