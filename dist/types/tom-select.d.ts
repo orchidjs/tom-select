@@ -1,4 +1,4 @@
-import Sifter from './contrib/sifter.js';
+import Sifter from '@orchidjs/sifter/dist/esm/sifter.js';
 import { TomSettings } from './types/settings';
 import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateCallback } from './types/index';
 declare const TomSelect_base: {
@@ -263,7 +263,7 @@ export default class TomSelect extends TomSelect_base {
      *
      * @return {function}
      */
-    getScoreFunction(query: string): (data: any) => any;
+    getScoreFunction(query: string): any;
     /**
      * Returns search options for sifter (the system
      * for scoring and sorting results).

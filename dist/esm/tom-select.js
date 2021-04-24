@@ -1,16 +1,1384 @@
 /**
-* Tom Select v1.5.0
+* Tom Select v1.6.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
-import MicroEvent from './contrib/microevent.js';
-import MicroPlugin from './contrib/microplugin.js';
-import Sifter from './contrib/sifter.js';
-import { removeHighlight, highlight } from './contrib/highlight.js';
-import { KEY_TAB, KEY_DELETE, KEY_BACKSPACE, KEY_RIGHT, KEY_LEFT, KEY_RETURN, KEY_UP, KEY_DOWN, KEY_ESC, KEY_A, KEY_SHORTCUT } from './constants.js';
-import getSettings from './getSettings.js';
-import { getId, loadDebounce, addEvent, preventDefault, isKeyDown, debounce_events, hash_key, escape_html, getSelection } from './utils.js';
-import { getDom, addClasses, setAttr, escapeQuery, triggerEvent, removeClasses, isEmptyObject, applyCSS, getTail, nodeIndex, parentMatch } from './vanilla.js';
+/**
+ * MicroEvent - to make any js object an event emitter
+ *
+ * - pure javascript - server compatible, browser compatible
+ * - dont rely on the browser doms
+ * - super simple - you get it immediatly, no mistery, no magic involved
+ *
+ * @author Jerome Etienne (https://github.com/jeromeetienne)
+ */
+
+/**
+ * Execute callback for each event in space separated list of event names
+ *
+ */
+function forEvents(events, callback) {
+  events.split(/\s+/).forEach(event => {
+    callback(event);
+  });
+}
+
+class MicroEvent {
+  constructor() {
+    this._events = {};
+  }
+
+  on(events, fct) {
+    forEvents(events, event => {
+      this._events[event] = this._events[event] || [];
+
+      this._events[event].push(fct);
+    });
+  }
+
+  off(events, fct) {
+    var n = arguments.length;
+
+    if (n === 0) {
+      this._events = {};
+      return;
+    }
+
+    forEvents(events, event => {
+      if (n === 1) return delete this._events[event];
+      if (event in this._events === false) return;
+
+      this._events[event].splice(this._events[event].indexOf(fct), 1);
+    });
+  }
+
+  trigger(events, ...args) {
+    var self = this;
+    forEvents(events, event => {
+      if (event in self._events === false) return;
+
+      for (let fct of self._events[event]) {
+        fct.apply(self, args);
+      }
+    });
+  }
+
+}
+
+/**
+ * microplugin.js
+ * Copyright (c) 2013 Brian Reavis & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Brian Reavis <brian@thirdroute.com>
+ */
+function MicroPlugin(Interface) {
+  Interface.plugins = {};
+  return class mixin extends Interface {
+    /**
+     * Registers a plugin.
+     *
+     * @param {string} name
+     * @param {function} fn
+     */
+    static define(name, fn) {
+      Interface.plugins[name] = {
+        'name': name,
+        'fn': fn
+      };
+    }
+    /**
+     * Initializes the listed plugins (with options).
+     * Acceptable formats:
+     *
+     * List (without options):
+     *   ['a', 'b', 'c']
+     *
+     * List (with options):
+     *   [{'name': 'a', options: {}}, {'name': 'b', options: {}}]
+     *
+     * Hash (with options):
+     *   {'a': { ... }, 'b': { ... }, 'c': { ... }}
+     *
+     * @param {array|object} plugins
+     */
+
+
+    initializePlugins(plugins) {
+      var i, n, key;
+      var self = this;
+      var queue = [];
+      self.plugins = {
+        names: [],
+        settings: {},
+        requested: {},
+        loaded: {}
+      };
+
+      if (Array.isArray(plugins)) {
+        for (i = 0, n = plugins.length; i < n; i++) {
+          if (typeof plugins[i] === 'string') {
+            queue.push(plugins[i]);
+          } else {
+            self.plugins.settings[plugins[i].name] = plugins[i].options;
+            queue.push(plugins[i].name);
+          }
+        }
+      } else if (plugins) {
+        for (key in plugins) {
+          if (plugins.hasOwnProperty(key)) {
+            self.plugins.settings[key] = plugins[key];
+            queue.push(key);
+          }
+        }
+      }
+
+      while (queue.length) {
+        self.require(queue.shift());
+      }
+    }
+
+    loadPlugin(name) {
+      var self = this;
+      var plugins = self.plugins;
+      var plugin = Interface.plugins[name];
+
+      if (!Interface.plugins.hasOwnProperty(name)) {
+        throw new Error('Unable to find "' + name + '" plugin');
+      }
+
+      plugins.requested[name] = true;
+      plugins.loaded[name] = plugin.fn.apply(self, [self.plugins.settings[name] || {}]);
+      plugins.names.push(name);
+    }
+    /**
+     * Initializes a plugin.
+     *
+     * @param {string} name
+     */
+
+
+    require(name) {
+      var self = this;
+      var plugins = self.plugins;
+
+      if (!self.plugins.loaded.hasOwnProperty(name)) {
+        if (plugins.requested[name]) {
+          throw new Error('Plugin has circular dependency ("' + name + '")');
+        }
+
+        self.loadPlugin(name);
+      }
+
+      return plugins.loaded[name];
+    }
+
+  };
+}
+
+/*! sifter.js | https://github.com/orchidjs/sifter.js | Apache License (v2) */
+// https://github.com/andrewrk/node-diacritics/blob/master/index.js
+/**
+ * code points generated from toCodePoints();
+ * removed 65339 to 65345
+ */
+
+var code_points = [[67, 67], [160, 160], [192, 438], [452, 652], [961, 961], [1019, 1019], [1083, 1083], [1281, 1289], [1984, 1984], [5095, 5095], [7429, 7441], [7545, 7549], [7680, 7935], [8580, 8580], [9398, 9449], [11360, 11391], [42792, 42793], [42802, 42851], [42873, 42897], [42912, 42922], [64256, 64260], [65313, 65338], [65345, 65370]];
+/**
+ * Remove accents
+ * via https://github.com/krisk/Fuse/issues/133#issuecomment-318692703
+ *
+ */
+
+function asciifold(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036F]/g, '').normalize('NFKD').toLowerCase();
+}
+/**
+ * Generate a list of diacritics from the list of code points
+ *
+ */
+
+
+function generateDiacritics() {
+  var latin_convert = {
+    'l·': 'l',
+    'ʼn': 'n',
+    'æ': 'ae',
+    'ø': 'o',
+    'aʾ': 'a',
+    'dž': 'dz'
+  };
+  var diacritics = {}; //var no_latin	= [];
+
+  code_points.forEach(code_range => {
+    for (let i = code_range[0]; i <= code_range[1]; i++) {
+      let diacritic = String.fromCharCode(i);
+      let latin = diacritic.normalize('NFD').replace(/[\u0300-\u036F]/g, '').normalize('NFKD');
+
+      if (latin == diacritic) {
+        //no_latin.push(diacritic);
+        continue;
+      }
+
+      latin = latin.toLowerCase();
+
+      if (latin in latin_convert) {
+        latin = latin_convert[latin];
+      }
+
+      if (!(latin in diacritics)) {
+        diacritics[latin] = latin + latin.toUpperCase();
+      }
+
+      diacritics[latin] += diacritic;
+    }
+  }); //console.log('no_latin',JSON.stringify(no_latin));
+
+  return diacritics;
+}
+/**
+ * Expand a regular expression pattern to include diacritics
+ * 	eg /a/ becomes /aⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐɑAⒶＡÀÁÂẦẤẪẨÃĀĂẰẮẴẲȦǠÄǞẢÅǺǍȀȂẠẬẶḀĄȺⱯ/
+ *
+ */
+
+var diacritics = null;
+function diacriticRegexPoints(regex) {
+  if (diacritics === null) {
+    diacritics = generateDiacritics();
+  }
+
+  for (let latin in diacritics) {
+    if (diacritics.hasOwnProperty(latin)) {
+      regex = regex.replace(new RegExp(latin, 'g'), '[' + diacritics[latin] + ']');
+    }
+  }
+
+  return regex;
+}
+
+/*! sifter.js | https://github.com/orchidjs/sifter.js | Apache License (v2) */
+
+// @ts-ignore
+/**
+ * A property getter resolving dot-notation
+ * @param  {Object}  obj     The root object to fetch property on
+ * @param  {String}  name    The optionally dotted property name to fetch
+ * @return {Object}          The resolved property value
+ */
+
+function getAttr(obj, name) {
+  if (!obj) return;
+  return obj[name];
+}
+/**
+ * A property getter resolving dot-notation
+ * @param  {Object}  obj     The root object to fetch property on
+ * @param  {String}  name    The optionally dotted property name to fetch
+ * @return {Object}          The resolved property value
+ */
+
+function getAttrNesting(obj, name) {
+  if (!obj) return;
+  var names = name.split(".");
+
+  while (names.length && (obj = obj[names.shift()]));
+
+  return obj;
+}
+/**
+ * Calculates how close of a match the
+ * given value is against a search token.
+ *
+ * @param {object} token
+ * @return {number}
+ */
+
+function scoreValue(value, token, weight) {
+  var score, pos;
+  if (!value) return 0;
+  value = String(value || '');
+  pos = value.search(token.regex);
+  if (pos === -1) return 0;
+  score = token.string.length / value.length;
+  if (pos === 0) score += 0.5;
+  return score * weight;
+}
+function escape_regex(str) {
+  return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+}
+/**
+ * Cast object property to an array if it exists and has a value
+ *
+ */
+
+function propToArray(obj, key) {
+  var value = obj[key];
+
+  if (value && !Array.isArray(value)) {
+    obj[key] = [value];
+  }
+}
+/**
+ * Iterates over arrays and hashes.
+ *
+ * ```
+ * iterate(this.items, function(item, id) {
+ *    // invoked for each item
+ * });
+ * ```
+ *
+ * @param {array|object} object
+ */
+
+function iterate(object, callback) {
+  if (Array.isArray(object)) {
+    object.forEach(callback);
+  } else {
+    for (var key in object) {
+      if (object.hasOwnProperty(key)) {
+        callback(object[key], key);
+      }
+    }
+  }
+}
+function cmp(a, b) {
+  if (typeof a === 'number' && typeof b === 'number') {
+    return a > b ? 1 : a < b ? -1 : 0;
+  }
+
+  a = asciifold(String(a || '')).toLowerCase();
+  b = asciifold(String(b || '')).toLowerCase();
+  if (a > b) return 1;
+  if (b > a) return -1;
+  return 0;
+}
+
+/*! sifter.js | https://github.com/orchidjs/sifter.js | Apache License (v2) */
+
+/**
+ * sifter.js
+ * Copyright (c) 2013–2020 Brian Reavis & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Brian Reavis <brian@thirdroute.com>
+ */
+class Sifter {
+  /**
+   * Textually searches arrays and hashes of objects
+   * by property (or multiple properties). Designed
+   * specifically for autocomplete.
+   *
+   * @constructor
+   * @param {array|object} items
+   * @param {object} items
+   */
+  constructor(items, settings) {
+    this.items = void 0;
+    this.settings = void 0;
+    this.items = items;
+    this.settings = settings || {
+      diacritics: true
+    };
+  }
+
+  /**
+   * Splits a search string into an array of individual
+   * regexps to be used to match results.
+   *
+   */
+  tokenize(query, respect_word_boundaries, weights) {
+    if (!query || !query.length) return [];
+    var tokens = [];
+    var words = query.split(/\s+/);
+    var field_regex;
+
+    if (weights) {
+      field_regex = new RegExp('^(' + Object.keys(weights).map(escape_regex).join('|') + ')\:(.*)$');
+    }
+
+    words.forEach(word => {
+      let field_match;
+      let field = null;
+      let regex = null; // look for "field:query" tokens
+
+      if (field_regex && (field_match = word.match(field_regex))) {
+        field = field_match[1];
+        word = field_match[2];
+      }
+
+      if (word.length > 0) {
+        regex = escape_regex(word);
+
+        if (this.settings.diacritics) {
+          regex = diacriticRegexPoints(regex);
+        }
+
+        if (respect_word_boundaries) regex = "\\b" + regex;
+        regex = new RegExp(regex, 'i');
+      }
+
+      tokens.push({
+        string: word,
+        regex: regex,
+        field: field
+      });
+    });
+    return tokens;
+  }
+
+  /**
+   * Returns a function to be used to score individual results.
+   *
+   * Good matches will have a higher score than poor matches.
+   * If an item is not a match, 0 will be returned by the function.
+   *
+   * @returns {function}
+   */
+  getScoreFunction(query, options) {
+    var search = this.prepareSearch(query, options);
+    return this._getScoreFunction(search);
+  }
+
+  _getScoreFunction(search) {
+    const tokens = search.tokens,
+          token_count = tokens.length;
+
+    if (!token_count) {
+      return function () {
+        return 0;
+      };
+    }
+
+    const fields = search.options.fields,
+          weights = search.weights,
+          field_count = fields.length,
+          getAttrFn = search.getAttrFn;
+    /**
+     * Calculates the score of an object
+     * against the search query.
+     *
+     * @param {TToken} token
+     * @param {object} data
+     * @return {number}
+     */
+
+    var scoreObject = function () {
+      if (!field_count) {
+        return function () {
+          return 0;
+        };
+      }
+
+      if (field_count === 1) {
+        return function (token, data) {
+          const field = fields[0].field;
+          return scoreValue(getAttrFn(data, field), token, weights[field]);
+        };
+      }
+
+      return function (token, data) {
+        var sum = 0; // is the token specific to a field?
+
+        if (token.field) {
+          const value = getAttrFn(data, token.field);
+
+          if (!token.regex && value) {
+            sum += 0.1;
+          } else {
+            sum += scoreValue(value, token, weights[token.field]);
+          }
+        } else {
+          iterate(weights, (weight, field) => {
+            sum += scoreValue(getAttrFn(data, field), token, weight);
+          });
+        }
+
+        return sum / field_count;
+      };
+    }();
+
+    if (token_count === 1) {
+      return function (data) {
+        return scoreObject(tokens[0], data);
+      };
+    }
+
+    if (search.options.conjunction === 'and') {
+      return function (data) {
+        var i = 0,
+            score,
+            sum = 0;
+
+        for (; i < token_count; i++) {
+          score = scoreObject(tokens[i], data);
+          if (score <= 0) return 0;
+          sum += score;
+        }
+
+        return sum / token_count;
+      };
+    } else {
+      return function (data) {
+        var sum = 0;
+        iterate(tokens, token => {
+          sum += scoreObject(token, data);
+        });
+        return sum / token_count;
+      };
+    }
+  }
+
+  /**
+   * Returns a function that can be used to compare two
+   * results, for sorting purposes. If no sorting should
+   * be performed, `null` will be returned.
+   *
+   * @return function(a,b)
+   */
+  getSortFunction(query, options) {
+    var search = this.prepareSearch(query, options);
+    return this._getSortFunction(search);
+  }
+
+  _getSortFunction(search) {
+    var i, n, self, sort_fld, sort_flds, sort_flds_count, multiplier, multipliers, get_field, implicit_score, sort, options;
+    self = this;
+    options = search.options;
+    sort = !search.query && options.sort_empty || options.sort;
+    /**
+     * Fetches the specified sort field value
+     * from a search result item.
+     *
+     * @param  {string} name
+     * @param  {object} result
+     * @return {string}
+     */
+
+    get_field = function (name, result) {
+      if (name === '$score') return result.score;
+      return search.getAttrFn(self.items[result.id], name);
+    }; // parse options
+
+
+    sort_flds = [];
+
+    if (sort) {
+      for (i = 0, n = sort.length; i < n; i++) {
+        if (search.query || sort[i].field !== '$score') {
+          sort_flds.push(sort[i]);
+        }
+      }
+    } // the "$score" field is implied to be the primary
+    // sort field, unless it's manually specified
+
+
+    if (search.query) {
+      implicit_score = true;
+
+      for (i = 0, n = sort_flds.length; i < n; i++) {
+        if (sort_flds[i].field === '$score') {
+          implicit_score = false;
+          break;
+        }
+      }
+
+      if (implicit_score) {
+        sort_flds.unshift({
+          field: '$score',
+          direction: 'desc'
+        });
+      }
+    } else {
+      for (i = 0, n = sort_flds.length; i < n; i++) {
+        if (sort_flds[i].field === '$score') {
+          sort_flds.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+    multipliers = [];
+
+    for (i = 0, n = sort_flds.length; i < n; i++) {
+      multipliers.push(sort_flds[i].direction === 'desc' ? -1 : 1);
+    } // build function
+
+
+    sort_flds_count = sort_flds.length;
+
+    if (!sort_flds_count) {
+      return null;
+    } else if (sort_flds_count === 1) {
+      sort_fld = sort_flds[0].field;
+      multiplier = multipliers[0];
+      return function (a, b) {
+        return multiplier * cmp(get_field(sort_fld, a), get_field(sort_fld, b));
+      };
+    } else {
+      return function (a, b) {
+        var i, result, field;
+
+        for (i = 0; i < sort_flds_count; i++) {
+          field = sort_flds[i].field;
+          result = multipliers[i] * cmp(get_field(field, a), get_field(field, b));
+          if (result) return result;
+        }
+
+        return 0;
+      };
+    }
+  }
+
+  /**
+   * Parses a search query and returns an object
+   * with tokens and fields ready to be populated
+   * with results.
+   *
+   */
+  prepareSearch(query, optsUser) {
+    const weights = {};
+    var options = Object.assign({}, optsUser);
+    propToArray(options, 'sort');
+    propToArray(options, 'sort_empty'); // convert fields to new format
+
+    if (options.fields) {
+      propToArray(options, 'fields');
+
+      if (Array.isArray(options.fields) && typeof options.fields[0] !== 'object') {
+        var fields = [];
+        options.fields.forEach(fld_name => {
+          fields.push({
+            field: fld_name
+          });
+        });
+        options.fields = fields;
+      }
+
+      options.fields.forEach(field_params => {
+        weights[field_params.field] = 'weight' in field_params ? field_params.weight : 1;
+      });
+    }
+
+    query = asciifold(String(query || '')).toLowerCase().trim();
+    return {
+      options: options,
+      query: query,
+      tokens: this.tokenize(query, options.respect_word_boundaries, weights),
+      total: 0,
+      items: [],
+      weights: weights,
+      getAttrFn: options.nesting ? getAttrNesting : getAttr
+    };
+  }
+
+  /**
+   * Searches through all items and returns a sorted array of matches.
+   *
+   */
+  search(query, options) {
+    var self = this,
+        score,
+        search;
+    var fn_sort;
+    var fn_score;
+    search = this.prepareSearch(query, options);
+    options = search.options;
+    query = search.query; // generate result scoring function
+
+    fn_score = options.score || self._getScoreFunction(search); // perform search and sort
+
+    if (query.length) {
+      iterate(self.items, (item, id) => {
+        score = fn_score(item);
+
+        if (options.filter === false || score > 0) {
+          search.items.push({
+            'score': score,
+            'id': id
+          });
+        }
+      });
+    } else {
+      iterate(self.items, (item, id) => {
+        search.items.push({
+          'score': 1,
+          'id': id
+        });
+      });
+    }
+
+    fn_sort = self._getSortFunction(search);
+    if (fn_sort) search.items.sort(fn_sort); // apply limits
+
+    search.total = search.items.length;
+
+    if (typeof options.limit === 'number') {
+      search.items = search.items.slice(0, options.limit);
+    }
+
+    return search;
+  }
+
+}
+
+/**
+ * highlight v3 | MIT license | Johann Burkard <jb@eaio.com>
+ * Highlights arbitrary terms in a node.
+ *
+ * - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
+ * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
+ */
+function highlight(element, regex) {
+  if (regex === null) return; // convet string to regex
+
+  if (typeof regex === 'string') {
+    if (!regex.length) return;
+    regex = new RegExp(regex, 'i');
+  }
+
+  var highlight = function highlight(node) {
+    var skip = 0; // Wrap matching part of text node with highlighting <span>, e.g.
+    // Soccer  ->  <span class="highlight">Soc</span>cer  for regex = /soc/i
+
+    if (node.nodeType === 3) {
+      var pos = node.data.search(regex);
+
+      if (pos >= 0 && node.data.length > 0) {
+        var match = node.data.match(regex);
+        var spannode = document.createElement('span');
+        spannode.className = 'highlight';
+        var middlebit = node.splitText(pos);
+        middlebit.splitText(match[0].length);
+        var middleclone = middlebit.cloneNode(true);
+        spannode.appendChild(middleclone);
+        middlebit.parentNode.replaceChild(spannode, middlebit);
+        skip = 1;
+      }
+    } // Recurse element node, looking for child text nodes to highlight, unless element
+    // is childless, <script>, <style>, or already highlighted: <span class="hightlight">
+    else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName) && (node.className !== 'highlight' || node.tagName !== 'SPAN')) {
+        for (var i = 0; i < node.childNodes.length; ++i) {
+          i += highlight(node.childNodes[i]);
+        }
+      }
+
+    return skip;
+  };
+
+  highlight(element);
+}
+/**
+ * removeHighlight fn copied from highlight v5 and
+ * edited to remove with(), pass js strict mode, and use without jquery
+ */
+
+function removeHighlight(el) {
+  var elements = document.querySelectorAll("span.highlight");
+  Array.prototype.forEach.call(elements, function (el, i) {
+    var parent = el.parentNode;
+    parent.replaceChild(el.firstChild, el);
+    parent.normalize();
+  });
+}
+
+const KEY_A = 65;
+const KEY_RETURN = 13;
+const KEY_ESC = 27;
+const KEY_LEFT = 37;
+const KEY_UP = 38;
+const KEY_RIGHT = 39;
+const KEY_DOWN = 40;
+const KEY_BACKSPACE = 8;
+const KEY_DELETE = 46;
+const KEY_TAB = 9;
+const IS_MAC = typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
+const KEY_SHORTCUT = IS_MAC ? 'metaKey' : 'ctrlKey'; // ctrl key or apple key for ma
+
+var defaults = {
+  options: [],
+  optgroups: [],
+  plugins: [],
+  delimiter: ',',
+  splitOn: null,
+  // regexp or string for splitting up values from a paste command
+  persist: true,
+  diacritics: true,
+  create: null,
+  createOnBlur: false,
+  createFilter: null,
+  highlight: true,
+  openOnFocus: true,
+  shouldOpen: null,
+  maxOptions: 50,
+  maxItems: null,
+  hideSelected: null,
+  duplicates: false,
+  addPrecedence: false,
+  selectOnTab: false,
+  preload: null,
+  allowEmptyOption: false,
+  closeAfterSelect: false,
+  loadThrottle: 300,
+  loadingClass: 'loading',
+  dataAttr: null,
+  //'data-data',
+  optgroupField: 'optgroup',
+  valueField: 'value',
+  labelField: 'text',
+  disabledField: 'disabled',
+  optgroupLabelField: 'label',
+  optgroupValueField: 'value',
+  lockOptgroupOrder: false,
+  sortField: '$order',
+  searchField: ['text'],
+  searchConjunction: 'and',
+  mode: null,
+  wrapperClass: 'ts-control',
+  inputClass: 'ts-input',
+  dropdownClass: 'ts-dropdown',
+  dropdownContentClass: 'ts-dropdown-content',
+  itemClass: 'item',
+  optionClass: 'option',
+  dropdownParent: null,
+  controlInput: null,
+  copyClassesToDropdown: true,
+  placeholder: null,
+  hidePlaceholder: null,
+  shouldLoad: function (query) {
+    return query.length > 0;
+  },
+
+  /*
+  load                 : null, // function(query, callback) { ... }
+  score                : null, // function(search) { ... }
+  onInitialize         : null, // function() { ... }
+  onChange             : null, // function(value) { ... }
+  onItemAdd            : null, // function(value, $item) { ... }
+  onItemRemove         : null, // function(value) { ... }
+  onClear              : null, // function() { ... }
+  onOptionAdd          : null, // function(value, data) { ... }
+  onOptionRemove       : null, // function(value) { ... }
+  onOptionClear        : null, // function() { ... }
+  onOptionGroupAdd     : null, // function(id, data) { ... }
+  onOptionGroupRemove  : null, // function(id) { ... }
+  onOptionGroupClear   : null, // function() { ... }
+  onDropdownOpen       : null, // function(dropdown) { ... }
+  onDropdownClose      : null, // function(dropdown) { ... }
+  onType               : null, // function(str) { ... }
+  onDelete             : null, // function(values) { ... }
+  */
+  render: {
+    /*
+    item: null,
+    optgroup: null,
+    optgroup_header: null,
+    option: null,
+    option_create: null
+    */
+  }
+};
+
+/**
+ * Converts a scalar to its best string representation
+ * for hash keys and HTML attribute values.
+ *
+ * Transformations:
+ *   'str'     -> 'str'
+ *   null      -> ''
+ *   undefined -> ''
+ *   true      -> '1'
+ *   false     -> '0'
+ *   0         -> '0'
+ *   1         -> '1'
+ *
+ */
+function hash_key(value) {
+  if (typeof value === 'undefined' || value === null) return null;
+  if (typeof value === 'boolean') return value ? '1' : '0';
+  return value + '';
+}
+/**
+ * Escapes a string for use within HTML.
+ *
+ */
+
+function escape_html(str) {
+  return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+/**
+ * Debounce the user provided load function
+ *
+ */
+
+function loadDebounce(fn, delay) {
+  var timeout;
+  return function (value, callback) {
+    var self = this;
+
+    if (timeout) {
+      self.loading = Math.max(self.loading - 1, 0);
+    }
+
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      timeout = null;
+      self.loadedSearches[value] = true;
+      fn.call(self, value, callback);
+    }, delay);
+  };
+}
+/**
+ * Debounce all fired events types listed in `types`
+ * while executing the provided `fn`.
+ *
+ */
+
+function debounce_events(self, types, fn) {
+  var type;
+  var trigger = self.trigger;
+  var event_args = {}; // override trigger method
+
+  self.trigger = function () {
+    var type = arguments[0];
+
+    if (types.indexOf(type) !== -1) {
+      event_args[type] = arguments;
+    } else {
+      return trigger.apply(self, arguments);
+    }
+  }; // invoke provided function
+
+
+  fn.apply(self, []);
+  self.trigger = trigger; // trigger queued events
+
+  for (type in event_args) {
+    trigger.apply(self, event_args[type]);
+  }
+}
+/**
+ * Determines the current selection within a text input control.
+ * Returns an object containing:
+ *   - start
+ *   - length
+ *
+ */
+
+function getSelection(input) {
+  return {
+    start: input.selectionStart,
+    length: input.selectionEnd - input.selectionStart
+  };
+}
+/**
+ * Prevent default
+ *
+ */
+
+function preventDefault(evt, stop = false) {
+  if (evt) {
+    evt.preventDefault();
+
+    if (stop) {
+      evt.stopPropagation();
+    }
+  }
+}
+/**
+ * Prevent default
+ *
+ */
+
+function addEvent(target, type, callback, options) {
+  target.addEventListener(type, callback, options);
+}
+/**
+ * Return true if the requested key is down
+ * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
+ * The current evt may not always set ( eg calling advanceSelection() )
+ *
+ */
+
+function isKeyDown(key_name, evt) {
+  if (!evt) {
+    return false;
+  }
+
+  if (!evt[key_name]) {
+    return false;
+  }
+
+  var count = (evt.altKey ? 1 : 0) + (evt.ctrlKey ? 1 : 0) + (evt.shiftKey ? 1 : 0) + (evt.metaKey ? 1 : 0);
+
+  if (count === 1) {
+    return true;
+  }
+
+  return false;
+}
+/**
+ * Get the id of an element
+ * If the id attribute is not set, set the attribute with the given id
+ *
+ */
+
+function getId(el, id) {
+  const existing_id = el.getAttribute('id');
+
+  if (existing_id) {
+    return existing_id;
+  }
+
+  el.setAttribute('id', id);
+  return id;
+}
+
+function getSettings(input, settings_user) {
+  var settings = Object.assign({}, defaults, settings_user);
+  var attr_data = settings.dataAttr;
+  var field_label = settings.labelField;
+  var field_value = settings.valueField;
+  var field_disabled = settings.disabledField;
+  var field_optgroup = settings.optgroupField;
+  var field_optgroup_label = settings.optgroupLabelField;
+  var field_optgroup_value = settings.optgroupValueField;
+  var tag_name = input.tagName.toLowerCase();
+  var placeholder = input.getAttribute('placeholder') || input.getAttribute('data-placeholder');
+
+  if (!placeholder && !settings.allowEmptyOption) {
+    let option = input.querySelector('option[value=""]');
+
+    if (option) {
+      placeholder = option.textContent;
+    }
+  }
+
+  var settings_element = {
+    placeholder: placeholder,
+    options: [],
+    optgroups: [],
+    items: [],
+    maxItems: null
+  };
+  /**
+   * Initialize from a <select> element.
+   *
+   */
+
+  var init_select = () => {
+    var tagName;
+    var options = settings_element.options;
+    var optionsMap = {};
+    var group_count = 1;
+
+    var readData = el => {
+      var data = Object.assign({}, el.dataset); // get plain object from DOMStringMap
+
+      var json = attr_data && data[attr_data];
+
+      if (typeof json === 'string' && json.length) {
+        data = Object.assign(data, JSON.parse(json));
+      }
+
+      return data;
+    };
+
+    var addOption = (option, group) => {
+      var value = hash_key(option.value);
+      if (!value && !settings.allowEmptyOption) return; // if the option already exists, it's probably been
+      // duplicated in another optgroup. in this case, push
+      // the current group to the "optgroup" property on the
+      // existing option so that it's rendered in both places.
+
+      if (optionsMap.hasOwnProperty(value)) {
+        if (group) {
+          var arr = optionsMap[value][field_optgroup];
+
+          if (!arr) {
+            optionsMap[value][field_optgroup] = group;
+          } else if (!Array.isArray(arr)) {
+            optionsMap[value][field_optgroup] = [arr, group];
+          } else {
+            arr.push(group);
+          }
+        }
+
+        return;
+      }
+
+      var option_data = readData(option);
+      option_data[field_label] = option_data[field_label] || option.textContent;
+      option_data[field_value] = option_data[field_value] || value;
+      option_data[field_disabled] = option_data[field_disabled] || option.disabled;
+      option_data[field_optgroup] = option_data[field_optgroup] || group;
+      option_data.$option = option;
+      optionsMap[value] = option_data;
+      options.push(option_data);
+
+      if (option.selected) {
+        settings_element.items.push(value);
+      }
+    };
+
+    var addGroup = optgroup => {
+      var id, optgroup_data;
+      optgroup_data = readData(optgroup);
+      optgroup_data[field_optgroup_label] = optgroup_data[field_optgroup_label] || optgroup.getAttribute('label') || '';
+      optgroup_data[field_optgroup_value] = optgroup_data[field_optgroup_value] || group_count++;
+      optgroup_data[field_disabled] = optgroup_data[field_disabled] || optgroup.disabled;
+      settings_element.optgroups.push(optgroup_data);
+      id = optgroup_data[field_optgroup_value];
+
+      for (const option of optgroup.children) {
+        addOption(option, id);
+      }
+    };
+
+    settings_element.maxItems = input.hasAttribute('multiple') ? null : 1;
+
+    for (const child of input.children) {
+      tagName = child.tagName.toLowerCase();
+
+      if (tagName === 'optgroup') {
+        addGroup(child);
+      } else if (tagName === 'option') {
+        addOption(child);
+      }
+    }
+  };
+  /**
+   * Initialize from a <input type="text"> element.
+   *
+   */
+
+
+  var init_textbox = () => {
+    var values, option;
+    var data_raw = input.getAttribute(attr_data);
+
+    if (!data_raw) {
+      var value = input.value.trim() || '';
+      if (!settings.allowEmptyOption && !value.length) return;
+      values = value.split(settings.delimiter);
+
+      for (const _value of values) {
+        option = {};
+        option[field_label] = _value;
+        option[field_value] = _value;
+        settings_element.options.push(option);
+      }
+
+      settings_element.items = values;
+    } else {
+      settings_element.options = JSON.parse(data_raw);
+
+      for (const opt of settings_element.options) {
+        settings_element.items.push(opt[field_value]);
+      }
+    }
+  };
+
+  if (tag_name === 'select') {
+    init_select();
+  } else {
+    init_textbox();
+  }
+
+  return Object.assign({}, defaults, settings_element, settings_user);
+}
+
+/**
+ * Return a dom element from either a dom query string, jQuery object, a dom element or html string
+ * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
+ *
+ * param query should be {}
+ */
+function getDom(query) {
+  if (query.jquery) {
+    return query[0];
+  }
+
+  if (query instanceof HTMLElement) {
+    return query;
+  }
+
+  if (query.indexOf('<') > -1) {
+    let div = document.createElement('div');
+    div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
+
+    return div.firstChild;
+  }
+
+  return document.querySelector(query);
+}
+function escapeQuery(query) {
+  return query.replace(/['"\\]/g, '\\$&');
+}
+/**
+ * Dispatch an event
+ *
+ */
+
+function triggerEvent(dom_el, event_name) {
+  var event = document.createEvent('HTMLEvents');
+  event.initEvent(event_name, true, false);
+  dom_el.dispatchEvent(event);
+}
+/**
+ * Apply CSS rules to a dom element
+ *
+ */
+
+function applyCSS(dom_el, css) {
+  Object.assign(dom_el.style, css);
+}
+/**
+ * Add css classes
+ *
+ */
+
+function addClasses(elmts, ...classes) {
+  var norm_classes = classesArray(classes);
+  elmts = castAsArray(elmts);
+  elmts.map(el => {
+    norm_classes.map(cls => {
+      el.classList.add(cls);
+    });
+  });
+}
+/**
+ * Remove css classes
+ *
+ */
+
+function removeClasses(elmts, ...classes) {
+  var norm_classes = classesArray(classes);
+  elmts = castAsArray(elmts);
+  elmts.map(el => {
+    norm_classes.map(cls => {
+      el.classList.remove(cls);
+    });
+  });
+}
+/**
+ * Return arguments
+ *
+ */
+
+function classesArray(args) {
+  var classes = [];
+
+  for (let _classes of args) {
+    if (typeof _classes === 'string') {
+      _classes = _classes.trim().split(/[\11\12\14\15\40]/);
+    }
+
+    if (Array.isArray(_classes)) {
+      classes = classes.concat(_classes);
+    }
+  }
+
+  return classes.filter(Boolean);
+}
+/**
+ * Create an array from arg if it's not already an array
+ *
+ */
+
+function castAsArray(arg) {
+  if (!Array.isArray(arg)) {
+    arg = [arg];
+  }
+
+  return arg;
+}
+/**
+ * Get the closest node to the evt.target matching the selector
+ * Stops at wrapper
+ *
+ */
+
+function parentMatch(target, selector, wrapper) {
+  if (wrapper && !wrapper.contains(target)) {
+    return;
+  }
+
+  while (target && target.matches) {
+    if (target.matches(selector)) {
+      return target;
+    }
+
+    target = target.parentNode;
+  }
+}
+/**
+ * Get the first or last item from an array
+ *
+ * > 0 - right (last)
+ * < 0 - left (first)
+ *
+ */
+
+function getTail(list, direction) {
+  if (direction > 0) {
+    return list[list.length - 1];
+  }
+
+  return list[0];
+}
+/**
+ * Return true if an object is empty
+ *
+ */
+
+function isEmptyObject(obj) {
+  return Object.keys(obj).length === 0;
+}
+/**
+ * Get the index of an element amongst sibling nodes of the same type
+ *
+ */
+
+function nodeIndex(el, amongst) {
+  if (!el) return -1;
+  amongst = amongst || el.nodeName;
+  var i = 0;
+
+  while (el = el.previousElementSibling) {
+    if (el.matches(amongst)) {
+      i++;
+    }
+  }
+
+  return i;
+}
+/**
+ * Set attributes of an element
+ *
+ */
+
+function setAttr(el, attrs) {
+  for (const attr in attrs) {
+    el.setAttribute(attr, attrs[attr]);
+  }
+}
 
 var instance_i = 0;
 class TomSelect extends MicroPlugin(MicroEvent) {

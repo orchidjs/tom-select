@@ -1,11 +1,79 @@
 /**
-* Tom Select v1.5.0
+* Tom Select v1.6.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
 import TomSelect from '../../tom-select.js';
-import { getDom } from '../../vanilla.js';
-import { escape_html, addEvent, preventDefault } from '../../utils.js';
+
+/**
+ * Return a dom element from either a dom query string, jQuery object, a dom element or html string
+ * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
+ *
+ * param query should be {}
+ */
+function getDom(query) {
+  if (query.jquery) {
+    return query[0];
+  }
+
+  if (query instanceof HTMLElement) {
+    return query;
+  }
+
+  if (query.indexOf('<') > -1) {
+    let div = document.createElement('div');
+    div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
+
+    return div.firstChild;
+  }
+
+  return document.querySelector(query);
+}
+
+/**
+ * Converts a scalar to its best string representation
+ * for hash keys and HTML attribute values.
+ *
+ * Transformations:
+ *   'str'     -> 'str'
+ *   null      -> ''
+ *   undefined -> ''
+ *   true      -> '1'
+ *   false     -> '0'
+ *   0         -> '0'
+ *   1         -> '1'
+ *
+ */
+/**
+ * Escapes a string for use within HTML.
+ *
+ */
+
+function escape_html(str) {
+  return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+/**
+ * Prevent default
+ *
+ */
+
+function preventDefault(evt, stop = false) {
+  if (evt) {
+    evt.preventDefault();
+
+    if (stop) {
+      evt.stopPropagation();
+    }
+  }
+}
+/**
+ * Prevent default
+ *
+ */
+
+function addEvent(target, type, callback, options) {
+  target.addEventListener(type, callback, options);
+}
 
 /**
  * Plugin: "remove_button" (Tom Select)
