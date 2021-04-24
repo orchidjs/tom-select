@@ -916,7 +916,7 @@
 
 			it_n('should create item on [enter] when option_create template is null', function(done) {
 
-				var test = setup_test('AB_Multi',{
+				var test = setup_test('AB_Single',{
 					create:true,
 					render:{
 						no_results: null,
