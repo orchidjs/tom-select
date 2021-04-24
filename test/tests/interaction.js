@@ -192,7 +192,7 @@
 
 				click(test.instance.control, function() {
 					expect(test.instance.isOpen).to.be.equal(true);
-					expect($(test.instance.dropdown).is(':visible')).to.be.equal(true);
+					expect( isVisible(test.instance.dropdown) ).to.be.equal(true);
 					done();
 				});
 			});
@@ -271,7 +271,7 @@
 				click(test.instance.control, function() {
 					click($('[data-value="b"]', test.instance.dropdown), function() {
 						expect(test.instance.isOpen).to.be.equal(false);
-						expect($(test.instance.dropdown).is(':visible')).to.be.equal(false);
+						expect( isVisible(test.instance.dropdown) ).to.be.equal(false);
 						done();
 					});
 				});
@@ -349,7 +349,7 @@
 					syn.type('awaw', test.instance.control_input)
 					.delay(0, function() {
 						expect(test.instance.isOpen).to.be.equal(false);
-						expect($(test.instance.dropdown).is(':visible')).to.be.equal(false);
+						expect( isVisible(test.instance.dropdown) ).to.be.equal(false);
 						done();
 					});
 				});
@@ -378,7 +378,7 @@
 					syn.type('awaw', test.instance.control_input)
 					.delay(0, function() {
 						expect(test.instance.isOpen).to.be.equal(true);
-						expect($(test.instance.dropdown).is(':visible')).to.be.equal(true);
+						expect( isVisible(test.instance.dropdown) ).to.be.equal(true);
 						done();
 					});
 				});
@@ -391,7 +391,7 @@
 					syn.type('awf', test.instance.control_input)
 					.type('\b\b\b', test.instance.control_input, function() {
 						expect(test.instance.isOpen).to.be.equal(true);
-						expect($(test.instance.dropdown).is(':visible')).to.be.equal(true);
+						expect( isVisible(test.instance.dropdown) ).to.be.equal(true);
 						done();
 					});
 				});
@@ -971,13 +971,13 @@
 						.type('fooo', test.instance.control_input)
 						.delay(0, function() {
 							expect(test.instance.isOpen).to.be.equal(true);
-							expect($(test.instance.dropdown).is(':visible')).to.be.equal(true);
+							expect( isVisible(test.instance.dropdown) ).to.be.equal(true);
 
 							syn
 								.click(document.body)
 								.delay(5, function() {
 									expect(test.instance.isOpen).to.be.equal(false);
-									expect($(test.instance.dropdown).is(':visible')).to.be.equal(false);
+									expect( isVisible(test.instance.dropdown) ).to.be.equal(false);
 									done();
 								});
 						});

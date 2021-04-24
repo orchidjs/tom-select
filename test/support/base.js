@@ -100,3 +100,7 @@ var it_n = function(label,orig_func){
 var click = function(el, cb) {
 	syn.click(el).delay(100, cb);
 };
+
+function isVisible(el){
+	return (el.offsetParent !== null)
+}
