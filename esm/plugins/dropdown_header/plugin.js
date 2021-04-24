@@ -4,8 +4,60 @@
 */
 
 import TomSelect from '../../tom-select.js';
-import { getDom } from '../../vanilla.js';
-import { preventDefault } from '../../utils.js';
+
+/**
+ * Return a dom element from either a dom query string, jQuery object, a dom element or html string
+ * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
+ *
+ * param query should be {}
+ */
+function getDom(query) {
+  if (query.jquery) {
+    return query[0];
+  }
+
+  if (query instanceof HTMLElement) {
+    return query;
+  }
+
+  if (query.indexOf('<') > -1) {
+    let div = document.createElement('div');
+    div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
+
+    return div.firstChild;
+  }
+
+  return document.querySelector(query);
+}
+
+/**
+ * Converts a scalar to its best string representation
+ * for hash keys and HTML attribute values.
+ *
+ * Transformations:
+ *   'str'     -> 'str'
+ *   null      -> ''
+ *   undefined -> ''
+ *   true      -> '1'
+ *   false     -> '0'
+ *   0         -> '0'
+ *   1         -> '1'
+ *
+ */
+/**
+ * Prevent default
+ *
+ */
+
+function preventDefault(evt, stop = false) {
+  if (evt) {
+    evt.preventDefault();
+
+    if (stop) {
+      evt.stopPropagation();
+    }
+  }
+}
 
 /**
  * Plugin: "dropdown_header" (Tom Select)

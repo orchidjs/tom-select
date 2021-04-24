@@ -4,8 +4,55 @@
 */
 
 import TomSelect from '../../tom-select.js';
-import { KEY_LEFT, KEY_RIGHT } from '../../constants.js';
-import { parentMatch, nodeIndex } from '../../vanilla.js';
+
+const KEY_LEFT = 37;
+const KEY_RIGHT = 39;
+typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
+ // ctrl key or apple key for ma
+
+/**
+ * Return a dom element from either a dom query string, jQuery object, a dom element or html string
+ * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
+ *
+ * param query should be {}
+ */
+/**
+ * Get the closest node to the evt.target matching the selector
+ * Stops at wrapper
+ *
+ */
+
+function parentMatch(target, selector, wrapper) {
+  if (wrapper && !wrapper.contains(target)) {
+    return;
+  }
+
+  while (target && target.matches) {
+    if (target.matches(selector)) {
+      return target;
+    }
+
+    target = target.parentNode;
+  }
+}
+/**
+ * Get the index of an element amongst sibling nodes of the same type
+ *
+ */
+
+function nodeIndex(el, amongst) {
+  if (!el) return -1;
+  amongst = amongst || el.nodeName;
+  var i = 0;
+
+  while (el = el.previousElementSibling) {
+    if (el.matches(amongst)) {
+      i++;
+    }
+  }
+
+  return i;
+}
 
 /**
  * Plugin: "optgroup_columns" (Tom Select.js)

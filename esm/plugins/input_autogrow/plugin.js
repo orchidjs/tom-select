@@ -4,7 +4,29 @@
 */
 
 import TomSelect from '../../tom-select.js';
-import { addEvent } from '../../utils.js';
+
+/**
+ * Converts a scalar to its best string representation
+ * for hash keys and HTML attribute values.
+ *
+ * Transformations:
+ *   'str'     -> 'str'
+ *   null      -> ''
+ *   undefined -> ''
+ *   true      -> '1'
+ *   false     -> '0'
+ *   0         -> '0'
+ *   1         -> '1'
+ *
+ */
+/**
+ * Prevent default
+ *
+ */
+
+function addEvent(target, type, callback, options) {
+  target.addEventListener(type, callback, options);
+}
 
 /**
  * Plugin: "input_autogrow" (Tom Select)
