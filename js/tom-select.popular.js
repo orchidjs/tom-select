@@ -2543,7 +2543,7 @@
 	   * Returns search options for sifter (the system
 	   * for scoring and sorting results).
 	   *
-	   * @see https://github.com/brianreavis/sifter.js
+	   * @see https://github.com/orchidjs/sifter.js
 	   * @return {object}
 	   */
 
