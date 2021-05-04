@@ -307,14 +307,26 @@ create: function(input,callback){
 		<td>
 			<p>A single field or an array of fields to sort by. Each item in the array should be an object containing at least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code> or <code>'desc'</code>. The order of the array defines the sort precedence.</p>
 			<p>Unless present, a special `$score` field will be automatically added to the beginning of the sort list. This will make results sorted primarily by match quality (descending).</p>
-			<p>You can override the `$score` function. For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.</p>
+			<p>You can override the `$score` function. For more information, see the <a href="https://github.com/orchidjs/sifter.js#sifterjs">sifter documentation</a>.</p>
 		</td>
 		<td><code>string|array</code></td>
 		<td><code>'$order'</code></td>
 	</tr>
 	<tr>
 		<td><code>searchField</td>
-		<td>An array of property names to analyze when filtering options.</td>
+		<td>An array of property names to analyze when filtering options.
+
+```js
+searchField: ['text','text2']
+```
+
+Weights can be given to each field to improve search results
+
+```js
+searchField: [{field:'text',weight:2},{field:'text2',weight:0.5}]
+```
+
+</td>
 		<td><code>array</code></td>
 		<td><code>['text']</code></td>
 	</tr>
