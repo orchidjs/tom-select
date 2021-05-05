@@ -187,4 +187,23 @@ configCore('src/tom-select.popular.ts','tom-select.popular.js');
 configCore('src/tom-select.popular.ts','tom-select.popular.min.js',[terser_config]);
 
 
+// bootstrap tabs for docs
+configs.push({
+	input: 'node_modules/bootstrap5/js/src/tab.js',
+	output: {
+		file: path.resolve(__dirname,'../doc_src/js/bootstrap.tabs.min.js'),
+		name: 'bootstrap',
+		format: 'umd',
+		sourcemap: true,
+		preserveModules: false,
+	},
+	plugins:[
+		resolve_config,
+		babel_config,
+		commonjs(),
+		terser_config,
+	]
+});
+
+
 export default configs;
