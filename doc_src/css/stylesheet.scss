@@ -163,7 +163,7 @@ pre[class*="language-"]{
  * navbar
  *
  */
-.offcanvas{
+#offcanvas{
 	height:				100vh;
 	position:			sticky;
 	top:				0;
@@ -199,13 +199,13 @@ pre[class*="language-"]{
 }
 
 
-.toggle-offcanvas{
+#toggle-offcanvas{
 	display:none;
 }
 
 @include media-breakpoint-down(md) {
 
-	.toggle-offcanvas{
+	#toggle-offcanvas{
 		display:			block;
 		position:			fixed;
 		top:				0;
@@ -218,7 +218,7 @@ pre[class*="language-"]{
 
 	}
 
-	.offcanvas{
+	#offcanvas{
 		position:	fixed;
 		top:		0;
 		left:		0;
@@ -229,7 +229,7 @@ pre[class*="language-"]{
 		transform: translateX(-100%);
 	}
 
-	.offcanvas.open{
+	#offcanvas.open{
 		transform: translateX(0);
 	}
 

@@ -75,12 +75,10 @@ var unique = new TomSelect('#select-words-unique',{
 	create: true,
 	createFilter: function(input) {
 		input = input.toLowerCase();
-		return $.grep(unique.getValue(), function(value) {
-			return value.toLowerCase() === input;
-		}).length == 0;
+		return !(input in this.options);
 	}
 });
 {% endset %}
 </script>
 
-{{ demo( label, html, script, style, true) }}
+{{ demo( label, html, script, style) }}

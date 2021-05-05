@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	 * show/hide offcanvas navigation
 	 *
 	 */
-	$('.toggle-offcanvas').click(function(){
-		$('.offcanvas').toggleClass('open');
+	document.getElementById('toggle-offcanvas').addEventListener('click',function(){
+		document.getElementById('offcanvas').classList.toggle('open');
 	});
 
 
@@ -92,81 +92,86 @@ document.addEventListener('DOMContentLoaded', function() {
 	 *		https://docs.jsfiddle.net/api/display-a-fiddle-from-post
 	 *
 	 */
-	$('.opensandbox').click(function(){
-		var $this = $(this);
-		var demo = $this.closest('.demo')[0];
-		var codepen, codesandbox;
+	document.addEventListener('click',(evt)=>{
 
-		function getTextContent(tag){
-			var el = demo.querySelector(tag);
-			if( el ){
-				return el.textContent || '';
-			}
-			return '';
-		}
+		var open_sandbox_link = evt.target.closest('.opensandbox');
 
+		if( open_sandbox_link ){
+			var demo 	= open_sandbox_link.closest('.demo');
+			var codepen, codesandbox;
 
-		var html			= `<div class="p-4">${demo.querySelector('textarea').value || ''}</div>`;
-		var css				= getTextContent('style');
-		var js				= getTextContent('script');
-		var theme			= localStorage.getItem('theme') || 'bootstrap4';
-		var css_urls		= [
-									`https://cdn.jsdelivr.net/gh/orchidjs/tom-select@//@@version/dist/css/tom-select.${theme}.min.css`,
-									'https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css',
-									'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css',
-								];
-
-		var js_urls			= ['https://cdn.jsdelivr.net/gh/orchidjs/tom-select@//@@version/dist/js/tom-select.complete.min.js'];
-
-
-		// add jquery when needed
-		if( demo.classList.contains('demo-jquery') ){
-			js_urls.push('https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js');
-			js_urls.push('https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.js');
-		}
-
-		// codesandbox
-		codesandbox = {
-			files: {
-				"package.json": {
-					content: {
-						dependencies:{},
-					}
-				},
-				"index.html": {
-					content: html
-				},
-				"index.js": {
-					content: js
-				},
-				"index.css":{
-					content: css,
+			function getTextContent(tag){
+				var el = demo.querySelector(tag);
+				if( el ){
+					return el.textContent || '';
 				}
+				return '';
 			}
-		};
-		//demo.querySelector('.codesandbox').value = JSON.stringify(codesandbox);
 
 
-		// codepen
-		codepen = {
-			html: html,
-			js:	js,
-			css: css,
-			js_external: js_urls.join(';'),
-			css_external: css_urls.join(';'),
-		};
-		demo.querySelector('.codepen').value = JSON.stringify(codepen);
+			var html			= `<div class="p-4">${demo.querySelector('textarea').value || ''}</div>`;
+			var css				= getTextContent('style');
+			var js				= getTextContent('script');
+			var theme			= localStorage.getItem('theme') || 'bootstrap4';
+			var css_urls		= [
+										`https://cdn.jsdelivr.net/gh/orchidjs/tom-select@//@@version/dist/css/tom-select.${theme}.min.css`,
+										'https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css',
+										'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css',
+									];
+
+			var js_urls			= ['https://cdn.jsdelivr.net/gh/orchidjs/tom-select@//@@version/dist/js/tom-select.complete.min.js'];
 
 
-		// JSFiddle
-		demo.querySelector('.jsfiddle-html').value = html;
-		demo.querySelector('.jsfiddle-js').value = js;
-		demo.querySelector('.jsfiddle-css').value = css;
-		demo.querySelector('.jsfiddle-resources').value = js_urls.join(',') + ','+css_urls.join(',');
+			// add jquery when needed
+			if( demo.classList.contains('demo-jquery') ){
+				js_urls.push('https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js');
+				js_urls.push('https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.js');
+			}
 
-		setTimeout(function(){
-			$this.siblings('form').submit();
-		},50);
+			// codesandbox
+			codesandbox = {
+				files: {
+					"package.json": {
+						content: {
+							dependencies:{},
+						}
+					},
+					"index.html": {
+						content: html
+					},
+					"index.js": {
+						content: js
+					},
+					"index.css":{
+						content: css,
+					}
+				}
+			};
+			//demo.querySelector('.codesandbox').value = JSON.stringify(codesandbox);
+
+
+			// codepen
+			codepen = {
+				html: html,
+				js:	js,
+				css: css,
+				js_external: js_urls.join(';'),
+				css_external: css_urls.join(';'),
+			};
+			demo.querySelector('.codepen').value = JSON.stringify(codepen);
+
+
+			// JSFiddle
+			demo.querySelector('.jsfiddle-html').value = html;
+			demo.querySelector('.jsfiddle-js').value = js;
+			demo.querySelector('.jsfiddle-css').value = css;
+			demo.querySelector('.jsfiddle-resources').value = js_urls.join(',') + ','+css_urls.join(',');
+
+			setTimeout(()=>{
+				open_sandbox_link.nextElementSibling.submit();
+			},50);
+		}
+
 	});
 
 
