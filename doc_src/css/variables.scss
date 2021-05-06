@@ -29,9 +29,9 @@ $gray-100: $light !default;
 $gray-200: mix($light, $dark, 98%) !default;
 $gray-300: mix($light, $dark, 94%) !default;
 $gray-400: mix($light, $dark, 88%) !default;
-$gray-500: mix($light, $dark, 78%) !default;
+$gray-500: mix($light, $dark, 78%) !default; // #c6cad0
 $gray-600: mix($light, $dark, 60%) !default;
-$gray-700: mix($light, $dark, 36%) !default;
+$gray-700: mix($light, $dark, 36%) !default; // #6e7680
 $gray-800: mix($light, $dark, 16%) !default;
 $gray-900: $dark !default;
 
@@ -50,7 +50,7 @@ $cyan: #17a2b8 !default;
 $black: #000000 !default;
 $white: #ffffff !default;
 
-$text-muted: mix($body-color, #ffffff, percentage($text-muted-opacity)) !default;
+$text-muted: mix($body-color, #ffffff, percentage($text-muted-opacity)) !default; // #656d77
 $text-muted-light: mix($body-color, #ffffff, percentage($text-muted-light-opacity)) !default;
 $text-muted-dark: mix($body-color, #ffffff, percentage($text-muted-dark-opacity)) !default;
 
