@@ -1,11 +1,13 @@
 
 {% macro config_table(data) %}
 	<table class="table table-striped">
-	<tr>
-		<th>Setting</a></th>
-		<th>Description</th>
-		<th>Type</th>
-	</tr>
+	<theac>
+		<tr>
+			<th>Setting</a></th>
+			<th>Description</th>
+			<th>Type</th>
+		</tr>
+	</thead>
 	{% for row in data %}
 		{{ config_row( row.name, row.desc, row.type, row.default, row.highlight) }}
 	{% endfor %}

@@ -20,11 +20,13 @@ select.off('event_name', handler);
 ### List of Events
 
 <table class="table table-striped">
+<thead>
 	<tr>
 		<th width="200px" align="left">Event</th>
 		<th width="150px" align="left">Params</th>
 		<th align="left">Description</th>
 	</tr>
+</thead>
 	<tr>
 		<td><code>"initialize"</code></td>
 		<td></td>

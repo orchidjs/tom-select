@@ -26,12 +26,14 @@ new TomSelect('#select',config);
 ## General Configuration
 
 <table class="table table-striped">
+	<thead>
 	<tr>
 		<th>Setting</a></th>
 		<th>Description</th>
 		<th>Type</th>
 		<th>Default</th>
 	</tr>
+	</thead>
 
 <tr>
 <td><code>options</code></td>
@@ -236,12 +238,14 @@ create: function(input,callback){
 ## Data / Searching
 
 <table class="table table-striped">
+<thead>
 	<tr>
 		<th>Setting</a></th>
 		<th>Description</th>
 		<th>Type</th>
 		<th>Default</th>
 	</tr>
+</thead>
 	<tr>
 		<td><code>options</code></td>
 		<td>See above</td>
@@ -353,10 +357,12 @@ searchField: [{field:'text',weight:2},{field:'text2',weight:0.5}]
 ## Callbacks
 
 <table class="table table-striped">
+<thead>
 	<tr>
 		<th>Setting</a></th>
 		<th>Description</th>
 	</tr>
+</thead>
 	<tr>
 		<td><code>load(query)</code></td>
 		<td>Invoked when new options should be loaded from the server. Called with the current query string and a callback function to call with the results when they are loaded (or nothing when an error arises).
@@ -477,12 +483,14 @@ new TomSelect('#input',{
 ```
 
 <table class="table table-striped">
+<thead>
 	<tr>
 		<th>Setting</a></th>
 		<th>Description</th>
 		<th>Type</th>
 		<th>Default</th>
 	</tr>
+</thead>
 	<tr>
 		<td><code>render.option</code></td>
 		<td>An option in the dropdown list of available options.</td>

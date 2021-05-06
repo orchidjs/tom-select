@@ -20,13 +20,13 @@
     <body>
 
 		{# offcanvas button #}
-		<button id="toggle-offcanvas" class="btn btn-link" type="button" aria-label="Toggle Off-Canvas Menu">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+		<a id="toggle-offcanvas" aria-label="Toggle Off-Canvas Menu">
+			<i class="ib ib-feather-menu"></i>
+		</a>
 
 
 		{# offcanvas #}
-		<div id="offcanvas" class="d-flex flex-column bg-light border-end px-0 pt-5">
+		<div id="offcanvas" class="d-flex flex-column bg-dark px-0 pt-5">
 			{% include "nav.njk" %}
 		</div>
 

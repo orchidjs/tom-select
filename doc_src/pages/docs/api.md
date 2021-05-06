@@ -16,10 +16,12 @@ control.addItem('test');
 ## Option Methods
 
 <table class="table table-striped">
+	<thead>
 	<tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
+	</thead>
 	<tr>
 		<td><code>addOption(data)</code></td>
 		<td>Adds an available option, or array of options. If it already exists, nothing will happen. Note: this does not refresh the options list dropdown (use refreshOptions() for that).</td>
@@ -52,10 +54,12 @@ control.addItem('test');
 
 ## Item Methods
 <table class="table table-striped">
+	<thead>
 	<tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
+	</thead>
 	<tr>
 		<td><code>clear(silent)</code></td>
 		<td>Resets / clears all selected items from the control. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
@@ -84,10 +88,12 @@ control.addItem('test');
 
 ## Optgroup Methods
 <table class="table table-striped">
+	<thead>
 	<tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
+	</thead>
 	<tr>
 		<td><code>addOptionGroup(id, data)</code></td>
 		<td>Registers a new optgroup for options to be bucketed into. The <code>id</code> argument refers to a value of the property in option identified by the <code>optgroupField</code> setting.</td>
@@ -104,10 +110,12 @@ control.addItem('test');
 
 ## Event Methods
 <table class="table table-striped">
+<thead>
 	<tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
+</thead>
 	<tr>
 		<td><code>on(event, handler)</code></td>
 		<td>Adds an event listener.</td>
@@ -128,10 +136,12 @@ control.addItem('test');
 
 ## Dropdown Methods
 <table class="table table-striped">
+<thead>
 	<tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
+</thead>
 	<tr>
 		<td><code>open()</code></td>
 		<td>Shows the autocomplete dropdown containing the available options.</td>
@@ -148,10 +158,12 @@ control.addItem('test');
 
 ## Other Methods
 <table class="table table-striped">
+<thead>
 	<tr>
 		<th width="120px">Method</th>
 		<th>Description</th>
 	</tr>
+</thead>
 	<tr>
 		<td><code>destroy()</code></td>
 		<td>Destroys the control and unbinds event listeners so that it can be garbage collected.</td>
@@ -220,11 +232,13 @@ control.addItem('test');
 #### Search
 
 <table class="table table-striped">
+<thead>
 	<tr>
 		<th width="120px">Option</th>
 		<th>Description</th>
 		<th width="60px">Type</th>
 	</tr>
+</thead>
 	<tr>
 		<td><code>options</code></td>
 		<td>Original search options.</td>
