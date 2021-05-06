@@ -1,29 +1,31 @@
-<!DOCTYPE html><html class="no-js"><head>
+<!DOCTYPE html><html class="no-js" lang="en"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Drag 'n Drop -  Tom Select</title>
 		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/css/stylesheet.css">
 		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
-		<script src="/js/jquery.min.js"></script>
-		<script src="/js/bootstrap.bundle.min.js"></script>
-
 		
-		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/tom-select.complete.min.js"></script>
 		
 
-		<script src="/js/index.js"></script>
-		<script src="/js/jqueryui.js"></script>
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' 'sha256-WZs00YZAL6rbAGaA+6ygNkAd0WAvytifkj/tyzczJpM=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com"></head>
+		<script src="/js/index.bundle.js"></script>
+		<script src="/js/jquery.min.js"></script><script src="/js/jqueryui.js"></script>
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' mc.yandex.ru 'sha256-WZs00YZAL6rbAGaA+6ygNkAd0WAvytifkj/tyzczJpM=' 'sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru"></head>
     <body>
 
-		<div class="row flex-lg-nowrap g-0">
+		
+		<a id="toggle-offcanvas" aria-label="Toggle Off-Canvas Menu">
+			<i class="ib ib-feather-menu"></i>
+		</a>
 
-			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-				
+
+		
+		<div id="offcanvas" class="d-flex flex-column bg-dark px-0 pt-5">
+			
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -68,32 +70,42 @@
 	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
 	
 
-	<div class="border-bottom m-4"></div>
+	<hr class="m-4">
 
 	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
 	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
 
 
-	<div class="mt-auto p-4 badges small">
+	<div class="mt-auto"></div>
+
+	<hr class="mx-4 mb-2 mt-4">
+
+	<div class="px-4 py-3 small">
+		<a href="https://icon-blender.com/">
+		Create custom SVG icon sets from over 80,000 free and open source icons at
+		Icon-Blender.com</a>
+	</div>
+
+	<hr class="mx-4 my-2">
+
+	<div class="p-4 badges small">
 		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/plugins/drag-drop.njk">Edit this page on GitHub</a>
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-			</div>
+		</div>
 
-			<div class="col-md-9 col-lg-10 px-3 main-col">
-				<div class="my-4">
-					<div class="container">
-						<button class="toggle-offcanvas btn btn-link" type="button">
-							<span class="navbar-toggler-icon"></span>
-						</button>
-						
-						<h1 class="display-4 mt-0">Drag 'n Drop</h1>
-						
-					</div>
-				</div>
-				<div class="container mt-3" id="main-container">
+		
+		<div class="px-3 main-col">
+			<div class="my-4">
+				<div class="container">
 					
+					<h1 class="display-4 mt-0">Drag 'n Drop</h1>
+					
+				</div>
+			</div>
+			<div class="container mt-3" id="main-container">
+				
 
 
 
@@ -215,7 +227,7 @@ new TomSelect('#input-sortable',{
 <h2>Plugin Configuration</h2>
 <p>No additional configuration settings for this plugin</p>
 
-					
+				
 	<h2>Available Plugins</h2>
 	
 	<nav class="nav flex-column">
@@ -247,9 +259,24 @@ new TomSelect('#input-sortable',{
 	</nav>
 	
 
-				</div>
 			</div>
 		</div>
+
+
+		<!-- Yandex.Metrika counter -->
+		<script type="text/javascript" csp-hash="sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=">
+		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+		   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+		   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+		   ym(77752060, "init", {
+		        clickmap:true,
+		        trackLinks:true,
+		        accurateTrackBounce:true
+		   });
+		</script>
+		<noscript><div><img src="https://mc.yandex.ru/watch/77752060" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+		<!-- /Yandex.Metrika counter -->
 	
 
 </body></html>

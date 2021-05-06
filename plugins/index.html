@@ -1,29 +1,31 @@
-<!DOCTYPE html><html class="no-js"><head>
+<!DOCTYPE html><html class="no-js" lang="en"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Plugin Examples -  Tom Select</title>
 		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/css/stylesheet.css">
 		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
-		<script src="/js/jquery.min.js"></script>
-		<script src="/js/bootstrap.bundle.min.js"></script>
-
 		
-		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/tom-select.complete.min.js"></script>
 		
 
-		<script src="/js/index.js"></script>
+		<script src="/js/index.bundle.js"></script>
 		<script src="/js/jqueryui.js"></script>
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' 'sha256-c12uzRvCT7ZLHbT1BhdItt46nB3UkhM8bwYwEFS1j20=' 'sha256-pnNQ2Rcp5FEkj9Wwa9P0gyUeP5TJX0O5QewKEoFgr2M=' 'sha256-uWOZDjdxQO7JBhTKnVWifip2L7RsyDL08gUUYxwE7pY=' 'sha256-HgAa8DWQNJFYm67SGZnoCy9Ho/JJWiNBAVuZYR8CvGM=' 'sha256-wiqcTsVzk1LO6d1eyR26NRUyvQYSMzHhXcXvXMPNPhA=' 'sha256-v5nOMK361f6C4F7oxnQ9PSy2mnn/22mtSkpDxRjD6JU=' 'sha256-U/Ns/3pC3+AdL0kcaw81jsdoG1XZ9YDey9g0NhKn2d4=' 'sha256-iVniZQ3p/u2OnaGmQD5yph/dKzWyH+SoViffZi22hdI=' 'sha256-aTNp3517MCdTGYP6t4/WzAT95i8Q+8ealqlrHWqsOAU=' 'sha256-JBPXi2Tkg6GaBJ0V5ZhSsmnQfJ69VHXi4W/CXgKaEu4=' 'sha256-mpsfI3foucpyiFGfA7HnunRXrxumomZrLFkP8Avpv6c=' 'sha256-tBI6qGFVpDWLxsON+MY8oKKsITS3cnKGVezzJE4ruYk=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com"></head>
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' mc.yandex.ru 'sha256-c12uzRvCT7ZLHbT1BhdItt46nB3UkhM8bwYwEFS1j20=' 'sha256-pnNQ2Rcp5FEkj9Wwa9P0gyUeP5TJX0O5QewKEoFgr2M=' 'sha256-uWOZDjdxQO7JBhTKnVWifip2L7RsyDL08gUUYxwE7pY=' 'sha256-HgAa8DWQNJFYm67SGZnoCy9Ho/JJWiNBAVuZYR8CvGM=' 'sha256-wiqcTsVzk1LO6d1eyR26NRUyvQYSMzHhXcXvXMPNPhA=' 'sha256-v5nOMK361f6C4F7oxnQ9PSy2mnn/22mtSkpDxRjD6JU=' 'sha256-U/Ns/3pC3+AdL0kcaw81jsdoG1XZ9YDey9g0NhKn2d4=' 'sha256-iVniZQ3p/u2OnaGmQD5yph/dKzWyH+SoViffZi22hdI=' 'sha256-aTNp3517MCdTGYP6t4/WzAT95i8Q+8ealqlrHWqsOAU=' 'sha256-JBPXi2Tkg6GaBJ0V5ZhSsmnQfJ69VHXi4W/CXgKaEu4=' 'sha256-mpsfI3foucpyiFGfA7HnunRXrxumomZrLFkP8Avpv6c=' 'sha256-tBI6qGFVpDWLxsON+MY8oKKsITS3cnKGVezzJE4ruYk=' 'sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru"></head>
     <body>
 
-		<div class="row flex-lg-nowrap g-0">
+		
+		<a id="toggle-offcanvas" aria-label="Toggle Off-Canvas Menu">
+			<i class="ib ib-feather-menu"></i>
+		</a>
 
-			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-				
+
+		
+		<div id="offcanvas" class="d-flex flex-column bg-dark px-0 pt-5">
+			
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -68,32 +70,42 @@
 	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
 	
 
-	<div class="border-bottom m-4"></div>
+	<hr class="m-4">
 
 	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
 	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
 
 
-	<div class="mt-auto p-4 badges small">
+	<div class="mt-auto"></div>
+
+	<hr class="mx-4 mb-2 mt-4">
+
+	<div class="px-4 py-3 small">
+		<a href="https://icon-blender.com/">
+		Create custom SVG icon sets from over 80,000 free and open source icons at
+		Icon-Blender.com</a>
+	</div>
+
+	<hr class="mx-4 my-2">
+
+	<div class="p-4 badges small">
 		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/plugins/index.njk">Edit this page on GitHub</a>
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-			</div>
+		</div>
 
-			<div class="col-md-9 col-lg-10 px-3 main-col">
-				<div class="my-4">
-					<div class="container">
-						<button class="toggle-offcanvas btn btn-link" type="button">
-							<span class="navbar-toggler-icon"></span>
-						</button>
-						
-						<h1 class="display-4 mt-0">Plugin Examples</h1>
-						
-					</div>
-				</div>
-				<div class="container mt-3" id="main-container">
+		
+		<div class="px-3 main-col">
+			<div class="my-4">
+				<div class="container">
 					
+					<h1 class="display-4 mt-0">Plugin Examples</h1>
+					
+				</div>
+			</div>
+			<div class="container mt-3" id="main-container">
+				
 
 
 
@@ -110,14 +122,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/remove-button">Remove Button</a></h4>
-		<p>
+		<div>
 			Adds one-click removal of each item.
 			<br><a href="/plugins/remove-button">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -198,15 +210,15 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/no-backspace-delete">No Backspace Delete</a></h4>
-		<p>
+		<div>
 			Prevents the user from removing items with <kbd>backspace</kbd> and <kdb>delete</kdb> keys unless items are active.
 			Use with <code>no_active_items</code> to disable deleting with keyboard events entirely.
 			<br><a href="/plugins/no-backspace-delete">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -284,14 +296,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/drag-drop">Drag Drop</a></h4>
-		<p>
+		<div>
 			Allows users to sort items with drag-n-drop.
 			<br><a href="/plugins/drag-drop">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -368,14 +380,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/restore-on-backspace">Restore on Backspace</a></h4>
-		<p>
+		<div>
 			Fills the control input with the value of deleted items upon deletion.
 			<br><a href="/plugins/restore-on-backspace">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -454,14 +466,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/clear-button">Clear Button</a></h4>
-		<p>
+		<div>
 			Adds a small button to the right side of the control that, when clicked, removes all of the items (selected options).
 			<br><a href="/plugins/clear-button">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -539,14 +551,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/no-active-items">No Active Items</a></h4>
-		<p>
+		<div>
 			Disables selecting items.
 			<br><a href="/plugins/no-active-items">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -630,14 +642,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/dropdown-input">Dropdown Input</a></h4>
-		<p>
+		<div>
 			Positions the control input in the select dropdown.
 			<br><a href="/plugins/dropdown-input">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -731,14 +743,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/input-autogrow">Input Autogrow</a></h4>
-		<p>
+		<div>
 			Resizes the control input as the user types.
 			<br><a href="/plugins/input-autogrow">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -836,14 +848,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/checkbox-options">Checkbox Options</a></h4>
-		<p>
+		<div>
 			Displays checkboxes next to each option in the dropdown.
 			<br><a href="/plugins/checkbox-options">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -936,14 +948,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/optgroup-columns">Optgroup Columns</a></h4>
-		<p>
+		<div>
 			Divides option groups into columns and allows users to navigate columns with <kbd>left</kbd> and <kbd>right</kbd> keys.
 			<br><a href="/plugins/optgroup-columns">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 		
 
@@ -1054,14 +1066,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/dropdown-header">Dropdown Header</a></h4>
-		<p>
+		<div>
 			Adds a customizable header to the select dropdown.
 			<br><a href="/plugins/dropdown-header">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		
 
 		
@@ -1173,14 +1185,14 @@
 
 
 <div class="row mt-5">
-	<div class="col-sm-6">
+	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/change-listener">Change Listener</a></h4>
-		<p>
+		<div>
 			Updates the value of the Tom Select instance when the value of the underlying &lt;input&gt; element changes.
 			<br><a href="/plugins/change-listener">More info...</a>
-		</p>
+		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-md-6">
 
 
 		
@@ -1267,11 +1279,26 @@
 	</div>
 </div>
 
-					
-					
-				</div>
+				
+				
 			</div>
 		</div>
+
+
+		<!-- Yandex.Metrika counter -->
+		<script type="text/javascript" csp-hash="sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=">
+		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+		   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+		   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+		   ym(77752060, "init", {
+		        clickmap:true,
+		        trackLinks:true,
+		        accurateTrackBounce:true
+		   });
+		</script>
+		<noscript><div><img src="https://mc.yandex.ru/watch/77752060" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+		<!-- /Yandex.Metrika counter -->
 	
 
 </body></html>

@@ -1,29 +1,31 @@
-<!DOCTYPE html><html class="no-js"><head>
+<!DOCTYPE html><html class="no-js" lang="en"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Events API -  Tom Select</title>
 		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/css/stylesheet.css">
 		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
-		<script src="/js/jquery.min.js"></script>
-		<script src="/js/bootstrap.bundle.min.js"></script>
-
 		
-		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/tom-select.complete.min.js"></script>
 		
 
-		<script src="/js/index.js"></script>
+		<script src="/js/index.bundle.js"></script>
 		
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com"></head>
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' mc.yandex.ru 'sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru"></head>
     <body>
 
-		<div class="row flex-lg-nowrap g-0">
+		
+		<a id="toggle-offcanvas" aria-label="Toggle Off-Canvas Menu">
+			<i class="ib ib-feather-menu"></i>
+		</a>
 
-			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-				
+
+		
+		<div id="offcanvas" class="d-flex flex-column bg-dark px-0 pt-5">
+			
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -49,44 +51,56 @@
 	</nav>
 	
 
-	<div class="border-bottom m-4"></div>
+	<hr class="m-4">
 
 	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
 	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
 
 
-	<div class="mt-auto p-4 badges small">
+	<div class="mt-auto"></div>
+
+	<hr class="mx-4 mb-2 mt-4">
+
+	<div class="px-4 py-3 small">
+		<a href="https://icon-blender.com/">
+		Create custom SVG icon sets from over 80,000 free and open source icons at
+		Icon-Blender.com</a>
+	</div>
+
+	<hr class="mx-4 my-2">
+
+	<div class="p-4 badges small">
 		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/docs/events.md">Edit this page on GitHub</a>
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-			</div>
+		</div>
 
-			<div class="col-md-9 col-lg-10 px-3 main-col">
-				<div class="my-4">
-					<div class="container">
-						<button class="toggle-offcanvas btn btn-link" type="button">
-							<span class="navbar-toggler-icon"></span>
-						</button>
-						
-						<h1 class="display-4 mt-0">Events API</h1>
-						
-					</div>
+		
+		<div class="px-3 main-col">
+			<div class="my-4">
+				<div class="container">
+					
+					<h1 class="display-4 mt-0">Events API</h1>
+					
 				</div>
-				<div class="container mt-3" id="main-container">
-					<p>In the <a href="/docs">usage documentation</a>, a few callbacks are listed that
+			</div>
+			<div class="container mt-3" id="main-container">
+				<p>In the <a href="/docs">usage documentation</a>, a few callbacks are listed that
 allow you to listen for certain events. Callbacks aren't always ideal though;
 specifically when you wish to have multiple handlers.</p>
 <p>Tom Select instances have a basic event emitter interface that mimics jQuery, Backbone.js, et al:</p>
 <pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">handler</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token keyword">var</span> select <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-id'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>select<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'event_name'</span><span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span><br>select<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'event_name'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>select<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'event_name'</span><span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h3 id="list-of-events">List of Events</h3>
 <table class="table table-striped">
-	<tbody><tr>
+<thead>
+	<tr>
 		<th width="200px" align="left">Event</th>
 		<th width="150px" align="left">Params</th>
 		<th align="left">Description</th>
 	</tr>
-	<tr>
+</thead>
+	<tbody><tr>
 		<td><code>"initialize"</code></td>
 		<td></td>
 		<td>Invoked once the control is completely initialized.</td>
@@ -178,11 +192,26 @@ specifically when you wish to have multiple handlers.</p>
 	</tr>
 </tbody></table>
 
-					
-					
-				</div>
+				
+				
 			</div>
 		</div>
+
+
+		<!-- Yandex.Metrika counter -->
+		<script type="text/javascript" csp-hash="sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=">
+		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+		   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+		   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+		   ym(77752060, "init", {
+		        clickmap:true,
+		        trackLinks:true,
+		        accurateTrackBounce:true
+		   });
+		</script>
+		<noscript><div><img src="https://mc.yandex.ru/watch/77752060" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+		<!-- /Yandex.Metrika counter -->
 	
 
 </body></html>

@@ -1,29 +1,31 @@
-<!DOCTYPE html><html class="no-js"><head>
+<!DOCTYPE html><html class="no-js" lang="en"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Tom Select</title>
-		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<meta name="description" content="Tom Select is a versatile and dynamic &quot;<select> UI control. With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/css/stylesheet.css">
 		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
 		
 
-		<script src="/js/jquery.min.js"></script>
-		<script src="/js/bootstrap.bundle.min.js"></script>
-
 		
-		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/tom-select.complete.min.js"></script>
 		
 
-		<script src="/js/index.js"></script>
+		<script src="/js/index.bundle.js"></script>
 		
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' 'sha256-tCLxQtvLiye+uztkGNR32Jfw+zzBMdy1jvXg9bkXiIc=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com"></head>
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' mc.yandex.ru 'sha256-tCLxQtvLiye+uztkGNR32Jfw+zzBMdy1jvXg9bkXiIc=' 'sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru"></head>
     <body>
 
-		<div class="row flex-lg-nowrap g-0">
+		
+		<a id="toggle-offcanvas" aria-label="Toggle Off-Canvas Menu">
+			<i class="ib ib-feather-menu"></i>
+		</a>
 
-			<div class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 offcanvas pt-5">
-				
+
+		
+		<div id="offcanvas" class="d-flex flex-column bg-dark px-0 pt-5">
+			
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -40,30 +42,40 @@
 	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
 	
 
-	<div class="border-bottom m-4"></div>
+	<hr class="m-4">
 
 	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
 	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
 
 
-	<div class="mt-auto p-4 badges small">
+	<div class="mt-auto"></div>
+
+	<hr class="mx-4 mb-2 mt-4">
+
+	<div class="px-4 py-3 small">
+		<a href="https://icon-blender.com/">
+		Create custom SVG icon sets from over 80,000 free and open source icons at
+		Icon-Blender.com</a>
+	</div>
+
+	<hr class="mx-4 my-2">
+
+	<div class="p-4 badges small">
 		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/index.njk">Edit this page on GitHub</a>
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
-			</div>
+		</div>
 
-			<div class="col-md-9 col-lg-10 px-3 main-col">
-				<div class="my-4">
-					<div class="container">
-						<button class="toggle-offcanvas btn btn-link" type="button">
-							<span class="navbar-toggler-icon"></span>
-						</button>
-						
-					</div>
-				</div>
-				<div class="container mt-3" id="main-container">
+		
+		<div class="px-3 main-col">
+			<div class="my-4">
+				<div class="container">
 					
+				</div>
+			</div>
+			<div class="container mt-3" id="main-container">
+				
 
 
 <div class="text-center">
@@ -75,12 +87,12 @@
 <a href="https://travis-ci.org/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="Travis.org" src="https://img.shields.io/travis/orchidjs/tom-select?color=4c1"></a>
 <a href="https://coveralls.io/github/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="Coveralls Coverage" src="https://img.shields.io/coveralls/github/orchidjs/tom-select?color=4c1"></a>
 <a href="https://github.com/orchidjs/tom-select/issues" class="m-1 d-inline-block"><img alt="GitHub Issues" src="https://img.shields.io/github/issues/orchidjs/tom-select"></a>
-<a href="https://automate.browserstack.com/public-build/QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e"><img src="https://automate.browserstack.com/badge.svg?badge_key=QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e"></a>
+<a href="https://automate.browserstack.com/public-build/QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e"><img alt="Browserstack Status" src="https://automate.browserstack.com/badge.svg?badge_key=QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e"></a>
 </div>
 
 
 <div class="row py-5">
-<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mx-auto">
+<div class="col-600 mx-auto">
 
 	
 
@@ -278,7 +290,7 @@ Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> with f
 	Many thanks to our sponsors who help make Tom Select development possible.
 	Vist <a href="https://opencollective.com/tom-select">opencollective.com/tom-select</a> to learn more about sponsorship.
 </p>
-<p><a href="http://www.peopleforce.io"><img src="https://raw.githubusercontent.com/orchidjs/tom-select/master/doc_src/img/peopleforce.png"></a></p>
+<p><a href="http://www.peopleforce.io"><img src="https://raw.githubusercontent.com/orchidjs/tom-select/master/doc_src/img/peopleforce.png" alt="PeopleForce Logo"></a></p>
 
 
 
@@ -290,11 +302,26 @@ Tom Select was forked from <a href="/docs/selectize.js/">selectize.js</a> with f
 
 <p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
 
-					
-					
-				</div>
+				
+				
 			</div>
 		</div>
+
+
+		<!-- Yandex.Metrika counter -->
+		<script type="text/javascript" csp-hash="sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=">
+		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+		   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+		   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+		   ym(77752060, "init", {
+		        clickmap:true,
+		        trackLinks:true,
+		        accurateTrackBounce:true
+		   });
+		</script>
+		<noscript><div><img src="https://mc.yandex.ru/watch/77752060" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+		<!-- /Yandex.Metrika counter -->
 	
 
 </body></html>

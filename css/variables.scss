@@ -1,0 +1,125 @@
+// colors
+$min-contrast-ratio: 1.5 !default;
+$text-muted-opacity: .7 !default;
+$text-muted-light-opacity: .4 !default;
+$text-muted-dark-opacity: .8 !default;
+
+$border-opacity: .16 !default;
+$border-dark-opacity: .24 !default;
+
+$light: #f4f6fa !default;
+$dark: #232e3c !default;
+
+//$body-bg: $light !default;
+$body-bg: #fff !default;
+$body-color: $dark !default;
+
+$color-contrast-dark: $dark !default;
+$color-contrast-light: $light !default;
+
+$light-black: rgba($dark, .24) !default;
+$light-mix: rgba(mix($light, $dark, 64%), .24) !default;
+$light-white: rgba($light, .24) !default;
+
+$min-black: rgba($dark, .024) !default;
+$min-white: rgba(mix($light, $dark, 48%), .1) !default;
+
+$gray-50: #fbfbfd !default;
+$gray-100: $light !default;
+$gray-200: mix($light, $dark, 98%) !default;
+$gray-300: mix($light, $dark, 94%) !default;
+$gray-400: mix($light, $dark, 88%) !default;
+$gray-500: mix($light, $dark, 78%) !default;
+$gray-600: mix($light, $dark, 60%) !default;
+$gray-700: mix($light, $dark, 36%) !default;
+$gray-800: mix($light, $dark, 16%) !default;
+$gray-900: $dark !default;
+
+$blue: #206bc4 !default;
+$azure: #4299e1 !default;
+$indigo: #4263eb !default;
+$purple: #ae3ec9 !default;
+$pink: #d6336c !default;
+$red: #d63939 !default;
+$orange: #f76707 !default;
+$yellow: #f59f00 !default;
+$lime: #74b816 !default;
+$green: #2fb344 !default;
+$teal: #0ca678 !default;
+$cyan: #17a2b8 !default;
+$black: #000000 !default;
+$white: #ffffff !default;
+
+$text-muted: mix($body-color, #ffffff, percentage($text-muted-opacity)) !default;
+$text-muted-light: mix($body-color, #ffffff, percentage($text-muted-light-opacity)) !default;
+$text-muted-dark: mix($body-color, #ffffff, percentage($text-muted-dark-opacity)) !default;
+
+$border-color: mix($text-muted, #ffffff, percentage($border-opacity)) !default;
+$border-color-transparent: rgba($text-muted, $border-opacity) !default;
+
+$border-color-dark: mix($text-muted, #ffffff, percentage($border-dark-opacity)) !default;
+$border-color-dark-transparent: rgba($text-muted, $border-dark-opacity) !default;
+
+$active-bg: rgba($blue, .06) !default;
+$hover-bg: rgba($text-muted, .06) !default;
+
+$primary: $blue !default;
+$secondary: $text-muted !default;
+$success: $green !default;
+$info: $azure !default;
+$warning: $orange !default;
+$danger: $red !default;
+
+$code-color: $primary !default;
+
+
+// Dark mode
+$dark-mode-darken: darken($dark, 2%) !default;
+$dark-mode-lighten: lighten($dark, 2%) !default;
+$dark-mode-text: $light;
+
+// Borders
+$border-width: 1px !default;
+$border-width-wide: 2px !default;
+
+$border-radius-sm: 2px !default;
+$border-radius: 4px !default;
+$border-radius-lg: 8px !default;
+$border-radius-pill: 100rem !default;
+
+
+//cards
+$card-title-spacer-y: 1.25rem !default;
+
+$card-border-width: $border-width !default;
+$card-border-color: $border-color-transparent !default;
+$card-border-radius: $border-radius !default;
+
+$card-cap-bg: $white !default;
+$card-cap-color: $text-muted !default;
+$card-cap-padding-x: 1rem !default;
+$card-cap-padding-y: .75rem !default;
+
+$card-spacer-x: 1rem !default;
+
+$card-status-size: $border-width-wide !default;
+$card-group-margin: 1.5rem !default;
+
+$card-shadow: rgba($dark, .04) 0 2px 4px 0 !default;
+$card-shadow-hover: rgba($dark, .16) 0 2px 16px 0 !default;
+
+$cards-grid-gap: 1rem !default;
+$cards-grid-breakpoint: lg !default;
+
+
+//tables
+$table-color: inherit !default;
+$table-border-color: $border-color-transparent !default;
+$table-head-border-color: $border-color-transparent !default;
+$table-head-padding-y: .5rem !default;
+$table-head-color: $text-muted !default;
+$table-head-bg: $light !default;
+$table-striped-order: odd !default;
+$table-striped-bg: $light !default;
+$table-accent-bg: $light !default;
+$table-group-separator-color: $border-color-transparent !default;
