@@ -1,3 +1,9 @@
+
+import Tab from '../../node_modules/bootstrap5/js/src/tab.js';
+import Dropdown from '../../node_modules/bootstrap5/js/src/dropdown.js';
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
 
 	// load syntax highlighting css async

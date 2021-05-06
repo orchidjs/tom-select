@@ -43,6 +43,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('builddocs',[
 		'clean:builddocs',
 		'shell:builddocs',
+		'shell:rollupdocs',
 		'replace:builddocs',
 		'sass:builddocs',
 		'postcss:builddocs',
@@ -291,6 +292,9 @@ module.exports = function(grunt) {
 		shell: {
 			builddocs: {
 				command: 'npx @11ty/eleventy --config=.config/eleventy.js',
+			},
+			rollupdocs: {
+				command: 'npx rollup -c .config/rollup.docs.js',
 			},
 			buildjs: {
 				command: 'npx rollup -c .config/rollup.config.js',
