@@ -14,7 +14,7 @@
 		<script src="/js/bootstrap.tabs.min.js"></script>
 
 		{% block tomselectjs %}
-		<script src="/js/tom-select.complete.js"></script>
+		<script src="/js/tom-select.complete.min.js"></script>
 		{% endblock %}
 
 		<script src="/js/index.js"></script>
@@ -22,33 +22,36 @@
 	</head>
     <body>
 
-		<div class="row flex-lg-nowrap g-0">
+		{# offcanvas button #}
+		<button id="toggle-offcanvas" class="btn btn-link" type="button">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-			<div id="offcanvas" class="col-md-3 col-lg-2 d-flex flex-column bg-light border-end px-0 pt-5">
-				{% include "nav.njk" %}
+
+		{# offcanvas #}
+		<div id="offcanvas" class="d-flex flex-column bg-light border-end px-0 pt-5">
+			{% include "nav.njk" %}
+		</div>
+
+		{# main-col #}
+		<div class="px-3 main-col">
+			<div class="my-4">
+				<div class="container">
+					{% if title %}
+					<h1 class="display-4 mt-0">{{ title }}</h1>
+					{% endif %}
+				</div>
 			</div>
-
-			<div class="col-md-9 col-lg-10 px-3 main-col">
-				<div class="my-4">
-					<div class="container">
-						<button id="toggle-offcanvas" class="btn btn-link" type="button">
-							<span class="navbar-toggler-icon"></span>
-						</button>
-						{% if title %}
-						<h1 class="display-4 mt-0">{{ title }}</h1>
-						{% endif %}
-					</div>
-				</div>
-				<div class="container mt-3" id="main-container">
-					{{ content | safe }}
-					{% block content_foot %}
-					{% endblock %}
-				</div>
+			<div class="container mt-3" id="main-container">
+				{{ content | safe }}
+				{% block content_foot %}
+				{% endblock %}
 			</div>
 		</div>
 
+
 		<!-- Yandex.Metrika counter -->
-		<script type="text/javascript" >
+		<script type="text/javascript" csp-hash>
 		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
 		   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
 		   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");

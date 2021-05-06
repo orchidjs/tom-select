@@ -13,9 +13,11 @@ $input-disabled-bg:			$light;
 $nav-tabs-link-active-bg:	$light;
 $headings-color:			$gray-700;
 $body-color:                $gray-800;
+$sidebar-width:				16rem;
 
+$md:						768px;
 
-@import "../../node_modules/bootstrap5/scss/bootstrap.scss";
+@import "bootstrap.scss";
 
 
 // optionally define the class prefix. defaults to 'cs'
@@ -95,8 +97,14 @@ li{
 }
 
 .main-col{
-	min-height:100vh;
-	padding-bottom:15rem;
+	min-height:			100vh;
+	padding-bottom:		15rem;
+	transition:			opacity .3s ease-in-out;
+}
+
+
+.col-600{
+	max-width:600px;
 }
 
 /**
@@ -165,7 +173,7 @@ pre[class*="language-"]{
  */
 #offcanvas{
 	height:				100vh;
-	position:			sticky;
+	position:			fixed;
 	top:				0;
 	overflow-y:			auto;
 	overflow-x:			hidden;
@@ -203,6 +211,7 @@ pre[class*="language-"]{
 	display:none;
 }
 
+//@media (max-width: $md - 1px) {
 @include media-breakpoint-down(md) {
 
 	#toggle-offcanvas{
@@ -223,14 +232,34 @@ pre[class*="language-"]{
 		top:		0;
 		left:		0;
 		bottom:		0;
+		right:		0;
 		overflow:	auto;
 		z-index:	3;
 		transition: transform .3s ease-in-out, visibility .3s ease-in-out;
 		transform: translateX(-100%);
 	}
 
-	#offcanvas.open{
-		transform: translateX(0);
+	.offcanvas-open{
+		overflow: hidden;
+
+		#offcanvas{
+			transform: translateX(0);
+		}
+
+		.main-col{
+			opacity:0;
+		}
+	}
+
+}
+
+//@media (min-width: $md) {
+@include media-breakpoint-up(md) {
+	#offcanvas{
+		width: $sidebar-width;
+	}
+	.main-col{
+		margin-left: #{$sidebar-width};
 	}
 
 }

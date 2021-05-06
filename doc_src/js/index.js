@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	 *
 	 */
 	document.getElementById('toggle-offcanvas').addEventListener('click',function(){
-		document.getElementById('offcanvas').classList.toggle('open');
+		document.body.classList.toggle('offcanvas-open');
 	});
 
 

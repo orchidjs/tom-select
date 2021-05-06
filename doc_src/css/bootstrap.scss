@@ -1,0 +1,63 @@
+/*!
+ * Bootstrap v5.0.0 (https://getbootstrap.com/)
+ * Copyright 2011-2021 The Bootstrap Authors
+ * Copyright 2011-2021 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
+
+ // saves ~40kb by removing lg, xl, xxl
+ $grid-breakpoints: (
+   xs: 0,
+   //sm: 576px, // 12kb
+   md: 768px,
+   //lg: 992px,
+   //xl: 1200px,
+   //xxl: 1400px
+ );
+
+// scss-docs-start import-stack
+// Configuration
+@import "../../node_modules/bootstrap5/scss/functions";
+@import "../../node_modules/bootstrap5/scss/variables";
+@import "../../node_modules/bootstrap5/scss/mixins";
+@import "../../node_modules/bootstrap5/scss/utilities";
+
+// Layout & components
+@import "../../node_modules/bootstrap5/scss/root";
+@import "../../node_modules/bootstrap5/scss/reboot";
+@import "../../node_modules/bootstrap5/scss/type";
+@import "../../node_modules/bootstrap5/scss/images";
+@import "../../node_modules/bootstrap5/scss/containers";
+@import "../../node_modules/bootstrap5/scss/grid";
+@import "../../node_modules/bootstrap5/scss/tables";
+@import "../../node_modules/bootstrap5/scss/forms";
+@import "../../node_modules/bootstrap5/scss/buttons";
+@import "../../node_modules/bootstrap5/scss/transitions";
+@import "../../node_modules/bootstrap5/scss/dropdown";
+//@import "../../node_modules/bootstrap5/scss/button-group";
+@import "../../node_modules/bootstrap5/scss/nav";
+@import "../../node_modules/bootstrap5/scss/navbar";
+@import "../../node_modules/bootstrap5/scss/card";
+//@import "../../node_modules/bootstrap5/scss/accordion";
+//@import "../../node_modules/bootstrap5/scss/breadcrumb";
+//@import "../../node_modules/bootstrap5/scss/pagination";
+@import "../../node_modules/bootstrap5/scss/badge";
+//@import "../../node_modules/bootstrap5/scss/alert";
+//@import "../../node_modules/bootstrap5/scss/progress";
+//@import "../../node_modules/bootstrap5/scss/list-group";
+@import "../../node_modules/bootstrap5/scss/close";
+//@import "../../node_modules/bootstrap5/scss/toasts";
+//@import "../../node_modules/bootstrap5/scss/modal";
+//@import "../../node_modules/bootstrap5/scss/tooltip";
+//@import "../../node_modules/bootstrap5/scss/popover";
+//@import "../../node_modules/bootstrap5/scss/carousel";
+//@import "../../node_modules/bootstrap5/scss/spinners";
+//@import "../../node_modules/bootstrap5/scss/offcanvas";
+
+// Helpers
+@import "../../node_modules/bootstrap5/scss/helpers";
+
+// Utilities
+@import "../../node_modules/bootstrap5/scss/utilities/api";
+// scss-docs-end import-stack
