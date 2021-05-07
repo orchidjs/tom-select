@@ -39,14 +39,11 @@ Tom Select was forked from <a href="https://github.com/selectize/selectize.js">s
 
 
 ### Breaking Changes
-- removed support for older browsers including IE11
-- removed placeholder show/hide
-- dataAttr defaults to null instead of "data-data"
-- options are appended to optgroup template programmatically
-- .ts-* css class names (customizable with scss)
+- .ts-* css class names instead of .selectize-* (customizable with scss & js)
 - scss instead of less
-	- autoprefixer
-	- nanocss
+- dataAttr defaults to null instead of "data-data"
+- options must be appended to optgroup within custom optgroup template
+- removed support for older browsers including IE11
 
 
 ### Development Environment
