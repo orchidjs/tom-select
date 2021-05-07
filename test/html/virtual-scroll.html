@@ -6,31 +6,44 @@
 		<script src="../../build/js/tom-select.base.js"></script>
 	</head>
 	<body>
-		<select id="reddit-search" placeholder="Search Reddit ..." multiple></select>	</body>
+		<div style="margin:3rem auto;width:50vw">
+			<select id="reddit-search" placeholder="Search Reddit ..." multiple></select>	</body>
+		</div>
 	<script>
 
 
 	TomSelect.define('virtual_scroll',function(options) {
-		var self = this;
-		var pagination = {};
+		const self = this;
+		const pagination = {};
+
+	 	const load_fn		= self.settings.load;
+		if( !load_fn ){
+			throw 'virtual_scroll plugin requires a load() method';
+			return;
+		}
+
+		if( !self.settings.firstUrl ){
+			throw 'virtual_scroll plugin requires a firstUrl() method';
+			return;
+		}
 
 
 		self.setNextUrl = function(value,next_url){
 			pagination[value] = pagination[value] || [];
 			pagination[value].push(next_url);
-			console.log('new pagination',value,pagination);
 		};
 
-		self.hook('before','setup',()=>{
-			self.settings.load = function(query, callback){
-				var url = self.settings.getUrl(query);
-				self.settings.loadUrl.call(self, query, url, callback);
-			};
-		});
+		self.getUrl = function(query){
 
+			if( query in pagination ){
+				return pagination[query].shift();
+			}
+
+			return self.settings.firstUrl(query);;
+		};
 
 		self.hook('after','setup',()=>{
-			var content = self.dropdown_content;
+			const content = self.dropdown_content;
 
 
 			// watch dropdown content scroll position
@@ -40,27 +53,15 @@
 					return;
 				}
 
-				var scroll_percent = content.clientHeight / (content.scrollHeight - content.scrollTop);
+				const scroll_percent = content.clientHeight / (content.scrollHeight - content.scrollTop);
 				if( scroll_percent < 0.95 ){
 					return;
 				}
 
-				var query		= self.lastValue;
 
-				if( !pagination[query] ){
-					return;
-				}
+				const query		= self.lastValue;
 
-				// load more data
-				// 	? page number
-				var load_fn		= self.settings.loadUrl;
-				if( !load_fn ){
-					return;
-				}
-
-
-				var next_url	= pagination[query].shift();
-				if( !next_url ){
+				if( !(query in pagination) || !pagination[query].length ){
 					return;
 				}
 
@@ -68,7 +69,11 @@
 				//addClasses(self.wrapper,self.settings.loadingClass);
 				self.loading++;
 
-				load_fn.call(self, query, next_url, function(options, optgroups){
+				const callback = self.loadCallback.bind(self);
+				load_fn.call(self, query, callback);
+
+				/*
+				load_fn.call(self, query, function(options, optgroups){
 					self.loading = Math.max(self.loading - 1, 0);
 					self.setupOptions(options,optgroups);
 					self.lastQuery = null;
@@ -81,6 +86,7 @@
 
 					self.trigger('load', options, optgroups);
 				});
+				*/
 
 			});
 		});
@@ -95,10 +101,12 @@
 		maxOptions: 200,
 
 		// fetch remote data
-		getUrl: function(query){
+		firstUrl: function(query){
 			return 'https://api.reddit.com/search?q=' + encodeURIComponent(query);
 		},
-		loadUrl: function(query, url, callback) {
+		load: function(query, callback) {
+
+			const url = this.getUrl(query);
 
 			fetch(url)
 				.then(response => response.json())
@@ -108,15 +116,12 @@
 					let data = json.data.children.map(row => row.data);
 					callback(data);
 
-					console.log('options.length',Object.keys(this.options).length);
-
 
 					// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
-					var next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
+					const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
 					this.setNextUrl(query, next_url);
 
 				}).catch((e)=>{
-					console.log('e',e);
 					callback();
 				});
 
