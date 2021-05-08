@@ -120,12 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			var js				= getTextContent('script');
 			var theme			= localStorage.getItem('theme') || 'bootstrap4';
 			var css_urls		= [
-										`https://cdn.jsdelivr.net/gh/orchidjs/tom-select@1.6.2/dist/css/tom-select.${theme}.min.css`,
+										`https://cdn.jsdelivr.net/gh/orchidjs/tom-select@//@@version/dist/css/tom-select.${theme}.min.css`,
 										'https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css',
 										'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css',
 									];
 
-			var js_urls			= ['https://cdn.jsdelivr.net/gh/orchidjs/tom-select@1.6.2/dist/js/tom-select.complete.min.js'];
+			var js_urls			= ['https://cdn.jsdelivr.net/gh/orchidjs/tom-select@//@@version/dist/js/tom-select.complete.min.js'];
 
 
 			// add jquery when needed
