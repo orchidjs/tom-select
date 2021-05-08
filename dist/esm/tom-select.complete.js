@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.6.1
+* Tom Select v1.6.2
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -2537,14 +2537,14 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    * Returns search options for sifter (the system
    * for scoring and sorting results).
    *
-   * @see https://github.com/brianreavis/sifter.js
+   * @see https://github.com/orchidjs/sifter.js
    * @return {object}
    */
 
 
   getSearchOptions() {
-    var sort;
     var settings = this.settings;
+    var sort = settings.sortField;
 
     if (typeof settings.sortField === 'string') {
       sort = [{
