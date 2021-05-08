@@ -1205,8 +1205,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * @return {object}
 	 */
 	getSearchOptions() {
-		var sort;
 		var settings = this.settings;
+		var sort = settings.sortField;
 		if (typeof settings.sortField === 'string') {
 			sort = [{field: settings.sortField}];
 		}
