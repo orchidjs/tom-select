@@ -13,14 +13,14 @@
 
 
 	TomSelect.define('virtual_scroll',function(options) {
-		const self = this;
-		const pagination = {};
+		const self						= this;
+		const pagination				= {};
+		const orig_canLoad				= self.canLoad;
+		const orig_clearActiveOption	= self.clearActiveOption;
+		var dropdown_content;
+		var loading_more				= false;
 
-	 	const load_fn		= self.settings.load;
-		if( !load_fn ){
-			throw 'virtual_scroll plugin requires a load() method';
-			return;
-		}
+		self.settings.sortField			= [{field:'$order'},{field:'$score'}];
 
 		if( !self.settings.firstUrl ){
 			throw 'virtual_scroll plugin requires a firstUrl() method';
@@ -28,11 +28,28 @@
 		}
 
 
+		// can we load more results for given query?
+		function canLoadMore(query){
+
+			if( typeof self.settings.maxOptions === 'number' && dropdown_content.children.length >= self.settings.maxOptions ){
+				return;
+			}
+
+			if( (query in pagination) && pagination[query].length > 0 ){
+				return true;
+			}
+
+			return false;
+		}
+
+
+		// set the next url that will be
 		self.setNextUrl = function(value,next_url){
 			pagination[value] = pagination[value] || [];
 			pagination[value].push(next_url);
 		};
 
+		// getUrl() to be used in settings.load()
 		self.getUrl = function(query){
 
 			if( query in pagination ){
@@ -42,62 +59,123 @@
 			return self.settings.firstUrl(query);;
 		};
 
+		self.hook('instead','clearActiveOption',()=>{
+			console.log('clearActiveOption');
+			if( loading_more ){
+				console.log('nope.. loading more!!');
+				return;
+			}
+
+			return orig_clearActiveOption.call(self);
+		});
+
+		// override the canLoad method
+		self.hook('instead','canLoad',(query)=>{
+
+			// first time the query has been seen
+			if( !(query in pagination) ){
+				return orig_canLoad.call(this,query);
+			}
+
+			return canLoadMore(query);
+		});
+
+
+		// override the loadcallback method
+		/*
+		self.hook('instead','loadCallback',(options, optgroups)=>{
+			const self = this;
+			self.loading = Math.max(self.loading - 1, 0);
+			self.lastQuery = null;
+
+			//self.clearActiveOption(); // when new results load, focus should be on first option
+			self.setupOptions(options,optgroups);
+
+			self.refreshOptions(self.isFocused && !self.isInputHidden);
+
+			if (!self.loading) {
+				//removeClasses(self.wrapper,self.settings.loadingClass);
+			}
+
+			self.trigger('load', options, optgroups);
+		});
+		*/
+
+		self.hook('before','loadCallback',( value, options, optgroups )=>{
+			//console.log('options',options,'value',value);
+			if( !loading_more ){
+				console.log('clear options!');
+				self.clearOptions();
+			}
+		});
+
+		self.hook('after','loadCallback',( value, options, optgroups )=>{
+			loading_more = false;
+			//console.log('loading more = false');
+		});
+
+
+		// add loading_more or no_more_results templates to dropdown
+		self.hook('after','refreshOptions',()=>{
+
+			const query		= self.lastValue;
+
+			if( canLoadMore(query) ){
+				var option = self.render('loading_more',{query:query});
+				option.setAttribute('data-selectable',''); // so that navigating dropdown with [down] keypresses can navigate to this node
+				option.classList.add(self.settings.optionClass);
+				dropdown_content.append( option );
+
+			}else if( query in pagination ){
+				dropdown_content.append( self.render('no_more_results',{query:query}) );
+			}
+
+		});
+
+
+		// add scroll listener and default templates
 		self.hook('after','setup',()=>{
-			const content = self.dropdown_content;
+			dropdown_content = self.dropdown_content;
+
+			// default templates
+			self.settings.render = Object.assign({}, {
+				loading_more:function(data,escape){
+					return `<div>Loading more results ... </div>`;
+				},
+				no_more_results:function(data,escape){
+					return '<div>No more results</div>';
+				}
+			},self.settings.render);
 
 
 			// watch dropdown content scroll position
-			content.addEventListener('scroll',function(){
+			dropdown_content.addEventListener('scroll',function(){
 
-				if( typeof self.settings.maxOptions === 'number' && content.children.length >= self.settings.maxOptions ){
-					return;
-				}
-
-				const scroll_percent = content.clientHeight / (content.scrollHeight - content.scrollTop);
+				const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
 				if( scroll_percent < 0.95 ){
 					return;
 				}
 
+				// prevent the call to clearActiveOption() in loadCallback() from resetting active option and scrolling dropdown back to top
+				loading_more = true;
+				console.log('loading more = true');
 
-				const query		= self.lastValue;
-
-				if( !(query in pagination) || !pagination[query].length ){
-					return;
-				}
-
-
-				//addClasses(self.wrapper,self.settings.loadingClass);
-				self.loading++;
-
-				const callback = self.loadCallback.bind(self);
-				load_fn.call(self, query, callback);
-
-				/*
-				load_fn.call(self, query, function(options, optgroups){
-					self.loading = Math.max(self.loading - 1, 0);
-					self.setupOptions(options,optgroups);
-					self.lastQuery = null;
-
-					self.refreshOptions(self.isFocused && !self.isInputHidden);
-
-					if (!self.loading) {
-						//removeClasses(self.wrapper,self.settings.loadingClass);
-					}
-
-					self.trigger('load', options, optgroups);
-				});
-				*/
-
+				// invoke tom-select load()
+				self.load.call(self,self.lastValue);
 			});
 		});
 
 	});
 
-	new TomSelect('#reddit-search',{
+	class TestSelect extends TomSelect{
+		close(){}
+	}
+
+	new TestSelect('#reddit-search',{
 		valueField: 'permalink',
 		labelField: 'title',
 		searchField: ['title'],
-		plugins:['virtual_scroll'],
+		//plugins:['virtual_scroll'],
 		maxOptions: 200,
 
 		// fetch remote data
@@ -112,14 +190,14 @@
 				.then(response => response.json())
 				.then(json => {
 
+					// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
+					// !! set before invoking callback()
+					const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
+					this.setNextUrl(query, next_url);
+
 					// add data to the results
 					let data = json.data.children.map(row => row.data);
 					callback(data);
-
-
-					// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
-					const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
-					this.setNextUrl(query, next_url);
 
 				}).catch((e)=>{
 					callback();
@@ -128,7 +206,10 @@
 		},
 		render: {
 			option: function(data, escape) {
-				return `<div>${ escape(data.title) }</div>`;
+				return `<div>${ escape(data.$order) } - ${ escape(data.title) }</div>`;
+			},
+			loading_more:function(data,escape){
+				return `<div>Loading more custom ... </div>`;
 			}
 		},
 	});
