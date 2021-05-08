@@ -187,11 +187,15 @@ pre[class*="language-"]{
 	overflow-y:			auto;
 	overflow-x:			hidden;
 	visibility: 		visible;
-	color:				$secondary;
+	color:				$gray-700;
 
+	&:hover,
+	&:hover a{
+		color:			$gray-600;
+	}
 
 	a{
-		color:				$secondary;
+		color:				$gray-700;
 		text-decoration:	none;
 		transition:			color .3s ease-in-out;
 	}

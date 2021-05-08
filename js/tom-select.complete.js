@@ -2549,8 +2549,8 @@
 
 
 	  getSearchOptions() {
-	    var sort;
 	    var settings = this.settings;
+	    var sort = settings.sortField;
 
 	    if (typeof settings.sortField === 'string') {
 	      sort = [{
