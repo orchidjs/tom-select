@@ -42,7 +42,7 @@ export type TomSettings = {
 	optgroupValueField		: string,
 	lockOptgroupOrder		: boolean,
 
-	sortField				: string,
+	sortField				: string|any[],
 	searchField				: string[],
 	searchConjunction		: string,
 	nesting					: boolean,
