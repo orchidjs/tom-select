@@ -120,15 +120,19 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 	self.hook('after','refreshOptions',()=>{
 
 		const query		= self.lastValue;
+		var option;
 
 		if( canLoadMore(query) ){
-			var option = self.render('loading_more',{query:query});
-			option.setAttribute('data-selectable',''); // so that navigating dropdown with [down] keypresses can navigate to this node
-			option.classList.add(self.settings.optionClass);
-			dropdown_content.append( option );
+			option = self.render('loading_more',{query:query});
+			if( option ) option.setAttribute('data-selectable',''); // so that navigating dropdown with [down] keypresses can navigate to this node
 
 		}else if( (query in pagination) && !dropdown_content.querySelector('.no-results') ){
-			dropdown_content.append( self.render('no_more_results',{query:query}) );
+			option = self.render('no_more_results',{query:query});
+		}
+
+		if( option ){
+			addClasses(option,self.settings.optionClass);
+			dropdown_content.append( option );
 		}
 
 	});
