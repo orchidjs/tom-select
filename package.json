@@ -88,7 +88,7 @@
     "build": "grunt build",
     "build:types": "tsc -p .config --emitDeclarationOnly",
     "test": "karma start",
-    "test:one": "export TEST_ONE=1 && grunt build && karma start",
+    "test:one": "karma start --test_one",
     "test:typescript": "tsc -p .config --noemit",
     "start": "grunt serve",
     "pretest": "grunt build"
