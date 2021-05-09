@@ -80,7 +80,7 @@ describe('plugin: virtual_scroll', function() {
 		await asyncType('\bb',test.instance.control_input);
 		await waitFor(100); // wait for data to load
 		assert.equal( Object.keys(test.instance.options).length,20);
-		assert.equal( load_calls, 2);
+		assert.equal( load_calls, 3);
 	});
 
 });
