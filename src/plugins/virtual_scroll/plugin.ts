@@ -48,7 +48,7 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 			return;
 		}
 
-		if( (query in pagination) && pagination[query].length > 0 ){
+		if( (query in pagination) && pagination[query] ){
 			return true;
 		}
 
@@ -58,15 +58,16 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 
 	// set the next url that will be
 	self.setNextUrl = function(value,next_url){
-		pagination[value] = pagination[value] || [];
-		pagination[value].push(next_url);
+		pagination[value] = next_url;
 	};
 
 	// getUrl() to be used in settings.load()
 	self.getUrl = function(query){
 
 		if( query in pagination ){
-			return pagination[query].shift();
+			const next_url = pagination[query];
+			pagination[query] = false;
+			return next_url;
 		}
 
 		return self.settings.firstUrl(query);;
