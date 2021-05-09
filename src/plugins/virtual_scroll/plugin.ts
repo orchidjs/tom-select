@@ -25,7 +25,7 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 	const orig_canLoad				= self.canLoad;
 	const orig_clearActiveOption	= self.clearActiveOption;
 	const orig_loadCallback			= self.loadCallback;
-	
+
 	var pagination					= {};
 	var dropdown_content;
 	var loading_more				= false;
@@ -43,7 +43,7 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 
 
 	// can we load more results for given query?
-	function canLoadMore(query){
+	function canLoadMore(query):boolean{
 
 		if( typeof self.settings.maxOptions === 'number' && dropdown_content.children.length >= self.settings.maxOptions ){
 			return;
@@ -58,12 +58,12 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 
 
 	// set the next url that will be
-	self.setNextUrl = function(value,next_url){
+	self.setNextUrl = function(value:string,next_url:any):void{
 		pagination[value] = next_url;
 	};
 
 	// getUrl() to be used in settings.load()
-	self.getUrl = function(query){
+	self.getUrl = function(query:string):any{
 
 		if( query in pagination ){
 			const next_url = pagination[query];
@@ -90,7 +90,7 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 	});
 
 	// override the canLoad method
-	self.hook('instead','canLoad',(query)=>{
+	self.hook('instead','canLoad',(query:string)=>{
 
 		// first time the query has been seen
 		if( !(query in pagination) ){
@@ -102,7 +102,7 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 
 
 	// wrap the load
-	self.hook('instead','loadCallback',(value, options, optgroups)=>{
+	self.hook('instead','loadCallback',(value:string, options:TomOption[], optgroups:TomOption[])=>{
 
 		if( !loading_more ){
 			self.clearOptions();
