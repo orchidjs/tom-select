@@ -181,7 +181,7 @@ module.exports = function(grunt) {
 			},
 		},
 
-		// replace @@version with current package version
+		// replace //@@version with current package version
 		replace: {
 			options: {
 				prefix: '//@@',
@@ -198,7 +198,8 @@ module.exports = function(grunt) {
 			},
 			builddocs:{
 				files:[
-					{src:['build/docs/js/index.bundle.js'],dest:'build/docs/js/index.bundle.js'}
+					{src:['build/docs/js/index.bundle.js'],dest:'build/docs/js/index.bundle.js'},
+					{src:['build/docs/index.html'],dest:'build/docs/index.html'}
 				]
 			}
 		},
