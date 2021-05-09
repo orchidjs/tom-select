@@ -141,10 +141,10 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 		// default templates
 		self.settings.render = Object.assign({}, {
 			loading_more:function(data,escape){
-				return `<div>Loading more results ... </div>`;
+				return `<div class="loading-more-results">Loading more results ... </div>`;
 			},
 			no_more_results:function(data,escape){
-				return `<div>No more results</div>`;
+				return `<div class="no-more-results">No more results</div>`;
 			}
 		},self.settings.render);
 
