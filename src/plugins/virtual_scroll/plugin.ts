@@ -22,10 +22,11 @@ type TPluginOptions = {
 
 TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 	const self						= this;
-	const pagination				= {};
 	const orig_canLoad				= self.canLoad;
 	const orig_clearActiveOption	= self.clearActiveOption;
 	const orig_loadCallback			= self.loadCallback;
+	
+	var pagination					= {};
 	var dropdown_content;
 	var loading_more				= false;
 
@@ -70,7 +71,11 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 			return next_url;
 		}
 
-		return self.settings.firstUrl(query);;
+		// if the user goes back to a previous query
+		// we need to load the first page again
+		pagination = {};
+
+		return self.settings.firstUrl(query);
 	};
 
 	// don't clear the active option (and cause unwanted dropdown scroll)
