@@ -14,6 +14,7 @@
  */
 import TomSelect from '../../tom-select.js';
 import { TomOption } from '../../types/index';
+import { addClasses } from '../../vanilla';
 
 type TPluginOptions = {
 	text:(option:TomOption)=>string,

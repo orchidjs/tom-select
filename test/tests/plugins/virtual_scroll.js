@@ -62,7 +62,7 @@ describe('plugin: virtual_scroll', function() {
 		test.instance.dropdown_content.scroll({top:1000}); // scroll to bottom
 		//test.instance.dropdown_content.scroll({top:0}); // scroll to top
 		//test.instance.dropdown_content.scroll({top:1000}); // scroll back to bottom
-		await waitFor(400); // wait for scroll + more data to load
+		await waitFor(500); // wait for scroll + more data to load
 		assert.equal( Object.keys(test.instance.options).length, 40);
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 0, 'should not have loading-more-reuslts template');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.no-more-results').length, 1 ,'should have no-more-results template');
@@ -71,7 +71,7 @@ describe('plugin: virtual_scroll', function() {
 
 		// don't load any more data for "a"
 		test.instance.dropdown_content.scroll({top:1000}); // scroll to bottom
-		await waitFor(400); // wait for scroll + more data to load
+		await waitFor(500); // wait for scroll + more data to load
 		assert.equal( Object.keys(test.instance.options).length, 40);
 		assert.equal( load_calls, 2);
 
