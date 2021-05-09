@@ -25,7 +25,7 @@ describe('plugin: virtual_scroll', function() {
 		assert.equal(errors,1);
 	});
 
-	it_n('loads data',function(done){
+	it_n('loads data',async ()=>{
 
 		var test = setup_test('<input>',{
 			plugins:['virtual_scroll'],
@@ -33,7 +33,7 @@ describe('plugin: virtual_scroll', function() {
 			valueField: 'value',
 			searchField: 'value',
 			loadThrottle: 1,
-			maxOptions: 50,
+			maxOptions: 30,
 			firstUrl: function(query){
 				return [query,0];
 			},
@@ -45,25 +45,15 @@ describe('plugin: virtual_scroll', function() {
 			}
 		});
 
-		click(test.instance.control, function(){
-			syn.type('a', test.instance.control_input,function(){
+		
+		await asyncClick(test.instance.control);
+		await asyncType('a',test.instance.control_input);
+		await waitFor(100); // wait for data to load
+		assert.equal( Object.keys(test.instance.options).length,20);
 
-				// wait for data to load
-				setTimeout(function(){
-					assert.equal( Object.keys(test.instance.options).length,20);
-
-					// scroll to bottom
-					test.instance.dropdown_content.scroll({top:1000});
-
-					// wait for more data to load
-					setTimeout(function(){
-						assert.equal( Object.keys(test.instance.options).length, 40);
-						done();
-					},500); // greater than load throttle + scroll time
-
-				},10); // greater than load throttle
-			});
-		});
+		test.instance.dropdown_content.scroll({top:1000}); // scroll to bottom
+		await waitFor(500); // wait for scroll + more data to load
+		assert.equal( Object.keys(test.instance.options).length, 40);
 
 	});
 
