@@ -17,15 +17,20 @@
 		const pagination				= {};
 		const orig_canLoad				= self.canLoad;
 		const orig_clearActiveOption	= self.clearActiveOption;
+		const orig_loadCallback			= self.loadCallback;
 		var dropdown_content;
 		var loading_more				= false;
 
-		self.settings.sortField			= [{field:'$order'},{field:'$score'}];
 
 		if( !self.settings.firstUrl ){
 			throw 'virtual_scroll plugin requires a firstUrl() method';
 			return;
 		}
+
+
+		// in order for virtual scrolling to work,
+		// options need to be ordered the same way they're returned from the remote data source
+		self.settings.sortField			= [{field:'$order'},{field:'$score'}];
 
 
 		// can we load more results for given query?
@@ -59,10 +64,11 @@
 			return self.settings.firstUrl(query);;
 		};
 
+		// don't clear the active option (and cause unwanted dropdown scroll)
+		// while loading more results
 		self.hook('instead','clearActiveOption',()=>{
-			console.log('clearActiveOption');
+
 			if( loading_more ){
-				console.log('nope.. loading more!!');
 				return;
 			}
 
@@ -81,41 +87,22 @@
 		});
 
 
-		// override the loadcallback method
-		/*
-		self.hook('instead','loadCallback',(options, optgroups)=>{
-			const self = this;
-			self.loading = Math.max(self.loading - 1, 0);
-			self.lastQuery = null;
+		// wrap the load
+		self.hook('instead','loadCallback',(value, options, optgroups)=>{
 
-			//self.clearActiveOption(); // when new results load, focus should be on first option
-			self.setupOptions(options,optgroups);
-
-			self.refreshOptions(self.isFocused && !self.isInputHidden);
-
-			if (!self.loading) {
-				//removeClasses(self.wrapper,self.settings.loadingClass);
-			}
-
-			self.trigger('load', options, optgroups);
-		});
-		*/
-
-		self.hook('before','loadCallback',( value, options, optgroups )=>{
-			//console.log('options',options,'value',value);
 			if( !loading_more ){
-				console.log('clear options!');
 				self.clearOptions();
 			}
-		});
 
-		self.hook('after','loadCallback',( value, options, optgroups )=>{
+			orig_loadCallback.call( self, value, options, optgroups);
+
 			loading_more = false;
-			//console.log('loading more = false');
 		});
 
 
-		// add loading_more or no_more_results templates to dropdown
+		// add templates to dropdown
+		//	loading_more if we have another url in the queue
+		//	no_more_results if we don't have another url in the queue
 		self.hook('after','refreshOptions',()=>{
 
 			const query		= self.lastValue;
@@ -126,7 +113,7 @@
 				option.classList.add(self.settings.optionClass);
 				dropdown_content.append( option );
 
-			}else if( query in pagination ){
+			}else if( (query in pagination) && !dropdown_content.querySelector('.no-results') ){
 				dropdown_content.append( self.render('no_more_results',{query:query}) );
 			}
 
@@ -156,11 +143,16 @@
 					return;
 				}
 
-				// prevent the call to clearActiveOption() in loadCallback() from resetting active option and scrolling dropdown back to top
-				loading_more = true;
-				console.log('loading more = true');
+				// !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
+				if( !canLoadMore(self.lastValue) ){
+					return;
+				}
 
-				// invoke tom-select load()
+				// don't call load() too much
+				if( loading_more ) return;
+
+
+				loading_more = true;
 				self.load.call(self,self.lastValue);
 			});
 		});
@@ -175,7 +167,7 @@
 		valueField: 'permalink',
 		labelField: 'title',
 		searchField: ['title'],
-		//plugins:['virtual_scroll'],
+		plugins:['virtual_scroll'],
 		maxOptions: 200,
 
 		// fetch remote data
