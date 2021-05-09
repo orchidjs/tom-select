@@ -11,6 +11,7 @@ import './plugins/no_active_items/plugin.js';
 import './plugins/optgroup_columns/plugin.js';
 import './plugins/remove_button/plugin.js';
 import './plugins/restore_on_backspace/plugin.js';
+import './plugins/virtual_scroll/plugin.js';
 
 
 export default TomSelect;
