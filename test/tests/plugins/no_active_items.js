@@ -1,7 +1,7 @@
 
 describe('plugin: no_active_items', function() {
 
-	it_n('should not activeate item on click', function(done) {
+	it_n('should not activate item on click', function(done) {
 
 		let test = setup_test('<input value="a,b">', {plugins: ['no_active_items']});
 		var item = test.instance.getItem('a');
