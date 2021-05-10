@@ -68,6 +68,7 @@ inputs.forEach((slug)=>{
 			preserveModules: false,
 			sourcemap: true,
 			banner: banner,
+			exports: "auto",
 		},
 		plugins:[babel_config,resolve_config],
 		//external: ['@orchidjs/sifter/dist/esm/sifter.js'],
