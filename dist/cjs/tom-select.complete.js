@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.6.2
+* Tom Select v1.6.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -472,6 +472,12 @@ class Sifter {
           weights = search.weights,
           field_count = fields.length,
           getAttrFn = search.getAttrFn;
+
+    if (!field_count) {
+      return function () {
+        return 1;
+      };
+    }
     /**
      * Calculates the score of an object
      * against the search query.
@@ -481,13 +487,8 @@ class Sifter {
      * @return {number}
      */
 
-    const scoreObject = function () {
-      if (!field_count) {
-        return function () {
-          return 0;
-        };
-      }
 
+    const scoreObject = function () {
       if (field_count === 1) {
         return function (token, data) {
           const field = fields[0].field;
@@ -1419,7 +1420,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.activeItems = [];
     this.optgroups = {};
     this.options = {};
-    this.options_i = 0;
     this.userOptions = {};
     this.items = [];
     this.renderCache = {
@@ -2829,7 +2829,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var key = hash_key(data[this.settings.valueField]);
     if (key === null || this.options.hasOwnProperty(key)) return false;
     data.$order = data.$order || ++this.order;
-    data.$id = this.inputId + '-opt-' + this.options_i++;
+    data.$id = this.inputId + '-opt-' + data.$order;
     this.options[key] = data;
     return key;
   }
