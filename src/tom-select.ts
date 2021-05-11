@@ -1657,10 +1657,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		value = hash_key(value);
 
 		if( value ){
-			value = addSlashes(value);
-			return this.dropdown_content.querySelector(`[data-selectable][data-value="${value}"]`);
+			const option = this.dropdown_content.querySelector(`[data-selectable][data-value="${addSlashes(value)}"]`);
+			if( option ){
+				return option;
+			}
 		}
 
+		if( this.renderCache['option'].hasOwnProperty(value) ){
+			return this.renderCache['option'][value];
+		}
 	}
 
 	/**
