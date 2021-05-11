@@ -555,6 +555,7 @@
 				test = setup_test('<select>', {
 					valueField: 'value',
 					labelField: 'value',
+					searchField:'value',
 					options: [
 						{value: 0},
 						{value: 1},
@@ -569,7 +570,9 @@
 				});
 				test.instance.refreshOptions(true);
 			});
+
 			it_n('should allow string values', function() {
+				var a = test.instance.getOption('a');
 				expect(test.instance.getOption('a')).to.be.ok;
 				expect(test.instance.getOption('b')).to.be.ok;
 			});
@@ -590,6 +593,21 @@
 				expect(test.instance.getOption(null)).to.be.equal(undefined);
 				expect(test.instance.getOption(undefined)).to.be.equal(undefined);
 			});
+
+			it_n('should return cached option',function(){
+
+				test.instance.control_input.value = 'a';
+				test.instance.refreshOptions(true);
+				var option_before = test.instance.getOption('a');
+
+				test.instance.control_input.value = 'b';
+				test.instance.refreshOptions(true);
+				var option_after = test.instance.getOption('a');
+
+				assert.equal(option_before,option_after);
+
+			});
+
 		});
 
 		describe('getItem()', function() {

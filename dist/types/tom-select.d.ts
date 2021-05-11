@@ -55,7 +55,6 @@ export default class TomSelect extends TomSelect_base {
     activeItems: HTMLElement[];
     optgroups: TomOptions;
     options: TomOptions;
-    private options_i;
     userOptions: {
         [key: string]: boolean;
     };

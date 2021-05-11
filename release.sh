@@ -77,7 +77,7 @@ if ! sed -i 's/"version": "[^"]*"/"version": "'$VERSION'"/' package.json; then
 fi
 
 # build from source
-if ! grunt; then
+if ! npm run build; then
 	echo 'Build failed... cannot create release'
 	exit
 fi

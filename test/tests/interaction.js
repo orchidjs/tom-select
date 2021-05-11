@@ -188,11 +188,14 @@
 
 
 			it_n('should open dropdown menu', function(done) {
-				var test = setup_test('AB_Single',{});
+				var test = setup_test('AB_Single',{
+					items:['c']
+				});
 
 				click(test.instance.control, function() {
 					expect(test.instance.isOpen).to.be.equal(true);
 					expect( isVisible(test.instance.dropdown) ).to.be.equal(true);
+					assert.equal( test.instance.activeOption.dataset.value,'c','activeOption should be "c"');
 					done();
 				});
 			});
@@ -1101,9 +1104,13 @@
 					expect(instance.getItem(text)).to.be.ok;
 				});
 
-				execFilterTests('should not add an item or display the create label if the input does not match the createFilter (A)', ['foo', /foo/, function() { return false; }], function(instance) {
-					expect(instance.getItem(text)).to.be.equal(undefined);
-				});
+				execFilterTests(
+					'should not add an item or display the create label if the input does not match the createFilter (A)',
+					['foo', /foo/, function() { return false; }],
+					function(instance) {
+						expect(instance.getItem(text)).to.be.equal(null);
+					}
+				);
 
 				execFilterTests('should not add an item or display the create label if the input does not match the createFilter (B)', ['foo', /foo/, function() { return false; }], function(instance) {
 					expect($(instance.dropdown_content).filter('.create').length).to.be.equal(0);

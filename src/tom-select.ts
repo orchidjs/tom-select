@@ -16,7 +16,8 @@ import {
 	addEvent,
 	loadDebounce,
 	isKeyDown,
-	getId
+	getId,
+	addSlashes
 } from './utils';
 
 import {
@@ -1431,6 +1432,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				active = active_before_hash && self.getOption(active_before_hash);
 
+				if( !active && self.settings.mode === 'single' && self.items.length ){
+					active = self.getOption(self.items[0]);
+				}
+
 				if( !active || !self.dropdown_content.contains(active)  ){
 
 					let active_index = 0;
@@ -1670,13 +1675,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	getOption(value:string):HTMLElement {
 
-		// cached ?
+		value = hash_key(value);
+
+		if( value ){
+			const option = this.dropdown_content.querySelector(`[data-selectable][data-value="${addSlashes(value)}"]`);
+			if( option ){
+				return option;
+			}
+		}
+
 		if( this.renderCache['option'].hasOwnProperty(value) ){
 			return this.renderCache['option'][value];
 		}
-
-		// from existing dropdown menu dom
-		return this.getElementWithValue(value, this.selectable());
 	}
 
 	/**
@@ -1710,23 +1720,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 	}
 
-	/**
-	 * Finds the first element with a "data-value" attribute
-	 * that matches the given value.
-	 *
-	 */
-	getElementWithValue(value:string, els:HTMLCollection|NodeList|HTMLElement[]):HTMLElement {
-		value = hash_key(value);
-
-		if (value !== null) {
-			for( const node of els ){
-				let el = node as HTMLElement;
-				if (el.getAttribute('data-value') === value) {
-					return el;
-				}
-			}
-		}
-	}
 
 	/**
 	 * Returns the dom element of the item
@@ -1734,7 +1727,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	getItem(value:string):HTMLElement {
-		return this.getElementWithValue(value, this.control.children);
+		value = hash_key(value);
+		if( value ){
+			value = addSlashes(value);
+			return this.control.querySelector(`[data-value="${value}"]`);
+		}
 	}
 
 	/**

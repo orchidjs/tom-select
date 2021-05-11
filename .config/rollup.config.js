@@ -6,8 +6,10 @@ import pkg from '../package.json';
 import path from 'path';
 import fs from 'fs';
 
-var tom_select_path	= path.resolve( 'src/tom-select.ts' );
-var configs = [];
+const tom_select_path_js	= path.resolve( 'src/tom-select.js' );
+const tom_select_path_ts	= path.resolve( 'src/tom-select.ts' );
+const configs				= [];
+
 const banner = `/**
 * Tom Select v${pkg.version}
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -66,6 +68,7 @@ inputs.forEach((slug)=>{
 			preserveModules: false,
 			sourcemap: true,
 			banner: banner,
+			exports: "auto",
 		},
 		plugins:[babel_config,resolve_config],
 		//external: ['@orchidjs/sifter/dist/esm/sifter.js'],
@@ -136,8 +139,10 @@ function pluginConfig( input, output ){
 
 	// prevents tom-select.ts from being bundled in with plugin.js umd
 	config.output.globals = {}
-	config.output.globals[tom_select_path] = 'TomSelect';
-	config.external = [tom_select_path,'TomSelect'];
+	config.output.globals[tom_select_path_js]	= 'TomSelect';
+	config.output.globals[tom_select_path_ts]	= 'TomSelect';
+
+	config.external = [tom_select_path_js,tom_select_path_ts,'TomSelect'];
 	configs.push( config );
 }
 
