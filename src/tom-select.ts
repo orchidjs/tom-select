@@ -1410,6 +1410,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				active = active_before_hash && self.getOption(active_before_hash);
 
+				if( !active && self.settings.mode === 'single' && self.items.length ){
+					active = self.getOption(self.items[0]);
+				}
+
 				if( !active || !self.dropdown_content.contains(active)  ){
 
 					let active_index = 0;

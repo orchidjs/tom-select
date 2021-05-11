@@ -188,11 +188,14 @@
 
 
 			it_n('should open dropdown menu', function(done) {
-				var test = setup_test('AB_Single',{});
+				var test = setup_test('AB_Single',{
+					items:['c']
+				});
 
 				click(test.instance.control, function() {
 					expect(test.instance.isOpen).to.be.equal(true);
 					expect( isVisible(test.instance.dropdown) ).to.be.equal(true);
+					assert.equal( test.instance.activeOption.dataset.value,'c','activeOption should be "c"');
 					done();
 				});
 			});
