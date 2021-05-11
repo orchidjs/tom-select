@@ -1653,13 +1653,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	getOption(value:string):HTMLElement {
 
-		// cached ?
-		if( this.renderCache['option'].hasOwnProperty(value) ){
-			return this.renderCache['option'][value];
+		value = hash_key(value);
+
+		if( value ){
+			value = value.replace(/\\/g,'\\\\').replace(/"/g,'\\"');
+			return this.dropdown_content.querySelector(`[data-selectable][data-value="${value}"]`);
 		}
 
-		// from existing dropdown menu dom
-		return this.getElementWithValue(value, this.selectable());
 	}
 
 	/**

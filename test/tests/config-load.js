@@ -74,37 +74,6 @@ describe('load', function() {
 
 	});
 
-	it_n('load optgroups', function(done) {
-
-		var test = setup_test('<input>',{
-			labelField: 'value',
-			searchField: ['value'],
-			preload: true,
-			load: function(query, loadcb) {
-
-				var options = [
-								{optgroup: 'mammal', value: "dog" },
-								{optgroup: 'mammal', value: "cat" },
-								{optgroup: 'bird', value: 'duck'},
-								{optgroup: 'bird', value: 'chicken'},
-								{optgroup: 'reptile', value: 'snake'},
-								{optgroup: 'reptile', value: 'lizard'},
-							];
-
-				var groups = [{value: 'mammal', label: 'Mammal'},
-								{value: 'bird', label: 'Bird'},
-								{value: 'reptile', label: 'Reptile'}];
-
-				loadcb(options,groups);
-
-				assert.equal(Object.keys(test.instance.options).length, 6);
-				assert.equal(Object.keys(test.instance.optgroups).length, 3);
-				done();
-			}
-		});
-	});
-
-
 
 	it_n('should load results for "a" after loading results for "ab"', function(done) {
 
