@@ -1104,9 +1104,13 @@
 					expect(instance.getItem(text)).to.be.ok;
 				});
 
-				execFilterTests('should not add an item or display the create label if the input does not match the createFilter (A)', ['foo', /foo/, function() { return false; }], function(instance) {
-					expect(instance.getItem(text)).to.be.equal(undefined);
-				});
+				execFilterTests(
+					'should not add an item or display the create label if the input does not match the createFilter (A)',
+					['foo', /foo/, function() { return false; }],
+					function(instance) {
+						expect(instance.getItem(text)).to.be.equal(null);
+					}
+				);
 
 				execFilterTests('should not add an item or display the create label if the input does not match the createFilter (B)', ['foo', /foo/, function() { return false; }], function(instance) {
 					expect($(instance.dropdown_content).filter('.create').length).to.be.equal(0);

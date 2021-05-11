@@ -16,7 +16,8 @@ import {
 	addEvent,
 	loadDebounce,
 	isKeyDown,
-	getId
+	getId,
+	addSlashes
 } from './utils';
 
 import {
@@ -1656,7 +1657,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		value = hash_key(value);
 
 		if( value ){
-			value = value.replace(/\\/g,'\\\\').replace(/"/g,'\\"');
+			value = addSlashes(value);
 			return this.dropdown_content.querySelector(`[data-selectable][data-value="${value}"]`);
 		}
 
@@ -1693,23 +1694,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 	}
 
-	/**
-	 * Finds the first element with a "data-value" attribute
-	 * that matches the given value.
-	 *
-	 */
-	getElementWithValue(value:string, els:HTMLCollection|NodeList|HTMLElement[]):HTMLElement {
-		value = hash_key(value);
-
-		if (value !== null) {
-			for( const node of els ){
-				let el = node as HTMLElement;
-				if (el.getAttribute('data-value') === value) {
-					return el;
-				}
-			}
-		}
-	}
 
 	/**
 	 * Returns the dom element of the item
@@ -1717,7 +1701,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	getItem(value:string):HTMLElement {
-		return this.getElementWithValue(value, this.control.children);
+		value = hash_key(value);
+		if( value ){
+			value = addSlashes(value);
+			return this.control.querySelector(`[data-value="${value}"]`);
+		}
 	}
 
 	/**
