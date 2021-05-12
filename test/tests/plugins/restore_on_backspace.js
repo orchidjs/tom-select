@@ -26,7 +26,7 @@ describe('plugin: restore_on_backspace', function() {
 
 		var test = setup_test('AB_Multi',{hidePlaceholder:true,plugins:['restore_on_backspace']});
 
-		syn.click(test.instance.control_input,function(){
+		click(test.instance.control_input,function(){
 
 			test.instance.addItem('a');
 			test.instance.addItem('b');
