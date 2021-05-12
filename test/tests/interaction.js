@@ -206,14 +206,15 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
+				label[0].click();
 
-				syn.click(label)
-					.delay(0, function() {
-						label.remove();
-						expect(test.instance.isFocused).to.be.equal(true);
-						done();
-					});
+				setTimeout(()=>{
+					label.remove();
+					expect(test.instance.isFocused).to.be.equal(true);
+					done();
+				},1);
 			});
+
 
 			it_n('should give it focus to input', function(done) {
 
@@ -221,12 +222,13 @@
 				var label		= $('<label for="'+inputId+'">input</label>').appendTo(sandbox);
 				var test		= setup_test('<input id="'+inputId+'" type="text" value="a,b,c,d">', {});
 
-				syn.click(label)
-					.delay(0, function() {
-						label.remove();
-						expect(test.instance.isFocused).to.be.equal(true);
-						done();
-					});
+				label[0].click();
+
+				setTimeout(()=>{
+					label.remove();
+					expect(test.instance.isFocused).to.be.equal(true);
+					done();
+				},1);
 			});
 
 		});
@@ -485,9 +487,10 @@
 
 				test.instance.addItem('a');
 				test.instance.addItem('b');
-				test.instance.setActiveItem(test.instance.getItem('b'));
 
 				click(test.instance.control, function() {
+
+					test.instance.setActiveItem(test.instance.getItem('b'));
 
 					syn.type('['+shortcut_key+'][left]['+shortcut_key+'-up]', test.instance.control_input, function() {
 						expect( test.instance.activeItems.length ).to.be.equal(2);
@@ -502,9 +505,10 @@
 
 				test.instance.addItem('a');
 				test.instance.addItem('b');
-				test.instance.setActiveItem(test.instance.getItem('a'));
 
 				click(test.instance.control, function() {
+
+					test.instance.setActiveItem(test.instance.getItem('a'));
 
 					syn.type('['+shortcut_key+'][right]['+shortcut_key+'-up]', test.instance.control_input, function() {
 						expect( test.instance.activeItems.length ).to.be.equal(2);
@@ -566,9 +570,10 @@
 
 				test.instance.addItem('a');
 				test.instance.addItem('b');
-				test.instance.setActiveItem(test.instance.getItem('b'));
 
 				click(test.instance.control, function() {
+
+					test.instance.setActiveItem(test.instance.getItem('b'));
 
 					syn.type('['+shortcut_key+'][right]['+shortcut_key+'-up]', test.instance.control_input,function() {
 						expect( test.instance.activeItems.length ).to.be.equal(1);
@@ -583,12 +588,13 @@
 
 				test.instance.addItem('a');
 				test.instance.addItem('b');
-				test.instance.setActiveItem(test.instance.getItem('b'));
-
-				let last_active			= test.instance.getLastActive();
-				expect( last_active.nextElementSibling ).to.be.equal( test.instance.control_input );
 
 				click(test.instance.control, function() {
+
+					test.instance.setActiveItem(test.instance.getItem('b'));
+
+					let last_active			= test.instance.getLastActive();
+					expect( last_active.nextElementSibling ).to.be.equal( test.instance.control_input );
 
 					syn.type('[left]', test.instance.control_input, function() {
 						let last_active			= test.instance.getLastActive();
@@ -898,9 +904,11 @@
 
 				var test = setup_test('AB_Multi');
 				test.instance.addItem('a');
-				test.instance.setActiveItem(test.instance.getItem('a'));
 
 				click(test.instance.control, function() {
+
+					test.instance.setActiveItem(test.instance.getItem('a'));
+
 					syn.type('a', test.instance.control_input, function() {
 						assert.equal( test.instance.control_input.value, '' );
 						done();
