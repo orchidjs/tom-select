@@ -37,29 +37,22 @@
 				});
 			});
 
-			it_n('should close dropdown after selection made if closeAfterSelect: true', function(done) {
-
-				var test = setup_test('AB_Multi',{closeAfterSelect: true});
-
-				click(test.instance.control, function() {
-					click( $('[data-value=a]', test.instance.dropdown_content), function() {
-						expect(test.instance.isOpen).to.be.equal(false);
-						expect(test.instance.isFocused).to.be.equal(true);
-						done();
-					});
-				});
-			});
-
 			it_n('should reopen dropdown if clicked after being closed by closeAfterSelect: true', function(done) {
 
 				var test = setup_test('AB_Multi',{closeAfterSelect: true});
 
 				click(test.instance.control, function() {
 					click($('[data-value=a]', test.instance.dropdown_content), function() {
+
+						assert.equal(test.instance.isOpen, false, 'should be closed after select');
+						assert.equal(test.instance.isFocused, true, 'should be closed w/ focus after select');
+
 						click(test.instance.control, function () {
-								expect(test.instance.isOpen).to.be.equal(true);
-								expect(test.instance.isFocused).to.be.equal(true);
-								done();
+
+							assert.equal(test.instance.isOpen, true, 'should be open after click');
+							assert.equal(test.instance.isFocused, true, 'should be focused after click');
+
+							done();
 						});
 					});
 				});
