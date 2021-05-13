@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.6.3
+* Tom Select v1.7.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -1054,6 +1054,14 @@
 	  el.setAttribute('id', id);
 	  return id;
 	}
+	/**
+	 * Quote string with slashes
+	 *
+	 */
+
+	function addSlashes(str) {
+	  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, "\\'");
+	}
 
 	function getSettings(input, settings_user) {
 	  var settings = Object.assign({}, defaults, settings_user);
@@ -1413,7 +1421,6 @@
 	    this.isInputHidden = false;
 	    this.isSetup = false;
 	    this.ignoreFocus = false;
-	    this.ignoreBlur = false;
 	    this.hasOptions = false;
 	    this.currentResults = null;
 	    this.lastValue = '';
@@ -1593,8 +1600,7 @@
 
 
 	    if (!self.settings.splitOn && self.settings.delimiter) {
-	      var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-	      self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
+	      self.settings.splitOn = new RegExp('\\s*' + escape_regex(self.settings.delimiter) + '+\\s*');
 	    } // debounce user defined load() if loadThrottle > 0
 	    // after initializePlugins() so plugins can create/modify user defined loaders
 
@@ -1608,66 +1614,59 @@
 	    self.wrapper = wrapper;
 	    self.dropdown = dropdown;
 	    self.dropdown_content = dropdown_content;
-	    self.control_input.type = input.type;
-	    addEvent(dropdown, 'mouseenter', e => {
-	      var target_match = parentMatch(e.target, '[data-selectable]', dropdown);
+	    self.control_input.type = input.type; // clicking on an option should select it
 
-	      if (target_match) {
-	        return self.onOptionHover(e, target_match);
+	    addEvent(dropdown, 'click', evt => {
+	      const option = parentMatch(evt.target, '[data-selectable]');
+
+	      if (option) {
+	        self.onOptionSelect(evt, option);
 	      }
-	    }, {
-	      capture: true
 	    });
-	    addEvent(control, 'mousedown', evt => {
-	      // retain focus by preventing native handling. if the
-	      // event target is the input it should not be modified.
-	      // otherwise, text selection within the input won't work.
-	      if (evt.target == control_input) {
-	        self.clearActiveItems();
-	        evt.stopPropagation();
-	        self.inputState();
+	    addEvent(control, 'click', evt => {
+	      var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
+
+	      if (target_match && self.onItemSelect(evt, target_match)) {
+	        return;
+	      } // retain focus (see control_input mousedown)
+
+
+	      if (control_input.value != '') {
 	        return;
 	      }
 
-	      var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
+	      self.onClick(evt);
+	    }); // retain focus by preventing native handling. if the
+	    // event target is the input it should not be modified.
+	    // otherwise, text selection within the input won't work.
 
-	      if (target_match) {
-	        return self.onItemSelect(evt, target_match);
+	    addEvent(control_input, 'mousedown', e => {
+	      if (control_input.value !== '') {
+	        e.stopPropagation();
 	      }
-
-	      return self.onMouseDown(evt);
 	    });
-	    addEvent(control, 'click', e => self.onClick(e));
 	    addEvent(control_input, 'keydown', e => self.onKeyDown(e));
 	    addEvent(control_input, 'keyup', e => self.onKeyUp(e));
 	    addEvent(control_input, 'keypress', e => self.onKeyPress(e));
 	    addEvent(control_input, 'resize', () => self.positionDropdown(), passive_event);
 	    addEvent(control_input, 'blur', e => self.onBlur(e));
-	    addEvent(control_input, 'focus', e => {
-	      self.ignoreBlur = false;
-	      self.onFocus(e);
-	    });
-	    addEvent(control_input, 'paste', e => self.onPaste(e)); // clicking anywhere in the control should not close the dropdown
-	    // clicking on an option should selectit
+	    addEvent(control_input, 'focus', e => self.onFocus(e));
+	    addEvent(control_input, 'paste', e => self.onPaste(e));
 
-	    var doc_mousedown = e => {
-	      // if dropdownParent is set, options may not be within self.wrapper
-	      var option = parentMatch(e.target, '[data-selectable]', self.dropdown); // outside of this instance
-
-	      if (!option && !self.wrapper.contains(e.target)) {
+	    const doc_mousedown = e => {
+	      // blur if target is outside of this instance
+	      // dropdown is not always inside wrapper
+	      if (!wrapper.contains(e.target) && !dropdown.contains(e.target)) {
 	        if (self.isFocused) {
 	          self.blur();
 	        }
 
 	        self.inputState();
 	        return;
-	      }
+	      } // clicking anywhere in the control should not blur the control_input & close the dropdown
+
 
 	      preventDefault(e, true);
-
-	      if (option) {
-	        self.onOptionSelect(e, option);
-	      }
 	    };
 
 	    var win_scroll = () => {
@@ -1824,38 +1823,27 @@
 
 
 	  onClick(e) {
-	    var self = this; // necessary for mobile webkit devices (manual focus triggering
-	    // is ignored unless invoked within a click event)
-	    // also necessary to reopen a dropdown that has been closed by
-	    // closeAfterSelect
+	    var self = this;
 
-	    if (!self.isFocused || !self.isOpen) {
+	    if (self.activeItems.length > 0) {
+	      self.clearActiveItems();
 	      self.focus();
-	      preventDefault(e);
+	      return;
+	    }
+
+	    if (self.isFocused && self.isOpen) {
+	      self.blur();
+	    } else {
+	      self.focus();
 	    }
 	  }
 	  /**
-	   * Triggered when the main control element
-	   * has a mouse down event.
+	   * @deprecated v1.7
 	   *
 	   */
 
 
-	  onMouseDown(e) {
-	    var self = this;
-
-	    if (self.isFocused) {
-	      if (self.settings.mode !== 'single') {
-	        self.setActiveItem();
-	      }
-
-	      self.open();
-	      return false;
-	    } else {
-	      // give control focus
-	      setTimeout(() => self.focus(), 0);
-	    }
-	  }
+	  onMouseDown(e) {}
 	  /**
 	   * Triggered when the value of the control has been changed.
 	   * This should propagate the event to the original DOM
@@ -2101,13 +2089,6 @@
 	    self.isFocused = false;
 	    self.ignoreFocus = false;
 
-	    if (!self.ignoreBlur && document.activeElement === self.dropdown_content) {
-	      // necessary to prevent IE closing the dropdown when the scrollbar is clicked
-	      self.ignoreBlur = true;
-	      self.onFocus(e);
-	      return;
-	    }
-
 	    var deactivate = () => {
 	      self.close();
 	      self.setActiveItem();
@@ -2121,14 +2102,6 @@
 	      deactivate();
 	    }
 	  }
-	  /**
-	   * Triggered when the user rolls over
-	   * an option in the autocomplete dropdown menu.
-	   * @deprecated v1.3
-	   */
-
-
-	  onOptionHover(evt, option) {}
 	  /**
 	   * Triggered when the user clicks on an option
 	   * in the autocomplete dropdown menu.
@@ -2179,12 +2152,37 @@
 
 	  onItemSelect(evt, item) {
 	    var self = this;
-	    if (self.isLocked) return;
 
-	    if (self.settings.mode === 'multi') {
+	    if (!self.isLocked && self.settings.mode === 'multi') {
 	      preventDefault(evt);
 	      self.setActiveItem(item, evt);
+	      return true;
 	    }
+
+	    return false;
+	  }
+	  /**
+	   * Determines whether or not to invoke
+	   * the user-provided option provider / loader
+	   *
+	   * Note, there is a subtle difference between
+	   * this.canLoad() and this.settings.shouldLoad();
+	   *
+	   *	- settings.shouldLoad() is a user-input validator.
+	   *	When false is returned, the not_loading template
+	   *	will be added to the dropdown
+	   *
+	   *	- canLoad() is lower level validator that checks
+	   * 	the Tom Select instance. There is no inherent user
+	   *	feedback when canLoad returns false
+	   *
+	   */
+
+
+	  canLoad(value) {
+	    if (!this.settings.load) return false;
+	    if (this.loadedSearches.hasOwnProperty(value)) return false;
+	    return true;
 	  }
 	  /**
 	   * Invokes the user-provided option provider / loader.
@@ -2193,14 +2191,12 @@
 
 
 	  load(value) {
-	    var self = this;
-	    var fn = self.settings.load;
-	    if (!fn) return;
-	    if (self.loadedSearches.hasOwnProperty(value)) return;
+	    const self = this;
+	    if (!self.canLoad(value)) return;
 	    addClasses(self.wrapper, self.settings.loadingClass);
 	    self.loading++;
-	    const callback = self.loadCallback.bind(self);
-	    fn.call(self, value, callback);
+	    const callback = self.loadCallback.bind(self, value);
+	    self.settings.load.call(self, value, callback);
 	  }
 	  /**
 	   * Invoked by the user-provided option provider
@@ -2208,7 +2204,7 @@
 	   */
 
 
-	  loadCallback(options, optgroups) {
+	  loadCallback(value, options, optgroups) {
 	    const self = this;
 	    self.loading = Math.max(self.loading - 1, 0);
 	    self.lastQuery = null;
@@ -2222,15 +2218,6 @@
 	    }
 
 	    self.trigger('load', options, optgroups);
-	  }
-	  /**
-	   * @deprecated 1.1
-	   *
-	   */
-
-
-	  onSearchChange(value) {
-	    this.load(value);
 	  }
 	  /**
 	   * Sets the input field of the control to the specified value.
@@ -2315,7 +2302,7 @@
 
 	    eventName = e && e.type.toLowerCase();
 
-	    if (eventName === 'mousedown' && isKeyDown('shiftKey', e) && self.activeItems.length) {
+	    if (eventName === 'click' && isKeyDown('shiftKey', e) && self.activeItems.length) {
 	      last = self.getLastActive();
 	      begin = Array.prototype.indexOf.call(self.control.children, last);
 	      end = Array.prototype.indexOf.call(self.control.children, item);
@@ -2335,7 +2322,7 @@
 	      }
 
 	      preventDefault(e);
-	    } else if (eventName === 'mousedown' && isKeyDown(KEY_SHORTCUT, e) || eventName === 'keydown' && isKeyDown('shiftKey', e)) {
+	    } else if (eventName === 'click' && isKeyDown(KEY_SHORTCUT, e) || eventName === 'keydown' && isKeyDown('shiftKey', e)) {
 	      if (item.classList.contains('active')) {
 	        self.removeActiveItem(item);
 	      } else {
@@ -2757,6 +2744,10 @@
 	      if (results.items.length > 0) {
 	        active = active_before_hash && self.getOption(active_before_hash);
 
+	        if (!active && self.settings.mode === 'single' && self.items.length) {
+	          active = self.getOption(self.items[0]);
+	        }
+
 	        if (!active || !self.dropdown_content.contains(active)) {
 	          let active_index = 0;
 
@@ -2999,13 +2990,19 @@
 
 
 	  getOption(value) {
-	    // cached ?
+	    value = hash_key(value);
+
+	    if (value) {
+	      const option = this.dropdown_content.querySelector(`[data-selectable][data-value="${addSlashes(value)}"]`);
+
+	      if (option) {
+	        return option;
+	      }
+	    }
+
 	    if (this.renderCache['option'].hasOwnProperty(value)) {
 	      return this.renderCache['option'][value];
-	    } // from existing dropdown menu dom
-
-
-	    return this.getElementWithValue(value, this.selectable());
+	    }
 	  }
 	  /**
 	   * Returns the dom element of the next or previous dom element of the same type
@@ -3041,26 +3038,6 @@
 	    }
 	  }
 	  /**
-	   * Finds the first element with a "data-value" attribute
-	   * that matches the given value.
-	   *
-	   */
-
-
-	  getElementWithValue(value, els) {
-	    value = hash_key(value);
-
-	    if (value !== null) {
-	      for (const node of els) {
-	        let el = node;
-
-	        if (el.getAttribute('data-value') === value) {
-	          return el;
-	        }
-	      }
-	    }
-	  }
-	  /**
 	   * Returns the dom element of the item
 	   * matching the given value.
 	   *
@@ -3068,7 +3045,12 @@
 
 
 	  getItem(value) {
-	    return this.getElementWithValue(value, this.control.children);
+	    value = hash_key(value);
+
+	    if (value) {
+	      value = addSlashes(value);
+	      return this.control.querySelector(`[data-value="${value}"]`);
+	    }
 	  }
 	  /**
 	   * "Selects" multiple items at once. Adds them to the list

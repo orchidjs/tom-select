@@ -42,7 +42,6 @@ export default class TomSelect extends TomSelect_base {
     isInputHidden: boolean;
     isSetup: boolean;
     ignoreFocus: boolean;
-    ignoreBlur: boolean;
     hasOptions: boolean;
     currentResults: ReturnType<Sifter['search']>;
     lastValue: string;
@@ -94,11 +93,10 @@ export default class TomSelect extends TomSelect_base {
      */
     onClick(e: MouseEvent | KeyboardEvent): void;
     /**
-     * Triggered when the main control element
-     * has a mouse down event.
+     * @deprecated v1.7
      *
      */
-    onMouseDown(e: MouseEvent | KeyboardEvent): boolean;
+    onMouseDown(e: MouseEvent | KeyboardEvent): void;
     /**
      * Triggered when the value of the control has been changed.
      * This should propagate the event to the original DOM
@@ -136,12 +134,6 @@ export default class TomSelect extends TomSelect_base {
      */
     onBlur(e: MouseEvent | KeyboardEvent): void;
     /**
-     * Triggered when the user rolls over
-     * an option in the autocomplete dropdown menu.
-     * @deprecated v1.3
-     */
-    onOptionHover(evt: MouseEvent | KeyboardEvent, option: HTMLElement): void;
-    /**
      * Triggered when the user clicks on an option
      * in the autocomplete dropdown menu.
      *
@@ -154,6 +146,23 @@ export default class TomSelect extends TomSelect_base {
      */
     onItemSelect(evt?: MouseEvent, item?: HTMLElement): boolean;
     /**
+     * Determines whether or not to invoke
+     * the user-provided option provider / loader
+     *
+     * Note, there is a subtle difference between
+     * this.canLoad() and this.settings.shouldLoad();
+     *
+     *	- settings.shouldLoad() is a user-input validator.
+     *	When false is returned, the not_loading template
+     *	will be added to the dropdown
+     *
+     *	- canLoad() is lower level validator that checks
+     * 	the Tom Select instance. There is no inherent user
+     *	feedback when canLoad returns false
+     *
+     */
+    canLoad(value: string): boolean;
+    /**
      * Invokes the user-provided option provider / loader.
      *
      */
@@ -162,12 +171,7 @@ export default class TomSelect extends TomSelect_base {
      * Invoked by the user-provided option provider
      *
      */
-    loadCallback(options: TomOption[], optgroups: TomOption[]): void;
-    /**
-     * @deprecated 1.1
-     *
-     */
-    onSearchChange(value: string): void;
+    loadCallback(value: any, options: TomOption[], optgroups: TomOption[]): void;
     /**
      * Sets the input field of the control to the specified value.
      *
@@ -360,12 +364,6 @@ export default class TomSelect extends TomSelect_base {
      *
      */
     getAdjacent(option: HTMLElement, direction: number, type?: string): HTMLElement | void;
-    /**
-     * Finds the first element with a "data-value" attribute
-     * that matches the given value.
-     *
-     */
-    getElementWithValue(value: string, els: HTMLCollection | NodeList | HTMLElement[]): HTMLElement;
     /**
      * Returns the dom element of the item
      * matching the given value.

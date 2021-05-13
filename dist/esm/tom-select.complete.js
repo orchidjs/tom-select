@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.6.3
+* Tom Select v1.7.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -1048,6 +1048,14 @@ function getId(el, id) {
   el.setAttribute('id', id);
   return id;
 }
+/**
+ * Quote string with slashes
+ *
+ */
+
+function addSlashes(str) {
+  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, "\\'");
+}
 
 function getSettings(input, settings_user) {
   var settings = Object.assign({}, defaults, settings_user);
@@ -1407,7 +1415,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.isInputHidden = false;
     this.isSetup = false;
     this.ignoreFocus = false;
-    this.ignoreBlur = false;
     this.hasOptions = false;
     this.currentResults = null;
     this.lastValue = '';
@@ -1587,8 +1594,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
     if (!self.settings.splitOn && self.settings.delimiter) {
-      var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-      self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
+      self.settings.splitOn = new RegExp('\\s*' + escape_regex(self.settings.delimiter) + '+\\s*');
     } // debounce user defined load() if loadThrottle > 0
     // after initializePlugins() so plugins can create/modify user defined loaders
 
@@ -1602,66 +1608,59 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     self.wrapper = wrapper;
     self.dropdown = dropdown;
     self.dropdown_content = dropdown_content;
-    self.control_input.type = input.type;
-    addEvent(dropdown, 'mouseenter', e => {
-      var target_match = parentMatch(e.target, '[data-selectable]', dropdown);
+    self.control_input.type = input.type; // clicking on an option should select it
 
-      if (target_match) {
-        return self.onOptionHover(e, target_match);
+    addEvent(dropdown, 'click', evt => {
+      const option = parentMatch(evt.target, '[data-selectable]');
+
+      if (option) {
+        self.onOptionSelect(evt, option);
       }
-    }, {
-      capture: true
     });
-    addEvent(control, 'mousedown', evt => {
-      // retain focus by preventing native handling. if the
-      // event target is the input it should not be modified.
-      // otherwise, text selection within the input won't work.
-      if (evt.target == control_input) {
-        self.clearActiveItems();
-        evt.stopPropagation();
-        self.inputState();
+    addEvent(control, 'click', evt => {
+      var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
+
+      if (target_match && self.onItemSelect(evt, target_match)) {
+        return;
+      } // retain focus (see control_input mousedown)
+
+
+      if (control_input.value != '') {
         return;
       }
 
-      var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
+      self.onClick(evt);
+    }); // retain focus by preventing native handling. if the
+    // event target is the input it should not be modified.
+    // otherwise, text selection within the input won't work.
 
-      if (target_match) {
-        return self.onItemSelect(evt, target_match);
+    addEvent(control_input, 'mousedown', e => {
+      if (control_input.value !== '') {
+        e.stopPropagation();
       }
-
-      return self.onMouseDown(evt);
     });
-    addEvent(control, 'click', e => self.onClick(e));
     addEvent(control_input, 'keydown', e => self.onKeyDown(e));
     addEvent(control_input, 'keyup', e => self.onKeyUp(e));
     addEvent(control_input, 'keypress', e => self.onKeyPress(e));
     addEvent(control_input, 'resize', () => self.positionDropdown(), passive_event);
     addEvent(control_input, 'blur', e => self.onBlur(e));
-    addEvent(control_input, 'focus', e => {
-      self.ignoreBlur = false;
-      self.onFocus(e);
-    });
-    addEvent(control_input, 'paste', e => self.onPaste(e)); // clicking anywhere in the control should not close the dropdown
-    // clicking on an option should selectit
+    addEvent(control_input, 'focus', e => self.onFocus(e));
+    addEvent(control_input, 'paste', e => self.onPaste(e));
 
-    var doc_mousedown = e => {
-      // if dropdownParent is set, options may not be within self.wrapper
-      var option = parentMatch(e.target, '[data-selectable]', self.dropdown); // outside of this instance
-
-      if (!option && !self.wrapper.contains(e.target)) {
+    const doc_mousedown = e => {
+      // blur if target is outside of this instance
+      // dropdown is not always inside wrapper
+      if (!wrapper.contains(e.target) && !dropdown.contains(e.target)) {
         if (self.isFocused) {
           self.blur();
         }
 
         self.inputState();
         return;
-      }
+      } // clicking anywhere in the control should not blur the control_input & close the dropdown
+
 
       preventDefault(e, true);
-
-      if (option) {
-        self.onOptionSelect(e, option);
-      }
     };
 
     var win_scroll = () => {
@@ -1818,38 +1817,27 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   onClick(e) {
-    var self = this; // necessary for mobile webkit devices (manual focus triggering
-    // is ignored unless invoked within a click event)
-    // also necessary to reopen a dropdown that has been closed by
-    // closeAfterSelect
+    var self = this;
 
-    if (!self.isFocused || !self.isOpen) {
+    if (self.activeItems.length > 0) {
+      self.clearActiveItems();
       self.focus();
-      preventDefault(e);
+      return;
+    }
+
+    if (self.isFocused && self.isOpen) {
+      self.blur();
+    } else {
+      self.focus();
     }
   }
   /**
-   * Triggered when the main control element
-   * has a mouse down event.
+   * @deprecated v1.7
    *
    */
 
 
-  onMouseDown(e) {
-    var self = this;
-
-    if (self.isFocused) {
-      if (self.settings.mode !== 'single') {
-        self.setActiveItem();
-      }
-
-      self.open();
-      return false;
-    } else {
-      // give control focus
-      setTimeout(() => self.focus(), 0);
-    }
-  }
+  onMouseDown(e) {}
   /**
    * Triggered when the value of the control has been changed.
    * This should propagate the event to the original DOM
@@ -2095,13 +2083,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     self.isFocused = false;
     self.ignoreFocus = false;
 
-    if (!self.ignoreBlur && document.activeElement === self.dropdown_content) {
-      // necessary to prevent IE closing the dropdown when the scrollbar is clicked
-      self.ignoreBlur = true;
-      self.onFocus(e);
-      return;
-    }
-
     var deactivate = () => {
       self.close();
       self.setActiveItem();
@@ -2115,14 +2096,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       deactivate();
     }
   }
-  /**
-   * Triggered when the user rolls over
-   * an option in the autocomplete dropdown menu.
-   * @deprecated v1.3
-   */
-
-
-  onOptionHover(evt, option) {}
   /**
    * Triggered when the user clicks on an option
    * in the autocomplete dropdown menu.
@@ -2173,12 +2146,37 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
   onItemSelect(evt, item) {
     var self = this;
-    if (self.isLocked) return;
 
-    if (self.settings.mode === 'multi') {
+    if (!self.isLocked && self.settings.mode === 'multi') {
       preventDefault(evt);
       self.setActiveItem(item, evt);
+      return true;
     }
+
+    return false;
+  }
+  /**
+   * Determines whether or not to invoke
+   * the user-provided option provider / loader
+   *
+   * Note, there is a subtle difference between
+   * this.canLoad() and this.settings.shouldLoad();
+   *
+   *	- settings.shouldLoad() is a user-input validator.
+   *	When false is returned, the not_loading template
+   *	will be added to the dropdown
+   *
+   *	- canLoad() is lower level validator that checks
+   * 	the Tom Select instance. There is no inherent user
+   *	feedback when canLoad returns false
+   *
+   */
+
+
+  canLoad(value) {
+    if (!this.settings.load) return false;
+    if (this.loadedSearches.hasOwnProperty(value)) return false;
+    return true;
   }
   /**
    * Invokes the user-provided option provider / loader.
@@ -2187,14 +2185,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   load(value) {
-    var self = this;
-    var fn = self.settings.load;
-    if (!fn) return;
-    if (self.loadedSearches.hasOwnProperty(value)) return;
+    const self = this;
+    if (!self.canLoad(value)) return;
     addClasses(self.wrapper, self.settings.loadingClass);
     self.loading++;
-    const callback = self.loadCallback.bind(self);
-    fn.call(self, value, callback);
+    const callback = self.loadCallback.bind(self, value);
+    self.settings.load.call(self, value, callback);
   }
   /**
    * Invoked by the user-provided option provider
@@ -2202,7 +2198,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  loadCallback(options, optgroups) {
+  loadCallback(value, options, optgroups) {
     const self = this;
     self.loading = Math.max(self.loading - 1, 0);
     self.lastQuery = null;
@@ -2216,15 +2212,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     }
 
     self.trigger('load', options, optgroups);
-  }
-  /**
-   * @deprecated 1.1
-   *
-   */
-
-
-  onSearchChange(value) {
-    this.load(value);
   }
   /**
    * Sets the input field of the control to the specified value.
@@ -2309,7 +2296,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     eventName = e && e.type.toLowerCase();
 
-    if (eventName === 'mousedown' && isKeyDown('shiftKey', e) && self.activeItems.length) {
+    if (eventName === 'click' && isKeyDown('shiftKey', e) && self.activeItems.length) {
       last = self.getLastActive();
       begin = Array.prototype.indexOf.call(self.control.children, last);
       end = Array.prototype.indexOf.call(self.control.children, item);
@@ -2329,7 +2316,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       }
 
       preventDefault(e);
-    } else if (eventName === 'mousedown' && isKeyDown(KEY_SHORTCUT, e) || eventName === 'keydown' && isKeyDown('shiftKey', e)) {
+    } else if (eventName === 'click' && isKeyDown(KEY_SHORTCUT, e) || eventName === 'keydown' && isKeyDown('shiftKey', e)) {
       if (item.classList.contains('active')) {
         self.removeActiveItem(item);
       } else {
@@ -2751,6 +2738,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       if (results.items.length > 0) {
         active = active_before_hash && self.getOption(active_before_hash);
 
+        if (!active && self.settings.mode === 'single' && self.items.length) {
+          active = self.getOption(self.items[0]);
+        }
+
         if (!active || !self.dropdown_content.contains(active)) {
           let active_index = 0;
 
@@ -2993,13 +2984,19 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   getOption(value) {
-    // cached ?
+    value = hash_key(value);
+
+    if (value) {
+      const option = this.dropdown_content.querySelector(`[data-selectable][data-value="${addSlashes(value)}"]`);
+
+      if (option) {
+        return option;
+      }
+    }
+
     if (this.renderCache['option'].hasOwnProperty(value)) {
       return this.renderCache['option'][value];
-    } // from existing dropdown menu dom
-
-
-    return this.getElementWithValue(value, this.selectable());
+    }
   }
   /**
    * Returns the dom element of the next or previous dom element of the same type
@@ -3035,26 +3032,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     }
   }
   /**
-   * Finds the first element with a "data-value" attribute
-   * that matches the given value.
-   *
-   */
-
-
-  getElementWithValue(value, els) {
-    value = hash_key(value);
-
-    if (value !== null) {
-      for (const node of els) {
-        let el = node;
-
-        if (el.getAttribute('data-value') === value) {
-          return el;
-        }
-      }
-    }
-  }
-  /**
    * Returns the dom element of the item
    * matching the given value.
    *
@@ -3062,7 +3039,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   getItem(value) {
-    return this.getElementWithValue(value, this.control.children);
+    value = hash_key(value);
+
+    if (value) {
+      value = addSlashes(value);
+      return this.control.querySelector(`[data-value="${value}"]`);
+    }
   }
   /**
    * "Selects" multiple items at once. Adds them to the list
@@ -3960,13 +3942,15 @@ TomSelect.define('checkbox_options', function (options) {
   self.settings.hideSelected = false; // update the checkbox for an option
 
   var UpdateCheckbox = function UpdateCheckbox(option) {
-    var checkbox = option.querySelector('input');
+    setTimeout(() => {
+      var checkbox = option.querySelector('input');
 
-    if (option.classList.contains('selected')) {
-      checkbox.checked = true;
-    } else {
-      checkbox.checked = false;
-    }
+      if (option.classList.contains('selected')) {
+        checkbox.checked = true;
+      } else {
+        checkbox.checked = false;
+      }
+    }, 1);
   }; // add checkbox to option template
 
 
@@ -4011,10 +3995,7 @@ TomSelect.define('checkbox_options', function (options) {
       return;
     }
 
-    return orig_onOptionSelect.apply(self, arguments);
-  }); // update option checkbox
-
-  self.hook('after', 'onOptionSelect', (evt, option) => {
+    orig_onOptionSelect.apply(self, arguments);
     UpdateCheckbox(option);
   });
 });
@@ -4428,6 +4409,155 @@ TomSelect.define('restore_on_backspace', function (options) {
         self.setTextboxValue(options.text.call(self, option));
       }
     }
+  });
+});
+
+/**
+ * Plugin: "restore_on_backspace" (Tom Select)
+ * Copyright (c) contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ */
+TomSelect.define('virtual_scroll', function (options) {
+  const self = this;
+  const orig_canLoad = self.canLoad;
+  const orig_clearActiveOption = self.clearActiveOption;
+  const orig_loadCallback = self.loadCallback;
+  var pagination = {};
+  var dropdown_content;
+  var loading_more = false;
+
+  if (!self.settings.firstUrl) {
+    throw 'virtual_scroll plugin requires a firstUrl() method';
+  } // in order for virtual scrolling to work,
+  // options need to be ordered the same way they're returned from the remote data source
+
+
+  self.settings.sortField = [{
+    field: '$order'
+  }, {
+    field: '$score'
+  }]; // can we load more results for given query?
+
+  function canLoadMore(query) {
+    if (typeof self.settings.maxOptions === 'number' && dropdown_content.children.length >= self.settings.maxOptions) {
+      return;
+    }
+
+    if (query in pagination && pagination[query]) {
+      return true;
+    }
+
+    return false;
+  } // set the next url that will be
+
+
+  self.setNextUrl = function (value, next_url) {
+    pagination[value] = next_url;
+  }; // getUrl() to be used in settings.load()
+
+
+  self.getUrl = function (query) {
+    if (query in pagination) {
+      const next_url = pagination[query];
+      pagination[query] = false;
+      return next_url;
+    } // if the user goes back to a previous query
+    // we need to load the first page again
+
+
+    pagination = {};
+    return self.settings.firstUrl(query);
+  }; // don't clear the active option (and cause unwanted dropdown scroll)
+  // while loading more results
+
+
+  self.hook('instead', 'clearActiveOption', () => {
+    if (loading_more) {
+      return;
+    }
+
+    return orig_clearActiveOption.call(self);
+  }); // override the canLoad method
+
+  self.hook('instead', 'canLoad', query => {
+    // first time the query has been seen
+    if (!(query in pagination)) {
+      return orig_canLoad.call(this, query);
+    }
+
+    return canLoadMore(query);
+  }); // wrap the load
+
+  self.hook('instead', 'loadCallback', (value, options, optgroups) => {
+    if (!loading_more) {
+      self.clearOptions();
+    }
+
+    orig_loadCallback.call(self, value, options, optgroups);
+    loading_more = false;
+  }); // add templates to dropdown
+  //	loading_more if we have another url in the queue
+  //	no_more_results if we don't have another url in the queue
+
+  self.hook('after', 'refreshOptions', () => {
+    const query = self.lastValue;
+    var option;
+
+    if (canLoadMore(query)) {
+      option = self.render('loading_more', {
+        query: query
+      });
+      if (option) option.setAttribute('data-selectable', ''); // so that navigating dropdown with [down] keypresses can navigate to this node
+    } else if (query in pagination && !dropdown_content.querySelector('.no-results')) {
+      option = self.render('no_more_results', {
+        query: query
+      });
+    }
+
+    if (option) {
+      addClasses(option, self.settings.optionClass);
+      dropdown_content.append(option);
+    }
+  }); // add scroll listener and default templates
+
+  self.hook('after', 'setup', () => {
+    dropdown_content = self.dropdown_content; // default templates
+
+    self.settings.render = Object.assign({}, {
+      loading_more: function (data, escape) {
+        return `<div class="loading-more-results">Loading more results ... </div>`;
+      },
+      no_more_results: function (data, escape) {
+        return `<div class="no-more-results">No more results</div>`;
+      }
+    }, self.settings.render); // watch dropdown content scroll position
+
+    dropdown_content.addEventListener('scroll', function () {
+      const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
+
+      if (scroll_percent < 0.95) {
+        return;
+      } // !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
+
+
+      if (!canLoadMore(self.lastValue)) {
+        return;
+      } // don't call load() too much
+
+
+      if (loading_more) return;
+      loading_more = true;
+      self.load.call(self, self.lastValue);
+    });
   });
 });
 

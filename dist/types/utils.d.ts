@@ -64,3 +64,8 @@ export declare function isKeyDown(key_name: keyof (KeyboardEvent | MouseEvent), 
  *
  */
 export declare function getId(el: Element, id: string): string;
+/**
+ * Quote string with slashes
+ *
+ */
+export declare function addSlashes(str: string): string;

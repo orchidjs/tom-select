@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.6.3
+* Tom Select v1.7.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -161,8 +161,17 @@ function getId(el, id) {
   el.setAttribute('id', id);
   return id;
 }
+/**
+ * Quote string with slashes
+ *
+ */
+
+function addSlashes(str) {
+  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, "\\'");
+}
 
 exports.addEvent = addEvent;
+exports.addSlashes = addSlashes;
 exports.debounce_events = debounce_events;
 exports.escape_html = escape_html;
 exports.getId = getId;

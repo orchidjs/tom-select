@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.6.3
+* Tom Select v1.7.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -84,13 +84,15 @@ TomSelect.define('checkbox_options', function (options) {
   self.settings.hideSelected = false; // update the checkbox for an option
 
   var UpdateCheckbox = function UpdateCheckbox(option) {
-    var checkbox = option.querySelector('input');
+    setTimeout(() => {
+      var checkbox = option.querySelector('input');
 
-    if (option.classList.contains('selected')) {
-      checkbox.checked = true;
-    } else {
-      checkbox.checked = false;
-    }
+      if (option.classList.contains('selected')) {
+        checkbox.checked = true;
+      } else {
+        checkbox.checked = false;
+      }
+    }, 1);
   }; // add checkbox to option template
 
 
@@ -135,10 +137,7 @@ TomSelect.define('checkbox_options', function (options) {
       return;
     }
 
-    return orig_onOptionSelect.apply(self, arguments);
-  }); // update option checkbox
-
-  self.hook('after', 'onOptionSelect', (evt, option) => {
+    orig_onOptionSelect.apply(self, arguments);
     UpdateCheckbox(option);
   });
 });
