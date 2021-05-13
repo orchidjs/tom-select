@@ -1,0 +1,395 @@
+<!DOCTYPE html><html class="no-js" lang="en"><head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> Virtual Scroll -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
+		
+
+		
+		<script src="/js/tom-select.complete.min.js"></script>
+		
+
+		<script src="/js/index.bundle.js"></script>
+		
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' mc.yandex.ru 'sha256-T7cKVLFxTaKT1U2mkS0j5sW31UG8zE2xq+WlP5O6pmE=' 'sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru"></head>
+    <body>
+
+		
+		<a id="toggle-offcanvas" aria-label="Toggle Off-Canvas Menu">
+			<i class="ib ib-feather-menu"></i>
+		</a>
+
+
+		
+		<div id="offcanvas" class="d-flex flex-column bg-dark px-0 pt-5">
+			
+
+	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
+
+	
+
+
+	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
+	
+
+	<a href="/plugins/" class="h5 px-4 py-3 my-0 d-block">Plugins</a>
+	
+	<nav class="nav flex-column">
+		
+			<a class="nav-link" href="/plugins/change-listener/">Change Listener</a>
+		
+			<a class="nav-link" href="/plugins/checkbox-options/">Checkbox Options</a>
+		
+			<a class="nav-link" href="/plugins/clear-button/">Clear Button</a>
+		
+			<a class="nav-link" href="/plugins/drag-drop/">Drag 'n Drop</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-input/">Dropdown Input</a>
+		
+			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
+		
+			<a class="nav-link" href="/plugins/no-active-items/">No Active Items</a>
+		
+			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
+		
+			<a class="nav-link" href="/plugins/optgroup-columns/">Option Group Columns</a>
+		
+			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
+		
+			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+			<span class="nav-link active">Virtual Scroll</span>
+		
+	</nav>
+	
+
+
+	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
+	
+
+	<hr class="m-4">
+
+	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
+	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
+
+
+	<div class="mt-auto"></div>
+
+	<hr class="mx-4 mb-2 mt-4">
+
+	<div class="px-4 py-3 small">
+		<a href="https://icon-blender.com/">
+		Create custom SVG icon sets from over 80,000 free and open source icons at
+		Icon-Blender.com</a>
+	</div>
+
+	<hr class="mx-4 my-2">
+
+	<div class="p-4 badges small">
+		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/plugins/virtual_scroll.njk">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
+	</div>
+
+		</div>
+
+		
+		<div class="px-3 main-col">
+			<div class="my-4">
+				<div class="container">
+					
+					<h1 class="display-4 mt-0">Virtual Scroll</h1>
+					
+				</div>
+			</div>
+			<div class="container mt-3" id="main-container">
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	<div class="demo py-5 ">
+
+		
+<label class="h2 mb-3">
+	Example
+</label>
+
+	<div>
+		<div>
+			<div class="demo-html">
+				
+<input type="text" id="reddit-search" placeholder="Search reddit" autocomplete="off">
+
+			</div>
+
+			
+			<textarea hidden="">&lt;input type="text" id="reddit-search" placeholder="Search reddit" autocomplete="off"&gt;
+</textarea>
+			
+
+	
+		
+		<script csp-hash="sha256-T7cKVLFxTaKT1U2mkS0j5sW31UG8zE2xq+WlP5O6pmE=">
+
+new TomSelect('#reddit-search',{
+	valueField: 'permalink',
+	labelField: 'title',
+	searchField: ['title'],
+	plugins:['virtual_scroll'],
+	maxOptions: 200,
+
+	// fetch remote data
+	firstUrl: function(query){
+		return 'https://api.reddit.com/search?q=' + encodeURIComponent(query);
+	},
+	load: function(query, callback) {
+
+		// retrieve the appropriate url
+		const url = this.getUrl(query);
+
+		fetch(url)
+			.then(response => response.json())
+			.then(json => {
+
+				// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
+				// important! should set before invoking callback()
+				const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
+				this.setNextUrl(query, next_url);
+
+				// add data to the results
+				let data = json.data.children.map(row => row.data);
+				callback(data);
+
+			}).catch((e)=>{
+				callback();
+			});
+
+	},
+	render: {
+		loading_more: function(data, escape) {
+			return `<div class="loading-more-results py-2 d-flex align-items-center"><div class="spinner"></div> Loading more results from reddit </div>`;
+		}
+	},
+
+});
+</script>
+	
+
+
+			
+
+	
+
+
+
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist" id="demoTab-1">
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-bs-toggle="tab" data-bs-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link " data-bs-toggle="tab" data-bs-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+
+				
+				<li class="nav-item dropdown ms-auto">
+				
+
+		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
+			</form>
+		</li>
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value="">
+			</form>
+		</li>
+		</ul>
+	
+
+
+				</li>
+				
+
+			</ul>
+
+			<div class="tab-content" id="demoTabContent-1">
+				
+				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#reddit-search'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	valueField<span class="token operator">:</span> <span class="token string">'permalink'</span><span class="token punctuation">,</span><br>	labelField<span class="token operator">:</span> <span class="token string">'title'</span><span class="token punctuation">,</span><br>	searchField<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'title'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	plugins<span class="token operator">:</span><span class="token punctuation">[</span><span class="token string">'virtual_scroll'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	maxOptions<span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span><br><br>	<span class="token comment">// fetch remote data</span><br>	<span class="token function-variable function">firstUrl</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">query</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>		<span class="token keyword">return</span> <span class="token string">'https://api.reddit.com/search?q='</span> <span class="token operator">+</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><span class="token punctuation">,</span><br>	<span class="token function-variable function">load</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">query<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><br>		<span class="token comment">// retrieve the appropriate url</span><br>		<span class="token keyword">const</span> url <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getUrl</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>		<span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><br>			<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=&gt;</span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><br>			<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">json</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span><br><br>				<span class="token comment">// prepare the next url that will be loaded when the dropdown is scrolled to the bottom</span><br>				<span class="token comment">// important! should set before invoking callback()</span><br>				<span class="token keyword">const</span> next_url <span class="token operator">=</span> <span class="token string">'https://api.reddit.com/search?q='</span> <span class="token operator">+</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'&amp;after='</span><span class="token operator">+</span>json<span class="token punctuation">.</span>data<span class="token punctuation">.</span>after<span class="token punctuation">;</span><br>				<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setNextUrl</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> next_url<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>				<span class="token comment">// add data to the results</span><br>				<span class="token keyword">let</span> data <span class="token operator">=</span> json<span class="token punctuation">.</span>data<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">row</span> <span class="token operator">=&gt;</span> row<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span><br>				<span class="token function">callback</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>			<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span><br>				<span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>			<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br>	<span class="token punctuation">}</span><span class="token punctuation">,</span><br>	render<span class="token operator">:</span> <span class="token punctuation">{</span><br>		<span class="token function-variable function">loading_more</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> escape</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>			<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="loading-more-results py-2 d-flex align-items-center"&gt;&lt;div class="spinner"&gt;&lt;/div&gt; Loading more results from reddit &lt;/div&gt;</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><span class="token punctuation">,</span><br><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				
+
+				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>reddit-search<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Search reddit<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span></code></pre>
+				</div>
+
+				
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+<h2>Related Tom Select Settings</h2>
+
+
+	<theac>
+		</theac><table class="table table-striped">
+	<tbody><tr>
+			<th>Setting</th>
+			<th>Description</th>
+		</tr>
+	
+	
+		
+
+	<tr>
+	<td><code>maxOptions</code></td>
+	<td>
+		<div>The max number of options to display in the dropdown.</div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>int</code></span>
+			<span>Default:</span>
+
+			
+				<code>50</code>
+			
+		</div>
+	</td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td><code>render.loading_more</code></td>
+	<td>
+		<div>Renders a message at the bottom of the dropdown to communicate to users that more results are being loaded</div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>callback</code></span>
+			<span>Default:</span>
+
+			
+				<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span>escape</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="loading-more-results"&gt;Loading more results ... &lt;/div&gt;</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+			
+		</div>
+	</td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td><code>render.no_more_results</code></td>
+	<td>
+		<div>Renders a message at the bottom of the dropdown for communicating that users have reached the end of the results</div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>callback</code></span>
+			<span>Default:</span>
+
+			
+				<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span>escape</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="no-more-results"&gt;No more results&lt;/div&gt;</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+			
+		</div>
+	</td>
+	</tr>
+
+
+	
+	</tbody></table>
+
+
+
+<h2>Plugin Configuration</h2>
+
+<p>No additional configuration settings for this plugin</p>
+
+				
+	<h2>Available Plugins</h2>
+	
+	<nav class="nav flex-column">
+		
+			<a class="nav-link" href="/plugins/change-listener/">Change Listener</a>
+		
+			<a class="nav-link" href="/plugins/checkbox-options/">Checkbox Options</a>
+		
+			<a class="nav-link" href="/plugins/clear-button/">Clear Button</a>
+		
+			<a class="nav-link" href="/plugins/drag-drop/">Drag 'n Drop</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-input/">Dropdown Input</a>
+		
+			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
+		
+			<a class="nav-link" href="/plugins/no-active-items/">No Active Items</a>
+		
+			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
+		
+			<a class="nav-link" href="/plugins/optgroup-columns/">Option Group Columns</a>
+		
+			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
+		
+			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+			<span class="nav-link active">Virtual Scroll</span>
+		
+	</nav>
+	
+
+			</div>
+		</div>
+
+
+		<!-- Yandex.Metrika counter -->
+		<script type="text/javascript" csp-hash="sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=">
+		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+		   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+		   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+		   ym(77752060, "init", {
+		        clickmap:true,
+		        trackLinks:true,
+		        accurateTrackBounce:true
+		   });
+		</script>
+		<noscript><div><img src="https://mc.yandex.ru/watch/77752060" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+		<!-- /Yandex.Metrika counter -->
+	
+
+</body></html>

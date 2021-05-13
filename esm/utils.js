@@ -157,6 +157,14 @@ function getId(el, id) {
   el.setAttribute('id', id);
   return id;
 }
+/**
+ * Quote string with slashes
+ *
+ */
 
-export { addEvent, debounce_events, escape_html, getId, getSelection, hash_key, isKeyDown, loadDebounce, preventDefault };
+function addSlashes(str) {
+  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, "\\'");
+}
+
+export { addEvent, addSlashes, debounce_events, escape_html, getId, getSelection, hash_key, isKeyDown, loadDebounce, preventDefault };
 //# sourceMappingURL=utils.js.map

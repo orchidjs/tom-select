@@ -63,6 +63,8 @@
 		
 			<span class="nav-link active">Restore on Backspace</span>
 		
+			<a class="nav-link" href="/plugins/virtual_scroll/">Virtual Scroll</a>
+		
 	</nav>
 	
 
@@ -231,7 +233,6 @@ new TomSelect('#input-tags6',{
 	<tbody><tr>
 			<th>Setting</th>
 			<th>Description</th>
-			<th>Type</th>
 		</tr>
 	
 	
@@ -240,16 +241,16 @@ new TomSelect('#input-tags6',{
 	<tr>
 	<td><code>html</code></td>
 	<td>
-		<p>A function taking option data as an argument and returning a text string that will be assigned to the control input value</p>
+		<div><p>A function taking option data as an argument and returning a text string that will be assigned to the control input value</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>callback</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">option</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>		<span class="token keyword">return</span> option<span class="token punctuation">[</span>self<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>labelField<span class="token punctuation">]</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-		
+			
+				<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">option</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>		<span class="token keyword">return</span> option<span class="token punctuation">[</span>self<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>labelField<span class="token punctuation">]</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+			
 		</div>
 	</td>
-	<td><code>callback</code></td>
 	</tr>
 
 
@@ -285,6 +286,8 @@ new TomSelect('#input-tags6',{
 			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
 		
 			<span class="nav-link active">Restore on Backspace</span>
+		
+			<a class="nav-link" href="/plugins/virtual_scroll/">Virtual Scroll</a>
 		
 	</nav>
 	

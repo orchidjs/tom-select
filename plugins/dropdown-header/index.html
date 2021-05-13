@@ -63,6 +63,8 @@
 		
 			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
 		
+			<a class="nav-link" href="/plugins/virtual_scroll/">Virtual Scroll</a>
+		
 	</nav>
 	
 
@@ -261,7 +263,6 @@ new TomSelect('#select-code-language',{
 	<tbody><tr>
 			<th>Setting</th>
 			<th>Description</th>
-			<th>Type</th>
 		</tr>
 	
 	
@@ -270,16 +271,16 @@ new TomSelect('#select-code-language',{
 	<tr>
 	<td><code>html</code></td>
 	<td>
-		<p>An html string used to generate the header</p>
+		<div><p>An html string used to generate the header</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>callback</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>headerClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;<br>				&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>titleRowClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;<br>					&lt;span class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>labelClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/span&gt;<br>					&lt;a class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>closeClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;&amp;times;&lt;/a&gt;<br>				&lt;/div&gt;<br>			&lt;/div&gt;</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-		
+			
+				<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>headerClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;<br>				&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>titleRowClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;<br>					&lt;span class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>labelClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/span&gt;<br>					&lt;a class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>closeClass<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;&amp;times;&lt;/a&gt;<br>				&lt;/div&gt;<br>			&lt;/div&gt;</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+			
 		</div>
 	</td>
-	<td><code>callback</code></td>
 	</tr>
 
 
@@ -289,16 +290,16 @@ new TomSelect('#select-code-language',{
 	<tr>
 	<td><code>title</code></td>
 	<td>
-		<p>The text of the header</p>
+		<div><p>The text of the header</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<code>Untitled</code>
-		
+			
+				<code>Untitled</code>
+			
 		</div>
 	</td>
-	<td><code>string</code></td>
 	</tr>
 
 
@@ -308,16 +309,16 @@ new TomSelect('#select-code-language',{
 	<tr>
 	<td><code>headerClass</code></td>
 	<td>
-		<p>The CSS class name of the header</p>
+		<div><p>The CSS class name of the header</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<code>dropdown-header</code>
-		
+			
+				<code>dropdown-header</code>
+			
 		</div>
 	</td>
-	<td><code>string</code></td>
 	</tr>
 
 
@@ -327,16 +328,16 @@ new TomSelect('#select-code-language',{
 	<tr>
 	<td><code>titleRowClass</code></td>
 	<td>
-		<p>The CSS class name of the dropdown header title</p>
+		<div><p>The CSS class name of the dropdown header title</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<code>dropdown-header-title</code>
-		
+			
+				<code>dropdown-header-title</code>
+			
 		</div>
 	</td>
-	<td><code>string</code></td>
 	</tr>
 
 
@@ -346,16 +347,16 @@ new TomSelect('#select-code-language',{
 	<tr>
 	<td><code>labelClass</code></td>
 	<td>
-		<p>The CSS class name of the dropdown header label row</p>
+		<div><p>The CSS class name of the dropdown header label row</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<code>dropdown-header-label</code>
-		
+			
+				<code>dropdown-header-label</code>
+			
 		</div>
 	</td>
-	<td><code>string</code></td>
 	</tr>
 
 
@@ -365,16 +366,16 @@ new TomSelect('#select-code-language',{
 	<tr>
 	<td><code>closeClass</code></td>
 	<td>
-		<p>The CSS class name of the dropdown header close button</p>
+		<div><p>The CSS class name of the dropdown header close button</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<code>dropdown-header-close</code>
-		
+			
+				<code>dropdown-header-close</code>
+			
 		</div>
 	</td>
-	<td><code>string</code></td>
 	</tr>
 
 
@@ -413,6 +414,8 @@ new TomSelect('#select-code-language',{
 			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
 		
 			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+			<a class="nav-link" href="/plugins/virtual_scroll/">Virtual Scroll</a>
 		
 	</nav>
 	

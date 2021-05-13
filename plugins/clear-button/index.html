@@ -63,6 +63,8 @@
 		
 			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
 		
+			<a class="nav-link" href="/plugins/virtual_scroll/">Virtual Scroll</a>
+		
 	</nav>
 	
 
@@ -237,7 +239,6 @@ new TomSelect('#clear-button',{
 	<tbody><tr>
 			<th>Setting</th>
 			<th>Description</th>
-			<th>Type</th>
 		</tr>
 	
 	
@@ -246,16 +247,16 @@ new TomSelect('#clear-button',{
 	<tr>
 	<td><code>html</code></td>
 	<td>
-		<p>A callback that returns an html string used to create the button</p>
+		<div><p>A callback that returns an html string used to create the button</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>callback</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>className<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">" title="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;&amp;times;&lt;/div&gt;</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
-		
+			
+				<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>className<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">" title="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;&amp;times;&lt;/div&gt;</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+			
 		</div>
 	</td>
-	<td><code>callback</code></td>
 	</tr>
 
 
@@ -265,16 +266,16 @@ new TomSelect('#clear-button',{
 	<tr>
 	<td><code>title</code></td>
 	<td>
-		<p>The value of the title attribute on the close button</p>
+		<div><p>The value of the title attribute on the close button</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<code>Clear All</code>
-		
+			
+				<code>Clear All</code>
+			
 		</div>
 	</td>
-	<td><code>string</code></td>
 	</tr>
 
 
@@ -284,16 +285,16 @@ new TomSelect('#clear-button',{
 	<tr>
 	<td><code>className</code></td>
 	<td>
-		<p>The CSS class name of the close button</p>
+		<div><p>The CSS class name of the close button</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		
-			<code>clear-button</code>
-		
+			
+				<code>clear-button</code>
+			
 		</div>
 	</td>
-	<td><code>string</code></td>
 	</tr>
 
 
@@ -329,6 +330,8 @@ new TomSelect('#clear-button',{
 			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
 		
 			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+			<a class="nav-link" href="/plugins/virtual_scroll/">Virtual Scroll</a>
 		
 	</nav>
 	
