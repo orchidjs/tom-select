@@ -118,7 +118,7 @@
 
 {% macro demo_small( html, script, style, jquery ) %}
 
-	<div class="demo demo-small">
+	<div class="demo demo-small {% if jquery %} demo-jquery {% endif %}">
 		<div class="d-flex align-items-end flex-wrap">
 			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
 				{% if script %}
