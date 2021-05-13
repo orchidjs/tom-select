@@ -1206,20 +1206,35 @@
 		describe('paste', function() {
 
 			it_n('create new items on paste', function(done) {
-				var test = setup_test('AB_Multi',{create:true});
+				var test = setup_test('AB_Multi',{
+					create:true,
+					maxItems: 2,
+				});
+
+				const ev = new Event('input');
+
 
 				click(test.instance.control, function(){
 
 					assert.equal( test.instance.items.length, 0);
 
 					test.instance.control_input.value = 'a-new,b-new';
-					test.instance.onPaste({});
+					test.instance.onPaste(ev);
 
 					setTimeout(()=>{
 						assert.equal( test.instance.items.length, 2);
-						done();
+
+						test.instance.control_input.value = 'c-new,d-new';
+						test.instance.onPaste(ev);
+
+						setTimeout(()=>{
+							assert.equal( test.instance.items.length, 2,'should not paste when full');
+							done();
+						},10);
+
 					},10);
 				});
+
 			});
 		});
 
