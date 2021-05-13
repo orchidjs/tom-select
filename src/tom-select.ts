@@ -2,6 +2,7 @@
 import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from '@orchidjs/sifter/dist/esm/sifter.js';
+import { escape_regex } from '@orchidjs/sifter/dist/esm/utils.js';
 import { TomSettings } from './types/settings';
 import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
@@ -263,8 +264,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 		if (!self.settings.splitOn && self.settings.delimiter) {
-			var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-			self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
+			self.settings.splitOn = new RegExp('\\s*' + escape_regex(self.settings.delimiter) + '+\\s*');
 		}
 
 		// debounce user defined load() if loadThrottle > 0
@@ -557,7 +557,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// Wait for pasted text to be recognized in value
 			setTimeout(() => {
 				var pastedText = self.inputValue();
-				if(!pastedText.match(self.settings.splitOn)){ return }
+				if( !pastedText.match(self.settings.splitOn)){
+					return
+				}
 
 				var splitInput = pastedText.trim().split(self.settings.splitOn);
 				for( const piece of splitInput ){
