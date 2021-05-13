@@ -66,7 +66,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public isInputHidden			: boolean = false;
 	public isSetup					: boolean = false;
 	public ignoreFocus				: boolean = false;
-	public ignoreBlur				: boolean = false;
 	public hasOptions				: boolean = false;
 	public currentResults			: ReturnType<Sifter['search']> = null;
 	public lastValue				: string = '';
@@ -291,26 +290,30 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		}, {capture:true});
 
-		addEvent(control,'mousedown', (evt) => {
-
-			// retain focus by preventing native handling. if the
-			// event target is the input it should not be modified.
-			// otherwise, text selection within the input won't work.
-			if (evt.target == control_input) {
-				self.clearActiveItems();
-				evt.stopPropagation();
-				self.inputState();
-				return;
-			}
+		addEvent(control,'click', (evt) => {
 
 			var target_match = parentMatch( evt.target as HTMLElement, '.'+self.settings.itemClass, control);
 			if( target_match ){
 				return self.onItemSelect(evt as MouseEvent, target_match);
 			}
-			return self.onMouseDown(evt as MouseEvent);
+
+			// retain focus (see control_input mousedown)
+			if( control_input.value != '' ){
+				return;
+			}
+
+			self.onClick(evt as MouseEvent);
 		});
 
-		addEvent(control,'click', (e) => self.onClick(e as KeyboardEvent) );
+
+		// retain focus by preventing native handling. if the
+		// event target is the input it should not be modified.
+		// otherwise, text selection within the input won't work.
+		addEvent(control_input,'mousedown',	(e) =>{
+			if( control_input.value !== '' ){
+				e.stopPropagation();
+			}
+		});
 
 
 		addEvent(control_input,'keydown',	(e) => self.onKeyDown(e as KeyboardEvent) );
@@ -318,19 +321,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(control_input,'keypress',	(e) => self.onKeyPress(e as KeyboardEvent) );
 		addEvent(control_input,'resize',	() => self.positionDropdown(), passive_event);
 		addEvent(control_input,'blur',		(e) => self.onBlur(e as MouseEvent) );
-		addEvent(control_input,'focus',		(e) => { self.ignoreBlur = false; self.onFocus(e as MouseEvent) });
+		addEvent(control_input,'focus',		(e) => self.onFocus(e as MouseEvent) );
 		addEvent(control_input,'paste',		(e) => self.onPaste(e as MouseEvent) );
 
 
-		// clicking anywhere in the control should not close the dropdown
-		// clicking on an option should selectit
-		var doc_mousedown = (e:MouseEvent) => {
+		const doc_mousedown = (e:MouseEvent) => {
 
-			// if dropdownParent is set, options may not be within self.wrapper
-			var option = parentMatch(e.target as HTMLElement, '[data-selectable]',self.dropdown);
+			const target = e.target;
 
-			// outside of this instance
-			if( !option && !self.wrapper.contains(e.target as HTMLElement) ){
+			// blur if target is outside of this instance
+			// dropdown is not always inside wrapper
+			if( !wrapper.contains(target as HTMLElement) && !dropdown.contains(target as HTMLElement) ){
 				if (self.isFocused) {
 					self.blur();
 				}
@@ -338,8 +339,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				return;
 			}
 
+			// clicking anywhere in the control should not blur the control_input & close the dropdown
 			preventDefault(e,true);
 
+			// clicking on an option should select it
+			const option = parentMatch(target as HTMLElement, '[data-selectable]',dropdown);
 			if( option ){
 				self.onOptionSelect( e, option );
 			}
@@ -510,39 +514,27 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * has a click event.
 	 *
 	 */
-	onClick(e:MouseEvent|KeyboardEvent) {
+	onClick(e:MouseEvent|KeyboardEvent):void {
 		var self = this;
 
-		// necessary for mobile webkit devices (manual focus triggering
-		// is ignored unless invoked within a click event)
-		// also necessary to reopen a dropdown that has been closed by
-		// closeAfterSelect
-		if (!self.isFocused || !self.isOpen) {
+		if( self.activeItems.length > 0 ){
+			self.clearActiveItems();
 			self.focus();
-			preventDefault(e);
+			return;
+		}
+
+		if( self.isFocused && self.isOpen ){
+			self.blur();
+		} else {
+			self.focus();
 		}
 	}
 
 	/**
-	 * Triggered when the main control element
-	 * has a mouse down event.
+	 * @deprecated v1.7
 	 *
 	 */
-	onMouseDown(e:MouseEvent|KeyboardEvent):boolean {
-		var self = this;
-
-
-		if (self.isFocused) {
-			if (self.settings.mode !== 'single') {
-				self.setActiveItem();
-			}
-			self.open();
-			return false;
-		} else {
-			// give control focus
-			setTimeout(() => self.focus(), 0);
-		}
-	}
+	onMouseDown(e:MouseEvent|KeyboardEvent):void {}
 
 	/**
 	 * Triggered when the value of the control has been changed.
@@ -772,14 +764,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.isFocused = false;
 		self.ignoreFocus = false;
 
-
-		if (!self.ignoreBlur && document.activeElement === self.dropdown_content) {
-			// necessary to prevent IE closing the dropdown when the scrollbar is clicked
-			self.ignoreBlur = true;
-			self.onFocus(e);
-			return;
-		}
-
 		var deactivate = () => {
 			self.close();
 			self.setActiveItem();
@@ -982,7 +966,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// modify selection
 		eventName = e && e.type.toLowerCase();
 
-		if (eventName === 'mousedown' && isKeyDown('shiftKey',e) && self.activeItems.length) {
+		if (eventName === 'click' && isKeyDown('shiftKey',e) && self.activeItems.length) {
 			last	= self.getLastActive();
 			begin	= Array.prototype.indexOf.call(self.control.children, last);
 			end		= Array.prototype.indexOf.call(self.control.children, item);
@@ -999,7 +983,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 			}
 			preventDefault(e);
-		} else if ((eventName === 'mousedown' && isKeyDown(constants.KEY_SHORTCUT,e) ) || (eventName === 'keydown' && isKeyDown('shiftKey',e))) {
+		} else if ((eventName === 'click' && isKeyDown(constants.KEY_SHORTCUT,e) ) || (eventName === 'keydown' && isKeyDown('shiftKey',e))) {
 			if( item.classList.contains('active') ){
 				self.removeActiveItem( item );
 			} else {

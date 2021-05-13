@@ -169,13 +169,19 @@
 
 		describe('clicking control', function() {
 
-			it_n('should give it focus', function(done) {
+			it_n('should toggle focus', function(done) {
 
 				var test = setup_test('AB_Single',{});
 
 				click(test.instance.control, function() {
-					expect(test.instance.isFocused).to.be.equal(true);
-					done();
+					assert.equal(test.instance.isFocused,true);
+					assert.equal(test.instance.isOpen,true);
+
+					click(test.instance.control, function() {
+						assert.equal(test.instance.isFocused,false);
+						assert.equal(test.instance.isOpen,false);
+						done();
+					});
 				});
 			});
 
