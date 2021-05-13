@@ -193,6 +193,26 @@
 				});
 			});
 
+			it_n('should remain open but clear active item on click', function(done) {
+				var test = setup_test('AB_Multi');
+
+				click(test.instance.control, () => {
+					test.instance.addItem('a');
+					test.instance.setActiveItem(test.instance.getItem('a'));
+
+					assert.equal( test.instance.activeItems.length, 1);
+					assert.equal( test.instance.isOpen, true);
+
+					click(test.instance.control_input, () => {
+
+						assert.equal( test.instance.activeItems.length, 0);
+						assert.equal( test.instance.isOpen, true);
+						assert.equal( test.instance.isFocused, true);
+
+						done();
+					});
+				});
+			});
 		});
 
 		describe('clicking label', function() {
