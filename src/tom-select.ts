@@ -282,6 +282,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.control_input.type	= input.type;
 
+		// clicking on an option should select it
+		addEvent(dropdown,'click',(evt) => {
+			const option = parentMatch(evt.target as HTMLElement, '[data-selectable]');
+			if( option ){
+				self.onOptionSelect( evt, option );
+			}
+		});
+
 		addEvent(control,'click', (evt) => {
 
 			var target_match = parentMatch( evt.target as HTMLElement, '.'+self.settings.itemClass, control);
@@ -319,11 +327,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		const doc_mousedown = (e:MouseEvent) => {
 
-			const target = e.target;
-
 			// blur if target is outside of this instance
 			// dropdown is not always inside wrapper
-			if( !wrapper.contains(target as HTMLElement) && !dropdown.contains(target as HTMLElement) ){
+			if( !wrapper.contains(e.target as HTMLElement) && !dropdown.contains(e.target as HTMLElement) ){
 				if (self.isFocused) {
 					self.blur();
 				}
@@ -333,12 +339,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// clicking anywhere in the control should not blur the control_input & close the dropdown
 			preventDefault(e,true);
-
-			// clicking on an option should select it
-			const option = parentMatch(target as HTMLElement, '[data-selectable]',dropdown);
-			if( option ){
-				self.onOptionSelect( e, option );
-			}
 		};
 
 		var win_scroll = () => {

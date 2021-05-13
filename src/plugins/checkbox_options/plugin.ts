@@ -30,12 +30,14 @@ TomSelect.define('checkbox_options',function(options:TPluginOptions) {
 
 	// update the checkbox for an option
 	var UpdateCheckbox = function(option){
-		var checkbox = option.querySelector('input');
-		if( option.classList.contains('selected') ){
-			checkbox.checked = true;
-		}else{
-			checkbox.checked = false;
-		}
+		setTimeout(()=>{
+			var checkbox = option.querySelector('input');
+			if( option.classList.contains('selected') ){
+				checkbox.checked = true;
+			}else{
+				checkbox.checked = false;
+			}
+		},1);
 	};
 
 	// add checkbox to option template
@@ -85,13 +87,10 @@ TomSelect.define('checkbox_options',function(options:TPluginOptions) {
 			return;
         }
 
-		return orig_onOptionSelect.apply(self, arguments);
-	});
+		orig_onOptionSelect.apply(self, arguments);
 
-
-	// update option checkbox
-	self.hook('after','onOptionSelect',( evt:KeyboardEvent, option:HTMLElement ) => {
 		UpdateCheckbox(option);
 	});
+
 
 });
