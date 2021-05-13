@@ -293,8 +293,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(control,'click', (evt) => {
 
 			var target_match = parentMatch( evt.target as HTMLElement, '.'+self.settings.itemClass, control);
-			if( target_match ){
-				return self.onItemSelect(evt as MouseEvent, target_match);
+			if( target_match && self.onItemSelect(evt as MouseEvent, target_match) ){
+				return;
 			}
 
 			// retain focus (see control_input mousedown)
@@ -820,11 +820,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	onItemSelect( evt?:MouseEvent, item?:HTMLElement ):boolean{
 		var self = this;
 
-		if (self.isLocked) return;
-		if (self.settings.mode === 'multi') {
+		if( !self.isLocked && self.settings.mode === 'multi' ){
 			preventDefault(evt);
 			self.setActiveItem(item, evt);
+			return true;
 		}
+		return false;
 	}
 
 	/**

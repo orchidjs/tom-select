@@ -185,6 +185,25 @@
 				});
 			});
 
+			it_n('should toggle focus clicking item in single mode control', function(done) {
+
+				var test = setup_test('AB_Single',{
+					items:['a']
+				});
+
+				var itema = test.instance.getItem('a');
+
+				click(itema, function() {
+					assert.equal(test.instance.isFocused,true);
+					assert.equal(test.instance.isOpen,true);
+
+					click(itema, function() {
+						assert.equal(test.instance.isFocused,false);
+						assert.equal(test.instance.isOpen,false);
+						done();
+					});
+				});
+			});
 
 			it_n('should open dropdown menu', function(done) {
 				var test = setup_test('AB_Single',{
