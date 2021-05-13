@@ -14,7 +14,7 @@ describe('Configuration settings', function() {
 				expect(options.length).to.be.equal(3);
 				expect(test.instance.items.length).to.be.equal(0);
 
-				click($('[data-value=a]', test.instance.dropdown_content), function() {
+				click( test.instance.dropdown_content.querySelector('[data-value="a"]'), function() {
 					options		= test.instance.dropdown.querySelectorAll('.option');
 					expect(options.length).to.be.equal(3);
 					expect(test.instance.items.length).to.be.equal(1);
@@ -35,7 +35,7 @@ describe('Configuration settings', function() {
 				expect(options.length).to.be.equal(3);
 				expect(test.instance.items.length).to.be.equal(0);
 
-				click($('[data-value=a]', test.instance.dropdown_content), function() {
+				click( test.instance.dropdown_content.querySelector('[data-value="a"]'), function() {
 					options		= test.instance.dropdown.querySelectorAll('.option');
 					expect(options.length).to.be.equal(2);
 					expect(test.instance.items.length).to.be.equal(1);
@@ -54,9 +54,9 @@ describe('Configuration settings', function() {
 				expect(options.length).to.be.equal(3);
 				expect(test.instance.items.length).to.be.equal(0);
 
-				click($('[data-value=a]', test.instance.dropdown_content), function() {
+				click( test.instance.dropdown_content.querySelector('[data-value="a"]'), function() {
 
-					click($('[data-value=a]', test.instance.dropdown_content), function() {
+					click( test.instance.dropdown_content.querySelector('[data-value="a"]'), function() {
 						options		= test.instance.dropdown.querySelectorAll('.option');
 						expect(options.length).to.be.equal(3);
 						expect(test.instance.items.length).to.be.equal(2);
