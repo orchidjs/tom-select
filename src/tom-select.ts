@@ -286,7 +286,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(dropdown,'click',(evt) => {
 			const option = parentMatch(evt.target as HTMLElement, '[data-selectable]');
 			if( option ){
-				self.onOptionSelect( evt, option );
+				self.onOptionSelect( evt as MouseEvent, option );
 			}
 		});
 
@@ -1623,7 +1623,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( value ){
 			const option = this.dropdown_content.querySelector(`[data-selectable][data-value="${addSlashes(value)}"]`);
 			if( option ){
-				return option;
+				return option as HTMLElement;
 			}
 		}
 
