@@ -314,7 +314,11 @@
 					.delay(0, function() {
 						expect($('[data-value="a"]', test.instance.dropdown).length).to.be.equal(1);
 						expect($('[data-value="b"]', test.instance.dropdown).length).to.be.equal(0);
-						done();
+
+						click(test.instance.control_input,function(){
+							assert.equal(test.instance.control_input.value,'a','should not clear control_input');
+							done();
+						});
 					});
 				});
 			});
