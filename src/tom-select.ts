@@ -282,14 +282,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.control_input.type	= input.type;
 
-		addEvent(dropdown,'mouseenter', (e) => {
-
-			var target_match = parentMatch(e.target as HTMLElement, '[data-selectable]', dropdown);
-			if( target_match ){
-				return self.onOptionHover( e as MouseEvent, target_match );
-			}
-		}, {capture:true});
-
 		addEvent(control,'click', (evt) => {
 
 			var target_match = parentMatch( evt.target as HTMLElement, '.'+self.settings.itemClass, control);
@@ -778,12 +770,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 	}
 
-	/**
-	 * Triggered when the user rolls over
-	 * an option in the autocomplete dropdown menu.
-	 * @deprecated v1.3
-	 */
-	onOptionHover( evt:MouseEvent|KeyboardEvent, option:HTMLElement ){}
 
 	/**
 	 * Triggered when the user clicks on an option
@@ -877,14 +863,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		self.trigger('load', options, optgroups);
-	}
-
-	/**
-	 * @deprecated 1.1
-	 *
-	 */
-	onSearchChange(value:string):void {
-		this.load(value);
 	}
 
 
