@@ -1203,4 +1203,24 @@
 
 		});
 
+		describe('paste', function() {
+
+			it_n('create new items on paste', function(done) {
+				var test = setup_test('AB_Multi',{create:true});
+
+				click(test.instance.control, function(){
+
+					assert.equal( test.instance.items.length, 0);
+
+					test.instance.control_input.value = 'a-new,b-new';
+					test.instance.onPaste({});
+
+					setTimeout(()=>{
+						assert.equal( test.instance.items.length, 2);
+						done();
+					},10);
+				});
+			});
+		});
+
 	});
