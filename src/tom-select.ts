@@ -827,30 +827,51 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 	}
 
+	/**
+	 * Determines whether or not to invoke
+	 * the user-provided option provider / loader
+	 *
+	 * Note, there is a subtle difference between
+	 * this.canLoad() and this.settings.shouldLoad();
+	 *
+	 *	- settings.shouldLoad() is a user-input validator.
+	 *	When false is returned, the not_loading template
+	 *	will be added to the dropdown
+	 *
+	 *	- canLoad() is lower level validator that checks
+	 * 	the Tom Select instance. There is no inherent user
+	 *	feedback when canLoad returns false
+	 *
+	 */
+	canLoad(value:string):boolean{
+
+		if( !this.settings.load ) return false;
+		if( this.loadedSearches.hasOwnProperty(value) ) return false;
+
+		return true;
+	}
 
 	/**
 	 * Invokes the user-provided option provider / loader.
 	 *
 	 */
 	load(value:string):void {
+		const self = this;
 
-		var self = this;
-		var fn = self.settings.load;
-		if (!fn) return;
-		if (self.loadedSearches.hasOwnProperty(value)) return;
+		if( !self.canLoad(value) ) return;
 
 		addClasses(self.wrapper,self.settings.loadingClass);
 		self.loading++;
 
-		const callback = self.loadCallback.bind(self);
-		fn.call(self, value, callback);
+		const callback = self.loadCallback.bind(self,value);
+		self.settings.load.call(self, value, callback);
 	}
 
 	/**
 	 * Invoked by the user-provided option provider
 	 *
 	 */
-	loadCallback(options:TomOption[], optgroups:TomOption[]){
+	loadCallback( value, options:TomOption[], optgroups:TomOption[] ):void{
 		const self = this;
 		self.loading = Math.max(self.loading - 1, 0);
 		self.lastQuery = null;

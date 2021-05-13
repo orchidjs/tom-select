@@ -3,7 +3,7 @@
 	<meta charset="utf-8">
 	<head>
 		<link rel="stylesheet" href="../../build/css/tom-select.bootstrap5.css">
-		<script src="../../build/js/tom-select.base.js"></script>
+		<script src="../../build/js/tom-select.complete.js"></script>
 	</head>
 	<body>
 		<div style="margin:3rem auto;width:50vw">
@@ -12,88 +12,12 @@
 	<script>
 
 
-	TomSelect.define('virtual_scroll',function(options) {
-		const self = this;
-		const pagination = {};
 
-	 	const load_fn		= self.settings.load;
-		if( !load_fn ){
-			throw 'virtual_scroll plugin requires a load() method';
-			return;
-		}
+	class TestSelect extends TomSelect{
+		close(){}
+	}
 
-		if( !self.settings.firstUrl ){
-			throw 'virtual_scroll plugin requires a firstUrl() method';
-			return;
-		}
-
-
-		self.setNextUrl = function(value,next_url){
-			pagination[value] = pagination[value] || [];
-			pagination[value].push(next_url);
-		};
-
-		self.getUrl = function(query){
-
-			if( query in pagination ){
-				return pagination[query].shift();
-			}
-
-			return self.settings.firstUrl(query);;
-		};
-
-		self.hook('after','setup',()=>{
-			const content = self.dropdown_content;
-
-
-			// watch dropdown content scroll position
-			content.addEventListener('scroll',function(){
-
-				if( typeof self.settings.maxOptions === 'number' && content.children.length >= self.settings.maxOptions ){
-					return;
-				}
-
-				const scroll_percent = content.clientHeight / (content.scrollHeight - content.scrollTop);
-				if( scroll_percent < 0.95 ){
-					return;
-				}
-
-
-				const query		= self.lastValue;
-
-				if( !(query in pagination) || !pagination[query].length ){
-					return;
-				}
-
-
-				//addClasses(self.wrapper,self.settings.loadingClass);
-				self.loading++;
-
-				const callback = self.loadCallback.bind(self);
-				load_fn.call(self, query, callback);
-
-				/*
-				load_fn.call(self, query, function(options, optgroups){
-					self.loading = Math.max(self.loading - 1, 0);
-					self.setupOptions(options,optgroups);
-					self.lastQuery = null;
-
-					self.refreshOptions(self.isFocused && !self.isInputHidden);
-
-					if (!self.loading) {
-						//removeClasses(self.wrapper,self.settings.loadingClass);
-					}
-
-					self.trigger('load', options, optgroups);
-				});
-				*/
-
-			});
-		});
-
-	});
-
-	new TomSelect('#reddit-search',{
+	new TestSelect('#reddit-search',{
 		valueField: 'permalink',
 		labelField: 'title',
 		searchField: ['title'],
@@ -112,14 +36,14 @@
 				.then(response => response.json())
 				.then(json => {
 
+					// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
+					// !! set before invoking callback()
+					const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
+					this.setNextUrl(query, next_url);
+
 					// add data to the results
 					let data = json.data.children.map(row => row.data);
 					callback(data);
-
-
-					// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
-					const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
-					this.setNextUrl(query, next_url);
 
 				}).catch((e)=>{
 					callback();
@@ -128,7 +52,7 @@
 		},
 		render: {
 			option: function(data, escape) {
-				return `<div>${ escape(data.title) }</div>`;
+				return `<div>${ escape(data.$order) } - ${ escape(data.title) }</div>`;
 			}
 		},
 	});

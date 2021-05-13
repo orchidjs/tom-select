@@ -1,0 +1,103 @@
+---
+title: Virtual Scroll
+nav_title: Virtual Scroll
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+{% from "macro_config.njk" import config_table %}
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	Example
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="reddit-search" placeholder="Search reddit" autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+
+new TomSelect('#reddit-search',{
+	valueField: 'permalink',
+	labelField: 'title',
+	searchField: ['title'],
+	plugins:['virtual_scroll'],
+	maxOptions: 200,
+
+	// fetch remote data
+	firstUrl: function(query){
+		return 'https://api.reddit.com/search?q=' + encodeURIComponent(query);
+	},
+	load: function(query, callback) {
+
+		// retrieve the appropriate url
+		const url = this.getUrl(query);
+
+		fetch(url)
+			.then(response => response.json())
+			.then(json => {
+
+				// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
+				// important! should set before invoking callback()
+				const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
+				this.setNextUrl(query, next_url);
+
+				// add data to the results
+				let data = json.data.children.map(row => row.data);
+				callback(data);
+
+			}).catch((e)=>{
+				callback();
+			});
+
+	},
+	render: {
+		loading_more: function(data, escape) {
+			return `<div class="loading-more-results py-2 d-flex align-items-center"><div class="spinner"></div> Loading more results from reddit </div>`;
+		}
+	},
+
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+<h2>Related Tom Select Configuration</h2>
+
+{{ config_table([
+		{
+			name:'maxOptions',
+			desc:'The max number of options to display in the dropdown.',
+			type:'int',
+			default:'50'
+		},
+		{
+			name:'render.loading_more',
+			desc:'Renders a message at the bottom of the dropdown to communicate to users that more results are being loaded',
+			type:'callback',
+			default:'function(data,escape){\n	return `<div class="loading-more-results">Loading more results ... </div>`;\n}',
+			highlight:true
+		},
+		{
+			name:'render.no_more_results',
+			desc:'Renders a message at the bottom of the dropdown for communicating that users have reached the end of the results',
+			type:'callback',
+			default:'function(data,escape){\n	return `<div class="no-more-results">No more results</div>`;\n}',
+			highlight:true
+		}
+
+	])
+}}
+
+
+<h2>Plugin Configuration</h2>
+
+<p>No additional configuration settings for this plugin</p>

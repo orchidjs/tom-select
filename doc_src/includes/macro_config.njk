@@ -5,7 +5,6 @@
 		<tr>
 			<th>Setting</a></th>
 			<th>Description</th>
-			<th>Type</th>
 		</tr>
 	</thead>
 	{% for row in data %}
@@ -19,20 +18,20 @@
 	<tr>
 	<td><code>{{ setting }}</code></td>
 	<td>
-		{{ desc | safe }}
+		<div>{{ desc | safe }}</div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>{{ type }}</code></span>
+			<span>Default:</span>
 
-		<div><span>Default:</span>
-
-		{% if highlight %}
-			{% highlight "js" %}
-			{{ default | safe }}
-			{% endhighlight %}
-		{% else %}
-			<code>{{ default }}</code>
-		{% endif %}
+			{% if highlight %}
+				{% highlight "js" %}
+				{{ default | safe }}
+				{% endhighlight %}
+			{% else %}
+				<code>{{ default }}</code>
+			{% endif %}
 		</div>
 	</td>
-	<td><code>{{ type }}</code></td>
 	</tr>
 
 {% endmacro %}

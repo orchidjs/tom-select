@@ -435,6 +435,71 @@ script: <script src="/js/jqueryui.js"></script>
 </div>
 
 
+{# virtual_scroll #}
+<div class="row mt-5">
+	<div class="col-md-6">
+		<h4 class="mt-0"><a href="/plugins/virtual_scroll">Virtual Scroll</a></h4>
+		<div>
+			Loads remote data as users scroll through dropdown
+			<br/><a href="/plugins/virtual_scroll">More info...</a>
+		</div>
+	</div>
+	<div class="col-md-6">
+		{% set html %}
+		<input type="text" id="reddit-search" placeholder="Search reddit" autocomplete="off">
+		{% endset %}
+
+		<script>
+		{% set script %}
+
+		new TomSelect('#reddit-search',{
+			valueField: 'permalink',
+			labelField: 'title',
+			searchField: ['title'],
+			plugins:['virtual_scroll'],
+			maxOptions: 200,
+
+			// fetch remote data
+			firstUrl: function(query){
+				return 'https://api.reddit.com/search?q=' + encodeURIComponent(query);
+			},
+			load: function(query, callback) {
+
+				// retrieve the appropriate url
+				const url = this.getUrl(query);
+
+				fetch(url)
+					.then(response => response.json())
+					.then(json => {
+
+						// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
+						// important! should set before invoking callback()
+						const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
+						this.setNextUrl(query, next_url);
+
+						// add data to the results
+						let data = json.data.children.map(row => row.data);
+						callback(data);
+
+					}).catch((e)=>{
+						callback();
+					});
+
+			},
+			render: {
+				loading_more: function(data, escape) {
+					return `<div class="loading-more-results py-2 d-flex align-items-center"><div class="spinner"></div> Loading more results from reddit </div>`;
+				}
+			},
+		});
+		{% endset %}
+		</script>
+
+		{{ demo_small( html, script) }}
+	</div>
+
+</div>
+
 
 <h2 class="border-bottom pt-5">Other</h2>
 

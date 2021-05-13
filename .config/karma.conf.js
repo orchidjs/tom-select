@@ -139,7 +139,7 @@ module.exports = function(config) {
 			'node_modules/jquery/dist/jquery.js',
 			'build/css/tom-select.default.css',
 			'test/support/*.js',
-			'test/tests/**/*.js',
+			config.test_one ? 'test/tests/plugins/virtual_scroll.js' : 'test/tests/**/*.js',
 
 			{
 				pattern: 'build/**/*',
