@@ -25,7 +25,8 @@
 		background-color: $select-color-input-full;
 	}
 
-	&.disabled, &.disabled * {
+	&.disabled,
+	&.disabled * {
 		cursor: default !important;
 	}
 
@@ -119,7 +120,7 @@
 		}
 	}
 
-	.#{$select-ns}-input.disabled {
+	&.disabled {
 		opacity: $select-opacity-disabled;
 		background-color: $select-color-disabled;
 	}
