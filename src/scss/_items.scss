@@ -129,6 +129,8 @@
 	// visibility:hidden can prevent the input from receiving focus
 	.input-hidden & > input{
 		opacity: 0;
+		position: absolute;
+		left: -10000px;
 	}
 
 }
