@@ -2885,7 +2885,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
   updateOption(value, data) {
     var self = this;
     var item, item_new;
-    var value_new, index_item, cache_items, cache_options, order_old;
+    var value_new, index_item, order_old;
     value = hash_key(value);
     value_new = hash_key(data[self.settings.valueField]); // sanity checks
 
@@ -2906,19 +2906,8 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     data.$order = data.$order || order_old;
     self.options[value_new] = data; // invalidate render cache
 
-    cache_items = self.renderCache['item'];
-    cache_options = self.renderCache['option'];
-
-    if (cache_items) {
-      delete cache_items[value];
-      delete cache_items[value_new];
-    }
-
-    if (cache_options) {
-      delete cache_options[value];
-      delete cache_options[value_new];
-    } // update the item if it's selected
-
+    self.removeValue(value);
+    self.removeValue(value_new); // update the item if it's selected
 
     if (self.items.indexOf(value_new) !== -1) {
       item = self.getItem(value);
@@ -2944,10 +2933,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
   removeOption(value, silent) {
     var self = this;
     value = hash_key(value);
-    var cache_items = self.renderCache['item'];
-    var cache_options = self.renderCache['option'];
-    if (cache_items) delete cache_items[value];
-    if (cache_options) delete cache_options[value];
+    self.removeValue(value);
     delete self.userOptions[value];
     delete self.options[value];
     self.lastQuery = null;
@@ -2974,6 +2960,21 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.options = this.sifter.items = selected;
     this.lastQuery = null;
     this.trigger('option_clear');
+  }
+  /**
+   * Removes a value from item and option caches
+   *
+   */
+
+
+  removeValue(value) {
+    const self = this;
+    const option_el = self.getOption(value);
+    const cache_items = self.renderCache['item'];
+    const cache_options = self.renderCache['option'];
+    if (option_el) option_el.remove();
+    if (cache_items) delete cache_items[value];
+    if (cache_options) delete cache_options[value];
   }
   /**
    * Returns the dom element of the option
