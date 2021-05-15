@@ -495,12 +495,18 @@
 					],
 					items: ['e','f']
 				});
+				test.instance.refreshOptions();
 			});
+
 			it_n('should update option data', function() {
+				var option_el_before = test.instance.getOption('a');
 				test.instance.updateOption('a', {value: 'a', test: 'test'});
+				var option_el_after = test.instance.getOption('a');
+				expect(option_el_before).to.not.equal(option_el_after);
 				expect(test.instance.options).to.have.property('a');
 				expect(test.instance.options['a'].test).to.equal('test');
 			});
+
 			it_n('should update indexes', function() {
 				test.instance.updateOption('e', {value: 'e_updated'});
 				expect(test.instance.options).to.not.have.property('e');
@@ -508,12 +514,14 @@
 				expect(test.instance.items.indexOf('e')).to.be.equal(-1);
 				expect(test.instance.items.indexOf('e_updated')).to.be.equal(0);
 			});
+
 			it_n('should maintain implicit $order property', function() {
 				var order_orig = test.instance.options['x'].$order;
 				assert.isNumber(order_orig);
 				test.instance.updateOption('x', {value: 'x', something: 'x'});
 				assert.equal(test.instance.options['x'].$order, order_orig);
 			});
+
 			it_n('should allow integer values', function() {
 				test.instance.updateOption(0, {value: '0_updated'});
 				test.instance.updateOption(1, {value: '1_updated'});
@@ -522,18 +530,21 @@
 				expect(test.instance.options).to.have.property('0_updated');
 				expect(test.instance.options).to.have.property('1_updated');
 			});
+
 			it_n('should throw error if value not set in data', function() {
 				expect(function() {
 					test.instance.updateOption('c', {value: undefined, test: 'test'});
 					test.instance.updateOption('d', {value: null, test: 'test'});
 				}).to.throw(Error);
 			});
+
 			it_n('should ignore undefined / null value references', function() {
 				test.instance.updateOption(undefined, {value: 'undefined', test: 'test'});
 				test.instance.updateOption(null, {value: 'null', test: 'test'});
 				expect(test.instance.options['undefined']).to.not.have.property('test');
 				expect(test.instance.options['null']).to.not.have.property('test');
 			});
+
 			it_n('should update DOM (2)', function() {
 				test.instance.updateOption('f', {value: 'f_updated'});
 				expect($(test.instance.control).find('[data-value=f]').length).to.be.equal(0);
