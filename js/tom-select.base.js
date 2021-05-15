@@ -3850,6 +3850,14 @@
 	      };
 	    } else {
 	      self.renderCache[templateName] = {};
+	    } // remove options from DOM
+
+
+	    if (templateName === void 0 || 'option') {
+	      for (let key in this.options) {
+	        const el = this.getOption(key);
+	        if (el) el.remove();
+	      }
 	    }
 	  }
 	  /**
