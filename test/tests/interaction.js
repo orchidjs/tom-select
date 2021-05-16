@@ -171,11 +171,16 @@
 
 			it_n('should toggle focus', function(done) {
 
-				var test = setup_test('AB_Single',{});
+				var test = setup_test('AB_Single_Long',{
+					items: ['p']
+				});
 
 				click(test.instance.control, function() {
 					assert.equal(test.instance.isFocused,true);
 					assert.equal(test.instance.isOpen,true);
+					expect( isVisible(test.instance.dropdown) ).to.be.equal(true);
+					assert.equal( test.instance.activeOption.dataset.value,'p','activeOption should be "p"');
+					assert.isAbove(test.instance.dropdown_content.scrollTop, 0, 'dropdown should be scrolled to activeOption');
 
 					click(test.instance.control, function() {
 						assert.equal(test.instance.isFocused,false);
@@ -205,18 +210,6 @@
 				});
 			});
 
-			it_n('should open dropdown menu', function(done) {
-				var test = setup_test('AB_Single',{
-					items:['c']
-				});
-
-				click(test.instance.control, function() {
-					expect(test.instance.isOpen).to.be.equal(true);
-					expect( isVisible(test.instance.dropdown) ).to.be.equal(true);
-					assert.equal( test.instance.activeOption.dataset.value,'c','activeOption should be "c"');
-					done();
-				});
-			});
 
 			it_n('should remain open but clear active item on click', function(done) {
 				var test = setup_test('AB_Multi');
