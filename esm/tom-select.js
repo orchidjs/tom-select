@@ -2755,11 +2755,11 @@ class TomSelect extends MicroPlugin(MicroEvent) {
         active = create;
       }
 
-      self.setActiveOption(active);
-
       if (triggerDropdown && !self.isOpen) {
         self.open();
       }
+
+      self.setActiveOption(active);
     } else {
       self.clearActiveOption();
 
