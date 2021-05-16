@@ -1536,7 +1536,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	updateOption(value:string, data:TomOption) {
 		var self = this;
 		var item, item_new;
-		var value_new, index_item, cache_items, cache_options, order_old;
+		var value_new, index_item, order_old;
 
 		value     = hash_key(value);
 		value_new = hash_key(data[self.settings.valueField]);
