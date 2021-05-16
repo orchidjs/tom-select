@@ -30,4 +30,4 @@ Add any other context about the problem here.
 
 <!--
 Thanks for taking the time to submit your bug report,
-anbd don't forget to star our repo!
+and don't forget to star our repo!
