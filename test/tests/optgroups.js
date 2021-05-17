@@ -48,7 +48,7 @@ describe('optgroups', function() {
 		});
 	});
 
-	it_n('duplicates & mode=single', function(done){
+	it_n('duplicates & mode=single', async function(){
 
 		var test = setup_test('<select>',{
 			labelField: 'value',
@@ -57,26 +57,43 @@ describe('optgroups', function() {
 			optgroups: groups,
 			duplicates: true,
 			items:['dog'],
-			lockOptgroupOrder:true,
+			lockOptgroupOrder: true,
+			closeAfterSelect: true,
 		});
 
 
-		click(test.instance.control, function() {
+		await asyncClick(test.instance.control);
 
-			assert.equal(Object.keys(test.instance.options).length, 6);
-			assert.equal(Object.keys(test.instance.optgroups).length, 4);
-			assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length, 6);
-			assert.equal(test.instance.dropdown_content.querySelector('[data-group="mammal"]').querySelectorAll('.active').length , 1, 'active option should be in mammal group');
 
-			test.instance.options.dog.optgroup = ['mammal','tetrapods'];
-			test.instance.refreshOptions(false);
+		assert.equal(Object.keys(test.instance.options).length, 6);
+		assert.equal(Object.keys(test.instance.optgroups).length, 4);
+		assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length, 6);
+		assert.equal(test.instance.dropdown_content.querySelector('[data-group="mammal"]').querySelectorAll('.active').length , 1, 'active option should be in mammal group');
 
-			assert.equal(Object.keys(test.instance.options).length, 6)
-			assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length,7);
-			assert.equal(test.instance.dropdown_content.querySelector('[data-group="mammal"]').querySelectorAll('.active').length , 1, 'active option should still be in mammal group');
+		test.instance.options.dog.optgroup = ['mammal','tetrapods'];
+		test.instance.refreshOptions(false);
 
-			done();
-		});
+		assert.equal(Object.keys(test.instance.options).length, 6);
+		assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length,7);
+		assert.equal(test.instance.dropdown_content.querySelector('[data-group="mammal"]').querySelectorAll('.active').length , 1, 'active option should still be in mammal group');
+
+		// clicking on duplicates
+		assert.equal(test.instance.isOpen, true, 'should be open to start');
+		var clone = test.instance.dropdown_content.querySelector('.ts-cloned');
+		await asyncClick(clone);
+		assert.equal(test.instance.isOpen, false, 'should be closed after select');
+		await asyncClick(test.instance.control);
+		assert.equal(test.instance.isOpen, true, 'should be open after click');
+		assert.equal( test.instance.activeOption.classList.contains('ts-cloned'), true, 'Cloned option should be selected' );
+
+
+		var original = test.instance.getOption('dog');
+		await asyncClick(original);
+		assert.equal(test.instance.isOpen, false, 'should be closed after select');
+		await asyncClick(test.instance.control);
+		assert.equal(test.instance.isOpen, true, 'should be open after click');
+		assert.equal( test.instance.activeOption.classList.contains('ts-cloned'), false, 'Cloned option should not be selected' );
+
 
 	});
 

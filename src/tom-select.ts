@@ -804,10 +804,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
-				} else if (!self.settings.hideSelected && evt.type && /mouse/.test(evt.type)) {
-					self.setActiveOption(self.getOption(value));
 				}
 
+				if( !self.settings.hideSelected && evt.type && /click/.test(evt.type) ){
+					self.setActiveOption(option);
+				}
 			}
 		}
 	}
@@ -1259,16 +1260,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	refreshOptions( triggerDropdown:boolean = true ){
-		var i, j, k, n, groups_order, optgroup, optgroups, html, has_create_option;
+		var i, j, k, n, optgroup, optgroups, html, has_create_option;
 		var create;
-		var groups: {[key:string]:DocumentFragment};
+		const groups: {[key:string]:DocumentFragment} = {};
 
-
+		const groups_order			= [];
 		var self					= this;
 		var query					= self.inputValue();
 		var results					= self.search(query);
-		var active_before_hash		= self.activeOption && hash_key(self.activeOption.dataset.value);
 		var active_option			= self.activeOption;
+		var active_group			= active_option ? active_option.closest('[data-group]') : null;
 		var show_dropdown			= self.settings.shouldOpen || false;
 		var dropdown_content		= self.dropdown_content;
 
@@ -1284,9 +1285,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		// render and group available options individually
-		groups = {};
-		groups_order = [];
-
 		for (i = 0; i < n; i++) {
 
 			// get option dom element, don't re-render if we
@@ -1318,8 +1316,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				// a child could only have one parent, so if you have more parents clone the child
 				if( j > 0 ){
 					option_el = option_el.cloneNode(true) as HTMLElement;
+					setAttr(option_el,{id: option.$id+'-clone-'+j});
+					option_el.classList.add('ts-cloned');
 					removeClasses(option_el,'active');
 					option_el.removeAttribute('aria-selected');
+				}
+
+				// make sure we keep the activeOption in the same group
+				if( active_group && active_group.dataset.group === optgroup ){
+					active_option = option_el;
 				}
 
 				groups[optgroup].appendChild(option_el);
@@ -1657,7 +1662,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		value = hash_key(value);
 
 		if( value ){
-			const option = this.dropdown_content.querySelector(`[data-selectable][data-value="${addSlashes(value)}"]`);
+			const option = this.dropdown_content.querySelector(`:not(.ts-cloned)[data-selectable][data-value="${addSlashes(value)}"]`);
 			if( option ){
 				return option as HTMLElement;
 			}
