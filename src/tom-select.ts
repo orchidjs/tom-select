@@ -1369,7 +1369,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					highlight( dropdown_content, tok.regex);
 				}
 			}
-		}dropdown_content
+		}
 
 		// helper method for adding templates to dropdown
 		var add_template = (template:string) => {
