@@ -1042,8 +1042,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * of available options.
 	 *
 	 */
-	setActiveOption( option:HTMLElement ){
-		var height_menu, height_item, y;
+	setActiveOption( option:HTMLElement ):void{
 
 		if( option === this.activeOption ){
 			return;
@@ -1056,12 +1055,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		setAttr(this.control_input,{'aria-activedescendant':option.getAttribute('id')});
 		setAttr(option,{'aria-selected':'true'});
 		addClasses(option,'active');
+		this.scrollToOption(option);
+	}
+
+	/**
+	 * Sets the dropdown_content scrollTop to display the option
+	 *
+	 */
+	scrollToOption( option:HTMLElement ):void{
+		var height_menu, height_item, y;
 
 		height_menu		= this.dropdown_content.clientHeight;
 		let scrollTop	= this.dropdown_content.scrollTop || 0;
 
-		height_item		= this.activeOption.offsetHeight;
-		y				= this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
+		height_item		= option.offsetHeight;
+		y				= option.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
 
 		if (y + height_item > height_menu + scrollTop) {
 			this.dropdown_content.scrollTop = y - height_menu + height_item;
@@ -1643,7 +1651,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Returns the dom element of the option
 	 * matching the given value.
 	 *
-	 * @returns {object}
 	 */
 	getOption(value:string):HTMLElement {
 
