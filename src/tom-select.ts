@@ -2497,19 +2497,20 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	clearCache( templateName?:'item'|'option' ):void{
 		var self = this;
 
+		// remove options from DOM
+		if(templateName === void 0 || 'option' ){
+			for( let key in self.options){
+				const el = self.rendered('option',key);
+				if( el ) el.remove();
+			}
+		}
+
 		if( templateName === void 0 ){
 			self.renderCache = {'item':{},'option':{}};
 		} else {
 			self.renderCache[templateName] = {};
 		}
 
-		// remove options from DOM
-		if(templateName === void 0 || 'option' ){
-			for( let key in this.options){
-				const el = this.getOption(key);
-				if( el ) el.remove();
-			}
-		}
 	}
 
 	/**
