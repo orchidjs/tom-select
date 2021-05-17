@@ -69,12 +69,11 @@ describe('optgroups', function() {
 			assert.equal(test.instance.dropdown_content.querySelector('[data-group="mammal"]').querySelectorAll('.active').length , 1, 'active option should be in mammal group');
 
 			test.instance.options.dog.optgroup = ['mammal','tetrapods'];
-			//test.instance.clearActiveOption();
 			test.instance.refreshOptions(false);
 
 			assert.equal(Object.keys(test.instance.options).length, 6)
 			assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length,7);
-			assert.equal(test.instance.dropdown_content.querySelector('[data-group="tetrapods"]').querySelectorAll('.active').length , 1, 'active option should be in tetrapods group');
+			assert.equal(test.instance.dropdown_content.querySelector('[data-group="mammal"]').querySelectorAll('.active').length , 1, 'active option should still be in mammal group');
 
 			done();
 		});

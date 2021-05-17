@@ -1260,7 +1260,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	refreshOptions( triggerDropdown:boolean = true ){
 		var i, j, k, n, groups_order, optgroup, optgroups, html, has_create_option;
-		var active, create;
+		var create;
 		var groups: {[key:string]:DocumentFragment};
 
 
@@ -1268,7 +1268,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var query					= self.inputValue();
 		var results					= self.search(query);
 		var active_before_hash		= self.activeOption && hash_key(self.activeOption.dataset.value);
+		var active_option			= self.activeOption;
 		var show_dropdown			= self.settings.shouldOpen || false;
+		var dropdown_content		= self.dropdown_content;
 
 
 		// build markup
@@ -1351,25 +1353,25 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		}
 
-		self.dropdown_content.innerHTML = '';
-		self.dropdown_content.append(html);
+		dropdown_content.innerHTML = '';
+		dropdown_content.append(html);
 
 		// highlight matching terms inline
 		if (self.settings.highlight) {
-			removeHighlight( self.dropdown_content );
+			removeHighlight( dropdown_content );
 			if (results.query.length && results.tokens.length) {
 				for( const tok of results.tokens ){
-					highlight( self.dropdown_content, tok.regex);
+					highlight( dropdown_content, tok.regex);
 				}
 			}
-		}
+		}dropdown_content
 
 		// helper method for adding templates to dropdown
 		var add_template = (template:string) => {
 			let content = self.render(template,{input:query});
 			if( content ){
 				show_dropdown = true;
-				self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+				dropdown_content.insertBefore(content, dropdown_content.firstChild);
 			}
 			return content;
 		};
@@ -1403,27 +1405,25 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			if (results.items.length > 0) {
 
-				active = active_before_hash && self.getOption(active_before_hash);
-
-				if( !active && self.settings.mode === 'single' && self.items.length ){
-					active = self.getOption(self.items[0]);
+				if( !dropdown_content.contains(active_option) && self.settings.mode === 'single' && self.items.length ){
+					active_option = self.getOption(self.items[0]);
 				}
 
-				if( !active || !self.dropdown_content.contains(active)  ){
+				if( !dropdown_content.contains(active_option)  ){
 
 					let active_index = 0;
 					if( create && !self.settings.addPrecedence ){
 						active_index = 1;
 					}
-					active = self.selectable()[active_index] as HTMLElement;
+					active_option = self.selectable()[active_index] as HTMLElement;
 				}
 
 			}else{
-				active = create;
+				active_option = create;
 			}
 
 			if( triggerDropdown && !self.isOpen ){ self.open(); }
-			self.setActiveOption(active);
+			self.setActiveOption(active_option);
 
 		}else{
 			self.clearActiveOption();
