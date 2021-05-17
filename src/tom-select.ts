@@ -1663,9 +1663,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		}
 
-		if( this.renderCache['option'].hasOwnProperty(value) ){
-			return this.renderCache['option'][value];
-		}
+		return this.rendered('option',value);
 	}
 
 	/**
@@ -2417,11 +2415,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self = this;
 
 		if (templateName === 'option' || templateName === 'item') {
-			value = hash_key(data[self.settings.valueField]);
+			value	= hash_key(data[self.settings.valueField]);
+			html	= self.rendered(templateName,value);
 
-			// pull markup from cache if it exists
-			if( self.renderCache[templateName].hasOwnProperty(value) ){
-				return self.renderCache[templateName][value];
+			if( html ){
+				return html;
 			}
 
 		}
@@ -2478,6 +2476,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		return html;
+	}
+
+	/**
+	 * Return the previously rendered item or option
+	 *
+	 */
+	rendered( templateName:'item'|'option', value:string ):null|HTMLElement{
+		if( this.renderCache[templateName].hasOwnProperty(value) ){
+			return this.renderCache[templateName][value];
+		}
 	}
 
 	/**
