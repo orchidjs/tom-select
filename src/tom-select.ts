@@ -1547,19 +1547,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	updateOption(value:string, data:TomOption) {
-		var self = this;
+		const self = this;
 		var item, item_new;
-		var value_new, index_item, order_old;
+		var index_item;
 
-		value     = hash_key(value);
-		value_new = hash_key(data[self.settings.valueField]);
+		value				= hash_key(value);
+		const value_new		= hash_key(data[self.settings.valueField]);
+		const option		= self.getOption(value);
+
 
 		// sanity checks
 		if (value === null) return;
 		if (!self.options.hasOwnProperty(value)) return;
 		if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
 
-		order_old = self.options[value].$order;
+		data.$order = data.$order || self.options[value].$order;
 
 		// update references
 		if (value_new !== value) {
@@ -1568,14 +1570,28 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if (index_item !== -1) {
 				self.items.splice(index_item, 1, value_new);
 			}
+
+			self.uncacheValue(value_new);
 		}
-		data.$order = data.$order || order_old;
-		self.options[value_new] = data;
 
 		// invalidate render cache
-		self.removeValue(value);
-		self.removeValue(value_new);
+		// don't remove node, we'll remove it after replacing it
+		self.uncacheValue(value,false);
 
+		self.options[value_new] = data;
+
+		// update the option if it's in the dropdown
+		if( self.dropdown_content.contains(option) ){
+
+			const option_new	= self.render('option', data);
+			option.parentNode.replaceChild(option_new, option);
+
+			if( self.activeOption === option ){
+				self.setActiveOption(option_new);
+			}
+		}
+
+		option.remove();
 
 		// update the item if it's selected
 		if (self.items.indexOf(value_new) !== -1) {
@@ -1584,17 +1600,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			if( item.classList.contains('active') ) addClasses(item_new,'active');
 
-			item.parentNode.insertBefore(item_new, item);
-			item.remove();
+			item.parentNode.replaceChild(item_new, item);
 		}
 
 		// invalidate last query because we might have updated the sortField
 		self.lastQuery = null;
-
-		// update dropdown contents
-		if (self.isOpen) {
-			self.refreshOptions(false);
-		}
 	}
 
 	/**
@@ -1605,7 +1615,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self = this;
 		value = hash_key(value);
 
-		self.removeValue(value);
+		self.uncacheValue(value);
 
 		delete self.userOptions[value];
 		delete self.options[value];
@@ -1639,16 +1649,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Removes a value from item and option caches
 	 *
 	 */
-	removeValue(value:string){
+	uncacheValue(value:string, remove_node:boolean=true){
 		const self				= this;
-		const option_el			= self.getOption(value);
 		const cache_items		= self.renderCache['item'];
 		const cache_options		= self.renderCache['option'];
 
-		if( option_el ) option_el.remove();
 		if (cache_items) delete cache_items[value];
 		if (cache_options) delete cache_options[value];
 
+		if( remove_node ){
+			const option_el			= self.getOption(value);
+			if( option_el ) option_el.remove();
+		}
 	}
 
 

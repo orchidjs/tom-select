@@ -498,14 +498,21 @@
 				test.instance.refreshOptions();
 			});
 
+
 			it_n('should update option data', function() {
-				var option_el_before = test.instance.getOption('a');
-				test.instance.updateOption('a', {value: 'a', test: 'test'});
-				var option_el_after = test.instance.getOption('a');
-				expect(option_el_before).to.not.equal(option_el_after);
-				expect(test.instance.options).to.have.property('a');
-				expect(test.instance.options['a'].test).to.equal('test');
+				var option_el_before = test.instance.getOption('c');
+				test.instance.setActiveOption(option_el_before);
+
+				test.instance.updateOption('c', {value: 'c', test: 'test'});
+
+				var option_el_after = test.instance.getOption('c');
+				assert.notStrictEqual( option_el_before, option_el_after, 'option DOM element should be new');
+				assert.isOk( option_el_after.classList.contains('active'), 'new option el should be active');
+
+				expect(test.instance.options).to.have.property('c');
+				expect(test.instance.options['c'].test).to.equal('test');
 			});
+
 
 			it_n('should update indexes', function() {
 				test.instance.updateOption('e', {value: 'e_updated'});
