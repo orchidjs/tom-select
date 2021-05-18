@@ -209,6 +209,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		background-repeat: no-repeat;
 		background-position: $form-select-bg-position;
 		background-size: $form-select-bg-size;
+		padding-right: 2rem;
 	}
 
 }

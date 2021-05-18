@@ -86,6 +86,8 @@ $select-spinner-border-color:					$select-color-border;
 @mixin ts-caret(){
 
 	.#{$select-ns}-control.single .#{$select-ns}-input {
+		padding-right: 2rem;
+		
 		&, input { cursor: pointer; }
 		&.input-active, &.input-active input { cursor: text; }
 
