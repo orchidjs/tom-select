@@ -552,15 +552,15 @@
 				expect(test.instance.options['null']).to.not.have.property('test');
 			});
 
-			it_n('should update DOM (2)', function() {
+			it_n('should update item DOM (2)', function() {
 				test.instance.updateOption('f', {value: 'f_updated'});
-				expect($(test.instance.control).find('[data-value=f]').length).to.be.equal(0);
-				expect($(test.instance.control).find('[data-value=f_updated]').length).to.be.equal(1);
+				assert.equal( test.instance.control.querySelectorAll('.item[data-value="f"]').length, 0);
+				assert.equal( test.instance.control.querySelectorAll('.item[data-value="f_updated"]').length, 1);
 			});
 
 			it_n('should not update options if attempting to update invalid option', function() {
 				var opts_before =  Object.assign({}, test.instance.options);
-				test.instance.updateOption('invalid', {value: 'f_updated'});
+				test.instance.updateOption('invalid', {value: 'f_invalid'});
 				expect(opts_before).to.deep.equal(test.instance.options);
 			});
 

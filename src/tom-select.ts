@@ -1581,17 +1581,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.options[value_new] = data;
 
 		// update the option if it's in the dropdown
-		if( self.dropdown_content.contains(option) ){
+		if( option ){
+			if( self.dropdown_content.contains(option) ){
 
-			const option_new	= self.render('option', data);
-			option.parentNode.replaceChild(option_new, option);
+				const option_new	= self.render('option', data);
+				option.parentNode.replaceChild(option_new, option);
 
-			if( self.activeOption === option ){
-				self.setActiveOption(option_new);
+				if( self.activeOption === option ){
+					self.setActiveOption(option_new);
+				}
 			}
+			option.remove();
 		}
-
-		option.remove();
 
 		// update the item if it's selected
 		if (self.items.indexOf(value_new) !== -1) {
