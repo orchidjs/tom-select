@@ -148,6 +148,8 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{$select-ns}-control {
+
+  .input-group-sm > &,
   &.form-select-sm,
   &.form-control-sm{
 
@@ -182,6 +184,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
   }
 
+  .input-group-lg > & >,
   &.form-control-lg,
   &.form-select-lg{
 	.#{$select-ns}-input{
@@ -223,8 +226,19 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 }
 
+.input-group{
 
-.input-group .#{$select-ns}-input {
-	overflow: unset;
-	border-radius: 0 $select-border-radius $select-border-radius 0;
+	& > .#{$select-ns}-control{
+		flex-grow: 1;
+	}
+
+	& > .#{$select-ns}-control:not(:first-child) > .#{$select-ns}-input{
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	& > .#{$select-ns}-control:not(:last-child) > .#{$select-ns}-input{
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
 }
