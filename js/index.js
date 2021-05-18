@@ -34,13 +34,48 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	var themes			= window.themes || ['bootstrap5','bootstrap4','bootstrap3','default'];
-	var theme			= localStorage.getItem('theme') || 'bootstrap5';
-	var themes_div		= document.createElement('div');
-	themes_div.classList.add('theme-selector')
+	var theme_options = {
+		bootstrap5: 'Bootstrap 5',
+		bootstrap4: 'Bootstrap 4',
+		bootstrap3: 'Bootstrap 3',
+		default: 'Default',
+	};
+
+	var theme			= localStorage.getItem('theme');
+
+	if( themes.indexOf(theme) == -1 ){
+		theme = 'bootstrap5';
+	}
+
+	var theme_selector	= document.createElement('input');
+	theme_selector.classList.add('theme-selector-input');
+
 	var container		= document.getElementById('main-container')
 
 	if( !document.querySelectorAll('.demo-mini').length ){
-		container.insertBefore(themes_div, container.firstChild);
+
+		container.insertBefore(theme_selector, container.firstChild);
+
+		new TomSelect(theme_selector,{
+			maxItems: 1,
+			controlInput:'<input>',
+			plugins:['no_backspace_delete'],
+			options: themes.map((theme_name)=>{
+				if( themes.indexOf(theme_name) == -1 ){
+					return false;
+				}
+				return {text:theme_options[theme_name],value:theme_name};
+			}),
+			items:[theme],
+			render:{
+				item:(data,escape)=>{
+					return '<div>Theme: ' + escape(data.text) + '</div>';
+				}
+			},
+			onChange:(value)=>{
+				SetTheme(value);
+			}
+		});
 	}
 
 	SetTheme(theme);
@@ -52,25 +87,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	 */
 	function SetTheme(theme){
 
-		localStorage.setItem('theme',theme);
-
-		themes_div.innerHTML = '';
-		for( let i = 0; i < themes.length; i++) {
-
-			let a = document.createElement('a');
-			a.textContent = themes[i];
-			a.className = 'btn btn-link btn-sm'
-			if( themes[i] === theme ){
-				a.classList.add('active');
-			}
-			themes_div.appendChild(a);
-
-			a.addEventListener('click',function(evt){
-				evt.preventDefault();
-				SetTheme(themes[i]);
-			});
+		if( themes.indexOf(theme) == -1 ){
+			return;
 		}
 
+		localStorage.setItem('theme',theme);
 
 		var link			= document.getElementById('select-theme');
 		if( link ) link.parentNode.removeChild(link);

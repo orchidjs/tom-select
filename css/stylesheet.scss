@@ -160,21 +160,10 @@ pre[class*="language-"]{
  * Theme selector
  *
  */
-.theme-selector {
-	margin-top: 10px;
-	font-size: 13px;
+.theme-selector-input{
+	float:right;
+	margin-top: 0.5rem;
 }
-.theme-selector:before {
-	content: 'Themes: ';
-}
-.theme-selector a {
-	margin: 0 5px;
-}
-.theme-selector a.active {
-	color: #202020;
-	font-weight: bold;
-}
-
 
 /**
  * navbar
