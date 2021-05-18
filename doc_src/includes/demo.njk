@@ -14,7 +14,7 @@
 
 {% macro sandbox_links( script ) %}
 
-		<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<a class="nav-link dropdown-toggle text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
 		<ul class="dropdown-menu dropdown-menu-end">
 		<li>
 			<a class="dropdown-item opensandbox">JSFiddle</a>
@@ -170,5 +170,33 @@
 
 		</div>
 	</div>
+	</div>
+{% endmacro %}
+
+{% macro demo_col( label, left_col, html, script, style ) %}
+	<div class="demo demo-col mt-5">
+		<div class="d-flex">
+			<h4 class="my-0">
+				{{ label | safe }}
+			</h4>
+			<div class="ms-auto">
+			{{ sandbox_links(script) }}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				{{ left_col | safe }}
+			</div>
+			<div class="col-md-6">
+
+				{{ html | safe }}
+				{# for codepen #}
+				<textarea hidden>{{html}}</textarea>
+				{{ demo_code('script', script ) }}
+				{{ demo_code('style', style ) }}
+
+			</div>
+		</div>
 	</div>
 {% endmacro %}

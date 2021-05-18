@@ -1,0 +1,65 @@
+---
+title: Styling Example
+nav_title: Styling
+tags: demo
+---
+
+<h2>Bootstrap 5 Styles</h2>
+
+{% from "demo.njk" import demo_col %}
+
+
+
+{% set left_col %}
+<input type="text" class="form-control form-control-lg" value="awesome,neat" placeholder="How cool is this?">
+{% endset %}
+
+{% set html %}
+<input type="text" class="form-control form-control-lg" id="form-control-lg" value="awesome,neat" placeholder="How cool is this?">
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#form-control-lg',{create:true});
+{% endset %}
+</script>
+
+{{ demo_col('form-control-lg', left_col, html, script) }}
+
+
+
+
+{% set left_col %}
+<input type="text" class="form-control" value="awesome,neat" placeholder="How cool is this?">
+{% endset %}
+
+{% set html %}
+<input type="text" class="form-control" id="form-control" value="awesome,neat" placeholder="How cool is this?">
+{% endset %}
+
+<script csp-hash>
+{% set script %}
+new TomSelect('#form-control',{create:true});
+{% endset %}
+</script>
+
+{{ demo_col('form-control', left_col, html, script) }}
+
+
+
+
+{% set left_col %}
+<input type="text" class="form-control form-control-sm" value="awesome,neat" placeholder="How cool is this?">
+{% endset %}
+
+{% set html %}
+<input type="text" class="form-control form-control-sm" id="form-control-sm" value="awesome,neat" placeholder="How cool is this?">
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#form-control-sm',{create:true});
+{% endset %}
+</script>
+
+{{ demo_col('form-control-sm', left_col, html, script) }}

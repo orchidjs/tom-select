@@ -101,6 +101,8 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   min-height: $input-height;
   @include box-shadow($input-box-shadow);
   @include transition($input-transition);
+  display:flex;
+  align-items: center;
 
   &.dropdown-active {
     border-radius: $select-border-radius;
@@ -116,6 +118,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
     } @else {
       box-shadow: $input-focus-box-shadow;
     }
+  }
+
+  .item{
+    display:flex;
+	align-items: center;
   }
 }
 
@@ -143,12 +150,25 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 .#{$select-ns}-control {
   &.form-select-sm,
   &.form-control-sm{
+
+	.#{$select-ns}-input{
+      min-height: $input-height-sm;
+	  padding: 0 .75rem;
+      //padding: $input-padding-y-sm $input-padding-x-sm;
+	  @include border-radius($input-border-radius-sm);
+	  @include font-size($input-font-size-sm);
+	}
+
     .#{$select-ns}-input.has-items{
       min-height: $input-height-sm !important;
-      height: $input-height-sm !important;
-      padding: $input-padding-y-sm $input-padding-x-sm !important;
       font-size: $input-font-size-sm;
-      //line-height: $input-line-height-sm; // not in bootstrap5
+	  padding-bottom: 0;
+
+	  // padding-top = ($input-height-sm - border-width - item-height) / 2;
+	  // item-height = ($select-line-height * $input-font-size-sm) + ($select-padding-item-y * 2)
+	  $border-and-padding: add($input-border-width,$select-padding-item-y) * 2;
+	  $ts-select-padding-sm: calc( (#{$input-height-sm} - (#{$select-line-height} * #{$input-font-size-sm}) - #{$border-and-padding})/2);
+	  padding-top: $ts-select-padding-sm !important;
     }
   }
 
@@ -161,6 +181,16 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	  border-radius: calc(#{$select-border-radius} - 1px);
 	}
   }
+
+  &.form-control-lg,
+  &.form-select-lg{
+	.#{$select-ns}-input{
+      min-height: $input-height-lg;
+  	  @include border-radius($input-border-radius-lg);
+	  @include font-size($input-font-size-lg);
+  	}
+  }
+
 }
 
 
