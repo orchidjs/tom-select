@@ -74,6 +74,18 @@ new TomSelect('#reddit-search',{
 
 {{ config_table([
 		{
+			name:'firstUrl',
+			desc:'<strong>(Required)</strong>
+					The firstUrl() method works along with getUrl() and setNextUrl() to supply your load() method with pagination friendly urls.
+					<ul>
+						<li><code>firstUrl(query_string)</code> should return the request url for the first `page` of data.</li>
+						<li>Call <code>setNextUrl(query_string,next_url)</code> in your load() method upon request completion to define subsequent request urls.</li>
+						<li>Use <code>getUrl(query_string)</code> to retrieve the appropriate pagination url for the given query string.</li>
+					</ul>',
+			type:'callback',
+			default:'null'
+		},
+		{
 			name:'maxOptions',
 			desc:'The max number of options to display in the dropdown.',
 			type:'int',
