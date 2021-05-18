@@ -77,13 +77,18 @@ describe('optgroups', function() {
 		assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length,7);
 		assert.equal(test.instance.dropdown_content.querySelector('[data-group="mammal"]').querySelectorAll('.active').length , 1, 'active option should still be in mammal group');
 
-		// clicking on duplicates
+
+		test.instance.options.cat.optgroup = ['mammal','tetrapods'];
+		test.instance.refreshOptions(false);
+
+		// clicking on duplicates: dog
 		assert.equal(test.instance.isOpen, true, 'should be open to start');
-		var clone = test.instance.dropdown_content.querySelector('.ts-cloned');
+		var clone = test.instance.dropdown_content.querySelector('.ts-cloned[data-value="dog"]');
 		await asyncClick(clone);
 		assert.equal(test.instance.isOpen, false, 'should be closed after select');
 		await asyncClick(test.instance.control);
 		assert.equal(test.instance.isOpen, true, 'should be open after click');
+		assert.equal( test.instance.activeOption.dataset.value, 'dog' );
 		assert.equal( test.instance.activeOption.classList.contains('ts-cloned'), true, 'Cloned option should be selected' );
 
 
@@ -92,6 +97,27 @@ describe('optgroups', function() {
 		assert.equal(test.instance.isOpen, false, 'should be closed after select');
 		await asyncClick(test.instance.control);
 		assert.equal(test.instance.isOpen, true, 'should be open after click');
+		assert.equal( test.instance.activeOption.dataset.value, 'dog' );
+		assert.equal( test.instance.activeOption.classList.contains('ts-cloned'), false, 'Cloned option should not be selected' );
+
+
+		// clicking on duplicates: cat
+		assert.equal(test.instance.isOpen, true, 'should be open to start');
+		var clone = test.instance.dropdown_content.querySelector('.ts-cloned[data-value="cat"]');
+		await asyncClick(clone);
+		assert.equal(test.instance.isOpen, false, 'should be closed after select');
+		await asyncClick(test.instance.control);
+		assert.equal(test.instance.isOpen, true, 'should be open after click');
+		assert.equal( test.instance.activeOption.dataset.value, 'cat' );
+		assert.equal( test.instance.activeOption.classList.contains('ts-cloned'), true, 'Cloned option should be selected' );
+
+
+		var original = test.instance.getOption('cat');
+		await asyncClick(original);
+		assert.equal(test.instance.isOpen, false, 'should be closed after select');
+		await asyncClick(test.instance.control);
+		assert.equal(test.instance.isOpen, true, 'should be open after click');
+		assert.equal( test.instance.activeOption.dataset.value, 'cat' );
 		assert.equal( test.instance.activeOption.classList.contains('ts-cloned'), false, 'Cloned option should not be selected' );
 
 

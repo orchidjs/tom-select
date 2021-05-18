@@ -1259,7 +1259,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	refreshOptions( triggerDropdown:boolean = true ){
-		var i, j, k, n, optgroup, optgroups, html, has_create_option;
+		var i, j, k, n, optgroup, optgroups, html, has_create_option, active_value, active_group;
 		var create;
 		const groups: {[key:string]:DocumentFragment} = {};
 
@@ -1268,10 +1268,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var query					= self.inputValue();
 		var results					= self.search(query);
 		var active_option			= self.activeOption;
-		var active_group			= active_option ? active_option.closest('[data-group]') : null;
 		var show_dropdown			= self.settings.shouldOpen || false;
 		var dropdown_content		= self.dropdown_content;
 
+		if( active_option ){
+			active_value = active_option.dataset.value;
+			active_group = active_option.closest('[data-group]');
+		}
 
 		// build markup
 		n = results.items.length;
@@ -1322,7 +1325,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 
 				// make sure we keep the activeOption in the same group
-				if( active_group && active_group.dataset.group === optgroup ){
+				if( active_value == opt_value && active_group && active_group.dataset.group === optgroup ){
 					active_option = option_el;
 				}
 
