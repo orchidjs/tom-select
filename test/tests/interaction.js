@@ -1151,7 +1151,7 @@
 					'should not add an item or display the create label if the input does not match the createFilter (A)',
 					['foo', /foo/, function() { return false; }],
 					function(instance) {
-						expect(instance.getItem(text)).to.be.equal(null);
+						expect(instance.getItem(text)).to.be.equal(undefined);
 					}
 				);
 

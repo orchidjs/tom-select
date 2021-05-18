@@ -166,12 +166,3 @@ export function getId(el:Element,id:string){
 	el.setAttribute('id',id);
 	return id;
 }
-
-
-/**
- * Quote string with slashes
- *
- */
-export function addSlashes(str:string){
-	return str.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/'/g,"\\'");
-}

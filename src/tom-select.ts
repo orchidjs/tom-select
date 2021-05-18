@@ -18,7 +18,6 @@ import {
 	loadDebounce,
 	isKeyDown,
 	getId,
-	addSlashes
 } from './utils';
 
 import {
@@ -1548,12 +1547,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	updateOption(value:string, data:TomOption) {
 		const self = this;
-		var item, item_new;
+		var item_new;
 		var index_item;
 
 		value				= hash_key(value);
 		const value_new		= hash_key(data[self.settings.valueField]);
 		const option		= self.getOption(value);
+		const item			= self.getItem(value);
 
 
 		// sanity checks
@@ -1562,20 +1562,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
 
 		data.$order = data.$order || self.options[value].$order;
-
-		// update references
-		if (value_new !== value) {
-			delete self.options[value];
-			index_item = self.items.indexOf(value);
-			if (index_item !== -1) {
-				self.items.splice(index_item, 1, value_new);
-			}
-
-			self.uncacheValue(value_new);
-		}
+		delete self.options[value];
 
 		// invalidate render cache
-		// don't remove node, we'll remove it after replacing it
+		// don't remove existing node yet, we'll remove it after replacing it
+		self.uncacheValue(value_new);
 		self.uncacheValue(value,false);
 
 		self.options[value_new] = data;
@@ -1594,9 +1585,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			option.remove();
 		}
 
-		// update the item if it's selected
-		if (self.items.indexOf(value_new) !== -1) {
-			item		= self.getItem(value);
+		// update the item if we have one
+		if( item ){
+			index_item = self.items.indexOf(value);
+			if (index_item !== -1) {
+				self.items.splice(index_item, 1, value_new);
+			}
+
 			item_new	= self.render('item', data);
 
 			if( item.classList.contains('active') ) addClasses(item_new,'active');
@@ -1671,16 +1666,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	getOption(value:string):HTMLElement {
-
 		value = hash_key(value);
-
-		if( value ){
-			const option = this.dropdown_content.querySelector(`:not(.ts-cloned)[data-selectable][data-value="${addSlashes(value)}"]`);
-			if( option ){
-				return option as HTMLElement;
-			}
-		}
-
 		return this.rendered('option',value);
 	}
 
@@ -1723,9 +1709,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	getItem(value:string):HTMLElement {
 		value = hash_key(value);
-		if( value ){
-			value = addSlashes(value);
-			return this.control.querySelector(`[data-value="${value}"]`);
+		var item = this.rendered('item',value);
+
+		if( item && this.control.contains(item) ){
+			return item;
 		}
 	}
 
@@ -2518,7 +2505,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// remove options from DOM
 		if(templateName === void 0 || 'option' ){
 			for( let key in self.options){
-				const el = self.rendered('option',key);
+				const el = self.getOption(key);
 				if( el ) el.remove();
 			}
 		}
