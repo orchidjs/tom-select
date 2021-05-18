@@ -11,4 +11,4 @@ x-*
 *.err
 coverage/
 stats/
-src/tom-select.custom.js
+src/tom-select.custom.ts

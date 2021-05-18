@@ -59,7 +59,7 @@ cd tom-select
 npm install
 
 # create /build/js/tom-select.custom.js
-grunt --plugins=remove_button,restore_on_backspace
+npm run build -- --plugins=remove_button,restore_on_backspace
 ```
 
 

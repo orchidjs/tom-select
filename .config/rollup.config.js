@@ -173,10 +173,10 @@ files.map(function(file){
 
 
 // custom
-var custom_file = path.resolve(__dirname,'../src/tom-select.custom.js');
+var custom_file = path.resolve(__dirname,'../src/tom-select.custom.ts');
 if( fs.existsSync(custom_file) ){
-	configCore(custom_file,'tom-select.custom.js');
-	configCore(custom_file,'tom-select.custom.min.js',[terser_config]);
+	configCore('src/tom-select.custom.ts','tom-select.custom.js');
+	configCore('src/tom-select.custom.ts','tom-select.custom.min.js',[terser_config]);
 }
 
 // tom-select.base
