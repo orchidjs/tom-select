@@ -248,10 +248,10 @@ new TomSelect('#select-repo2',{
 		render: {
 			option: function(item, escape) {
 				return `<div class="row border-bottom py-2">
-							<div class="col-sm-1">
+							<div class="col-md-1">
 								<img class="img-fluid" src="${item.owner.avatar_url}" />
 							</div>
-							<div class="col-sm-11">
+							<div class="col-md-11">
 								<div class="mt-0">${escape(item.name)}
 									<span class="small text-muted">by ${escape(item.owner.login)}</span>
 								</div>
