@@ -18,7 +18,7 @@ $select-color-input: $input-bg !default;
 $select-color-input-full: $input-bg !default;
 $select-color-input-error: map-get($state-invalid,'color') !default;
 $select-color-input-error-focus: darken($select-color-input-error, 10%) !default;
-$select-color-disabled: $input-bg !default;
+$select-color-disabled: $input-disabled-bg !default;
 $select-color-item: #efefef !default;
 $select-color-item-border: $border-color !default;
 $select-color-item-active: $component-active-bg !default;
@@ -98,6 +98,8 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   min-height: $input-height;
   @include box-shadow($input-box-shadow);
   @include transition($input-transition);
+  display:flex;
+  align-items: center;
 
   &.dropdown-active {
     border-radius: $select-border-radius;
@@ -139,13 +141,28 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{$select-ns}-control {
+
+  .input-group-sm > &,
   &.form-control-sm{
+
+	.#{$select-ns}-input{
+      min-height: $input-height-sm;
+	  padding: 0 .75rem;
+      //padding: $input-padding-y-sm $input-padding-x-sm;
+	  @include border-radius($input-border-radius-sm);
+	  @include font-size($input-font-size-sm);
+	}
+
     .#{$select-ns}-input.has-items{
       min-height: $input-height-sm !important;
-      height: $input-height-sm !important;
-      padding: $input-padding-y-sm $input-padding-x-sm !important;
       font-size: $input-font-size-sm;
-      line-height: $input-line-height-sm;
+	  padding-bottom: 0;
+
+	  // padding-top = ($input-height-sm - border-width - item-height) / 2;
+	  // item-height = ($select-line-height * $input-font-size-sm) + ($select-padding-item-y * 2)
+	  $border-and-padding: add($input-border-width,$select-padding-item-y) * 2;
+	  $ts-select-padding-sm: calc( (#{$input-height-sm} - (#{$select-line-height} * #{$input-font-size-sm}) - #{$border-and-padding})/2);
+	  padding-top: $ts-select-padding-sm !important;
     }
   }
 
@@ -158,6 +175,15 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	  border-radius: calc(#{$select-border-radius} - 1px);
 	}
   }
+
+  .input-group-lg > & >,
+  &.form-control-lg{
+	.#{$select-ns}-input{
+      min-height: $input-height-lg;
+  	  @include border-radius($input-border-radius-lg);
+	  @include font-size($input-font-size-lg);
+  	}
+  }
 }
 
 .form-control.#{$select-ns}-control {
@@ -169,7 +195,19 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   border-radius: 0;
 }
 
-.input-group .#{$select-ns}-input {
-	overflow: unset;
-	border-radius: 0 $select-border-radius $select-border-radius 0;
+.input-group{
+
+	& > .#{$select-ns}-control{
+		flex-grow: 1;
+	}
+
+	& > .#{$select-ns}-control:not(:first-child) > .#{$select-ns}-input{
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	& > .#{$select-ns}-control:not(:last-child) > .#{$select-ns}-input{
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
 }

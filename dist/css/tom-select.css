@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.7.0)
+ * tom-select.css (v1.7.1)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -170,7 +170,8 @@
     padding: calc( 8px - 2px - 0) 8px calc( 8px - 2px - 3px - 0); }
   .ts-input.full {
     background-color: #fff; }
-  .ts-input.disabled, .ts-input.disabled * {
+  .ts-input.disabled,
+  .ts-input.disabled * {
     cursor: default !important; }
   .ts-input.focus {
     box-shadow: none; }
@@ -238,11 +239,13 @@
       right: auto; }
     .ts-input.rtl .ts-input > input {
       margin: 0 4px 0 -2px !important; }
-  .ts-input .ts-input.disabled {
+  .ts-input.disabled {
     opacity: 0.5;
     background-color: #fafafa; }
   .input-hidden .ts-input > input {
-    opacity: 0; }
+    opacity: 0;
+    position: absolute;
+    left: -10000px; }
 
 .ts-dropdown {
   position: absolute;

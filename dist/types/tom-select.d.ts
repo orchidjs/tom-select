@@ -222,6 +222,11 @@ export default class TomSelect extends TomSelect_base {
      */
     setActiveOption(option: HTMLElement): void;
     /**
+     * Sets the dropdown_content scrollTop to display the option
+     *
+     */
+    scrollToOption(option: HTMLElement): void;
+    /**
      * Clears the active option
      *
      */
@@ -352,10 +357,14 @@ export default class TomSelect extends TomSelect_base {
      */
     clearOptions(): void;
     /**
+     * Removes a value from item and option caches
+     *
+     */
+    uncacheValue(value: string, remove_node?: boolean): void;
+    /**
      * Returns the dom element of the option
      * matching the given value.
      *
-     * @returns {object}
      */
     getOption(value: string): HTMLElement;
     /**
@@ -519,6 +528,11 @@ export default class TomSelect extends TomSelect_base {
      *
      */
     render(templateName: string, data?: any): null | HTMLElement;
+    /**
+     * Return the previously rendered item or option
+     *
+     */
+    rendered(templateName: 'item' | 'option', value: string): null | HTMLElement;
     /**
      * Clears the render cache for a template. If
      * no template is given, clears all render
