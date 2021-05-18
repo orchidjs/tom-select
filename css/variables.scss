@@ -28,7 +28,9 @@ $gray-50: #fbfbfd !default;
 $gray-100: $light !default;
 $gray-200: mix($light, $dark, 98%) !default;
 $gray-300: mix($light, $dark, 94%) !default;
-$gray-400: mix($light, $dark, 88%) !default;
+
+//$gray-400: mix($light, $dark, 88%) !default; // use default $gray-400 to match bootstrap5 form-control border
+
 $gray-500: mix($light, $dark, 78%) !default; // #c6cad0
 $gray-600: mix($light, $dark, 60%) !default;
 $gray-700: mix($light, $dark, 36%) !default; // #6e7680
@@ -82,9 +84,9 @@ $dark-mode-text: $light;
 $border-width: 1px !default;
 $border-width-wide: 2px !default;
 
-$border-radius-sm: 2px !default;
-$border-radius: 4px !default;
-$border-radius-lg: 8px !default;
+//$border-radius-sm: 2px !default;
+//$border-radius: 4px !default;
+//$border-radius-lg: 8px !default;
 $border-radius-pill: 100rem !default;
 
 
@@ -93,7 +95,7 @@ $card-title-spacer-y: 1.25rem !default;
 
 $card-border-width: $border-width !default;
 $card-border-color: $border-color-transparent !default;
-$card-border-radius: $border-radius !default;
+//$card-border-radius: $border-radius !default;
 
 $card-cap-bg: $white !default;
 $card-cap-color: $text-muted !default;

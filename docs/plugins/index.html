@@ -107,7 +107,7 @@ The plugin system is lean, makes very few assumptions, and gives the developer c
 Add plugins to your project by including their js files: <code>/js/plugins/remove_button.js</code>, <code>/js/plugins/dropdown_header.js</code>, etc.</p>
 <h4 id="tom-select.custom.js">tom-select.custom.js</h4>
 <p>Use NPM to hand-pick plugins and create <code>/build/js/tom-select.custom.js</code></p>
-<pre class="language-shell"><code class="language-shell"><span class="token comment"># clone the repo</span><br><span class="token function">git</span> clone https://github.com/orchidjs/tom-select.git<br><span class="token builtin class-name">cd</span> tom-select<br><br><span class="token comment"># install dev dependencies</span><br><span class="token function">npm</span> <span class="token function">install</span><br><br><span class="token comment"># create /build/js/tom-select.custom.js</span><br>grunt --plugins<span class="token operator">=</span>remove_button,restore_on_backspace</code></pre>
+<pre class="language-shell"><code class="language-shell"><span class="token comment"># clone the repo</span><br><span class="token function">git</span> clone https://github.com/orchidjs/tom-select.git<br><span class="token builtin class-name">cd</span> tom-select<br><br><span class="token comment"># install dev dependencies</span><br><span class="token function">npm</span> <span class="token function">install</span><br><br><span class="token comment"># create /build/js/tom-select.custom.js</span><br><span class="token function">npm</span> run build -- --plugins<span class="token operator">=</span>remove_button,restore_on_backspace</code></pre>
 <h2 id="creating-plugins">Creating Plugins</h2>
 <p><strong>A few notes:</strong></p>
 <ul>
