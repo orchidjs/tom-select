@@ -1048,14 +1048,6 @@ function getId(el, id) {
   el.setAttribute('id', id);
   return id;
 }
-/**
- * Quote string with slashes
- *
- */
-
-function addSlashes(str) {
-  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, "\\'");
-}
 
 function getSettings(input, settings_user) {
   var settings = Object.assign({}, defaults, settings_user);
@@ -2131,8 +2123,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
         if (self.settings.closeAfterSelect) {
           self.close();
-        } else if (!self.settings.hideSelected && evt.type && /mouse/.test(evt.type)) {
-          self.setActiveOption(self.getOption(value));
+        }
+
+        if (!self.settings.hideSelected && evt.type && /click/.test(evt.type)) {
+          self.setActiveOption(option);
         }
       }
     }
@@ -2378,8 +2372,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   setActiveOption(option) {
-    var height_menu, height_item, y;
-
     if (option === this.activeOption) {
       return;
     }
@@ -2394,10 +2386,20 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       'aria-selected': 'true'
     });
     addClasses(option, 'active');
+    this.scrollToOption(option);
+  }
+  /**
+   * Sets the dropdown_content scrollTop to display the option
+   *
+   */
+
+
+  scrollToOption(option) {
+    var height_menu, height_item, y;
     height_menu = this.dropdown_content.clientHeight;
     let scrollTop = this.dropdown_content.scrollTop || 0;
-    height_item = this.activeOption.offsetHeight;
-    y = this.activeOption.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
+    height_item = option.offsetHeight;
+    y = option.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
 
     if (y + height_item > height_menu + scrollTop) {
       this.dropdown_content.scrollTop = y - height_menu + height_item;
@@ -2597,14 +2599,22 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   refreshOptions(triggerDropdown = true) {
-    var i, j, k, n, groups_order, optgroup, optgroups, html, has_create_option;
-    var active, create;
-    var groups;
+    var i, j, k, n, optgroup, optgroups, html, has_create_option, active_value, active_group;
+    var create;
+    const groups = {};
+    const groups_order = [];
     var self = this;
     var query = self.inputValue();
     var results = self.search(query);
-    var active_before_hash = self.activeOption && hash_key(self.activeOption.dataset.value);
-    var show_dropdown = self.settings.shouldOpen || false; // build markup
+    var active_option = self.activeOption;
+    var show_dropdown = self.settings.shouldOpen || false;
+    var dropdown_content = self.dropdown_content;
+
+    if (active_option) {
+      active_value = active_option.dataset.value;
+      active_group = active_option.closest('[data-group]');
+    } // build markup
+
 
     n = results.items.length;
 
@@ -2616,9 +2626,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       show_dropdown = true;
     } // render and group available options individually
 
-
-    groups = {};
-    groups_order = [];
 
     for (i = 0; i < n; i++) {
       // get option dom element, don't re-render if we
@@ -2653,8 +2660,17 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
         if (j > 0) {
           option_el = option_el.cloneNode(true);
+          setAttr(option_el, {
+            id: option.$id + '-clone-' + j
+          });
+          option_el.classList.add('ts-cloned');
           removeClasses(option_el, 'active');
           option_el.removeAttribute('aria-selected');
+        } // make sure we keep the activeOption in the same group
+
+
+        if (active_value == opt_value && active_group && active_group.dataset.group === optgroup) {
+          active_option = option_el;
         }
 
         groups[optgroup].appendChild(option_el);
@@ -2688,15 +2704,15 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       }
     }
 
-    self.dropdown_content.innerHTML = '';
-    self.dropdown_content.append(html); // highlight matching terms inline
+    dropdown_content.innerHTML = '';
+    dropdown_content.append(html); // highlight matching terms inline
 
     if (self.settings.highlight) {
-      removeHighlight(self.dropdown_content);
+      removeHighlight();
 
       if (results.query.length && results.tokens.length) {
         for (const tok of results.tokens) {
-          highlight(self.dropdown_content, tok.regex);
+          highlight(dropdown_content, tok.regex);
         }
       }
     } // helper method for adding templates to dropdown
@@ -2709,7 +2725,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
       if (content) {
         show_dropdown = true;
-        self.dropdown_content.insertBefore(content, self.dropdown_content.firstChild);
+        dropdown_content.insertBefore(content, dropdown_content.firstChild);
       }
 
       return content;
@@ -2736,30 +2752,28 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     if (show_dropdown) {
       if (results.items.length > 0) {
-        active = active_before_hash && self.getOption(active_before_hash);
-
-        if (!active && self.settings.mode === 'single' && self.items.length) {
-          active = self.getOption(self.items[0]);
+        if (!dropdown_content.contains(active_option) && self.settings.mode === 'single' && self.items.length) {
+          active_option = self.getOption(self.items[0]);
         }
 
-        if (!active || !self.dropdown_content.contains(active)) {
+        if (!dropdown_content.contains(active_option)) {
           let active_index = 0;
 
           if (create && !self.settings.addPrecedence) {
             active_index = 1;
           }
 
-          active = self.selectable()[active_index];
+          active_option = self.selectable()[active_index];
         }
       } else {
-        active = create;
+        active_option = create;
       }
 
       if (triggerDropdown && !self.isOpen) {
         self.open();
       }
 
-      self.setActiveOption(active);
+      self.setActiveOption(active_option);
     } else {
       self.clearActiveOption();
 
@@ -2883,46 +2897,53 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   updateOption(value, data) {
-    var self = this;
-    var item, item_new;
-    var value_new, index_item, order_old;
+    const self = this;
+    var item_new;
+    var index_item;
     value = hash_key(value);
-    value_new = hash_key(data[self.settings.valueField]); // sanity checks
+    const value_new = hash_key(data[self.settings.valueField]);
+    const option = self.getOption(value);
+    const item = self.getItem(value); // sanity checks
 
     if (value === null) return;
     if (!self.options.hasOwnProperty(value)) return;
     if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
-    order_old = self.options[value].$order; // update references
+    data.$order = data.$order || self.options[value].$order;
+    delete self.options[value]; // invalidate render cache
+    // don't remove existing node yet, we'll remove it after replacing it
 
-    if (value_new !== value) {
-      delete self.options[value];
+    self.uncacheValue(value_new);
+    self.uncacheValue(value, false);
+    self.options[value_new] = data; // update the option if it's in the dropdown
+
+    if (option) {
+      if (self.dropdown_content.contains(option)) {
+        const option_new = self.render('option', data);
+        option.parentNode.replaceChild(option_new, option);
+
+        if (self.activeOption === option) {
+          self.setActiveOption(option_new);
+        }
+      }
+
+      option.remove();
+    } // update the item if we have one
+
+
+    if (item) {
       index_item = self.items.indexOf(value);
 
       if (index_item !== -1) {
         self.items.splice(index_item, 1, value_new);
       }
-    }
 
-    data.$order = data.$order || order_old;
-    self.options[value_new] = data; // invalidate render cache
-
-    self.removeValue(value);
-    self.removeValue(value_new); // update the item if it's selected
-
-    if (self.items.indexOf(value_new) !== -1) {
-      item = self.getItem(value);
       item_new = self.render('item', data);
       if (item.classList.contains('active')) addClasses(item_new, 'active');
-      item.parentNode.insertBefore(item_new, item);
-      item.remove();
+      item.parentNode.replaceChild(item_new, item);
     } // invalidate last query because we might have updated the sortField
 
 
-    self.lastQuery = null; // update dropdown contents
-
-    if (self.isOpen) {
-      self.refreshOptions(false);
-    }
+    self.lastQuery = null;
   }
   /**
    * Removes a single option.
@@ -2933,7 +2954,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
   removeOption(value, silent) {
     var self = this;
     value = hash_key(value);
-    self.removeValue(value);
+    self.uncacheValue(value);
     delete self.userOptions[value];
     delete self.options[value];
     self.lastQuery = null;
@@ -2967,37 +2988,28 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  removeValue(value) {
+  uncacheValue(value, remove_node = true) {
     const self = this;
-    const option_el = self.getOption(value);
     const cache_items = self.renderCache['item'];
     const cache_options = self.renderCache['option'];
-    if (option_el) option_el.remove();
     if (cache_items) delete cache_items[value];
     if (cache_options) delete cache_options[value];
+
+    if (remove_node) {
+      const option_el = self.getOption(value);
+      if (option_el) option_el.remove();
+    }
   }
   /**
    * Returns the dom element of the option
    * matching the given value.
    *
-   * @returns {object}
    */
 
 
   getOption(value) {
     value = hash_key(value);
-
-    if (value) {
-      const option = this.dropdown_content.querySelector(`[data-selectable][data-value="${addSlashes(value)}"]`);
-
-      if (option) {
-        return option;
-      }
-    }
-
-    if (this.renderCache['option'].hasOwnProperty(value)) {
-      return this.renderCache['option'][value];
-    }
+    return this.rendered('option', value);
   }
   /**
    * Returns the dom element of the next or previous dom element of the same type
@@ -3041,10 +3053,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
   getItem(value) {
     value = hash_key(value);
+    var item = this.rendered('item', value);
 
-    if (value) {
-      value = addSlashes(value);
-      return this.control.querySelector(`[data-value="${value}"]`);
+    if (item && this.control.contains(item)) {
+      return item;
     }
   }
   /**
@@ -3760,10 +3772,11 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var self = this;
 
     if (templateName === 'option' || templateName === 'item') {
-      value = hash_key(data[self.settings.valueField]); // pull markup from cache if it exists
+      value = hash_key(data[self.settings.valueField]);
+      html = self.rendered(templateName, value);
 
-      if (self.renderCache[templateName].hasOwnProperty(value)) {
-        return self.renderCache[templateName][value];
+      if (html) {
+        return html;
       }
     }
 
@@ -3827,6 +3840,17 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     return html;
   }
   /**
+   * Return the previously rendered item or option
+   *
+   */
+
+
+  rendered(templateName, value) {
+    if (this.renderCache[templateName].hasOwnProperty(value)) {
+      return this.renderCache[templateName][value];
+    }
+  }
+  /**
    * Clears the render cache for a template. If
    * no template is given, clears all render
    * caches.
@@ -3835,7 +3859,14 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   clearCache(templateName) {
-    var self = this;
+    var self = this; // remove options from DOM
+
+    if (templateName === void 0 || 'option') {
+      for (let key in self.options) {
+        const el = self.getOption(key);
+        if (el) el.remove();
+      }
+    }
 
     if (templateName === void 0) {
       self.renderCache = {
@@ -3844,14 +3875,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       };
     } else {
       self.renderCache[templateName] = {};
-    } // remove options from DOM
-
-
-    if (templateName === void 0 || 'option') {
-      for (let key in this.options) {
-        const el = this.getOption(key);
-        if (el) el.remove();
-      }
     }
   }
   /**
