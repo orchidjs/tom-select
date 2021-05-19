@@ -639,7 +639,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				preventDefault(e);
 				return;
 
-			// doc_src select active option
+			// return: select active option
 			case constants.KEY_RETURN:
 				if (self.isOpen && self.activeOption) {
 					self.onOptionSelect(e,self.activeOption);
