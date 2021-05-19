@@ -6,7 +6,7 @@ describe('Configuration settings', function() {
 
 		it_n('option should still be shown when selected', function(done) {
 
-			var test		= setup_test('AB_Multi',{hideSelected:false});
+			var test		= setup_test('AB_Multi',{hideSelected:false,closeAfterSelect:true});
 
 			click(test.instance.control, function() {
 
@@ -14,10 +14,15 @@ describe('Configuration settings', function() {
 				expect(options.length).to.be.equal(3);
 				expect(test.instance.items.length).to.be.equal(0);
 
-				click( test.instance.dropdown_content.querySelector('[data-value="a"]'), function() {
+				var option_a = test.instance.dropdown_content.querySelector('[data-value="a"]');
+
+				click( option_a, function() {
 					options		= test.instance.dropdown.querySelectorAll('.option');
 					expect(options.length).to.be.equal(3);
 					expect(test.instance.items.length).to.be.equal(1);
+
+					assert.isFalse( test.instance.isOpen, 'should be closed after selected');
+					assert.equal(option_a, test.instance.activeOption, 'active option should be set after closing');
 
 					done();
 				});
