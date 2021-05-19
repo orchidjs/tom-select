@@ -72,9 +72,9 @@ $select-arrow-offset:							15px !default;
 $select-caret-margin:							0 4px !default;
 $select-caret-margin-rtl:						0 4px 0 -2px !default;
 
-$select-spinner-size:							30px;
-$select-spinner-border-size:					5px;
-$select-spinner-border-color:					$select-color-border;
+$select-spinner-size:							30px !default;
+$select-spinner-border-size:					5px !default;
+$select-spinner-border-color:					$select-color-border !default;
 
 @mixin selectize-vertical-gradient($color-top, $color-bottom) {
     background-color: mix($color-top, $color-bottom, 60%);
