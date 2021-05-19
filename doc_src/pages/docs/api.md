@@ -36,7 +36,7 @@ control.addItem('test');
 	</tr>
 	<tr>
 		<td><code>clearOptions()</code></td>
-		<td>Removes all options from the control.</td>
+		<td>Removes all unselected options from the control. To clear selection options, call clear() before calling clearOptions()</td>
 	</tr>
 	<tr>
 		<td><code>getOption(value)</code></td>
