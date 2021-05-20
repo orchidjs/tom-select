@@ -64,11 +64,7 @@
 	  self.hook('after', 'setup', () => {
 	    var button = getDom(options.html(options));
 	    button.addEventListener('click', evt => {
-	      while (self.items.length > 0) {
-	        self.removeItem(self.items[0], true);
-	      }
-
-	      self.updateOriginalInput();
+	      self.clear();
 	      evt.preventDefault();
 	      evt.stopPropagation();
 	    });

@@ -3359,35 +3359,42 @@
 
 
 	  updateOriginalInput(opts = {}) {
-	    var i,
-	        value,
-	        option,
-	        self = this;
+	    const self = this;
+	    var i, value, option, option_el, label;
 
 	    if (self.is_select_tag) {
-	      // remove selected attribute from options whose values are not in self.items
-	      self.input.querySelectorAll('option[selected]').forEach(option => {
-	        if (self.items.indexOf(option.value) == -1) {
-	          option.selected = false;
-	          option.removeAttribute('selected');
+	      function AddSelected(option_el, value, label) {
+	        if (!option_el) {
+	          option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
+	        }
+
+	        option_el.selected = true;
+	        setAttr(option_el, {
+	          selected: 'true'
+	        });
+	        self.input.prepend(option_el);
+	        return option_el;
+	      } // remove selected attribute from options whose values are not in self.items
+
+
+	      self.input.querySelectorAll('option[selected]').forEach(option_el => {
+	        if (self.items.indexOf(option_el.value) == -1) {
+	          option_el.removeAttribute('selected');
+	          option_el.selected = false;
 	        }
 	      }); // order selected <option> tags for values in self.items
 
 	      for (i = self.items.length - 1; i >= 0; i--) {
 	        value = self.items[i];
-	        var option = self.options[value].$option;
+	        option = self.options[value];
+	        label = option[self.settings.labelField] || '';
+	        option.$option = AddSelected(option.$option, value, label);
+	      } // nothing selected?
 
-	        if (!option) {
-	          const label = self.options[value][self.settings.labelField] || '';
-	          option = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
-	          self.options[value].$option = option;
-	        }
 
-	        option.selected = true;
-	        setAttr(option, {
-	          selected: 'true'
-	        });
-	        self.input.prepend(option);
+	      if (self.items.length == 0 && self.settings.mode == 'single' && !self.isRequired) {
+	        option_el = self.input.querySelector('option[value=""]');
+	        AddSelected(option_el, "", "");
 	      }
 	    } else {
 	      self.input.value = self.getValue();
@@ -4064,11 +4071,7 @@
 	  self.hook('after', 'setup', () => {
 	    var button = getDom(options.html(options));
 	    button.addEventListener('click', evt => {
-	      while (self.items.length > 0) {
-	        self.removeItem(self.items[0], true);
-	      }
-
-	      self.updateOriginalInput();
+	      self.clear();
 	      evt.preventDefault();
 	      evt.stopPropagation();
 	    });
