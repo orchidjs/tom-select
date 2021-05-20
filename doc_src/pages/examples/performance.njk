@@ -28,7 +28,7 @@ for (var i = 0; i < 25000; i++) {
 		title.push(letters.charAt(Math.round((letters.length - 1) * Math.random())));
 	}
 	options.push({
-		id: i,
+		id: i+'-'+title.join(''),
 		title: title.join('')
 	});
 }
