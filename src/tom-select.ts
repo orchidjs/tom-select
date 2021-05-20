@@ -2011,32 +2011,44 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	updateOriginalInput( opts:TomArgObject = {} ){
-		var i, value, option, self = this;
+		const self = this;
+		var i, value, option, option_el, label;
 
 		if( self.is_select_tag ){
 
+			function AddSelected(option_el:HTMLOptionElement|null, value:string, label:string):HTMLOptionElement{
+
+				if( !option_el ){
+					option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
+				}
+
+				option_el.selected = true;
+				setAttr(option_el,{selected:'true'});
+				self.input.prepend(option_el);
+
+				return option_el;
+			}
+
 			// remove selected attribute from options whose values are not in self.items
-			self.input.querySelectorAll('option[selected]').forEach((option:HTMLOptionElement) => {
-				if( self.items.indexOf(option.value) == -1 ){
-					option.selected = false;
-					option.removeAttribute('selected');
+			self.input.querySelectorAll('option[selected]').forEach((option_el:HTMLOptionElement) => {
+				if( self.items.indexOf(option_el.value) == -1 ){
+					option_el.removeAttribute('selected');
+					option_el.selected = false;
 				}
 			});
 
 			// order selected <option> tags for values in self.items
 			for( i = self.items.length - 1; i >= 0; i-- ){
-				value = self.items[i];
+				value			= self.items[i];
+				option			= self.options[value];
+				label			= option[self.settings.labelField] || '';
+				option.$option	= AddSelected(option.$option, value, label);
+			}
 
-				var option = self.options[value].$option;
-				if( !option ){
-					const label = self.options[value][self.settings.labelField] || '';
-					option = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
-					self.options[value].$option = option;
-				}
-
-				option.selected = true;
-				setAttr(option,{selected:'true'});
-				self.input.prepend(option);
+			// nothing selected?
+			if( self.items.length == 0 && self.settings.mode == 'single' && !self.isRequired ){
+				option_el = self.input.querySelector('option[value=""]');
+				AddSelected(option_el, "", "");
 			}
 
 		} else {
