@@ -1062,7 +1062,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Sets the dropdown_content scrollTop to display the option
 	 *
 	 */
-	scrollToOption( option:HTMLElement ):void{
+	scrollToOption( option:HTMLElement, behavior:string='smooth' ):void{
 		var height_menu, height_item, y;
 
 		height_menu		= this.dropdown_content.clientHeight;
@@ -1072,13 +1072,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		y				= option.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
 
 		if (y + height_item > height_menu + scrollTop) {
-			this.dropdown_content.scrollTop = y - height_menu + height_item;
+			this.scroll(y - height_menu + height_item, behavior);
 
 		} else if (y < scrollTop) {
-			this.dropdown_content.scrollTop = y;
+			this.scroll(y, behavior);
 		}
 	}
 
+	/**
+	 * Scroll the dropdown to the given position
+	 *
+	 */
+	scroll( scrollTop:number, behavior:string='smooth' ):void{
+		this.dropdown_content.style.scrollBehavior = behavior;
+		this.dropdown_content.scrollTop = scrollTop;
+	}
 
 	/**
 	 * Clears the active option
