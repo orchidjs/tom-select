@@ -13,6 +13,11 @@
 		margin-right:	0 !important;
 		background:		transparent !important;
 		transition:		opacity 0.5s;
+		cursor:			pointer;
+	}
+
+	&.single .clear-button{
+		right:			calc(#{$select-padding-x} - #{$select-padding-item-x} +  2rem);
 	}
 
 	.has-items.focus .clear-button,
