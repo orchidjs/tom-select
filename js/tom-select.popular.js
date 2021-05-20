@@ -1960,7 +1960,7 @@
 
 	        preventDefault(e);
 	        return;
-	      // doc_src select active option
+	      // return: select active option
 
 	      case KEY_RETURN:
 	        if (self.isOpen && self.activeOption) {
@@ -2784,7 +2784,7 @@
 	      self.clearActiveOption();
 
 	      if (triggerDropdown && self.isOpen) {
-	        self.close(false); // if create_option=null, we wan't the dropdown to close but not reset the textbox value
+	        self.close(false); // if create_option=null, we want the dropdown to close but not reset the textbox value
 	      }
 	    }
 	  }
