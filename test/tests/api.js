@@ -681,10 +681,9 @@
 		});
 
 		describe('clear()', function() {
-			var test;
 
-			beforeEach(function() {
-				test = setup_test('<select multiple>', {
+			function clearTest(){
+				return setup_test('<select multiple>', {
 					valueField: 'value',
 					labelField: 'value',
 					options: [
@@ -695,13 +694,16 @@
 					],
 					items: ['1','2','3']
 				});
-			});
+			}
+
 			it_n('should empty "activeItems" array', function() {
+				var test = clearTest();
 				test.instance.setActiveItem(test.instance.getItem('1'));
 				expect(test.instance.activeItems.length).to.be.equal(1);
 				test.instance.clear();
 				expect(test.instance.activeItems.length).to.be.equal(0);
 			});
+
 			it_n('should refresh option list (dropdown)', function(done) {
 				// test = setup_test('<select multiple>', {
 				// 	valueField: 'value',
@@ -715,6 +717,7 @@
 				// 	items: ['1','2','3']
 				// });
 
+				var test = clearTest();
 				test.instance.focus();
 				window.setTimeout(function() {
 					test.instance.clear();
@@ -727,17 +730,23 @@
 					}, 0);
 				}, 0);
 			});
+
 			it_n('should empty "items" array', function() {
+				var test = clearTest();
 				test.instance.clear();
 				expect(test.instance.items.length).to.be.equal(0);
 			});
+
 			it_n('should update DOM (3)', function() {
+				var test = clearTest();
 				test.instance.clear();
 				expect( test.instance.control.querySelectorAll('[data-value="1"]').length).to.be.equal(0);
 				expect( test.instance.control.querySelectorAll('[data-value="2"]').length).to.be.equal(0);
 				expect( test.instance.control.querySelectorAll('[data-value="3"]').length).to.be.equal(0);
 			});
+
 			it_n('should not fire "change" if silent is truthy', function(done) {
+				var test = clearTest();
 				var watcher = function(e) { throw new Error('Change fired'); };
 				test.instance.on('change', watcher);
 				test.instance.clear(true);
@@ -746,17 +755,30 @@
 					done();
 				}, 0);
 			});
+
 			it_n('should not give control focus', function(done) {
+				var test = clearTest();
 				test.instance.clear();
 				window.setTimeout(function() {
 					expect(test.instance.isFocused).to.be.equal(false);
 					done();
 				}, 0);
 			});
+
 			it_n('should empty "items" array', function() {
+				var test = clearTest();
 				test.instance.clear();
 				expect(test.instance.items.length).to.be.equal(0);
 			});
+
+			it_n('should create empty option and el.value should be empty after clear() on single', async function(){
+				var test = setup_test('<select><option>a</option></select>');
+				await asyncClick(test.instance.control);
+				test.instance.clear();
+				assert.isEmpty(test.$select[0].value);
+				assert.isOk(test.instance.input.querySelector('option[value=""]'));
+			});
+
 		});
 
 		describe('search()', function() {

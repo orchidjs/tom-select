@@ -11,14 +11,13 @@ tags: demo
 
 {% set label %}
 <label class="h2 mb-3">
-	Example
+	Select Multiple
 </label>
 {% endset %}
 
 
-
 {% set html %}
-<input type="text" id="clear-button" value="awesome,neat" autocomplete="off">
+<input type="text" id="clear-button" value="awesome,neat" autocomplete="off" placeholder="How cool is this?" />
 {% endset %}
 
 <script>
@@ -29,6 +28,36 @@ new TomSelect('#clear-button',{
 			'title':'Remove all selected options',
 		}
 	},
+	persist: false,
+	create: true,
+});
+{% endset %}
+</script>
+
+
+{{ demo( label, html, script) }}
+
+
+{% set label %}
+<label class="h2 mb-3">
+	Select Single
+</label>
+{% endset %}
+
+
+{% set html %}
+<select type="text" id="clear-button-single" autocomplete="off">
+	<option value="">How cool is this?</option>
+	<option selected>awesome</option>
+	<option>neat</option>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#clear-button-single',{
+	maxItems:1,
+	plugins: ['clear_button'],
 	persist: false,
 	create: true,
 });
