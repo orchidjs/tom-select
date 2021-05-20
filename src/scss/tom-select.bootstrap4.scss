@@ -201,7 +201,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		flex-grow: 1;
 	}
 
-	& > .#{$select-ns}-control:not(:first-child) > .#{$select-ns}-input{
+	& > .#{$select-ns}-control:not(:nth-child(2)) > .#{$select-ns}-input{
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
 	}
