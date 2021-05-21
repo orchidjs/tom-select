@@ -384,7 +384,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.updateOriginalInput();
 		self.refreshItems();
-		self.refreshState();
+		self.close(false);
 		self.inputState();
 		self.isSetup = true;
 
