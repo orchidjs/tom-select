@@ -162,7 +162,7 @@ function getId(el, id) {
  */
 
 function addSlashes(str) {
-  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, "\\'");
+  return str.replace(/[\\"']/g, '\\$&');
 }
 
 export { addEvent, addSlashes, debounce_events, escape_html, getId, getSelection, hash_key, isKeyDown, loadDebounce, preventDefault };

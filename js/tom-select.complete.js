@@ -1059,7 +1059,7 @@
 	 */
 
 	function addSlashes(str) {
-	  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, "\\'");
+	  return str.replace(/[\\"']/g, '\\$&');
 	}
 
 	function getSettings(input, settings_user) {
@@ -1707,7 +1707,7 @@
 	    });
 	    self.updateOriginalInput();
 	    self.refreshItems();
-	    self.refreshState();
+	    self.close(false);
 	    self.inputState();
 	    self.isSetup = true;
 
@@ -2070,7 +2070,6 @@
 
 	    if (!self.activeItems.length) {
 	      self.showInput();
-	      self.setActiveItem();
 	      self.refreshOptions(!!self.settings.openOnFocus);
 	    }
 
@@ -2802,10 +2801,9 @@
 	      if (triggerDropdown && !self.isOpen) {
 	        self.open();
 	        self.scrollToOption(active_option, 'auto');
-	        self.setActiveOption(active_option);
-	      } else {
-	        self.setActiveOption(active_option);
 	      }
+
+	      self.setActiveOption(active_option);
 	    } else {
 	      self.clearActiveOption();
 
@@ -3543,7 +3541,7 @@
 	    self.items = [];
 	    self.lastQuery = null;
 	    self.setCaret(0);
-	    self.setActiveItem();
+	    self.clearActiveItems();
 	    self.updateOriginalInput({
 	      silent: silent
 	    });
