@@ -1064,6 +1064,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	scrollToOption( option:HTMLElement, behavior?:string ):void{
+
+		if( !option ) return;
+
 		const content		= this.dropdown_content;
 		const height_menu	= content.clientHeight;
 		const scrollTop		= content.scrollTop || 0;
