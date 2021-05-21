@@ -2178,7 +2178,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.items = [];
 		self.lastQuery = null;
 		self.setCaret(0);
-		self.setActiveItem();
+		self.clearActiveItems();
 		self.updateOriginalInput({silent: silent});
 		self.refreshState();
 		self.showInput();
