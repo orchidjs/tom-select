@@ -171,6 +171,6 @@ export function getId(el:Element,id:string){
 /**
  * Returns a string with backslashes added before characters that need to be escaped.
  */
-export function addSlashes(str){
-	return str.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/'/g,"\\'");
+export function addSlashes(str:string):string{
+	return str.replace(/[\\"']/g, '\\$&');
 }
