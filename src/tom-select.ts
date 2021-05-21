@@ -1797,13 +1797,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				let options = self.selectable();
 
 				// update menu / remove the option (if this is not one item being added as part of series)
-				if (!self.isPending) {
+				if( !self.isPending && self.settings.hideSelected ){
 					let option = self.getOption(value);
 					let next = self.getAdjacent(option, 1);
-					self.refreshOptions(self.isFocused && inputMode !== 'single');
 					if( next ){
 						self.setActiveOption(next);
 					}
+				}
+
+				// refreshOptions after setActiveOption(),
+				// otherwise setActiveOption() will be called by refreshOptions() with the wrong value
+				if( !self.isPending ){
+					self.refreshOptions(self.isFocused && inputMode !== 'single');
 				}
 
 				// hide the menu if the maximum number of items have been selected or no options are left
@@ -2115,7 +2120,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.isOpen = false;
 		setAttr(self.control_input,{'aria-expanded': 'false'});
 		applyCSS(self.dropdown,{display: 'none'});
-		self.clearActiveOption();
+		if( self.settings.hideSelected ){
+			self.clearActiveOption();
+		}
 		self.refreshState();
 
 		if (trigger) self.trigger('dropdown_close', self.dropdown);
