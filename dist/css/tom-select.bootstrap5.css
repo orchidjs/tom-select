@@ -2,7 +2,7 @@
  * Tom Select bootstrap 5
  */
 /**
- * tom-select.css (v1.7.1)
+ * tom-select.css (v1.7.2)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -42,7 +42,11 @@
   right: calc(0.75rem - 5px);
   margin-right: 0 !important;
   background: transparent !important;
-  transition: opacity 0.5s; }
+  transition: opacity 0.5s;
+  cursor: pointer; }
+
+.plugin-clear_button.single .clear-button {
+  right: calc(0.75rem - 5px +  2rem); }
 
 .plugin-clear_button .has-items.focus .clear-button,
 .plugin-clear_button:hover .has-items .clear-button {
@@ -261,7 +265,6 @@
   left: 0;
   width: 100%;
   z-index: 10;
-  display: none;
   border: 1px solid #d0d0d0;
   background: #fff;
   margin: 0.25rem 0 0 0;
@@ -374,7 +377,7 @@
   @media (prefers-reduced-motion: reduce) {
     .ts-input {
       transition: none; } }
-  .ts-input.dropdown-active {
+  .ts-input.dropdown -active {
     border-radius: 0.25rem; }
   .ts-input.dropdown-active::before {
     display: none; }
@@ -409,7 +412,9 @@
 .input-group-sm > .ts-control .ts-input.has-items, .ts-control.form-select-sm .ts-input.has-items, .ts-control.form-control-sm .ts-input.has-items {
   min-height: calc(1.5em + 0.5rem + 2px) !important;
   font-size: 0.875rem;
-  padding-bottom: 0;
+  padding-bottom: 0; }
+
+.input-group-sm > .ts-control.multi .ts-input.has-items, .ts-control.form-select-sm.multi .ts-input.has-items, .ts-control.form-control-sm.multi .ts-input.has-items {
   padding-top: calc( (calc(1.5em + 0.5rem + 2px) - (1.5 * 0.875rem) - 4px)/2) !important; }
 
 .ts-control.multi .ts-input.has-items {
@@ -449,7 +454,7 @@
 .input-group > .ts-control {
   flex-grow: 1; }
 
-.input-group > .ts-control:not(:first-child) > .ts-input {
+.input-group > .ts-control:not(:nth-child(2)) > .ts-input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0; }
 

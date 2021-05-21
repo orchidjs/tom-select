@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.1
+* Tom Select v1.7.2
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -161,8 +161,16 @@ function getId(el, id) {
   el.setAttribute('id', id);
   return id;
 }
+/**
+ * Returns a string with backslashes added before characters that need to be escaped.
+ */
+
+function addSlashes(str) {
+  return str.replace(/[\\"']/g, '\\$&');
+}
 
 exports.addEvent = addEvent;
+exports.addSlashes = addSlashes;
 exports.debounce_events = debounce_events;
 exports.escape_html = escape_html;
 exports.getId = getId;

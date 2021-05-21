@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.1
+* Tom Select v1.7.2
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -1050,6 +1050,13 @@ function getId(el, id) {
   el.setAttribute('id', id);
   return id;
 }
+/**
+ * Returns a string with backslashes added before characters that need to be escaped.
+ */
+
+function addSlashes(str) {
+  return str.replace(/[\\"']/g, '\\$&');
+}
 
 function getSettings(input, settings_user) {
   var settings = Object.assign({}, defaults, settings_user);
@@ -1696,7 +1703,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     });
     self.updateOriginalInput();
     self.refreshItems();
-    self.refreshState();
+    self.close(false);
     self.inputState();
     self.isSetup = true;
 
@@ -1956,7 +1963,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
         preventDefault(e);
         return;
-      // doc_src select active option
+      // return: select active option
 
       case KEY_RETURN:
         if (self.isOpen && self.activeOption) {
@@ -2059,7 +2066,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     if (!self.activeItems.length) {
       self.showInput();
-      self.setActiveItem();
       self.refreshOptions(!!self.settings.openOnFocus);
     }
 
@@ -2396,18 +2402,35 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  scrollToOption(option) {
-    var height_menu, height_item, y;
-    height_menu = this.dropdown_content.clientHeight;
-    let scrollTop = this.dropdown_content.scrollTop || 0;
-    height_item = option.offsetHeight;
-    y = option.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
+  scrollToOption(option, behavior) {
+    if (!option) return;
+    const content = this.dropdown_content;
+    const height_menu = content.clientHeight;
+    const scrollTop = content.scrollTop || 0;
+    const height_item = option.offsetHeight;
+    const y = option.getBoundingClientRect().top - content.getBoundingClientRect().top + scrollTop;
 
     if (y + height_item > height_menu + scrollTop) {
-      this.dropdown_content.scrollTop = y - height_menu + height_item;
+      this.scroll(y - height_menu + height_item, behavior);
     } else if (y < scrollTop) {
-      this.dropdown_content.scrollTop = y;
+      this.scroll(y, behavior);
     }
+  }
+  /**
+   * Scroll the dropdown to the given position
+   *
+   */
+
+
+  scroll(scrollTop, behavior) {
+    const content = this.dropdown_content;
+
+    if (behavior) {
+      content.style.scrollBehavior = behavior;
+    }
+
+    content.scrollTop = scrollTop;
+    content.style.scrollBehavior = '';
   }
   /**
    * Clears the active option
@@ -2773,6 +2796,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
       if (triggerDropdown && !self.isOpen) {
         self.open();
+        self.scrollToOption(active_option, 'auto');
       }
 
       self.setActiveOption(active_option);
@@ -2780,7 +2804,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       self.clearActiveOption();
 
       if (triggerDropdown && self.isOpen) {
-        self.close(false); // if create_option=null, we wan't the dropdown to close but not reset the textbox value
+        self.close(false); // if create_option=null, we want the dropdown to close but not reset the textbox value
       }
     }
   }
@@ -3055,10 +3079,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
   getItem(value) {
     value = hash_key(value);
-    var item = this.rendered('item', value);
 
-    if (item && this.control.contains(item)) {
-      return item;
+    if (value) {
+      value = addSlashes(value);
+      return this.control.querySelector(`[data-value="${value}"]`);
     }
   }
   /**
@@ -3131,14 +3155,19 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       if (self.isSetup) {
         let options = self.selectable(); // update menu / remove the option (if this is not one item being added as part of series)
 
-        if (!self.isPending) {
+        if (!self.isPending && self.settings.hideSelected) {
           let option = self.getOption(value);
           let next = self.getAdjacent(option, 1);
-          self.refreshOptions(self.isFocused && inputMode !== 'single');
 
           if (next) {
             self.setActiveOption(next);
           }
+        } // refreshOptions after setActiveOption(),
+        // otherwise setActiveOption() will be called by refreshOptions() with the wrong value
+
+
+        if (!self.isPending) {
+          self.refreshOptions(self.isFocused && inputMode !== 'single');
         } // hide the menu if the maximum number of items have been selected or no options are left
 
 
@@ -3355,35 +3384,42 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   updateOriginalInput(opts = {}) {
-    var i,
-        value,
-        option,
-        self = this;
+    const self = this;
+    var i, value, option, option_el, label;
 
     if (self.is_select_tag) {
-      // remove selected attribute from options whose values are not in self.items
-      self.input.querySelectorAll('option[selected]').forEach(option => {
-        if (self.items.indexOf(option.value) == -1) {
-          option.selected = false;
-          option.removeAttribute('selected');
+      function AddSelected(option_el, value, label) {
+        if (!option_el) {
+          option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
+        }
+
+        option_el.selected = true;
+        setAttr(option_el, {
+          selected: 'true'
+        });
+        self.input.prepend(option_el);
+        return option_el;
+      } // remove selected attribute from options whose values are not in self.items
+
+
+      self.input.querySelectorAll('option[selected]').forEach(option_el => {
+        if (self.items.indexOf(option_el.value) == -1) {
+          option_el.removeAttribute('selected');
+          option_el.selected = false;
         }
       }); // order selected <option> tags for values in self.items
 
       for (i = self.items.length - 1; i >= 0; i--) {
         value = self.items[i];
-        var option = self.options[value].$option;
+        option = self.options[value];
+        label = option[self.settings.labelField] || '';
+        option.$option = AddSelected(option.$option, value, label);
+      } // nothing selected?
 
-        if (!option) {
-          const label = self.options[value][self.settings.labelField] || '';
-          option = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
-          self.options[value].$option = option;
-        }
 
-        option.selected = true;
-        setAttr(option, {
-          selected: 'true'
-        });
-        self.input.prepend(option);
+      if (self.items.length == 0 && self.settings.mode == 'single' && !self.isRequired) {
+        option_el = self.input.querySelector('option[value=""]');
+        AddSelected(option_el, "", "");
       }
     } else {
       self.input.value = self.getValue();
@@ -3452,7 +3488,11 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     applyCSS(self.dropdown, {
       display: 'none'
     });
-    self.clearActiveOption();
+
+    if (self.settings.hideSelected) {
+      self.clearActiveOption();
+    }
+
     self.refreshState();
     if (trigger) self.trigger('dropdown_close', self.dropdown);
   }
@@ -3497,7 +3537,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     self.items = [];
     self.lastQuery = null;
     self.setCaret(0);
-    self.setActiveItem();
+    self.clearActiveItems();
     self.updateOriginalInput({
       silent: silent
     });
@@ -4060,11 +4100,7 @@ TomSelect.define('clear_button', function (options) {
   self.hook('after', 'setup', () => {
     var button = getDom(options.html(options));
     button.addEventListener('click', evt => {
-      while (self.items.length > 0) {
-        self.removeItem(self.items[0], true);
-      }
-
-      self.updateOriginalInput();
+      self.clear();
       evt.preventDefault();
       evt.stopPropagation();
     });

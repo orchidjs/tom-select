@@ -225,7 +225,12 @@ export default class TomSelect extends TomSelect_base {
      * Sets the dropdown_content scrollTop to display the option
      *
      */
-    scrollToOption(option: HTMLElement): void;
+    scrollToOption(option: HTMLElement, behavior?: string): void;
+    /**
+     * Scroll the dropdown to the given position
+     *
+     */
+    scroll(scrollTop: number, behavior?: string): void;
     /**
      * Clears the active option
      *

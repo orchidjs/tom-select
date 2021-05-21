@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.7.1)
+ * tom-select.css (v1.7.2)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -39,7 +39,11 @@
   right: calc(8px - 6px);
   margin-right: 0 !important;
   background: transparent !important;
-  transition: opacity 0.5s; }
+  transition: opacity 0.5s;
+  cursor: pointer; }
+
+.plugin-clear_button.single .clear-button {
+  right: calc(8px - 6px +  2rem); }
 
 .plugin-clear_button .has-items.focus .clear-button,
 .plugin-clear_button:hover .has-items .clear-button {
@@ -253,7 +257,6 @@
   left: 0;
   width: 100%;
   z-index: 10;
-  display: none;
   border: 1px solid #d0d0d0;
   background: #fff;
   margin: 0.25rem 0 0 0;

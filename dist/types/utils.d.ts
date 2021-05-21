@@ -64,3 +64,7 @@ export declare function isKeyDown(key_name: keyof (KeyboardEvent | MouseEvent), 
  *
  */
 export declare function getId(el: Element, id: string): string;
+/**
+ * Returns a string with backslashes added before characters that need to be escaped.
+ */
+export declare function addSlashes(str: string): string;
