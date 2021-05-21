@@ -2039,7 +2039,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			function AddSelected(option_el:HTMLOptionElement|null, value:string, label:string):HTMLOptionElement{
 
 				if( !option_el ){
-					option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
+					option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>') as HTMLOptionElement;
 				}
 
 				option_el.selected = true;
