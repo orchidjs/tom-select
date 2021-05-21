@@ -1446,10 +1446,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if( triggerDropdown && !self.isOpen ){
 				self.open();
 				self.scrollToOption(active_option,'auto');
-				self.setActiveOption(active_option);
-			}else{
-				self.setActiveOption(active_option);
 			}
+			self.setActiveOption(active_option);
 
 		}else{
 			self.clearActiveOption();
