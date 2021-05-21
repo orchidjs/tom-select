@@ -741,7 +741,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if (!self.activeItems.length) {
 			self.showInput();
-			self.setActiveItem();
 			self.refreshOptions(!!self.settings.openOnFocus);
 		}
 
