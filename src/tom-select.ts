@@ -18,6 +18,7 @@ import {
 	loadDebounce,
 	isKeyDown,
 	getId,
+	addSlashes
 } from './utils';
 
 import {
@@ -1720,10 +1721,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	getItem(value:string):HTMLElement {
 		value = hash_key(value);
-		var item = this.rendered('item',value);
-
-		if( item && this.control.contains(item) ){
-			return item;
+		if( value ){
+			value = addSlashes(value);
+			return this.control.querySelector(`[data-value="${value}"]`);
 		}
 	}
 
