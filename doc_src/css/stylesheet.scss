@@ -180,11 +180,11 @@ pre[class*="language-"]{
 
 	&:hover,
 	&:hover a{
-		color:			$gray-600;
+		color:			$gray-500;
 	}
 
 	a{
-		color:				$gray-700;
+		color:				$gray-600;
 		text-decoration:	none;
 		transition:			color .3s ease-in-out;
 	}
