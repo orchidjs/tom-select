@@ -2408,6 +2408,7 @@
 
 
 	  scrollToOption(option, behavior) {
+	    if (!option) return;
 	    const content = this.dropdown_content;
 	    const height_menu = content.clientHeight;
 	    const scrollTop = content.scrollTop || 0;
