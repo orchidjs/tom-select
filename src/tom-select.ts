@@ -1063,14 +1063,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Sets the dropdown_content scrollTop to display the option
 	 *
 	 */
-	scrollToOption( option:HTMLElement, behavior:string='smooth' ):void{
-		var height_menu, height_item, y;
-
-		height_menu		= this.dropdown_content.clientHeight;
-		let scrollTop	= this.dropdown_content.scrollTop || 0;
-
-		height_item		= option.offsetHeight;
-		y				= option.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
+	scrollToOption( option:HTMLElement, behavior?:string ):void{
+		const content		= this.dropdown_content;
+		const height_menu	= content.clientHeight;
+		const scrollTop		= content.scrollTop || 0;
+		const height_item	= option.offsetHeight;
+		const y				= option.getBoundingClientRect().top - content.getBoundingClientRect().top + scrollTop;
 
 		if (y + height_item > height_menu + scrollTop) {
 			this.scroll(y - height_menu + height_item, behavior);
@@ -1084,9 +1082,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Scroll the dropdown to the given position
 	 *
 	 */
-	scroll( scrollTop:number, behavior:string='smooth' ):void{
-		this.dropdown_content.style.scrollBehavior = behavior;
-		this.dropdown_content.scrollTop = scrollTop;
+	scroll( scrollTop:number, behavior?:string ):void{
+		const content = this.dropdown_content;
+		if( behavior ){
+			content.style.scrollBehavior = behavior;
+		}
+		content.scrollTop = scrollTop;
+		content.style.scrollBehavior = '';
 	}
 
 	/**
@@ -1438,8 +1440,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				active_option = create;
 			}
 
-			if( triggerDropdown && !self.isOpen ){ self.open(); }
-			self.setActiveOption(active_option);
+			if( triggerDropdown && !self.isOpen ){
+				self.open();
+				self.scrollToOption(active_option,'auto');
+				self.setActiveOption(active_option);
+			}else{
+				self.setActiveOption(active_option);
+			}
 
 		}else{
 			self.clearActiveOption();
