@@ -71,6 +71,25 @@ new TomSelect('#form-control-sm',{create:true});
 
 
 {% set left_col %}
+<input type="text" class="form-control form-control-sm" value="awesome,neat" placeholder="How cool is this?">
+{% endset %}
+
+{% set html %}
+<input type="text" class="form-control form-control-sm" id="form-control-sm-single" value="awesome,neat" placeholder="How cool is this?">
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#form-control-sm-single',{create:true,maxItems:1});
+{% endset %}
+</script>
+
+{{ demo_col('form-control-sm (single)', left_col, html, script) }}
+
+
+
+
+{% set left_col %}
 <div class="input-group input-group-lg">
 	<span class="input-group-text">Text</span>
 	<input type="text" value="awesome,neat" class="form-control" placeholder="How cool is this?">
@@ -136,6 +155,7 @@ new TomSelect('#input-group',{create:true});
 {% endset %}
 
 
+
 {% set html %}
 <div class="input-group input-group-sm">
 	<span class="input-group-text">Text</span>
@@ -151,6 +171,24 @@ new TomSelect('#input-group-sm',{create:true});
 </script>
 
 {{ demo_col('input-group-sm', left_col, html, script) }}
+
+
+
+{% set html %}
+<div class="input-group input-group-sm">
+	<span class="input-group-text">Text</span>
+	<input type="text" value="awesome,neat" id="input-group-sm-single" placeholder="How cool is this?">
+	<button class="btn btn btn-success">Go</button>
+</div>
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#input-group-sm-single',{create:true,maxItems:1});
+{% endset %}
+</script>
+
+{{ demo_col('input-group-sm (single)', left_col, html, script) }}
 
 
 
