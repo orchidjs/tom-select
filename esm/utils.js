@@ -157,6 +157,13 @@ function getId(el, id) {
   el.setAttribute('id', id);
   return id;
 }
+/**
+ * Returns a string with backslashes added before characters that need to be escaped.
+ */
 
-export { addEvent, debounce_events, escape_html, getId, getSelection, hash_key, isKeyDown, loadDebounce, preventDefault };
+function addSlashes(str) {
+  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, "\\'");
+}
+
+export { addEvent, addSlashes, debounce_events, escape_html, getId, getSelection, hash_key, isKeyDown, loadDebounce, preventDefault };
 //# sourceMappingURL=utils.js.map

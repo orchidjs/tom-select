@@ -1054,6 +1054,13 @@
 	  el.setAttribute('id', id);
 	  return id;
 	}
+	/**
+	 * Returns a string with backslashes added before characters that need to be escaped.
+	 */
+
+	function addSlashes(str) {
+	  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, "\\'");
+	}
 
 	function getSettings(input, settings_user) {
 	  var settings = Object.assign({}, defaults, settings_user);
@@ -2400,18 +2407,34 @@
 	   */
 
 
-	  scrollToOption(option) {
-	    var height_menu, height_item, y;
-	    height_menu = this.dropdown_content.clientHeight;
-	    let scrollTop = this.dropdown_content.scrollTop || 0;
-	    height_item = option.offsetHeight;
-	    y = option.getBoundingClientRect().top - this.dropdown_content.getBoundingClientRect().top + scrollTop;
+	  scrollToOption(option, behavior) {
+	    const content = this.dropdown_content;
+	    const height_menu = content.clientHeight;
+	    const scrollTop = content.scrollTop || 0;
+	    const height_item = option.offsetHeight;
+	    const y = option.getBoundingClientRect().top - content.getBoundingClientRect().top + scrollTop;
 
 	    if (y + height_item > height_menu + scrollTop) {
-	      this.dropdown_content.scrollTop = y - height_menu + height_item;
+	      this.scroll(y - height_menu + height_item, behavior);
 	    } else if (y < scrollTop) {
-	      this.dropdown_content.scrollTop = y;
+	      this.scroll(y, behavior);
 	    }
+	  }
+	  /**
+	   * Scroll the dropdown to the given position
+	   *
+	   */
+
+
+	  scroll(scrollTop, behavior) {
+	    const content = this.dropdown_content;
+
+	    if (behavior) {
+	      content.style.scrollBehavior = behavior;
+	    }
+
+	    content.scrollTop = scrollTop;
+	    content.style.scrollBehavior = '';
 	  }
 	  /**
 	   * Clears the active option
@@ -2777,9 +2800,11 @@
 
 	      if (triggerDropdown && !self.isOpen) {
 	        self.open();
+	        self.scrollToOption(active_option, 'auto');
+	        self.setActiveOption(active_option);
+	      } else {
+	        self.setActiveOption(active_option);
 	      }
-
-	      self.setActiveOption(active_option);
 	    } else {
 	      self.clearActiveOption();
 
@@ -3059,10 +3084,10 @@
 
 	  getItem(value) {
 	    value = hash_key(value);
-	    var item = this.rendered('item', value);
 
-	    if (item && this.control.contains(item)) {
-	      return item;
+	    if (value) {
+	      value = addSlashes(value);
+	      return this.control.querySelector(`[data-value="${value}"]`);
 	    }
 	  }
 	  /**
@@ -3135,14 +3160,19 @@
 	      if (self.isSetup) {
 	        let options = self.selectable(); // update menu / remove the option (if this is not one item being added as part of series)
 
-	        if (!self.isPending) {
+	        if (!self.isPending && self.settings.hideSelected) {
 	          let option = self.getOption(value);
 	          let next = self.getAdjacent(option, 1);
-	          self.refreshOptions(self.isFocused && inputMode !== 'single');
 
 	          if (next) {
 	            self.setActiveOption(next);
 	          }
+	        } // refreshOptions after setActiveOption(),
+	        // otherwise setActiveOption() will be called by refreshOptions() with the wrong value
+
+
+	        if (!self.isPending) {
+	          self.refreshOptions(self.isFocused && inputMode !== 'single');
 	        } // hide the menu if the maximum number of items have been selected or no options are left
 
 
@@ -3463,7 +3493,11 @@
 	    applyCSS(self.dropdown, {
 	      display: 'none'
 	    });
-	    self.clearActiveOption();
+
+	    if (self.settings.hideSelected) {
+	      self.clearActiveOption();
+	    }
+
 	    self.refreshState();
 	    if (trigger) self.trigger('dropdown_close', self.dropdown);
 	  }
