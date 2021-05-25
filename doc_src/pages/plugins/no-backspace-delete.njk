@@ -15,7 +15,7 @@ tags: demo
 {% endset %}
 
 {% set html %}
-<div id="disable-wrapper" style="position:relative">
+<div id="example-wrapper">
 <input type="text" id="disable-backspace" value="awesome,neat" autocomplete="off">
 <input type="text" id="input-disable-control" class="form-control mt-2"  autocomplete="off" placeholder="How cool is this?" >
 </div>
@@ -28,12 +28,20 @@ new TomSelect('#disable-backspace',{
 	persist: false,
 	create: true,
 	controlInput: '#input-disable-control',
-	dropdownParent: '#disable-wrapper',
+	dropdownParent: '#example-wrapper',
 });
 {% endset %}
 </script>
 
-{{ demo( label, html, script) }}
+<style>
+{% set style %}
+#example-wrapper{
+	position:relative;
+}
+{% endset %}
+</style>
+
+{{ demo( label, html, script, style) }}
 
 <h2>Plugin Configuration</h2>
 <p>No additional configuration settings for this plugin</p>
