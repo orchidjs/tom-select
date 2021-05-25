@@ -476,7 +476,7 @@ new TomSelect('#input',{
 			return '<div class="spinner"></div>';
 		},
 		'dropdown':function(){
-			return '<div style="display:none"></div>';
+			return '<div></div>';
 		}
 	}
 });
