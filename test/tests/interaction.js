@@ -274,11 +274,17 @@
 		describe('selecting option', function() {
 
 			it_n('should select option when clicked', function(done) {
-				var test = setup_test('<select>' +
+				var test = setup_test('<div id="test-wrap"><select class="setup-here">' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
 					'<option value="b">B</option>' +
-				'</select>', {});
+				'</select></div>');
+
+				var clicked = false;
+				document.getElementById('test-wrap').addEventListener('click',()=>{
+					clicked = true;
+				});
+
 
 				click(test.instance.control, function() {
 					assert.equal(test.instance.input.querySelectorAll('option').length, 3,'should keep original options');
@@ -289,12 +295,14 @@
 						assert.equal(option_before, option_after,'should not recreate original <option>');
 						assert.equal(test.instance.input.value,'b','should select "b" value');
 						assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
+						assert.isFalse(clicked,'should not trigger click evt on div');
 
 						click($('[data-value="a"]', test.instance.dropdown), function() {
 							var option_after = test.instance.input.querySelector('option[value="b"]');
 							assert.equal(option_before, option_after,'should not recreate original <option>');
 							assert.equal(test.instance.input.value,'a','should select "a" value');
 							assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
+							assert.isFalse(clicked,'should not trigger click evt on div');
 							done();
 						});
 					});

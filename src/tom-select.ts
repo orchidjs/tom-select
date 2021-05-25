@@ -287,6 +287,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			const option = parentMatch(evt.target as HTMLElement, '[data-selectable]');
 			if( option ){
 				self.onOptionSelect( evt as MouseEvent, option );
+				preventDefault(evt,true);
 			}
 		});
 
@@ -294,6 +295,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			var target_match = parentMatch( evt.target as HTMLElement, '.'+self.settings.itemClass, control);
 			if( target_match && self.onItemSelect(evt as MouseEvent, target_match) ){
+				preventDefault(evt,true);
 				return;
 			}
 
@@ -303,6 +305,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			self.onClick(evt as MouseEvent);
+			preventDefault(evt,true);
 		});
 
 
