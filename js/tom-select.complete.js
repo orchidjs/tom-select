@@ -1620,12 +1620,14 @@
 
 	      if (option) {
 	        self.onOptionSelect(evt, option);
+	        preventDefault(evt, true);
 	      }
 	    });
 	    addEvent(control, 'click', evt => {
 	      var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
 
 	      if (target_match && self.onItemSelect(evt, target_match)) {
+	        preventDefault(evt, true);
 	        return;
 	      } // retain focus (see control_input mousedown)
 
@@ -1635,6 +1637,7 @@
 	      }
 
 	      self.onClick(evt);
+	      preventDefault(evt, true);
 	    }); // retain focus by preventing native handling. if the
 	    // event target is the input it should not be modified.
 	    // otherwise, text selection within the input won't work.

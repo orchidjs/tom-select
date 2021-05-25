@@ -14,7 +14,7 @@
 
 		<script src="/js/index.bundle.js"></script>
 		
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' mc.yandex.ru 'sha256-pC4h+xGNSbRB1g9eEZ0hmxf5vI0lKrcmoGHcJav2F30=' 'sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru"></head>
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com 'sha256-iCDj3WjVBWc2OPIkVlb9yzIFp6eZhin+SStG5qO7tp8=';script-src 'self' 'unsafe-inline' mc.yandex.ru 'sha256-MqyXBOR3XHghQe9ct78YRpthy20EBMa+CJhRtaI/DBc=' 'sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru"></head>
     <body>
 
 		
@@ -116,6 +116,8 @@
 
 
 
+
+
 	
 
 	<div class="demo py-5 ">
@@ -129,7 +131,7 @@
 		<div>
 			<div class="demo-html">
 				
-<div id="disable-wrapper" style="position:relative">
+<div id="example-wrapper">
 <input type="text" id="disable-backspace" value="awesome,neat" autocomplete="off">
 <input type="text" id="input-disable-control" class="form-control mt-2" autocomplete="off" placeholder="How cool is this?">
 </div>
@@ -137,7 +139,7 @@
 			</div>
 
 			
-			<textarea hidden="">&lt;div id="disable-wrapper" style="position:relative"&gt;
+			<textarea hidden="">&lt;div id="example-wrapper"&gt;
 &lt;input type="text" id="disable-backspace" value="awesome,neat" autocomplete="off"&gt;
 &lt;input type="text" id="input-disable-control" class="form-control mt-2"  autocomplete="off" placeholder="How cool is this?" &gt;
 &lt;/div&gt;
@@ -146,13 +148,13 @@
 
 	
 		
-		<script csp-hash="sha256-pC4h+xGNSbRB1g9eEZ0hmxf5vI0lKrcmoGHcJav2F30=">
+		<script csp-hash="sha256-MqyXBOR3XHghQe9ct78YRpthy20EBMa+CJhRtaI/DBc=">
 new TomSelect('#disable-backspace',{
 	plugins: ['no_backspace_delete','remove_button',],
 	persist: false,
 	create: true,
 	controlInput: '#input-disable-control',
-	dropdownParent: '#disable-wrapper',
+	dropdownParent: '#example-wrapper',
 });
 </script>
 	
@@ -160,6 +162,13 @@ new TomSelect('#disable-backspace',{
 
 			
 
+	
+		
+		<style csp-hash="sha256-iCDj3WjVBWc2OPIkVlb9yzIFp6eZhin+SStG5qO7tp8=">
+#example-wrapper{
+	position:relative;
+}
+</style>
 	
 
 
@@ -175,6 +184,10 @@ new TomSelect('#disable-backspace',{
 				
 				<li class="nav-item" role="presentation">
 					<a class="nav-link " data-bs-toggle="tab" data-bs-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" data-bs-toggle="tab" data-bs-target="#style-tab-1" role="tab" aria-controls="profile" aria-selected="false">CSS</a>
 				</li>
 				
 
@@ -211,14 +224,18 @@ new TomSelect('#disable-backspace',{
 			<div class="tab-content" id="demoTabContent-1">
 				
 				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
-					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#disable-backspace'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'no_backspace_delete'</span><span class="token punctuation">,</span><span class="token string">'remove_button'</span><span class="token punctuation">,</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	controlInput<span class="token operator">:</span> <span class="token string">'#input-disable-control'</span><span class="token punctuation">,</span><br>	dropdownParent<span class="token operator">:</span> <span class="token string">'#disable-wrapper'</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#disable-backspace'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'no_backspace_delete'</span><span class="token punctuation">,</span><span class="token string">'remove_button'</span><span class="token punctuation">,</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br>	controlInput<span class="token operator">:</span> <span class="token string">'#input-disable-control'</span><span class="token punctuation">,</span><br>	dropdownParent<span class="token operator">:</span> <span class="token string">'#example-wrapper'</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
 
 				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
-					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>disable-wrapper<span class="token punctuation">"</span></span> <span class="token style-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token style language-css"><span class="token property">position</span><span class="token punctuation">:</span>relative</span><span class="token punctuation">"</span></span></span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>disable-backspace<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-disable-control<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>form-control mt-2<span class="token punctuation">"</span></span>  <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>How cool is this?<span class="token punctuation">"</span></span> <span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>example-wrapper<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>disable-backspace<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>input-disable-control<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>form-control mt-2<span class="token punctuation">"</span></span>  <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>How cool is this?<span class="token punctuation">"</span></span> <span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
 				</div>
 
+				
+				<div class="tab-pane fade" id="style-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-css"><code class="language-css"><span class="token selector">#example-wrapper</span><span class="token punctuation">{</span><br>	<span class="token property">position</span><span class="token punctuation">:</span>relative<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+				</div>
 				
 
 			</div>
