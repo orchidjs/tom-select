@@ -49,6 +49,12 @@ if [[ "$BRANCH" != "master" ]]; then
   exit 1;
 fi
 
+# make sure typescript test passes
+if ! npm run test:typescript; then
+	echo 'test:typescript failed'
+	exit
+fi
+
 
 # make sure there aren't any uncommited changes
 if ! git diff-index --quiet HEAD --; then
@@ -95,12 +101,6 @@ if ! cp -r build/* dist; then
 	exit
 fi
 
-# make sure types are up-to-date
-# grunt build does not create types
-if ! npm run build:types; then
-	echo 'types not generated'
-	exit
-fi
 
 
 # prompt before finalizing
