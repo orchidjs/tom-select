@@ -16,7 +16,7 @@ new TomSelect('#select',config);
 ### Glossary
 
 - Config / configuration: settings passed to the object constructor
-- Settings: the current settings. Accessible with the `setting` property of the select object.
+- Settings: the current settings. Accessible with the `settings` property of the select object.
 - Options: the list of objects to display.
   Each object must have a property with an unique **value** to identify the option; the property name is defined by the `valueField` setting.
   Option objects must also have a property with the **label** to display (as tag, in the drop down, etc.); the property name is defined by the `labelField` setting.
