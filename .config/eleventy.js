@@ -14,10 +14,10 @@ module.exports = function(eleventyConfig) {
 		csp:{
 			'default-src':		["'self'"],
 			'img-src':			['https://*','data:'],
-			'style-src':		["'self'",'unpkg.com','cdnjs.cloudflare.com'],
-			'script-src':		["'self'","'unsafe-inline'",'mc.yandex.ru'], // unsafe-inline needed for esm imports
+			'style-src':		["'self'",'unpkg.com','cdnjs.cloudflare.com','cdn.jsdelivr.net'],
+			'script-src':		["'self'","'unsafe-inline'","'unsafe-eval'",'mc.yandex.ru','cdn.jsdelivr.net'], // unsafe-inline needed for esm imports, unsafe-eval for docsearch
 			'font-src':			["'self'",'cdnjs.cloudflare.com'],
-			'connect-src':		['api.github.com','whatcms.org','api.reddit.com','mc.yandex.ru'],
+			'connect-src':		['api.github.com','whatcms.org','api.reddit.com','mc.yandex.ru','https://*.algolia.net','https://*.algolianet.com'],
 		}
 	});
 

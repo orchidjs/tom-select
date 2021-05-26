@@ -16,6 +16,8 @@
 
 		<script src="/js/index.bundle.js"></script>
 		{{ script | safe }}
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
 	</head>
     <body>
 
@@ -25,9 +27,18 @@
 		</a>
 
 
+
+
 		{# offcanvas #}
-		<div id="offcanvas" class="d-flex flex-column bg-dark px-0 pt-5">
-			{% include "nav.njk" %}
+		<div id="offcanvas" class="d-flex flex-column px-0">
+
+			<div id="docsearc-div" class="px-4">
+				<input type="text" class="form-control" placeholder="Search" id="docsearch-input"/>
+			</div>
+
+			<div id="offcanvas-inner">
+				{% include "nav.njk" %}
+			</div>
 		</div>
 
 		{# main-col #}
@@ -43,7 +54,17 @@
 			</div>
 		</div>
 
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+		<script type="text/javascript" csp-hash> docsearch({
+			apiKey: '662e3a3a9d206ebad6d19f341b85acbd',
+			indexName: 'tom-select',
+			inputSelector: '#docsearch-input',
+			debug: true // Set debug to true if you want to inspect the dropdown
+		});
+		</script>
 
+
+		{#
 		<!-- Yandex.Metrika counter -->
 		<script type="text/javascript" csp-hash>
 		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -58,5 +79,6 @@
 		</script>
 		<noscript><div><img src="https://mc.yandex.ru/watch/77752060" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 		<!-- /Yandex.Metrika counter -->
+		#}
 	</body>
 </html>

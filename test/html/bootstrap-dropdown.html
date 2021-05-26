@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+	<head>
+		<link rel="stylesheet" href="../../build/css/tom-select.bootstrap5.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+		<script src="../../build/js/tom-select.complete.js"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script> -->
+		<script src="bootstrap.bundle.js"></script>
+	</head>
+	<body>
+
+		<div class="p-4">
+		<div class="dropdown">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" >
+		    Dropdown button
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+		    <li><a class="dropdown-item" href="#">Action</a></li>
+		    <li><a class="dropdown-item" href="#">Another action</a></li>
+		    <li><a class="dropdown-item" href="#"><input id="input-tags" value="awesome,neat" autocomplete="off" placeholder="How cool is this?"></a></li>
+		  </ul>
+		</div>
+		</div>
+
+
+	<script>
+
+	var ts = new TomSelect("#input-tags",{
+		persist: false,
+		createOnBlur: true,
+		create: true
+	});
+
+	//document.querySelector('.dropdown-menu').addEventListener('click',(e)=>{
+	//	e.preventDefault();
+	//	e.stopPropagation();
+	//});
+
+	</script>
+</html>
