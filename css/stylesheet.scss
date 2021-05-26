@@ -173,10 +173,20 @@ pre[class*="language-"]{
 	height:				100vh;
 	position:			fixed;
 	top:				0;
-	overflow-y:			auto;
-	overflow-x:			hidden;
 	visibility: 		visible;
 	color:				$gray-700;
+	padding-top:		0;
+	background:			$gray-900;
+
+	#offcanvas-inner{
+		position:			absolute;
+		top:				4.5rem;
+		left:				0;
+		right:				0;
+		bottom:				0;
+		overflow-y:			auto;
+		overflow-x:			hidden;
+	}
 
 	&:hover,
 	&:hover a{
@@ -268,6 +278,35 @@ pre[class*="language-"]{
 	}
 
 }
+
+/**
+ * Docsearch
+ */
+#docsearc-div{
+	position:		sticky;
+	padding-top:	1.5rem;
+	background:		$gray-900;
+	top:			0;
+	padding-bottom:	1rem;
+	z-index:		5;
+
+	#docsearch-input{
+		border: 0 none;
+		background: $gray-800;
+		color: $white;
+		transition: 0.3s ease-in-out;
+
+		&:focus{
+			box-shadow:none;
+			background:$white;
+			color: $gray-800;
+		}
+	}
+
+
+}
+
+
 
 .badges{
 	a{

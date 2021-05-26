@@ -14,7 +14,9 @@
 
 		<script src="/js/index.bundle.js"></script>
 		<script src="/js/jquery.min.js"></script><script src="/js/jqueryui.js"></script>
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com;script-src 'self' 'unsafe-inline' mc.yandex.ru 'sha256-c12uzRvCT7ZLHbT1BhdItt46nB3UkhM8bwYwEFS1j20=' 'sha256-pnNQ2Rcp5FEkj9Wwa9P0gyUeP5TJX0O5QewKEoFgr2M=' 'sha256-uWOZDjdxQO7JBhTKnVWifip2L7RsyDL08gUUYxwE7pY=' 'sha256-HgAa8DWQNJFYm67SGZnoCy9Ho/JJWiNBAVuZYR8CvGM=' 'sha256-wiqcTsVzk1LO6d1eyR26NRUyvQYSMzHhXcXvXMPNPhA=' 'sha256-v5nOMK361f6C4F7oxnQ9PSy2mnn/22mtSkpDxRjD6JU=' 'sha256-U/Ns/3pC3+AdL0kcaw81jsdoG1XZ9YDey9g0NhKn2d4=' 'sha256-iVniZQ3p/u2OnaGmQD5yph/dKzWyH+SoViffZi22hdI=' 'sha256-aTNp3517MCdTGYP6t4/WzAT95i8Q+8ealqlrHWqsOAU=' 'sha256-JBPXi2Tkg6GaBJ0V5ZhSsmnQfJ69VHXi4W/CXgKaEu4=' 'sha256-mpsfI3foucpyiFGfA7HnunRXrxumomZrLFkP8Avpv6c=' 'sha256-Z14vmaQ92FaseZNVFHuK1Ra6KOBeSPh8kwGHWohnG10=' 'sha256-tBI6qGFVpDWLxsON+MY8oKKsITS3cnKGVezzJE4ruYk=' 'sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru"></head>
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com cdn.jsdelivr.net;script-src 'self' 'unsafe-inline' 'unsafe-eval' mc.yandex.ru cdn.jsdelivr.net 'sha256-c12uzRvCT7ZLHbT1BhdItt46nB3UkhM8bwYwEFS1j20=' 'sha256-pnNQ2Rcp5FEkj9Wwa9P0gyUeP5TJX0O5QewKEoFgr2M=' 'sha256-uWOZDjdxQO7JBhTKnVWifip2L7RsyDL08gUUYxwE7pY=' 'sha256-HgAa8DWQNJFYm67SGZnoCy9Ho/JJWiNBAVuZYR8CvGM=' 'sha256-wiqcTsVzk1LO6d1eyR26NRUyvQYSMzHhXcXvXMPNPhA=' 'sha256-v5nOMK361f6C4F7oxnQ9PSy2mnn/22mtSkpDxRjD6JU=' 'sha256-U/Ns/3pC3+AdL0kcaw81jsdoG1XZ9YDey9g0NhKn2d4=' 'sha256-iVniZQ3p/u2OnaGmQD5yph/dKzWyH+SoViffZi22hdI=' 'sha256-aTNp3517MCdTGYP6t4/WzAT95i8Q+8ealqlrHWqsOAU=' 'sha256-JBPXi2Tkg6GaBJ0V5ZhSsmnQfJ69VHXi4W/CXgKaEu4=' 'sha256-mpsfI3foucpyiFGfA7HnunRXrxumomZrLFkP8Avpv6c=' 'sha256-Z14vmaQ92FaseZNVFHuK1Ra6KOBeSPh8kwGHWohnG10=' 'sha256-tBI6qGFVpDWLxsON+MY8oKKsITS3cnKGVezzJE4ruYk=' 'sha256-dwLR3MpwnJ/IRXno+/+LNqNv9n74x5y1ysh3fuhwpyk=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru https://*.algolia.net https://*.algolianet.com"></head>
     <body>
 
 		
@@ -23,9 +25,17 @@
 		</a>
 
 
+
+
 		
-		<div id="offcanvas" class="d-flex flex-column bg-dark px-0 pt-5">
-			
+		<div id="offcanvas" class="d-flex flex-column px-0">
+
+			<div id="docsearc-div" class="px-4">
+				<input type="text" class="form-control" placeholder="Search" id="docsearch-input">
+			</div>
+
+			<div id="offcanvas-inner">
+				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -95,6 +105,7 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
+			</div>
 		</div>
 
 		
@@ -1403,21 +1414,17 @@
 			</div>
 		</div>
 
-
-		<!-- Yandex.Metrika counter -->
-		<script type="text/javascript" csp-hash="sha256-Hu/9ibNLb6rtp/3RnmL5lz7TYA3ZRDpvybDewqta4mo=">
-		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-		   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-		   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-		   ym(77752060, "init", {
-		        clickmap:true,
-		        trackLinks:true,
-		        accurateTrackBounce:true
-		   });
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+		<script type="text/javascript" csp-hash="sha256-dwLR3MpwnJ/IRXno+/+LNqNv9n74x5y1ysh3fuhwpyk="> docsearch({
+			apiKey: '662e3a3a9d206ebad6d19f341b85acbd',
+			indexName: 'tom-select',
+			inputSelector: '#docsearch-input',
+			debug: true // Set debug to true if you want to inspect the dropdown
+		});
 		</script>
-		<noscript><div><img src="https://mc.yandex.ru/watch/77752060" style="position:absolute; left:-9999px;" alt=""></div></noscript>
-		<!-- /Yandex.Metrika counter -->
+
+
+		
 	
 
 </body></html>
