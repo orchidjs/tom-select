@@ -17,7 +17,7 @@ import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
 import { parentMatch, nodeIndex } from '../../vanilla';
 
-TomSelect.define('optgroup_columns', function() {
+TomSelect.define('optgroup_columns', function(this:TomSelect) {
 	var self = this;
 
 	var orig_keydown = self.onKeyDown;

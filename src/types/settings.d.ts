@@ -87,5 +87,8 @@ export type TomSettings = {
 
 	render					: {
 		[key:string]:(data:any, escape:typeof escape_html) => string|HTMLElement
-	}
+	},
+
+	// virtual scroll plugin
+	firstUrl				: (string)=>any
 };

@@ -13,7 +13,7 @@
  */
 import TomSelect from '../../tom-select.js';
 
-TomSelect.define('no_backspace_delete', function() {
+TomSelect.define('no_backspace_delete', function(this:TomSelect) {
 	var self = this;
 	var orig_deleteSelection = self.deleteSelection;
 

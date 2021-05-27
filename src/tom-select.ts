@@ -2584,7 +2584,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 * });
 	 */
-	hook( when:string, method:string, new_fn:()=>any ){
+	hook( when:string, method:string, new_fn:any ){
 		var self = this;
 		var orig_method = self[method];
 

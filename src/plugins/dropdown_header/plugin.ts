@@ -18,7 +18,7 @@ import { getDom } from '../../vanilla';
 import { preventDefault } from '../../utils';
 
 
-TomSelect.define('dropdown_header',function(options) {
+TomSelect.define('dropdown_header',function(this:TomSelect, options) {
 	var self = this;
 
 	options = Object.assign({

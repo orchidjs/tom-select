@@ -17,7 +17,7 @@ import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
 
 
-TomSelect.define('clear_button',function(options) {
+TomSelect.define('clear_button',function(this:TomSelect, options) {
 	var self = this;
 
 	options = Object.assign({

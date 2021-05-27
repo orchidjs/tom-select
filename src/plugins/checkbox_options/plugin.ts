@@ -21,7 +21,7 @@ type TPluginOptions = {
 	text:(option:TomOption)=>string,
 };
 
-TomSelect.define('checkbox_options',function(options:TPluginOptions) {
+TomSelect.define('checkbox_options',function(this:TomSelect, options:TPluginOptions) {
 	var self = this;
 	var orig_onOptionSelect = self.onOptionSelect;
 
@@ -53,10 +53,10 @@ TomSelect.define('checkbox_options',function(options:TPluginOptions) {
 			});
 
 			checkbox.type = 'checkbox';
-			var value = hash_key(data[self.settings.valueField]);
+			const hashed = hash_key(data[self.settings.valueField]);
 
 
-			if( self.items.indexOf(value) > -1 ){
+			if( hashed && self.items.indexOf(hashed) > -1 ){
 				checkbox.checked = true;
 			}
 

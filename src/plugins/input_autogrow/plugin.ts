@@ -14,7 +14,7 @@
 import TomSelect from '../../tom-select.js';
 import { addEvent } from '../../utils';
 
-TomSelect.define('input_autogrow', function() {
+TomSelect.define('input_autogrow', function(this:TomSelect) {
 
 	var self					= this;
 

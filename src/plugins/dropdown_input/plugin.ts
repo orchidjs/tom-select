@@ -19,11 +19,11 @@ import { getDom, setAttr } from '../../vanilla';
 import { addEvent } from '../../utils';
 
 
-TomSelect.define('dropdown_input',function() {
+TomSelect.define('dropdown_input',function(this:TomSelect) {
 	var self = this;
 
 	var input = self.settings.controlInput || '<input type="text" autocomplete="off" class="dropdown-input" />';
-	input = getDom( input );
+	input = getDom( input ) as HTMLInputElement;
 
 	if (self.settings.placeholder) {
 		setAttr(input,{placeholder:self.settings.placeholder});
@@ -35,7 +35,7 @@ TomSelect.define('dropdown_input',function() {
 	self.hook('after','setup',()=>{
 
 		// set tabIndex on wrapper
-		setAttr(self.wrapper,{tabindex:self.input.disabled ? '-1' : self.tabIndex});
+		setAttr(self.wrapper,{tabindex:self.input.disabled ? '-1' : ''+self.tabIndex});
 
 
 		// keyboard navigation

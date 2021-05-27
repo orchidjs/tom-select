@@ -21,7 +21,7 @@ type TPluginOptions = {
 };
 
 
-TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
+TomSelect.define('virtual_scroll',function(this:TomSelect, options:TPluginOptions) {
 	const self						= this;
 	const orig_canLoad				= self.canLoad;
 	const orig_clearActiveOption	= self.clearActiveOption;
@@ -47,7 +47,7 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 	function canLoadMore(query):boolean{
 
 		if( typeof self.settings.maxOptions === 'number' && dropdown_content.children.length >= self.settings.maxOptions ){
-			return;
+			return false;
 		}
 
 		if( (query in pagination) && pagination[query] ){
@@ -95,7 +95,7 @@ TomSelect.define('virtual_scroll',function(options:TPluginOptions) {
 
 		// first time the query has been seen
 		if( !(query in pagination) ){
-			return orig_canLoad.call(this,query);
+			return orig_canLoad.call(self,query);
 		}
 
 		return canLoadMore(query);

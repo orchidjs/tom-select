@@ -14,7 +14,7 @@
  */
 import TomSelect from '../../tom-select.js';
 
-TomSelect.define('drag_drop',function(options) {
+TomSelect.define('drag_drop',function(this:TomSelect, options) {
 	var self = this;
 	if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	if (self.settings.mode !== 'multi') return;
@@ -23,13 +23,13 @@ TomSelect.define('drag_drop',function(options) {
 	var orig_unlock		= self.unlock;
 
 	self.hook('instead','lock',function(){
-		var sortable = self.control.dataset.sortable;
+		var sortable = $(self.control).data('sortable');
 		if (sortable) sortable.disable();
 		return orig_lock.apply(self, arguments);
 	});
 
 	self.hook('instead','unlock',function(){
-		var sortable = self.control.dataset.sortable;
+		var sortable = $(self.control).data('sortable');
 		if (sortable) sortable.enable();
 		return orig_unlock.apply(self, arguments);
 	});
@@ -46,9 +46,9 @@ TomSelect.define('drag_drop',function(options) {
 			stop: ()=>{
 				$control.css({overflow: 'hidden'});
 
-				var values = [];
+				var values:string[] = [];
 				$control.children('[data-value]').each(function(){
-					values.push($(this).attr('data-value'));
+					if( this.dataset.value ) values.push(this.dataset.value);
 				});
 
 				self.setValue(values);
