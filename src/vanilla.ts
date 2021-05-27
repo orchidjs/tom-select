@@ -187,3 +187,11 @@ export function setAttr(el:Element,attrs:{ [key: string]: string }){
 		el.setAttribute(attr, attrs[attr]);
 	}
 }
+
+
+/**
+ * Replace a node
+ */
+export function replaceNode( existing:Element, replacement:Element ){
+	if( existing.parentNode ) existing.parentNode.replaceChild(replacement, existing);
+}

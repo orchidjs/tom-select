@@ -32,7 +32,8 @@ import {
 	getTail,
 	isEmptyObject,
 	nodeIndex,
-	setAttr
+	setAttr,
+	replaceNode
 } from './vanilla';
 
 var instance_i = 0;
@@ -1279,7 +1280,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var create;
 		const groups: {[key:string]:DocumentFragment} = {};
 
-		const groups_order			= [];
+		const groups_order:string[]	= [];
 		var self					= this;
 		var query					= self.inputValue();
 		var results					= self.search(query);
@@ -1601,7 +1602,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if( self.dropdown_content.contains(option) ){
 
 				const option_new	= self._render('option', data);
-				option.parentNode.replaceChild(option_new, option);
+				replaceNode(option, option_new);
 
 				if( self.activeOption === option ){
 					self.setActiveOption(option_new);
@@ -1621,7 +1622,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			if( item.classList.contains('active') ) addClasses(item_new,'active');
 
-			item.parentNode.replaceChild(item_new, item);
+			replaceNode( item, item_new);
 		}
 
 		// invalidate last query because we might have updated the sortField
