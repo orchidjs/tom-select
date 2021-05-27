@@ -55,8 +55,8 @@ export function highlight(element, regex) {
  * edited to remove with(), pass js strict mode, and use without jquery
  */
 export function removeHighlight(el) {
-	var elements = document.querySelectorAll("span.highlight");
-	Array.prototype.forEach.call(elements, function(el, i){
+	var elements = el.querySelectorAll("span.highlight");
+	Array.prototype.forEach.call(elements, function(el){
 		var parent = el.parentNode;
 		parent.replaceChild(el.firstChild, el);
 		parent.normalize();
