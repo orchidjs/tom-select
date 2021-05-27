@@ -1104,10 +1104,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	clearActiveOption(){
 		if( this.activeOption ){
 			removeClasses(this.activeOption,'active');
-			this.activeOption.removeAttribute('aria-selected');
+			setAttr(this.activeOption,{'aria-selected':null});
 		}
 		this.activeOption = null;
-		this.control_input.removeAttribute('aria-activedescendant');
+		setAttr(this.control_input,{'aria-activedescendant':null});
 	}
 
 
@@ -1334,10 +1334,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				// a child could only have one parent, so if you have more parents clone the child
 				if( j > 0 ){
 					option_el = option_el.cloneNode(true) as HTMLElement;
-					setAttr(option_el,{id: option.$id+'-clone-'+j});
+					setAttr(option_el,{id: option.$id+'-clone-'+j,'aria-selected':null});
 					option_el.classList.add('ts-cloned');
 					removeClasses(option_el,'active');
-					option_el.removeAttribute('aria-selected');
 				}
 
 				// make sure we keep the activeOption in the same group
@@ -2065,7 +2064,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// remove selected attribute from options whose values are not in self.items
 			self.input.querySelectorAll('option[selected]').forEach((option_el:HTMLOptionElement) => {
 				if( self.items.indexOf(option_el.value) == -1 ){
-					option_el.removeAttribute('selected');
+					setAttr(option_el,{selected:null});
 					option_el.selected = false;
 				}
 			});
@@ -2452,7 +2451,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.input.tabIndex = revertSettings.tabIndex;
 
 		removeClasses(self.input,'tomselected');
-		self.input.removeAttribute('hidden');
+		setAttr(self.input,{hidden:null});
 		self.input.required = this.isRequired;
 
 		self._destroy();

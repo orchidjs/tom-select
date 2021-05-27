@@ -182,9 +182,14 @@ export function nodeIndex( el:null|Element, amongst?:string ):number{
  * Set attributes of an element
  *
  */
-export function setAttr(el:Element,attrs:{ [key: string]: string }){
+export function setAttr(el:Element,attrs:{ [key: string]: null|string }){
 	for( const attr in attrs ){
-		el.setAttribute(attr, attrs[attr]);
+		let val = attrs[attr];
+		if( val == null ){
+			el.removeAttribute(attr);
+		}else{
+			el.setAttribute(attr, val);
+		}
 	}
 }
 
