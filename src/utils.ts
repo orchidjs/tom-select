@@ -120,7 +120,7 @@ export function preventDefault(evt?:Event, stop:boolean=false):void{
  * Prevent default
  *
  */
-export function addEvent(target:EventTarget, type:string, callback:EventListener, options?:object):void{
+export function addEvent(target:EventTarget, type:string, callback, options?:object):void{
 	target.addEventListener(type,callback,options);
 }
 

@@ -329,11 +329,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(control_input,'paste',		(e) => self.onPaste(e as MouseEvent) );
 
 
-		const doc_mousedown = (e:MouseEvent) => {
+		const doc_mousedown = (evt:MouseEvent) => {
 
 			// blur if target is outside of this instance
 			// dropdown is not always inside wrapper
-			if( !wrapper.contains(e.target as HTMLElement) && !dropdown.contains(e.target as HTMLElement) ){
+			if( !wrapper.contains(evt.target as HTMLElement) && !dropdown.contains(evt.target as HTMLElement) ){
 				if (self.isFocused) {
 					self.blur();
 				}
@@ -342,7 +342,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			// clicking anywhere in the control should not blur the control_input & close the dropdown
-			preventDefault(e,true);
+			preventDefault(evt,true);
 		};
 
 		var win_scroll = () => {
