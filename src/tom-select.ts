@@ -1364,7 +1364,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 
 				let group_options = document.createDocumentFragment();
-				group_options.append(self._render('optgroup_header', self.optgroups[optgroup]));
+				let header = self.render('optgroup_header', self.optgroups[optgroup]);
+				if( header ) group_options.append(header);
 				group_options.append(groups[optgroup]);
 
 				let group_html = self.render('optgroup', {group:self.optgroups[optgroup],options:group_options} );
