@@ -97,8 +97,8 @@ export function debounce_events( self:TomSelect, types:string[], fn:() => void )
  */
 export function getSelection(input:HTMLInputElement):{ start: number; length: number } {
 	return {
-		start	: input.selectionStart,
-		length	: input.selectionEnd - input.selectionStart,
+		start	: input.selectionStart || 0,
+		length	: (input.selectionEnd||0) - (input.selectionStart||0),
 	};
 };
 
