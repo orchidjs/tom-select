@@ -14,12 +14,25 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+type TPlugins = {
+	names: string[],
+	settings: {},
+	requested: {},
+	loaded: {}
+};
+
 export default function MicroPlugin(Interface){
 
 	Interface.plugins = {};
 
-
 	return class mixin extends Interface{
+
+		public plugins:TPlugins = {
+			names     : [],
+			settings  : {},
+			requested : {},
+			loaded    : {}
+		};
 
 		/**
 		 * Registers a plugin.
@@ -33,6 +46,7 @@ export default function MicroPlugin(Interface){
 				'fn'   : fn
 			};
 		}
+
 
 		/**
 		 * Initializes the listed plugins (with options).
@@ -51,15 +65,8 @@ export default function MicroPlugin(Interface){
 		 */
 		initializePlugins(plugins) {
 			var i, n, key;
-			var self  = this;
-			var queue = [];
-
-			self.plugins = {
-				names     : [],
-				settings  : {},
-				requested : {},
-				loaded    : {}
-			};
+			const self  = this;
+			const queue:string[] = [];
 
 			if (Array.isArray(plugins)) {
 				for (i = 0, n = plugins.length; i < n; i++) {
@@ -84,6 +91,9 @@ export default function MicroPlugin(Interface){
 			}
 		}
 
+		/**
+		 * @param {string} name
+		 */
 		loadPlugin(name) {
 			var self    = this;
 			var plugins = self.plugins;
