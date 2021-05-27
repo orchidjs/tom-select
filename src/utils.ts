@@ -48,7 +48,6 @@ export function loadDebounce(fn,delay:number){
 		}
 		clearTimeout(timeout);
 		timeout = setTimeout(function() {
-			timeout = null;
 			self.loadedSearches[value] = true;
 			fn.call(self, value, callback);
 
