@@ -102,4 +102,15 @@ describe('Configuration settings', function() {
 
 	});
 
+	it_n('allowEmptyOption', function() {
+
+		let test = setup_test(`<select>
+				<option value="">None</option>
+				<option value="4">Thomas Edison</option>
+				<option value="1">Nikola</option>
+			</select>`, {allowEmptyOption:true});
+
+		assert.equal( Object.keys(test.instance.options).length, 3);
+	});
+
 });

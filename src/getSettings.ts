@@ -3,7 +3,7 @@ import { hash_key } from './utils';
 import { TomSettings } from './types/settings';
 
 export default function getSettings( input:HTMLInputElement, settings_user:TomSettings):TomSettings{
-	var settings				= Object.assign({}, defaults, settings_user);
+	var settings:TomSettings	= Object.assign({}, defaults, settings_user);
 
 	var attr_data				= settings.dataAttr;
 	var field_label				= settings.labelField;
@@ -58,7 +58,8 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 		var addOption = (option, group?:string) => {
 
 			var value = hash_key(option.value);
-			if (!value && !settings.allowEmptyOption) return;
+			if ( value == null ) return;
+			if ( !value && !settings.allowEmptyOption) return;
 
 			// if the option already exists, it's probably been
 			// duplicated in another optgroup. in this case, push
