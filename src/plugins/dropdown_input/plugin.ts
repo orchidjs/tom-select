@@ -41,11 +41,11 @@ TomSelect.define('dropdown_input',function(this:TomSelect) {
 		// keyboard navigation
 		addEvent(self.wrapper,'keypress',(evt:KeyboardEvent) => {
 
-			if( self.control.contains(evt.target) ){
+			if( self.control.contains(evt.target as HTMLElement) ){
 				return;
 			}
 
-			if( self.dropdown.contains(evt.target) ){
+			if( self.dropdown.contains(evt.target as HTMLElement) ){
 				return;
 			}
 
