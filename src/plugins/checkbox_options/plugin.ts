@@ -15,13 +15,9 @@
 import TomSelect from '../../tom-select.js';
 import { preventDefault, hash_key } from '../../utils';
 import { getDom } from '../../vanilla';
-import { TomOption } from '../../types/index';
 
-type TPluginOptions = {
-	text:(option:TomOption)=>string,
-};
 
-TomSelect.define('checkbox_options',function(this:TomSelect, options:TPluginOptions) {
+TomSelect.define('checkbox_options',function(this:TomSelect) {
 	var self = this;
 	var orig_onOptionSelect = self.onOptionSelect;
 

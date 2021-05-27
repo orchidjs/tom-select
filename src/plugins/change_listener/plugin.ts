@@ -18,7 +18,7 @@ import getSettings from '../../getSettings.js';
 import { TomSettings } from '../../types/settings';
 import { addEvent } from '../../utils';
 
-TomSelect.define('change_listener',function(this:TomSelect, options){
+TomSelect.define('change_listener',function(this:TomSelect){
 	var self		= this;
 	var changed		= false;
 

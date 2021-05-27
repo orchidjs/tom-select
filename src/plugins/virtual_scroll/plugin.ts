@@ -16,12 +16,8 @@ import TomSelect from '../../tom-select.js';
 import { TomOption } from '../../types/index';
 import { addClasses } from '../../vanilla';
 
-type TPluginOptions = {
-	text:(option:TomOption)=>string,
-};
 
-
-TomSelect.define('virtual_scroll',function(this:TomSelect, options:TPluginOptions) {
+TomSelect.define('virtual_scroll',function(this:TomSelect) {
 	const self						= this;
 	const orig_canLoad				= self.canLoad;
 	const orig_clearActiveOption	= self.clearActiveOption;
@@ -145,10 +141,10 @@ TomSelect.define('virtual_scroll',function(this:TomSelect, options:TPluginOption
 
 		// default templates
 		self.settings.render = Object.assign({}, {
-			loading_more:function(data,escape){
+			loading_more:function(){
 				return `<div class="loading-more-results">Loading more results ... </div>`;
 			},
-			no_more_results:function(data,escape){
+			no_more_results:function(){
 				return `<div class="no-more-results">No more results</div>`;
 			}
 		},self.settings.render);

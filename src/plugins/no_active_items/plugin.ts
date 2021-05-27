@@ -13,7 +13,7 @@
  */
 import TomSelect from '../../tom-select.js';
 
-TomSelect.define('no_active_items', function(this:TomSelect,options) {
+TomSelect.define('no_active_items', function(this:TomSelect) {
 	this.hook('instead','setActiveItem',() => {});
 	this.hook('instead','selectAll',() => {});
 });

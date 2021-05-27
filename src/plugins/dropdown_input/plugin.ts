@@ -52,7 +52,7 @@ TomSelect.define('dropdown_input',function(this:TomSelect) {
 			// open dropdown on enter when wrapper is tab-focused
 			switch (evt.keyCode) {
 				case constants.KEY_RETURN:
-					self.onClick(evt);
+					self.onClick();
 				return;
 			}
 

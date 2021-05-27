@@ -304,7 +304,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				return;
 			}
 
-			self.onClick(evt as MouseEvent);
+			self.onClick();
 			preventDefault(evt,true);
 		});
 
@@ -435,7 +435,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var field_optgroup = self.settings.optgroupLabelField;
 
 		var templates = {
-			'optgroup': (data:TomOption, escape:typeof escape_html) => {
+			'optgroup': (data:TomOption) => {
 				let optgroup = document.createElement('div');
 				optgroup.className = 'optgroup';
 				optgroup.appendChild(data.options);
@@ -454,10 +454,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			'option_create': (data:TomOption, escape:typeof escape_html) => {
 				return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
 			},
-			'no_results':(data:TomOption,escape:typeof escape_html) => {
+			'no_results':() => {
 				return '<div class="no-results">No results found</div>';
 			},
-			'loading':(data:TomOption,escape:typeof escape_html) => {
+			'loading':() => {
 				return '<div class="spinner"></div>';
 			},
 			'not_loading':() => {},
@@ -509,7 +509,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * has a click event.
 	 *
 	 */
-	onClick(e:MouseEvent|KeyboardEvent):void {
+	onClick():void {
 		var self = this;
 
 		if( self.activeItems.length > 0 ){
@@ -529,7 +529,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * @deprecated v1.7
 	 *
 	 */
-	onMouseDown(e:MouseEvent|KeyboardEvent):void {}
+	onMouseDown():void {}
 
 	/**
 	 * Triggered when the value of the control has been changed.
