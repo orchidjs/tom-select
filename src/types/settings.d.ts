@@ -21,7 +21,7 @@ export type TomSettings = {
 	openOnFocus				: boolean,
 	shouldOpen				: boolean,
 	maxOptions				: number,
-	maxItems				: number,
+	maxItems				: null|number,
 	hideSelected			: boolean,
 	duplicates				: boolean,
 	addPrecedence			: boolean,

@@ -942,7 +942,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Resets the number of max items to the given value
 	 *
 	 */
-	setMaxItems(value:number){
+	setMaxItems(value:null|number){
 		if(value === 0) value = null; //reset to unlimited items.
 		this.settings.maxItems = value;
 		this.refreshState();
@@ -1260,7 +1260,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// filter out selected items
 		if( self.settings.hideSelected ){
 			for (i = result.items.length - 1; i >= 0; i--) {
-				if (self.items.indexOf(hash_key(result.items[i].id)) !== -1) {
+				let hashed = hash_key(result.items[i].id);
+				if( hashed && self.items.indexOf(hashed) !== -1 ){
 					result.items.splice(i, 1);
 				}
 			}
