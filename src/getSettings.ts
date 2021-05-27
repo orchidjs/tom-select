@@ -1,6 +1,7 @@
 import defaults from './defaults.js';
 import { hash_key } from './utils';
 import { TomSettings } from './types/settings';
+import { TomOption } from './types/index';
 
 export default function getSettings( input:HTMLInputElement, settings_user:TomSettings):TomSettings{
 	var settings:TomSettings	= Object.assign({}, defaults, settings_user);
@@ -24,13 +25,19 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 
 	}
 
-	var settings_element		= {
-										placeholder	: placeholder,
-										options		: [],
-										optgroups	: [],
-										items		: [],
-										maxItems	: null,
-									};
+	var settings_element:{
+		placeholder	: null|string,
+		options		: TomOption[],
+		optgroups	: TomOption[],
+		items		: string[],
+		maxItems	: null|number,
+	} = {
+		placeholder	: placeholder,
+		options		: [],
+		optgroups	: [],
+		items		: [],
+		maxItems	: null,
+	};
 
 
 	/**
