@@ -2527,7 +2527,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Return the previously rendered item or option
 	 *
 	 */
-	rendered( templateName:'item'|'option', value:string ):null|HTMLElement{
+	rendered( templateName:'item'|'option', value:string ):void|HTMLElement{
 		if( this.renderCache[templateName].hasOwnProperty(value) ){
 			return this.renderCache[templateName][value];
 		}
@@ -2564,7 +2564,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	canCreate( input:string ):boolean {
-		return this.settings.create && input.length && (this.settings.createFilter as TomCreateFilter ).call(this, input);
+		return this.settings.create && (input.length > 0) && (this.settings.createFilter as TomCreateFilter ).call(this, input);
 	}
 
 

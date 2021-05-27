@@ -137,10 +137,10 @@ export function parentMatch( target:HTMLElement, selector:string, wrapper?:HTMLE
  * Get the first or last item from an array
  *
  * > 0 - right (last)
- * < 0 - left (first)
+ * <= 0 - left (first)
  *
  */
-export function getTail( list:Array<any>|NodeList, direction:number ):any{
+export function getTail( list:Array<any>|NodeList, direction:number=0 ):any{
 
 	if( direction > 0 ){
 		return list[list.length-1];
