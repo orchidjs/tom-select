@@ -162,7 +162,7 @@ export function isEmptyObject(obj:object):boolean{
  * Get the index of an element amongst sibling nodes of the same type
  *
  */
-export function nodeIndex( el:Element, amongst?:string ):number{
+export function nodeIndex( el:null|Element, amongst?:string ):number{
 	if (!el) return -1;
 
 	amongst = amongst || el.nodeName;

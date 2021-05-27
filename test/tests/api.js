@@ -989,6 +989,27 @@
 				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before+1);
 			});
 
+			it_n('should remove item with value=0',function(){
+
+				test = setup_test('<select multiple>', {
+					valueField: 'value',
+					labelField: 'value',
+					searchField:'value',
+					options: [
+						{value: 2},
+						{value: 1},
+						{value: 0},
+					],
+					items: ['2','1','0']
+				});
+				test.instance.refreshOptions(true);
+				assert.equal( test.instance.items.length, 3);
+				test.instance.removeItem(0);
+				assert.equal( test.instance.items.length, 2);
+				assert.equal( test.instance.items[0], '2');
+				assert.equal( test.instance.items[1], '1');
+			});
+
 		});
 
 		describe('Unit Tests', function() {

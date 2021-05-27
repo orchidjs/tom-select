@@ -1572,24 +1572,26 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var item_new;
 		var index_item;
 
-		value				= hash_key(value);
+		const hashed		= hash_key(value);
+		if (hashed === null) return;
+
+
 		const value_new		= hash_key(data[self.settings.valueField]);
-		const option		= self.getOption(value);
-		const item			= self.getItem(value);
+		const option		= self.getOption(hashed);
+		const item			= self.getItem(hashed);
 
 
 		// sanity checks
-		if (value === null) return;
-		if (!self.options.hasOwnProperty(value)) return;
+		if (!self.options.hasOwnProperty(hashed)) return;
 		if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
 
-		data.$order = data.$order || self.options[value].$order;
-		delete self.options[value];
+		data.$order = data.$order || self.options[hashed].$order;
+		delete self.options[hashed];
 
 		// invalidate render cache
 		// don't remove existing node yet, we'll remove it after replacing it
 		self.uncacheValue(value_new);
-		self.uncacheValue(value,false);
+		self.uncacheValue(hashed,false);
 
 		self.options[value_new] = data;
 
@@ -1609,7 +1611,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// update the item if we have one
 		if( item ){
-			index_item = self.items.indexOf(value);
+			index_item = self.items.indexOf(hashed);
 			if (index_item !== -1) {
 				self.items.splice(index_item, 1, value_new);
 			}
@@ -1630,16 +1632,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	removeOption(value:string, silent?:boolean):void {
-		var self = this;
-		value = hash_key(value);
+		const self = this;
+		const hashed = hash_key(value);
 
-		self.uncacheValue(value);
+		if( !hashed ) return;
 
-		delete self.userOptions[value];
-		delete self.options[value];
+		self.uncacheValue(hashed);
+
+		delete self.userOptions[hashed];
+		delete self.options[hashed];
 		self.lastQuery = null;
-		self.trigger('option_remove', value);
-		self.removeItem(value, silent);
+		self.trigger('option_remove', hashed);
+		self.removeItem(hashed, silent);
 	}
 
 	/**
@@ -1688,8 +1692,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	getOption(value:string):HTMLElement {
-		value = hash_key(value);
-		return this.rendered('option',value);
+		var hashed = hash_key(value);
+		if( hashed ){
+			return this.rendered('option',hashed);
+		}
 	}
 
 	/**
@@ -1730,10 +1736,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	getItem(value:string):HTMLElement {
-		value = hash_key(value);
-		if( value ){
-			value = addSlashes(value);
-			return this.control.querySelector(`[data-value="${value}"]`);
+		var hashed = hash_key(value);
+		if( hashed ){
+			hashed = addSlashes(hashed);
+			return this.control.querySelector(`[data-value="${hashed}"]`);
 		}
 	}
 
@@ -1772,13 +1778,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, () => {
-			var item;
-			var self = this;
-			var inputMode = self.settings.mode;
-			var wasFull;
-			value = hash_key(value);
+			var item, wasFull;
+			const self = this;
+		 	const inputMode = self.settings.mode;
+			const hashed = hash_key(value);
 
-			if( self.items.indexOf(value) !== -1 ){
+			if( hashed && self.items.indexOf(hashed) !== -1 ){
 
 				if( inputMode === 'single' ){
 					self.close();
@@ -1789,18 +1794,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 			}
 
-			if (!self.options.hasOwnProperty(value)) return;
+			if( !hashed || !self.options.hasOwnProperty(hashed)) return;
 			if (inputMode === 'single') self.clear(silent);
 			if (inputMode === 'multi' && self.isFull()) return;
 
-			item = self.render('item', self.options[value]);
+			item = self.render('item', self.options[hashed]);
 
 			if( self.control.contains(item) ){ // duplicates
 				item = item.cloneNode(true) as HTMLElement;
 			}
 
 			wasFull = self.isFull();
-			self.items.splice(self.caretPos, 0, value);
+			self.items.splice(self.caretPos, 0, hashed);
 			self.insertAtCaret(item);
 
 			if (self.isSetup) {
@@ -1808,7 +1813,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				// update menu / remove the option (if this is not one item being added as part of series)
 				if( !self.isPending && self.settings.hideSelected ){
-					let option = self.getOption(value);
+					let option = self.getOption(hashed);
 					let next = self.getAdjacent(option, 1);
 					if( next ){
 						self.setActiveOption(next);
@@ -1828,7 +1833,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					self.positionDropdown();
 				}
 
-				self.trigger('item_add', value, item);
+				self.trigger('item_add', hashed, item);
 
 				if (!self.isPending) {
 					self.updateOriginalInput({silent: silent});
@@ -1848,14 +1853,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	removeItem( value:string, silent?:boolean ){
-		var i, idx, self = this;
+		var i, idx;
 
-		var item	= self.getItem(value);
+		const self		= this;
+		const hashed	= hash_key(value);
+
+		if( !hashed ) return;
+
+		const item		= self.getItem(hashed);
 
 		if( !item ) return;
 
-		value		= hash_key(item.dataset.value);
-		i			= self.items.indexOf(value);
+		i				= self.items.indexOf(hashed);
 
 		if (i !== -1) {
 			item.remove();
@@ -1867,8 +1876,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			self.items.splice(i, 1);
 			self.lastQuery = null;
-			if (!self.settings.persist && self.userOptions.hasOwnProperty(value)) {
-				self.removeOption(value, silent);
+			if (!self.settings.persist && self.userOptions.hasOwnProperty(hashed)) {
+				self.removeOption(hashed, silent);
 			}
 
 			if (i < self.caretPos) {
@@ -1878,7 +1887,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.updateOriginalInput({silent: silent});
 			self.refreshState();
 			self.positionDropdown();
-			self.trigger('item_remove', value, item);
+			self.trigger('item_remove', hashed, item);
 		}
 	}
 
@@ -1891,13 +1900,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * to the item list.
 	 *
 	 */
-	createItem( input?:string, triggerDropdown:boolean=true, callback?:TomCreateCallback ):boolean{
+	createItem( input?:string, triggerDropdown:boolean=true, callback:TomCreateCallback = ()=>{} ):boolean{
 		var self  = this;
 		var caret = self.caretPos;
 		var output;
 		input = input || self.inputValue();
 
-		if (typeof callback !== 'function') callback = () => {};
+		//if (typeof callback !== 'function') callback = () => {};
 
 		if (!self.canCreate(input)) {
 			callback();
@@ -2168,7 +2177,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * from the control.
 	 *
 	 */
-	clear(silent:boolean) {
+	clear(silent?:boolean) {
 		var self = this;
 
 		if (!self.items.length) return;
