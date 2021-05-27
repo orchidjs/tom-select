@@ -34,10 +34,6 @@
 		box-shadow: $select-shadow-input-focus;
 	}
 
-	&.dropdown-active {
-		border-radius: $select-border-radius $select-border-radius 0 0;
-	}
-
 	> * {
 		vertical-align: baseline;
 		display: inline-block;

@@ -101,9 +101,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	display:flex;
 	align-items: center;
 
-	&.dropdown-active {
-		border-radius: $select-border-radius;
-	}
 	&.dropdown-active::before {
 		display: none;
 	}

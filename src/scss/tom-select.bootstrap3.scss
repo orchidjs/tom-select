@@ -86,9 +86,6 @@ $select-arrow-offset: $select-padding-x + 5px;
 .#{$select-ns}-input {
 	min-height: $input-height-base;
 
-	&.dropdown-active {
-		border-radius: $select-border-radius;
-	}
 	&.dropdown-active::before {
 		display: none;
 	}
