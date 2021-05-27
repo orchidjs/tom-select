@@ -608,8 +608,8 @@
 				expect(test.instance.getOption('\\"')).to.be.ok;
 			});
 			it_n('should not allow undefined / null values', function() {
-				expect(test.instance.getOption(null)).to.be.equal(undefined);
-				expect(test.instance.getOption(undefined)).to.be.equal(undefined);
+				expect(test.instance.getOption(null)).to.be.equal(null);
+				expect(test.instance.getOption(undefined)).to.be.equal(null);
 			});
 
 			it_n('should return cached option',function(){
@@ -673,9 +673,9 @@
 				//expect(test.instance.getItem('\\"').length).to.be.equal(1);
 			});
 			it_n('should not allow undefined / null values', function() {
-				expect(test.instance.getItem(null)).to.be.equal(undefined);
+				expect(test.instance.getItem(null)).to.be.equal(null);
 				//expect(test.instance.getItem(null).length).to.be.equal(0);
-				expect(test.instance.getItem(undefined)).to.be.equal(undefined);
+				expect(test.instance.getItem(undefined)).to.be.equal(null);
 				//expect(test.instance.getItem(undefined).length).to.be.equal(0);
 			});
 		});
@@ -920,7 +920,7 @@
 				test.instance.clearCache();
 
 				var option_el_after = test.instance.getOption('0');
-				assert.isUndefined(option_el_after,'should clear option dom after clearCache()');
+				assert.isNull(option_el_after,'should clear option dom after clearCache()');
 				expect( Object.keys(test.instance.renderCache['item']).length).to.be.equal(0);
 				expect( Object.keys(test.instance.renderCache['option']).length).to.be.equal(0);
 			});
@@ -936,7 +936,7 @@
 				test.instance.clearCache('option');
 
 				var option_el_after = test.instance.getOption('0');
-				assert.isUndefined(option_el_after,'should clear option dom after clearCache()');
+				assert.isNull(option_el_after,'should clear option dom after clearCache()');
 				expect( Object.keys(test.instance.renderCache['option']).length === 0, 'option cache not emptied').to.be.equal(true);
 				expect( Object.keys(test.instance.renderCache['item']).length === 0, 'item cache emptied').to.be.equal(false);
 			});

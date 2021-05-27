@@ -74,7 +74,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public loading					: number = 0;
 	public loadedSearches			: { [key: string]: boolean } = {};
 
-	public activeOption				: HTMLElement = null;
+	public activeOption				: null|HTMLElement = null;
 	public activeItems				: HTMLElement[] = [];
 
 	public optgroups				: TomOptions = {};
@@ -196,7 +196,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		wrapper.append(control);
 
 
-		dropdown			= self.render('dropdown');
+		dropdown			= self._render('dropdown');
 		addClasses(dropdown, settings.dropdownClass, inputMode);
 
 		dropdown_content	= getDom(`<div role="listbox" id="${listboxId}" tabindex="-1">`);
@@ -1045,7 +1045,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * of available options.
 	 *
 	 */
-	setActiveOption( option:HTMLElement ):void{
+	setActiveOption( option:null|HTMLElement ):void{
 
 		if( option === this.activeOption ){
 			return;
@@ -1065,7 +1065,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Sets the dropdown_content scrollTop to display the option
 	 *
 	 */
-	scrollToOption( option:HTMLElement, behavior?:string ):void{
+	scrollToOption( option:null|HTMLElement, behavior?:string ):void{
 
 		if( !option ) return;
 
@@ -1310,7 +1310,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			let opt_value		= hash_key(option[self.settings.valueField]);
 			let option_el		= self.getOption(opt_value);
 			if( !option_el ){
-				option_el = self.render('option', option);
+				option_el = self._render('option', option);
 			}
 
 			// toggle 'selected' class
@@ -1364,7 +1364,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 
 				let group_options = document.createDocumentFragment();
-				group_options.append(self.render('optgroup_header', self.optgroups[optgroup]));
+				group_options.append(self._render('optgroup_header', self.optgroups[optgroup]));
 				group_options.append(groups[optgroup]);
 
 				let group_html = self.render('optgroup', {group:self.optgroups[optgroup],options:group_options} );
@@ -1599,7 +1599,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( option ){
 			if( self.dropdown_content.contains(option) ){
 
-				const option_new	= self.render('option', data);
+				const option_new	= self._render('option', data);
 				option.parentNode.replaceChild(option_new, option);
 
 				if( self.activeOption === option ){
@@ -1616,7 +1616,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.items.splice(index_item, 1, value_new);
 			}
 
-			item_new	= self.render('item', data);
+			item_new	= self._render('item', data);
 
 			if( item.classList.contains('active') ) addClasses(item_new,'active');
 
@@ -1691,11 +1691,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * matching the given value.
 	 *
 	 */
-	getOption(value:string):HTMLElement {
+	getOption(value:null|string):null|HTMLElement {
 		var hashed = hash_key(value);
-		if( hashed ){
-			return this.rendered('option',hashed);
-		}
+		return hashed
+			? this.rendered('option',hashed)
+			: null;
 	}
 
 	/**
@@ -1703,11 +1703,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Note: adjacent options may not be adjacent DOM elements (optgroups)
 	 *
 	 */
-	getAdjacent( option:HTMLElement, direction:number, type:string = 'option' ) : HTMLElement|void{
+	getAdjacent( option:null|HTMLElement, direction:number, type:string = 'option' ) : HTMLElement|null{
 		var self = this, all;
 
 		if( !option ){
-			return;
+			return null;
 		}
 
 		if( type == 'item' ){
@@ -1727,6 +1727,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			return all[i-1] as HTMLElement;
 		}
+		return null;
 	}
 
 
@@ -1735,12 +1736,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * matching the given value.
 	 *
 	 */
-	getItem(value:string):HTMLElement {
+	getItem(value:string):null|HTMLElement {
 		var hashed = hash_key(value);
-		if( hashed ){
-			hashed = addSlashes(hashed);
-			return this.control.querySelector(`[data-value="${hashed}"]`);
-		}
+		return hashed
+			? this.control.querySelector(`[data-value="${addSlashes(hashed)}"]`)
+			: null;
 	}
 
 	/**
@@ -1798,7 +1798,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if (inputMode === 'single') self.clear(silent);
 			if (inputMode === 'multi' && self.isFull()) return;
 
-			item = self.render('item', self.options[hashed]);
+			item = self._render('item', self.options[hashed]);
 
 			if( self.control.contains(item) ){ // duplicates
 				item = item.cloneNode(true) as HTMLElement;
@@ -1852,7 +1852,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * the provided value.
 	 *
 	 */
-	removeItem( value:string, silent?:boolean ){
+	removeItem( value?:string, silent?:boolean ){
 		var i, idx;
 
 		const self		= this;
@@ -1900,7 +1900,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * to the item list.
 	 *
 	 */
-	createItem( input?:string, triggerDropdown:boolean=true, callback:TomCreateCallback = ()=>{} ):boolean{
+	createItem( input:null|string=null, triggerDropdown:boolean=true, callback:TomCreateCallback = ()=>{} ):boolean{
 		var self  = this;
 		var caret = self.caretPos;
 		var output;
@@ -2465,8 +2465,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	render( templateName:string, data?:any ):null|HTMLElement{
+
+		if( typeof this.settings.render[templateName] !== 'function' ){
+			return null;
+		}
+
+		return this._render(templateName, data);
+	}
+
+	_render( templateName:string, data?:any ):HTMLElement{
 		var value, id, html;
-		var self = this;
+		const self = this;
 
 		if (templateName === 'option' || templateName === 'item') {
 			value	= hash_key(data[self.settings.valueField]);
@@ -2478,13 +2487,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		}
 
-		var template = self.settings.render[templateName];
-		if( typeof template !== 'function' ){
-			return null;
-		}
-
 		// render markup
-		html = template.call(this, data, escape_html);
+		html = self.settings.render[templateName].call(this, data, escape_html);
 
 		if( !html ){
 			return html;
@@ -2536,10 +2540,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Return the previously rendered item or option
 	 *
 	 */
-	rendered( templateName:'item'|'option', value:string ):void|HTMLElement{
-		if( this.renderCache[templateName].hasOwnProperty(value) ){
-			return this.renderCache[templateName][value];
-		}
+	rendered( templateName:'item'|'option', value:string ):null|HTMLElement{
+		return this.renderCache[templateName].hasOwnProperty(value)
+			? this.renderCache[templateName][value]
+			: null;
 	}
 
 	/**

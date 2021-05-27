@@ -15,7 +15,7 @@ import TomSelect from './tom-select';
  *   1         -> '1'
  *
  */
-export function hash_key(value:undefined|string):string|null {
+export function hash_key(value:undefined|null|string):string|null {
 	if (typeof value === 'undefined' || value === null) return null;
 	if (typeof value === 'boolean') return value ? '1' : '0';
 	return value + '';

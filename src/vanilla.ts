@@ -116,7 +116,7 @@ export function castAsArray(arg:any):Array<any>{
  * Stops at wrapper
  *
  */
-export function parentMatch( target:HTMLElement, selector:string, wrapper?:HTMLElement ):HTMLElement|void{
+export function parentMatch( target:null|HTMLElement, selector:string, wrapper?:HTMLElement ):HTMLElement|void{
 
 	if( wrapper && !wrapper.contains(target) ){
 		return;
