@@ -131,7 +131,7 @@ export function addEvent(target:EventTarget, type:string, callback:EventListener
  * The current evt may not always set ( eg calling advanceSelection() )
  *
  */
-export function isKeyDown( key_name:keyof (KeyboardEvent|MouseEvent), evt:KeyboardEvent|MouseEvent ){
+export function isKeyDown( key_name:keyof (KeyboardEvent|MouseEvent), evt?:KeyboardEvent|MouseEvent ){
 
 	if( !evt ){
 		return false;
