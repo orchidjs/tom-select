@@ -1238,11 +1238,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	search(query:string) : ReturnType<Sifter['search']>{
 		var i, result, calculateScore;
 		var self     = this;
-		var settings = self.settings;
 		var options  = this.getSearchOptions();
 
 		// validate user-provided result scoring function
-		if (settings.score) {
+		if ( self.settings.score ){
 			calculateScore = self.settings.score.call(self,query);
 			if (typeof calculateScore !== 'function') {
 				throw new Error('Tom Select "score" setting must be a function that returns a function');
@@ -1259,7 +1258,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		// filter out selected items
-		if (settings.hideSelected) {
+		if( self.settings.hideSelected ){
 			for (i = result.items.length - 1; i >= 0; i--) {
 				if (self.items.indexOf(hash_key(result.items[i].id)) !== -1) {
 					result.items.splice(i, 1);

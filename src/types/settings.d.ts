@@ -64,7 +64,7 @@ export type TomSettings = {
 	hidePlaceholder			: boolean,
 
 	load					: (value:string, callback:()=>any) => void,
-	score					: (query:string) => () => any,
+	score					?: (query:string) => () => any,
 	shouldLoad				: (query:string) => boolean,
 	onInitialize			: (evt:Event) => void,
 	onChange				: (evt:Event) => void,
