@@ -180,7 +180,8 @@ pre[class*="language-"]{
 
 	#offcanvas-inner{
 		position:			absolute;
-		top:				4.5rem;
+		top:				0;
+		padding-top:		4.5rem;
 		left:				0;
 		right:				0;
 		bottom:				0;
@@ -282,11 +283,12 @@ pre[class*="language-"]{
 /**
  * Docsearch
  */
-#docsearc-div{
+#docsearch-div{
 	position:		sticky;
 	padding-top:	1.5rem;
 	background:		$gray-900;
 	top:			0;
+	margin-right:	1rem; // for scrollbar of offcanvas-inner
 	padding-bottom:	1rem;
 	z-index:		5;
 
