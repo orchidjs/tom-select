@@ -10,6 +10,7 @@ import * as constants from './constants.js';
 import getSettings from './getSettings.js';
 import {
 	hash_key,
+	get_hash,
 	escape_html,
 	debounce_events,
 	getSelection,
@@ -1308,7 +1309,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// get option dom element, don't re-render if we
 			let option			= self.options[results.items[i].id];
-			let opt_value		= hash_key(option[self.settings.valueField]);
+			let opt_value		= get_hash(option[self.settings.valueField]);
 			let option_el		= self.getOption(opt_value);
 			if( !option_el ){
 				option_el = self._render('option', option);
@@ -1634,17 +1635,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	removeOption(value:string, silent?:boolean):void {
 		const self = this;
-		const hashed = hash_key(value);
+		value = get_hash(value);
 
-		if( !hashed ) return;
+		self.uncacheValue(value);
 
-		self.uncacheValue(hashed);
-
-		delete self.userOptions[hashed];
-		delete self.options[hashed];
+		delete self.userOptions[value];
+		delete self.options[value];
 		self.lastQuery = null;
-		self.trigger('option_remove', hashed);
-		self.removeItem(hashed, silent);
+		self.trigger('option_remove', value);
+		self.removeItem(value, silent);
 	}
 
 	/**
@@ -2480,7 +2479,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		const self = this;
 
 		if (templateName === 'option' || templateName === 'item') {
-			value	= hash_key(data[self.settings.valueField]);
+			value	= get_hash(data[self.settings.valueField]);
 			html	= self.rendered(templateName,value);
 
 			if( html ){
