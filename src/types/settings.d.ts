@@ -5,8 +5,8 @@ import {
 
 
 export type TomSettings = {
-	options					: any[],
-	optgroups				: any[],
+	options					?: any[],
+	optgroups				?: any[],
 	items					: any[],
 
 	plugins					: any[],

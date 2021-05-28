@@ -377,7 +377,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		self.setValue(settings.items);
-		delete settings.items;
+		settings.items = [];
 
 		addEvent(input,'invalid', (e) => {
 			preventDefault(e);
