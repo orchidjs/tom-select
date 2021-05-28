@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.2
+* Tom Select v1.7.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -48,7 +48,13 @@
 
 	function setAttr(el, attrs) {
 	  for (const attr in attrs) {
-	    el.setAttribute(attr, attrs[attr]);
+	    let val = attrs[attr];
+
+	    if (val == null) {
+	      el.removeAttribute(attr);
+	    } else {
+	      el.setAttribute(attr, val);
+	    }
 	  }
 	}
 
@@ -106,7 +112,7 @@
 	  self.hook('after', 'setup', () => {
 	    // set tabIndex on wrapper
 	    setAttr(self.wrapper, {
-	      tabindex: self.input.disabled ? '-1' : self.tabIndex
+	      tabindex: self.input.disabled ? '-1' : '' + self.tabIndex
 	    }); // keyboard navigation
 
 	    addEvent(self.wrapper, 'keypress', evt => {
@@ -121,7 +127,7 @@
 
 	      switch (evt.keyCode) {
 	        case KEY_RETURN:
-	          self.onClick(evt);
+	          self.onClick();
 	          return;
 	      }
 	    });

@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.7.2)
+ * tom-select.css (v1.7.3)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -179,8 +179,6 @@
     cursor: default !important; }
   .ts-input.focus {
     box-shadow: none; }
-  .ts-input.dropdown-active {
-    border-radius: 4px 4px 0 0; }
   .ts-input > * {
     vertical-align: baseline;
     display: inline-block; }
@@ -383,8 +381,6 @@
 
 .ts-input {
   min-height: 34px; }
-  .ts-input.dropdown-active {
-    border-radius: 4px; }
   .ts-input.dropdown-active::before {
     display: none; }
   .ts-input.focus {

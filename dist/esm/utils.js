@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.2
+* Tom Select v1.7.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -19,6 +19,9 @@
  */
 function hash_key(value) {
   if (typeof value === 'undefined' || value === null) return null;
+  return get_hash(value);
+}
+function get_hash(value) {
   if (typeof value === 'boolean') return value ? '1' : '0';
   return value + '';
 }
@@ -46,7 +49,6 @@ function loadDebounce(fn, delay) {
 
     clearTimeout(timeout);
     timeout = setTimeout(function () {
-      timeout = null;
       self.loadedSearches[value] = true;
       fn.call(self, value, callback);
     }, delay);
@@ -91,8 +93,8 @@ function debounce_events(self, types, fn) {
 
 function getSelection(input) {
   return {
-    start: input.selectionStart,
-    length: input.selectionEnd - input.selectionStart
+    start: input.selectionStart || 0,
+    length: (input.selectionEnd || 0) - (input.selectionStart || 0)
   };
 }
 /**
@@ -165,5 +167,5 @@ function addSlashes(str) {
   return str.replace(/[\\"']/g, '\\$&');
 }
 
-export { addEvent, addSlashes, debounce_events, escape_html, getId, getSelection, hash_key, isKeyDown, loadDebounce, preventDefault };
+export { addEvent, addSlashes, debounce_events, escape_html, getId, getSelection, get_hash, hash_key, isKeyDown, loadDebounce, preventDefault };
 //# sourceMappingURL=utils.js.map

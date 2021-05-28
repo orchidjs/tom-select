@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.2
+* Tom Select v1.7.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -27,19 +27,19 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('drag_drop', function (options) {
+	TomSelect__default['default'].define('drag_drop', function () {
 	  var self = this;
 	  if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	  if (self.settings.mode !== 'multi') return;
 	  var orig_lock = self.lock;
 	  var orig_unlock = self.unlock;
 	  self.hook('instead', 'lock', function () {
-	    var sortable = self.control.dataset.sortable;
+	    var sortable = $(self.control).data('sortable');
 	    if (sortable) sortable.disable();
 	    return orig_lock.apply(self, arguments);
 	  });
 	  self.hook('instead', 'unlock', function () {
-	    var sortable = self.control.dataset.sortable;
+	    var sortable = $(self.control).data('sortable');
 	    if (sortable) sortable.enable();
 	    return orig_unlock.apply(self, arguments);
 	  });
@@ -60,7 +60,7 @@
 	        });
 	        var values = [];
 	        $control.children('[data-value]').each(function () {
-	          values.push($(this).attr('data-value'));
+	          if (this.dataset.value) values.push(this.dataset.value);
 	        });
 	        self.setValue(values);
 	      }

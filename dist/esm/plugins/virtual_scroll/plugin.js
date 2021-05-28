@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.2
+* Tom Select v1.7.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -72,7 +72,7 @@ function castAsArray(arg) {
  * governing permissions and limitations under the License.
  *
  */
-TomSelect.define('virtual_scroll', function (options) {
+TomSelect.define('virtual_scroll', function () {
   const self = this;
   const orig_canLoad = self.canLoad;
   const orig_clearActiveOption = self.clearActiveOption;
@@ -95,7 +95,7 @@ TomSelect.define('virtual_scroll', function (options) {
 
   function canLoadMore(query) {
     if (typeof self.settings.maxOptions === 'number' && dropdown_content.children.length >= self.settings.maxOptions) {
-      return;
+      return false;
     }
 
     if (query in pagination && pagination[query]) {
@@ -137,7 +137,7 @@ TomSelect.define('virtual_scroll', function (options) {
   self.hook('instead', 'canLoad', query => {
     // first time the query has been seen
     if (!(query in pagination)) {
-      return orig_canLoad.call(this, query);
+      return orig_canLoad.call(self, query);
     }
 
     return canLoadMore(query);
@@ -179,10 +179,10 @@ TomSelect.define('virtual_scroll', function (options) {
     dropdown_content = self.dropdown_content; // default templates
 
     self.settings.render = Object.assign({}, {
-      loading_more: function (data, escape) {
+      loading_more: function () {
         return `<div class="loading-more-results">Loading more results ... </div>`;
       },
-      no_more_results: function (data, escape) {
+      no_more_results: function () {
         return `<div class="no-more-results">No more results</div>`;
       }
     }, self.settings.render); // watch dropdown content scroll position

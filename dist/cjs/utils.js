@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.2
+* Tom Select v1.7.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -23,6 +23,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
  */
 function hash_key(value) {
   if (typeof value === 'undefined' || value === null) return null;
+  return get_hash(value);
+}
+function get_hash(value) {
   if (typeof value === 'boolean') return value ? '1' : '0';
   return value + '';
 }
@@ -50,7 +53,6 @@ function loadDebounce(fn, delay) {
 
     clearTimeout(timeout);
     timeout = setTimeout(function () {
-      timeout = null;
       self.loadedSearches[value] = true;
       fn.call(self, value, callback);
     }, delay);
@@ -95,8 +97,8 @@ function debounce_events(self, types, fn) {
 
 function getSelection(input) {
   return {
-    start: input.selectionStart,
-    length: input.selectionEnd - input.selectionStart
+    start: input.selectionStart || 0,
+    length: (input.selectionEnd || 0) - (input.selectionStart || 0)
   };
 }
 /**
@@ -175,6 +177,7 @@ exports.debounce_events = debounce_events;
 exports.escape_html = escape_html;
 exports.getId = getId;
 exports.getSelection = getSelection;
+exports.get_hash = get_hash;
 exports.hash_key = hash_key;
 exports.isKeyDown = isKeyDown;
 exports.loadDebounce = loadDebounce;

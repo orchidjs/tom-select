@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.2
+* Tom Select v1.7.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -26,7 +26,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('no_active_items', function (options) {
+	TomSelect__default['default'].define('no_active_items', function () {
 	  this.hook('instead', 'setActiveItem', () => {});
 	  this.hook('instead', 'selectAll', () => {});
 	});

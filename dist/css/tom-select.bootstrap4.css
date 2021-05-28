@@ -2,7 +2,7 @@
  * Tom Select bootstrap 4
  */
 /**
- * tom-select.css (v1.7.2)
+ * tom-select.css (v1.7.3)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -187,8 +187,6 @@
     cursor: default !important; }
   .ts-input.focus {
     box-shadow: none; }
-  .ts-input.dropdown-active {
-    border-radius: 0.25rem 0.25rem 0 0; }
   .ts-input > * {
     vertical-align: baseline;
     display: inline-block; }
@@ -399,8 +397,6 @@
   @media (prefers-reduced-motion: reduce) {
     .ts-input {
       transition: none; } }
-  .ts-input.dropdown-active {
-    border-radius: 0.25rem; }
   .ts-input.dropdown-active::before {
     display: none; }
   .ts-input.focus {
