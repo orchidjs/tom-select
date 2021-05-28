@@ -52,34 +52,32 @@ describe('plugin: virtual_scroll', function() {
 		await asyncClick(test.instance.control);
 		await asyncType('a',test.instance.control_input);
 		await waitFor(100); // wait for data to load
-		assert.equal( Object.keys(test.instance.options).length,20);
+		assert.equal( Object.keys(test.instance.options).length,20,'should load first set of data');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 1, 'should have loading-more-reuslts template');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.no-more-results').length, 0 ,'should not have no-more-results template');
 		assert.equal( load_calls, 1);
 
 
 		// load second set of data for "a"
-		test.instance.dropdown_content.scroll({top:1000}); // scroll to bottom
-		//test.instance.dropdown_content.scroll({top:0}); // scroll to top
-		//test.instance.dropdown_content.scroll({top:1000}); // scroll back to bottom
+		test.instance.scroll(1000,'auto'); // scroll to bottom
 		await waitFor(500); // wait for scroll + more data to load
-		assert.equal( Object.keys(test.instance.options).length, 40);
+		assert.equal( Object.keys(test.instance.options).length, 40,'should load second set of data');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 0, 'should not have loading-more-reuslts template');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.no-more-results').length, 1 ,'should have no-more-results template');
 		assert.equal( load_calls, 2);
 
 
 		// don't load any more data for "a"
-		test.instance.dropdown_content.scroll({top:1000}); // scroll to bottom
+		test.instance.scroll(2000,'auto'); // scroll to bottom
 		await waitFor(500); // wait for scroll + more data to load
-		assert.equal( Object.keys(test.instance.options).length, 40);
+		assert.equal( Object.keys(test.instance.options).length, 40,'should not have more data');
 		assert.equal( load_calls, 2);
 
 
 		// load first set of data for "b"
 		await asyncType('\bb',test.instance.control_input);
 		await waitFor(100); // wait for data to load
-		assert.equal( Object.keys(test.instance.options).length,20);
+		assert.equal( Object.keys(test.instance.options).length,20,'should load new set of data for "b"');
 		assert.equal( load_calls, 3);
 	});
 
