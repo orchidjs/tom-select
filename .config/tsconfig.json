@@ -3,11 +3,15 @@
 	"compilerOptions": {
 		"allowJs": true,
 	    "checkJs": true,
-	    "strict": false,
+	    "strict": true,
 		"target": "esnext",
 		"module": "esnext",
 		"noUnusedLocals": true,
-		"noImplicitAny":false,
+
+		"noUnusedParameters": false,
+		"noImplicitAny": false,
+		"strictPropertyInitialization": false,
+		"strictBindCallApply": false,
 
 		"declaration": true,
 		"declarationDir": "../dist/types",
