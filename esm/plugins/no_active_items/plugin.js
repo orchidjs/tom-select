@@ -18,7 +18,7 @@ import TomSelect from '../../tom-select.js';
  * governing permissions and limitations under the License.
  *
  */
-TomSelect.define('no_active_items', function (options) {
+TomSelect.define('no_active_items', function () {
   this.hook('instead', 'setActiveItem', () => {});
   this.hook('instead', 'selectAll', () => {});
 });

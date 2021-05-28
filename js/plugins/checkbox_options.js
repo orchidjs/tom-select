@@ -29,6 +29,9 @@
 	 */
 	function hash_key(value) {
 	  if (typeof value === 'undefined' || value === null) return null;
+	  return get_hash(value);
+	}
+	function get_hash(value) {
 	  if (typeof value === 'boolean') return value ? '1' : '0';
 	  return value + '';
 	}
@@ -86,7 +89,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('checkbox_options', function (options) {
+	TomSelect__default['default'].define('checkbox_options', function () {
 	  var self = this;
 	  var orig_onOptionSelect = self.onOptionSelect;
 	  self.settings.hideSelected = false; // update the checkbox for an option
@@ -114,9 +117,9 @@
 	        preventDefault(evt);
 	      });
 	      checkbox.type = 'checkbox';
-	      var value = hash_key(data[self.settings.valueField]);
+	      const hashed = hash_key(data[self.settings.valueField]);
 
-	      if (self.items.indexOf(value) > -1) {
+	      if (hashed && self.items.indexOf(hashed) > -1) {
 	        checkbox.checked = true;
 	      }
 

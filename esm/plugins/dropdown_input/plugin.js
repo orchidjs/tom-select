@@ -40,7 +40,13 @@ function getDom(query) {
 
 function setAttr(el, attrs) {
   for (const attr in attrs) {
-    el.setAttribute(attr, attrs[attr]);
+    let val = attrs[attr];
+
+    if (val == null) {
+      el.removeAttribute(attr);
+    } else {
+      el.setAttribute(attr, val);
+    }
   }
 }
 
@@ -98,7 +104,7 @@ TomSelect.define('dropdown_input', function () {
   self.hook('after', 'setup', () => {
     // set tabIndex on wrapper
     setAttr(self.wrapper, {
-      tabindex: self.input.disabled ? '-1' : self.tabIndex
+      tabindex: self.input.disabled ? '-1' : '' + self.tabIndex
     }); // keyboard navigation
 
     addEvent(self.wrapper, 'keypress', evt => {
@@ -113,7 +119,7 @@ TomSelect.define('dropdown_input', function () {
 
       switch (evt.keyCode) {
         case KEY_RETURN:
-          self.onClick(evt);
+          self.onClick();
           return;
       }
     });

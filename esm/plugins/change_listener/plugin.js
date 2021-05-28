@@ -105,6 +105,9 @@ var defaults = {
  */
 function hash_key(value) {
   if (typeof value === 'undefined' || value === null) return null;
+  return get_hash(value);
+}
+function get_hash(value) {
   if (typeof value === 'boolean') return value ? '1' : '0';
   return value + '';
 }
@@ -169,6 +172,7 @@ function getSettings(input, settings_user) {
 
     var addOption = (option, group) => {
       var value = hash_key(option.value);
+      if (value == null) return;
       if (!value && !settings.allowEmptyOption) return; // if the option already exists, it's probably been
       // duplicated in another optgroup. in this case, push
       // the current group to the "optgroup" property on the
@@ -285,7 +289,7 @@ function getSettings(input, settings_user) {
  * governing permissions and limitations under the License.
  *
  */
-TomSelect.define('change_listener', function (options) {
+TomSelect.define('change_listener', function () {
   var self = this;
   var changed = false;
   addEvent(self.input, 'change', () => {
