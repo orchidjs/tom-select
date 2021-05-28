@@ -2,8 +2,8 @@
 	"include": ["../src/**/*"],
 	"compilerOptions": {
 		"allowJs": true,
-	    "checkJs": true,
-	    "strict": true,
+		"checkJs": true,
+		"strict": true,
 		"target": "esnext",
 		"module": "esnext",
 		"noUnusedLocals": true,
