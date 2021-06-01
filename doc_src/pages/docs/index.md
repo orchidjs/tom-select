@@ -356,6 +356,15 @@ searchField: [{field:'text',weight:2},{field:'text2',weight:0.5}]
 
 ## Callbacks
 
+
+```js
+new TomSelect('#select',{
+	onInitialize:function(){
+		// the onInitialize callback is invoked once the control is completely initialized.
+	}
+});
+```
+
 <table class="table table-striped">
 <thead>
 	<tr>
@@ -364,7 +373,7 @@ searchField: [{field:'text',weight:2},{field:'text2',weight:0.5}]
 	</tr>
 </thead>
 	<tr>
-		<td><code>load(query)</code></td>
+		<td><code>load(query, callback)</code></td>
 		<td>Invoked when new options should be loaded from the server. Called with the current query string and a callback function to call with the results when they are loaded (or nothing when an error arises).
 		<a href="/examples/remote">Remote data examples</a></td>
 	</tr>

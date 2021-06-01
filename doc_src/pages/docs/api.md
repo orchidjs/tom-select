@@ -169,8 +169,8 @@ control.addItem('test');
 		<td>Destroys the control and unbinds event listeners so that it can be garbage collected.</td>
 	</tr>
 	<tr>
-		<td><code>load(fn)</code></td>
-		<td>Loads options by invoking the provided function. The function should accept one argument (callback) and invoke the callback with the results once they are available.</td>
+		<td><code>load(query)</code></td>
+		<td>Initiates loading options from your remote data provider for the given query string. See the <a href="/docs/#callbacks">load() callback</td>
 	</tr>
 	<tr>
 		<td><code>focus()</code></td>
