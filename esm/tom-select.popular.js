@@ -1669,7 +1669,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     addEvent(control_input, 'keyup', e => self.onKeyUp(e));
     addEvent(control_input, 'keypress', e => self.onKeyPress(e));
     addEvent(control_input, 'resize', () => self.positionDropdown(), passive_event);
-    addEvent(control_input, 'blur', self.onBlur);
+    addEvent(control_input, 'blur', () => self.onBlur());
     addEvent(control_input, 'focus', e => self.onFocus(e));
     addEvent(control_input, 'paste', e => self.onPaste(e));
 
