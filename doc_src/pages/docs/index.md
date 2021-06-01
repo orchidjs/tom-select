@@ -186,7 +186,7 @@ create: function(input,callback){
 	</tr>
 	<tr>
 		<td><code>hidePlaceholder</code></td>
-		<td>If true, the placeholder will be hidden when the control has one or more items (selected options).
+		<td>If true, the placeholder will be hidden when the control has one or more items (selected options) and is not focused.
 		This defaults to <code>false</code> when in a multi-selection control, and to <code>true</code> otherwise.</td>
 		<td><code>boolean</code></td>
 		<td><code>null</code></td>
