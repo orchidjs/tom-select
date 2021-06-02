@@ -2235,6 +2235,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     self.lastQuery = null;
     self.clearActiveOption(); // when new results load, focus should be on first option
 
+    if (!self.settings.cacheSearch) {
+      self.clearOptions();
+    }
+
     self.setupOptions(options, optgroups);
     self.refreshOptions(self.isFocused && !self.isInputHidden);
 
