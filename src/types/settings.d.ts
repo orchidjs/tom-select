@@ -29,6 +29,7 @@ export type TomSettings = {
 	preload					: boolean|string,
 	allowEmptyOption		: boolean,
 	closeAfterSelect		: boolean,
+	cacheSearch             : boolean,
 
 	loadThrottle			: number,
 	loadingClass			: string,
