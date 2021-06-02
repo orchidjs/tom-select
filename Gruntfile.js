@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 
 
 	grunt.registerTask('build', [
-		'clean:pre',
+		'clean:library',
 
 		'shell:buildjs',
 
@@ -160,8 +160,7 @@ module.exports = function(grunt) {
 
 		// delete old build files
 		clean: {
-			pre: ['build/*'],
-			js: ['build/*.js'],
+			library: ['build/scss/*','build/js/*','build/esm/*','build/css/*','build/cjs/*'],
 			builddocs: ['build/docs/*']
 		},
 
@@ -302,8 +301,8 @@ module.exports = function(grunt) {
 			},
 		},
 
-		// watch for changes to files in /doc_src or /src
 		watch: {
+			// changes to files in /doc_src: rebuild all of documentation
 			docs:{
 				files:[
 					'doc_src/**',
@@ -313,14 +312,14 @@ module.exports = function(grunt) {
 					'check_doc_links',
 				]
 			},
+			// changes to files in /src: rebuild library and copy to docs
 			src:{
 				files: [
 					'src/**',
 				],
 				tasks: [
-					'default',
-					'builddocs',
-					'check_doc_links',
+					'build',
+					'shell:builddocs',
 				]
 			}
 		}
