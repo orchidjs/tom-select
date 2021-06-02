@@ -25,9 +25,9 @@ TomSelect.define('checkbox_options',function(this:TomSelect) {
 
 
 	// update the checkbox for an option
-	var UpdateCheckbox = function(option){
+	var UpdateCheckbox = function(option:HTMLElement){
 		setTimeout(()=>{
-			var checkbox = option.querySelector('input');
+			var checkbox = option.querySelector('input') as HTMLInputElement;
 			if( option.classList.contains('selected') ){
 				checkbox.checked = true;
 			}else{
@@ -62,7 +62,7 @@ TomSelect.define('checkbox_options',function(this:TomSelect) {
 	});
 
 	// uncheck when item removed
-	self.on('item_remove',(value) => {
+	self.on('item_remove',(value:string) => {
 		var option = self.getOption(value);
 
 		if( option ){ // if dropdown hasn't been opened yet, the option won't exist
