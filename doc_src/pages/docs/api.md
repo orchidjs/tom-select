@@ -43,7 +43,7 @@ control.addItem('test');
 		<td>Retrieves the dom element for the option identified by the given value.</td>
 	</tr>
 	<tr>
-		<td><code>getAdjacent(dom_element, direction)</code></td>
+		<td><code>getAdjacent(HTMLElement, direction)</code></td>
 		<td>Retrieves the dom element for the previous or next option, relative to the currently highlighted option. The <code>direction</code> argument should be 1 for "next" or -1 for "previous".</td>
 	</tr>
 	<tr>
@@ -73,7 +73,7 @@ control.addItem('test');
 		<td>"Selects" an item. Adds it to the list at the current caret position. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
-		<td><code>removeItem(value, silent)</code></td>
+		<td><code>removeItem(value|HTMLElement, silent)</code></td>
 		<td>Removes the selected item matching the provided value. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>

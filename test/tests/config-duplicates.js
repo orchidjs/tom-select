@@ -16,13 +16,18 @@ describe('duplicates', function() {
 
 		assert.equal(test.instance.items.length,3,'should have all three');
 
-		// remove
-		test.instance.removeItem('a');
-		assert.equal(test.instance.items.length,2,'should remove first');
-		test.instance.removeItem('a');
-		assert.equal(test.instance.items.length,1,'should remove second');
-		test.instance.removeItem('a');
-		assert.equal(0,test.instance.items.length,0,'should remove last');
+
+
+		// remove items in order
+		const items = test.instance.controlChildren();
+		await asyncClick(test.instance.control_input);
+
+		while( items.length ){
+			items.pop();
+			await asyncType('\b',test.instance.control_input);
+			const items_after = test.instance.controlChildren();
+			assert.deepEqual( items, items_after);
+		}
 	});
 
 

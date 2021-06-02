@@ -4,7 +4,7 @@ import MicroPlugin from './contrib/microplugin.js';
 import Sifter from '@orchidjs/sifter/dist/esm/sifter.js';
 import { escape_regex } from '@orchidjs/sifter/dist/esm/utils.js';
 import { TomSettings } from './types/settings';
-import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './getSettings.js';
@@ -77,7 +77,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public loadedSearches			: { [key: string]: boolean } = {};
 
 	public activeOption				: null|HTMLElement = null;
-	public activeItems				: HTMLElement[] = [];
+	public activeItems				: TomItem[] = [];
 
 	public optgroups				: TomOptions = {};
 	public options					: TomOptions = {};
@@ -296,7 +296,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(control,'click', (evt) => {
 
 			var target_match = parentMatch( evt.target as HTMLElement, '.'+self.settings.itemClass, control);
-			if( target_match && self.onItemSelect(evt as MouseEvent, target_match) ){
+			if( target_match && self.onItemSelect(evt as MouseEvent, target_match as TomItem) ){
 				preventDefault(evt,true);
 				return;
 			}
@@ -822,7 +822,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * that has been selected.
 	 *
 	 */
-	onItemSelect( evt?:MouseEvent, item?:HTMLElement ):boolean{
+	onItemSelect( evt?:MouseEvent, item?:TomItem ):boolean{
 		var self = this;
 
 		if( !self.isLocked && self.settings.mode === 'multi' ){
@@ -953,7 +953,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Sets the selected item.
 	 *
 	 */
-	setActiveItem( item?:HTMLElement, e?:MouseEvent|KeyboardEvent ){
+	setActiveItem( item?:TomItem, e?:MouseEvent|KeyboardEvent ){
 		var self = this;
 		var eventName;
 		var i, begin, end, swap;
@@ -984,7 +984,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				end   = swap;
 			}
 			for (i = begin; i <= end; i++) {
-				item = self.control.children[i] as HTMLElement;
+				item = self.control.children[i] as TomItem;
 				if (self.activeItems.indexOf(item) === -1) {
 					self.setActiveItemClass(item);
 				}
@@ -1012,7 +1012,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Set the active and last-active classes
 	 *
 	 */
-	setActiveItemClass( item:HTMLElement ){
+	setActiveItemClass( item:TomItem ){
 
 		var last_active = this.control.querySelector('.last-active');
 		if( last_active ) removeClasses(last_active as HTMLElement,'last-active');
@@ -1027,7 +1027,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Remove active item
 	 *
 	 */
-	removeActiveItem( item:HTMLElement ){
+	removeActiveItem( item:TomItem ){
 		var idx = this.activeItems.indexOf(item);
 		this.activeItems.splice(idx, 1);
 		removeClasses(item,'active');
@@ -1736,10 +1736,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * matching the given value.
 	 *
 	 */
-	getItem(value:string):null|HTMLElement {
-		var hashed = hash_key(value);
-		return hashed
-			? this.control.querySelector(`[data-value="${addSlashes(hashed)}"]`)
+	getItem(item:string|TomItem|null):null|TomItem {
+
+		if( typeof item == 'object' ){
+			return item;
+		}
+
+		var value = hash_key(item);
+		return value
+			? this.control.querySelector(`[data-value="${addSlashes(value)}"]`)
 			: null;
 	}
 
@@ -1852,43 +1857,38 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * the provided value.
 	 *
 	 */
-	removeItem( value?:string, silent?:boolean ){
-		var i, idx;
-
+	removeItem( item:string|TomItem|null=null, silent?:boolean ){
 		const self		= this;
-		const hashed	= hash_key(value);
-
-		if( !hashed ) return;
-
-		const item		= self.getItem(hashed);
+		item			= self.getItem(item);
 
 		if( !item ) return;
 
-		i				= self.items.indexOf(hashed);
+		var i,idx;
+		const value	= item.dataset.value;
+		i = nodeIndex(item);
 
-		if (i !== -1) {
-			item.remove();
-			if( item.classList.contains('active') ){
-				idx = self.activeItems.indexOf(item);
-				self.activeItems.splice(idx, 1);
-				removeClasses(item,'active');
-			}
-
-			self.items.splice(i, 1);
-			self.lastQuery = null;
-			if (!self.settings.persist && self.userOptions.hasOwnProperty(hashed)) {
-				self.removeOption(hashed, silent);
-			}
-
-			if (i < self.caretPos) {
-				self.setCaret(self.caretPos - 1);
-			}
-
-			self.updateOriginalInput({silent: silent});
-			self.refreshState();
-			self.positionDropdown();
-			self.trigger('item_remove', hashed, item);
+		item.remove();
+		if( item.classList.contains('active') ){
+			idx = self.activeItems.indexOf(item);
+			self.activeItems.splice(idx, 1);
+			removeClasses(item,'active');
 		}
+
+		self.items.splice(i, 1);
+		self.lastQuery = null;
+		if (!self.settings.persist && self.userOptions.hasOwnProperty(value)) {
+			self.removeOption(value, silent);
+		}
+
+		if (i < self.caretPos) {
+			self.setCaret(self.caretPos - 1);
+		}
+
+		self.updateOriginalInput({silent: silent});
+		self.refreshState();
+		self.positionDropdown();
+		self.trigger('item_remove', value, item);
+
 	}
 
 	/**
@@ -2222,7 +2222,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	deleteSelection(e:KeyboardEvent):boolean {
-		var direction, selection, values, caret, tail;
+		var direction, selection, caret, tail;
 		var self = this;
 
 		direction = (e && e.keyCode === constants.KEY_BACKSPACE) ? -1 : 1;
@@ -2230,7 +2230,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// determine items that will be removed
-		values = [];
+		const rm_items:TomItem[]	= [];
 
 		if (self.activeItems.length) {
 
@@ -2240,16 +2240,20 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if (direction > 0) { caret++; }
 
 			for( const item of self.activeItems ){
-				values.push( item.dataset.value );
+				rm_items.push( item );
 			}
 
 		} else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
+			const items = self.controlChildren();
 			if (direction < 0 && selection.start === 0 && selection.length === 0) {
-				values.push(self.items[self.caretPos - 1]);
+				rm_items.push( items[self.caretPos - 1]);
+
 			} else if (direction > 0 && selection.start === self.inputValue().length) {
-				values.push(self.items[self.caretPos]);
+				rm_items.push(items[self.caretPos]);
 			}
 		}
+
+		const values = rm_items.map(item => item.dataset.value);
 
 		// allow the callback to abort
 		if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete.call(self,values,e) === false)) {
@@ -2262,8 +2266,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (typeof caret !== 'undefined') {
 			self.setCaret(caret);
 		}
-		while (values.length) {
-			self.removeItem(values.pop());
+		
+		while( rm_items.length ){
+			self.removeItem(rm_items.pop());
 		}
 
 		self.showInput();
@@ -2386,8 +2391,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Return list of item dom elements
 	 *
 	 */
-	controlChildren():HTMLElement[]{
-		return Array.from( this.control.getElementsByClassName(this.settings.itemClass) ) as HTMLElement[];
+	controlChildren():TomItem[]{
+		return Array.from( this.control.getElementsByClassName(this.settings.itemClass) ) as TomItem[];
 	}
 
 	/**
