@@ -29,6 +29,7 @@ var defaults = {
   preload: null,
   allowEmptyOption: false,
   closeAfterSelect: false,
+  cacheSearch: true,
   loadThrottle: 300,
   loadingClass: 'loading',
   dataAttr: null,

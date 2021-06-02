@@ -53,7 +53,10 @@ function loadDebounce(fn, delay) {
 
     clearTimeout(timeout);
     timeout = setTimeout(function () {
-      self.loadedSearches[value] = true;
+      if (self.settings.cacheSearch) {
+        self.loadedSearches[value] = true;
+      }
+
       fn.call(self, value, callback);
     }, delay);
   };
