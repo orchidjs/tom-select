@@ -30,11 +30,15 @@ TomSelect.define('change_listener',function(this:TomSelect){
 			return;
 		}
 
+		var isFocused	= self.isFocused;
+
 		changed			= true;
-		var settings	= getSettings( self.input, {} as TomSettings );
+		var settings	= getSettings( self.input, {delimiter:self.settings.delimiter} as TomSettings );
 
 		self.setupOptions(settings.options,settings.optgroups);
 		self.setValue(settings.items);
+
+		if( isFocused ) self.focus();
 	});
 
 });
