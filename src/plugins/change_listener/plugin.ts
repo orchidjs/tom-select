@@ -19,26 +19,20 @@ import { TomSettings } from '../../types/settings';
 import { addEvent } from '../../utils';
 
 TomSelect.define('change_listener',function(this:TomSelect){
-	var self		= this;
-	var changed		= false;
+	const self		= this;
+	const joined	= (arr:string[]):string => arr.join(self.settings.delimiter);
 
 	addEvent(self.input,'change',()=>{
 
+		var settings	= getSettings( self.input, {delimiter:self.settings.delimiter} as TomSettings );
+
 		// prevent infinite loops
-		if( changed ){
-			changed = false;
+		if( joined(self.items) == joined(settings.items) ){
 			return;
 		}
 
-		var isFocused	= self.isFocused;
-
-		changed			= true;
-		var settings	= getSettings( self.input, {delimiter:self.settings.delimiter} as TomSettings );
-
 		self.setupOptions(settings.options,settings.optgroups);
 		self.setValue(settings.items);
-
-		if( isFocused ) self.focus();
 	});
 
 });
