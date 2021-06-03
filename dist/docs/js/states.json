@@ -1,0 +1,154 @@
+{
+  "states": [
+    {
+      "text": "Alabama"
+    },
+    {
+      "text": "Alaska"
+    },
+    {
+      "text": "Arizona"
+    },
+    {
+      "text": "Arkansas"
+    },
+    {
+      "text": "California"
+    },
+    {
+      "text": "Colorado"
+    },
+    {
+      "text": "Connecticut"
+    },
+    {
+      "text": "Delaware"
+    },
+    {
+      "text": "Florida"
+    },
+    {
+      "text": "Georgia"
+    },
+    {
+      "text": "Hawaii"
+    },
+    {
+      "text": "Idaho"
+    },
+    {
+      "text": "Illinois"
+    },
+    {
+      "text": "Indiana"
+    },
+    {
+      "text": "Iowa"
+    },
+    {
+      "text": "Kansas"
+    },
+    {
+      "text": "Kentucky"
+    },
+    {
+      "text": "Louisiana"
+    },
+    {
+      "text": "Maine"
+    },
+    {
+      "text": "Maryland"
+    },
+    {
+      "text": "Massachusetts"
+    },
+    {
+      "text": "Michigan"
+    },
+    {
+      "text": "Minnesota"
+    },
+    {
+      "text": "Mississippi"
+    },
+    {
+      "text": "Missouri"
+    },
+    {
+      "text": "Montana"
+    },
+    {
+      "text": "Nebraska"
+    },
+    {
+      "text": "Nevada"
+    },
+    {
+      "text": "New Hampshire"
+    },
+    {
+      "text": "New Jersey"
+    },
+    {
+      "text": "New Mexico"
+    },
+    {
+      "text": "New York"
+    },
+    {
+      "text": "North Carolina"
+    },
+    {
+      "text": "North Dakota"
+    },
+    {
+      "text": "Ohio"
+    },
+    {
+      "text": "Oklahoma"
+    },
+    {
+      "text": "Oregon"
+    },
+    {
+      "text": "Pennsylvania"
+    },
+    {
+      "text": "Rhode Island"
+    },
+    {
+      "text": "South Carolina"
+    },
+    {
+      "text": "South Dakota"
+    },
+    {
+      "text": "Tennessee"
+    },
+    {
+      "text": "Texas"
+    },
+    {
+      "text": "Utah"
+    },
+    {
+      "text": "Vermont"
+    },
+    {
+      "text": "Virginia"
+    },
+    {
+      "text": "Washington"
+    },
+    {
+      "text": "West Virginia"
+    },
+    {
+      "text": "Wisconsin"
+    },
+    {
+      "text": "Wyoming"
+    }
+  ]
+}

@@ -1,0 +1,484 @@
+<!DOCTYPE html><html class="no-js" lang="en"><head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> Clear Button -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
+		
+
+		
+		<script src="/js/tom-select.complete.min.js"></script>
+		
+
+		<script src="/js/index.bundle.js"></script>
+		
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com cdn.jsdelivr.net;script-src 'self' 'unsafe-inline' 'unsafe-eval' mc.yandex.ru cdn.jsdelivr.net 'sha256-a9xD7vCV54Rs9mmDBTnph0syljVESQn9zYIbXUfGsZ4=' 'sha256-PDFIuM7EKlQR4h9ZuG6a0nupa8PRoXMjW4UJgUukYCg=' 'sha256-f0siOSaHuBl9HM/PAuPWEGfaasKD5P5LQPQi3fUeQyI=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru https://*.algolia.net https://*.algolianet.com"></head>
+    <body>
+
+		
+		<a id="toggle-offcanvas" aria-label="Toggle Off-Canvas Menu">
+			<i class="ib feather-menu"></i>
+		</a>
+
+
+
+
+		
+		<div id="offcanvas" class="d-flex flex-column px-0">
+
+			<div id="docsearch-div" class="px-4">
+				<input type="text" class="form-control" placeholder="Search" id="docsearch-input">
+			</div>
+
+			<div id="offcanvas-inner">
+				
+
+	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
+
+	
+
+
+	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
+	
+
+	<a href="/plugins/" class="h5 px-4 py-3 my-0 d-block">Plugins</a>
+	
+	<nav class="nav flex-column">
+		
+			<a class="nav-link" href="/plugins/change-listener/">Change Listener</a>
+		
+			<a class="nav-link" href="/plugins/checkbox-options/">Checkbox Options</a>
+		
+			<span class="nav-link active">Clear Button</span>
+		
+			<a class="nav-link" href="/plugins/drag-drop/">Drag 'n Drop</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-input/">Dropdown Input</a>
+		
+			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
+		
+			<a class="nav-link" href="/plugins/no-active-items/">No Active Items</a>
+		
+			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
+		
+			<a class="nav-link" href="/plugins/optgroup-columns/">Option Group Columns</a>
+		
+			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
+		
+			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+			<a class="nav-link" href="/plugins/virtual_scroll/">Virtual Scroll</a>
+		
+	</nav>
+	
+
+
+	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
+	
+
+	<hr class="m-4">
+
+	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
+	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
+
+
+	<div class="mt-auto"></div>
+
+	<hr class="mx-4 mb-2 mt-4">
+
+	<div class="px-4 py-3 small">
+		<a href="https://icon-blender.com/">
+		Create custom SVG icon sets from over 80,000 free and open source icons at
+		Icon-Blender.com</a>
+	</div>
+
+	<hr class="mx-4 my-2">
+
+	<div class="p-4 badges small">
+		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/plugins/clear-button.njk">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
+	</div>
+
+			</div>
+		</div>
+
+		
+		<div class="px-3 main-col">
+			<div class="container pt-4 mt-3" id="main-container">
+				
+				<h1 class="display-4 mt-0">Clear Button</h1>
+				
+
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	<div class="demo py-5 ">
+
+		
+<label class="h2 mb-3">
+	Select Multiple
+</label>
+
+	<div>
+		<div>
+			<div class="demo-html">
+				
+<input type="text" id="clear-button" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
+
+			</div>
+
+			
+			<textarea hidden="">&lt;input type="text" id="clear-button" value="awesome,neat" autocomplete="off" placeholder="How cool is this?" /&gt;
+</textarea>
+			
+
+	
+		
+		<script csp-hash="sha256-a9xD7vCV54Rs9mmDBTnph0syljVESQn9zYIbXUfGsZ4=">
+new TomSelect('#clear-button',{
+	plugins: {
+		'clear_button':{
+			'title':'Remove all selected options',
+		}
+	},
+	persist: false,
+	create: true,
+});
+</script>
+	
+
+
+			
+
+	
+
+
+
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist" id="demoTab-1">
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-bs-toggle="tab" data-bs-target="#javascript-tab-1" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link " data-bs-toggle="tab" data-bs-target="#html-tab-1" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+
+				
+				<li class="nav-item dropdown ms-auto">
+				
+
+		<a class="nav-link dropdown-toggle text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
+			</form>
+		</li>
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value="">
+			</form>
+		</li>
+		</ul>
+	
+
+
+				</li>
+				
+
+			</ul>
+
+			<div class="tab-content" id="demoTabContent-1">
+				
+				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#clear-button'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">{</span><br>		<span class="token string">'clear_button'</span><span class="token operator">:</span><span class="token punctuation">{</span><br>			<span class="token string">'title'</span><span class="token operator">:</span><span class="token string">'Remove all selected options'</span><span class="token punctuation">,</span><br>		<span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				
+
+				<div class="tab-pane fade " id="html-tab-1" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>clear-button<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>awesome,neat<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>How cool is this?<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span></code></pre>
+				</div>
+
+				
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	<div class="demo py-5 ">
+
+		
+<label class="h2 mb-3">
+	Select Single
+</label>
+
+	<div>
+		<div>
+			<div class="demo-html">
+				
+<select type="text" id="clear-button-single" autocomplete="off">
+	<option value="">How cool is this?</option>
+	<option selected="">awesome</option>
+	<option>neat</option>
+</select>
+
+			</div>
+
+			
+			<textarea hidden="">&lt;select type="text" id="clear-button-single" autocomplete="off"&gt;
+	&lt;option value=""&gt;How cool is this?&lt;/option&gt;
+	&lt;option selected&gt;awesome&lt;/option&gt;
+	&lt;option&gt;neat&lt;/option&gt;
+&lt;/select&gt;
+</textarea>
+			
+
+	
+		
+		<script csp-hash="sha256-PDFIuM7EKlQR4h9ZuG6a0nupa8PRoXMjW4UJgUukYCg=">
+new TomSelect('#clear-button-single',{
+	maxItems:1,
+	plugins: ['clear_button'],
+	persist: false,
+	create: true,
+});
+</script>
+	
+
+
+			
+
+	
+
+
+
+		</div>
+		<div class="mt-4">
+
+			<ul class="nav nav-tabs" role="tablist" id="demoTab-2">
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" data-bs-toggle="tab" data-bs-target="#javascript-tab-2" role="tab" aria-controls="home" aria-selected="true">JavaScript</a>
+				</li>
+				
+				<li class="nav-item" role="presentation">
+					<a class="nav-link " data-bs-toggle="tab" data-bs-target="#html-tab-2" role="tab" aria-controls="profile" aria-selected="false">HTML</a>
+				</li>
+				
+
+				
+				<li class="nav-item dropdown ms-auto">
+				
+
+		<a class="nav-link dropdown-toggle text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Edit</a>
+		<ul class="dropdown-menu dropdown-menu-end">
+		<li>
+			<a class="dropdown-item opensandbox">JSFiddle</a>
+			<form action="https://jsfiddle.net/api/post/library/pure/" method="POST" target="_blank">
+				<input class="jsfiddle-html" type="hidden" name="html" value="">
+				<input class="jsfiddle-js" type="hidden" name="js" value="">
+				<input class="jsfiddle-css" type="hidden" name="css" value="">
+				<input class="jsfiddle-resources" type="hidden" name="resources" value="">
+			</form>
+		</li>
+      	<li>
+			<a class="opensandbox dropdown-item">CodePen</a>
+			<form action="https://codepen.io/pen/define" method="POST" target="_blank">
+				<input class="codepen" type="hidden" name="data" value="">
+			</form>
+		</li>
+		</ul>
+	
+
+
+				</li>
+				
+
+			</ul>
+
+			<div class="tab-content" id="demoTabContent-2">
+				
+				<div class="tab-pane fade show active" id="javascript-tab-2" role="tabpanel" aria-labelledby="home-tab">
+					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#clear-button-single'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	maxItems<span class="token operator">:</span><span class="token number">1</span><span class="token punctuation">,</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'clear_button'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br>	persist<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span><br>	create<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+				</div>
+				
+
+				<div class="tab-pane fade " id="html-tab-2" role="tabpanel" aria-labelledby="profile-tab">
+					<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>clear-button-single<span class="token punctuation">"</span></span> <span class="token attr-name">autocomplete</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>off<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>How cool is this?<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">selected</span><span class="token punctuation">&gt;</span></span>awesome<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">&gt;</span></span>neat<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span><br><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span></code></pre>
+				</div>
+
+				
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+<h2>Plugin Configuration</h2>
+
+
+	<theac>
+		</theac><table class="table table-striped">
+	<tbody><tr>
+			<th>Setting</th>
+			<th>Description</th>
+		</tr>
+	
+	
+		
+
+	<tr>
+	<td><code>html</code></td>
+	<td>
+		<div><p>A callback that returns an html string used to create the button</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>callback</code></span>
+			<span>Default:</span>
+
+			
+				<pre class="language-js"><code class="language-js"><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div class="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>className<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">" title="</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>data<span class="token punctuation">.</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">"&gt;&amp;times;&lt;/div&gt;</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+			
+		</div>
+	</td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td><code>title</code></td>
+	<td>
+		<div><p>The value of the title attribute on the close button</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
+
+			
+				<code>Clear All</code>
+			
+		</div>
+	</td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td><code>className</code></td>
+	<td>
+		<div><p>The CSS class name of the close button</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
+
+			
+				<code>clear-button</code>
+			
+		</div>
+	</td>
+	</tr>
+
+
+	
+	</tbody></table>
+
+
+				
+	<h2>Available Plugins</h2>
+	
+	<nav class="nav flex-column">
+		
+			<a class="nav-link" href="/plugins/change-listener/">Change Listener</a>
+		
+			<a class="nav-link" href="/plugins/checkbox-options/">Checkbox Options</a>
+		
+			<span class="nav-link active">Clear Button</span>
+		
+			<a class="nav-link" href="/plugins/drag-drop/">Drag 'n Drop</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-header/">Dropdown Header</a>
+		
+			<a class="nav-link" href="/plugins/dropdown-input/">Dropdown Input</a>
+		
+			<a class="nav-link" href="/plugins/input-autogrow/">Input Autogrow</a>
+		
+			<a class="nav-link" href="/plugins/no-active-items/">No Active Items</a>
+		
+			<a class="nav-link" href="/plugins/no-backspace-delete/">No Backspace Delete</a>
+		
+			<a class="nav-link" href="/plugins/optgroup-columns/">Option Group Columns</a>
+		
+			<a class="nav-link" href="/plugins/remove-button/">Remove Button</a>
+		
+			<a class="nav-link" href="/plugins/restore-on-backspace/">Restore on Backspace</a>
+		
+			<a class="nav-link" href="/plugins/virtual_scroll/">Virtual Scroll</a>
+		
+	</nav>
+	
+
+			</div>
+		</div>
+
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+		<script type="text/javascript" csp-hash="sha256-f0siOSaHuBl9HM/PAuPWEGfaasKD5P5LQPQi3fUeQyI="> docsearch({
+			apiKey: '662e3a3a9d206ebad6d19f341b85acbd',
+			indexName: 'tom-select',
+			inputSelector: '#docsearch-input',
+			debug: false // Set debug to true if you want to inspect the dropdown
+		});
+		</script>
+
+
+		
+	
+
+</body></html>

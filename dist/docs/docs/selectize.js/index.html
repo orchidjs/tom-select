@@ -1,0 +1,165 @@
+<!DOCTYPE html><html class="no-js" lang="en"><head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> selectize.js -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
+		
+
+		
+		<script src="/js/tom-select.complete.min.js"></script>
+		
+
+		<script src="/js/index.bundle.js"></script>
+		
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com cdn.jsdelivr.net;script-src 'self' 'unsafe-inline' 'unsafe-eval' mc.yandex.ru cdn.jsdelivr.net 'sha256-f0siOSaHuBl9HM/PAuPWEGfaasKD5P5LQPQi3fUeQyI=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru https://*.algolia.net https://*.algolianet.com"></head>
+    <body>
+
+		
+		<a id="toggle-offcanvas" aria-label="Toggle Off-Canvas Menu">
+			<i class="ib feather-menu"></i>
+		</a>
+
+
+
+
+		
+		<div id="offcanvas" class="d-flex flex-column px-0">
+
+			<div id="docsearch-div" class="px-4">
+				<input type="text" class="form-control" placeholder="Search" id="docsearch-input">
+			</div>
+
+			<div id="offcanvas-inner">
+				
+
+	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
+
+	
+
+
+	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
+	
+
+	<a href="/plugins/" class="h5 px-4 py-3 my-0 d-block">Plugins</a>
+	
+
+
+	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
+	
+	<nav class="nav flex-column">
+		<a class="nav-link" href="/docs/">Usage</a>
+		<a class="nav-link" href="/docs/api/">API</a>
+		<a class="nav-link" href="/docs/plugins/">Plugins</a>
+		<a class="nav-link" href="/docs/events/">Events</a>
+		<a class="nav-link" href="/docs/contribute/">Contribute</a>
+		<span class="nav-link active">selectize.js</span>
+	</nav>
+	
+
+	<hr class="m-4">
+
+	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
+	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
+
+
+	<div class="mt-auto"></div>
+
+	<hr class="mx-4 mb-2 mt-4">
+
+	<div class="px-4 py-3 small">
+		<a href="https://icon-blender.com/">
+		Create custom SVG icon sets from over 80,000 free and open source icons at
+		Icon-Blender.com</a>
+	</div>
+
+	<hr class="mx-4 my-2">
+
+	<div class="p-4 badges small">
+		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/docs/selectize.js.md">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
+	</div>
+
+			</div>
+		</div>
+
+		
+		<div class="px-3 main-col">
+			<div class="container pt-4 mt-3" id="main-container">
+				
+				<h1 class="display-4 mt-0">selectize.js</h1>
+				
+
+				<div class="lead">
+Tom Select was forked from <a href="https://github.com/selectize/selectize.js">selectize.js</a> with four main objectives: modernizing the code base, decoupling from jQuery, expanding functionality, and addressing issue backlogs.
+</div>
+<h2 id="highlights-as-of-v1.1.0">Highlights as of v1.1.0</h2>
+<h3 id="new">New</h3>
+<ul>
+<li>support for external control input</li>
+<li>dropdownParent other than 'body'</li>
+<li>no_backspace_delete plugin</li>
+<li>framework agnostic design (works without jQuery or any other JavaScript framework)</li>
+<li>improved keyboard control of selected items</li>
+<li>improved option cache to reduce dom manipulation during searches</li>
+<li>animated scrolling with css instead of JavaScript</li>
+<li>improved ctrl/shift/cmd key detection</li>
+<li>autogrow functionality moved to input_autogrow plugin</li>
+<li><a href="../plugins">integrated plugin hooks</a></li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li><a href="https://github.com/selectize/selectize.js/issues/1363">#1363</a> Autofill disable possibility</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/1447">#1447</a> Enhancement - dropdownParent</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/1279">#1279</a> Adding ability to use load to init opt groups</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/838">#838</a> Add option to disable delete on backspace (no_backspace_delete plugin)</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/239">#239</a> Preserve custom HTML5 data attributes</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/1128">#1128</a> Duplicated options in different optgroups doesn't render correctly</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/129">#129</a> Allow duplicate values in an input</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/470">#470</a> "No results found" message</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/999">#999</a> Don't clear the text box value on blur</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/1104">#1104</a> Replace values in single-item selection</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/1132">#1132</a> Can't enter 'ą' character in tags mode</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/102">#102</a> Listen to original select changes (via 'change_listener' plugin)</li>
+<li><a href="https://github.com/selectize/selectize.js/issues/905">#905</a> Support for Bootstrap 4</li>
+</ul>
+<h3 id="breaking-changes">Breaking Changes</h3>
+<ul>
+<li>.ts-* css class names instead of .selectize-* (customizable with scss &amp; js)</li>
+<li>scss instead of less</li>
+<li>dataAttr defaults to null instead of "data-data"</li>
+<li>options must be appended to optgroup within custom optgroup template</li>
+<li>removed support for older browsers including IE11</li>
+</ul>
+<h3 id="development-environment">Development Environment</h3>
+<ul>
+<li>code converted to <a href="https://www.typescriptlang.org/">TypeScript</a> (Tom Select 1.1+)</li>
+<li>compiled with <a href="https://babeljs.io/">Babel</a></li>
+<li>bundled with <a href="https://rollupjs.org/guide/en/">rollup.js</a></li>
+<li>examples and documentation generated using <a href="https://www.11ty.dev/">11ty</a></li>
+<li>tests run on <a href="https://automate.browserstack.com/dashboard/v2/public-build/QXZ2Z2JUaUlSV2REcHRZYzIzQThxemRnNXNQZ0c3Lzh3d01FWE4vSk1oMD0tLVFFTGlUdmxaMWNIL3hCTUJXZk1qanc9PQ==--f7c82c941ca5c14a22f826b97bc02da17c071d5e">Browserstack</a></li>
+</ul>
+
+				
+				
+			</div>
+		</div>
+
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+		<script type="text/javascript" csp-hash="sha256-f0siOSaHuBl9HM/PAuPWEGfaasKD5P5LQPQi3fUeQyI="> docsearch({
+			apiKey: '662e3a3a9d206ebad6d19f341b85acbd',
+			indexName: 'tom-select',
+			inputSelector: '#docsearch-input',
+			debug: false // Set debug to true if you want to inspect the dropdown
+		});
+		</script>
+
+
+		
+	
+
+</body></html>

@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.3
+* Tom Select v1.7.4
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -746,64 +746,262 @@ class Sifter {
 }
 
 /**
+ * Return a dom element from either a dom query string, jQuery object, a dom element or html string
+ * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
+ *
+ * param query should be {}
+ */
+function getDom(query) {
+  if (query.jquery) {
+    return query[0];
+  }
+
+  if (query instanceof HTMLElement) {
+    return query;
+  }
+
+  if (query.indexOf('<') > -1) {
+    let div = document.createElement('div');
+    div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
+
+    return div.firstChild;
+  }
+
+  return document.querySelector(query);
+}
+function escapeQuery(query) {
+  return query.replace(/['"\\]/g, '\\$&');
+}
+/**
+ * Dispatch an event
+ *
+ */
+
+function triggerEvent(dom_el, event_name) {
+  var event = document.createEvent('HTMLEvents');
+  event.initEvent(event_name, true, false);
+  dom_el.dispatchEvent(event);
+}
+/**
+ * Apply CSS rules to a dom element
+ *
+ */
+
+function applyCSS(dom_el, css) {
+  Object.assign(dom_el.style, css);
+}
+/**
+ * Add css classes
+ *
+ */
+
+function addClasses(elmts, ...classes) {
+  var norm_classes = classesArray(classes);
+  elmts = castAsArray(elmts);
+  elmts.map(el => {
+    norm_classes.map(cls => {
+      el.classList.add(cls);
+    });
+  });
+}
+/**
+ * Remove css classes
+ *
+ */
+
+function removeClasses(elmts, ...classes) {
+  var norm_classes = classesArray(classes);
+  elmts = castAsArray(elmts);
+  elmts.map(el => {
+    norm_classes.map(cls => {
+      el.classList.remove(cls);
+    });
+  });
+}
+/**
+ * Return arguments
+ *
+ */
+
+function classesArray(args) {
+  var classes = [];
+
+  for (let _classes of args) {
+    if (typeof _classes === 'string') {
+      _classes = _classes.trim().split(/[\11\12\14\15\40]/);
+    }
+
+    if (Array.isArray(_classes)) {
+      classes = classes.concat(_classes);
+    }
+  }
+
+  return classes.filter(Boolean);
+}
+/**
+ * Create an array from arg if it's not already an array
+ *
+ */
+
+function castAsArray(arg) {
+  if (!Array.isArray(arg)) {
+    arg = [arg];
+  }
+
+  return arg;
+}
+/**
+ * Get the closest node to the evt.target matching the selector
+ * Stops at wrapper
+ *
+ */
+
+function parentMatch(target, selector, wrapper) {
+  if (wrapper && !wrapper.contains(target)) {
+    return;
+  }
+
+  while (target && target.matches) {
+    if (target.matches(selector)) {
+      return target;
+    }
+
+    target = target.parentNode;
+  }
+}
+/**
+ * Get the first or last item from an array
+ *
+ * > 0 - right (last)
+ * <= 0 - left (first)
+ *
+ */
+
+function getTail(list, direction = 0) {
+  if (direction > 0) {
+    return list[list.length - 1];
+  }
+
+  return list[0];
+}
+/**
+ * Return true if an object is empty
+ *
+ */
+
+function isEmptyObject(obj) {
+  return Object.keys(obj).length === 0;
+}
+/**
+ * Get the index of an element amongst sibling nodes of the same type
+ *
+ */
+
+function nodeIndex(el, amongst) {
+  if (!el) return -1;
+  amongst = amongst || el.nodeName;
+  var i = 0;
+
+  while (el = el.previousElementSibling) {
+    if (el.matches(amongst)) {
+      i++;
+    }
+  }
+
+  return i;
+}
+/**
+ * Set attributes of an element
+ *
+ */
+
+function setAttr(el, attrs) {
+  for (const attr in attrs) {
+    let val = attrs[attr];
+
+    if (val == null) {
+      el.removeAttribute(attr);
+    } else {
+      el.setAttribute(attr, val);
+    }
+  }
+}
+/**
+ * Replace a node
+ */
+
+function replaceNode(existing, replacement) {
+  if (existing.parentNode) existing.parentNode.replaceChild(replacement, existing);
+}
+
+/**
  * highlight v3 | MIT license | Johann Burkard <jb@eaio.com>
  * Highlights arbitrary terms in a node.
  *
  * - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
  * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
-function highlight(element, regex) {
+const highlight = (element, regex) => {
   if (regex === null) return; // convet string to regex
 
   if (typeof regex === 'string') {
     if (!regex.length) return;
     regex = new RegExp(regex, 'i');
-  }
+  } // Wrap matching part of text node with highlighting <span>, e.g.
+  // Soccer  ->  <span class="highlight">Soc</span>cer  for regex = /soc/i
 
-  var highlight = function highlight(node) {
-    var skip = 0; // Wrap matching part of text node with highlighting <span>, e.g.
-    // Soccer  ->  <span class="highlight">Soc</span>cer  for regex = /soc/i
 
-    if (node.nodeType === 3) {
-      var pos = node.data.search(regex);
+  const highlightText = node => {
+    var match = node.data.match(regex);
 
-      if (pos >= 0 && node.data.length > 0) {
-        var match = node.data.match(regex);
-        var spannode = document.createElement('span');
-        spannode.className = 'highlight';
-        var middlebit = node.splitText(pos);
-        middlebit.splitText(match[0].length);
-        var middleclone = middlebit.cloneNode(true);
-        spannode.appendChild(middleclone);
-        middlebit.parentNode.replaceChild(spannode, middlebit);
-        skip = 1;
+    if (match && node.data.length > 0) {
+      var spannode = document.createElement('span');
+      spannode.className = 'highlight';
+      var middlebit = node.splitText(match.index);
+      middlebit.splitText(match[0].length);
+      var middleclone = middlebit.cloneNode(true);
+      spannode.appendChild(middleclone);
+      replaceNode(middlebit, spannode);
+      return 1;
+    }
+
+    return 0;
+  }; // Recurse element node, looking for child text nodes to highlight, unless element
+  // is childless, <script>, <style>, or already highlighted: <span class="hightlight">
+
+
+  const highlightChildren = node => {
+    if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName) && (node.className !== 'highlight' || node.tagName !== 'SPAN')) {
+      for (var i = 0; i < node.childNodes.length; ++i) {
+        i += highlightRecursive(node.childNodes[i]);
       }
-    } // Recurse element node, looking for child text nodes to highlight, unless element
-    // is childless, <script>, <style>, or already highlighted: <span class="hightlight">
-    else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName) && (node.className !== 'highlight' || node.tagName !== 'SPAN')) {
-        for (var i = 0; i < node.childNodes.length; ++i) {
-          i += highlight(node.childNodes[i]);
-        }
-      }
-
-    return skip;
+    }
   };
 
-  highlight(element);
-}
+  const highlightRecursive = node => {
+    if (node.nodeType === 3) {
+      return highlightText(node);
+    }
+
+    highlightChildren(node);
+    return 0;
+  };
+
+  highlightRecursive(element);
+};
 /**
  * removeHighlight fn copied from highlight v5 and
  * edited to remove with(), pass js strict mode, and use without jquery
  */
 
-function removeHighlight(el) {
+const removeHighlight = el => {
   var elements = el.querySelectorAll("span.highlight");
   Array.prototype.forEach.call(elements, function (el) {
     var parent = el.parentNode;
     parent.replaceChild(el.firstChild, el);
     parent.normalize();
   });
-}
+};
 
 const KEY_A = 65;
 const KEY_RETURN = 13;
@@ -1221,195 +1419,6 @@ function getSettings(input, settings_user) {
   return Object.assign({}, defaults, settings_element, settings_user);
 }
 
-/**
- * Return a dom element from either a dom query string, jQuery object, a dom element or html string
- * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
- *
- * param query should be {}
- */
-function getDom(query) {
-  if (query.jquery) {
-    return query[0];
-  }
-
-  if (query instanceof HTMLElement) {
-    return query;
-  }
-
-  if (query.indexOf('<') > -1) {
-    let div = document.createElement('div');
-    div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
-
-    return div.firstChild;
-  }
-
-  return document.querySelector(query);
-}
-function escapeQuery(query) {
-  return query.replace(/['"\\]/g, '\\$&');
-}
-/**
- * Dispatch an event
- *
- */
-
-function triggerEvent(dom_el, event_name) {
-  var event = document.createEvent('HTMLEvents');
-  event.initEvent(event_name, true, false);
-  dom_el.dispatchEvent(event);
-}
-/**
- * Apply CSS rules to a dom element
- *
- */
-
-function applyCSS(dom_el, css) {
-  Object.assign(dom_el.style, css);
-}
-/**
- * Add css classes
- *
- */
-
-function addClasses(elmts, ...classes) {
-  var norm_classes = classesArray(classes);
-  elmts = castAsArray(elmts);
-  elmts.map(el => {
-    norm_classes.map(cls => {
-      el.classList.add(cls);
-    });
-  });
-}
-/**
- * Remove css classes
- *
- */
-
-function removeClasses(elmts, ...classes) {
-  var norm_classes = classesArray(classes);
-  elmts = castAsArray(elmts);
-  elmts.map(el => {
-    norm_classes.map(cls => {
-      el.classList.remove(cls);
-    });
-  });
-}
-/**
- * Return arguments
- *
- */
-
-function classesArray(args) {
-  var classes = [];
-
-  for (let _classes of args) {
-    if (typeof _classes === 'string') {
-      _classes = _classes.trim().split(/[\11\12\14\15\40]/);
-    }
-
-    if (Array.isArray(_classes)) {
-      classes = classes.concat(_classes);
-    }
-  }
-
-  return classes.filter(Boolean);
-}
-/**
- * Create an array from arg if it's not already an array
- *
- */
-
-function castAsArray(arg) {
-  if (!Array.isArray(arg)) {
-    arg = [arg];
-  }
-
-  return arg;
-}
-/**
- * Get the closest node to the evt.target matching the selector
- * Stops at wrapper
- *
- */
-
-function parentMatch(target, selector, wrapper) {
-  if (wrapper && !wrapper.contains(target)) {
-    return;
-  }
-
-  while (target && target.matches) {
-    if (target.matches(selector)) {
-      return target;
-    }
-
-    target = target.parentNode;
-  }
-}
-/**
- * Get the first or last item from an array
- *
- * > 0 - right (last)
- * <= 0 - left (first)
- *
- */
-
-function getTail(list, direction = 0) {
-  if (direction > 0) {
-    return list[list.length - 1];
-  }
-
-  return list[0];
-}
-/**
- * Return true if an object is empty
- *
- */
-
-function isEmptyObject(obj) {
-  return Object.keys(obj).length === 0;
-}
-/**
- * Get the index of an element amongst sibling nodes of the same type
- *
- */
-
-function nodeIndex(el, amongst) {
-  if (!el) return -1;
-  amongst = amongst || el.nodeName;
-  var i = 0;
-
-  while (el = el.previousElementSibling) {
-    if (el.matches(amongst)) {
-      i++;
-    }
-  }
-
-  return i;
-}
-/**
- * Set attributes of an element
- *
- */
-
-function setAttr(el, attrs) {
-  for (const attr in attrs) {
-    let val = attrs[attr];
-
-    if (val == null) {
-      el.removeAttribute(attr);
-    } else {
-      el.setAttribute(attr, val);
-    }
-  }
-}
-/**
- * Replace a node
- */
-
-function replaceNode(existing, replacement) {
-  if (existing.parentNode) existing.parentNode.replaceChild(replacement, existing);
-}
-
 var instance_i = 0;
 class TomSelect extends MicroPlugin(MicroEvent) {
   constructor(input_arg, settings) {
@@ -1669,7 +1678,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     addEvent(control_input, 'keyup', e => self.onKeyUp(e));
     addEvent(control_input, 'keypress', e => self.onKeyPress(e));
     addEvent(control_input, 'resize', () => self.positionDropdown(), passive_event);
-    addEvent(control_input, 'blur', self.onBlur);
+    addEvent(control_input, 'blur', () => self.onBlur());
     addEvent(control_input, 'focus', e => self.onFocus(e));
     addEvent(control_input, 'paste', e => self.onPaste(e));
 
@@ -3111,9 +3120,13 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  getItem(value) {
-    var hashed = hash_key(value);
-    return hashed ? this.control.querySelector(`[data-value="${addSlashes(hashed)}"]`) : null;
+  getItem(item) {
+    if (typeof item == 'object') {
+      return item;
+    }
+
+    var value = hash_key(item);
+    return value ? this.control.querySelector(`[data-value="${addSlashes(value)}"]`) : null;
   }
   /**
    * "Selects" multiple items at once. Adds them to the list
@@ -3227,42 +3240,38 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  removeItem(value, silent) {
-    var i, idx;
+  removeItem(item = null, silent) {
     const self = this;
-    const hashed = hash_key(value);
-    if (!hashed) return;
-    const item = self.getItem(hashed);
+    item = self.getItem(item);
     if (!item) return;
-    i = self.items.indexOf(hashed);
+    var i, idx;
+    const value = item.dataset.value;
+    i = nodeIndex(item);
+    item.remove();
 
-    if (i !== -1) {
-      item.remove();
-
-      if (item.classList.contains('active')) {
-        idx = self.activeItems.indexOf(item);
-        self.activeItems.splice(idx, 1);
-        removeClasses(item, 'active');
-      }
-
-      self.items.splice(i, 1);
-      self.lastQuery = null;
-
-      if (!self.settings.persist && self.userOptions.hasOwnProperty(hashed)) {
-        self.removeOption(hashed, silent);
-      }
-
-      if (i < self.caretPos) {
-        self.setCaret(self.caretPos - 1);
-      }
-
-      self.updateOriginalInput({
-        silent: silent
-      });
-      self.refreshState();
-      self.positionDropdown();
-      self.trigger('item_remove', hashed, item);
+    if (item.classList.contains('active')) {
+      idx = self.activeItems.indexOf(item);
+      self.activeItems.splice(idx, 1);
+      removeClasses(item, 'active');
     }
+
+    self.items.splice(i, 1);
+    self.lastQuery = null;
+
+    if (!self.settings.persist && self.userOptions.hasOwnProperty(value)) {
+      self.removeOption(value, silent);
+    }
+
+    if (i < self.caretPos) {
+      self.setCaret(self.caretPos - 1);
+    }
+
+    self.updateOriginalInput({
+      silent: silent
+    });
+    self.refreshState();
+    self.positionDropdown();
+    self.trigger('item_remove', value, item);
   }
   /**
    * Invokes the `create` method provided in the
@@ -3604,12 +3613,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   deleteSelection(e) {
-    var direction, selection, values, caret, tail;
+    var direction, selection, caret, tail;
     var self = this;
     direction = e && e.keyCode === KEY_BACKSPACE ? -1 : 1;
     selection = getSelection(self.control_input); // determine items that will be removed
 
-    values = [];
+    const rm_items = [];
 
     if (self.activeItems.length) {
       tail = getTail(self.activeItems, direction);
@@ -3620,16 +3629,19 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       }
 
       for (const item of self.activeItems) {
-        values.push(item.dataset.value);
+        rm_items.push(item);
       }
     } else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
-      if (direction < 0 && selection.start === 0 && selection.length === 0) {
-        values.push(self.items[self.caretPos - 1]);
-      } else if (direction > 0 && selection.start === self.inputValue().length) {
-        values.push(self.items[self.caretPos]);
-      }
-    } // allow the callback to abort
+      const items = self.controlChildren();
 
+      if (direction < 0 && selection.start === 0 && selection.length === 0) {
+        rm_items.push(items[self.caretPos - 1]);
+      } else if (direction > 0 && selection.start === self.inputValue().length) {
+        rm_items.push(items[self.caretPos]);
+      }
+    }
+
+    const values = rm_items.map(item => item.dataset.value); // allow the callback to abort
 
     if (!values.length || typeof self.settings.onDelete === 'function' && self.settings.onDelete.call(self, values, e) === false) {
       return false;
@@ -3641,8 +3653,8 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       self.setCaret(caret);
     }
 
-    while (values.length) {
-      self.removeItem(values.pop());
+    while (rm_items.length) {
+      self.removeItem(rm_items.pop());
     }
 
     self.showInput();

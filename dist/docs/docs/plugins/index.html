@@ -1,0 +1,164 @@
+<!DOCTYPE html><html class="no-js" lang="en"><head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title> Plugin API -  Tom Select</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/stylesheet.css">
+		<link href="https://unpkg.com/prismjs@1.20.0/themes/prism.css" rel="stylesheet" media="print" id="prism-css">
+		
+
+		
+		<script src="/js/tom-select.complete.min.js"></script>
+		
+
+		<script src="/js/index.bundle.js"></script>
+		
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com cdn.jsdelivr.net;script-src 'self' 'unsafe-inline' 'unsafe-eval' mc.yandex.ru cdn.jsdelivr.net 'sha256-f0siOSaHuBl9HM/PAuPWEGfaasKD5P5LQPQi3fUeQyI=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru https://*.algolia.net https://*.algolianet.com"></head>
+    <body>
+
+		
+		<a id="toggle-offcanvas" aria-label="Toggle Off-Canvas Menu">
+			<i class="ib feather-menu"></i>
+		</a>
+
+
+
+
+		
+		<div id="offcanvas" class="d-flex flex-column px-0">
+
+			<div id="docsearch-div" class="px-4">
+				<input type="text" class="form-control" placeholder="Search" id="docsearch-input">
+			</div>
+
+			<div id="offcanvas-inner">
+				
+
+	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
+
+	
+
+
+	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
+	
+
+	<a href="/plugins/" class="h5 px-4 py-3 my-0 d-block">Plugins</a>
+	
+
+
+	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
+	
+	<nav class="nav flex-column">
+		<a class="nav-link" href="/docs/">Usage</a>
+		<a class="nav-link" href="/docs/api/">API</a>
+		<span class="nav-link active">Plugins</span>
+		<a class="nav-link" href="/docs/events/">Events</a>
+		<a class="nav-link" href="/docs/contribute/">Contribute</a>
+		<a class="nav-link" href="/docs/selectize.js/">selectize.js</a>
+	</nav>
+	
+
+	<hr class="m-4">
+
+	<a href="https://github.com/orchidjs/tom-select" class="h5 px-4 py-3 my-0 d-block">GitHub</a>
+	<a href="https://www.npmjs.com/package/tom-select" class="h5 px-4 py-3 my-0 d-block">NPM</a>
+
+
+	<div class="mt-auto"></div>
+
+	<hr class="mx-4 mb-2 mt-4">
+
+	<div class="px-4 py-3 small">
+		<a href="https://icon-blender.com/">
+		Create custom SVG icon sets from over 80,000 free and open source icons at
+		Icon-Blender.com</a>
+	</div>
+
+	<hr class="mx-4 my-2">
+
+	<div class="p-4 badges small">
+		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/docs/plugins.md">Edit this page on GitHub</a>
+		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
+	</div>
+
+			</div>
+		</div>
+
+		
+		<div class="px-3 main-col">
+			<div class="container pt-4 mt-3" id="main-container">
+				
+				<h1 class="display-4 mt-0">Plugin API</h1>
+				
+
+				<p>Feature can be added to Tom Select without modifying via the <a href="https://github.com/brianreavis/microplugin.js">microplugin</a> interface.
+This helps protect against code bloat, allows for leaner builds and allows for addons to be sanely isolated
+The plugin system is lean, makes very few assumptions, and gives the developer complete control.</p>
+<p><strong><a href="/plugins">Plugin Examples</a></strong></p>
+<h2 id="plugin-usage">Plugin Usage</h2>
+<h4 id="without-options">Without Options</h4>
+<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'plugin_a'</span><span class="token punctuation">,</span> <span class="token string">'plugin_b'</span><span class="token punctuation">]</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="with-options">With Options</h4>
+<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select'</span><span class="token punctuation">,</span><span class="token punctuation">{</span><br>	plugins<span class="token operator">:</span> <span class="token punctuation">{</span><br>		<span class="token string">'plugin_a'</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><br>		<span class="token string">'plugin_b'</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span><br>	<span class="token punctuation">}</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>For a more detailed description of plugin option formats and how the plugin system works, check out the <a href="https://github.com/brianreavis/microplugin.js">microplugin</a> documentation.</p>
+<h2 id="including-plugins">Including Plugins</h2>
+<p>Plugins can be included in your projects in four different ways:</p>
+<h4 id="tom-select.complete.js">tom-select.complete.js</h4>
+<p>Using <code>tom-select.complete.js</code> in your projects will give you immediate access to all plugins</p>
+<h4 id="tom-select.popular.js">tom-select.popular.js</h4>
+<p>Save some bandwidth with a bundle that's about 4kb smaller. <code>tom-select.popular.js</code> includes dropdown_input, remove_button, no_backspace_delete, and restore_on_backspace plugins.</p>
+<h4 id="tom-select.base.js">tom-select.base.js</h4>
+<p>If you don't need any plugins, or want to load plugins individually, use <code>tom-select.base.js</code>.
+Add plugins to your project by including their js files: <code>/js/plugins/remove_button.js</code>, <code>/js/plugins/dropdown_header.js</code>, etc.</p>
+<h4 id="tom-select.custom.js">tom-select.custom.js</h4>
+<p>Use NPM to hand-pick plugins and create <code>/build/js/tom-select.custom.js</code></p>
+<pre class="language-shell"><code class="language-shell"><span class="token comment"># clone the repo</span><br><span class="token function">git</span> clone https://github.com/orchidjs/tom-select.git<br><span class="token builtin class-name">cd</span> tom-select<br><br><span class="token comment"># install dev dependencies</span><br><span class="token function">npm</span> <span class="token function">install</span><br><br><span class="token comment"># create /build/js/tom-select.custom.js</span><br><span class="token function">npm</span> run build -- --plugins<span class="token operator">=</span>remove_button,restore_on_backspace</code></pre>
+<h2 id="creating-plugins">Creating Plugins</h2>
+<p><strong>A few notes:</strong></p>
+<ul>
+<li>All plugins live in their own folders in <a href="https://github.com/orchidjs/tom-select/tree/master/src/plugins">"src/plugins"</a>.</li>
+<li>Plugin names should follow the format: <code>/[a-z_]+$</code></li>
+<li>JS source should live in a "plugin.js" file (required).</li>
+<li>CSS should live in a "plugin.scss" file (optional). It will be bundled at build time.</li>
+<li>Plugins are initialized right before the control is setup.
+This means that if you want to listen for events on any of the control's
+elements, you should override the <code>setup()</code> method (see <a href="#dom-events">"DOM Events"</a>).</li>
+</ul>
+<h3 id="boilerplate">Boilerplate</h3>
+<pre class="language-js"><code class="language-js">TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'plugin_name'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">plugin_options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	<span class="token comment">// options: plugin-specific options</span><br>	<span class="token comment">// this: TomSelect instance</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="adding-dependencies">Adding Dependencies</h4>
+<pre class="language-js"><code class="language-js">TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'plugin_name'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">plugin_options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'another_plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="method-hooks">Method Hooks</h4>
+<p>Execute plugin code 'before' or 'after' existing methods</p>
+<pre class="language-js"><code class="language-js">TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'plugin_name'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">plugin_options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">hook</span><span class="token punctuation">(</span><span class="token string">'after'</span><span class="token punctuation">,</span><span class="token string">'setup'</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>		<span class="token comment">// .. additional setup</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="overriding-methods">Overriding Methods</h4>
+<p>Use the 'instead' hook to override existing methods.</p>
+<p><strong>Note:</strong> If the method you're overriding returns a value, make sure the
+overridden function returns a value as well.</p>
+<pre class="language-js"><code class="language-js">TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'plugin_name'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">plugin_options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	<span class="token keyword">var</span> original_setup <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>setup<span class="token punctuation">;</span><br>	<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">hook</span><span class="token punctuation">(</span><span class="token string">'instead'</span><span class="token punctuation">,</span><span class="token string">'setup'</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>		<span class="token comment">// .. custom setup</span><br>		<span class="token keyword">return</span> <span class="token function">original_setup</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> arguments<span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="dom-events">DOM Events</h4>
+<p>If you want to add event listeners to dom elements, add them after the <code>setup()</code> method.</p>
+<pre class="language-js"><code class="language-js">TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'plugin_name'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">plugin_options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>	<span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">hook</span><span class="token punctuation">(</span><span class="token string">'after'</span><span class="token punctuation">,</span><span class="token string">'setup'</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>		<span class="token keyword">this</span><span class="token punctuation">.</span>control<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">evt</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>			<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'the control was clicked'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>		<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+				
+				
+			</div>
+		</div>
+
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+		<script type="text/javascript" csp-hash="sha256-f0siOSaHuBl9HM/PAuPWEGfaasKD5P5LQPQi3fUeQyI="> docsearch({
+			apiKey: '662e3a3a9d206ebad6d19f341b85acbd',
+			indexName: 'tom-select',
+			inputSelector: '#docsearch-input',
+			debug: false // Set debug to true if you want to inspect the dropdown
+		});
+		</script>
+
+
+		
+	
+
+</body></html>
