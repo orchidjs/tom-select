@@ -197,6 +197,6 @@ export function setAttr(el:Element,attrs:{ [key: string]: null|string }){
 /**
  * Replace a node
  */
-export function replaceNode( existing:Element, replacement:Element ){
+export function replaceNode( existing:Node, replacement:Node ){
 	if( existing.parentNode ) existing.parentNode.replaceChild(replacement, existing);
 }
