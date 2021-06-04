@@ -1148,10 +1148,11 @@
 
 	    if (timeout) {
 	      self.loading = Math.max(self.loading - 1, 0);
+	      clearTimeout(timeout);
 	    }
 
-	    clearTimeout(timeout);
 	    timeout = setTimeout(function () {
+	      timeout = null;
 	      self.loadedSearches[value] = true;
 	      fn.call(self, value, callback);
 	    }, delay);
@@ -4032,17 +4033,19 @@
 	 *
 	 */
 	TomSelect.define('change_listener', function () {
-	  var self = this;
-	  var changed = false;
+	  const self = this;
+
+	  const joined = arr => arr.join(self.settings.delimiter);
+
 	  addEvent(self.input, 'change', () => {
-	    // prevent infinite loops
-	    if (changed) {
-	      changed = false;
+	    var settings = getSettings(self.input, {
+	      delimiter: self.settings.delimiter
+	    }); // prevent infinite loops
+
+	    if (joined(self.items) == joined(settings.items)) {
 	      return;
 	    }
 
-	    changed = true;
-	    var settings = getSettings(self.input, {});
 	    self.setupOptions(settings.options, settings.optgroups);
 	    self.setValue(settings.items);
 	  });

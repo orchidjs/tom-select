@@ -1142,10 +1142,11 @@ function loadDebounce(fn, delay) {
 
     if (timeout) {
       self.loading = Math.max(self.loading - 1, 0);
+      clearTimeout(timeout);
     }
 
-    clearTimeout(timeout);
     timeout = setTimeout(function () {
+      timeout = null;
       self.loadedSearches[value] = true;
       fn.call(self, value, callback);
     }, delay);
