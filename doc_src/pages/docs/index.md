@@ -448,43 +448,44 @@ new TomSelect('#select',{
 	</tr>
 </table>
 
-## Rendering
+## Render Templates
 
-Custom rendering functions. Each function should accept two arguments: <code>data</code> and <code>escape</code> and return HTML (string or DOM element) with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.
+Nearly every piece of HTML in Tom Select is customizable with a render template.
+Each template is defined by a function that is passed two arguments (<code>data</code> and <code>escape</code>) and returns HTML (string or DOM element) with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.
 
 ```js
 new TomSelect('#input',{
 	optionClass: 'option',
 	itemClass: 'item',
 	render:{
-		'option': function(data, escape) {
+		option: function(data, escape) {
 			return '<div>' + escape(data[field_label]) + '</div>';
 		},
-		'item': function(data, escape) {
+		item: function(data, escape) {
 			return '<div>' + escape(data[field_label]) + '</div>';
 		},
-		'option_create': function(data, escape) {
+		option_create: function(data, escape) {
 			return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
 		},
-		'no_results':function(data,escape){
+		no_results:function(data,escape){
 			return '<div class="no-results">No results found for "'+escape(data.input)+'"</div>';
 		},
-		'not_loading':function(data,escape){
+		not_loading:function(data,escape){
 			// no default content
 		},
-		'optgroup': function(data) {
+		optgroup: function(data) {
 			let optgroup = document.createElement('div');
 			optgroup.className = 'optgroup';
 			optgroup.appendChild(data.options);
 			return optgroup;
 		},
-		'optgroup_header': function(data, escape) {
+		optgroup_header: function(data, escape) {
 			return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 		},
-		'loading':function(data,escape){
+		loading:function(data,escape){
 			return '<div class="spinner"></div>';
 		},
-		'dropdown':function(){
+		dropdown:function(){
 			return '<div></div>';
 		}
 	}
