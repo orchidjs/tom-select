@@ -96,9 +96,13 @@ describe('load', function() {
 
 		click(test.instance.control, function(){
 			syn.type('a', test.instance.control_input,function(){
+				assert.equal(test.instance.loading,1);
 				syn.type('b', test.instance.control_input,function(){
+					assert.equal(test.instance.loading,1);
 					setTimeout(function(){
-						syn.type('\b', test.instance.control_input);
+						syn.type('\b', test.instance.control_input,function(){
+							assert.equal(test.instance.loading,1);
+						});
 					},400); // greater than load throttle
 				});
 			});

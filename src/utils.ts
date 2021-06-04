@@ -43,15 +43,16 @@ export function escape_html(str:string):string {
  *
  */
 export function loadDebounce(fn,delay:number){
-	var timeout: ReturnType<typeof setTimeout>;
+	var timeout: null|ReturnType<typeof setTimeout>;
 	return function(this:TomSelect, value:string,callback:() => void) {
 		var self = this;
 
 		if( timeout ){
 			self.loading = Math.max(self.loading - 1, 0);
+			clearTimeout(timeout);
 		}
-		clearTimeout(timeout);
 		timeout = setTimeout(function() {
+			timeout = null;
 			self.loadedSearches[value] = true;
 			fn.call(self, value, callback);
 
