@@ -3,13 +3,13 @@
 	"compilerOptions": {
 		"allowJs": true,
 		"checkJs": true,
-		"strict": false,
+		"strict": true,
 		"target": "esnext",
 		"module": "esnext",
 		"noUnusedLocals": true,
 
 		"noUnusedParameters": false,
-		"noImplicitAny": true,
+		"noImplicitAny": false,
 		"strictPropertyInitialization": false,
 		"strictBindCallApply": false,
 
