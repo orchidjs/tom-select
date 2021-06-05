@@ -9,7 +9,7 @@
 		"noUnusedLocals": true,
 
 		"noUnusedParameters": false,
-		"noImplicitAny": false,
+		"noImplicitAny": true,
 		"strictPropertyInitialization": false,
 		"strictBindCallApply": false,
 

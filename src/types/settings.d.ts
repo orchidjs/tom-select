@@ -90,5 +90,5 @@ export type TomSettings = {
 	},
 
 	// virtual scroll plugin
-	firstUrl				: (string)=>any
+	firstUrl				: (query:string)=>any
 };
