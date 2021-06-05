@@ -42,7 +42,7 @@ export function escape_html(str:string):string {
  * Debounce the user provided load function
  *
  */
-export function loadDebounce(fn:(self:TomSelect,value:string,callback:() => void) => void,delay:number){
+export function loadDebounce(fn:(value:string,callback:() => any) => void,delay:number){
 	var timeout: null|ReturnType<typeof setTimeout>;
 	return function(this:TomSelect, value:string,callback:() => void) {
 		var self = this;
