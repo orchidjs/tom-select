@@ -15,7 +15,7 @@ module.exports = function(eleventyConfig) {
 			'default-src':		["'self'"],
 			'img-src':			['https://*','data:'],
 			'style-src':		["'self'",'unpkg.com','cdnjs.cloudflare.com','cdn.jsdelivr.net'],
-			'script-src':		["'self'","'unsafe-inline'","'unsafe-eval'",'mc.yandex.ru','cdn.jsdelivr.net'], // unsafe-inline needed for esm imports, unsafe-eval for docsearch
+			'script-src':		["'self'","'unsafe-eval'",'mc.yandex.ru','cdn.jsdelivr.net'], // unsafe-eval for docsearch
 			'font-src':			["'self'",'cdnjs.cloudflare.com'],
 			'connect-src':		['api.github.com','whatcms.org','api.reddit.com','mc.yandex.ru','https://*.algolia.net','https://*.algolianet.com'],
 		}
