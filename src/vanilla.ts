@@ -5,7 +5,7 @@
  *
  * param query should be {}
  */
-export function getDom( query:any ):HTMLElement{
+export const getDom = ( query:any ):HTMLElement => {
 
 	if( query.jquery ){
 		return query[0];
@@ -24,7 +24,7 @@ export function getDom( query:any ):HTMLElement{
 	return document.querySelector(query);
 };
 
-export function escapeQuery(query:string):string{
+export const escapeQuery = (query:string):string => {
 	return query.replace(/['"\\]/g, '\\$&');
 }
 
@@ -32,7 +32,7 @@ export function escapeQuery(query:string):string{
  * Dispatch an event
  *
  */
-export function triggerEvent( dom_el:HTMLElement, event_name:string ):void{
+export const triggerEvent = ( dom_el:HTMLElement, event_name:string ):void => {
 	var event = document.createEvent('HTMLEvents');
 	event.initEvent(event_name, true, false);
 	dom_el.dispatchEvent(event)
@@ -42,7 +42,7 @@ export function triggerEvent( dom_el:HTMLElement, event_name:string ):void{
  * Apply CSS rules to a dom element
  *
  */
-export function applyCSS( dom_el:HTMLElement, css:{ [key: string]: string|number }):void{
+export const applyCSS = ( dom_el:HTMLElement, css:{ [key: string]: string|number }):void => {
 	Object.assign(dom_el.style, css);
 }
 
@@ -51,7 +51,7 @@ export function applyCSS( dom_el:HTMLElement, css:{ [key: string]: string|number
  * Add css classes
  *
  */
-export function addClasses( elmts:HTMLElement|HTMLElement[], ...classes:string[]|string[][] ){
+export const addClasses = ( elmts:HTMLElement|HTMLElement[], ...classes:string[]|string[][] ) => {
 
 	var norm_classes 	= classesArray(classes);
 	elmts				= castAsArray(elmts);
@@ -67,7 +67,7 @@ export function addClasses( elmts:HTMLElement|HTMLElement[], ...classes:string[]
  * Remove css classes
  *
  */
- export function removeClasses( elmts:HTMLElement|HTMLElement[], ...classes:string[]|string[][] ){
+ export const removeClasses = ( elmts:HTMLElement|HTMLElement[], ...classes:string[]|string[][] ) => {
 
  	var norm_classes 	= classesArray(classes);
 	elmts				= castAsArray(elmts);
@@ -84,7 +84,7 @@ export function addClasses( elmts:HTMLElement|HTMLElement[], ...classes:string[]
  * Return arguments
  *
  */
-export function classesArray(args:string[]|string[][]):string[]{
+export const classesArray = (args:string[]|string[][]):string[] => {
 	var classes:string[] = [];
 	for( let _classes of args ){
 		if( typeof _classes === 'string' ){
@@ -103,7 +103,7 @@ export function classesArray(args:string[]|string[][]):string[]{
  * Create an array from arg if it's not already an array
  *
  */
-export function castAsArray(arg:any):Array<any>{
+export const castAsArray = (arg:any):Array<any> => {
 	if( !Array.isArray(arg) ){
  		arg = [arg];
  	}
@@ -116,7 +116,7 @@ export function castAsArray(arg:any):Array<any>{
  * Stops at wrapper
  *
  */
-export function parentMatch( target:null|HTMLElement, selector:string, wrapper?:HTMLElement ):HTMLElement|void{
+export const parentMatch = ( target:null|HTMLElement, selector:string, wrapper?:HTMLElement ):HTMLElement|void => {
 
 	if( wrapper && !wrapper.contains(target) ){
 		return;
@@ -140,7 +140,7 @@ export function parentMatch( target:null|HTMLElement, selector:string, wrapper?:
  * <= 0 - left (first)
  *
  */
-export function getTail( list:Array<any>|NodeList, direction:number=0 ):any{
+export const getTail = ( list:Array<any>|NodeList, direction:number=0 ):any => {
 
 	if( direction > 0 ){
 		return list[list.length-1];
@@ -153,7 +153,7 @@ export function getTail( list:Array<any>|NodeList, direction:number=0 ):any{
  * Return true if an object is empty
  *
  */
-export function isEmptyObject(obj:object):boolean{
+export const isEmptyObject = (obj:object):boolean => {
 	return (Object.keys(obj).length === 0);
 }
 
@@ -162,7 +162,7 @@ export function isEmptyObject(obj:object):boolean{
  * Get the index of an element amongst sibling nodes of the same type
  *
  */
-export function nodeIndex( el:null|Element, amongst?:string ):number{
+export const nodeIndex = ( el:null|Element, amongst?:string ):number => {
 	if (!el) return -1;
 
 	amongst = amongst || el.nodeName;
@@ -182,7 +182,7 @@ export function nodeIndex( el:null|Element, amongst?:string ):number{
  * Set attributes of an element
  *
  */
-export function setAttr(el:Element,attrs:{ [key: string]: null|string }){
+export const setAttr = (el:Element,attrs:{ [key: string]: null|string }) => {
 	for( const attr in attrs ){
 		let val = attrs[attr];
 		if( val == null ){
@@ -197,6 +197,6 @@ export function setAttr(el:Element,attrs:{ [key: string]: null|string }){
 /**
  * Replace a node
  */
-export function replaceNode( existing:Node, replacement:Node ){
+export const replaceNode = ( existing:Node, replacement:Node ) => {
 	if( existing.parentNode ) existing.parentNode.replaceChild(replacement, existing);
 }
