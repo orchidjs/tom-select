@@ -30,5 +30,14 @@ describe('duplicates', function() {
 		}
 	});
 
+	it_n('should initialize with duplicates (input)',async ()=>{
+		var test = setup_test('<input value="a,a">',{duplicates:true});
+		assert.equal(test.instance.items.length,2);
+	});
+
+	it_n('should initialize with duplicates (select)',async ()=>{
+		var test = setup_test('<select multiple><option selected>a</option><option selected>a</option></select>',{duplicates:true});
+		assert.equal(test.instance.items.length,2);
+	});
 
 });

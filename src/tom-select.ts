@@ -1753,11 +1753,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	addItems( values:string|string[], silent?:boolean ):void{
 		var self = this;
-		self.buffer = document.createDocumentFragment();
-
-		for( const child of self.control.children ){
-			self.buffer.appendChild(child);
-		}
 
 		var items = Array.isArray(values) ? values : [values];
 		items = items.filter(x => self.items.indexOf(x) === -1);
@@ -1765,11 +1760,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.isPending = (i < n - 1);
 			self.addItem(items[i], silent);
 		}
-
-		var control = self.control;
-		control.insertBefore(self.buffer, control.firstChild);
-
-		self.buffer = null;
 	}
 
 	/**
@@ -2204,7 +2194,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	insertAtCaret(el:HTMLElement) {
 		var self = this;
 		var caret	= Math.min(self.caretPos, self.items.length);
-		var target	= self.buffer || self.control;
+		var target	= self.control;
 
 		if (caret === 0) {
 			target.insertBefore(el, target.firstChild);
