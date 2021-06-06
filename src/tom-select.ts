@@ -1693,9 +1693,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	getOption(value:null|string):null|HTMLElement {
 		var hashed = hash_key(value);
-		return hashed
-			? this.rendered('option',hashed)
-			: null;
+		return this.rendered('option',hashed);
 	}
 
 	/**
@@ -1799,7 +1797,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 			}
 
-			if( !hashed || !self.options.hasOwnProperty(hashed)) return;
+			if (hashed === null || !self.options.hasOwnProperty(hashed)) return;
 			if (inputMode === 'single') self.clear(silent);
 			if (inputMode === 'multi' && self.isFull()) return;
 
@@ -2266,7 +2264,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (typeof caret !== 'undefined') {
 			self.setCaret(caret);
 		}
-		
+
 		while( rm_items.length ){
 			self.removeItem(rm_items.pop());
 		}
@@ -2546,8 +2544,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Return the previously rendered item or option
 	 *
 	 */
-	rendered( templateName:'item'|'option', value:string ):null|HTMLElement{
-		return this.renderCache[templateName].hasOwnProperty(value)
+	rendered( templateName:'item'|'option', value:null|string ):null|HTMLElement{
+		return value !== null && this.renderCache[templateName].hasOwnProperty(value)
 			? this.renderCache[templateName][value]
 			: null;
 	}

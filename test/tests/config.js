@@ -102,15 +102,22 @@ describe('Configuration settings', function() {
 
 	});
 
-	it_n('allowEmptyOption', function() {
+	it_n('allowEmptyOption', async () => {
 
-		let test = setup_test(`<select>
+		let test = setup_test(`<select multiple>
 				<option value="">None</option>
 				<option value="4">Thomas Edison</option>
 				<option value="1">Nikola</option>
 			</select>`, {allowEmptyOption:true});
 
 		assert.equal( Object.keys(test.instance.options).length, 3);
+		assert.equal( test.instance.items.length, 0);
+
+		await asyncClick(test.instance.control);
+		assert.isTrue(test.instance.isOpen);
+		var opt = test.instance.getOption('');
+		await asyncClick(opt);
+		assert.equal( test.instance.items.length, 1);
 	});
 
 });
