@@ -1705,7 +1705,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       }
     };
 
-    addEvent(document, 'mousedown', doc_mousedown);
+    addEvent(document, 'mousedown', e => doc_mousedown(e));
     addEvent(window, 'sroll', win_scroll, passive_event);
     addEvent(window, 'resize', win_scroll, passive_event);
 
@@ -2226,7 +2226,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     if (!self.canLoad(value)) return;
     addClasses(self.wrapper, self.settings.loadingClass);
     self.loading++;
-    const callback = self.loadCallback.bind(self, value);
+    const callback = self.loadCallback.bind(self);
     self.settings.load.call(self, value, callback);
   }
   /**
@@ -2235,7 +2235,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  loadCallback(value, options, optgroups) {
+  loadCallback(options, optgroups) {
     const self = this;
     self.loading = Math.max(self.loading - 1, 0);
     self.lastQuery = null;
