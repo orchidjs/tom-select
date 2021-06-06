@@ -44,34 +44,30 @@ describe('plugin: optgroup_columns', function() {
 	};
 
 
-	it_n('three optgroups should be displayed', function() {
+	it_n('three optgroups should be displayed', async () => {
 
 		var test = optgroup_test();
-		syn.type('a', test.instance.control_input, function() {
-			var optgroups = test.instance.dropdown_content.querySelectorAll('.optgroup');
-			expect(optgroups.length).to.be.equal(3);
-		});
+		await asyncType('a',test.instance.control_input);
+
+		var optgroups = test.instance.dropdown_content.querySelectorAll('.optgroup');
+		expect(optgroups.length).to.be.equal(3);
 
 	});
 
-	it_n('[right] keypress should move focus to second optgroup', function() {
+	it_n('[right] keypress should move focus to second optgroup', async () => {
 		var test = optgroup_test();
 
 		// 1) move right to audi
-		syn.type('a[right]', test.instance.control_input, function() {
+		await asyncType('a[right]',test.instance.control_input);
 
-			var optgroup			= test.instance.activeOption.parentNode;
-			expect(optgroup.dataset.group).to.be.equal('audi');
+		var optgroup			= test.instance.activeOption.parentNode;
+		expect(optgroup.dataset.group).to.be.equal('audi');
 
-			// 2) move left to chevy
-			syn.type('[left]', test.instance.control_input, function() {
+		// 2) move left to chevy
+		await asyncType('[left]',test.instance.control_input);
 
-				var optgroup			= test.instance.activeOption.parentNode;
-				expect(optgroup.dataset.group).to.be.equal('chevrolet');
-
-			});
-
-		});
+		var optgroup			= test.instance.activeOption.parentNode;
+		expect(optgroup.dataset.group).to.be.equal('chevrolet');
 
 	});
 
