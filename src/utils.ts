@@ -15,12 +15,12 @@ import TomSelect from './tom-select';
  *   1         -> '1'
  *
  */
-export function hash_key(value:undefined|null|boolean|string):string|null {
+export const hash_key = (value:undefined|null|boolean|string):string|null => {
 	if (typeof value === 'undefined' || value === null) return null;
 	return get_hash(value);
 };
 
-export function get_hash(value:boolean|string):string{
+export const get_hash = (value:boolean|string):string => {
 	if (typeof value === 'boolean') return value ? '1' : '0';
 	return value + '';
 };
@@ -29,7 +29,7 @@ export function get_hash(value:boolean|string):string{
  * Escapes a string for use within HTML.
  *
  */
-export function escape_html(str:string):string {
+export const escape_html = (str:string):string => {
 	return (str + '')
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
@@ -42,7 +42,7 @@ export function escape_html(str:string):string {
  * Debounce the user provided load function
  *
  */
-export function loadDebounce(fn:(value:string,callback:() => any) => void,delay:number){
+export const loadDebounce = (fn:(value:string,callback:() => any) => void,delay:number) => {
 	var timeout: null|ReturnType<typeof setTimeout>;
 	return function(this:TomSelect, value:string,callback:() => void) {
 		var self = this;
@@ -58,7 +58,7 @@ export function loadDebounce(fn:(value:string,callback:() => any) => void,delay:
 
 		}, delay);
 	};
-}
+};
 
 
 /**
@@ -66,7 +66,7 @@ export function loadDebounce(fn:(value:string,callback:() => any) => void,delay:
  * while executing the provided `fn`.
  *
  */
-export function debounce_events( self:TomSelect, types:string[], fn:() => void ) {
+export const debounce_events = ( self:TomSelect, types:string[], fn:() => void ) => {
 	var type:string;
 	var trigger = self.trigger;
 	var event_args:{ [key: string]: any } = {};
@@ -99,7 +99,7 @@ export function debounce_events( self:TomSelect, types:string[], fn:() => void )
  *   - length
  *
  */
-export function getSelection(input:HTMLInputElement):{ start: number; length: number } {
+export const getSelection = (input:HTMLInputElement):{ start: number; length: number } => {
 	return {
 		start	: input.selectionStart || 0,
 		length	: (input.selectionEnd||0) - (input.selectionStart||0),
@@ -111,7 +111,7 @@ export function getSelection(input:HTMLInputElement):{ start: number; length: nu
  * Prevent default
  *
  */
-export function preventDefault(evt?:Event, stop:boolean=false):void{
+export const preventDefault = (evt?:Event, stop:boolean=false):void => {
 	if( evt ){
 		evt.preventDefault();
 		if( stop ){
@@ -125,9 +125,9 @@ export function preventDefault(evt?:Event, stop:boolean=false):void{
  * Prevent default
  *
  */
-export function addEvent(target:EventTarget, type:string, callback:EventListenerOrEventListenerObject, options?:object):void{
+export const addEvent = (target:EventTarget, type:string, callback:EventListenerOrEventListenerObject, options?:object):void => {
 	target.addEventListener(type,callback,options);
-}
+};
 
 
 /**
@@ -136,7 +136,7 @@ export function addEvent(target:EventTarget, type:string, callback:EventListener
  * The current evt may not always set ( eg calling advanceSelection() )
  *
  */
-export function isKeyDown( key_name:keyof (KeyboardEvent|MouseEvent), evt?:KeyboardEvent|MouseEvent ){
+export const isKeyDown = ( key_name:keyof (KeyboardEvent|MouseEvent), evt?:KeyboardEvent|MouseEvent ) => {
 
 	if( !evt ){
 		return false;
@@ -153,7 +153,7 @@ export function isKeyDown( key_name:keyof (KeyboardEvent|MouseEvent), evt?:Keybo
 	}
 
 	return false;
-}
+};
 
 
 /**
@@ -161,7 +161,7 @@ export function isKeyDown( key_name:keyof (KeyboardEvent|MouseEvent), evt?:Keybo
  * If the id attribute is not set, set the attribute with the given id
  *
  */
-export function getId(el:Element,id:string){
+export const getId = (el:Element,id:string) => {
 	const existing_id = el.getAttribute('id');
 	if( existing_id ){
 		return existing_id;
@@ -169,12 +169,12 @@ export function getId(el:Element,id:string){
 
 	el.setAttribute('id',id);
 	return id;
-}
+};
 
 
 /**
  * Returns a string with backslashes added before characters that need to be escaped.
  */
-export function addSlashes(str:string):string{
+export const addSlashes = (str:string):string => {
 	return str.replace(/[\\"']/g, '\\$&');
-}
+};
