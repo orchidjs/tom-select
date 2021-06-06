@@ -75,11 +75,6 @@ after(function() {
 var it_n = function(label,orig_func){
 	var new_func;
 
-	//if( test_number != 43 ){
-	//	test_number++;
-	//	return;
-	//}
-
 	label = (test_number++) + ' - ' + label
 
 	if( orig_func.length > 0 ){
@@ -88,6 +83,11 @@ var it_n = function(label,orig_func){
 			return orig_func.call(this,done);
 		};
 	}else{
+
+		var func = orig_func.toString();
+		if( func.match(/(\s|syn\.)(type|click)\(/) ){
+			throw 'test should be async or use done():'+func;
+		}
 		new_func = function(){
 			$current_test_label.text(label);
 			return orig_func.call(this);

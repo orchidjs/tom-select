@@ -656,16 +656,15 @@
 			});
 
 
-			it_n('clicking item should activate it', function() {
+			it_n('clicking item should activate it', async () => {
 				var test = setup_test('AB_Multi');
 
 				test.instance.addItem('a');
 				var item = test.instance.getItem('a');
 				expect(item.classList.contains('active')).to.be.equal(false);
 
-				click(item,function(){
-					expect(item.classList.contains('active')).to.be.equal(true);
-				});
+				await asyncClick(item);
+				expect(item.classList.contains('active')).to.be.equal(true);
 			});
 
 
