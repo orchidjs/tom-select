@@ -353,7 +353,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		};
 
 
-		addEvent(document,'mousedown',doc_mousedown);
+		addEvent(document,'mousedown', (e) => doc_mousedown(e as MouseEvent));
 		addEvent(window,'sroll', win_scroll, passive_event);
 		addEvent(window,'resize', win_scroll, passive_event);
 
@@ -869,7 +869,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addClasses(self.wrapper,self.settings.loadingClass);
 		self.loading++;
 
-		const callback = self.loadCallback.bind(self,value);
+		const callback = self.loadCallback.bind(self);
 		self.settings.load.call(self, value, callback);
 	}
 
@@ -877,7 +877,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Invoked by the user-provided option provider
 	 *
 	 */
-	loadCallback( value, options:TomOption[], optgroups:TomOption[] ):void{
+	loadCallback( options:TomOption[], optgroups:TomOption[] ):void{
 		const self = this;
 		self.loading = Math.max(self.loading - 1, 0);
 		self.lastQuery = null;

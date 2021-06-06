@@ -42,7 +42,7 @@ export function escape_html(str:string):string {
  * Debounce the user provided load function
  *
  */
-export function loadDebounce(fn,delay:number){
+export function loadDebounce(fn:(value:string,callback:() => any) => void,delay:number){
 	var timeout: null|ReturnType<typeof setTimeout>;
 	return function(this:TomSelect, value:string,callback:() => void) {
 		var self = this;
@@ -67,7 +67,7 @@ export function loadDebounce(fn,delay:number){
  *
  */
 export function debounce_events( self:TomSelect, types:string[], fn:() => void ) {
-	var type;
+	var type:string;
 	var trigger = self.trigger;
 	var event_args:{ [key: string]: any } = {};
 
@@ -125,7 +125,7 @@ export function preventDefault(evt?:Event, stop:boolean=false):void{
  * Prevent default
  *
  */
-export function addEvent(target:EventTarget, type:string, callback, options?:object):void{
+export function addEvent(target:EventTarget, type:string, callback:EventListenerOrEventListenerObject, options?:object):void{
 	target.addEventListener(type,callback,options);
 }
 
