@@ -47,7 +47,7 @@
 {% macro demo( label, html, script, style, jquery ) %}
 	{% set dd = demo_count.push('a') %}
 
-	<div class="demo py-5 {% if jquery %} demo-jquery {% endif %}">
+	<div class="demo py-4 {% if jquery %} demo-jquery {% endif %}">
 
 		{{ label | safe }}
 	<div>
