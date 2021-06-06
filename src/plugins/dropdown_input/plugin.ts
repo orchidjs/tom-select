@@ -39,7 +39,7 @@ TomSelect.define('dropdown_input',function(this:TomSelect) {
 
 
 		// keyboard navigation
-		addEvent(self.wrapper,'keypress',(evt:KeyboardEvent) => {
+		addEvent(self.wrapper,'keypress',(evt) => {
 
 			if( self.control.contains(evt.target as HTMLElement) ){
 				return;
@@ -50,7 +50,7 @@ TomSelect.define('dropdown_input',function(this:TomSelect) {
 			}
 
 			// open dropdown on enter when wrapper is tab-focused
-			switch (evt.keyCode) {
+			switch( (<KeyboardEvent>evt).keyCode ){
 				case constants.KEY_RETURN:
 					self.onClick();
 				return;
