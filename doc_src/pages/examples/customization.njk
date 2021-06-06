@@ -4,13 +4,20 @@ nav_title: Custom HTML
 tags: demo
 ---
 
+<p class="lead">
+	Nearly every piece of Tom Select is customizable.
+	<a href="/docs/#render-templates">Render templates</a> allow you to customize the HTML of rendered options, items, dropdown menu, optgroups and more.
+</p>
+
 {% from "demo.njk" import demo %}
 
 {% set label %}
 <label class="h2 mb-3">
-	Customizing Appearance
+	Custom Option and Item templates
 </label>
-<p>Render items on your own &amp; apply unique CSS styles.</p>
+<p>
+	This example provides a simple demonstration of how to override the default templates for options and items along with proper use of the <kbd>escape()</kbd> method.
+</p>
 {% endset %}
 
 {% set html %}
