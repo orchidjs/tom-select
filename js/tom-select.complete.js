@@ -3083,7 +3083,7 @@
 
 	  getOption(value) {
 	    var hashed = hash_key(value);
-	    return hashed ? this.rendered('option', hashed) : null;
+	    return this.rendered('option', hashed);
 	  }
 	  /**
 	   * Returns the dom element of the next or previous dom element of the same type
@@ -3187,7 +3187,7 @@
 	        }
 	      }
 
-	      if (!hashed || !self.options.hasOwnProperty(hashed)) return;
+	      if (hashed === null || !self.options.hasOwnProperty(hashed)) return;
 	      if (inputMode === 'single') self.clear(silent);
 	      if (inputMode === 'multi' && self.isFull()) return;
 	      item = self._render('item', self.options[hashed]);
@@ -3943,7 +3943,7 @@
 
 
 	  rendered(templateName, value) {
-	    return this.renderCache[templateName].hasOwnProperty(value) ? this.renderCache[templateName][value] : null;
+	    return value !== null && this.renderCache[templateName].hasOwnProperty(value) ? this.renderCache[templateName][value] : null;
 	  }
 	  /**
 	   * Clears the render cache for a template. If
