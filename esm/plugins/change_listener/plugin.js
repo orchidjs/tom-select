@@ -103,22 +103,22 @@ var defaults = {
  *   1         -> '1'
  *
  */
-function hash_key(value) {
+const hash_key = value => {
   if (typeof value === 'undefined' || value === null) return null;
   return get_hash(value);
-}
-function get_hash(value) {
+};
+const get_hash = value => {
   if (typeof value === 'boolean') return value ? '1' : '0';
   return value + '';
-}
+};
 /**
  * Prevent default
  *
  */
 
-function addEvent(target, type, callback, options) {
+const addEvent = (target, type, callback, options) => {
   target.addEventListener(type, callback, options);
-}
+};
 
 function getSettings(input, settings_user) {
   var settings = Object.assign({}, defaults, settings_user);
@@ -190,18 +190,16 @@ function getSettings(input, settings_user) {
             arr.push(group);
           }
         }
-
-        return;
+      } else {
+        var option_data = readData(option);
+        option_data[field_label] = option_data[field_label] || option.textContent;
+        option_data[field_value] = option_data[field_value] || value;
+        option_data[field_disabled] = option_data[field_disabled] || option.disabled;
+        option_data[field_optgroup] = option_data[field_optgroup] || group;
+        option_data.$option = option;
+        optionsMap[value] = option_data;
+        options.push(option_data);
       }
-
-      var option_data = readData(option);
-      option_data[field_label] = option_data[field_label] || option.textContent;
-      option_data[field_value] = option_data[field_value] || value;
-      option_data[field_disabled] = option_data[field_disabled] || option.disabled;
-      option_data[field_optgroup] = option_data[field_optgroup] || group;
-      option_data.$option = option;
-      optionsMap[value] = option_data;
-      options.push(option_data);
 
       if (option.selected) {
         settings_element.items.push(value);

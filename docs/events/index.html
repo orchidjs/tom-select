@@ -34,7 +34,7 @@
 				<input type="text" class="form-control" placeholder="Search" id="docsearch-input">
 			</div>
 
-			<div id="offcanvas-inner">
+			<div id="offcanvas-inner" class="d-flex flex-column">
 				
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
@@ -131,12 +131,17 @@ specifically when you wish to have multiple handlers.</p>
 	<tr>
 		<td><code>"item_add"</code></td>
 		<td><code>value</code>, <code>item</code></td>
-		<td>Invoked when an item is selected.</td>
+		<td>Invoked when an item is added (i.e., when an option is selected)</td>
 	</tr>
 	<tr>
 		<td><code>"item_remove"</code></td>
 		<td><code>value</code>, <code>$item</code></td>
 		<td>Invoked when an item is deselected.</td>
+	</tr>
+	<tr>
+		<td><code>"item_select"</code></td>
+		<td><code>item</code></td>
+		<td>Invoked when an item is selected.</td>
 	</tr>
 	<tr>
 		<td><code>"clear"</code></td>

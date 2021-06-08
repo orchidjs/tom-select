@@ -32,9 +32,9 @@
 	 *
 	 */
 
-	function addEvent(target, type, callback, options) {
+	const addEvent = (target, type, callback, options) => {
 	  target.addEventListener(type, callback, options);
-	}
+	};
 
 	/**
 	 * Plugin: "input_autogrow" (Tom Select)

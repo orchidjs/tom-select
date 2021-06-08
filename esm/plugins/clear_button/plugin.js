@@ -11,7 +11,7 @@ import TomSelect from '../../tom-select.js';
  *
  * param query should be {}
  */
-function getDom(query) {
+const getDom = query => {
   if (query.jquery) {
     return query[0];
   }
@@ -28,7 +28,7 @@ function getDom(query) {
   }
 
   return document.querySelector(query);
-}
+};
 
 /**
  * Plugin: "dropdown_header" (Tom Select)

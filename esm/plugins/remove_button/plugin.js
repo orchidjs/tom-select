@@ -11,7 +11,7 @@ import TomSelect from '../../tom-select.js';
  *
  * param query should be {}
  */
-function getDom(query) {
+const getDom = query => {
   if (query.jquery) {
     return query[0];
   }
@@ -28,7 +28,7 @@ function getDom(query) {
   }
 
   return document.querySelector(query);
-}
+};
 
 /**
  * Converts a scalar to its best string representation
@@ -49,15 +49,15 @@ function getDom(query) {
  *
  */
 
-function escape_html(str) {
+const escape_html = str => {
   return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+};
 /**
  * Prevent default
  *
  */
 
-function preventDefault(evt, stop = false) {
+const preventDefault = (evt, stop = false) => {
   if (evt) {
     evt.preventDefault();
 
@@ -65,15 +65,15 @@ function preventDefault(evt, stop = false) {
       evt.stopPropagation();
     }
   }
-}
+};
 /**
  * Prevent default
  *
  */
 
-function addEvent(target, type, callback, options) {
+const addEvent = (target, type, callback, options) => {
   target.addEventListener(type, callback, options);
-}
+};
 
 /**
  * Plugin: "remove_button" (Tom Select)
