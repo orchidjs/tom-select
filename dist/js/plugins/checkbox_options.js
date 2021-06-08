@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.4
+* Tom Select v1.7.5
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -27,20 +27,20 @@
 	 *   1         -> '1'
 	 *
 	 */
-	function hash_key(value) {
+	const hash_key = value => {
 	  if (typeof value === 'undefined' || value === null) return null;
 	  return get_hash(value);
-	}
-	function get_hash(value) {
+	};
+	const get_hash = value => {
 	  if (typeof value === 'boolean') return value ? '1' : '0';
 	  return value + '';
-	}
+	};
 	/**
 	 * Prevent default
 	 *
 	 */
 
-	function preventDefault(evt, stop = false) {
+	const preventDefault = (evt, stop = false) => {
 	  if (evt) {
 	    evt.preventDefault();
 
@@ -48,7 +48,7 @@
 	      evt.stopPropagation();
 	    }
 	  }
-	}
+	};
 
 	/**
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
@@ -56,7 +56,7 @@
 	 *
 	 * param query should be {}
 	 */
-	function getDom(query) {
+	const getDom = query => {
 	  if (query.jquery) {
 	    return query[0];
 	  }
@@ -73,7 +73,7 @@
 	  }
 
 	  return document.querySelector(query);
-	}
+	};
 
 	/**
 	 * Plugin: "restore_on_backspace" (Tom Select)

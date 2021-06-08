@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.4
+* Tom Select v1.7.5
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -15,7 +15,7 @@ typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
  *
  * param query should be {}
  */
-function getDom(query) {
+const getDom = query => {
   if (query.jquery) {
     return query[0];
   }
@@ -32,13 +32,13 @@ function getDom(query) {
   }
 
   return document.querySelector(query);
-}
+};
 /**
  * Set attributes of an element
  *
  */
 
-function setAttr(el, attrs) {
+const setAttr = (el, attrs) => {
   for (const attr in attrs) {
     let val = attrs[attr];
 
@@ -48,7 +48,7 @@ function setAttr(el, attrs) {
       el.setAttribute(attr, val);
     }
   }
-}
+};
 
 /**
  * Converts a scalar to its best string representation
@@ -69,9 +69,9 @@ function setAttr(el, attrs) {
  *
  */
 
-function addEvent(target, type, callback, options) {
+const addEvent = (target, type, callback, options) => {
   target.addEventListener(type, callback, options);
-}
+};
 
 /**
  * Plugin: "dropdown_input" (Tom Select)

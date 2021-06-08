@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.4
+* Tom Select v1.7.5
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -751,7 +751,7 @@ class Sifter {
  *
  * param query should be {}
  */
-function getDom(query) {
+const getDom = query => {
   if (query.jquery) {
     return query[0];
   }
@@ -768,34 +768,34 @@ function getDom(query) {
   }
 
   return document.querySelector(query);
-}
-function escapeQuery(query) {
+};
+const escapeQuery = query => {
   return query.replace(/['"\\]/g, '\\$&');
-}
+};
 /**
  * Dispatch an event
  *
  */
 
-function triggerEvent(dom_el, event_name) {
+const triggerEvent = (dom_el, event_name) => {
   var event = document.createEvent('HTMLEvents');
   event.initEvent(event_name, true, false);
   dom_el.dispatchEvent(event);
-}
+};
 /**
  * Apply CSS rules to a dom element
  *
  */
 
-function applyCSS(dom_el, css) {
+const applyCSS = (dom_el, css) => {
   Object.assign(dom_el.style, css);
-}
+};
 /**
  * Add css classes
  *
  */
 
-function addClasses(elmts, ...classes) {
+const addClasses = (elmts, ...classes) => {
   var norm_classes = classesArray(classes);
   elmts = castAsArray(elmts);
   elmts.map(el => {
@@ -803,13 +803,13 @@ function addClasses(elmts, ...classes) {
       el.classList.add(cls);
     });
   });
-}
+};
 /**
  * Remove css classes
  *
  */
 
-function removeClasses(elmts, ...classes) {
+const removeClasses = (elmts, ...classes) => {
   var norm_classes = classesArray(classes);
   elmts = castAsArray(elmts);
   elmts.map(el => {
@@ -817,13 +817,13 @@ function removeClasses(elmts, ...classes) {
       el.classList.remove(cls);
     });
   });
-}
+};
 /**
  * Return arguments
  *
  */
 
-function classesArray(args) {
+const classesArray = args => {
   var classes = [];
 
   for (let _classes of args) {
@@ -837,26 +837,26 @@ function classesArray(args) {
   }
 
   return classes.filter(Boolean);
-}
+};
 /**
  * Create an array from arg if it's not already an array
  *
  */
 
-function castAsArray(arg) {
+const castAsArray = arg => {
   if (!Array.isArray(arg)) {
     arg = [arg];
   }
 
   return arg;
-}
+};
 /**
  * Get the closest node to the evt.target matching the selector
  * Stops at wrapper
  *
  */
 
-function parentMatch(target, selector, wrapper) {
+const parentMatch = (target, selector, wrapper) => {
   if (wrapper && !wrapper.contains(target)) {
     return;
   }
@@ -868,7 +868,7 @@ function parentMatch(target, selector, wrapper) {
 
     target = target.parentNode;
   }
-}
+};
 /**
  * Get the first or last item from an array
  *
@@ -877,27 +877,27 @@ function parentMatch(target, selector, wrapper) {
  *
  */
 
-function getTail(list, direction = 0) {
+const getTail = (list, direction = 0) => {
   if (direction > 0) {
     return list[list.length - 1];
   }
 
   return list[0];
-}
+};
 /**
  * Return true if an object is empty
  *
  */
 
-function isEmptyObject(obj) {
+const isEmptyObject = obj => {
   return Object.keys(obj).length === 0;
-}
+};
 /**
  * Get the index of an element amongst sibling nodes of the same type
  *
  */
 
-function nodeIndex(el, amongst) {
+const nodeIndex = (el, amongst) => {
   if (!el) return -1;
   amongst = amongst || el.nodeName;
   var i = 0;
@@ -909,13 +909,13 @@ function nodeIndex(el, amongst) {
   }
 
   return i;
-}
+};
 /**
  * Set attributes of an element
  *
  */
 
-function setAttr(el, attrs) {
+const setAttr = (el, attrs) => {
   for (const attr in attrs) {
     let val = attrs[attr];
 
@@ -925,14 +925,14 @@ function setAttr(el, attrs) {
       el.setAttribute(attr, val);
     }
   }
-}
+};
 /**
  * Replace a node
  */
 
-function replaceNode(existing, replacement) {
+const replaceNode = (existing, replacement) => {
   if (existing.parentNode) existing.parentNode.replaceChild(replacement, existing);
-}
+};
 
 /**
  * highlight v3 | MIT license | Johann Burkard <jb@eaio.com>
@@ -1114,50 +1114,51 @@ var defaults = {
  *   1         -> '1'
  *
  */
-function hash_key(value) {
+const hash_key = value => {
   if (typeof value === 'undefined' || value === null) return null;
   return get_hash(value);
-}
-function get_hash(value) {
+};
+const get_hash = value => {
   if (typeof value === 'boolean') return value ? '1' : '0';
   return value + '';
-}
+};
 /**
  * Escapes a string for use within HTML.
  *
  */
 
-function escape_html(str) {
+const escape_html = str => {
   return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+};
 /**
  * Debounce the user provided load function
  *
  */
 
-function loadDebounce(fn, delay) {
+const loadDebounce = (fn, delay) => {
   var timeout;
   return function (value, callback) {
     var self = this;
 
     if (timeout) {
       self.loading = Math.max(self.loading - 1, 0);
+      clearTimeout(timeout);
     }
 
-    clearTimeout(timeout);
     timeout = setTimeout(function () {
+      timeout = null;
       self.loadedSearches[value] = true;
       fn.call(self, value, callback);
     }, delay);
   };
-}
+};
 /**
  * Debounce all fired events types listed in `types`
  * while executing the provided `fn`.
  *
  */
 
-function debounce_events(self, types, fn) {
+const debounce_events = (self, types, fn) => {
   var type;
   var trigger = self.trigger;
   var event_args = {}; // override trigger method
@@ -1179,7 +1180,7 @@ function debounce_events(self, types, fn) {
   for (type in event_args) {
     trigger.apply(self, event_args[type]);
   }
-}
+};
 /**
  * Determines the current selection within a text input control.
  * Returns an object containing:
@@ -1188,18 +1189,18 @@ function debounce_events(self, types, fn) {
  *
  */
 
-function getSelection(input) {
+const getSelection = input => {
   return {
     start: input.selectionStart || 0,
     length: (input.selectionEnd || 0) - (input.selectionStart || 0)
   };
-}
+};
 /**
  * Prevent default
  *
  */
 
-function preventDefault(evt, stop = false) {
+const preventDefault = (evt, stop = false) => {
   if (evt) {
     evt.preventDefault();
 
@@ -1207,15 +1208,15 @@ function preventDefault(evt, stop = false) {
       evt.stopPropagation();
     }
   }
-}
+};
 /**
  * Prevent default
  *
  */
 
-function addEvent(target, type, callback, options) {
+const addEvent = (target, type, callback, options) => {
   target.addEventListener(type, callback, options);
-}
+};
 /**
  * Return true if the requested key is down
  * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
@@ -1223,7 +1224,7 @@ function addEvent(target, type, callback, options) {
  *
  */
 
-function isKeyDown(key_name, evt) {
+const isKeyDown = (key_name, evt) => {
   if (!evt) {
     return false;
   }
@@ -1239,14 +1240,14 @@ function isKeyDown(key_name, evt) {
   }
 
   return false;
-}
+};
 /**
  * Get the id of an element
  * If the id attribute is not set, set the attribute with the given id
  *
  */
 
-function getId(el, id) {
+const getId = (el, id) => {
   const existing_id = el.getAttribute('id');
 
   if (existing_id) {
@@ -1255,14 +1256,14 @@ function getId(el, id) {
 
   el.setAttribute('id', id);
   return id;
-}
+};
 /**
  * Returns a string with backslashes added before characters that need to be escaped.
  */
 
-function addSlashes(str) {
+const addSlashes = str => {
   return str.replace(/[\\"']/g, '\\$&');
-}
+};
 
 function getSettings(input, settings_user) {
   var settings = Object.assign({}, defaults, settings_user);
@@ -1334,18 +1335,16 @@ function getSettings(input, settings_user) {
             arr.push(group);
           }
         }
-
-        return;
+      } else {
+        var option_data = readData(option);
+        option_data[field_label] = option_data[field_label] || option.textContent;
+        option_data[field_value] = option_data[field_value] || value;
+        option_data[field_disabled] = option_data[field_disabled] || option.disabled;
+        option_data[field_optgroup] = option_data[field_optgroup] || group;
+        option_data.$option = option;
+        optionsMap[value] = option_data;
+        options.push(option_data);
       }
-
-      var option_data = readData(option);
-      option_data[field_label] = option_data[field_label] || option.textContent;
-      option_data[field_value] = option_data[field_value] || value;
-      option_data[field_disabled] = option_data[field_disabled] || option.disabled;
-      option_data[field_optgroup] = option_data[field_optgroup] || group;
-      option_data.$option = option;
-      optionsMap[value] = option_data;
-      options.push(option_data);
 
       if (option.selected) {
         settings_element.items.push(value);
@@ -1704,7 +1703,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       }
     };
 
-    addEvent(document, 'mousedown', doc_mousedown);
+    addEvent(document, 'mousedown', e => doc_mousedown(e));
     addEvent(window, 'sroll', win_scroll, passive_event);
     addEvent(window, 'resize', win_scroll, passive_event);
 
@@ -1824,6 +1823,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       'change': 'onChange',
       'item_add': 'onItemAdd',
       'item_remove': 'onItemRemove',
+      'item_select': 'onItemSelect',
       'clear': 'onClear',
       'option_add': 'onOptionAdd',
       'option_remove': 'onOptionRemove',
@@ -2225,7 +2225,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     if (!self.canLoad(value)) return;
     addClasses(self.wrapper, self.settings.loadingClass);
     self.loading++;
-    const callback = self.loadCallback.bind(self, value);
+    const callback = self.loadCallback.bind(self);
     self.settings.load.call(self, value, callback);
   }
   /**
@@ -2234,7 +2234,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  loadCallback(value, options, optgroups) {
+  loadCallback(options, optgroups) {
     const self = this;
     self.loading = Math.max(self.loading - 1, 0);
     self.lastQuery = null;
@@ -2377,12 +2377,14 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   setActiveItemClass(item) {
-    var last_active = this.control.querySelector('.last-active');
+    const self = this;
+    const last_active = self.control.querySelector('.last-active');
     if (last_active) removeClasses(last_active, 'last-active');
     addClasses(item, 'active last-active');
+    self.trigger('item_select', item);
 
-    if (this.activeItems.indexOf(item) == -1) {
-      this.activeItems.push(item);
+    if (self.activeItems.indexOf(item) == -1) {
+      self.activeItems.push(item);
     }
   }
   /**
@@ -2719,7 +2721,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
         if (!groups.hasOwnProperty(optgroup)) {
           groups[optgroup] = document.createDocumentFragment();
           groups_order.push(optgroup);
-        } // a child could only have one parent, so if you have more parents clone the child
+        } // nodes can only have one parent, so if the option is in mutple groups, we need a clone
 
 
         if (j > 0) {
@@ -3076,7 +3078,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
   getOption(value) {
     var hashed = hash_key(value);
-    return hashed ? this.rendered('option', hashed) : null;
+    return this.rendered('option', hashed);
   }
   /**
    * Returns the dom element of the next or previous dom element of the same type
@@ -3137,12 +3139,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
   addItems(values, silent) {
     var self = this;
-    self.buffer = document.createDocumentFragment();
-
-    for (const child of self.control.children) {
-      self.buffer.appendChild(child);
-    }
-
     var items = Array.isArray(values) ? values : [values];
     items = items.filter(x => self.items.indexOf(x) === -1);
 
@@ -3150,10 +3146,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       self.isPending = i < n - 1;
       self.addItem(items[i], silent);
     }
-
-    var control = self.control;
-    control.insertBefore(self.buffer, control.firstChild);
-    self.buffer = null;
   }
   /**
    * "Selects" an item. Adds it to the list
@@ -3180,7 +3172,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
         }
       }
 
-      if (!hashed || !self.options.hasOwnProperty(hashed)) return;
+      if (hashed === null || !self.options.hasOwnProperty(hashed)) return;
       if (inputMode === 'single') self.clear(silent);
       if (inputMode === 'multi' && self.isFull()) return;
       item = self._render('item', self.options[hashed]);
@@ -3425,6 +3417,8 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var i, value, option, option_el, label;
 
     if (self.is_select_tag) {
+      const selected = document.createDocumentFragment();
+
       function AddSelected(option_el, value, label) {
         if (!option_el) {
           option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
@@ -3434,34 +3428,38 @@ class TomSelect extends MicroPlugin(MicroEvent) {
         setAttr(option_el, {
           selected: 'true'
         });
-        self.input.prepend(option_el);
+        selected.append(option_el);
         return option_el;
-      } // remove selected attribute from options whose values are not in self.items
+      } // unselect all selected options
 
 
       self.input.querySelectorAll('option[selected]').forEach(option_el => {
-        const _opt = option_el;
-
-        if (self.items.indexOf(_opt.value) == -1) {
-          setAttr(_opt, {
-            selected: null
-          });
-          _opt.selected = false;
-        }
-      }); // order selected <option> tags for values in self.items
-
-      for (i = self.items.length - 1; i >= 0; i--) {
-        value = self.items[i];
-        option = self.options[value];
-        label = option[self.settings.labelField] || '';
-        option.$option = AddSelected(option.$option, value, label);
-      } // nothing selected?
-
+        setAttr(option_el, {
+          selected: null
+        });
+        option_el.selected = false;
+      }); // nothing selected?
 
       if (self.items.length == 0 && self.settings.mode == 'single' && !self.isRequired) {
         option_el = self.input.querySelector('option[value=""]');
-        AddSelected(option_el, "", "");
-      }
+        AddSelected(option_el, "", ""); // order selected <option> tags for values in self.items
+      } else {
+        for (i = 0; i < self.items.length; i++) {
+          value = self.items[i];
+          option = self.options[value];
+          label = option[self.settings.labelField] || '';
+
+          if (selected.contains(option.$option)) {
+            const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]`);
+            AddSelected(reuse_opt, value, label);
+          } else {
+            option.$option = AddSelected(option.$option, value, label);
+          }
+        }
+      } // prepend all of the selected options
+
+
+      self.input.prepend(selected);
     } else {
       self.input.value = self.getValue();
     }
@@ -3596,7 +3594,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
   insertAtCaret(el) {
     var self = this;
     var caret = Math.min(self.caretPos, self.items.length);
-    var target = self.buffer || self.control;
+    var target = self.control;
 
     if (caret === 0) {
       target.insertBefore(el, target.firstChild);
@@ -3936,7 +3934,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   rendered(templateName, value) {
-    return this.renderCache[templateName].hasOwnProperty(value) ? this.renderCache[templateName][value] : null;
+    return value !== null && this.renderCache[templateName].hasOwnProperty(value) ? this.renderCache[templateName][value] : null;
   }
   /**
    * Clears the render cache for a template. If

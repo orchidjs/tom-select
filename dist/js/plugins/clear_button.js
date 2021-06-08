@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.4
+* Tom Select v1.7.5
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -19,7 +19,7 @@
 	 *
 	 * param query should be {}
 	 */
-	function getDom(query) {
+	const getDom = query => {
 	  if (query.jquery) {
 	    return query[0];
 	  }
@@ -36,7 +36,7 @@
 	  }
 
 	  return document.querySelector(query);
-	}
+	};
 
 	/**
 	 * Plugin: "dropdown_header" (Tom Select)

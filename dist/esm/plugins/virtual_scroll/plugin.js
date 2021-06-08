@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.4
+* Tom Select v1.7.5
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -16,7 +16,7 @@ import TomSelect from '../../tom-select.js';
  *
  */
 
-function addClasses(elmts, ...classes) {
+const addClasses = (elmts, ...classes) => {
   var norm_classes = classesArray(classes);
   elmts = castAsArray(elmts);
   elmts.map(el => {
@@ -24,13 +24,13 @@ function addClasses(elmts, ...classes) {
       el.classList.add(cls);
     });
   });
-}
+};
 /**
  * Return arguments
  *
  */
 
-function classesArray(args) {
+const classesArray = args => {
   var classes = [];
 
   for (let _classes of args) {
@@ -44,19 +44,19 @@ function classesArray(args) {
   }
 
   return classes.filter(Boolean);
-}
+};
 /**
  * Create an array from arg if it's not already an array
  *
  */
 
-function castAsArray(arg) {
+const castAsArray = arg => {
   if (!Array.isArray(arg)) {
     arg = [arg];
   }
 
   return arg;
-}
+};
 
 /**
  * Plugin: "restore_on_backspace" (Tom Select)

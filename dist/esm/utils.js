@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.4
+* Tom Select v1.7.5
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -17,50 +17,51 @@
  *   1         -> '1'
  *
  */
-function hash_key(value) {
+const hash_key = value => {
   if (typeof value === 'undefined' || value === null) return null;
   return get_hash(value);
-}
-function get_hash(value) {
+};
+const get_hash = value => {
   if (typeof value === 'boolean') return value ? '1' : '0';
   return value + '';
-}
+};
 /**
  * Escapes a string for use within HTML.
  *
  */
 
-function escape_html(str) {
+const escape_html = str => {
   return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+};
 /**
  * Debounce the user provided load function
  *
  */
 
-function loadDebounce(fn, delay) {
+const loadDebounce = (fn, delay) => {
   var timeout;
   return function (value, callback) {
     var self = this;
 
     if (timeout) {
       self.loading = Math.max(self.loading - 1, 0);
+      clearTimeout(timeout);
     }
 
-    clearTimeout(timeout);
     timeout = setTimeout(function () {
+      timeout = null;
       self.loadedSearches[value] = true;
       fn.call(self, value, callback);
     }, delay);
   };
-}
+};
 /**
  * Debounce all fired events types listed in `types`
  * while executing the provided `fn`.
  *
  */
 
-function debounce_events(self, types, fn) {
+const debounce_events = (self, types, fn) => {
   var type;
   var trigger = self.trigger;
   var event_args = {}; // override trigger method
@@ -82,7 +83,7 @@ function debounce_events(self, types, fn) {
   for (type in event_args) {
     trigger.apply(self, event_args[type]);
   }
-}
+};
 /**
  * Determines the current selection within a text input control.
  * Returns an object containing:
@@ -91,18 +92,18 @@ function debounce_events(self, types, fn) {
  *
  */
 
-function getSelection(input) {
+const getSelection = input => {
   return {
     start: input.selectionStart || 0,
     length: (input.selectionEnd || 0) - (input.selectionStart || 0)
   };
-}
+};
 /**
  * Prevent default
  *
  */
 
-function preventDefault(evt, stop = false) {
+const preventDefault = (evt, stop = false) => {
   if (evt) {
     evt.preventDefault();
 
@@ -110,15 +111,15 @@ function preventDefault(evt, stop = false) {
       evt.stopPropagation();
     }
   }
-}
+};
 /**
  * Prevent default
  *
  */
 
-function addEvent(target, type, callback, options) {
+const addEvent = (target, type, callback, options) => {
   target.addEventListener(type, callback, options);
-}
+};
 /**
  * Return true if the requested key is down
  * Will return false if more than one control character is pressed ( when [ctrl+shift+a] != [ctrl+a] )
@@ -126,7 +127,7 @@ function addEvent(target, type, callback, options) {
  *
  */
 
-function isKeyDown(key_name, evt) {
+const isKeyDown = (key_name, evt) => {
   if (!evt) {
     return false;
   }
@@ -142,14 +143,14 @@ function isKeyDown(key_name, evt) {
   }
 
   return false;
-}
+};
 /**
  * Get the id of an element
  * If the id attribute is not set, set the attribute with the given id
  *
  */
 
-function getId(el, id) {
+const getId = (el, id) => {
   const existing_id = el.getAttribute('id');
 
   if (existing_id) {
@@ -158,14 +159,14 @@ function getId(el, id) {
 
   el.setAttribute('id', id);
   return id;
-}
+};
 /**
  * Returns a string with backslashes added before characters that need to be escaped.
  */
 
-function addSlashes(str) {
+const addSlashes = str => {
   return str.replace(/[\\"']/g, '\\$&');
-}
+};
 
 export { addEvent, addSlashes, debounce_events, escape_html, getId, getSelection, get_hash, hash_key, isKeyDown, loadDebounce, preventDefault };
 //# sourceMappingURL=utils.js.map

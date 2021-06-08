@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.4
+* Tom Select v1.7.5
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -19,7 +19,7 @@
 	 *
 	 * param query should be {}
 	 */
-	function getDom(query) {
+	const getDom = query => {
 	  if (query.jquery) {
 	    return query[0];
 	  }
@@ -36,7 +36,7 @@
 	  }
 
 	  return document.querySelector(query);
-	}
+	};
 
 	/**
 	 * Converts a scalar to its best string representation
@@ -57,7 +57,7 @@
 	 *
 	 */
 
-	function preventDefault(evt, stop = false) {
+	const preventDefault = (evt, stop = false) => {
 	  if (evt) {
 	    evt.preventDefault();
 
@@ -65,7 +65,7 @@
 	      evt.stopPropagation();
 	    }
 	  }
-	}
+	};
 
 	/**
 	 * Plugin: "dropdown_header" (Tom Select)

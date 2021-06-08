@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.4
+* Tom Select v1.7.5
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -22,7 +22,7 @@ typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
  *
  */
 
-function parentMatch(target, selector, wrapper) {
+const parentMatch = (target, selector, wrapper) => {
   if (wrapper && !wrapper.contains(target)) {
     return;
   }
@@ -34,13 +34,13 @@ function parentMatch(target, selector, wrapper) {
 
     target = target.parentNode;
   }
-}
+};
 /**
  * Get the index of an element amongst sibling nodes of the same type
  *
  */
 
-function nodeIndex(el, amongst) {
+const nodeIndex = (el, amongst) => {
   if (!el) return -1;
   amongst = amongst || el.nodeName;
   var i = 0;
@@ -52,7 +52,7 @@ function nodeIndex(el, amongst) {
   }
 
   return i;
-}
+};
 
 /**
  * Plugin: "optgroup_columns" (Tom Select.js)

@@ -8,6 +8,11 @@
 
 		&.focus.has-items > input {
 			flex: none;
+			min-width: 4px;
+
+			&::placeholder {
+				color:transparent;
+			}
 		}
 	}
 }

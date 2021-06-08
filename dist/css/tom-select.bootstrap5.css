@@ -2,7 +2,7 @@
  * Tom Select bootstrap 5
  */
 /**
- * tom-select.css (v1.7.4)
+ * tom-select.css (v1.7.5)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -94,7 +94,14 @@
   min-width: 0; }
 
 .ts-control.plugin-input_autogrow .ts-input.focus.has-items > input {
-  flex: none; }
+  flex: none;
+  min-width: 4px; }
+  .ts-control.plugin-input_autogrow .ts-input.focus.has-items > input::-webkit-input-placeholder {
+    color: transparent; }
+  .ts-control.plugin-input_autogrow .ts-input.focus.has-items > input::-ms-input-placeholder {
+    color: transparent; }
+  .ts-control.plugin-input_autogrow .ts-input.focus.has-items > input::placeholder {
+    color: transparent; }
 
 .ts-dropdown.plugin-optgroup_columns .ts-dropdown-content {
   display: flex; }

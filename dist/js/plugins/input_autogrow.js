@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.4
+* Tom Select v1.7.5
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -32,9 +32,9 @@
 	 *
 	 */
 
-	function addEvent(target, type, callback, options) {
+	const addEvent = (target, type, callback, options) => {
 	  target.addEventListener(type, callback, options);
-	}
+	};
 
 	/**
 	 * Plugin: "input_autogrow" (Tom Select)
