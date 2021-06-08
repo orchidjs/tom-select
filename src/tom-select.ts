@@ -1333,7 +1333,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					groups_order.push(optgroup);
 				}
 
-				// a child could only have one parent, so if you have more parents clone the child
+				// nodes can only have one parent, so if the option is in mutple groups, we need a clone
 				if( j > 0 ){
 					option_el = option_el.cloneNode(true) as HTMLElement;
 					setAttr(option_el,{id: option.$id+'-clone-'+j,'aria-selected':null});
@@ -2036,6 +2036,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if( self.is_select_tag ){
 
+			const selected = document.createDocumentFragment();
+
 			function AddSelected(option_el:HTMLOptionElement|null, value:string, label:string):HTMLOptionElement{
 
 				if( !option_el ){
@@ -2044,33 +2046,43 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				option_el.selected = true;
 				setAttr(option_el,{selected:'true'});
-				self.input.prepend(option_el);
+				selected.append(option_el);
 
 				return option_el;
 			}
 
-			// remove selected attribute from options whose values are not in self.items
+			// unselect all selected options
 			self.input.querySelectorAll('option[selected]').forEach((option_el:Element) => {
-				const _opt = option_el as HTMLOptionElement;
-				if( self.items.indexOf(_opt.value) == -1 ){
-					setAttr(_opt,{selected:null});
-					_opt.selected = false;
-				}
+				setAttr(option_el,{selected:null});
+				(<HTMLOptionElement>option_el).selected = false;
 			});
 
-			// order selected <option> tags for values in self.items
-			for( i = self.items.length - 1; i >= 0; i-- ){
-				value			= self.items[i];
-				option			= self.options[value];
-				label			= option[self.settings.labelField] || '';
-				option.$option	= AddSelected(option.$option, value, label);
-			}
 
 			// nothing selected?
 			if( self.items.length == 0 && self.settings.mode == 'single' && !self.isRequired ){
 				option_el = self.input.querySelector('option[value=""]');
 				AddSelected(option_el, "", "");
+
+			// order selected <option> tags for values in self.items
+			}else{
+
+				for( i = 0; i < self.items.length; i++ ){
+					value			= self.items[i];
+					option			= self.options[value];
+					label			= option[self.settings.labelField] || '';
+
+					if( selected.contains(option.$option) ){
+						const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]`) as HTMLOptionElement;
+						AddSelected(reuse_opt, value, label);
+					}else{
+						option.$option	= AddSelected(option.$option, value, label);
+					}
+				}
+
 			}
+
+			// prepend all of the selected options
+			self.input.prepend(selected);
 
 		} else {
 			self.input.value = self.getValue() as string;
