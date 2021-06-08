@@ -483,6 +483,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			'change'          : 'onChange',
 			'item_add'        : 'onItemAdd',
 			'item_remove'     : 'onItemRemove',
+			'item_select'     : 'onItemSelect',
 			'clear'           : 'onClear',
 			'option_add'      : 'onOptionAdd',
 			'option_remove'   : 'onOptionRemove',
@@ -1013,13 +1014,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	setActiveItemClass( item:TomItem ){
-
-		var last_active = this.control.querySelector('.last-active');
+		const self = this;
+		const last_active = self.control.querySelector('.last-active');
 		if( last_active ) removeClasses(last_active as HTMLElement,'last-active');
 
 		addClasses(item,'active last-active');
-		if( this.activeItems.indexOf(item) == -1 ){
-			this.activeItems.push( item );
+		self.trigger('item_select', item);
+		if( self.activeItems.indexOf(item) == -1 ){
+			self.activeItems.push( item );
 		}
 	}
 

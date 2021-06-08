@@ -158,13 +158,6 @@ describe('Events', function() {
 	});
 
 	describe('item_add', function() {
-		it_n('should be triggered', function(done) {
-			var test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
-			test.instance.on('item_add', function() {
-				done();
-			});
-			test.instance.addItem('b');
-		});
 		it_n('should contain item\'s value and element', function(done) {
 			var test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
 			test.instance.on('item_add', function(value, item) {
@@ -177,13 +170,6 @@ describe('Events', function() {
 	});
 
 	describe('item_remove', function() {
-		it_n('should be triggered', function(done) {
-			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-			test.instance.on('item_remove', function() {
-				done();
-			});
-			test.instance.removeItem('a');
-		});
 		it_n('should contain item\'s value and element', function(done) {
 			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
 			test.instance.on('item_remove', function(value, item) {
@@ -192,6 +178,19 @@ describe('Events', function() {
 				done();
 			});
 			test.instance.removeItem('b');
+		});
+	});
+
+	describe('item_select', function() {
+		it_n('should contain item\'s element', function(done) {
+			var test = setup_test('AB_Multi');
+			test.instance.on('item_select', function(item) {
+				expect(item.dataset.value).to.be.equal('b');
+				done();
+			});
+			test.instance.addItem('b');
+			var item = test.instance.getItem('b');
+			click(item);
 		});
 	});
 
@@ -206,11 +205,6 @@ describe('Events', function() {
 	});
 
 	describe('optgroup_add', function() {
-		it_n('should be triggered', function(done) {
-			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-			test.instance.on('optgroup_add', function() { done(); });
-			test.instance.addOptionGroup('id', {label: 'Group'});
-		});
 		it_n('should contain optgroup id', function(done) {
 			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
 			test.instance.on('optgroup_add', function(id, data) {
@@ -254,13 +248,6 @@ describe('Events', function() {
 	});
 
 	describe('option_add', function() {
-		it_n('should be triggered', function(done) {
-			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-			test.instance.on('option_add', function() {
-				done();
-			});
-			test.instance.addOption({value: 'e'});
-		});
 		it_n('should contain option value', function(done) {
 			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
 			test.instance.on('option_add', function(value, data) {
@@ -281,13 +268,6 @@ describe('Events', function() {
 	});
 
 	describe('option_remove', function() {
-		it_n('should be triggered', function(done) {
-			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-			test.instance.on('option_remove', function() {
-				done();
-			});
-			test.instance.removeOption('a');
-		});
 		it_n('should contain option value', function(done) {
 			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
 			test.instance.on('option_remove', function(value) {
@@ -340,13 +320,6 @@ describe('Events', function() {
 	});
 
 	describe('type', function() {
-		it_n('should be triggered', function(done) {
-			var test = setup_test('<select></select>', {create: true});
-			test.instance.on('type', function() {
-				done();
-			});
-			syn.click(test.instance.control).type('a', test.instance.control_input);
-		});
 		it_n('should contain current value', function(done) {
 			var test = setup_test('<select></select>', {create: true});
 			test.instance.on('type', function(value) {

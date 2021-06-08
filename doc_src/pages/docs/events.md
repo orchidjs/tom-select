@@ -50,12 +50,17 @@ select.off('event_name', handler);
 	<tr>
 		<td><code>"item_add"</code></td>
 		<td><code>value</code>, <code>item</code></td>
-		<td>Invoked when an item is selected.</td>
+		<td>Invoked when an item is added (i.e., when an option is selected)</td>
 	</tr>
 	<tr>
 		<td><code>"item_remove"</code></td>
 		<td><code>value</code>, <code>$item</code></td>
 		<td>Invoked when an item is deselected.</td>
+	</tr>
+	<tr>
+		<td><code>"item_select"</code></td>
+		<td><code>item</code></td>
+		<td>Invoked when an item is selected.</td>
 	</tr>
 	<tr>
 		<td><code>"clear"</code></td>
