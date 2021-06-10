@@ -86,23 +86,38 @@
 				});
 			});
 
-			it_n('should close dropdown and clear active items after [escape] key press', function(done) {
+			it_n('should close dropdown and clear active items after [escape] key press', async () => {
 
-				var test = setup_test('AB_Multi');
+				var test = setup_test('AB_Multi',{items:['a']});
 
+				await asyncClick(test.instance.control);
+				test.instance.setActiveItem(test.instance.getItem('a'));
 
-				click(test.instance.control, function() {
-					assert.equal( test.instance.isOpen, true, 'not open' );
-					test.instance.addItem('a');
-					test.instance.setActiveItem(test.instance.getItem('a'));
+				assert.equal( test.instance.isOpen, true, 'not open' );
+				assert.equal( test.instance.items.length, 1 , 'should have 1 item' );
+				assert.equal( test.instance.activeItems.length, 1 , 'should 1 active item' );
 
-					syn.type('[escape]', test.instance.control_input, function() {
-						assert.equal( test.instance.isOpen, false, 'not closed' );
-						assert.equal( test.instance.activeItems.length, 0 , 'not cleared' );
-						done();
-					});
+				await asyncType('[escape]', test.instance.control_input);
+				assert.equal( test.instance.isOpen, false, 'not closed' );
+				assert.equal( test.instance.activeItems.length, 0 , 'not cleared' );
+				assert.equal( test.instance.control_input.value,'','should clear control_input');
 
-				});
+			});
+
+			it_n('should close dropdown and clear control_input after [escape] key press', async () => {
+
+				var test = setup_test('AB_Multi',{items:['a']});
+
+				await asyncClick(test.instance.control);
+				await asyncType('b', test.instance.control_input);
+
+				assert.equal( test.instance.isOpen, true, 'not open' );
+				assert.equal( test.instance.control_input.value,'b','should type "b"');
+
+				await asyncType('[escape]', test.instance.control_input);
+				assert.equal( test.instance.isOpen, false, 'not closed' );
+				assert.equal( test.instance.control_input.value,'','should clear control_input');
+
 			});
 
 
@@ -358,6 +373,7 @@
 				click(test.instance.control, function() {
 					syn.type('a', test.instance.control_input)
 					.delay(0, function() {
+						assert.equal(test.instance.control_input.value,'a','control_input should have value="a"');
 						expect($('[data-value="a"]', test.instance.dropdown).length).to.be.equal(1);
 						expect($('[data-value="b"]', test.instance.dropdown).length).to.be.equal(0);
 
