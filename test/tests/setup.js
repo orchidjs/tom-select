@@ -6,7 +6,7 @@
 			let test = setup_test('<input type="text">', {});
 			let errors = 0 ;
 			try {
-				tomSelect(test.$select);
+				tomSelect(test.select);
 
 			} catch (error) {
 				errors++;

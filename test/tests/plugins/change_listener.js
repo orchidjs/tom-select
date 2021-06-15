@@ -16,13 +16,13 @@ describe('plugin: change_listener', function() {
 
 		assert.equal( Object.keys(test.instance.options).length, 1);
 
-		var input = test.$select[0];
+		var input = test.select;
 
 		changeInput(input,'new value');
 		await waitFor(10);
 		assert.equal( Object.keys(test.instance.options).length, 2);
-		assert.equal( test.instance.items[0], 'new value');
 		assert.equal( test.instance.items.length, 1,'should have one value = "new value"');
+		assert.equal( test.instance.items[0], 'new value');
 		assert.isFalse( test.instance.isFocused, 'should not focus');
 
 		test.instance.removeItem('new value');

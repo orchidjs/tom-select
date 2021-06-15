@@ -47,7 +47,7 @@ describe('Validation', function(){
 		});
 
 		it_n('should have "invalid" class when validation fails', function(done) {
-			test.$select[0].checkValidity();
+			test.select.checkValidity();
 
 			var classList = test.instance.control.classList;
 

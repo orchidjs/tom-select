@@ -131,8 +131,8 @@ describe('Events', function() {
 		it_n('should be triggered once before change', function(done) {
 			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
 			var evt = '';
-			test.$select.on('change', function() { evt = evt + 'change'; });
-			test.$select.on('input', function() { evt = evt + 'input'; });
+			test.select.addEventListener('change',function() { evt = evt + 'change'; });
+			test.select.addEventListener('input', function() { evt = evt + 'input'; });
 			test.instance.setValue('b');
 
 			window.setTimeout(function() {
@@ -144,7 +144,7 @@ describe('Events', function() {
 			var test = setup_test('<select><option value="a" selected="selected">a</option></select>');
 
 			var counter = 0;
-			test.$select.on('input', function() { counter++; });
+			test.select.addEventListener('input', function() { counter++; });
 
 			syn.click(test.instance.control).delay(0, function() {
 				syn

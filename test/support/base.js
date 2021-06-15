@@ -18,7 +18,8 @@ var teardownLast = function(){
 	if( window.test_last ){
 		window.test_last.instance.destroy();
 		window.test_last.$html.remove();
-		//sandbox.innerHTML = '';
+		delete window.test_last.instance;
+		sandbox.innerHTML = '';
 		window.test_last = null;
 	}
 }
@@ -42,15 +43,15 @@ window.setup_test = function(html, options, callback) {
 
 
 	var $html			= $(html).appendTo(sandbox);
-	var $select			= $html.find('.setup-here');
-	if( $select.length === 0 ){
-		$select = $html;
+	var select			= sandbox.querySelector('.setup-here');
+	if( !select ){
+		select = $html[0];
 	}
 
-	var instance = tomSelect($select,options);
+	var instance = tomSelect(select,options);
 	var test = window.test_last = {
 		$html: $html,
-		$select: $select,
+		select: select,
 		callback: callback,
 		instance: instance
 	};

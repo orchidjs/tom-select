@@ -775,7 +775,7 @@
 				var test = setup_test('<select><option>a</option></select>');
 				await asyncClick(test.instance.control);
 				test.instance.clear();
-				assert.isEmpty(test.$select[0].value);
+				assert.isEmpty(test.select.value);
 				assert.isOk(test.instance.input.querySelector('option[value=""]'));
 			});
 
@@ -888,8 +888,8 @@
 				'</optgroup>';
 				var test = setup_test('<select tabindex="9999">' + children + '</select>', {});
 				test.instance.destroy();
-				expect(test.$select.html(),'restoring children failed').to.be.equal(children);
-				expect(test.$select[0].tabIndex,'restoring tabindex failed').to.be.equal(9999);
+				expect(test.select.innerHTML,'restoring children failed').to.be.equal(children);
+				expect(test.select.tabIndex,'restoring tabindex failed').to.be.equal(9999);
 			});
 		});
 
@@ -1028,7 +1028,7 @@
 				const test		= setup_test('AB_Multi',{items:['a']});
 				var opt_count	= Object.keys(test.instance.options).length;
 				var opt			= new Option('new', 'new');
-				test.$select[0].append(opt);
+				test.select.append(opt);
 				test.instance.sync();
 
 				assert.equal( Object.keys(test.instance.options).length, opt_count+1);

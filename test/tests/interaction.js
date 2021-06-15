@@ -250,35 +250,34 @@
 
 		describe('clicking label', function() {
 
-			it_n('should give it focus to select', function(done) {
+			it_n('should give focus to select', function(done) {
 
-				var inputId		= "labeledSelect";
-				var label		= $('<label for="'+inputId+'">select</label>').appendTo(sandbox);
-				var test = setup_test('<select id="'+inputId+'">' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
-				'</select>', {});
+				var test = setup_test(`<label for="labeledSelect" id="select-label">select</label><select class="setup-here" id="labeledSelect">
+					<option value="a">A</option>
+					<option value="b">B</option>
+				</select>`);
 
-				label[0].click();
+				var label = document.getElementById('select-label');
+
+				label.click();
 
 				setTimeout(()=>{
-					label.remove();
 					expect(test.instance.isFocused).to.be.equal(true);
 					done();
 				},1);
 			});
 
 
-			it_n('should give it focus to input', function(done) {
+			it_n('should give focus to input', function(done) {
 
-				var inputId		= "labeledInput";
-				var label		= $('<label for="'+inputId+'">input</label>').appendTo(sandbox);
-				var test		= setup_test('<input id="'+inputId+'" type="text" value="a,b,c,d">', {});
+				var test		= setup_test(`<label for="labeledInput" id="input-label">input</label>
+					<input id="labeledInput" type="text" value="a,b,c,d" class="setup-here">`);
 
-				label[0].click();
+				var label = document.getElementById('input-label');
+
+				label.click();
 
 				setTimeout(()=>{
-					label.remove();
 					expect(test.instance.isFocused).to.be.equal(true);
 					done();
 				},1);
