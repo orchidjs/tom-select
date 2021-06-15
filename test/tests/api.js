@@ -894,21 +894,25 @@
 		});
 
 		describe('clearCache()', function() {
+			var test;
 
-			var test = setup_test('<select multiple>', {
-					valueField: 'value',
-					labelField: 'value',
-					options: [
-						{value: 0},
-						{value: 1},
-						{value: 2},
-						{value: 3},
-					],
-					items: ['1','2','3']
-				});
-				test.instance.advanceSelection(1);
-				test.instance.refreshOptions(true);
-				test.instance.refreshItems();
+			before(()=>{
+				test = setup_test('<select multiple>', {
+						valueField: 'value',
+						labelField: 'value',
+						options: [
+							{value: 0},
+							{value: 1},
+							{value: 2},
+							{value: 3},
+						],
+						items: ['1','2','3']
+					});
+					test.instance.advanceSelection(1);
+					test.instance.refreshOptions(true);
+					test.instance.refreshItems();
+			});
+
 
 			it_n('should clear the whole renderCache', function () {
 				var option_el_before = test.instance.getOption('0');
@@ -1012,17 +1016,26 @@
 
 		});
 
-		describe('Unit Tests', function() {
-			var test;
-
-			before(function() {
-				test = setup_test('AB_Multi');
-			});
-
+		describe('controlChilden()', function() {
 			it_n('controlChilden() should return empty array',function(){
+				const test = setup_test('AB_Multi');
 				assert.equal(test.instance.controlChildren().length,0);
 			});
+		});
 
+		describe('sync()',function(){
+			it_n('sync() should update options',function(){
+				const test		= setup_test('AB_Multi',{items:['a']});
+				var opt_count	= Object.keys(test.instance.options).length;
+				var opt			= new Option('new', 'new');
+				test.$select[0].append(opt);
+				test.instance.sync();
+
+				assert.equal( Object.keys(test.instance.options).length, opt_count+1);
+
+				//assert.equal(test.instance.items.length, 1,'should have one item');
+				//assert.equal(test.instance.items[0], 'new');
+			});
 		});
 
 	});

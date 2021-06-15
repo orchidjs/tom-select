@@ -503,13 +503,16 @@
 
 
 		describe('external control input', function() {
+			var test, control;
 
-			var test		= setup_test('<div><select class="setup-here"><option>a</option><option>b</option></select><input id="external-control"></div>',{controlInput:'#external-control'});
-			var $control	= test.$html.find('#external-control');
+			before(()=>{
+				test		= setup_test('<div><select class="setup-here"><option>a</option><option>b</option></select><input id="external-control"></div>',{controlInput:'#external-control'});
+				control		= document.getElementById('external-control');
+			});
 
 			it_n('should filter options when typing in external control', function(done) {
 
-				syn.type('a',$control,function(){
+				syn.type('a',control,function(){
 					assert.equal(test.instance.dropdown_content.children.length, 1);
 					done();
 				});
@@ -527,7 +530,7 @@
 				test.instance.addItem('b');
 				var caretpos = test.instance.caretPos;
 
-				syn.type('[left]',$control,function(){
+				syn.type('[left]',control,function(){
 					assert.equal(test.instance.caretPos, caretpos);
 					done();
 				});
