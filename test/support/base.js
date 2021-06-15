@@ -55,6 +55,7 @@ window.setup_test = function(html, options, callback) {
 	var instance = tomSelect(select,options);
 	var test = window.test_last = {
 		$html: $html,
+		html: $html[0],
 		select: select,
 		callback: callback,
 		instance: instance

@@ -340,8 +340,8 @@
 
 				click(test.instance.control, function() {
 
-					var option_a = test.$html[0].querySelector('option[value="a"]');
-					var option_b = test.$html[0].querySelector('option[value="b"]');
+					var option_a = test.html.querySelector('option[value="a"]');
+					var option_b = test.html.querySelector('option[value="b"]');
 					assert.equal(option_a.nextSibling, option_b,'should be original order');
 
 					click($('[data-value="b"]', test.instance.dropdown), function() {
@@ -349,7 +349,7 @@
 						syn.type('new',test.instance.control_input,function(){
 							syn.type('[enter]',test.instance.control_input, function(){
 								click($('[data-value="a"]', test.instance.dropdown), function() {
-									var selected = test.$html[0].querySelectorAll('option[selected]');
+									var selected = test.html.querySelectorAll('option[selected]');
 									assert.equal(selected.length, 3,'should have three selected options');
 									assert.equal(option_b.nextSibling.value, 'new' ,'"new" should be after "b"');
 									assert.equal(option_b.nextSibling.nextSibling, option_a ,'"a" should be after "b"');
