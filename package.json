@@ -73,7 +73,7 @@
     "karma-safari-launcher": "^1.0.0",
     "karma-sourcemap-loader": "^0.3.8",
     "load-grunt-tasks": "^5.1.0",
-    "markdown-it-anchor": "^7.1.0",
+    "markdown-it-anchor": "^8.0.0",
     "mocha": "^9.0.0",
     "node-sass": "^6.0.0",
     "postcss": "^8.2.6",
