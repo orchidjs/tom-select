@@ -72,39 +72,25 @@
 			});
 		});
 
-		describe('focus()', function() {
-			var test;
+		describe('focus() and blur()', function() {
 
-			before(function(done) {
-				test = setup_test('<select>', {});
+			it_n('should focus and blur',function(done) {
+				var test = setup_test('<select>', {});
 				test.instance.focus();
-				window.setTimeout(function() { done(); }, 5);
-			});
 
-			it_n('should set isFocused property to true', function() {
-				expect(test.instance.isFocused).to.be.equal(true);
-			});
-			it_n('should give the control focus', function() {
-				expect(has_focus(test.instance.control_input)).to.be.equal(true);
-			});
-		});
-
-		describe('blur()', function() {
-			var test;
-
-			before(function(done) {
-				test = setup_test('<select>', {});
-				test.instance.focus();
 				window.setTimeout(function() {
+
+					assert.isTrue(test.instance.isFocused,'should set isFocused property to true');
+					assert.isTrue(has_focus(test.instance.control_input), 'should give the control focus');
+
 					test.instance.blur();
-					window.setTimeout(done, 100);
-				}, 50);
-			});
-			it_n('should set isFocused property to false', function() {
-				expect(test.instance.isFocused).to.be.equal(false);
-			});
-			it_n('should remove focus from the control', function() {
-				expect(has_focus(test.instance.control_input)).to.be.equal(false);
+
+					window.setTimeout(()=>{
+						assert.isFalse(test.instance.isFocused, 'should set isFocused property to false');
+						assert.isFalse(has_focus(test.instance.control_input), 'should remove focus from the control');
+						done();
+					},5);
+				}, 5);
 			});
 		});
 
