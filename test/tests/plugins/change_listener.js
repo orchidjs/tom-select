@@ -3,8 +3,10 @@
 
 describe('plugin: change_listener', function() {
 
-	function changeInput(input,value){
-		input.value = value;
+	function changeInput(input,value = null ){
+		if( value ){
+			input.value = value;
+		}
 		var evt = document.createEvent('HTMLEvents');
 		evt.initEvent('change', false, true);
 		input.dispatchEvent(evt);
@@ -49,6 +51,21 @@ describe('plugin: change_listener', function() {
 		assert.equal(test.instance.items.length, 2,'should have two items');
 		assert.equal(test.instance.items[0], 'original');
 		assert.equal(test.instance.items[1], 'new');
+
+	});
+
+	it_n('<option> added on original <select>', async ()=>{
+
+		let test	= setup_test('AB_Multi', {plugins: ['change_listener']});
+		var input	= test.select;
+		var opt		= new Option('new', 'new', true, true);
+		test.select.append(opt);
+
+		changeInput(input);
+		await waitFor(10);
+
+		assert.equal(test.instance.items.length, 1,'should have one item');
+		assert.equal(test.instance.items[0], 'new');
 
 	});
 

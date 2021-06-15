@@ -225,6 +225,10 @@ control.addItem('test');
 		<td><code>setTextboxValue(str)</code></td>
 		<td>Sets the value of the input field.</td>
 	</tr>
+	<tr>
+		<td><code>sync()</code></td>
+		<td>Synchronizes the Tom Select instance with the underlying &lt;select&gt; or &lt;input&gt;</td>
+	</tr>
 </table>
 
 ## Related Objects
