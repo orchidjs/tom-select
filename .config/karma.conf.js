@@ -60,20 +60,20 @@ module.exports = function(config) {
 				browser_version : 'latest',
 			},
 
-			bs_win8_edge:{
-				base: 'BrowserStack',
-				os : 'Windows',
-				os_version : '8.1',
-				browser : 'Edge',
-				browser_version : '80',
-			},
-
 			bs_win7_edge:{
 				base: 'BrowserStack',
 				os : 'Windows',
 				os_version : '7',
 				browser : 'Edge',
 				browser_version : '80.0',
+			},
+
+			bs_win10_chrome:{
+				base: 'BrowserStack',
+				os : 'Windows',
+				os_version : '10',
+				browser : 'Chrome',
+				browser_version : 'latest',
 			},
 
 			// android
