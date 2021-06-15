@@ -4,6 +4,11 @@ window.has_focus = function(elem) {
 	return !!(elem === document.activeElement);
 };
 
+var current_test_label	= document.createElement('h1');
+current_test_label.setAttribute('style', 'white-space:nowrap;overflow:hidden');
+document.body.appendChild(current_test_label);
+
+
 var sandbox = document.createElement('div');
 sandbox.setAttribute('role','main');
 document.body.appendChild(sandbox);
@@ -11,7 +16,6 @@ document.body.appendChild(sandbox);
 var IS_MAC      		= /Mac/.test(navigator.userAgent);
 var shortcut_key		= IS_MAC ? 'meta' : 'ctrl';
 var test_number			= 0;
-var $current_test_label = $('<h1 style="white-space:nowrap;overflow:hidden"></h1>').prependTo(sandbox);
 
 
 var teardownLast = function(){
@@ -80,7 +84,7 @@ var it_n = function(label,orig_func){
 
 	if( orig_func.length > 0 ){
 		new_func = function(done){
-			$current_test_label.text(label);
+			current_test_label.textContent = label;
 			return orig_func.call(this,done);
 		};
 	}else{
@@ -90,7 +94,7 @@ var it_n = function(label,orig_func){
 			throw 'test should be async or use done():'+func;
 		}
 		new_func = function(){
-			$current_test_label.text(label);
+			current_test_label.textContent = label;
 			return orig_func.call(this);
 		};
 	}
