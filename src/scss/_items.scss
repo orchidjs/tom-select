@@ -88,12 +88,6 @@
 		margin: $select-caret-margin !important;
 	}
 
-	&::after {
-		content: ' ';
-		display: block;
-		clear: left;
-	}
-
 	&.dropdown-active::before {
 		content: ' ';
 		display: block;
