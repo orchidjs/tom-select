@@ -1009,4 +1009,17 @@
 			});
 		});
 
+		describe('sync()',function(){
+			it_n('sync() should update options',function(){
+				const test		= setup_test('AB_Single',{items:['a']});
+				var opt_count	= Object.keys(test.instance.options).length;
+				var opt			= new Option('new', 'new',true,true);
+				test.select.append(opt);
+				test.instance.sync();
+
+				assert.equal( Object.keys(test.instance.options).length, opt_count+1);
+				assert.equal(test.instance.items.length, 1,'should have one item');
+				assert.equal(test.instance.items[0], 'new');
+			});
+		});
 	});
