@@ -72,39 +72,25 @@
 			});
 		});
 
-		describe('focus()', function() {
-			var test;
+		describe('focus() and blur()', function() {
 
-			before(function(done) {
-				test = setup_test('<select>', {});
+			it_n('should focus and blur',function(done) {
+				var test = setup_test('<select>', {});
 				test.instance.focus();
-				window.setTimeout(function() { done(); }, 5);
-			});
 
-			it_n('should set isFocused property to true', function() {
-				expect(test.instance.isFocused).to.be.equal(true);
-			});
-			it_n('should give the control focus', function() {
-				expect(has_focus(test.instance.control_input)).to.be.equal(true);
-			});
-		});
-
-		describe('blur()', function() {
-			var test;
-
-			before(function(done) {
-				test = setup_test('<select>', {});
-				test.instance.focus();
 				window.setTimeout(function() {
+
+					assert.isTrue(test.instance.isFocused,'should set isFocused property to true');
+					assert.isTrue(has_focus(test.instance.control_input), 'should give the control focus');
+
 					test.instance.blur();
-					window.setTimeout(done, 100);
-				}, 50);
-			});
-			it_n('should set isFocused property to false', function() {
-				expect(test.instance.isFocused).to.be.equal(false);
-			});
-			it_n('should remove focus from the control', function() {
-				expect(has_focus(test.instance.control_input)).to.be.equal(false);
+
+					window.setTimeout(()=>{
+						assert.isFalse(test.instance.isFocused, 'should set isFocused property to false');
+						assert.isFalse(has_focus(test.instance.control_input), 'should remove focus from the control');
+						done();
+					},5);
+				}, 5);
 			});
 		});
 
@@ -436,11 +422,11 @@
 				test.instance.addOption([{value: 'new1'}, {value: 'new2'}]);
 				test.instance.addItems(['a','new1','b','new2']);
 
-				var selected		= test.$html[0].querySelectorAll('option[selected]');
-				var option_a		= test.$html[0].querySelector('option[value="a"]');
-				var option_new1		= test.$html[0].querySelector('option[value="new1"]');
-				var option_b		= test.$html[0].querySelector('option[value="b"]');
-				var option_new2		= test.$html[0].querySelector('option[value="new2"]');
+				var selected		= test.html.querySelectorAll('option[selected]');
+				var option_a		= test.html.querySelector('option[value="a"]');
+				var option_new1		= test.html.querySelector('option[value="new1"]');
+				var option_b		= test.html.querySelector('option[value="b"]');
+				var option_new2		= test.html.querySelector('option[value="new2"]');
 
 				assert.equal(selected.length, 4,'should have four selected options');
 				assert.equal(test.instance.items.length, 4,'should have four items');
@@ -461,7 +447,7 @@
 				test.instance.createItem('new2');
 				test.instance.addItems(['a','new1','b','new2']);
 
-				var selected		= test.$html[0].querySelectorAll('option[selected]');
+				var selected		= test.html.querySelectorAll('option[selected]');
 				assert.equal(selected.length, 4,'should have four selected options');
 				assert.equal(test.instance.items.length, 4,'should have four items');
 				done();
@@ -1020,21 +1006,6 @@
 			it_n('controlChilden() should return empty array',function(){
 				const test = setup_test('AB_Multi');
 				assert.equal(test.instance.controlChildren().length,0);
-			});
-		});
-
-		describe('sync()',function(){
-			it_n('sync() should update options',function(){
-				const test		= setup_test('AB_Multi',{items:['a']});
-				var opt_count	= Object.keys(test.instance.options).length;
-				var opt			= new Option('new', 'new');
-				test.select.append(opt);
-				test.instance.sync();
-
-				assert.equal( Object.keys(test.instance.options).length, opt_count+1);
-
-				//assert.equal(test.instance.items.length, 1,'should have one item');
-				//assert.equal(test.instance.items[0], 'new');
 			});
 		});
 
