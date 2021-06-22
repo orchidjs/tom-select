@@ -459,10 +459,10 @@ new TomSelect('#input',{
 	itemClass: 'item',
 	render:{
 		option: function(data, escape) {
-			return '<div>' + escape(data[field_label]) + '</div>';
+			return '<div>' + escape(data.text) + '</div>';
 		},
 		item: function(data, escape) {
-			return '<div>' + escape(data[field_label]) + '</div>';
+			return '<div>' + escape(data.text) + '</div>';
 		},
 		option_create: function(data, escape) {
 			return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
@@ -480,7 +480,7 @@ new TomSelect('#input',{
 			return optgroup;
 		},
 		optgroup_header: function(data, escape) {
-			return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
+			return '<div class="optgroup-header">' + escape(data.label) + '</div>';
 		},
 		loading:function(data,escape){
 			return '<div class="spinner"></div>';
