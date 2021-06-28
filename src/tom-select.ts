@@ -330,7 +330,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(control_input,'paste',		(e) => self.onPaste(e as MouseEvent) );
 
 
-		const doc_mousedown = (evt:MouseEvent) => {
+		const doc_mousedown = (evt:Event) => {
 
 			// blur if target is outside of this instance
 			// dropdown is not always inside wrapper
@@ -354,7 +354,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		};
 
 
-		addEvent(document,'mousedown', (e) => doc_mousedown(e as MouseEvent));
+		addEvent(document,'mousedown', doc_mousedown);
 		addEvent(window,'sroll', win_scroll, passive_event);
 		addEvent(window,'resize', win_scroll, passive_event);
 
