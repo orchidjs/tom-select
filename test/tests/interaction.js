@@ -287,7 +287,7 @@
 
 		describe('selecting option', function() {
 
-			it_n('should select option when clicked', function(done) {
+			it_n('should select option when clicked', async () =>{
 				var test = setup_test('<div id="test-wrap"><select class="setup-here">' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -300,27 +300,31 @@
 				});
 
 
-				click(test.instance.control, function() {
-					assert.equal(test.instance.input.querySelectorAll('option').length, 3,'should keep original options');
-					var option_before = test.instance.input.querySelector('option[value="b"]');
+				await asyncClick(test.instance.control);
+				assert.equal(test.instance.input.querySelectorAll('option').length, 3,'should keep original options');
+				assert.isTrue( test.instance.isOpen, 'Should be open' );
+				var option_before = test.instance.input.querySelector('option[value="b"]');
 
-					click($('[data-value="b"]', test.instance.dropdown), function() {
-						var option_after = test.instance.input.querySelector('option[value="b"]');
-						assert.equal(option_before, option_after,'should not recreate original <option>');
-						assert.equal(test.instance.input.value,'b','should select "b" value');
-						assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
-						assert.isFalse(clicked,'should not trigger click evt on div');
 
-						click($('[data-value="a"]', test.instance.dropdown), function() {
-							var option_after = test.instance.input.querySelector('option[value="b"]');
-							assert.equal(option_before, option_after,'should not recreate original <option>');
-							assert.equal(test.instance.input.value,'a','should select "a" value');
-							assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
-							assert.isFalse(clicked,'should not trigger click evt on div');
-							done();
-						});
-					});
-				});
+				await asyncClick( test.instance.dropdown.querySelector('[data-value="b"]') );
+				var option_after = test.instance.input.querySelector('option[value="b"]');
+				assert.equal(option_before, option_after,'should not recreate original <option>');
+				assert.equal(test.instance.input.value,'b','should select "b" value');
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
+				assert.isFalse(clicked,'should not trigger click evt on div');
+				assert.isFalse( test.instance.isOpen, 'Should be closed' );
+
+
+				await asyncClick(test.instance.control);
+				assert.isTrue( test.instance.isOpen, 'Should be open' );
+
+				await asyncClick( test.instance.dropdown.querySelector('[data-value="a"]') );
+				var option_after = test.instance.input.querySelector('option[value="b"]');
+				assert.equal(option_before, option_after,'should not recreate original <option>');
+				assert.equal(test.instance.input.value,'a','should select "a" value');
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
+				assert.isFalse(clicked,'should not trigger click evt on div');
+
 			});
 
 			it_n('should close dropdown', function(done) {
