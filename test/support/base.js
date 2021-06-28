@@ -20,8 +20,10 @@ var test_number			= 0;
 
 var teardownLast = function(){
 	if( window.test_last ){
-		window.test_last.instance.destroy();
-		delete window.test_last.instance;
+		if( window.test_last.instance ){
+			window.test_last.instance.destroy();
+			delete window.test_last.instance;
+		}
 		sandbox.innerHTML = '';
 		window.test_last = null;
 	}
@@ -38,6 +40,7 @@ Array.prototype.foo = function(){
 }
 
 window.setup_test = function(html, options, callback) {
+	var instance, select;
 	teardownLast();
 
 	if( html in test_html ){
@@ -50,12 +53,16 @@ window.setup_test = function(html, options, callback) {
 		sandbox.append(html);
 	}
 
-	var select			= sandbox.querySelector('.setup-here');
+
+	select			= sandbox.querySelector('.setup-here');
 	if( !select ){
 		select = sandbox.firstChild;
 	}
 
-	var instance = tomSelect(select,options);
+	if( select.nodeName == 'SELECT' || select.nodeName == 'INPUT' ){
+		instance = tomSelect(select,options);
+	}
+
 	var test = window.test_last = {
 		html: sandbox.firstChild,
 		select: select,
