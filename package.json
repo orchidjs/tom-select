@@ -57,6 +57,7 @@
     "grunt-replace": "^2.0.0",
     "grunt-sass": "^3.1.0",
     "grunt-shell": "^3.0.1",
+    "husky": "^6.0.0",
     "icon-blender": "^1.0.0-beta.4",
     "jquery": "^3.6.0",
     "jsdom": "^16.5.2",
@@ -82,8 +83,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "syn": "^0.15.0",
     "tslib": "^2.1.0",
-    "typescript": "^4.1.5",
-    "husky": "^6.0.0"
+    "typescript": "^4.1.5"
   },
   "scripts": {
     "build": "grunt build",
