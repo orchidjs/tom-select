@@ -334,7 +334,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// blur if target is outside of this instance
 			// dropdown is not always inside wrapper
-			if( !wrapper.contains(evt.target as HTMLElement) && !dropdown.contains(evt.target as HTMLElement) ){
+			const target = evt.composedPath()[0];
+			if( !wrapper.contains(target as HTMLElement) && !dropdown.contains(target as HTMLElement) ){
 				if (self.isFocused) {
 					self.blur();
 				}

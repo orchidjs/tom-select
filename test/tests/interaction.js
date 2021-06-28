@@ -1272,4 +1272,28 @@
 			});
 		});
 
+
+
+		it_n('shadow root',async ()=>{
+			setup_test('<div><div id="shadow-wrapper"><select id="select-tags" multiple><option value="a">a</option><option value="b">b</option></div>');
+
+			function styleText(href){
+				var sheet = document.querySelector(`link[href*="${href}"]`).sheet;
+				return Array.from(sheet.cssRules).map(rule => rule.cssText).join(' ');
+			}
+
+			var wrapper			= document.getElementById('shadow-wrapper');
+			var select			= document.getElementById('select-tags');
+			var shadowRoot		= wrapper.attachShadow({mode: 'open'});
+			var style			= document.createElement('style');
+			style.textContent	= styleText('tom-select.default.css');
+
+			shadowRoot.appendChild(style);
+			shadowRoot.appendChild(select.parentNode.removeChild(select));
+			var instance = new TomSelect(select);
+
+			await asyncClick(instance.control_input);
+			assert.isTrue(instance.isOpen,'should be open');
+		});
+
 	});
