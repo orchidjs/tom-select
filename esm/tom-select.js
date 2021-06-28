@@ -1684,7 +1684,9 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     const doc_mousedown = evt => {
       // blur if target is outside of this instance
       // dropdown is not always inside wrapper
-      if (!wrapper.contains(evt.target) && !dropdown.contains(evt.target)) {
+      const target = evt.composedPath()[0];
+
+      if (!wrapper.contains(target) && !dropdown.contains(target)) {
         if (self.isFocused) {
           self.blur();
         }
@@ -1703,7 +1705,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       }
     };
 
-    addEvent(document, 'mousedown', e => doc_mousedown(e));
+    addEvent(document, 'mousedown', doc_mousedown);
     addEvent(window, 'sroll', win_scroll, passive_event);
     addEvent(window, 'resize', win_scroll, passive_event);
 
