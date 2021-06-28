@@ -44,7 +44,7 @@
     "autoprefixer": "^10.2.4",
     "bootstrap": "npm:bootstrap@4",
     "bootstrap-sass": "^3.4.1",
-    "bootstrap5": "npm:bootstrap@^5.0.0",
+    "bootstrap5": "npm:bootstrap@^5.0.2",
     "broken-link-checker": "^0.7.8",
     "chai": "^4.3.0",
     "cssnano": "^5.0.1",
