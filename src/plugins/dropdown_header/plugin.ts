@@ -40,7 +40,7 @@ TomSelect.define('dropdown_header',function(this:TomSelect, options) {
 		}
 	}, options);
 
-	self.hook('after','setup',()=>{
+	self.on('initialize',()=>{
 		var header = getDom(options.html(options));
 
 		var close_link = header.querySelector('.'+options.closeClass);

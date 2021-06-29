@@ -34,7 +34,7 @@ TomSelect.define('drag_drop',function(this:TomSelect) {
 		return orig_unlock.apply(self, arguments);
 	});
 
-	self.hook('after','setup',()=>{
+	self.on('initialize',()=>{
 		var $control = $(self.control).sortable({
 			items: '[data-value]',
 			forcePlaceholderSize: true,

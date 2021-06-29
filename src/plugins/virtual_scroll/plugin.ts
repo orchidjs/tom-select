@@ -136,7 +136,7 @@ TomSelect.define('virtual_scroll',function(this:TomSelect) {
 
 
 	// add scroll listener and default templates
-	self.hook('after','setup',()=>{
+	self.on('initialize',()=>{
 		dropdown_content = self.dropdown_content;
 
 		// default templates

@@ -18,7 +18,7 @@ TomSelect.define('input_autogrow', function(this:TomSelect) {
 
 	var self					= this;
 
-	self.hook('after','setup',()=>{
+	self.on('initialize',()=>{
 
 
 		var test_input				= document.createElement('span');

@@ -28,7 +28,7 @@ TomSelect.define('clear_button',function(this:TomSelect, options) {
 		}
 	}, options);
 
-	self.hook('after','setup',()=>{
+	self.on('initialize',()=>{
 		var button = getDom(options.html(options));
 		button.addEventListener('click',(evt)=>{
 			self.clear();

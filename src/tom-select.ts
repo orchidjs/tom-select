@@ -94,6 +94,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		var dir;
 		var input				= getDom( input_arg ) as TomInput;
+		var self				= this;
 
 		if( input.tomselect ){
 			throw new Error('Tom Select already initialized on this element');
@@ -154,22 +155,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.initializePlugins(this.settings.plugins);
 		this.setupCallbacks();
 		this.setupTemplates();
-		this.setup();
-	}
 
 
-	// methods
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		/**
+		 * Create all elements and set up event bindings.
+		 *
+		 */
 
-
-	/**
-	 * Creates all elements and sets up event bindings.
-	 *
-	 */
-	setup(){
-
-
-		var self = this;
 		var settings:TomSettings = self.settings;
 		var wrapper: HTMLElement;
 		var control: HTMLElement;
@@ -276,11 +268,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 
-		self.control			= control;
-		self.control_input		= control_input;
-		self.wrapper			= wrapper;
-		self.dropdown			= dropdown;
-		self.dropdown_content	= dropdown_content;
+		this.control			= control;
+		this.control_input		= control_input;
+		this.wrapper			= wrapper;
+		this.dropdown			= dropdown;
+		this.dropdown_content	= dropdown_content;
 
 		self.control_input.type	= input.type;
 
@@ -358,7 +350,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(window,'sroll', win_scroll, passive_event);
 		addEvent(window,'resize', win_scroll, passive_event);
 
-		self._destroy = () => {
+		this._destroy = () => {
 			document.removeEventListener('mousedown',doc_mousedown);
 			window.removeEventListener('sroll',win_scroll);
 			window.removeEventListener('resize',win_scroll);
@@ -408,7 +400,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.load('');
 		}
 
+		self.setup();
 	}
+
+	/**
+	 * @deprecated v1.7.6
+	 *
+	 */
+	setup(){}
 
 
 	/**
