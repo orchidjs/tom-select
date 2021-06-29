@@ -1,5 +1,5 @@
 
-import TomSelect from '../tom-select.js';
+import TomSelect from '../tom-select';
 
 export interface TomInput extends HTMLInputElement{
 	tomselect				?: TomSelect;
@@ -24,3 +24,6 @@ export interface TomItem extends HTMLElement{
 		value: string;
 	}
 }
+
+
+type TomLoadCallback = TomSelect['loadCallback'];

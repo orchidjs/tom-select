@@ -1,4 +1,5 @@
-import { TomCreateFilter, TomCreate } from './index';
+import TomSelect from '../tom-select';
+import { TomCreateFilter, TomCreate, TomLoadCallback } from './index';
 import {
 	escape_html,
 } from '../utils';
@@ -63,7 +64,7 @@ export type TomSettings = {
 	placeholder				: string,
 	hidePlaceholder			: boolean,
 
-	load					: (value:string, callback:()=>any) => void,
+	load					: (value:string, callback:TomLoadCallback) => void,
 	score					?: (query:string) => () => any,
 	shouldLoad				: (query:string) => boolean,
 	onInitialize			: (evt:Event) => void,
