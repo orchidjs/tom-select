@@ -47,7 +47,7 @@ TomSelect.define('drag_drop',function(this:TomSelect) {
 				$control.css({overflow: 'hidden'});
 
 				var values:string[] = [];
-				$control.children('[data-value]').each(function(){
+				$control.children('[data-value]').each(function(this:HTMLElement){
 					if( this.dataset.value ) values.push(this.dataset.value);
 				});
 
