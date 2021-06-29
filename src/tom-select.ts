@@ -19,7 +19,8 @@ import {
 	loadDebounce,
 	isKeyDown,
 	getId,
-	addSlashes
+	addSlashes,
+	append
 } from './utils';
 
 import {
@@ -187,7 +188,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		control				= getDom('<div class="items">');
 		addClasses(control,settings.inputClass);
-		wrapper.append(control);
+		append( wrapper, control );
 
 
 		dropdown			= self._render('dropdown');
@@ -195,7 +196,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		dropdown_content	= getDom(`<div role="listbox" id="${listboxId}" tabindex="-1">`);
 		addClasses(dropdown_content, settings.dropdownContentClass);
-		dropdown.append(dropdown_content);
+		append( dropdown, dropdown_content );
 
 		getDom( settings.dropdownParent || wrapper ).appendChild( dropdown );
 
@@ -1368,20 +1369,20 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				let group_options = document.createDocumentFragment();
 				let header = self.render('optgroup_header', self.optgroups[optgroup]);
-				if( header ) group_options.append(header);
-				group_options.append(groups[optgroup]);
+				append( group_options, header );
+				append( group_options, groups[optgroup] );
 
 				let group_html = self.render('optgroup', {group:self.optgroups[optgroup],options:group_options} );
 
-				html.append(group_html);
+				append( html, group_html );
 
 			} else {
-				html.append(groups[optgroup]);
+				append( html, groups[optgroup] );
 			}
 		}
 
 		dropdown_content.innerHTML = '';
-		dropdown_content.append(html);
+		append( dropdown_content, html );
 
 		// highlight matching terms inline
 		if (self.settings.highlight) {
@@ -2046,7 +2047,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				option_el.selected = true;
 				setAttr(option_el,{selected:'true'});
-				selected.append(option_el);
+				append( selected, option_el );
 
 				return option_el;
 			}

@@ -180,3 +180,10 @@ export const getId = (el:Element,id:string) => {
 export const addSlashes = (str:string):string => {
 	return str.replace(/[\\"']/g, '\\$&');
 };
+
+/**
+ *
+ */
+export const append = ( parent:Element|DocumentFragment, node: string|Node|null|undefined ):void =>{
+	if( node ) parent.append(node);
+};
