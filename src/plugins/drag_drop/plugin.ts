@@ -22,16 +22,16 @@ TomSelect.define('drag_drop',function(this:TomSelect) {
 	var orig_lock		= self.lock;
 	var orig_unlock		= self.unlock;
 
-	self.hook('instead','lock',function(){
+	self.hook('instead','lock',()=>{
 		var sortable = $(self.control).data('sortable');
 		if (sortable) sortable.disable();
-		return orig_lock.apply(self, arguments);
+		return orig_lock.call(self);
 	});
 
-	self.hook('instead','unlock',function(){
+	self.hook('instead','unlock',()=>{
 		var sortable = $(self.control).data('sortable');
 		if (sortable) sortable.enable();
-		return orig_unlock.apply(self, arguments);
+		return orig_unlock.call(self);
 	});
 
 	self.on('initialize',()=>{
