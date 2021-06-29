@@ -1896,8 +1896,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var output;
 		input = input || self.inputValue();
 
-		//if (typeof callback !== 'function') callback = () => {};
-
 		if (!self.canCreate(input)) {
 			callback();
 			return false;
@@ -1906,7 +1904,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.lock();
 
 		var created = false;
-		var create = (data:TomOption) => {
+		var create = (data?:TomOption) => {
 			self.unlock();
 
 			if (!data || typeof data !== 'object') return callback();
