@@ -8,7 +8,6 @@
 		"module": "esnext",
 		"noUnusedLocals": true,
 
-		"noUnusedParameters": false,
 		"noImplicitAny": false,
 		"strictPropertyInitialization": false,
 		"strictBindCallApply": false,
