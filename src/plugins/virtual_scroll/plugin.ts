@@ -99,13 +99,13 @@ TomSelect.define('virtual_scroll',function(this:TomSelect) {
 
 
 	// wrap the load
-	self.hook('instead','loadCallback',(value:string, options:TomOption[], optgroups:TomOption[])=>{
+	self.hook('instead','loadCallback',( options:TomOption[], optgroups:TomOption[])=>{
 
 		if( !loading_more ){
 			self.clearOptions();
 		}
 
-		orig_loadCallback.call( self, value, options, optgroups);
+		orig_loadCallback.call( self, options, optgroups);
 
 		loading_more = false;
 	});

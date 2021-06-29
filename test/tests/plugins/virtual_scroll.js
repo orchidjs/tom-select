@@ -55,6 +55,8 @@ describe('plugin: virtual_scroll', function() {
 		assert.equal( Object.keys(test.instance.options).length,20,'should load first set of data');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 1, 'should have loading-more-reuslts template');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.no-more-results').length, 0 ,'should not have no-more-results template');
+		assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 21 ,'Should display 20 options plus .loading-more-results');
+
 		assert.equal( load_calls, 1);
 
 
@@ -64,6 +66,7 @@ describe('plugin: virtual_scroll', function() {
 		assert.equal( Object.keys(test.instance.options).length, 40,'should load second set of data');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 0, 'should not have loading-more-reuslts template');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.no-more-results').length, 1 ,'should have no-more-results template');
+		assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 31 ,'Should display 30 options plus .no-more-results');
 		assert.equal( load_calls, 2);
 
 
