@@ -25,5 +25,4 @@ export interface TomItem extends HTMLElement{
 	}
 }
 
-
-type TomLoadCallback = TomSelect['loadCallback'];
+export type TomLoadCallback = TomSelect['loadCallback'];
