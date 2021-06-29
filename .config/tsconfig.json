@@ -9,7 +9,6 @@
 		"noUnusedLocals": true,
 
 		"noImplicitAny": false,
-		"strictBindCallApply": false,
 
 		"declaration": true,
 		"declarationDir": "../dist/types",
