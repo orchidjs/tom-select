@@ -22,11 +22,11 @@ TomSelect.define('optgroup_columns', function(this:TomSelect) {
 
 	var orig_keydown = self.onKeyDown;
 
-	self.hook('instead','onKeyDown',function(evt){
+	self.hook('instead','onKeyDown',(evt)=>{
 		var index, option, options, optgroup;
 
 		if( !self.isOpen || !(evt.keyCode === constants.KEY_LEFT || evt.keyCode === constants.KEY_RIGHT)) {
-			return orig_keydown.apply(self,arguments);
+			return orig_keydown.call(self,evt);
 		}
 
 		optgroup			= parentMatch(self.activeOption,'[data-group]');
