@@ -1446,7 +1446,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					active_option = self.selectable()[active_index] as HTMLElement;
 				}
 
-			}else{
+			}else if( create ){
 				active_option = create;
 			}
 
@@ -1905,7 +1905,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.lock();
 
 		var created = false;
-		var create = (data?:TomOption) => {
+		var create = (data?:boolean|TomOption) => {
 			self.unlock();
 
 			if (!data || typeof data !== 'object') return callback();
@@ -2061,7 +2061,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// nothing selected?
 			if( self.items.length == 0 && self.settings.mode == 'single' && !self.isRequired ){
-				option_el = self.input.querySelector('option[value=""]');
+				option_el = self.input.querySelector('option[value=""]') as HTMLOptionElement;
 				AddSelected(option_el, "", "");
 
 			// order selected <option> tags for values in self.items
@@ -2481,7 +2481,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	}
 
 	_render( templateName:string, data?:any ):HTMLElement{
-		var value, id, html;
+		var value = '', id, html;
 		const self = this;
 
 		if (templateName === 'option' || templateName === 'item') {
