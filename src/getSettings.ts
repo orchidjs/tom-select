@@ -46,10 +46,10 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 	var init_select = () => {
 		var tagName;
 		var options = settings_element.options;
-		var optionsMap = {};
+		var optionsMap:{[key:string]:any} = {};
 		var group_count = 1;
 
-		var readData = (el) => {
+		var readData = (el:HTMLElement):TomOption => {
 
 			var data	= Object.assign({},el.dataset); // get plain object from DOMStringMap
 			var json	= attr_data && data[attr_data];
@@ -61,7 +61,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 			return data;
 		};
 
-		var addOption = (option, group?:string) => {
+		var addOption = (option:HTMLOptionElement, group?:string) => {
 
 			var value = hash_key(option.value);
 			if ( value == null ) return;
@@ -101,7 +101,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 			}
 		};
 
-		var addGroup = ( optgroup ) => {
+		var addGroup = ( optgroup:HTMLOptGroupElement ) => {
 			var id, optgroup_data
 
 			optgroup_data							= readData(optgroup);
@@ -113,7 +113,7 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 			id = optgroup_data[field_optgroup_value];
 
 			for( const option of optgroup.children ){
-				addOption(option, id);
+				addOption(option as HTMLOptionElement, id);
 			}
 
 		};
@@ -123,9 +123,9 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 		for( const child of input.children ){
 			tagName = child.tagName.toLowerCase();
 			if (tagName === 'optgroup') {
-				addGroup(child);
+				addGroup(child as HTMLOptGroupElement);
 			} else if (tagName === 'option') {
-				addOption(child);
+				addOption(child as HTMLOptionElement);
 			}
 		}
 
@@ -137,17 +137,15 @@ export default function getSettings( input:HTMLInputElement, settings_user:TomSe
 	 *
 	 */
 	var init_textbox = () => {
-		var values, option;
-
-		var data_raw = input.getAttribute(attr_data);
+		const data_raw = input.getAttribute(attr_data);
 
 		if (!data_raw) {
 			var value = input.value.trim() || '';
 			if (!settings.allowEmptyOption && !value.length) return;
-			values = value.split(settings.delimiter);
+			const values = value.split(settings.delimiter);
 
 			for( const value of values ){
-				option = {};
+				const option:TomOption = {};
 				option[field_label] = value;
 				option[field_value] = value;
 				settings_element.options.push(option);
