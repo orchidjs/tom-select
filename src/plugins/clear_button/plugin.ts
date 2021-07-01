@@ -15,13 +15,7 @@
 
 import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
-
-type CBOptions = {
-	className:string,
-	title:string,
-	html: (data:CBOptions) => string,
-}
-
+import { CBOptions } from './types';
 
 TomSelect.define('clear_button',function(this:TomSelect, options:CBOptions) {
 	var self = this;
