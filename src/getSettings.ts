@@ -1,7 +1,6 @@
 import defaults from './defaults.js';
 import { hash_key } from './utils';
-import { TomSettings } from './types/settings';
-import { TomOption } from './types/index';
+import { TomOption, TomSettings } from './types/index';
 
 export default function getSettings( input:HTMLInputElement, settings_user:TomSettings):TomSettings{
 	var settings:TomSettings	= Object.assign({}, defaults, settings_user);
