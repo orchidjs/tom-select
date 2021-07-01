@@ -1,8 +1,8 @@
 
 import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
-import Sifter from '@orchidjs/sifter/dist/esm/sifter.js';
-import { escape_regex } from '@orchidjs/sifter/dist/esm/utils.js';
+import Sifter from '@orchidjs/sifter/lib/sifter';
+import { escape_regex } from '@orchidjs/sifter/lib/utils';
 import { TomSettings } from './types/settings';
 import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
@@ -71,7 +71,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public isSetup					: boolean = false;
 	public ignoreFocus				: boolean = false;
 	public hasOptions				: boolean = false;
-	public currentResults			: ReturnType<Sifter['search']> = null;
+	public currentResults			?: ReturnType<Sifter['search']>;
 	public lastValue				: string = '';
 	public caretPos					: number = 0;
 	public loading					: number = 0;
