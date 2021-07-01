@@ -16,9 +16,9 @@
 import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
 import { preventDefault } from '../../utils';
+import { DHOptions } from './types';
 
-
-TomSelect.define('dropdown_header',function(this:TomSelect, options) {
+TomSelect.define('dropdown_header',function(this:TomSelect, options:DHOptions) {
 	var self = this;
 
 	options = Object.assign({
@@ -28,7 +28,7 @@ TomSelect.define('dropdown_header',function(this:TomSelect, options) {
 		labelClass    : 'dropdown-header-label',
 		closeClass    : 'dropdown-header-close',
 
-		html: (data) => {
+		html: (data:DHOptions) => {
 			return (
 				'<div class="' + data.headerClass + '">' +
 					'<div class="' + data.titleRowClass + '">' +
