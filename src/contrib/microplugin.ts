@@ -14,12 +14,17 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+type TSettings = {
+	[key:string]:any
+}
+
 type TPlugins = {
 	names: string[],
-	settings: {},
-	requested: {},
-	loaded: {}
+	settings: TSettings,
+	requested: {[key:string]:boolean},
+	loaded: {[key:string]:any}
 };
+
 
 export default function MicroPlugin(Interface){
 
@@ -37,10 +42,9 @@ export default function MicroPlugin(Interface){
 		/**
 		 * Registers a plugin.
 		 *
-		 * @param {string} name
 		 * @param {function} fn
 		 */
-		static define(name, fn){
+		static define(name:string, fn){
 			Interface.plugins[name] = {
 				'name' : name,
 				'fn'   : fn
@@ -64,7 +68,7 @@ export default function MicroPlugin(Interface){
 		 * @param {array|object} plugins
 		 */
 		initializePlugins(plugins) {
-			var i, n, key;
+			var i, n, key, name;
 			const self  = this;
 			const queue:string[] = [];
 
@@ -86,15 +90,12 @@ export default function MicroPlugin(Interface){
 				}
 			}
 
-			while (queue.length) {
-				self.require(queue.shift());
+			while( name = queue.shift() ){
+				self.require(name);
 			}
 		}
 
-		/**
-		 * @param {string} name
-		 */
-		loadPlugin(name) {
+		loadPlugin(name:string) {
 			var self    = this;
 			var plugins = self.plugins;
 			var plugin  = Interface.plugins[name];
@@ -111,9 +112,8 @@ export default function MicroPlugin(Interface){
 		/**
 		 * Initializes a plugin.
 		 *
-		 * @param {string} name
 		 */
-		require(name) {
+		require(name:string) {
 			var self = this;
 			var plugins = self.plugins;
 
