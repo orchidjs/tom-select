@@ -18,10 +18,10 @@ import { getDom } from '../../vanilla';
 import { preventDefault } from '../../utils';
 import { DHOptions } from './types';
 
-TomSelect.define('dropdown_header',function(this:TomSelect, options:DHOptions) {
-	var self = this;
+TomSelect.define('dropdown_header',function(this:TomSelect, userOptions:DHOptions) {
+	const self = this;
 
-	options = Object.assign({
+	const options = Object.assign({
 		title         : 'Untitled',
 		headerClass   : 'dropdown-header',
 		titleRowClass : 'dropdown-header-title',
@@ -38,7 +38,7 @@ TomSelect.define('dropdown_header',function(this:TomSelect, options:DHOptions) {
 				'</div>'
 			);
 		}
-	}, options);
+	}, userOptions);
 
 	self.on('initialize',()=>{
 		var header = getDom(options.html(options));

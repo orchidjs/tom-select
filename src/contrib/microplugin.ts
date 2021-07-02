@@ -25,12 +25,17 @@ type TPlugins = {
 	loaded: {[key:string]:any}
 };
 
+type TPluginItem = {name:string,options:{}};
+type TPluginHash = {[key:string]:{}};
 
-export default function MicroPlugin(Interface){
+
+
+
+export default function MicroPlugin(Interface: any ){
 
 	Interface.plugins = {};
 
-	return class mixin extends Interface{
+	return class extends Interface{
 
 		public plugins:TPlugins = {
 			names     : [],
@@ -44,7 +49,7 @@ export default function MicroPlugin(Interface){
 		 *
 		 * @param {function} fn
 		 */
-		static define(name:string, fn){
+		static define(name:string, fn:(this:any,settings:TSettings)=>any){
 			Interface.plugins[name] = {
 				'name' : name,
 				'fn'   : fn
@@ -67,20 +72,20 @@ export default function MicroPlugin(Interface){
 		 *
 		 * @param {array|object} plugins
 		 */
-		initializePlugins(plugins) {
-			var i, n, key, name;
+		initializePlugins(plugins:string[]|TPluginItem[]|TPluginHash) {
+			var key, name;
 			const self  = this;
 			const queue:string[] = [];
 
 			if (Array.isArray(plugins)) {
-				for (i = 0, n = plugins.length; i < n; i++) {
-					if (typeof plugins[i] === 'string') {
-						queue.push(plugins[i]);
+				plugins.forEach((plugin:string|TPluginItem)=>{
+					if (typeof plugin === 'string') {
+						queue.push(plugin);
 					} else {
-						self.plugins.settings[plugins[i].name] = plugins[i].options;
-						queue.push(plugins[i].name);
+						self.plugins.settings[plugin.name] = plugin.options;
+						queue.push(plugin.name);
 					}
-				}
+				});
 			} else if (plugins) {
 				for (key in plugins) {
 					if (plugins.hasOwnProperty(key)) {

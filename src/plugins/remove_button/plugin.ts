@@ -19,14 +19,14 @@ import { TomOption } from '../../types/index';
 import { RBOptions } from './types';
 
 
-TomSelect.define('remove_button',function(this:TomSelect, options:RBOptions ){
+TomSelect.define('remove_button',function(this:TomSelect, userOptions:RBOptions ){
 
-	options = Object.assign({
+	const options = Object.assign({
 			label     : '&times;',
 			title     : 'Remove',
 			className : 'remove',
 			append    : true
-		}, options);
+		}, userOptions);
 
 
 	//options.className = 'remove-single';

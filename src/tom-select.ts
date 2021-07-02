@@ -1293,7 +1293,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if( active_option ){
 			active_value = active_option.dataset.value;
-			active_group = active_option.closest('[data-group]');
+			active_group = active_option.closest('[data-group]') as HTMLElement;
 		}
 
 		// build markup
