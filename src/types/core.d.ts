@@ -1,5 +1,7 @@
 
 import TomSelect from '../tom-select';
+import { escape_html } from '../utils';
+
 
 export interface TomInput extends HTMLInputElement{
 	tomselect				?: TomSelect;
@@ -26,3 +28,23 @@ export interface TomItem extends HTMLElement{
 }
 
 export type TomLoadCallback = TomSelect['loadCallback'];
+
+
+export type TomTemplate = (data:TomOption, escape:typeof escape_html) => string|HTMLElement;
+export type TomTemplateNull = (data:TomOption, escape:typeof escape_html) => null|string|HTMLElement;
+
+export type TomTemplates = {
+	'dropdown'			: TomTemplate,
+	'optgroup'			: TomTemplate,
+	'optgroup_header'	: TomTemplate,
+	'option'			: TomTemplate,
+	'item'				: TomTemplate,
+	'option_create'		: TomTemplate,
+	'no_results'		: TomTemplate,
+	'loading'			: TomTemplate,
+	'not_loading'		: TomTemplateNull,
+	'loading_more'		: TomTemplateNull,
+	'no_more_results'	: TomTemplateNull,
+}
+
+export type TomTemplateNames = keyof TomTemplates;

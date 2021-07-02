@@ -3,7 +3,7 @@ import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from '@orchidjs/sifter/lib/sifter';
 import { escape_regex } from '@orchidjs/sifter/lib/utils';
-import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
 import getSettings from './getSettings.js';
@@ -83,7 +83,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public options					: TomOptions = {};
 	public userOptions				: {[key:string]:boolean} = {};
 	public items					: string[] = [];
-	public renderCache				: {'item':{[key:string]:HTMLElement},'option':{[key:string]:HTMLElement}} = {'item':{},'option':{}};
+	public renderCache				: {[key:string]:{[key:string]:HTMLElement}} = {'item':{},'option':{}};
 
 
 
@@ -1394,7 +1394,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		// helper method for adding templates to dropdown
-		var add_template = (template:string) => {
+		var add_template = (template:TomTemplateNames) => {
 			let content = self.render(template,{input:query});
 			if( content ){
 				show_dropdown = true;
@@ -2470,7 +2470,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * "option" templates, given the data.
 	 *
 	 */
-	render( templateName:string, data?:any ):null|HTMLElement{
+	render( templateName:TomTemplateNames, data?:any ):null|HTMLElement{
 
 		if( typeof this.settings.render[templateName] !== 'function' ){
 			return null;
@@ -2479,7 +2479,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		return this._render(templateName, data);
 	}
 
-	_render( templateName:string, data?:any ):HTMLElement{
+	/**
+	 * _render() can be called directly when we know we don't want to hit the cache
+	 * return type could be null for some templates, we need https://github.com/microsoft/TypeScript/issues/33014
+	 */
+	_render( templateName:TomTemplateNames, data?:any ):HTMLElement{
 		var value = '', id, html;
 		const self = this;
 
@@ -2496,7 +2500,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// render markup
 		html = self.settings.render[templateName].call(this, data, escape_html);
 
-		if( !html ){
+		if( html == null ){
 			return html;
 		}
 
@@ -2546,7 +2550,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Return the previously rendered item or option
 	 *
 	 */
-	rendered( templateName:'item'|'option', value:null|string ):null|HTMLElement{
+	rendered( templateName:TomTemplateNames, value:null|string ):null|HTMLElement{
 		return value !== null && this.renderCache[templateName].hasOwnProperty(value)
 			? this.renderCache[templateName][value]
 			: null;
