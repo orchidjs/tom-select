@@ -18,14 +18,14 @@ import { addClasses } from '../../vanilla';
 
 
 TomSelect.define('virtual_scroll',function(this:TomSelect) {
-	const self						= this;
-	const orig_canLoad				= self.canLoad;
-	const orig_clearActiveOption	= self.clearActiveOption;
-	const orig_loadCallback			= self.loadCallback;
+	const self							= this;
+	const orig_canLoad					= self.canLoad;
+	const orig_clearActiveOption		= self.clearActiveOption;
+	const orig_loadCallback				= self.loadCallback;
 
-	var pagination					= {};
-	var dropdown_content;
-	var loading_more				= false;
+	var pagination:{[key:string]:any}	= {};
+	var dropdown_content:HTMLElement;
+	var loading_more					= false;
 
 
 	if( !self.settings.firstUrl ){
@@ -40,7 +40,7 @@ TomSelect.define('virtual_scroll',function(this:TomSelect) {
 
 
 	// can we load more results for given query?
-	function canLoadMore(query):boolean{
+	function canLoadMore(query:string):boolean{
 
 		if( typeof self.settings.maxOptions === 'number' && dropdown_content.children.length >= self.settings.maxOptions ){
 			return false;

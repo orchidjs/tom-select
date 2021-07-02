@@ -18,7 +18,7 @@ TomSelect.define('no_backspace_delete', function(this:TomSelect) {
 	var orig_deleteSelection = self.deleteSelection;
 
 
-	this.hook('instead','deleteSelection',(evt) => {
+	this.hook('instead','deleteSelection',(evt:KeyboardEvent) => {
 
 		if( self.activeItems.length ){
 			return orig_deleteSelection.call(self, evt);

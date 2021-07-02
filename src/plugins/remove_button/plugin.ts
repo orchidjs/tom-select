@@ -16,8 +16,10 @@ import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
 import { escape_html, preventDefault, addEvent } from '../../utils';
 import { TomOption } from '../../types/index';
+import { RBOptions } from './types';
 
-TomSelect.define('remove_button',function(this:TomSelect, options) {
+
+TomSelect.define('remove_button',function(this:TomSelect, options:RBOptions ){
 
 	options = Object.assign({
 			label     : '&times;',

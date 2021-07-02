@@ -31,6 +31,7 @@ TomSelect.define('input_autogrow', function(this:TomSelect) {
 		var transfer_styles			= [ 'letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform' ];
 
 		for( const style_name of transfer_styles ){
+			// @ts-ignore TS7015 https://stackoverflow.com/a/50506154/697576
 			test_input.style[style_name] = control.style[style_name];
 		}
 

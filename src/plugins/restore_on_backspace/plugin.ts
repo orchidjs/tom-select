@@ -26,7 +26,7 @@ TomSelect.define('restore_on_backspace',function(this:TomSelect, options:TPlugin
 		return option[self.settings.labelField];
 	};
 
-	self.on('item_remove',function(value){
+	self.on('item_remove',function(value:string){
 		if( self.control_input.value.trim() === '' ){
 			var option = self.options[value];
 			if( option ){
