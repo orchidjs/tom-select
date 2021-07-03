@@ -97,13 +97,13 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('remove_button', function (options) {
-	  options = Object.assign({
+	TomSelect__default['default'].define('remove_button', function (userOptions) {
+	  const options = Object.assign({
 	    label: '&times;',
 	    title: 'Remove',
 	    className: 'remove',
 	    append: true
-	  }, options); //options.className = 'remove-single';
+	  }, userOptions); //options.className = 'remove-single';
 
 	  var self = this; // override the render method to add remove button to each item
 
@@ -115,8 +115,8 @@
 	  self.hook('after', 'setupTemplates', () => {
 	    var orig_render_item = self.settings.render.item;
 
-	    self.settings.render.item = function () {
-	      var rendered = getDom(orig_render_item.apply(self, arguments));
+	    self.settings.render.item = (data, escape) => {
+	      var rendered = getDom(orig_render_item.call(self, data, escape));
 	      var close_button = getDom(html);
 	      rendered.appendChild(close_button);
 	      addEvent(close_button, 'mousedown', evt => {

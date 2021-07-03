@@ -31,6 +31,7 @@
 
 	class MicroEvent {
 	  constructor() {
+	    this._events = void 0;
 	    this._events = {};
 	  }
 
@@ -88,7 +89,7 @@
 	 */
 	function MicroPlugin(Interface) {
 	  Interface.plugins = {};
-	  return class mixin extends Interface {
+	  return class extends Interface {
 	    constructor(...args) {
 	      super(...args);
 	      this.plugins = {
@@ -102,7 +103,6 @@
 	    /**
 	     * Registers a plugin.
 	     *
-	     * @param {string} name
 	     * @param {function} fn
 	     */
 	    static define(name, fn) {
@@ -129,19 +129,19 @@
 
 
 	    initializePlugins(plugins) {
-	      var i, n, key;
+	      var key, name;
 	      const self = this;
 	      const queue = [];
 
 	      if (Array.isArray(plugins)) {
-	        for (i = 0, n = plugins.length; i < n; i++) {
-	          if (typeof plugins[i] === 'string') {
-	            queue.push(plugins[i]);
+	        plugins.forEach(plugin => {
+	          if (typeof plugin === 'string') {
+	            queue.push(plugin);
 	          } else {
-	            self.plugins.settings[plugins[i].name] = plugins[i].options;
-	            queue.push(plugins[i].name);
+	            self.plugins.settings[plugin.name] = plugin.options;
+	            queue.push(plugin.name);
 	          }
-	        }
+	        });
 	      } else if (plugins) {
 	        for (key in plugins) {
 	          if (plugins.hasOwnProperty(key)) {
@@ -151,14 +151,10 @@
 	        }
 	      }
 
-	      while (queue.length) {
-	        self.require(queue.shift());
+	      while (name = queue.shift()) {
+	        self.require(name);
 	      }
 	    }
-	    /**
-	     * @param {string} name
-	     */
-
 
 	    loadPlugin(name) {
 	      var self = this;
@@ -176,7 +172,6 @@
 	    /**
 	     * Initializes a plugin.
 	     *
-	     * @param {string} name
 	     */
 
 
@@ -198,7 +193,6 @@
 	  };
 	}
 
-	/*! sifter.js | https://github.com/orchidjs/sifter.js | Apache License (v2) */
 	// https://github.com/andrewrk/node-diacritics/blob/master/index.js
 	/**
 	 * code points generated from toCodePoints();
@@ -278,8 +272,40 @@
 
 	  return regex;
 	};
+	/**
+	 * Expand a regular expression pattern to include diacritics
+	 * 	eg /a/ becomes /aⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐɑAⒶＡÀÁÂẦẤẪẨÃĀĂẰẮẴẲȦǠÄǞẢÅǺǍȀȂẠẬẶḀĄȺⱯ/
+	 *
+	 * rollup will bundle this function (and the DIACRITICS constant) unless commented out
+	 *
+	var diacriticRegex = (function() {
 
-	/*! sifter.js | https://github.com/orchidjs/sifter.js | Apache License (v2) */
+		var list = [];
+		for( let letter in DIACRITICS ){
+
+			if( letter.toLowerCase() != letter && letter.toLowerCase() in DIACRITICS ){
+				continue;
+			}
+
+			if( DIACRITICS.hasOwnProperty(letter) ){
+
+				var replace = letter + DIACRITICS[letter];
+				if( letter.toUpperCase() in DIACRITICS ){
+					replace += letter.toUpperCase() + DIACRITICS[letter.toUpperCase()];
+				}
+
+				list.push({let:letter,pat:'['+replace+']'});
+			}
+		}
+
+		return function(regex:string):string{
+			list.forEach((item)=>{
+				regex = regex.replace( new RegExp(item.let,'g'),item.pat);
+			});
+			return regex;
+		}
+	})();
+	*/
 
 	// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
 
@@ -373,8 +399,6 @@
 	  if (b > a) return -1;
 	  return 0;
 	};
-
-	/*! sifter.js | https://github.com/orchidjs/sifter.js | Apache License (v2) */
 
 	/**
 	 * sifter.js
@@ -1260,6 +1284,13 @@
 	const addSlashes = str => {
 	  return str.replace(/[\\"']/g, '\\$&');
 	};
+	/**
+	 *
+	 */
+
+	const append = (parent, node) => {
+	  if (node) parent.append(node);
+	};
 
 	function getSettings(input, settings_user) {
 	  var settings = Object.assign({}, defaults, settings_user);
@@ -1380,16 +1411,15 @@
 
 
 	  var init_textbox = () => {
-	    var values, option;
-	    var data_raw = input.getAttribute(attr_data);
+	    const data_raw = input.getAttribute(attr_data);
 
 	    if (!data_raw) {
 	      var value = input.value.trim() || '';
 	      if (!settings.allowEmptyOption && !value.length) return;
-	      values = value.split(settings.delimiter);
+	      const values = value.split(settings.delimiter);
 
 	      for (const _value of values) {
-	        option = {};
+	        const option = {};
 	        option[field_label] = _value;
 	        option[field_value] = _value;
 	        settings_element.options.push(option);
@@ -1443,7 +1473,7 @@
 	    this.isSetup = false;
 	    this.ignoreFocus = false;
 	    this.hasOptions = false;
-	    this.currentResults = null;
+	    this.currentResults = void 0;
 	    this.lastValue = '';
 	    this.caretPos = 0;
 	    this.loading = 0;
@@ -1461,6 +1491,7 @@
 	    instance_i++;
 	    var dir;
 	    var input = getDom(input_arg);
+	    var self = this;
 
 	    if (input.tomselect) {
 	      throw new Error('Tom Select already initialized on this element');
@@ -1514,18 +1545,11 @@
 	    this.initializePlugins(this.settings.plugins);
 	    this.setupCallbacks();
 	    this.setupTemplates();
-	    this.setup();
-	  } // methods
-	  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	    /**
+	     * Create all elements and set up event bindings.
+	     *
+	     */
 
-	  /**
-	   * Creates all elements and sets up event bindings.
-	   *
-	   */
-
-
-	  setup() {
-	    var self = this;
 	    var settings = self.settings;
 	    var wrapper;
 	    var control;
@@ -1547,12 +1571,12 @@
 	    addClasses(wrapper, settings.wrapperClass, classes, inputMode);
 	    control = getDom('<div class="items">');
 	    addClasses(control, settings.inputClass);
-	    wrapper.append(control);
+	    append(wrapper, control);
 	    dropdown = self._render('dropdown');
 	    addClasses(dropdown, settings.dropdownClass, inputMode);
 	    dropdown_content = getDom(`<div role="listbox" id="${listboxId}" tabindex="-1">`);
 	    addClasses(dropdown_content, settings.dropdownContentClass);
-	    dropdown.append(dropdown_content);
+	    append(dropdown, dropdown_content);
 	    getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
 
 	    if (settings.controlInput) {
@@ -1630,11 +1654,11 @@
 	      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
 	    }
 
-	    self.control = control;
-	    self.control_input = control_input;
-	    self.wrapper = wrapper;
-	    self.dropdown = dropdown;
-	    self.dropdown_content = dropdown_content;
+	    this.control = control;
+	    this.control_input = control_input;
+	    this.wrapper = wrapper;
+	    this.dropdown = dropdown;
+	    this.dropdown_content = dropdown_content;
 	    self.control_input.type = input.type; // clicking on an option should select it
 
 	    addEvent(dropdown, 'click', evt => {
@@ -1705,7 +1729,7 @@
 	    addEvent(window, 'sroll', win_scroll, passive_event);
 	    addEvent(window, 'resize', win_scroll, passive_event);
 
-	    self._destroy = () => {
+	    this._destroy = () => {
 	      document.removeEventListener('mousedown', doc_mousedown);
 	      window.removeEventListener('sroll', win_scroll);
 	      window.removeEventListener('resize', win_scroll);
@@ -1749,7 +1773,16 @@
 	    if (settings.preload === true) {
 	      self.load('');
 	    }
+
+	    self.setup();
 	  }
+	  /**
+	   * @deprecated v1.7.6
+	   *
+	   */
+
+
+	  setup() {}
 	  /**
 	   * Register options and optgroups
 	   *
@@ -2757,20 +2790,20 @@
 	      if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 	        let group_options = document.createDocumentFragment();
 	        let header = self.render('optgroup_header', self.optgroups[optgroup]);
-	        if (header) group_options.append(header);
-	        group_options.append(groups[optgroup]);
+	        append(group_options, header);
+	        append(group_options, groups[optgroup]);
 	        let group_html = self.render('optgroup', {
 	          group: self.optgroups[optgroup],
 	          options: group_options
 	        });
-	        html.append(group_html);
+	        append(html, group_html);
 	      } else {
-	        html.append(groups[optgroup]);
+	        append(html, groups[optgroup]);
 	      }
 	    }
 
 	    dropdown_content.innerHTML = '';
-	    dropdown_content.append(html); // highlight matching terms inline
+	    append(dropdown_content, html); // highlight matching terms inline
 
 	    if (self.settings.highlight) {
 	      removeHighlight(dropdown_content);
@@ -2830,7 +2863,7 @@
 
 	          active_option = self.selectable()[active_index];
 	        }
-	      } else {
+	      } else if (create) {
 	        active_option = create;
 	      }
 
@@ -3278,7 +3311,7 @@
 	    var self = this;
 	    var caret = self.caretPos;
 	    var output;
-	    input = input || self.inputValue(); //if (typeof callback !== 'function') callback = () => {};
+	    input = input || self.inputValue();
 
 	    if (!self.canCreate(input)) {
 	      callback();
@@ -3426,7 +3459,7 @@
 	        setAttr(option_el, {
 	          selected: 'true'
 	        });
-	        selected.append(option_el);
+	        append(selected, option_el);
 	        return option_el;
 	      } // unselect all selected options
 
@@ -3858,9 +3891,16 @@
 
 	    return this._render(templateName, data);
 	  }
+	  /**
+	   * _render() can be called directly when we know we don't want to hit the cache
+	   * return type could be null for some templates, we need https://github.com/microsoft/TypeScript/issues/33014
+	   */
+
 
 	  _render(templateName, data) {
-	    var value, id, html;
+	    var value = '',
+	        id,
+	        html;
 	    const self = this;
 
 	    if (templateName === 'option' || templateName === 'item') {
@@ -3875,7 +3915,7 @@
 
 	    html = self.settings.render[templateName].call(this, data, escape_html);
 
-	    if (!html) {
+	    if (html == null) {
 	      return html;
 	    }
 
@@ -4075,8 +4115,8 @@
 	  self.hook('after', 'setupTemplates', () => {
 	    var orig_render_option = self.settings.render.option;
 
-	    self.settings.render.option = function (data) {
-	      var rendered = getDom(orig_render_option.apply(self, arguments));
+	    self.settings.render.option = (data, escape_html) => {
+	      var rendered = getDom(orig_render_option.call(self, data, escape_html));
 	      var checkbox = document.createElement('input');
 	      checkbox.addEventListener('click', function (evt) {
 	        preventDefault(evt);
@@ -4104,7 +4144,7 @@
 	    }
 	  }); // remove items when selected option is clicked
 
-	  self.hook('instead', 'onOptionSelect', function (evt, option) {
+	  self.hook('instead', 'onOptionSelect', (evt, option) => {
 	    if (option.classList.contains('selected')) {
 	      option.classList.remove('selected');
 	      self.removeItem(option.dataset.value);
@@ -4113,7 +4153,7 @@
 	      return;
 	    }
 
-	    orig_onOptionSelect.apply(self, arguments);
+	    orig_onOptionSelect.call(self, evt, option);
 	    UpdateCheckbox(option);
 	  });
 	});
@@ -4132,16 +4172,16 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('clear_button', function (options) {
-	  var self = this;
-	  options = Object.assign({
+	TomSelect.define('clear_button', function (userOptions) {
+	  const self = this;
+	  const options = Object.assign({
 	    className: 'clear-button',
 	    title: 'Clear All',
 	    html: data => {
 	      return `<div class="${data.className}" title="${data.title}">&times;</div>`;
 	    }
-	  }, options);
-	  self.hook('after', 'setup', () => {
+	  }, userOptions);
+	  self.on('initialize', () => {
 	    var button = getDom(options.html(options));
 	    button.addEventListener('click', evt => {
 	      self.clear();
@@ -4172,17 +4212,17 @@
 	  if (self.settings.mode !== 'multi') return;
 	  var orig_lock = self.lock;
 	  var orig_unlock = self.unlock;
-	  self.hook('instead', 'lock', function () {
+	  self.hook('instead', 'lock', () => {
 	    var sortable = $(self.control).data('sortable');
 	    if (sortable) sortable.disable();
-	    return orig_lock.apply(self, arguments);
+	    return orig_lock.call(self);
 	  });
-	  self.hook('instead', 'unlock', function () {
+	  self.hook('instead', 'unlock', () => {
 	    var sortable = $(self.control).data('sortable');
 	    if (sortable) sortable.enable();
-	    return orig_unlock.apply(self, arguments);
+	    return orig_unlock.call(self);
 	  });
-	  self.hook('after', 'setup', () => {
+	  self.on('initialize', () => {
 	    var $control = $(self.control).sortable({
 	      items: '[data-value]',
 	      forcePlaceholderSize: true,
@@ -4221,9 +4261,9 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('dropdown_header', function (options) {
-	  var self = this;
-	  options = Object.assign({
+	TomSelect.define('dropdown_header', function (userOptions) {
+	  const self = this;
+	  const options = Object.assign({
 	    title: 'Untitled',
 	    headerClass: 'dropdown-header',
 	    titleRowClass: 'dropdown-header-title',
@@ -4232,8 +4272,8 @@
 	    html: data => {
 	      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
 	    }
-	  }, options);
-	  self.hook('after', 'setup', () => {
+	  }, userOptions);
+	  self.on('initialize', () => {
 	    var header = getDom(options.html(options));
 	    var close_link = header.querySelector('.' + options.closeClass);
 
@@ -4276,7 +4316,7 @@
 	  self.settings.controlInput = input;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
-	  self.hook('after', 'setup', () => {
+	  self.on('initialize', () => {
 	    // set tabIndex on wrapper
 	    setAttr(self.wrapper, {
 	      tabindex: self.input.disabled ? '-1' : '' + self.tabIndex
@@ -4319,7 +4359,7 @@
 	 */
 	TomSelect.define('input_autogrow', function () {
 	  var self = this;
-	  self.hook('after', 'setup', () => {
+	  self.on('initialize', () => {
 	    var test_input = document.createElement('span');
 	    var control = self.control_input;
 	    test_input.style.cssText = 'position:absolute; top:-99999px; left:-99999px; width:auto; padding:0; white-space:pre; ';
@@ -4327,6 +4367,7 @@
 	    var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
 
 	    for (const style_name of transfer_styles) {
+	      // @ts-ignore TS7015 https://stackoverflow.com/a/50506154/697576
 	      test_input.style[style_name] = control.style[style_name];
 	    }
 	    /**
@@ -4369,9 +4410,9 @@
 	TomSelect.define('no_backspace_delete', function () {
 	  var self = this;
 	  var orig_deleteSelection = self.deleteSelection;
-	  this.hook('instead', 'deleteSelection', function () {
+	  this.hook('instead', 'deleteSelection', evt => {
 	    if (self.activeItems.length) {
-	      return orig_deleteSelection.apply(self, arguments);
+	      return orig_deleteSelection.call(self, evt);
 	    }
 
 	    return false;
@@ -4413,15 +4454,19 @@
 	TomSelect.define('optgroup_columns', function () {
 	  var self = this;
 	  var orig_keydown = self.onKeyDown;
-	  self.hook('instead', 'onKeyDown', function (evt) {
+	  self.hook('instead', 'onKeyDown', evt => {
 	    var index, option, options, optgroup;
 
 	    if (!self.isOpen || !(evt.keyCode === KEY_LEFT || evt.keyCode === KEY_RIGHT)) {
-	      return orig_keydown.apply(self, arguments);
+	      return orig_keydown.call(self, evt);
 	    }
 
 	    optgroup = parentMatch(self.activeOption, '[data-group]');
 	    index = nodeIndex(self.activeOption, '[data-selectable]');
+
+	    if (!optgroup) {
+	      return;
+	    }
 
 	    if (evt.keyCode === KEY_LEFT) {
 	      optgroup = optgroup.previousSibling;
@@ -4456,13 +4501,13 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('remove_button', function (options) {
-	  options = Object.assign({
+	TomSelect.define('remove_button', function (userOptions) {
+	  const options = Object.assign({
 	    label: '&times;',
 	    title: 'Remove',
 	    className: 'remove',
 	    append: true
-	  }, options); //options.className = 'remove-single';
+	  }, userOptions); //options.className = 'remove-single';
 
 	  var self = this; // override the render method to add remove button to each item
 
@@ -4474,8 +4519,8 @@
 	  self.hook('after', 'setupTemplates', () => {
 	    var orig_render_item = self.settings.render.item;
 
-	    self.settings.render.item = function () {
-	      var rendered = getDom(orig_render_item.apply(self, arguments));
+	    self.settings.render.item = (data, escape) => {
+	      var rendered = getDom(orig_render_item.call(self, data, escape));
 	      var close_button = getDom(html);
 	      rendered.appendChild(close_button);
 	      addEvent(close_button, 'mousedown', evt => {
@@ -4508,13 +4553,13 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('restore_on_backspace', function (options) {
-	  var self = this;
-
-	  options.text = options.text || function (option) {
-	    return option[self.settings.labelField];
-	  };
-
+	TomSelect.define('restore_on_backspace', function (userOptions) {
+	  const self = this;
+	  const options = Object.assign({
+	    text: option => {
+	      return option[self.settings.labelField];
+	    }
+	  }, userOptions);
 	  self.on('item_remove', function (value) {
 	    if (self.control_input.value.trim() === '') {
 	      var option = self.options[value];
@@ -4611,12 +4656,12 @@
 	    return canLoadMore(query);
 	  }); // wrap the load
 
-	  self.hook('instead', 'loadCallback', (value, options, optgroups) => {
+	  self.hook('instead', 'loadCallback', (options, optgroups) => {
 	    if (!loading_more) {
 	      self.clearOptions();
 	    }
 
-	    orig_loadCallback.call(self, value, options, optgroups);
+	    orig_loadCallback.call(self, options, optgroups);
 	    loading_more = false;
 	  }); // add templates to dropdown
 	  //	loading_more if we have another url in the queue
@@ -4643,7 +4688,7 @@
 	    }
 	  }); // add scroll listener and default templates
 
-	  self.hook('after', 'setup', () => {
+	  self.on('initialize', () => {
 	    dropdown_content = self.dropdown_content; // default templates
 
 	    self.settings.render = Object.assign({}, {

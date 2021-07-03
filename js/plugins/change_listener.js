@@ -247,16 +247,15 @@
 
 
 	  var init_textbox = () => {
-	    var values, option;
-	    var data_raw = input.getAttribute(attr_data);
+	    const data_raw = input.getAttribute(attr_data);
 
 	    if (!data_raw) {
 	      var value = input.value.trim() || '';
 	      if (!settings.allowEmptyOption && !value.length) return;
-	      values = value.split(settings.delimiter);
+	      const values = value.split(settings.delimiter);
 
 	      for (const _value of values) {
-	        option = {};
+	        const option = {};
 	        option[field_label] = _value;
 	        option[field_value] = _value;
 	        settings_element.options.push(option);

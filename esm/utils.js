@@ -167,6 +167,13 @@ const getId = (el, id) => {
 const addSlashes = str => {
   return str.replace(/[\\"']/g, '\\$&');
 };
+/**
+ *
+ */
 
-export { addEvent, addSlashes, debounce_events, escape_html, getId, getSelection, get_hash, hash_key, isKeyDown, loadDebounce, preventDefault };
+const append = (parent, node) => {
+  if (node) parent.append(node);
+};
+
+export { addEvent, addSlashes, append, debounce_events, escape_html, getId, getSelection, get_hash, hash_key, isKeyDown, loadDebounce, preventDefault };
 //# sourceMappingURL=utils.js.map

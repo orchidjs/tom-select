@@ -110,8 +110,8 @@
 	  self.hook('after', 'setupTemplates', () => {
 	    var orig_render_option = self.settings.render.option;
 
-	    self.settings.render.option = function (data) {
-	      var rendered = getDom(orig_render_option.apply(self, arguments));
+	    self.settings.render.option = (data, escape_html) => {
+	      var rendered = getDom(orig_render_option.call(self, data, escape_html));
 	      var checkbox = document.createElement('input');
 	      checkbox.addEventListener('click', function (evt) {
 	        preventDefault(evt);
@@ -139,7 +139,7 @@
 	    }
 	  }); // remove items when selected option is clicked
 
-	  self.hook('instead', 'onOptionSelect', function (evt, option) {
+	  self.hook('instead', 'onOptionSelect', (evt, option) => {
 	    if (option.classList.contains('selected')) {
 	      option.classList.remove('selected');
 	      self.removeItem(option.dataset.value);
@@ -148,7 +148,7 @@
 	      return;
 	    }
 
-	    orig_onOptionSelect.apply(self, arguments);
+	    orig_onOptionSelect.call(self, evt, option);
 	    UpdateCheckbox(option);
 	  });
 	});

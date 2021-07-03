@@ -71,15 +71,19 @@ const nodeIndex = (el, amongst) => {
 TomSelect.define('optgroup_columns', function () {
   var self = this;
   var orig_keydown = self.onKeyDown;
-  self.hook('instead', 'onKeyDown', function (evt) {
+  self.hook('instead', 'onKeyDown', evt => {
     var index, option, options, optgroup;
 
     if (!self.isOpen || !(evt.keyCode === KEY_LEFT || evt.keyCode === KEY_RIGHT)) {
-      return orig_keydown.apply(self, arguments);
+      return orig_keydown.call(self, evt);
     }
 
     optgroup = parentMatch(self.activeOption, '[data-group]');
     index = nodeIndex(self.activeOption, '[data-selectable]');
+
+    if (!optgroup) {
+      return;
+    }
 
     if (evt.keyCode === KEY_LEFT) {
       optgroup = optgroup.previousSibling;
