@@ -212,16 +212,16 @@
 	 *
 	 */
 
-	function asciifold(str) {
+	const asciifold = str => {
 	  return str.normalize('NFD').replace(/[\u0300-\u036F]/g, '').normalize('NFKD').toLowerCase();
-	}
+	};
 	/**
 	 * Generate a list of diacritics from the list of code points
 	 *
 	 */
 
 
-	function generateDiacritics() {
+	const generateDiacritics = () => {
 	  var latin_convert = {
 	    'l·': 'l',
 	    'ʼn': 'n',
@@ -257,7 +257,7 @@
 	  }); //console.log('no_latin',JSON.stringify(no_latin));
 
 	  return diacritics;
-	}
+	};
 	/**
 	 * Expand a regular expression pattern to include diacritics
 	 * 	eg /a/ becomes /aⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐɑAⒶＡÀÁÂẦẤẪẨÃĀĂẰẮẴẲȦǠÄǞẢÅǺǍȀȂẠẬẶḀĄȺⱯ/
@@ -265,7 +265,7 @@
 	 */
 
 	var diacritics = null;
-	function diacriticRegexPoints(regex) {
+	const diacriticRegexPoints = regex => {
 	  if (diacritics === null) {
 	    diacritics = generateDiacritics();
 	  }
@@ -277,22 +277,22 @@
 	  }
 
 	  return regex;
-	}
+	};
 
 	/*! sifter.js | https://github.com/orchidjs/sifter.js | Apache License (v2) */
 
-	// @ts-ignore
+	// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
+
 	/**
 	 * A property getter resolving dot-notation
 	 * @param  {Object}  obj     The root object to fetch property on
 	 * @param  {String}  name    The optionally dotted property name to fetch
 	 * @return {Object}          The resolved property value
 	 */
-
-	function getAttr(obj, name) {
+	const getAttr = (obj, name) => {
 	  if (!obj) return;
 	  return obj[name];
-	}
+	};
 	/**
 	 * A property getter resolving dot-notation
 	 * @param  {Object}  obj     The root object to fetch property on
@@ -300,23 +300,22 @@
 	 * @return {Object}          The resolved property value
 	 */
 
-	function getAttrNesting(obj, name) {
+	const getAttrNesting = (obj, name) => {
 	  if (!obj) return;
-	  var names = name.split(".");
+	  var part,
+	      names = name.split(".");
 
-	  while (names.length && (obj = obj[names.shift()]));
+	  while ((part = names.shift()) && (obj = obj[part]));
 
 	  return obj;
-	}
+	};
 	/**
 	 * Calculates how close of a match the
 	 * given value is against a search token.
 	 *
-	 * @param {object} token
-	 * @return {number}
 	 */
 
-	function scoreValue(value, token, weight) {
+	const scoreValue = (value, token, weight) => {
 	  var score, pos;
 	  if (!value) return 0;
 	  value = value + '';
@@ -325,22 +324,22 @@
 	  score = token.string.length / value.length;
 	  if (pos === 0) score += 0.5;
 	  return score * weight;
-	}
-	function escape_regex(str) {
+	};
+	const escape_regex = str => {
 	  return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
-	}
+	};
 	/**
 	 * Cast object property to an array if it exists and has a value
 	 *
 	 */
 
-	function propToArray(obj, key) {
+	const propToArray = (obj, key) => {
 	  var value = obj[key];
 
 	  if (value && !Array.isArray(value)) {
 	    obj[key] = [value];
 	  }
-	}
+	};
 	/**
 	 * Iterates over arrays and hashes.
 	 *
@@ -350,10 +349,9 @@
 	 * });
 	 * ```
 	 *
-	 * @param {array|object} object
 	 */
 
-	function iterate(object, callback) {
+	const iterate = (object, callback) => {
 	  if (Array.isArray(object)) {
 	    object.forEach(callback);
 	  } else {
@@ -363,8 +361,8 @@
 	      }
 	    }
 	  }
-	}
-	function cmp(a, b) {
+	};
+	const cmp = (a, b) => {
 	  if (typeof a === 'number' && typeof b === 'number') {
 	    return a > b ? 1 : a < b ? -1 : 0;
 	  }
@@ -374,7 +372,7 @@
 	  if (a > b) return 1;
 	  if (b > a) return -1;
 	  return 0;
-	}
+	};
 
 	/*! sifter.js | https://github.com/orchidjs/sifter.js | Apache License (v2) */
 
@@ -393,15 +391,15 @@
 	 *
 	 * @author Brian Reavis <brian@thirdroute.com>
 	 */
+
 	class Sifter {
+	  // []|{};
+
 	  /**
 	   * Textually searches arrays and hashes of objects
 	   * by property (or multiple properties). Designed
 	   * specifically for autocomplete.
 	   *
-	   * @constructor
-	   * @param {array|object} items
-	   * @param {object} items
 	   */
 	  constructor(items, settings) {
 	    this.items = void 0;
@@ -445,12 +443,11 @@
 	        }
 
 	        if (respect_word_boundaries) regex = "\\b" + regex;
-	        regex = new RegExp(regex, 'i');
 	      }
 
 	      tokens.push({
 	        string: word,
-	        regex: regex,
+	        regex: regex ? new RegExp(regex, 'i') : null,
 	        field: field
 	      });
 	    });
@@ -494,9 +491,6 @@
 	     * Calculates the score of an object
 	     * against the search query.
 	     *
-	     * @param {TToken} token
-	     * @param {object} data
-	     * @return {number}
 	     */
 
 
@@ -573,19 +567,16 @@
 	  }
 
 	  _getSortFunction(search) {
-	    var i, n, sort_fld, sort_flds_count, multiplier, implicit_score;
+	    var i, n, implicit_score;
 	    const self = this,
 	          options = search.options,
-	          sort = !search.query && options.sort_empty || options.sort,
+	          sort = !search.query && options.sort_empty ? options.sort_empty : options.sort,
 	          sort_flds = [],
 	          multipliers = [];
 	    /**
 	     * Fetches the specified sort field value
 	     * from a search result item.
 	     *
-	     * @param  {string} name
-	     * @param  {object} result
-	     * @return {string}
 	     */
 
 	    const get_field = function get_field(name, result) {
@@ -634,13 +625,13 @@
 	    } // build function
 
 
-	    sort_flds_count = sort_flds.length;
+	    const sort_flds_count = sort_flds.length;
 
 	    if (!sort_flds_count) {
 	      return null;
 	    } else if (sort_flds_count === 1) {
-	      sort_fld = sort_flds[0].field;
-	      multiplier = multipliers[0];
+	      const sort_fld = sort_flds[0].field;
+	      const multiplier = multipliers[0];
 	      return function (a, b) {
 	        return multiplier * cmp(get_field(sort_fld, a), get_field(sort_fld, b));
 	      };
@@ -673,20 +664,19 @@
 
 	    if (options.fields) {
 	      propToArray(options, 'fields');
+	      const fields = [];
+	      options.fields.forEach(field => {
+	        if (typeof field == 'string') {
+	          field = {
+	            field: field,
+	            weight: 1
+	          };
+	        }
 
-	      if (Array.isArray(options.fields) && typeof options.fields[0] !== 'object') {
-	        var fields = [];
-	        options.fields.forEach(fld_name => {
-	          fields.push({
-	            field: fld_name
-	          });
-	        });
-	        options.fields = fields;
-	      }
-
-	      options.fields.forEach(field_params => {
-	        weights[field_params.field] = 'weight' in field_params ? field_params.weight : 1;
+	        fields.push(field);
+	        weights[field.field] = 'weight' in field ? field.weight : 1;
 	      });
+	      options.fields = fields;
 	    }
 
 	    query = asciifold(query + '').toLowerCase().trim();
@@ -709,13 +699,12 @@
 	    var self = this,
 	        score,
 	        search;
-	    var fn_sort;
-	    var fn_score;
 	    search = this.prepareSearch(query, options);
 	    options = search.options;
 	    query = search.query; // generate result scoring function
 
-	    fn_score = options.score || self._getScoreFunction(search); // perform search and sort
+	    const fn_score = options.score || self._getScoreFunction(search); // perform search and sort
+
 
 	    if (query.length) {
 	      iterate(self.items, (item, id) => {
@@ -737,7 +726,8 @@
 	      });
 	    }
 
-	    fn_sort = self._getSortFunction(search);
+	    const fn_sort = self._getSortFunction(search);
+
 	    if (fn_sort) search.items.sort(fn_sort); // apply limits
 
 	    search.total = search.items.length;
