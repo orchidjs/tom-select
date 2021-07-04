@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.5
+* Tom Select v1.7.6
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -19,13 +19,13 @@ import TomSelect from '../../tom-select.js';
  * governing permissions and limitations under the License.
  *
  */
-TomSelect.define('restore_on_backspace', function (options) {
-  var self = this;
-
-  options.text = options.text || function (option) {
-    return option[self.settings.labelField];
-  };
-
+TomSelect.define('restore_on_backspace', function (userOptions) {
+  const self = this;
+  const options = Object.assign({
+    text: option => {
+      return option[self.settings.labelField];
+    }
+  }, userOptions);
   self.on('item_remove', function (value) {
     if (self.control_input.value.trim() === '') {
       var option = self.options[value];

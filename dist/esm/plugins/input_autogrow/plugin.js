@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.5
+* Tom Select v1.7.6
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -43,7 +43,7 @@ const addEvent = (target, type, callback, options) => {
  */
 TomSelect.define('input_autogrow', function () {
   var self = this;
-  self.hook('after', 'setup', () => {
+  self.on('initialize', () => {
     var test_input = document.createElement('span');
     var control = self.control_input;
     test_input.style.cssText = 'position:absolute; top:-99999px; left:-99999px; width:auto; padding:0; white-space:pre; ';
@@ -51,6 +51,7 @@ TomSelect.define('input_autogrow', function () {
     var transfer_styles = ['letterSpacing', 'fontSize', 'fontFamily', 'fontWeight', 'textTransform'];
 
     for (const style_name of transfer_styles) {
+      // @ts-ignore TS7015 https://stackoverflow.com/a/50506154/697576
       test_input.style[style_name] = control.style[style_name];
     }
     /**

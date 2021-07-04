@@ -2,7 +2,7 @@
  * Tom Select bootstrap 4
  */
 /**
- * tom-select.css (v1.7.5)
+ * tom-select.css (v1.7.6)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -236,10 +236,6 @@
       outline: none !important; }
   .ts-input.has-items > input {
     margin: 0 4px !important; }
-  .ts-input::after {
-    content: ' ';
-    display: block;
-    clear: left; }
   .ts-input.dropdown-active::before {
     content: ' ';
     display: block;
