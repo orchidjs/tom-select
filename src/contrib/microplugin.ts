@@ -14,18 +14,28 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+type TSettings = {
+	[key:string]:any
+}
+
 type TPlugins = {
 	names: string[],
-	settings: {},
-	requested: {},
-	loaded: {}
+	settings: TSettings,
+	requested: {[key:string]:boolean},
+	loaded: {[key:string]:any}
 };
 
-export default function MicroPlugin(Interface){
+type TPluginItem = {name:string,options:{}};
+type TPluginHash = {[key:string]:{}};
+
+
+
+
+export default function MicroPlugin(Interface: any ){
 
 	Interface.plugins = {};
 
-	return class mixin extends Interface{
+	return class extends Interface{
 
 		public plugins:TPlugins = {
 			names     : [],
@@ -37,10 +47,9 @@ export default function MicroPlugin(Interface){
 		/**
 		 * Registers a plugin.
 		 *
-		 * @param {string} name
 		 * @param {function} fn
 		 */
-		static define(name, fn){
+		static define(name:string, fn:(this:any,settings:TSettings)=>any){
 			Interface.plugins[name] = {
 				'name' : name,
 				'fn'   : fn
@@ -63,20 +72,20 @@ export default function MicroPlugin(Interface){
 		 *
 		 * @param {array|object} plugins
 		 */
-		initializePlugins(plugins) {
-			var i, n, key;
+		initializePlugins(plugins:string[]|TPluginItem[]|TPluginHash) {
+			var key, name;
 			const self  = this;
 			const queue:string[] = [];
 
 			if (Array.isArray(plugins)) {
-				for (i = 0, n = plugins.length; i < n; i++) {
-					if (typeof plugins[i] === 'string') {
-						queue.push(plugins[i]);
+				plugins.forEach((plugin:string|TPluginItem)=>{
+					if (typeof plugin === 'string') {
+						queue.push(plugin);
 					} else {
-						self.plugins.settings[plugins[i].name] = plugins[i].options;
-						queue.push(plugins[i].name);
+						self.plugins.settings[plugin.name] = plugin.options;
+						queue.push(plugin.name);
 					}
-				}
+				});
 			} else if (plugins) {
 				for (key in plugins) {
 					if (plugins.hasOwnProperty(key)) {
@@ -86,15 +95,12 @@ export default function MicroPlugin(Interface){
 				}
 			}
 
-			while (queue.length) {
-				self.require(queue.shift());
+			while( name = queue.shift() ){
+				self.require(name);
 			}
 		}
 
-		/**
-		 * @param {string} name
-		 */
-		loadPlugin(name) {
+		loadPlugin(name:string) {
 			var self    = this;
 			var plugins = self.plugins;
 			var plugin  = Interface.plugins[name];
@@ -111,9 +117,8 @@ export default function MicroPlugin(Interface){
 		/**
 		 * Initializes a plugin.
 		 *
-		 * @param {string} name
 		 */
-		require(name) {
+		require(name:string) {
 			var self = this;
 			var plugins = self.plugins;
 

@@ -8,11 +8,6 @@
 		"module": "esnext",
 		"noUnusedLocals": true,
 
-		"noUnusedParameters": false,
-		"noImplicitAny": false,
-		"strictPropertyInitialization": false,
-		"strictBindCallApply": false,
-
 		"declaration": true,
 		"declarationDir": "../dist/types",
 		"moduleResolution": "node"

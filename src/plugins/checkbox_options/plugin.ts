@@ -41,8 +41,8 @@ TomSelect.define('checkbox_options',function(this:TomSelect) {
 
 		var orig_render_option = self.settings.render.option;
 
-		self.settings.render.option = function(data){
-			var rendered = getDom(orig_render_option.apply(self, arguments));
+		self.settings.render.option = (data, escape_html) => {
+			var rendered = getDom(orig_render_option.call(self, data, escape_html));
 			var checkbox = document.createElement('input');
 			checkbox.addEventListener('click',function(evt){
 				preventDefault(evt);
@@ -73,7 +73,7 @@ TomSelect.define('checkbox_options',function(this:TomSelect) {
 
 
 	// remove items when selected option is clicked
-	self.hook('instead','onOptionSelect',function( evt:KeyboardEvent, option:HTMLElement ){
+	self.hook('instead','onOptionSelect',( evt:KeyboardEvent, option:HTMLElement )=>{
 
 		if( option.classList.contains('selected') ){
 			option.classList.remove('selected')
@@ -83,7 +83,7 @@ TomSelect.define('checkbox_options',function(this:TomSelect) {
 			return;
         }
 
-		orig_onOptionSelect.apply(self, arguments);
+		orig_onOptionSelect.call(self, evt, option);
 
 		UpdateCheckbox(option);
 	});

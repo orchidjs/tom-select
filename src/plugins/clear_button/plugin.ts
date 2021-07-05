@@ -15,20 +15,20 @@
 
 import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
+import { CBOptions } from './types';
 
+TomSelect.define('clear_button',function(this:TomSelect, userOptions:CBOptions) {
+	const self = this;
 
-TomSelect.define('clear_button',function(this:TomSelect, options) {
-	var self = this;
-
-	options = Object.assign({
+	const options = Object.assign({
 		className: 'clear-button',
 		title: 'Clear All',
-		html: (data) => {
+		html: (data:CBOptions) => {
 			return `<div class="${data.className}" title="${data.title}">&times;</div>`;
 		}
-	}, options);
+	}, userOptions);
 
-	self.hook('after','setup',()=>{
+	self.on('initialize',()=>{
 		var button = getDom(options.html(options));
 		button.addEventListener('click',(evt)=>{
 			self.clear();

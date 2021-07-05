@@ -287,7 +287,7 @@
 
 		describe('selecting option', function() {
 
-			it_n('should select option when clicked', function(done) {
+			it_n('should select option when clicked', async () =>{
 				var test = setup_test('<div id="test-wrap"><select class="setup-here">' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -300,27 +300,31 @@
 				});
 
 
-				click(test.instance.control, function() {
-					assert.equal(test.instance.input.querySelectorAll('option').length, 3,'should keep original options');
-					var option_before = test.instance.input.querySelector('option[value="b"]');
+				await asyncClick(test.instance.control);
+				assert.equal(test.instance.input.querySelectorAll('option').length, 3,'should keep original options');
+				assert.isTrue( test.instance.isOpen, 'Should be open' );
+				var option_before = test.instance.input.querySelector('option[value="b"]');
 
-					click($('[data-value="b"]', test.instance.dropdown), function() {
-						var option_after = test.instance.input.querySelector('option[value="b"]');
-						assert.equal(option_before, option_after,'should not recreate original <option>');
-						assert.equal(test.instance.input.value,'b','should select "b" value');
-						assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
-						assert.isFalse(clicked,'should not trigger click evt on div');
 
-						click($('[data-value="a"]', test.instance.dropdown), function() {
-							var option_after = test.instance.input.querySelector('option[value="b"]');
-							assert.equal(option_before, option_after,'should not recreate original <option>');
-							assert.equal(test.instance.input.value,'a','should select "a" value');
-							assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
-							assert.isFalse(clicked,'should not trigger click evt on div');
-							done();
-						});
-					});
-				});
+				await asyncClick( test.instance.dropdown.querySelector('[data-value="b"]') );
+				var option_after = test.instance.input.querySelector('option[value="b"]');
+				assert.equal(option_before, option_after,'should not recreate original <option>');
+				assert.equal(test.instance.input.value,'b','should select "b" value');
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
+				assert.isFalse(clicked,'should not trigger click evt on div');
+				assert.isFalse( test.instance.isOpen, 'Should be closed' );
+
+
+				await asyncClick(test.instance.control);
+				assert.isTrue( test.instance.isOpen, 'Should be open' );
+
+				await asyncClick( test.instance.dropdown.querySelector('[data-value="a"]') );
+				var option_after = test.instance.input.querySelector('option[value="b"]');
+				assert.equal(option_before, option_after,'should not recreate original <option>');
+				assert.equal(test.instance.input.value,'a','should select "a" value');
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
+				assert.isFalse(clicked,'should not trigger click evt on div');
+
 			});
 
 			it_n('should close dropdown', function(done) {
@@ -1270,6 +1274,30 @@
 				});
 
 			});
+		});
+
+
+
+		it_n('shadow root',async ()=>{
+			setup_test('<div><div id="shadow-wrapper"><select id="select-tags" multiple><option value="a">a</option><option value="b">b</option></div>');
+
+			function styleText(href){
+				var sheet = document.querySelector(`link[href*="${href}"]`).sheet;
+				return Array.from(sheet.cssRules).map(rule => rule.cssText).join(' ');
+			}
+
+			var wrapper			= document.getElementById('shadow-wrapper');
+			var select			= document.getElementById('select-tags');
+			var shadowRoot		= wrapper.attachShadow({mode: 'open'});
+			var style			= document.createElement('style');
+			style.textContent	= styleText('tom-select.default.css');
+
+			shadowRoot.appendChild(style);
+			shadowRoot.appendChild(select.parentNode.removeChild(select));
+			var instance = new TomSelect(select);
+
+			await asyncClick(instance.control_input);
+			assert.isTrue(instance.isOpen,'should be open');
 		});
 
 	});

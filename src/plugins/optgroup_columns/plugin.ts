@@ -22,15 +22,19 @@ TomSelect.define('optgroup_columns', function(this:TomSelect) {
 
 	var orig_keydown = self.onKeyDown;
 
-	self.hook('instead','onKeyDown',function(evt){
+	self.hook('instead','onKeyDown',(evt:KeyboardEvent)=>{
 		var index, option, options, optgroup;
 
 		if( !self.isOpen || !(evt.keyCode === constants.KEY_LEFT || evt.keyCode === constants.KEY_RIGHT)) {
-			return orig_keydown.apply(self,arguments);
+			return orig_keydown.call(self,evt);
 		}
 
 		optgroup			= parentMatch(self.activeOption,'[data-group]');
 		index				= nodeIndex(self.activeOption,'[data-selectable]');
+
+		if( !optgroup ){
+			return;
+		}
 
 		if( evt.keyCode === constants.KEY_LEFT ){
 			optgroup = optgroup.previousSibling;
@@ -42,8 +46,8 @@ TomSelect.define('optgroup_columns', function(this:TomSelect) {
 			return;
 		}
 
-		options				= optgroup.querySelectorAll('[data-selectable]');
-		option				= options[ Math.min(options.length - 1, index) ];
+		options				= (<HTMLOptGroupElement>optgroup).querySelectorAll('[data-selectable]');
+		option				= options[ Math.min(options.length - 1, index) ] as HTMLElement;
 
 		if( option ){
 			self.setActiveOption(option);

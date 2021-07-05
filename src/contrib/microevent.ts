@@ -8,30 +8,34 @@
  * @author Jerome Etienne (https://github.com/jeromeetienne)
  */
 
+type TCallback = (...args:any) => any;
 
 /**
  * Execute callback for each event in space separated list of event names
  *
  */
-function forEvents(events,callback){
+function forEvents(events:string,callback:(event:string)=>any){
 	events.split(/\s+/).forEach((event) =>{
 		callback(event);
 	});
 }
 
 export default class MicroEvent{
+
+	public _events: {[key:string]:TCallback[]};
+
 	constructor(){
 		this._events = {};
 	}
 
-	on(events, fct){
+	on(events:string, fct:TCallback){
 		forEvents(events,(event) => {
 			this._events[event] = this._events[event] || [];
 			this._events[event].push(fct);
 		});
 	}
 
-	off(events, fct){
+	off(events:string, fct:TCallback){
 		var n = arguments.length;
 		if( n === 0 ){
 			this._events = {};
@@ -47,13 +51,13 @@ export default class MicroEvent{
 		});
 	}
 
-	trigger(events, ...args){
+	trigger(events:string, ...args:any){
 		var self = this;
 
 		forEvents(events,(event) => {
 			if(event in self._events === false) return;
 			for( let fct of self._events[event] ){
-				fct.apply(self,args );
+				fct.apply(self, args );
 			}
 		});
 	}

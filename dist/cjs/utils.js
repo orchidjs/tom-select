@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.5
+* Tom Select v1.7.6
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -171,9 +171,17 @@ const getId = (el, id) => {
 const addSlashes = str => {
   return str.replace(/[\\"']/g, '\\$&');
 };
+/**
+ *
+ */
+
+const append = (parent, node) => {
+  if (node) parent.append(node);
+};
 
 exports.addEvent = addEvent;
 exports.addSlashes = addSlashes;
+exports.append = append;
 exports.debounce_events = debounce_events;
 exports.escape_html = escape_html;
 exports.getId = getId;

@@ -16,19 +16,19 @@
 import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
 import { preventDefault } from '../../utils';
+import { DHOptions } from './types';
 
+TomSelect.define('dropdown_header',function(this:TomSelect, userOptions:DHOptions) {
+	const self = this;
 
-TomSelect.define('dropdown_header',function(this:TomSelect, options) {
-	var self = this;
-
-	options = Object.assign({
+	const options = Object.assign({
 		title         : 'Untitled',
 		headerClass   : 'dropdown-header',
 		titleRowClass : 'dropdown-header-title',
 		labelClass    : 'dropdown-header-label',
 		closeClass    : 'dropdown-header-close',
 
-		html: (data) => {
+		html: (data:DHOptions) => {
 			return (
 				'<div class="' + data.headerClass + '">' +
 					'<div class="' + data.titleRowClass + '">' +
@@ -38,9 +38,9 @@ TomSelect.define('dropdown_header',function(this:TomSelect, options) {
 				'</div>'
 			);
 		}
-	}, options);
+	}, userOptions);
 
-	self.hook('after','setup',()=>{
+	self.on('initialize',()=>{
 		var header = getDom(options.html(options));
 
 		var close_link = header.querySelector('.'+options.closeClass);

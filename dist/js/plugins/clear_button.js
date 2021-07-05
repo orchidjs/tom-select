@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.5
+* Tom Select v1.7.6
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -52,16 +52,16 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('clear_button', function (options) {
-	  var self = this;
-	  options = Object.assign({
+	TomSelect__default['default'].define('clear_button', function (userOptions) {
+	  const self = this;
+	  const options = Object.assign({
 	    className: 'clear-button',
 	    title: 'Clear All',
 	    html: data => {
 	      return `<div class="${data.className}" title="${data.title}">&times;</div>`;
 	    }
-	  }, options);
-	  self.hook('after', 'setup', () => {
+	  }, userOptions);
+	  self.on('initialize', () => {
 	    var button = getDom(options.html(options));
 	    button.addEventListener('click', evt => {
 	      self.clear();

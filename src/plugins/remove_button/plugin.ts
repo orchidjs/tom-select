@@ -15,15 +15,18 @@
 import TomSelect from '../../tom-select.js';
 import { getDom } from '../../vanilla';
 import { escape_html, preventDefault, addEvent } from '../../utils';
+import { TomOption } from '../../types/index';
+import { RBOptions } from './types';
 
-TomSelect.define('remove_button',function(this:TomSelect, options) {
 
-	options = Object.assign({
+TomSelect.define('remove_button',function(this:TomSelect, userOptions:RBOptions ){
+
+	const options = Object.assign({
 			label     : '&times;',
 			title     : 'Remove',
 			className : 'remove',
 			append    : true
-		}, options);
+		}, userOptions);
 
 
 	//options.className = 'remove-single';
@@ -40,9 +43,9 @@ TomSelect.define('remove_button',function(this:TomSelect, options) {
 
 		var orig_render_item = self.settings.render.item;
 
-		self.settings.render.item = function(){
+		self.settings.render.item = (data:TomOption, escape:typeof escape_html) => {
 
-			var rendered = getDom(orig_render_item.apply(self, arguments));
+			var rendered = getDom(orig_render_item.call(self, data, escape));
 
 			var close_button = getDom(html);
 			rendered.appendChild(close_button);

@@ -16,17 +16,19 @@ import TomSelect from '../../tom-select.js';
 import { TomOption } from '../../types/index';
 
 type TPluginOptions = {
-	text:(option:TomOption)=>string,
+	text?:(option:TomOption)=>string,
 };
 
-TomSelect.define('restore_on_backspace',function(this:TomSelect, options:TPluginOptions) {
-	var self = this;
+TomSelect.define('restore_on_backspace',function(this:TomSelect, userOptions:TPluginOptions) {
+	const self = this;
 
-	options.text = options.text || function(option:TomOption){
-		return option[self.settings.labelField];
-	};
+	const options = Object.assign({
+		text: (option:TomOption) => {
+			return option[self.settings.labelField];
+		}
+	},userOptions);
 
-	self.on('item_remove',function(value){
+	self.on('item_remove',function(value:string){
 		if( self.control_input.value.trim() === '' ){
 			var option = self.options[value];
 			if( option ){

@@ -1,5 +1,7 @@
 
 import TomSelect from './tom-select';
+import { TomLoadCallback } from './types/index';
+
 
 /**
  * Converts a scalar to its best string representation
@@ -42,9 +44,9 @@ export const escape_html = (str:string):string => {
  * Debounce the user provided load function
  *
  */
-export const loadDebounce = (fn:(value:string,callback:() => any) => void,delay:number) => {
+export const loadDebounce = (fn:(value:string,callback:TomLoadCallback) => void,delay:number) => {
 	var timeout: null|ReturnType<typeof setTimeout>;
-	return function(this:TomSelect, value:string,callback:() => void) {
+	return function(this:TomSelect, value:string,callback:TomLoadCallback) {
 		var self = this;
 
 		if( timeout ){
@@ -177,4 +179,11 @@ export const getId = (el:Element,id:string) => {
  */
 export const addSlashes = (str:string):string => {
 	return str.replace(/[\\"']/g, '\\$&');
+};
+
+/**
+ *
+ */
+export const append = ( parent:Element|DocumentFragment, node: string|Node|null|undefined ):void =>{
+	if( node ) parent.append(node);
 };

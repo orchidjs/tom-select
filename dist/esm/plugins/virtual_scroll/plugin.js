@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.5
+* Tom Select v1.7.6
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -143,12 +143,12 @@ TomSelect.define('virtual_scroll', function () {
     return canLoadMore(query);
   }); // wrap the load
 
-  self.hook('instead', 'loadCallback', (value, options, optgroups) => {
+  self.hook('instead', 'loadCallback', (options, optgroups) => {
     if (!loading_more) {
       self.clearOptions();
     }
 
-    orig_loadCallback.call(self, value, options, optgroups);
+    orig_loadCallback.call(self, options, optgroups);
     loading_more = false;
   }); // add templates to dropdown
   //	loading_more if we have another url in the queue
@@ -175,7 +175,7 @@ TomSelect.define('virtual_scroll', function () {
     }
   }); // add scroll listener and default templates
 
-  self.hook('after', 'setup', () => {
+  self.on('initialize', () => {
     dropdown_content = self.dropdown_content; // default templates
 
     self.settings.render = Object.assign({}, {

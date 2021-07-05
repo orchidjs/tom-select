@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.5
+* Tom Select v1.7.6
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -109,7 +109,7 @@
 	  self.settings.controlInput = input;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
-	  self.hook('after', 'setup', () => {
+	  self.on('initialize', () => {
 	    // set tabIndex on wrapper
 	    setAttr(self.wrapper, {
 	      tabindex: self.input.disabled ? '-1' : '' + self.tabIndex

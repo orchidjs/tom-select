@@ -24,7 +24,7 @@ var babel_config = babel({
 	extensions: extensions,
 	babelHelpers: 'bundled',
 	configFile: path.resolve(__dirname,'babel.config.json'),
-	exclude:'node_modules/**'
+	exclude:'node_modules/**/*.js'
 });
 
 var resolve_config = resolve({

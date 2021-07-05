@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.5
+* Tom Select v1.7.6
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -81,9 +81,9 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('dropdown_header', function (options) {
-	  var self = this;
-	  options = Object.assign({
+	TomSelect__default['default'].define('dropdown_header', function (userOptions) {
+	  const self = this;
+	  const options = Object.assign({
 	    title: 'Untitled',
 	    headerClass: 'dropdown-header',
 	    titleRowClass: 'dropdown-header-title',
@@ -92,8 +92,8 @@
 	    html: data => {
 	      return '<div class="' + data.headerClass + '">' + '<div class="' + data.titleRowClass + '">' + '<span class="' + data.labelClass + '">' + data.title + '</span>' + '<a class="' + data.closeClass + '">&times;</a>' + '</div>' + '</div>';
 	    }
-	  }, options);
-	  self.hook('after', 'setup', () => {
+	  }, userOptions);
+	  self.on('initialize', () => {
 	    var header = getDom(options.html(options));
 	    var close_link = header.querySelector('.' + options.closeClass);
 
