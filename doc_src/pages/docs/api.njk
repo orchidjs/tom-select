@@ -3,17 +3,32 @@ title: API
 tags: docs
 ---
 
+{% from "macro_config.njk" import config_table %}
 
-Instances of Tom Select can be controlled programmatically via the methods described in this section.
+<p>Instances of Tom Select can be controlled programmatically via the methods described in this section.</p>
 
-```js
+{% highlight "js" %}
 var control = new TomSelect('#select');
 control.addOption({value:'test'});
 control.addItem('test');
-```
+{% endhighlight %}
 
+<h2>Constructor</h2>
 
-## Option Methods
+{% highlight "js" %}
+new TomSelect(input_element,config);
+{% endhighlight %}
+<p>
+<code>input_element</code> can be any of the following: 
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">CSS Selector</a>,
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement">Input Element</a>,
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement">Select Element</a>,
+string of html (eg: <code>"&lt;input/&gt;"</code>),
+or jQuery object (eg: <code>$('input')</code>).
+Note: using CSS Selectors that match multiple elements will only create a Tom Select instance on the first matching element.
+</p>
+
+<h2>Option Methods</h2>
 
 <table class="table table-striped">
 	<thead>
@@ -52,7 +67,7 @@ control.addItem('test');
 	</tr>
 </table>
 
-## Item Methods
+<h2>Item Methods</h2>
 <table class="table table-striped">
 	<thead>
 	<tr>
@@ -86,7 +101,7 @@ control.addItem('test');
 	</tr>
 </table>
 
-## Optgroup Methods
+<h2>Optgroup Methods</h2>
 <table class="table table-striped">
 	<thead>
 	<tr>
@@ -108,7 +123,7 @@ control.addItem('test');
 	</tr>
 </table>
 
-## Event Methods
+<h2>Event Methods</h2>
 <table class="table table-striped">
 <thead>
 	<tr>
@@ -134,7 +149,7 @@ control.addItem('test');
 	</tr>
 </table>
 
-## Dropdown Methods
+<h2>Dropdown Methods</h2>
 <table class="table table-striped">
 <thead>
 	<tr>
@@ -156,7 +171,7 @@ control.addItem('test');
 	</tr>
 </table>
 
-## Other Methods
+<h2>Other Methods</h2>
 <table class="table table-striped">
 <thead>
 	<tr>
@@ -227,9 +242,9 @@ control.addItem('test');
 	</tr>
 </table>
 
-## Related Objects
+<h2>Related Objects</h2>
 
-#### Search
+<h4>Search</h4>
 
 <table class="table table-striped">
 <thead>
