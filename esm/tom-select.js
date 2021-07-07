@@ -936,7 +936,7 @@ const setAttr = (el, attrs) => {
     if (val == null) {
       el.removeAttribute(attr);
     } else {
-      el.setAttribute(attr, val);
+      el.setAttribute(attr, '' + val);
     }
   }
 };

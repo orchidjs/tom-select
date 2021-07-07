@@ -80,7 +80,7 @@
 	<hr class="mx-4 my-2">
 
 	<div class="p-4 badges small">
-		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/docs/api.md">Edit this page on GitHub</a>
+		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/docs/api.njk">Edit this page on GitHub</a>
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
@@ -91,12 +91,31 @@
 		<div class="px-3 main-col">
 			<div class="container pt-4 mt-3" id="main-container">
 				
-				<h1 class="display-4 mt-0">API</h1>
+				<h1 class="display-4 mt-0" id="api">API</h1>
 				
 
-				<p>Instances of Tom Select can be controlled programmatically via the methods described in this section.</p>
+				
+
+
+<p>Instances of Tom Select can be controlled programmatically via the methods described in this section.</p>
+
 <pre class="language-js"><code class="language-js"><span class="token keyword">var</span> control <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#select'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>control<span class="token punctuation">.</span><span class="token function">addOption</span><span class="token punctuation">(</span><span class="token punctuation">{</span>value<span class="token operator">:</span><span class="token string">'test'</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>control<span class="token punctuation">.</span><span class="token function">addItem</span><span class="token punctuation">(</span><span class="token string">'test'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h2 id="option-methods" tabindex="-1">Option Methods</h2>
+
+<h2 id="constructor">Constructor</h2>
+
+<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span>input_element<span class="token punctuation">,</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>
+<code>input_element</code> can be any of the following: 
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">CSS Selector</a>,
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement">Input Element</a>,
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement">Select Element</a>,
+string of html (eg: <code>"&lt;input/&gt;"</code>),
+or jQuery object (eg: <code>$('input')</code>).
+Note: using CSS Selectors that match multiple elements will only create a Tom Select instance on the first matching element.
+</p>
+
+<h2 id="option-methods">Option Methods</h2>
+
 <table class="table table-striped">
 	<thead>
 	<tr>
@@ -105,35 +124,36 @@
 	</tr>
 	</thead>
 	<tbody><tr>
-		<td><code>addOption(data)</code></td>
+		<td id="addoptiondata"><code>addOption(data)</code></td>
 		<td>Adds an available option, or array of options. If it already exists, nothing will happen. Note: this does not refresh the options list dropdown (use refreshOptions() for that).</td>
 	</tr>
 	<tr>
-		<td><code>updateOption(value, data)</code></td>
+		<td id="updateoptionvalue-data"><code>updateOption(value, data)</code></td>
 		<td>Updates an option available for selection. If it is visible in the selected items or options dropdown, it will be re-rendered automatically.</td>
 	</tr>
 	<tr>
-		<td><code>removeOption(value)</code></td>
+		<td id="removeoptionvalue"><code>removeOption(value)</code></td>
 		<td>Removes the option identified by the given value.</td>
 	</tr>
 	<tr>
-		<td><code>clearOptions()</code></td>
+		<td id="clearoptions"><code>clearOptions()</code></td>
 		<td>Removes all unselected options from the control. To clear selection options, call clear() before calling clearOptions()</td>
 	</tr>
 	<tr>
-		<td><code>getOption(value)</code></td>
+		<td id="getoptionvalue"><code>getOption(value)</code></td>
 		<td>Retrieves the dom element for the option identified by the given value.</td>
 	</tr>
 	<tr>
-		<td><code>getAdjacent(HTMLElement, direction)</code></td>
+		<td id="getadjacenthtmlelement-direction"><code>getAdjacent(HTMLElement, direction)</code></td>
 		<td>Retrieves the dom element for the previous or next option, relative to the currently highlighted option. The <code>direction</code> argument should be 1 for "next" or -1 for "previous".</td>
 	</tr>
 	<tr>
-		<td><code>refreshOptions(triggerDropdown)</code></td>
+		<td id="refreshoptionstriggerdropdown"><code>refreshOptions(triggerDropdown)</code></td>
 		<td>Refreshes the list of available options shown in the autocomplete dropdown menu.</td>
 	</tr>
 </tbody></table>
-<h2 id="item-methods" tabindex="-1">Item Methods</h2>
+
+<h2 id="item-methods">Item Methods</h2>
 <table class="table table-striped">
 	<thead>
 	<tr>
@@ -142,31 +162,32 @@
 	</tr>
 	</thead>
 	<tbody><tr>
-		<td><code>clear(silent)</code></td>
+		<td id="clearsilent"><code>clear(silent)</code></td>
 		<td>Resets / clears all selected items from the control. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
-		<td><code>getItem(value)</code></td>
+		<td id="getitemvalue"><code>getItem(value)</code></td>
 		<td>Returns the dom element of the item matching the given value.</td>
 	</tr>
 	<tr>
-		<td><code>addItem(value, silent)</code></td>
+		<td id="additemvalue-silent"><code>addItem(value, silent)</code></td>
 		<td>"Selects" an item. Adds it to the list at the current caret position. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
-		<td><code>removeItem(value|HTMLElement, silent)</code></td>
+		<td id="removeitemvalueorhtmlelement-silent"><code>removeItem(value|HTMLElement, silent)</code></td>
 		<td>Removes the selected item matching the provided value. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
-		<td><code>createItem(value, [triggerDropdown], [callback])</code></td>
+		<td id="createitemvalue-triggerdropdown-callback"><code>createItem(value, [triggerDropdown], [callback])</code></td>
 		<td>Invokes the <code>create</code> method provided in the settings that should provide the data for the new item, given the user input. Once this completes, it will be added to the item list.</td>
 	</tr>
 	<tr>
-		<td><code>refreshItems()</code></td>
+		<td id="refreshitems"><code>refreshItems()</code></td>
 		<td>Re-renders the selected item lists.</td>
 	</tr>
 </tbody></table>
-<h2 id="optgroup-methods" tabindex="-1">Optgroup Methods</h2>
+
+<h2 id="optgroup-methods">Optgroup Methods</h2>
 <table class="table table-striped">
 	<thead>
 	<tr>
@@ -175,19 +196,20 @@
 	</tr>
 	</thead>
 	<tbody><tr>
-		<td><code>addOptionGroup(id, data)</code></td>
+		<td id="addoptiongroupid-data"><code>addOptionGroup(id, data)</code></td>
 		<td>Registers a new optgroup for options to be bucketed into. The <code>id</code> argument refers to a value of the property in option identified by the <code>optgroupField</code> setting.</td>
 	</tr>
 	<tr>
-		<td><code>removeOptionGroup(id)</code></td>
+		<td id="removeoptiongroupid"><code>removeOptionGroup(id)</code></td>
 		<td>Removes a single option group.</td>
 	</tr>
 	<tr>
-		<td><code>clearOptionGroups()</code></td>
+		<td id="clearoptiongroups"><code>clearOptionGroups()</code></td>
 		<td>Removes all existing option groups.</td>
 	</tr>
 </tbody></table>
-<h2 id="event-methods" tabindex="-1">Event Methods</h2>
+
+<h2 id="event-methods">Event Methods</h2>
 <table class="table table-striped">
 <thead>
 	<tr>
@@ -196,23 +218,24 @@
 	</tr>
 </thead>
 	<tbody><tr>
-		<td><code>on(event, handler)</code></td>
+		<td id="onevent-handler"><code>on(event, handler)</code></td>
 		<td>Adds an event listener.</td>
 	</tr>
 	<tr>
-		<td><code>off(event, handler)</code></td>
+		<td id="offevent-handler"><code>off(event, handler)</code></td>
 		<td>Removes an event listener.</td>
 	</tr>
 	<tr>
-		<td><code>off(event)</code></td>
+		<td id="offevent"><code>off(event)</code></td>
 		<td>Removes all event listeners.</td>
 	</tr>
 	<tr>
-		<td><code>trigger(event, ...)</code></td>
+		<td id="triggerevent-"><code>trigger(event, ...)</code></td>
 		<td>Triggers event listeners.</td>
 	</tr>
 </tbody></table>
-<h2 id="dropdown-methods" tabindex="-1">Dropdown Methods</h2>
+
+<h2 id="dropdown-methods">Dropdown Methods</h2>
 <table class="table table-striped">
 <thead>
 	<tr>
@@ -221,19 +244,20 @@
 	</tr>
 </thead>
 	<tbody><tr>
-		<td><code>open()</code></td>
+		<td id="open"><code>open()</code></td>
 		<td>Shows the autocomplete dropdown containing the available options.</td>
 	</tr>
 	<tr>
-		<td><code>close()</code></td>
+		<td id="close"><code>close()</code></td>
 		<td>Closes the autocomplete dropdown menu.</td>
 	</tr>
 	<tr>
-		<td><code>positionDropdown()</code></td>
+		<td id="positiondropdown"><code>positionDropdown()</code></td>
 		<td>Calculates and applies the appropriate position of the dropdown.</td>
 	</tr>
 </tbody></table>
-<h2 id="other-methods" tabindex="-1">Other Methods</h2>
+
+<h2 id="other-methods">Other Methods</h2>
 <table class="table table-striped">
 <thead>
 	<tr>
@@ -242,69 +266,72 @@
 	</tr>
 </thead>
 	<tbody><tr>
-		<td><code>destroy()</code></td>
+		<td id="destroy"><code>destroy()</code></td>
 		<td>Destroys the control and unbinds event listeners so that it can be garbage collected.</td>
 	</tr>
 	<tr>
-		<td><code>load(query)</code></td>
+		<td id="loadquery"><code>load(query)</code></td>
 		<td>Initiates loading options from your remote data provider for the given query string. See the <a href="/docs/#callbacks">load() callback</a></td>
 	</tr>
 	<tr>
-		<td><code>focus()</code></td>
+		<td id="focus"><code>focus()</code></td>
 		<td>Brings the control into focus.</td>
 	</tr>
 	<tr>
-		<td><code>blur()</code></td>
+		<td id="blur"><code>blur()</code></td>
 		<td>Forces the control out of focus.</td>
 	</tr>
 	<tr>
-		<td><code>lock()</code></td>
+		<td id="lock"><code>lock()</code></td>
 		<td>Disables user input on the control (note: the control can still receive focus).</td>
 	</tr>
 	<tr>
-		<td><code>unlock()</code></td>
+		<td id="unlock"><code>unlock()</code></td>
 		<td>Re-enables user input on the control.</td>
 	</tr>
 	<tr>
-		<td><code>disable()</code></td>
+		<td id="disable"><code>disable()</code></td>
 		<td>Disables user input on the control completely. While disabled, it cannot receive focus.</td>
 	</tr>
 	<tr>
-		<td><code>enable()</code></td>
+		<td id="enable"><code>enable()</code></td>
 		<td>Enables the control so that it can respond to focus and user input.</td>
 	</tr>
 	<tr>
-		<td><code>getValue()</code></td>
+		<td id="getvalue"><code>getValue()</code></td>
 		<td>Returns the value of the control. If multiple items can be selected with a "select" input tag (e.g. <a href="/docs#maxItems">&lt;select multiple&gt;</a>), this returns an array. Otherwise, returns a string (separated by <code>delimiter</code> if "multiple").</td>
 	</tr>
 	<tr>
-		<td><code>setValue(value, silent)</code></td>
+		<td id="setvaluevalue-silent"><code>setValue(value, silent)</code></td>
 		<td>Resets the selected items to the given value.</td>
 	</tr>
 	<tr>
-		<td><code>setCaret(index)</code></td>
+		<td id="setcaretindex"><code>setCaret(index)</code></td>
 		<td>Moves the caret to the specified position (<code>index</code> being the index in the list of selected items).</td>
 	</tr>
 	<tr>
-		<td><code>isFull()</code></td>
+		<td id="isfull"><code>isFull()</code></td>
 		<td>Returns whether or not the user can select more items.</td>
 	</tr>
 	<tr>
-		<td><code>clearCache(template)</code></td>
+		<td id="clearcachetemplate"><code>clearCache(template)</code></td>
 		<td>Clears the render cache. Takes an optional template argument (e.g. <code>option</code> , <code>item</code>) to clear only that cache.</td>
 	</tr>
 	<tr>
-		<td><code>updatePlaceholder()</code></td>
+		<td id="updateplaceholder"><code>updatePlaceholder()</code></td>
 		<td>When the `settings.placeholder` value is changed, the new placeholder will be displayed.</td>
 		<!-- Proposed change: accept an optional string. If given, just takes it to update the placeholder. Will avoid to refer to settings. -->
 	</tr>
 	<tr>
-		<td><code>setTextboxValue(str)</code></td>
+		<td id="settextboxvaluestr"><code>setTextboxValue(str)</code></td>
 		<td>Sets the value of the input field.</td>
 	</tr>
 </tbody></table>
-<h2 id="related-objects" tabindex="-1">Related Objects</h2>
-<h4 id="search" tabindex="-1">Search</h4>
+
+<h2 id="related-objects">Related Objects</h2>
+
+<h4 id="search">Search</h4>
+
 <table class="table table-striped">
 <thead>
 	<tr>
@@ -314,27 +341,27 @@
 	</tr>
 </thead>
 	<tbody><tr>
-		<td><code>options</code></td>
+		<td id="options"><code>options</code></td>
 		<td>Original search options.</td>
 		<td><code>object</code></td>
 	</tr>
 	<tr>
-		<td><code>query</code></td>
+		<td id="query"><code>query</code></td>
 		<td>The raw user input.</td>
 		<td><code>string</code></td>
 	</tr>
 	<tr>
-		<td><code>tokens</code></td>
+		<td id="tokens"><code>tokens</code></td>
 		<td>An array containing parsed search tokens. A token is an object containing two properties: <code>string</code> and <code>regex</code> .</td>
 		<td><code>array</code></td>
 	</tr>
 	<tr>
-		<td><code>total</code></td>
+		<td id="total"><code>total</code></td>
 		<td>The total number of results.</td>
 		<td><code>int</code></td>
 	</tr>
 	<tr>
-		<td><code>items</code></td>
+		<td id="items"><code>items</code></td>
 		<td>A list of matched results. Each result is an object containing two properties: <code>score</code> and <code>id</code> .</td>
 		<td><code>array</code></td>
 	</tr>
