@@ -9,6 +9,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({'build/css':'css'});
 	eleventyConfig.addPassthroughCopy({'build/esm':'esm'});
 
+	// content security policy
 	const csp_plugin = require('./eleventy.csp.js');
 	eleventyConfig.addPlugin(csp_plugin,{
 		csp:{
@@ -20,8 +21,24 @@ module.exports = function(eleventyConfig) {
 			'connect-src':		['api.github.com','whatcms.org','api.reddit.com','mc.yandex.ru','https://*.algolia.net','https://*.algolianet.com'],
 		}
 	});
+	
+	// header anchors
+	const anchors_plugin = require('@orchidjs/eleventy-plugin-ids');
+	eleventyConfig.addPlugin(anchors_plugin,{
+		prefix:'',
+		selectors:[
+			'.container h1',
+			'.container h2',
+			'.container h3',
+			'.container h4',
+			'.container h5',
+			'.container h6',
+			'.container td:first-child',
+		]
+	});
 
 
+	// syntax highlighting
 	const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 	eleventyConfig.addPlugin(syntaxHighlight);
 
@@ -65,15 +82,11 @@ module.exports = function(eleventyConfig) {
 
 
 	let markdownIt = require('markdown-it');
-
-	let options = {
+	md = markdownIt({
 		html: true,
 		breaks: false,
 		//linkify: true
-	};
-
-	md = markdownIt(options)
-	md.use(require('markdown-it-anchor'));
+	});
 	let orig_normalizeLink = md.normalizeLink;
 	md.normalizeLink = function(url){
 
