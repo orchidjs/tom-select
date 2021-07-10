@@ -312,8 +312,8 @@
 				assert.equal(test.instance.input.value,'b','should select "b" value');
 				assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
 				assert.isFalse(clicked,'should not trigger click evt on div');
-				assert.isFalse( test.instance.isOpen, 'Should be closed' );
-
+				assert.isFalse( test.instance.isOpen, 'Should close dropdown' );
+				assert.isFalse( isVisible(test.instance.dropdown), 'Should close dropdown' );
 
 				await asyncClick(test.instance.control);
 				assert.isTrue( test.instance.isOpen, 'Should be open' );
@@ -325,18 +325,6 @@
 				assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
 				assert.isFalse(clicked,'should not trigger click evt on div');
 
-			});
-
-			it_n('should close dropdown', function(done) {
-				var test = setup_test('AB_Single', {});
-
-				click(test.instance.control, function() {
-					click($('[data-value="b"]', test.instance.dropdown), function() {
-						expect(test.instance.isOpen).to.be.equal(false);
-						expect( isVisible(test.instance.dropdown) ).to.be.equal(false);
-						done();
-					});
-				});
 			});
 
 			it_n('should order selected options',function(done){
