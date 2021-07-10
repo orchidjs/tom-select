@@ -327,6 +327,14 @@
 
 			});
 
+			it_n('should update original select when required', async () => {
+				var test = setup_test(`<select required><option value="a" selected>A</option><option value="b">B</option></select>`);
+
+				await asyncClick(test.instance.control);
+				await asyncClick( test.instance.dropdown.querySelector('[data-value="b"]') );
+				assert.equal(test.select.value,'b');
+			});
+
 			it_n('should order selected options',function(done){
 				var test = setup_test('AB_Multi',{create:true});
 

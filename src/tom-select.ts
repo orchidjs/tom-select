@@ -2036,17 +2036,19 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if( self.is_select_tag ){
 
-			const selected = document.createDocumentFragment();
+			const selected:HTMLOptionElement[]		= [];
 
 			function AddSelected(option_el:HTMLOptionElement|null, value:string, label:string):HTMLOptionElement{
 
 				if( !option_el ){
 					option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>') as HTMLOptionElement;
 				}
+								
+				self.input.prepend(option_el);
+				selected.push(option_el);
 
-				option_el.selected = true;
 				setAttr(option_el,{selected:'true'});
-				append( selected, option_el );
+				option_el.selected = true;
 
 				return option_el;
 			}
@@ -2066,13 +2068,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// order selected <option> tags for values in self.items
 			}else{
 
-				for( i = 0; i < self.items.length; i++ ){
+				for( i = self.items.length-1; i >=0 ; i-- ){
 					value			= self.items[i];
 					option			= self.options[value];
 					label			= option[self.settings.labelField] || '';
 
-					if( selected.contains(option.$option) ){
-						const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]`) as HTMLOptionElement;
+					if( selected.includes(option.$option) ){
+						const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]:not([selected])`) as HTMLOptionElement;
 						AddSelected(reuse_opt, value, label);
 					}else{
 						option.$option	= AddSelected(option.$option, value, label);
@@ -2080,9 +2082,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 
 			}
-
-			// prepend all of the selected options
-			self.input.prepend(selected);
 
 		} else {
 			self.input.value = self.getValue() as string;
