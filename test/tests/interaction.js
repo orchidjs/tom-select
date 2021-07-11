@@ -312,8 +312,8 @@
 				assert.equal(test.instance.input.value,'b','should select "b" value');
 				assert.equal(test.instance.dropdown_content.querySelectorAll('.selected').length,1,'only one dropdown option should have selected class');
 				assert.isFalse(clicked,'should not trigger click evt on div');
-				assert.isFalse( test.instance.isOpen, 'Should be closed' );
-
+				assert.isFalse( test.instance.isOpen, 'Should close dropdown' );
+				assert.isFalse( isVisible(test.instance.dropdown), 'Should close dropdown' );
 
 				await asyncClick(test.instance.control);
 				assert.isTrue( test.instance.isOpen, 'Should be open' );
@@ -327,16 +327,12 @@
 
 			});
 
-			it_n('should close dropdown', function(done) {
-				var test = setup_test('AB_Single', {});
+			it_n('should update original select when required', async () => {
+				var test = setup_test(`<select required><option value="a" selected>A</option><option value="b">B</option></select>`);
 
-				click(test.instance.control, function() {
-					click($('[data-value="b"]', test.instance.dropdown), function() {
-						expect(test.instance.isOpen).to.be.equal(false);
-						expect( isVisible(test.instance.dropdown) ).to.be.equal(false);
-						done();
-					});
-				});
+				await asyncClick(test.instance.control);
+				await asyncClick( test.instance.dropdown.querySelector('[data-value="b"]') );
+				assert.equal(test.select.value,'b');
 			});
 
 			it_n('should order selected options',function(done){
@@ -744,15 +740,23 @@
 			});
 
 			it_n('should not select option with [tab] keypress when selectOnTab = false (default)', function(done) {
-
-				var test = setup_test('AB_Multi',{});
+				var test = setup_test(`<div>
+					<select multiple class="setup-here">
+						<option value="a">a</option>
+						<option value="b">b</option>
+						<option value="c">c</option>
+					</select>
+					<input id="next-input"/>
+					</div>`
+				);
 
 				click(test.instance.control, function() {
 					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
 
 					syn.type('[tab]', test.instance.control_input, function() {
-						expect(test.instance.isFocused).to.be.equal(true);
-						expect(test.instance.items.length).to.be.equal(0);
+						assert.equal(test.instance.items.length,0);
+						assert.isFalse(test.instance.isFocused);
+						assert.equal(document.activeElement,document.getElementById('next-input'));
 						done();
 
 					});

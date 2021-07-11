@@ -1,9 +1,9 @@
 
-{% macro config_table(data) %}
+{% macro config_table(data,heading='Setting') %}
 	<table class="table table-striped">
-	<theac>
+	<thead>
 		<tr>
-			<th>Setting</a></th>
+			<th>{{ heading }}</th>
 			<th>Description</th>
 		</tr>
 	</thead>

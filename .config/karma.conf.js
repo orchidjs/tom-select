@@ -17,6 +17,14 @@ module.exports = function(config) {
 				browser_version : 'latest',
 			},
 
+			bs_ios_safari14:{
+				base: 'BrowserStack',
+				os : 'OS X',
+				os_version : 'Big Sur',
+				browser : 'Safari',
+				browser_version : 'latest',
+			},
+
 			bs_ios_safari13:{
 				base: 'BrowserStack',
 				os : 'OS X',
@@ -29,14 +37,6 @@ module.exports = function(config) {
 				base: 'BrowserStack',
 				os : 'OS X',
 				os_version : 'Mojave',
-				browser : 'Safari',
-				browser_version : 'latest',
-			},
-
-			bs_ios_safari11:{
-				base: 'BrowserStack',
-				os : 'OS X',
-				os_version : 'High Sierra',
 				browser : 'Safari',
 				browser_version : 'latest',
 			},
@@ -139,7 +139,7 @@ module.exports = function(config) {
 			'node_modules/jquery/dist/jquery.js',
 			'build/css/tom-select.default.css',
 			'test/support/*.js',
-			config.test_one ? 'test/tests/plugins/virtual_scroll.js' : 'test/tests/**/*.js',
+			config.test_one ? 'test/tests/interaction.js' : 'test/tests/**/*.js',
 
 			{
 				pattern: 'build/**/*',
