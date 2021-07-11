@@ -365,7 +365,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		input.tabIndex = -1;
-		setAttr(input,{	hidden:'hidden'});
 		input.insertAdjacentElement('afterend', self.wrapper);
 
 
@@ -373,7 +372,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		settings.items = [];
 
 		addEvent(input,'invalid', (e) => {
-			preventDefault(e);
 			if( !self.isInvalid ){
 				self.isInvalid = true;
 				self.refreshState();
@@ -392,7 +390,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.on('change', this.onChange);
 
-		addClasses(input,'tomselected');
+		addClasses(input,'tomselected','ts-hidden-accessible');
 		self.trigger('initialize');
 
 		// preload options
@@ -2000,19 +1998,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			return;
 		}
 
-		// if required, make sure the input required attribute = true so checkValidity() will work
-		if( this.isRequired ){
-			self.input.required = true;
-		}
-
-		var invalid = !self.input.checkValidity();
-
-		self.isInvalid = invalid;
-		self.control_input.required = invalid;
-
-		if( this.isRequired ){
-			self.input.required = !invalid;
-		}
+		self.isInvalid = !self.input.checkValidity();
 	}
 
 	/**
@@ -2455,9 +2441,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.input.innerHTML = revertSettings.innerHTML;
 		self.input.tabIndex = revertSettings.tabIndex;
 
-		removeClasses(self.input,'tomselected');
-		setAttr(self.input,{hidden:null});
-		self.input.required = this.isRequired;
+		removeClasses(self.input,'tomselected','ts-hidden-accessible');
 
 		self._destroy();
 
