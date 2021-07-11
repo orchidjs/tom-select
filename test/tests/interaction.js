@@ -740,15 +740,23 @@
 			});
 
 			it_n('should not select option with [tab] keypress when selectOnTab = false (default)', function(done) {
-
-				var test = setup_test('AB_Multi',{});
+				var test = setup_test(`<div>
+					<select multiple class="setup-here">
+						<option value="a">a</option>
+						<option value="b">b</option>
+						<option value="c">c</option>
+					</select>
+					<input id="next-input"/>
+					</div>`
+				);
 
 				click(test.instance.control, function() {
 					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
 
 					syn.type('[tab]', test.instance.control_input, function() {
-						expect(test.instance.isFocused).to.be.equal(true);
-						expect(test.instance.items.length).to.be.equal(0);
+						assert.equal(test.instance.items.length,0);
+						assert.isFalse(test.instance.isFocused);
+						assert.equal(document.activeElement,document.getElementById('next-input'));
 						done();
 
 					});
