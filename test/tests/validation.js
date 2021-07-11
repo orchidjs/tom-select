@@ -101,9 +101,9 @@ describe('Validation', function(){
 				throw 'form should not be submitted';
 			});
 
-			assert.isTrue(test.instance.isInvalid,'should start out as invalid');
+			assert.isFalse(test.instance.isValid,'should start out as invalid');
 			document.getElementById('submit').click(); // should not refresh page (which would error the test)			
-			assert.isTrue(test.instance.isInvalid,'should be invalid');
+			assert.isFalse(test.instance.isValid,'should be invalid');
 		});
 
 	});
@@ -158,9 +158,9 @@ describe('Validation', function(){
 				throw 'form should not be submitted';
 			});
 
-			assert.isFalse(test.instance.isInvalid,'should start out as valid');
+			assert.isTrue(test.instance.isValid,'should start out as valid');
 			test.instance.createItem('BB');
-			assert.isTrue(test.instance.isInvalid,'should be invalid');
+			assert.isFalse(test.instance.isValid,'should be invalid');
 			document.getElementById('submit').click(); // should not refresh page (which would error the test)
 		});
 		
@@ -169,11 +169,11 @@ describe('Validation', function(){
 
 			var test = setup_test('<input pattern="[a-z]+" value="AA" required />',{create:true});
 
-			assert.isTrue(test.instance.isInvalid,'should start out as invalid');
+			assert.isFalse(test.instance.isValid,'should start out as invalid');
 			test.instance.clear();
 			test.instance.createItem('bb');
 			test.instance.refreshState();
-			assert.isFalse(test.instance.isInvalid,'should finish as valid');
+			assert.isTrue(test.instance.isValid,'should finish as valid');
 		});		
 		
 	});

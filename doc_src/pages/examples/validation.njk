@@ -130,7 +130,7 @@ var my_select = new TomSelect('#select-bootstrap',{
 		direction: 'asc'
 	},
 	onChange:function(){
-		this.wrapper.classList.toggle('is-invalid',this.isInvalid);
+		this.wrapper.classList.toggle('is-invalid',!this.isValid);
 	}
 });
 
@@ -143,7 +143,7 @@ form.addEventListener('submit', function (event){
 	form.classList.add('was-validated')
 
 	// or, add is-invalid to the wrapper to display custom colors and invalid-feedback messages
-	my_select.wrapper.classList.toggle('is-invalid',my_select.isInvalid);
+	my_select.wrapper.classList.toggle('is-invalid',!my_select.isValid);
 
 	if (!form.checkValidity()) {
 		event.preventDefault()

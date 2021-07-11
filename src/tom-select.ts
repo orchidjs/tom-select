@@ -63,7 +63,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public isOpen					: boolean = false;
 	public isDisabled				: boolean = false;
 	public isRequired				: boolean;
-	public isInvalid				: boolean = false;
+	public isInvalid				: boolean = false; // @deprecated 1.8
+	public isValid					: boolean = true; 
 	public isLocked					: boolean = false;
 	public isFocused				: boolean = false;
 	public isInputHidden			: boolean = false;
@@ -372,7 +373,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		settings.items = [];
 
 		addEvent(input,'invalid', (e) => {
-			if( !self.isInvalid ){
+			if( self.isValid ){
+				self.isValid = false;
 				self.isInvalid = true;
 				self.refreshState();
 			}
@@ -1971,7 +1973,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		classList.toggle('focus', self.isFocused)
 		classList.toggle('disabled', self.isDisabled)
 		classList.toggle('required', self.isRequired)
-		classList.toggle('invalid', self.isInvalid)
+		classList.toggle('invalid', !self.isValid)
 		classList.toggle('locked', isLocked)
 		classList.toggle('full', isFull)
 		classList.toggle('not-full', !isFull)
@@ -1998,7 +2000,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			return;
 		}
 
-		self.isInvalid = !self.input.checkValidity();
+		self.isValid = self.input.checkValidity();
+		self.isInvalid = !self.isValid;
 	}
 
 	/**
