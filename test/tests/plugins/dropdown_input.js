@@ -32,7 +32,7 @@ describe('plugin: dropdown_input', function() {
 		let test = setup_test('<input value="a,b" tabindex="1" />', {plugins: ['dropdown_input']});
 		var adjacent = document.getElementById('adjacent-input');
 
-		assert.equal(test.instance.wrapper.tabIndex, 1);
+		assert.equal(test.instance.control.tabIndex, 1);
 
 		syn.type('[enter]',test.instance.wrapper,function(){
 			assert.equal(test.instance.isOpen, true);

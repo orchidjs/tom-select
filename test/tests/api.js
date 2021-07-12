@@ -7,11 +7,11 @@
 
 			before(function() {
 				test = setup_test('<select tabindex="4">', {});
-				expect(String(test.instance.wrapper.tabIndex)).to.be.equal('4');
+				expect(String(test.instance.control.tabIndex)).to.be.equal('4');
 				test.instance.disable();
 			});
 			it_n('should set "tabindex" prop to -1', function() {
-				expect(String(test.instance.wrapper.tabIndex)).to.be.equal('-1');
+				expect(String(test.instance.control.tabIndex)).to.be.equal('-1');
 			});
 			it_n('should set "disabled" class', function() {
 				expect(test.instance.control.classList.contains('disabled')).to.be.equal(true);
@@ -54,11 +54,11 @@
 
 			before(function() {
 				test = setup_test('<select disabled tabindex="2">', {});
-				expect(String(test.instance.wrapper.tabIndex)).to.be.equal('-1');
+				expect(String(test.instance.control.tabIndex)).to.be.equal('-1');
 				test.instance.enable();
 			});
 			it_n('should restore original "tabindex" prop', function() {
-				expect(String(test.instance.wrapper.tabIndex)).to.be.equal('2');
+				expect(String(test.instance.control.tabIndex)).to.be.equal('2');
 			});
 			it_n('should remove "disabled" class', function() {
 				expect(test.instance.control.classList.contains('disabled')).to.be.equal(false);

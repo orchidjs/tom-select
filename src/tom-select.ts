@@ -216,22 +216,22 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 
-		setAttr(wrapper,{
+		setAttr(control,{
 			role:'combobox',
 			'aria-haspopup':'listbox',
 			'aria-expanded':'false',
 			'aria-controls':listboxId
 		});
 
-		const wrapper_id	= getId(wrapper,self.inputId + '-ts-wrapper');
+		const control_id	= getId(control,self.inputId + '-ts-control');
 		const query			= "label[for='"+escapeQuery(self.inputId)+"']";
 		const label			= document.querySelector(query);
 		const label_click	= self.focus.bind(self);
 		if( label ){
 			addEvent(label,'click', label_click );
-			setAttr(label,{for:wrapper_id});
+			setAttr(label,{for:control_id});
 			const label_id = getId(label,self.inputId+'-ts-label');
-			setAttr(wrapper,{'aria-labelledby':label_id});
+			setAttr(control,{'aria-labelledby':label_id});
 			setAttr(dropdown_content,{'aria-labelledby':label_id});
 		}
 
@@ -277,11 +277,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		
 		
 		// handle focus/blur on wrapper
-		addEvent(wrapper,'focus', () => self.focus() );
-		addEvent(wrapper,'blur', () => self.onBlur() );
+		addEvent(control,'focus', () => self.focus() );
+		addEvent(control,'blur', () => self.onBlur() );
 				
 		const setTabIndex = () => {
-			self.wrapper.tabIndex = self.isDisabled ? -1 : self.tabIndex;
+			self.control.tabIndex = self.isDisabled ? -1 : self.tabIndex;
 		};
 		self.on('blur',setTabIndex);
 		setTabIndex();
@@ -682,7 +682,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// tab: select active option and/or create item
 			case constants.KEY_TAB:
-				self.wrapper.tabIndex = -1;
+				self.control.tabIndex = -1;
 
 				if( self.settings.selectOnTab ){
 					if( self.isOpen && self.activeOption) {
@@ -1073,7 +1073,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( !option ) return;
 
 		this.activeOption = option;
-		setAttr(this.wrapper,{'aria-activedescendant':option.getAttribute('id')});
+		setAttr(this.control,{'aria-activedescendant':option.getAttribute('id')});
 		setAttr(option,{'aria-selected':'true'});
 		addClasses(option,'active');
 		this.scrollToOption(option);
@@ -1124,7 +1124,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			setAttr(this.activeOption,{'aria-selected':null});
 		}
 		this.activeOption = null;
-		setAttr(this.wrapper,{'aria-activedescendant':null});
+		setAttr(this.control,{'aria-activedescendant':null});
 	}
 
 
@@ -2117,7 +2117,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
 		self.isOpen = true;
-		setAttr(self.wrapper,{'aria-expanded': 'true'});
+		setAttr(self.control,{'aria-expanded': 'true'});
 		self.refreshState();
 		applyCSS(self.dropdown,{visibility: 'hidden', display: 'block'});
 		self.positionDropdown();
@@ -2151,7 +2151,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		self.isOpen = false;
-		setAttr(self.wrapper,{'aria-expanded': 'false'});
+		setAttr(self.control,{'aria-expanded': 'false'});
 		applyCSS(self.dropdown,{display: 'none'});
 		if( self.settings.hideSelected ){
 			self.clearActiveOption();
@@ -2434,7 +2434,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self = this;
 		self.input.disabled				= true;
 		self.control_input.disabled		= true;
-		self.wrapper.tabIndex			= -1;
+		self.control.tabIndex			= -1;
 		self.isDisabled					= true;
 		self.lock();
 	}
@@ -2447,7 +2447,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self = this;
 		self.input.disabled				= false;
 		self.control_input.disabled		= false;
-		self.wrapper.tabIndex			= self.tabIndex;
+		self.control.tabIndex			= self.tabIndex;
 		self.isDisabled					= false;
 		self.unlock();
 	}
