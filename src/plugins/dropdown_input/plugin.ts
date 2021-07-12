@@ -34,20 +34,6 @@ TomSelect.define('dropdown_input',function(this:TomSelect) {
 
 	self.on('initialize',()=>{
 
-		// open/close dropdown when tabbing focus on wrapper
-		addEvent(self.wrapper,'focus', (evt) => {
-			self.onFocus(evt as MouseEvent)
-		});
-		
-		const setTabIndex = () => {
-			setAttr(self.wrapper,{tabindex:self.input.disabled ? '-1' : self.tabIndex});
-		};
-		
-		self.on('dropdown_close',setTabIndex);
-		self.on('dropdown_open',() => setAttr(self.wrapper,{tabindex:'-1'}) );
-		setTabIndex();
-
-
 		// keyboard navigation
 		addEvent(self.wrapper,'keypress',(evt) => {
 
