@@ -820,49 +820,14 @@
 		});
 
 		describe('destroy()', function() {
-			var has_namespaced_event = function($el, ns) {
-				var i, n, key;
-				var data = ($._data || $.data).apply($, [$(window)[0], 'events']);
-				ns = ns.replace(/^./, '');
-				for (key in data) {
-					if (data.hasOwnProperty(key)) {
-						for (i = 0, n = data[key].length; i < n; i++) {
-							if (data[key][i].namespace.indexOf(ns) !== -1) {
-								return true;
-							}
-						}
-					}
-				}
 
-				return false;
-			};
 			it_n('should remove control from DOM', function() {
 				var test = setup_test('<select>', {});
 				test.instance.destroy();
-				expect($.contains(document.documentElement, test.instance.wrapper)).to.be.equal(false);
+				assert.isFalse( document.documentElement.contains(test.instance.wrapper), 'should remove control from DOM');
+				assert.isUndefined( test.instance.input.instance, 'should delete "instance" reference on original input element');
 			});
-			it_n('should delete "instance" reference on original input element', function() {
-				var test = setup_test('<select>', {});
-				test.instance.destroy();
-				expect(test.instance.input.instance).to.be.equal(undefined);
-			});
-			/*
-			it_n('should unbind events on window', function() {
-				var test = setup_test('<select>', {});
-				test.instance.destroy();
-				expect(has_namespaced_event($(window), test.instance.eventNS)).to.be.equal(false);
-			});
-			it_n('should unbind events on document', function() {
-				var test = setup_test('<select>', {});
-				test.instance.destroy();
-				expect(has_namespaced_event($(document), test.instance.eventNS)).to.be.equal(false);
-			});
-			it_n('should unbind events on <body>', function() {
-				var test = setup_test('<select>', {});
-				test.instance.destroy();
-				expect(has_namespaced_event($('body'), test.instance.eventNS)).to.be.equal(false);
-			});
-			*/
+
 			it_n('should restore original options and tabindex', function() {
 				var children = '<optgroup label="Swedish Cars">' +
 					'<option value="volvo">Volvo</option>' +
