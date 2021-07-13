@@ -46,6 +46,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public dropdown					: HTMLElement;
 	public control					: HTMLElement;
 	public dropdown_content			: HTMLElement;
+	public focus_node				: HTMLElement;
 
 	public order					: number = 0;
 	public settings					: TomSettings;
@@ -55,7 +56,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public rtl						: boolean;
 	private inputId					: string;
 
-	private _destroy				: () => void;
+	private _destroy				!: () => void;
 	public sifter					: Sifter;
 
 
@@ -94,7 +95,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		var dir;
 		var input				= getDom( input_arg ) as TomInput;
-		var self				= this;
 
 		if( input.tomselect ){
 			throw new Error('Tom Select already initialized on this element');
@@ -109,7 +109,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		dir						= computedStyle.getPropertyValue('direction');
 
 		// setup default state
-		this.settings			= getSettings( input, settings );
+		settings				= getSettings( input, settings );
+		this.settings			= settings;
 		this.input				= input;
 		this.tabIndex			= input.tabIndex || 0;
 		this.is_select_tag		= input.tagName.toLowerCase() === 'select';
@@ -119,25 +120,25 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// search system
-		this.sifter = new Sifter(this.options, {diacritics: this.settings.diacritics});
+		this.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
 
-		this.setupOptions(this.settings.options,this.settings.optgroups);
-		delete this.settings.optgroups;
-		delete this.settings.options;
+		this.setupOptions(settings.options,settings.optgroups);
+		delete settings.optgroups;
+		delete settings.options;
 
 
 		// option-dependent defaults
-		this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
-		if (typeof this.settings.hideSelected !== 'boolean') {
-			this.settings.hideSelected = this.settings.mode === 'multi';
+		settings.mode = settings.mode || (settings.maxItems === 1 ? 'single' : 'multi');
+		if (typeof settings.hideSelected !== 'boolean') {
+			settings.hideSelected = settings.mode === 'multi';
 		}
 
-		if( typeof this.settings.hidePlaceholder !== 'boolean' ){
-			this.settings.hidePlaceholder = this.settings.mode !== 'multi';
+		if( typeof settings.hidePlaceholder !== 'boolean' ){
+			settings.hidePlaceholder = settings.mode !== 'multi';
 		}
 
 		// set up createFilter callback
-		var filter = this.settings.createFilter;
+		var filter = settings.createFilter;
 		if( typeof filter !== 'function' ){
 
 			if( typeof filter === 'string' ){
@@ -145,62 +146,51 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			if( filter instanceof RegExp ){
-				this.settings.createFilter = (input) => (filter as RegExp).test(input);
+				settings.createFilter = (input) => (filter as RegExp).test(input);
 			}else{
-				this.settings.createFilter = () => true;
+				settings.createFilter = () => true;
 			}
 		}
 
 
-		this.initializePlugins(this.settings.plugins);
+		this.initializePlugins(settings.plugins);
 		this.setupCallbacks();
 		this.setupTemplates();
+		
+		
+		// Create all elements
+		const wrapper			= getDom('<div>');
+		const control			= getDom('<div class="items">');
+		const dropdown			= this._render('dropdown');
+		const dropdown_content	= getDom(`<div role="listbox" tabindex="-1">`);
+			
+		const classes			= this.input.getAttribute('class') || '';
+		const inputMode			= settings.mode;
 
-
-		/**
-		 * Create all elements and set up event bindings.
-		 *
-		 */
-
-		var settings:TomSettings = self.settings;
-		var wrapper: HTMLElement;
-		var control: HTMLElement;
 		var control_input: HTMLInputElement;
-		var dropdown: HTMLElement;
-		var dropdown_content: HTMLElement;
-		var inputMode: string;
-		var classes;
-		var classes_plugins;
-		var input					= self.input;
-		const passive_event			= { passive: true };
-		const listboxId: string		= self.inputId +'-ts-dropdown';
 
 
-
-		inputMode			= self.settings.mode;
-		classes				= input.getAttribute('class') || '';
-
-		wrapper				= getDom('<div>');
 		addClasses( wrapper, settings.wrapperClass, classes, inputMode);
+		
 
-
-		control				= getDom('<div class="items">');
 		addClasses(control,settings.inputClass);
 		append( wrapper, control );
 
 
-		dropdown			= self._render('dropdown');
 		addClasses(dropdown, settings.dropdownClass, inputMode);
+		if( settings.copyClassesToDropdown ){ 
+			addClasses( dropdown, classes);
+		}
 
-		dropdown_content	= getDom(`<div role="listbox" id="${listboxId}" tabindex="-1">`);
+
 		addClasses(dropdown_content, settings.dropdownContentClass);
 		append( dropdown, dropdown_content );
 
 		getDom( settings.dropdownParent || wrapper ).appendChild( dropdown );
 
-		if( settings.controlInput ){
-			control_input		= getDom( settings.controlInput ) as HTMLInputElement;
-		}else{
+
+		// default controlInput
+		if( !settings.hasOwnProperty('controlInput') ){
 			control_input		= getDom('<input type="text" autocomplete="off" size="1" />' ) as HTMLInputElement;
 
 			// set attributes
@@ -213,17 +203,59 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			
 			control_input.tabIndex = -1;
 			control.appendChild( control_input );
+			this.focus_node		= control_input;
+			
+		// custom controlInput
+		}else if( settings.controlInput ){
+			control_input		= getDom( settings.controlInput ) as HTMLInputElement;
+			this.focus_node		= control_input;
+			
+		// controlInput = null
+		}else{
+			control_input		= getDom('<input/>') as HTMLInputElement;
+			this.focus_node		= control;
 		}
+		
+		this.wrapper			= wrapper;
+		this.dropdown			= dropdown;
+		this.dropdown_content	= dropdown_content;
+		this.control 			= control;
+		this.control_input		= control_input;
+
+		this.setup();
+	}
+
+	/**
+	 * set up event bindings.
+	 *
+	 */	
+	setup(){
+
+		const self = this;
+		const settings				= self.settings;
+		const control_input			= self.control_input;
+		const dropdown				= self.dropdown;
+		const dropdown_content		= self.dropdown_content;
+		const wrapper				= self.wrapper;
+		const control				= self.control;
+		const input					= self.input;
+		const focus_node			= self.focus_node;
+		const passive_event			= { passive: true };
+		const listboxId				= self.inputId +'-ts-dropdown';
 
 
-		setAttr(control,{
+		setAttr(dropdown_content,{
+			id: listboxId
+		});
+
+		setAttr(focus_node,{
 			role:'combobox',
 			'aria-haspopup':'listbox',
 			'aria-expanded':'false',
 			'aria-controls':listboxId
 		});
 
-		const control_id	= getId(control,self.inputId + '-ts-control');
+		const control_id	= getId(focus_node,self.inputId + '-ts-control');
 		const query			= "label[for='"+escapeQuery(self.inputId)+"']";
 		const label			= document.querySelector(query);
 		const label_click	= self.focus.bind(self);
@@ -231,19 +263,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			addEvent(label,'click', label_click );
 			setAttr(label,{for:control_id});
 			const label_id = getId(label,self.inputId+'-ts-label');
-			setAttr(control,{'aria-labelledby':label_id});
+			setAttr(focus_node,{'aria-labelledby':label_id});
 			setAttr(dropdown_content,{'aria-labelledby':label_id});
-		}
-
-
-		if(self.settings.copyClassesToDropdown) {
-			addClasses( dropdown, classes);
 		}
 
 		wrapper.style.width = input.style.width;
 
 		if (self.plugins.names.length) {
-			classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
+			const classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
 			addClasses( [wrapper,dropdown], classes_plugins);
 		}
 
@@ -262,31 +289,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// debounce user defined load() if loadThrottle > 0
 		// after initializePlugins() so plugins can create/modify user defined loaders
-		if( this.settings.load && this.settings.loadThrottle ){
-			this.settings.load = loadDebounce(this.settings.load,this.settings.loadThrottle)
+		if( settings.load && settings.loadThrottle ){
+			settings.load = loadDebounce(settings.load,settings.loadThrottle)
 		}
-
-
-		this.control			= control;
-		this.control_input		= control_input;
-		this.wrapper			= wrapper;
-		this.dropdown			= dropdown;
-		this.dropdown_content	= dropdown_content;
 
 		self.control_input.type	= input.type;
 		
 		
-		// handle focus/blur on wrapper
-		addEvent(control,'focus', () => self.focus() );
-		addEvent(control,'blur', () => self.onBlur() );
-				
-		const setTabIndex = () => {
-			self.control.tabIndex = self.isDisabled ? -1 : self.tabIndex;
-		};
-		self.on('blur',setTabIndex);
-		setTabIndex();
-
-
 		// clicking on an option should select it
 		addEvent(dropdown,'click',(evt) => {
 			const option = parentMatch(evt.target as HTMLElement, '[data-selectable]');
@@ -323,14 +332,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		});
 
-
-		addEvent(control_input,'keydown',	(e) => self.onKeyDown(e as KeyboardEvent) );
-		addEvent(control_input,'keyup',		(e) => self.onKeyUp(e as KeyboardEvent) );
+		
+		// keydown on focus_node for arrow_down/arrow_up
+		addEvent(focus_node,'keydown',		(e) => self.onKeyDown(e as KeyboardEvent) );
+		
+		// keyup and keypress 
+		addEvent(control_input,'keyup',	(e) => self.onKeyUp(e as KeyboardEvent) );
 		addEvent(control_input,'keypress',	(e) => self.onKeyPress(e as KeyboardEvent) );
-		addEvent(control_input,'resize',	() => self.positionDropdown(), passive_event);
-		addEvent(control_input,'blur',		() => self.onBlur() );
-		addEvent(control_input,'focus',		(e) => self.onFocus(e as MouseEvent) );
-		addEvent(control_input,'paste',		(e) => self.onPaste(e as MouseEvent) );
+		
+		addEvent(focus_node,'resize',		() => self.positionDropdown(), passive_event);
+		addEvent(focus_node,'blur', 		(e) => self.onBlur(e as FocusEvent) );
+		addEvent(focus_node,'focus',		(e) => self.onFocus(e as MouseEvent) );
+		addEvent(focus_node,'paste',		(e) => self.onPaste(e as MouseEvent) );
 
 
 		const doc_mousedown = (evt:Event) => {
@@ -358,7 +371,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		addEvent(document,'mousedown', doc_mousedown);
-		addEvent(window,'sroll', win_scroll, passive_event);
+		addEvent(window,'scroll', win_scroll, passive_event);
 		addEvent(window,'resize', win_scroll, passive_event);
 
 		this._destroy = () => {
@@ -400,6 +413,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if( input.disabled ){
 			self.disable();
+		}else{
+			self.enable(); //sets tabIndex
 		}
 
 		self.on('change', this.onChange);
@@ -412,14 +427,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.load('');
 		}
 
-		self.setup();
 	}
-
-	/**
-	 * @deprecated v1.7.6
-	 *
-	 */
-	setup(){}
 
 
 	/**
@@ -682,7 +690,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// tab: select active option and/or create item
 			case constants.KEY_TAB:
-				self.control.tabIndex = -1;
 
 				if( self.settings.selectOnTab ){
 					if( self.isOpen && self.activeOption) {
@@ -771,7 +778,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered on <input> blur.
 	 *
 	 */
-	onBlur():void {
+	onBlur(e?:FocusEvent):void {
 		var self = this;
 		if (!self.isFocused) return;
 		self.isFocused = false;
@@ -1073,7 +1080,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( !option ) return;
 
 		this.activeOption = option;
-		setAttr(this.control,{'aria-activedescendant':option.getAttribute('id')});
+		setAttr(this.focus_node,{'aria-activedescendant':option.getAttribute('id')});
 		setAttr(option,{'aria-selected':'true'});
 		addClasses(option,'active');
 		this.scrollToOption(option);
@@ -1124,7 +1131,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			setAttr(this.activeOption,{'aria-selected':null});
 		}
 		this.activeOption = null;
-		setAttr(this.control,{'aria-activedescendant':null});
+		setAttr(this.focus_node,{'aria-activedescendant':null});
 	}
 
 
@@ -1197,7 +1204,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (self.isDisabled) return;
 
 		self.ignoreFocus = true;
-		self.control_input.focus();
+		self.focus_node.focus();
+		
 		setTimeout(() => {
 			self.ignoreFocus = false;
 			self.onFocus();
@@ -1209,8 +1217,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	blur():void {
-		this.control_input.blur();
-
+		this.focus_node.blur();
 		this.onBlur();
 	}
 
@@ -2117,7 +2124,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
 		self.isOpen = true;
-		setAttr(self.control,{'aria-expanded': 'true'});
+		setAttr(self.focus_node,{'aria-expanded': 'true'});
 		self.refreshState();
 		applyCSS(self.dropdown,{visibility: 'hidden', display: 'block'});
 		self.positionDropdown();
@@ -2151,7 +2158,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		self.isOpen = false;
-		setAttr(self.control,{'aria-expanded': 'false'});
+		setAttr(self.focus_node,{'aria-expanded': 'false'});
 		applyCSS(self.dropdown,{display: 'none'});
 		if( self.settings.hideSelected ){
 			self.clearActiveOption();
@@ -2434,7 +2441,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self = this;
 		self.input.disabled				= true;
 		self.control_input.disabled		= true;
-		self.control.tabIndex			= -1;
+		self.focus_node.tabIndex		= -1;
 		self.isDisabled					= true;
 		self.lock();
 	}
@@ -2447,7 +2454,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self = this;
 		self.input.disabled				= false;
 		self.control_input.disabled		= false;
-		self.control.tabIndex			= self.tabIndex;
+		self.focus_node.tabIndex		= self.tabIndex;
 		self.isDisabled					= false;
 		self.unlock();
 	}

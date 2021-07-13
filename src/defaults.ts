@@ -49,7 +49,7 @@ export default {
 	optionClass: 'option',
 
 	dropdownParent: null,
-	controlInput: null,
+	//controlInput: null,
 
 	copyClassesToDropdown: true,
 
