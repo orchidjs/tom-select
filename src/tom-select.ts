@@ -123,11 +123,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// search system
 		this.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
 
-		this.setupOptions(settings.options,settings.optgroups);
-		delete settings.optgroups;
-		delete settings.options;
-
-
 		// option-dependent defaults
 		settings.mode = settings.mode || (settings.maxItems === 1 ? 'single' : 'multi');
 		if (typeof settings.hideSelected !== 'boolean') {
@@ -393,9 +388,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		input.tabIndex = -1;
 		input.insertAdjacentElement('afterend', self.wrapper);
 
-
-		self.setValue(settings.items);
+		self.sync(false);
 		settings.items = [];
+		delete settings.optgroups;
+		delete settings.options;
 
 		addEvent(input,'invalid', (e) => {
 			if( self.isValid ){
@@ -525,6 +521,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if (fn) this.on(key, fn);
 
 		}
+	}
+
+	/**
+	 * Sync the Tom Select instance with the original input or select
+	 *
+	 */
+	sync(get_settings:boolean=true):void{
+		const self		= this;
+		const settings	= get_settings ? getSettings( self.input, {delimiter:self.settings.delimiter} as TomSettings ) : self.settings;
+
+		self.setupOptions(settings.options,settings.optgroups);
+
+		self.setValue(settings.items,true); // silent prevents recursion
+
+		self.lastQuery = null; // so updated options will be displayed in dropdown
 	}
 
 	/**
