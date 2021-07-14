@@ -1160,7 +1160,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	inputState(){
 		var self = this;
 
-		if( self.settings.controlInput ) return;
+		if( !self.control.contains(self.control_input) ) return;
 
 		if( self.activeItems.length > 0 || (!self.isFocused && this.settings.hidePlaceholder && self.items.length > 0) ){
 			self.setTextboxValue();
@@ -2387,7 +2387,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	setCaret(new_pos:number) {
 		var self = this;
 
-		if( self.settings.mode === 'single' || self.settings.controlInput ) {
+		if( self.settings.mode === 'single' || !self.control.contains(self.control_input) ) {
 			new_pos = self.items.length;
 		} else {
 			new_pos = Math.max(0, Math.min(self.items.length, new_pos));
