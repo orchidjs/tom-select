@@ -72,20 +72,6 @@
 				});
 			});
 
-
-			it_n('should blur dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
-
-				var test = setup_test('AB_Single',{closeAfterSelect: true});
-
-				click(test.instance.control, function() {
-					expect(test.instance.isFocused).to.be.equal(true);
-					click($('[data-value=a]', test.instance.dropdown_content), function() {
-						expect(test.instance.isFocused).to.be.equal(false);
-						done();
-					});
-				});
-			});
-
 			it_n('should close dropdown and clear active items after [escape] key press', async () => {
 
 				var test = setup_test('AB_Multi',{items:['a']});
@@ -683,22 +669,28 @@
 			});
 
 
-			it_n('should select option with [enter] keypress (single)', function(done) {
+			it_n('should select option with [enter] keypress (single)', async () => {
 
 				var test = setup_test('AB_Single');
 
-				click(test.instance.control, function() {
-					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
+				await asyncClick(test.instance.control);
+				
+				assert.equal(test.instance.activeOption.dataset.value,'a');
 
-					syn.type('a', test.instance.control_input, function() {
-						syn.type('[enter]', test.instance.control_input, function() {
-							assert.equal( test.instance.items.length, 1);
-							assert.equal( test.instance.items[0], 'a');
-							assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
-							done();
-						});
-					});
-				});
+				await asyncType('a', test.instance.control_input);
+				await asyncType('[enter]', test.instance.control_input);
+				
+				assert.equal( test.instance.items.length, 1);
+				assert.equal( test.instance.items[0], 'a');
+				assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
+
+				await asyncType('[b]', test.instance.control_input);
+				await asyncType('[enter]', test.instance.control_input);
+
+				assert.equal( test.instance.items.length, 1);
+				assert.equal( test.instance.items[0], 'b');
+				assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
+			
 			});
 
 

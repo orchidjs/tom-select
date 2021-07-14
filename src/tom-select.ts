@@ -60,7 +60,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public sifter					: Sifter;
 
 
-	public tab_key					: boolean = false;
 	public isOpen					: boolean = false;
 	public isDisabled				: boolean = false;
 	public isRequired				: boolean;
@@ -693,13 +692,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				if( self.settings.selectOnTab ){
 					if( self.isOpen && self.activeOption) {
-						self.tab_key = true;
 						self.onOptionSelect(e,self.activeOption);
 
 						// prevent default [tab] behaviour of jump to the next field
 						// if select isFull, then the dropdown won't be open and [tab] will work normally
 						preventDefault(e);
-						self.tab_key = false;
 					}
 					if (self.settings.create && self.createItem()) {
 						preventDefault(e);
@@ -2147,13 +2144,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			if (self.settings.mode === 'single' && self.items.length) {
 				self.hideInput();
-
-				// Do not trigger blur while inside a blur event,
-				// this fixes some weird tabbing behavior in FF and IE.
-				// See #selectize.js#1164
-				if( !self.tab_key ){
-					self.blur(); // close keyboard on iOS
-				}
 			}
 		}
 
