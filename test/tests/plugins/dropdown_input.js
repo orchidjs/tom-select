@@ -60,5 +60,40 @@ describe('plugin: dropdown_input', function() {
 		await asyncType('[down]', test.instance.control_input);
 		assert.isTrue(test.instance.isOpen);
 	});
-	
+
+
+	it_n('should load results for "a" after loading results for "ab"', function(done) {
+
+		var expected_load_queries = ['ab','a'];
+
+		var test = setup_test('AB_Single',{
+			load: function(query, load_cb) {
+
+				var expected_load_query = expected_load_queries.shift();
+
+				assert.equal(query, expected_load_query);
+
+				if( expected_load_queries.length == 0 ){
+					done();
+				}
+
+				return load_cb();
+			}
+		});
+
+		click(test.instance.control, function(){
+			syn.type('a', test.instance.control_input,function(){
+				assert.equal(test.instance.loading,1);
+				syn.type('b', test.instance.control_input,function(){
+					assert.equal(test.instance.loading,1);
+					setTimeout(function(){
+						syn.type('\b', test.instance.control_input,function(){
+							assert.equal(test.instance.loading,1);
+						});
+					},400); // greater than load throttle
+				});
+			});
+		});
+
+	});	
 });
