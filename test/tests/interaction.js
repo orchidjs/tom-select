@@ -1205,19 +1205,17 @@
 
 		describe('openOnFocus', function() {
 
-			it_n('only open after arrow down when openOnFocus=false', function(done) {
+			it_n('only open after arrow down when openOnFocus=false', async () => {
 
 				var test = setup_test('AB_Single',{
 					openOnFocus: false,
 				});
 
-				click(test.instance.control, function(){
-					expect(test.instance.isOpen).to.be.equal(false);
-					syn.type('[down]', test.instance.control_input, function() {
-						expect(test.instance.isOpen).to.be.equal(true);
-						done();
-					});
-				});
+				await asyncClick(test.instance.control);
+				assert.isFalse(test.instance.isOpen);
+				
+				await asyncType('[down]', test.instance.control_input);
+				assert.isTrue(test.instance.isOpen);
 			});
 
 			it_n('[enter] should not add item when dropdown isn\'t open', function(done) {

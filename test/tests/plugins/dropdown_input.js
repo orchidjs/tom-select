@@ -47,4 +47,18 @@ describe('plugin: dropdown_input', function() {
 	
 	});
 
+
+	it_n('only open after arrow down when openOnFocus=false', async () => {
+
+		var test = setup_test('AB_Single',{
+			openOnFocus: false,
+		});
+
+		await asyncClick(test.instance.control);
+		assert.isFalse(test.instance.isOpen);
+		
+		await asyncType('[down]', test.instance.control_input);
+		assert.isTrue(test.instance.isOpen);
+	});
+	
 });
