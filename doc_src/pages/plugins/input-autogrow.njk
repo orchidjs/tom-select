@@ -17,7 +17,7 @@ tags: demo
 {% endset %}
 
 {% set html %}
-<select id="input-autogrow" multiple autocomplete="off" placeholder="How cool is this?">
+<select id="ex-input-autogrow" multiple autocomplete="off" placeholder="How cool is this?">
 	<option>amazing</option>
 	<option>awesome</option>
 	<option>cool</option>
@@ -31,7 +31,7 @@ tags: demo
 
 <script>
 {% set script %}
-new TomSelect('#input-autogrow',{
+new TomSelect('#ex-input-autogrow',{
 	plugins: ['input_autogrow'],
 });
 {% endset %}
