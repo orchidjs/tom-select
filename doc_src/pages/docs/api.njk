@@ -38,9 +38,18 @@ Note: using CSS Selectors that match multiple elements will only create a Tom Se
 	</tr>
 	</thead>
 	<tr>
-		<td><code>addOption(data)</code></td>
-		<td>Adds an available option, or array of options. If it already exists, nothing will happen. Note: this does not refresh the options list dropdown (use refreshOptions() for that).</td>
+		<td><code>addOption(data,user_created=false)</code></td>
+		<td>Adds an available option.
+		If it already exists, nothing will happen. 
+		Options created with <code>user_created=true</code> will not show up as available options once they are unselected if <code>config.persist=false</code>
+		Note: this does not refresh the options list dropdown (use refreshOptions() for that).
+	</td>
 	</tr>
+	<tr>
+		<td><code>addOptions(data[],persist)</code></td>
+		<td>Adds an array of options</td>
+	</tr>
+	
 	<tr>
 		<td><code>updateOption(value, data)</code></td>
 		<td>Updates an option available for selection. If it is visible in the selected items or options dropdown, it will be re-rendered automatically.</td>

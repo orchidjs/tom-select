@@ -248,22 +248,15 @@ describe('Events', function() {
 	});
 
 	describe('option_add', function() {
-		it_n('should contain option value', function(done) {
-			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-			test.instance.on('option_add', function(value, data) {
-				expect(value).to.be.equal('e');
-				done();
-			});
-			test.instance.addOption({value: 'e'});
-		});
-		it_n('should contain option data', function(done) {
+		it_n('should contain option value and data', function(done) {
 			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
 			var option = {value: 'e'};
 			test.instance.on('option_add', function(value, data) {
-				expect(option).to.eql(data);
+				assert.equal(option,data);
+				assert.equal(value,'e');
 				done();
 			});
-			test.instance.addOption(option);
+			test.instance.addOption(option,true);
 		});
 	});
 
