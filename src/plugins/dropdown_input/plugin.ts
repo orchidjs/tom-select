@@ -29,8 +29,8 @@ TomSelect.define('dropdown_input',function(this:TomSelect) {
 		
 		addClasses( self.control_input, 'dropdown-input');
 
-		let div = getDom('<div class="dropdown-input-wrap">');
-		div.appendChild(self.control_input);
+	 	const div = getDom('<div class="dropdown-input-wrap">');
+		div.append(self.control_input);
 		self.dropdown.insertBefore(div, self.dropdown.firstChild);
 	});
 	
@@ -66,13 +66,19 @@ TomSelect.define('dropdown_input',function(this:TomSelect) {
 		});
 		
 		// prevent onBlur from closing when focus is on the control_input
-		var orig_onBlur = self.onBlur;
+		const orig_onBlur = self.onBlur;
 		self.hook('instead','onBlur',(evt?:FocusEvent)=>{
 			if( evt && evt.relatedTarget == self.control_input ) return;
 			return orig_onBlur.call(self);
 		});
 
 		addEvent(self.control_input,'blur', () => self.onBlur() );
+
+		// return focus to control to allow further keyboard input
+		self.hook('before','close',() =>{
+		//self.on('dropdown_close',() =>{
+			self.focus_node.focus();
+		});
 
 	});
 
