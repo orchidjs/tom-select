@@ -417,9 +417,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	setupOptions(options:TomOption[] = [], optgroups:TomOption[] = []){
 
 		// build options table
-		for( const option of options ){
-			this.registerOption(option);
-		}
+		this.addOptions(options);
 
 
 		// build optgroup table
@@ -1484,35 +1482,49 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *   this.addOption(data)
 	 *
 	 */
-	addOption(data:TomOption|TomOption[]):void {
-		var value, self = this;
+	addOption( data:TomOption, user_created = false ):false|string {
+		const self = this;
 
-		if (Array.isArray(data)) {
-			for( const dat of data ){
-				self.addOption(dat);
-			}
-			return;
+		// @deprecated 1.7.7
+		// use addOptions( array, user_created ) for adding multiple options
+		if( Array.isArray(data) ){
+			self.addOptions( data, user_created);
+			return false;
 		}
 
-		if (value = self.registerOption(data)) {
-			self.userOptions[value] = true;
-			self.lastQuery = null;
-			self.trigger('option_add', value, data);
+		const key = hash_key(data[self.settings.valueField]);
+		if( key === null || self.options.hasOwnProperty(key) ){
+			return false;
+		}
+
+		data.$order			= data.$order || ++self.order;
+		data.$id			= self.inputId + '-opt-' + data.$order;
+		self.options[key]	= data;
+		self.lastQuery		= null;
+
+		if( user_created ){
+			self.userOptions[key] = user_created;
+			self.trigger('option_add', key, data);
+		}
+
+		return key;
+	}
+	
+	/**
+	 * Add multiple options
+	 *
+	 */
+	addOptions( data:TomOption[], user_created = false ):void{
+		for( const dat of data ){
+			this.addOption(dat, user_created);
 		}
 	}
 
 	/**
-	 * Registers an option to the pool of options.
-	 *
+	 * @deprecated 1.7.7
 	 */
-	registerOption(data:TomOption):false|string {
-		var key = hash_key(data[this.settings.valueField]);
-		if ( key === null || this.options.hasOwnProperty(key)) return false;
-
-		data.$order			= data.$order || ++this.order;
-		data.$id			= this.inputId + '-opt-' + data.$order;
-		this.options[key]	= data;
-		return key;
+	registerOption( data:TomOption ):false|string {
+		return this.addOption(data);
 	}
 
 	/**
@@ -1914,7 +1926,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			self.setTextboxValue();
-			self.addOption(data);
+			self.addOption(data,true);
 			self.setCaret(caret);
 			self.addItem(value);
 			self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
