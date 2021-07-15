@@ -17,12 +17,12 @@ tags: demo
 
 
 {% set html %}
-<input type="text" id="clear-button" value="awesome,neat" autocomplete="off" placeholder="How cool is this?" />
+<input type="text" id="ex-clear-button" value="awesome,neat" autocomplete="off" placeholder="How cool is this?" />
 {% endset %}
 
 <script>
 {% set script %}
-new TomSelect('#clear-button',{
+new TomSelect('#ex-clear-button',{
 	plugins: {
 		'clear_button':{
 			'title':'Remove all selected options',

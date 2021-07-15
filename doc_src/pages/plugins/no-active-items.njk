@@ -16,12 +16,12 @@ tags: demo
 
 
 {% set html %}
-<input type="text" id="no-active-items" value="awesome,neat" autocomplete="off">
+<input type="text" id="ex-no-active-items" value="awesome,neat" autocomplete="off">
 {% endset %}
 
 <script>
 {% set script %}
-new TomSelect('#no-active-items',{
+new TomSelect('#ex-no-active-items',{
 	plugins: ['no_active_items'],
 	persist: false,
 	create: true,
