@@ -1,0 +1,47 @@
+---
+title: Caret Position
+nav_title: Caret Position
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+{% from "macro_config.njk" import config_table %}
+
+<p class="mt-5">
+	Order matters sometimes. Use the <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> arrow keys to move the caret between items.
+</p>
+
+
+{% set label %}
+<label class="h2 mb-3">
+	Example
+</label>
+{% endset %}
+
+{% set html %}
+<select id="ex-caret-position" multiple autocomplete="off" placeholder="How cool is this?">
+	<option selected>amazing</option>
+	<option selected>awesome</option>
+	<option>cool</option>
+	<option>excellent</option>
+	<option>great</option>
+	<option>neat</option>
+	<option>superb</option>
+	<option>wonderful</option>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#ex-caret-position',{
+	plugins: ['caret_position','input_autogrow'],
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+<h2>Plugin Configuration</h2>
+
+<p>No additional configuration settings for this plugin</p>
