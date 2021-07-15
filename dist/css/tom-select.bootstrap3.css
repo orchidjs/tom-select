@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v1.7.6)
+ * tom-select.css (v2.0.0-Beta.1)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -69,7 +69,7 @@
 .ts-control .dropdown-header-close:hover {
   color: black; }
 
-.plugin-dropdown_input .ts-input.focus {
+.plugin-dropdown_input .ts-input.focus.dropdown-active {
   box-shadow: none;
   border: 1px solid #ccc; }
 
@@ -327,6 +327,18 @@
   max-height: 200px;
   overflow-scrolling: touch;
   scroll-behavior: smooth; }
+
+.ts-hidden-accessible {
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  -webkit-clip-path: inset(50%) !important;
+          clip-path: inset(50%) !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important; }
 
 .ts-control.single .ts-input {
   padding-right: 2rem; }

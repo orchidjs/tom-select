@@ -13,36 +13,12 @@
 
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
 
-	const KEY_LEFT = 37;
-	const KEY_RIGHT = 39;
-	typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
-	 // ctrl key or apple key for ma
-
 	/**
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
 	 * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 	 *
 	 * param query should be {}
 	 */
-	/**
-	 * Get the closest node to the evt.target matching the selector
-	 * Stops at wrapper
-	 *
-	 */
-
-	const parentMatch = (target, selector, wrapper) => {
-	  if (wrapper && !wrapper.contains(target)) {
-	    return;
-	  }
-
-	  while (target && target.matches) {
-	    if (target.matches(selector)) {
-	      return target;
-	    }
-
-	    target = target.parentNode;
-	  }
-	};
 	/**
 	 * Get the index of an element amongst sibling nodes of the same type
 	 *
@@ -63,7 +39,7 @@
 	};
 
 	/**
-	 * Plugin: "optgroup_columns" (Tom Select.js)
+	 * Plugin: "dropdown_input" (Tom Select)
 	 * Copyright (c) contributors
 	 *
 	 * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -76,41 +52,50 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('optgroup_columns', function () {
+	TomSelect__default['default'].define('caret_position', function () {
 	  var self = this;
-	  var orig_keydown = self.onKeyDown;
-	  self.hook('instead', 'onKeyDown', evt => {
-	    var index, option, options, optgroup;
+	  /**
+	   * Moves the caret to the specified index.
+	   *
+	   * The input must be moved by leaving it in place and moving the
+	   * siblings, due to the fact that focus cannot be restored once lost
+	   * on mobile webkit devices
+	   *
+	   */
 
-	    if (!self.isOpen || !(evt.keyCode === KEY_LEFT || evt.keyCode === KEY_RIGHT)) {
-	      return orig_keydown.call(self, evt);
-	    }
-
-	    optgroup = parentMatch(self.activeOption, '[data-group]');
-	    index = nodeIndex(self.activeOption, '[data-selectable]');
-
-	    if (!optgroup) {
-	      return;
-	    }
-
-	    if (evt.keyCode === KEY_LEFT) {
-	      optgroup = optgroup.previousSibling;
+	  self.hook('instead', 'setCaret', new_pos => {
+	    if (self.settings.mode === 'single' || !self.control.contains(self.control_input)) {
+	      new_pos = self.items.length;
 	    } else {
-	      optgroup = optgroup.nextSibling;
+	      new_pos = Math.max(0, Math.min(self.items.length, new_pos));
+
+	      if (new_pos != self.caretPos && !self.isPending) {
+	        self.controlChildren().forEach((child, j) => {
+	          if (j < new_pos) {
+	            self.control_input.insertAdjacentElement('beforebegin', child);
+	          } else {
+	            self.control.appendChild(child);
+	          }
+	        });
+	      }
 	    }
 
-	    if (!optgroup) {
-	      return;
-	    }
+	    self.caretPos = new_pos;
+	  });
+	  self.hook('instead', 'moveCaret', direction => {
+	    if (!self.isFocused) return; // move caret before or after selected items
 
-	    options = optgroup.querySelectorAll('[data-selectable]');
-	    option = options[Math.min(options.length - 1, index)];
+	    const last_active = self.getLastActive(direction);
 
-	    if (option) {
-	      self.setActiveOption(option);
+	    if (last_active) {
+	      const idx = nodeIndex(last_active);
+	      self.setCaret(direction > 0 ? idx + 1 : idx);
+	      self.setActiveItem(); // move caret left or right of current position
+	    } else {
+	      self.setCaret(self.caretPos + direction);
 	    }
 	  });
 	});
 
 })));
-//# sourceMappingURL=optgroup_columns.js.map
+//# sourceMappingURL=caret_position.js.map

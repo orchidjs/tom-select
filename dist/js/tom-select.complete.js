@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.6
+* Tom Select v2.0.0-Beta.1
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -939,7 +939,7 @@
 	    if (val == null) {
 	      el.removeAttribute(attr);
 	    } else {
-	      el.setAttribute(attr, val);
+	      el.setAttribute(attr, '' + val);
 	    }
 	  }
 	};
@@ -1079,7 +1079,7 @@
 	  itemClass: 'item',
 	  optionClass: 'option',
 	  dropdownParent: null,
-	  controlInput: null,
+	  //controlInput: null,
 	  copyClassesToDropdown: true,
 	  placeholder: null,
 	  hidePlaceholder: null,
@@ -1443,13 +1443,14 @@
 
 	var instance_i = 0;
 	class TomSelect extends MicroPlugin(MicroEvent) {
+	  // @deprecated 1.8
 	  constructor(input_arg, settings) {
 	    super();
 	    this.order = 0;
-	    this.tab_key = false;
 	    this.isOpen = false;
 	    this.isDisabled = false;
 	    this.isInvalid = false;
+	    this.isValid = true;
 	    this.isLocked = false;
 	    this.isFocused = false;
 	    this.isInputHidden = false;
@@ -1473,7 +1474,6 @@
 	    instance_i++;
 	    var dir;
 	    var input = getDom(input_arg);
-	    var self = this;
 
 	    if (input.tomselect) {
 	      throw new Error('Tom Select already initialized on this element');
@@ -1484,7 +1484,8 @@
 	    var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
 	    dir = computedStyle.getPropertyValue('direction'); // setup default state
 
-	    this.settings = getSettings(input, settings);
+	    settings = getSettings(input, settings);
+	    this.settings = settings;
 	    this.input = input;
 	    this.tabIndex = input.tabIndex || 0;
 	    this.is_select_tag = input.tagName.toLowerCase() === 'select';
@@ -1493,24 +1494,21 @@
 	    this.isRequired = input.required; // search system
 
 	    this.sifter = new Sifter(this.options, {
-	      diacritics: this.settings.diacritics
-	    });
-	    this.setupOptions(this.settings.options, this.settings.optgroups);
-	    delete this.settings.optgroups;
-	    delete this.settings.options; // option-dependent defaults
+	      diacritics: settings.diacritics
+	    }); // option-dependent defaults
 
-	    this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
+	    settings.mode = settings.mode || (settings.maxItems === 1 ? 'single' : 'multi');
 
-	    if (typeof this.settings.hideSelected !== 'boolean') {
-	      this.settings.hideSelected = this.settings.mode === 'multi';
+	    if (typeof settings.hideSelected !== 'boolean') {
+	      settings.hideSelected = settings.mode === 'multi';
 	    }
 
-	    if (typeof this.settings.hidePlaceholder !== 'boolean') {
-	      this.settings.hidePlaceholder = this.settings.mode !== 'multi';
+	    if (typeof settings.hidePlaceholder !== 'boolean') {
+	      settings.hidePlaceholder = settings.mode !== 'multi';
 	    } // set up createFilter callback
 
 
-	    var filter = this.settings.createFilter;
+	    var filter = settings.createFilter;
 
 	    if (typeof filter !== 'function') {
 	      if (typeof filter === 'string') {
@@ -1518,52 +1516,39 @@
 	      }
 
 	      if (filter instanceof RegExp) {
-	        this.settings.createFilter = input => filter.test(input);
+	        settings.createFilter = input => filter.test(input);
 	      } else {
-	        this.settings.createFilter = () => true;
+	        settings.createFilter = () => true;
 	      }
 	    }
 
-	    this.initializePlugins(this.settings.plugins);
+	    this.initializePlugins(settings.plugins);
 	    this.setupCallbacks();
-	    this.setupTemplates();
-	    /**
-	     * Create all elements and set up event bindings.
-	     *
-	     */
+	    this.setupTemplates(); // Create all elements
 
-	    var settings = self.settings;
-	    var wrapper;
-	    var control;
+	    const wrapper = getDom('<div>');
+	    const control = getDom('<div class="items">');
+
+	    const dropdown = this._render('dropdown');
+
+	    const dropdown_content = getDom(`<div role="listbox" tabindex="-1">`);
+	    const classes = this.input.getAttribute('class') || '';
+	    const inputMode = settings.mode;
 	    var control_input;
-	    var dropdown;
-	    var dropdown_content;
-	    var inputMode;
-	    var classes;
-	    var classes_plugins;
-	    var input = self.input;
-	    var control_id;
-	    const passive_event = {
-	      passive: true
-	    };
-	    const listboxId = self.inputId + '-ts-dropdown';
-	    inputMode = self.settings.mode;
-	    classes = input.getAttribute('class') || '';
-	    wrapper = getDom('<div>');
 	    addClasses(wrapper, settings.wrapperClass, classes, inputMode);
-	    control = getDom('<div class="items">');
 	    addClasses(control, settings.inputClass);
 	    append(wrapper, control);
-	    dropdown = self._render('dropdown');
 	    addClasses(dropdown, settings.dropdownClass, inputMode);
-	    dropdown_content = getDom(`<div role="listbox" id="${listboxId}" tabindex="-1">`);
+
+	    if (settings.copyClassesToDropdown) {
+	      addClasses(dropdown, classes);
+	    }
+
 	    addClasses(dropdown_content, settings.dropdownContentClass);
 	    append(dropdown, dropdown_content);
-	    getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
+	    getDom(settings.dropdownParent || wrapper).appendChild(dropdown); // default controlInput
 
-	    if (settings.controlInput) {
-	      control_input = getDom(settings.controlInput);
-	    } else {
+	    if (!settings.hasOwnProperty('controlInput')) {
 	      control_input = getDom('<input type="text" autocomplete="off" size="1" />'); // set attributes
 
 	      var attrs = ['autocorrect', 'autocapitalize', 'autocomplete'];
@@ -1575,41 +1560,77 @@
 	          });
 	        }
 	      }
-	    }
 
-	    if (!settings.controlInput) {
-	      control_input.tabIndex = input.disabled ? -1 : self.tabIndex;
+	      control_input.tabIndex = -1;
 	      control.appendChild(control_input);
+	      this.focus_node = control_input; // custom controlInput
+	    } else if (settings.controlInput) {
+	      control_input = getDom(settings.controlInput);
+	      this.focus_node = control_input; // controlInput = null
+	    } else {
+	      control_input = getDom('<input/>');
+	      this.focus_node = control;
 	    }
 
-	    setAttr(control_input, {
+	    this.wrapper = wrapper;
+	    this.dropdown = dropdown;
+	    this.dropdown_content = dropdown_content;
+	    this.control = control;
+	    this.control_input = control_input;
+	    this.setup();
+	  }
+	  /**
+	   * set up event bindings.
+	   *
+	   */
+
+
+	  setup() {
+	    const self = this;
+	    const settings = self.settings;
+	    const control_input = self.control_input;
+	    const dropdown = self.dropdown;
+	    const dropdown_content = self.dropdown_content;
+	    const wrapper = self.wrapper;
+	    const control = self.control;
+	    const input = self.input;
+	    const focus_node = self.focus_node;
+	    const passive_event = {
+	      passive: true
+	    };
+	    const listboxId = self.inputId + '-ts-dropdown';
+	    setAttr(dropdown_content, {
+	      id: listboxId
+	    });
+	    setAttr(focus_node, {
 	      role: 'combobox',
-	      haspopup: 'listbox',
+	      'aria-haspopup': 'listbox',
 	      'aria-expanded': 'false',
 	      'aria-controls': listboxId
 	    });
-	    control_id = getId(control_input, self.inputId + '-tomselected');
-	    let query = "label[for='" + escapeQuery(self.inputId) + "']";
-	    let label = document.querySelector(query);
+	    const control_id = getId(focus_node, self.inputId + '-ts-control');
+	    const query = "label[for='" + escapeQuery(self.inputId) + "']";
+	    const label = document.querySelector(query);
+	    const label_click = self.focus.bind(self);
 
 	    if (label) {
+	      addEvent(label, 'click', label_click);
 	      setAttr(label, {
 	        for: control_id
 	      });
-	      let label_id = getId(label, self.inputId + '-ts-label');
+	      const label_id = getId(label, self.inputId + '-ts-label');
+	      setAttr(focus_node, {
+	        'aria-labelledby': label_id
+	      });
 	      setAttr(dropdown_content, {
 	        'aria-labelledby': label_id
 	      });
 	    }
 
-	    if (self.settings.copyClassesToDropdown) {
-	      addClasses(dropdown, classes);
-	    }
-
 	    wrapper.style.width = input.style.width;
 
 	    if (self.plugins.names.length) {
-	      classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
+	      const classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
 	      addClasses([wrapper, dropdown], classes_plugins);
 	    }
 
@@ -1632,15 +1653,10 @@
 	    // after initializePlugins() so plugins can create/modify user defined loaders
 
 
-	    if (this.settings.load && this.settings.loadThrottle) {
-	      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
+	    if (settings.load && settings.loadThrottle) {
+	      settings.load = loadDebounce(settings.load, settings.loadThrottle);
 	    }
 
-	    this.control = control;
-	    this.control_input = control_input;
-	    this.wrapper = wrapper;
-	    this.dropdown = dropdown;
-	    this.dropdown_content = dropdown_content;
 	    self.control_input.type = input.type; // clicking on an option should select it
 
 	    addEvent(dropdown, 'click', evt => {
@@ -1674,14 +1690,16 @@
 	      if (control_input.value !== '') {
 	        e.stopPropagation();
 	      }
-	    });
-	    addEvent(control_input, 'keydown', e => self.onKeyDown(e));
+	    }); // keydown on focus_node for arrow_down/arrow_up
+
+	    addEvent(focus_node, 'keydown', e => self.onKeyDown(e)); // keyup and keypress 
+
 	    addEvent(control_input, 'keyup', e => self.onKeyUp(e));
 	    addEvent(control_input, 'keypress', e => self.onKeyPress(e));
-	    addEvent(control_input, 'resize', () => self.positionDropdown(), passive_event);
-	    addEvent(control_input, 'blur', () => self.onBlur());
-	    addEvent(control_input, 'focus', e => self.onFocus(e));
-	    addEvent(control_input, 'paste', e => self.onPaste(e));
+	    addEvent(focus_node, 'resize', () => self.positionDropdown(), passive_event);
+	    addEvent(focus_node, 'blur', e => self.onBlur(e));
+	    addEvent(focus_node, 'focus', e => self.onFocus(e));
+	    addEvent(focus_node, 'paste', e => self.onPaste(e));
 
 	    const doc_mousedown = evt => {
 	      // blur if target is outside of this instance
@@ -1708,13 +1726,14 @@
 	    };
 
 	    addEvent(document, 'mousedown', doc_mousedown);
-	    addEvent(window, 'sroll', win_scroll, passive_event);
+	    addEvent(window, 'scroll', win_scroll, passive_event);
 	    addEvent(window, 'resize', win_scroll, passive_event);
 
 	    this._destroy = () => {
 	      document.removeEventListener('mousedown', doc_mousedown);
 	      window.removeEventListener('sroll', win_scroll);
 	      window.removeEventListener('resize', win_scroll);
+	      if (label) label.removeEventListener('click', label_click);
 	    }; // store original html and tab index so that they can be
 	    // restored when the destroy() method is called.
 
@@ -1724,16 +1743,14 @@
 	      tabIndex: input.tabIndex
 	    };
 	    input.tabIndex = -1;
-	    setAttr(input, {
-	      hidden: 'hidden'
-	    });
 	    input.insertAdjacentElement('afterend', self.wrapper);
-	    self.setValue(settings.items);
+	    self.sync(false);
 	    settings.items = [];
+	    delete settings.optgroups;
+	    delete settings.options;
 	    addEvent(input, 'invalid', e => {
-	      preventDefault(e);
-
-	      if (!self.isInvalid) {
+	      if (self.isValid) {
+	        self.isValid = false;
 	        self.isInvalid = true;
 	        self.refreshState();
 	      }
@@ -1746,25 +1763,18 @@
 
 	    if (input.disabled) {
 	      self.disable();
+	    } else {
+	      self.enable(); //sets tabIndex
 	    }
 
 	    self.on('change', this.onChange);
-	    addClasses(input, 'tomselected');
+	    addClasses(input, 'tomselected', 'ts-hidden-accessible');
 	    self.trigger('initialize'); // preload options
 
 	    if (settings.preload === true) {
 	      self.load('');
 	    }
-
-	    self.setup();
 	  }
-	  /**
-	   * @deprecated v1.7.6
-	   *
-	   */
-
-
-	  setup() {}
 	  /**
 	   * Register options and optgroups
 	   *
@@ -1773,10 +1783,7 @@
 
 	  setupOptions(options = [], optgroups = []) {
 	    // build options table
-	    for (const option of options) {
-	      this.registerOption(option);
-	    } // build optgroup table
-
+	    this.addOptions(options); // build optgroup table
 
 	    for (const optgroup of optgroups) {
 	      this.registerOptionGroup(optgroup);
@@ -1856,6 +1863,22 @@
 	      fn = this.settings[callbacks[key]];
 	      if (fn) this.on(key, fn);
 	    }
+	  }
+	  /**
+	   * Sync the Tom Select instance with the original input or select
+	   *
+	   */
+
+
+	  sync(get_settings = true) {
+	    const self = this;
+	    const settings = get_settings ? getSettings(self.input, {
+	      delimiter: self.settings.delimiter
+	    }) : self.settings;
+	    self.setupOptions(settings.options, settings.optgroups);
+	    self.setValue(settings.items, true); // silent prevents recursion
+
+	    self.lastQuery = null; // so updated options will be displayed in dropdown
 	  }
 	  /**
 	   * Triggered when the main control element
@@ -2036,12 +2059,10 @@
 	      case KEY_TAB:
 	        if (self.settings.selectOnTab) {
 	          if (self.isOpen && self.activeOption) {
-	            self.tab_key = true;
 	            self.onOptionSelect(e, self.activeOption); // prevent default [tab] behaviour of jump to the next field
 	            // if select isFull, then the dropdown won't be open and [tab] will work normally
 
 	            preventDefault(e);
-	            self.tab_key = false;
 	          }
 
 	          if (self.settings.create && self.createItem()) {
@@ -2124,7 +2145,7 @@
 	   */
 
 
-	  onBlur() {
+	  onBlur(e) {
 	    var self = this;
 	    if (!self.isFocused) return;
 	    self.isFocused = false;
@@ -2436,7 +2457,7 @@
 	    this.clearActiveOption();
 	    if (!option) return;
 	    this.activeOption = option;
-	    setAttr(this.control_input, {
+	    setAttr(this.focus_node, {
 	      'aria-activedescendant': option.getAttribute('id')
 	    });
 	    setAttr(option, {
@@ -2496,7 +2517,7 @@
 	    }
 
 	    this.activeOption = null;
-	    setAttr(this.control_input, {
+	    setAttr(this.focus_node, {
 	      'aria-activedescendant': null
 	    });
 	  }
@@ -2525,7 +2546,7 @@
 
 	  inputState() {
 	    var self = this;
-	    if (self.settings.controlInput) return;
+	    if (!self.control.contains(self.control_input)) return;
 
 	    if (self.activeItems.length > 0 || !self.isFocused && this.settings.hidePlaceholder && self.items.length > 0) {
 	      self.setTextboxValue();
@@ -2572,7 +2593,7 @@
 	    var self = this;
 	    if (self.isDisabled) return;
 	    self.ignoreFocus = true;
-	    self.control_input.focus();
+	    self.focus_node.focus();
 	    setTimeout(() => {
 	      self.ignoreFocus = false;
 	      self.onFocus();
@@ -2585,7 +2606,7 @@
 
 
 	  blur() {
-	    this.control_input.blur();
+	    this.focus_node.blur();
 	    this.onBlur();
 	  }
 	  /**
@@ -2885,37 +2906,51 @@
 	   */
 
 
-	  addOption(data) {
-	    var value,
-	        self = this;
+	  addOption(data, user_created = false) {
+	    const self = this; // @deprecated 1.7.7
+	    // use addOptions( array, user_created ) for adding multiple options
 
 	    if (Array.isArray(data)) {
-	      for (const dat of data) {
-	        self.addOption(dat);
-	      }
-
-	      return;
+	      self.addOptions(data, user_created);
+	      return false;
 	    }
 
-	    if (value = self.registerOption(data)) {
-	      self.userOptions[value] = true;
-	      self.lastQuery = null;
-	      self.trigger('option_add', value, data);
+	    const key = hash_key(data[self.settings.valueField]);
+
+	    if (key === null || self.options.hasOwnProperty(key)) {
+	      return false;
 	    }
+
+	    data.$order = data.$order || ++self.order;
+	    data.$id = self.inputId + '-opt-' + data.$order;
+	    self.options[key] = data;
+	    self.lastQuery = null;
+
+	    if (user_created) {
+	      self.userOptions[key] = user_created;
+	      self.trigger('option_add', key, data);
+	    }
+
+	    return key;
 	  }
 	  /**
-	   * Registers an option to the pool of options.
+	   * Add multiple options
 	   *
 	   */
 
 
+	  addOptions(data, user_created = false) {
+	    for (const dat of data) {
+	      this.addOption(dat, user_created);
+	    }
+	  }
+	  /**
+	   * @deprecated 1.7.7
+	   */
+
+
 	  registerOption(data) {
-	    var key = hash_key(data[this.settings.valueField]);
-	    if (key === null || this.options.hasOwnProperty(key)) return false;
-	    data.$order = data.$order || ++this.order;
-	    data.$id = this.inputId + '-opt-' + data.$order;
-	    this.options[key] = data;
-	    return key;
+	    return this.addOption(data);
 	  }
 	  /**
 	   * Registers an option group to the pool of option groups.
@@ -3313,7 +3348,7 @@
 	      }
 
 	      self.setTextboxValue();
-	      self.addOption(data);
+	      self.addOption(data, true);
 	      self.setCaret(caret);
 	      self.addItem(value);
 	      self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
@@ -3368,7 +3403,7 @@
 	    classList.toggle('focus', self.isFocused);
 	    classList.toggle('disabled', self.isDisabled);
 	    classList.toggle('required', self.isRequired);
-	    classList.toggle('invalid', self.isInvalid);
+	    classList.toggle('invalid', !self.isValid);
 	    classList.toggle('locked', isLocked);
 	    classList.toggle('full', isFull);
 	    classList.toggle('not-full', !isFull);
@@ -3392,20 +3427,10 @@
 
 	    if (!self.input.checkValidity) {
 	      return;
-	    } // if required, make sure the input required attribute = true so checkValidity() will work
-
-
-	    if (this.isRequired) {
-	      self.input.required = true;
 	    }
 
-	    var invalid = !self.input.checkValidity();
-	    self.isInvalid = invalid;
-	    self.control_input.required = invalid;
-
-	    if (this.isRequired) {
-	      self.input.required = !invalid;
-	    }
+	    self.isValid = self.input.checkValidity();
+	    self.isInvalid = !self.isValid;
 	  }
 	  /**
 	   * Determines whether or not more items can be added
@@ -3430,18 +3455,19 @@
 	    var i, value, option, option_el, label;
 
 	    if (self.is_select_tag) {
-	      const selected = document.createDocumentFragment();
+	      const selected = [];
 
 	      function AddSelected(option_el, value, label) {
 	        if (!option_el) {
 	          option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
 	        }
 
-	        option_el.selected = true;
+	        self.input.prepend(option_el);
+	        selected.push(option_el);
 	        setAttr(option_el, {
 	          selected: 'true'
 	        });
-	        append(selected, option_el);
+	        option_el.selected = true;
 	        return option_el;
 	      } // unselect all selected options
 
@@ -3457,22 +3483,19 @@
 	        option_el = self.input.querySelector('option[value=""]');
 	        AddSelected(option_el, "", ""); // order selected <option> tags for values in self.items
 	      } else {
-	        for (i = 0; i < self.items.length; i++) {
+	        for (i = self.items.length - 1; i >= 0; i--) {
 	          value = self.items[i];
 	          option = self.options[value];
 	          label = option[self.settings.labelField] || '';
 
-	          if (selected.contains(option.$option)) {
-	            const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]`);
+	          if (selected.includes(option.$option)) {
+	            const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]:not([selected])`);
 	            AddSelected(reuse_opt, value, label);
 	          } else {
 	            option.$option = AddSelected(option.$option, value, label);
 	          }
 	        }
-	      } // prepend all of the selected options
-
-
-	      self.input.prepend(selected);
+	      }
 	    } else {
 	      self.input.value = self.getValue();
 	    }
@@ -3493,7 +3516,7 @@
 	    var self = this;
 	    if (self.isLocked || self.isOpen || self.settings.mode === 'multi' && self.isFull()) return;
 	    self.isOpen = true;
-	    setAttr(self.control_input, {
+	    setAttr(self.focus_node, {
 	      'aria-expanded': 'true'
 	    });
 	    self.refreshState();
@@ -3523,18 +3546,12 @@
 	      self.setTextboxValue();
 
 	      if (self.settings.mode === 'single' && self.items.length) {
-	        self.hideInput(); // Do not trigger blur while inside a blur event,
-	        // this fixes some weird tabbing behavior in FF and IE.
-	        // See #selectize.js#1164
-
-	        if (!self.tab_key) {
-	          self.blur(); // close keyboard on iOS
-	        }
+	        self.hideInput();
 	      }
 	    }
 
 	    self.isOpen = false;
-	    setAttr(self.control_input, {
+	    setAttr(self.focus_node, {
 	      'aria-expanded': 'false'
 	    });
 	    applyCSS(self.dropdown, {
@@ -3605,16 +3622,10 @@
 
 
 	  insertAtCaret(el) {
-	    var self = this;
-	    var caret = Math.min(self.caretPos, self.items.length);
-	    var target = self.control;
-
-	    if (caret === 0) {
-	      target.insertBefore(el, target.firstChild);
-	    } else {
-	      target.insertBefore(el, target.children[caret]);
-	    }
-
+	    const self = this;
+	    const caret = self.caretPos;
+	    const target = self.control;
+	    target.insertBefore(el, target.children[caret]);
 	    self.setCaret(caret + 1);
 	  }
 	  /**
@@ -3683,8 +3694,7 @@
 
 
 	  advanceSelection(direction, e) {
-	    var idx,
-	        last_active,
+	    var last_active,
 	        adjacent,
 	        self = this;
 	    if (self.rtl) direction *= -1;
@@ -3714,18 +3724,12 @@
 	        self.setActiveItemClass(adjacent); // mark as last_active !! after removeActiveItem() on last_active
 	      } // move caret to the left or right
 
-	    } else if (self.isFocused && !self.activeItems.length) {
-	      self.setCaret(self.caretPos + direction); // move caret before or after selected items
 	    } else {
-	      last_active = self.getLastActive(direction);
-
-	      if (last_active) {
-	        idx = nodeIndex(last_active);
-	        self.setCaret(direction > 0 ? idx + 1 : idx);
-	        self.setActiveItem();
-	      }
+	      self.moveCaret(direction);
 	    }
 	  }
+
+	  moveCaret(direction) {}
 	  /**
 	   * Get the last active item
 	   *
@@ -3756,25 +3760,7 @@
 
 
 	  setCaret(new_pos) {
-	    var self = this;
-
-	    if (self.settings.mode === 'single' || self.settings.controlInput) {
-	      new_pos = self.items.length;
-	    } else {
-	      new_pos = Math.max(0, Math.min(self.items.length, new_pos));
-
-	      if (new_pos != self.caretPos && !self.isPending) {
-	        self.controlChildren().forEach((child, j) => {
-	          if (j < new_pos) {
-	            self.control_input.insertAdjacentElement('beforebegin', child);
-	          } else {
-	            self.control.appendChild(child);
-	          }
-	        });
-	      }
-	    }
-
-	    self.caretPos = new_pos;
+	    this.caretPos = this.items.length;
 	  }
 	  /**
 	   * Return list of item dom elements
@@ -3815,7 +3801,7 @@
 	    var self = this;
 	    self.input.disabled = true;
 	    self.control_input.disabled = true;
-	    self.control_input.tabIndex = -1;
+	    self.focus_node.tabIndex = -1;
 	    self.isDisabled = true;
 	    self.lock();
 	  }
@@ -3829,7 +3815,7 @@
 	    var self = this;
 	    self.input.disabled = false;
 	    self.control_input.disabled = false;
-	    self.control_input.tabIndex = self.tabIndex;
+	    self.focus_node.tabIndex = self.tabIndex;
 	    self.isDisabled = false;
 	    self.unlock();
 	  }
@@ -3849,11 +3835,7 @@
 	    self.dropdown.remove();
 	    self.input.innerHTML = revertSettings.innerHTML;
 	    self.input.tabIndex = revertSettings.tabIndex;
-	    removeClasses(self.input, 'tomselected');
-	    setAttr(self.input, {
-	      hidden: null
-	    });
-	    self.input.required = this.isRequired;
+	    removeClasses(self.input, 'tomselected', 'ts-hidden-accessible');
 
 	    self._destroy();
 
@@ -4044,21 +4026,8 @@
 	 *
 	 */
 	TomSelect.define('change_listener', function () {
-	  const self = this;
-
-	  const joined = arr => arr.join(self.settings.delimiter);
-
-	  addEvent(self.input, 'change', () => {
-	    var settings = getSettings(self.input, {
-	      delimiter: self.settings.delimiter
-	    }); // prevent infinite loops
-
-	    if (joined(self.items) == joined(settings.items)) {
-	      return;
-	    }
-
-	    self.setupOptions(settings.options, settings.optgroups);
-	    self.setValue(settings.items);
+	  addEvent(this.input, 'change', () => {
+	    this.sync();
 	  });
 	});
 
@@ -4284,45 +4253,116 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+	TomSelect.define('caret_position', function () {
+	  var self = this;
+	  /**
+	   * Moves the caret to the specified index.
+	   *
+	   * The input must be moved by leaving it in place and moving the
+	   * siblings, due to the fact that focus cannot be restored once lost
+	   * on mobile webkit devices
+	   *
+	   */
+
+	  self.hook('instead', 'setCaret', new_pos => {
+	    if (self.settings.mode === 'single' || !self.control.contains(self.control_input)) {
+	      new_pos = self.items.length;
+	    } else {
+	      new_pos = Math.max(0, Math.min(self.items.length, new_pos));
+
+	      if (new_pos != self.caretPos && !self.isPending) {
+	        self.controlChildren().forEach((child, j) => {
+	          if (j < new_pos) {
+	            self.control_input.insertAdjacentElement('beforebegin', child);
+	          } else {
+	            self.control.appendChild(child);
+	          }
+	        });
+	      }
+	    }
+
+	    self.caretPos = new_pos;
+	  });
+	  self.hook('instead', 'moveCaret', direction => {
+	    if (!self.isFocused) return; // move caret before or after selected items
+
+	    const last_active = self.getLastActive(direction);
+
+	    if (last_active) {
+	      const idx = nodeIndex(last_active);
+	      self.setCaret(direction > 0 ? idx + 1 : idx);
+	      self.setActiveItem(); // move caret left or right of current position
+	    } else {
+	      self.setCaret(self.caretPos + direction);
+	    }
+	  });
+	});
+
+	/**
+	 * Plugin: "dropdown_input" (Tom Select)
+	 * Copyright (c) contributors
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+	 * file except in compliance with the License. You may obtain a copy of the License at:
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software distributed under
+	 * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+	 * ANY KIND, either express or implied. See the License for the specific language
+	 * governing permissions and limitations under the License.
+	 *
+	 */
 	TomSelect.define('dropdown_input', function () {
 	  var self = this;
-	  var input = self.settings.controlInput || '<input type="text" autocomplete="off" class="dropdown-input" />';
-	  input = getDom(input);
-
-	  if (self.settings.placeholder) {
-	    setAttr(input, {
-	      placeholder: self.settings.placeholder
-	    });
-	  }
-
-	  self.settings.controlInput = input;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
-	  self.on('initialize', () => {
-	    // set tabIndex on wrapper
-	    setAttr(self.wrapper, {
-	      tabindex: self.input.disabled ? '-1' : '' + self.tabIndex
-	    }); // keyboard navigation
-
-	    addEvent(self.wrapper, 'keypress', evt => {
-	      if (self.control.contains(evt.target)) {
-	        return;
-	      }
-
-	      if (self.dropdown.contains(evt.target)) {
-	        return;
-	      } // open dropdown on enter when wrapper is tab-focused
-
-
-	      switch (evt.keyCode) {
-	        case KEY_RETURN:
-	          self.onClick();
-	          return;
-	      }
-	    });
-	    let div = getDom('<div class="dropdown-input-wrap">');
-	    div.appendChild(input);
+	  self.hook('before', 'setup', () => {
+	    self.focus_node = self.control;
+	    addClasses(self.control_input, 'dropdown-input');
+	    const div = getDom('<div class="dropdown-input-wrap">');
+	    div.append(self.control_input);
 	    self.dropdown.insertBefore(div, self.dropdown.firstChild);
+	  });
+	  self.on('initialize', () => {
+	    // set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
+	    self.control_input.addEventListener('keydown', evt => {
+	      //addEvent(self.control_input,'keydown' as const,(evt:KeyboardEvent) =>{
+	      switch (evt.keyCode) {
+	        case KEY_ESC:
+	          if (self.isOpen) {
+	            preventDefault(evt, true);
+	            self.close();
+	          }
+
+	          self.clearActiveItems();
+	          return;
+
+	        case KEY_TAB:
+	          self.focus_node.tabIndex = -1;
+	          break;
+	      }
+
+	      return self.onKeyDown.call(self, evt);
+	    });
+	    self.on('blur', () => {
+	      self.focus_node.tabIndex = self.isDisabled ? -1 : self.tabIndex;
+	    }); // give the control_input focus when the dropdown is open
+
+	    self.on('dropdown_open', () => {
+	      self.control_input.focus();
+	    }); // prevent onBlur from closing when focus is on the control_input
+
+	    const orig_onBlur = self.onBlur;
+	    self.hook('instead', 'onBlur', evt => {
+	      if (evt && evt.relatedTarget == self.control_input) return;
+	      return orig_onBlur.call(self);
+	    });
+	    addEvent(self.control_input, 'blur', () => self.onBlur()); // return focus to control to allow further keyboard input
+
+	    self.hook('before', 'close', () => {
+	      //self.on('dropdown_close',() =>{
+	      self.focus_node.focus();
+	    });
 	  });
 	});
 
