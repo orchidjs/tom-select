@@ -2226,15 +2226,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	insertAtCaret(el:HTMLElement) {
-		var self = this;
-		var caret	= Math.min(self.caretPos, self.items.length);
-		var target	= self.control;
+		const self		= this;		
+		const caret		= self.caretPos;
+		const target	= self.control;
 
-		if (caret === 0) {
-			target.insertBefore(el, target.firstChild);
-		} else {
-			target.insertBefore(el, target.children[caret]);
-		}
+		target.insertBefore(el, target.children[caret]);
 
 		self.setCaret(caret + 1);
 	}
@@ -2308,7 +2304,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	advanceSelection(direction:number, e?:MouseEvent|KeyboardEvent) {
-		var idx, last_active, adjacent, self = this;
+		var last_active, adjacent, self = this;
 
 		if (self.rtl) direction *= -1;
 		if( self.inputValue().length ) return;
@@ -2342,22 +2338,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 		// move caret to the left or right
-		}else if( self.isFocused && !self.activeItems.length ){
-
-			self.setCaret(self.caretPos + direction);
-
-		// move caret before or after selected items
 		}else{
-
-			last_active		= self.getLastActive(direction);
-			if( last_active ){
-				idx = nodeIndex(last_active);
-				self.setCaret(direction > 0 ? idx + 1: idx);
-				self.setActiveItem();
-			}
+			self.moveCaret(direction);
 		}
-
 	}
+	
+	moveCaret(direction:number){}
 
 	/**
 	 * Get the last active item
@@ -2387,26 +2373,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	setCaret(new_pos:number) {
-		var self = this;
-
-		if( self.settings.mode === 'single' || !self.control.contains(self.control_input) ) {
-			new_pos = self.items.length;
-		} else {
-			new_pos = Math.max(0, Math.min(self.items.length, new_pos));
-
-			if( new_pos != self.caretPos && !self.isPending ){
-
-				self.controlChildren().forEach((child,j) => {
-					if( j < new_pos ){
-						self.control_input.insertAdjacentElement('beforebegin', child );
-					} else {
-						self.control.appendChild( child );
-					}
-				});
-			}
-		}
-
-		self.caretPos = new_pos;
+		this.caretPos = this.items.length;
 	}
 
 	/**
