@@ -107,9 +107,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	&.dropdown	-active {
 		border-radius: $select-border-radius;
 	}
-	&.dropdown-active::before {
-		display: none;
-	}
+
 	.focus &{
 		border-color: $input-focus-border-color;
 		outline: 0;

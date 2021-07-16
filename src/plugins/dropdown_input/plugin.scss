@@ -1,7 +1,7 @@
 
 .plugin-dropdown_input{
 
-	&.focus .#{$select-ns}-control.dropdown-active{
+	&.focus.dropdown-active .#{$select-ns}-control{
 		box-shadow: none;
 		border: $select-border;
 		@if variable-exists(input-box-shadow) {

@@ -107,11 +107,12 @@ $select-spinner-border-color:					$select-color-border !default;
 				border-width: $select-arrow-size $select-arrow-size 0 $select-arrow-size;
 				border-color: $select-arrow-color transparent transparent transparent;
 			}
-			&.dropdown-active:after {
-				margin-top: $select-arrow-size * -0.8;
-				border-width: 0 $select-arrow-size $select-arrow-size $select-arrow-size;
-				border-color: transparent transparent $select-arrow-color transparent;
-			}
+		}
+
+		&.dropdown-active .#{$select-ns}-control::after {
+			margin-top: $select-arrow-size * -0.8;
+			border-width: 0 $select-arrow-size $select-arrow-size $select-arrow-size;
+			border-color: transparent transparent $select-arrow-color transparent;
 		}
 		
 		&.input-active .#{$select-ns}-control, 
