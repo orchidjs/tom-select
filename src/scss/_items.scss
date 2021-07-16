@@ -25,8 +25,8 @@
 		background-color: $select-color-input-full;
 	}
 
-	&.disabled,
-	&.disabled * {
+	.disabled &,
+	.disabled & * {
 		cursor: default !important;
 	}
 
@@ -54,7 +54,7 @@
 		}
 	}
 
-	.#{$select-ns}-wrapper.multi &.disabled > div {
+	.#{$select-ns}-wrapper.multi.disabled & > div {
 		&, &.active {
 			color: lighten(desaturate($select-color-item-text, 100%), $select-lighten-disabled-item-text);
 			background: lighten(desaturate($select-color-item, 100%), $select-lighten-disabled-item);
@@ -110,7 +110,7 @@
 		}
 	}
 
-	&.disabled {
+	.disabled & {
 		opacity: $select-opacity-disabled;
 		background-color: $select-color-disabled;
 	}
