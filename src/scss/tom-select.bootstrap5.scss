@@ -127,7 +127,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .is-invalid .#{$select-ns}-control,
-.was-validated .#{$select-ns}-control.invalid{
+.was-validated .invalid .#{$select-ns}-control{
 	border-color: $select-color-input-error;
 
 	.focus &{

@@ -2014,10 +2014,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		wrap_classList.toggle('focus', self.isFocused)
 		wrap_classList.toggle('disabled', self.isDisabled)
 		wrap_classList.toggle('required', self.isRequired)
+		wrap_classList.toggle('invalid', !self.isValid)
 
 		const classList = self.control.classList;
 
-		classList.toggle('invalid', !self.isValid)
 		classList.toggle('locked', isLocked)
 		classList.toggle('full', isFull)
 		classList.toggle('not-full', !isFull)
