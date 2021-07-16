@@ -21,7 +21,7 @@
 		padding: $padding-top $padding-x $padding-bottom;
 	}
 
-	&.full {
+	.full & {
 		background-color: $select-color-input-full;
 	}
 
