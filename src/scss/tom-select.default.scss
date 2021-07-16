@@ -15,7 +15,7 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 @import "tom-select";
 @include ts-caret();
 
-.#{$select-ns}-control {
+.#{$select-ns}-wrapper {
 	&.multi {
 		.#{$select-ns}-input {
 			&.has-items {
@@ -55,7 +55,7 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 	}
 }
 
-.#{$select-ns}-control.single .#{$select-ns}-input, .#{$select-ns}-dropdown.single {
+.#{$select-ns}-wrapper.single .#{$select-ns}-input, .#{$select-ns}-dropdown.single {
 	border-color: #b8b8b8;
 }
 

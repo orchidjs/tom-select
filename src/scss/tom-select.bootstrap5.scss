@@ -146,7 +146,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
 }
 
-.#{$select-ns}-control {
+.#{$select-ns}-wrapper {
 
 	.input-group-sm > &,
 	&.form-select-sm,
@@ -203,7 +203,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 
-.#{$select-ns}-control:not(.form-select){
+.#{$select-ns}-wrapper:not(.form-select){
 	padding: 0;
 		border: none;
 		height: auto;
@@ -220,7 +220,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 }
 
-.#{$select-ns}-control.form-select{
+.#{$select-ns}-wrapper.form-select{
 	padding: 0;
 	height: auto;
 	box-shadow: none;
@@ -235,16 +235,16 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 .input-group{
 
-	& > .#{$select-ns}-control{
+	& > .#{$select-ns}-wrapper{
 		flex-grow: 1;
 	}
 
-	& > .#{$select-ns}-control:not(:nth-child(2)) > .#{$select-ns}-input{
+	& > .#{$select-ns}-wrapper:not(:nth-child(2)) > .#{$select-ns}-input{
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
 	}
 
-	& > .#{$select-ns}-control:not(:last-child) > .#{$select-ns}-input{
+	& > .#{$select-ns}-wrapper:not(:last-child) > .#{$select-ns}-input{
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 	}

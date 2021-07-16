@@ -85,7 +85,7 @@ $select-spinner-border-color:					$select-color-border !default;
 
 @mixin ts-caret(){
 
-	.#{$select-ns}-control.single .#{$select-ns}-input {
+	.#{$select-ns}-wrapper.single .#{$select-ns}-input {
 		padding-right: 2rem;
 		
 		&, input { cursor: pointer; }
@@ -122,7 +122,7 @@ $select-spinner-border-color:					$select-color-border !default;
 @import "../plugins/remove_button/plugin.scss";
 
 
-.#{$select-ns}-control {
+.#{$select-ns}-wrapper {
 	position: relative;
 }
 
@@ -137,7 +137,7 @@ $select-spinner-border-color:					$select-color-border !default;
 }
 
 .#{$select-ns}-input,
-.#{$select-ns}-control.single .#{$select-ns}-input.input-active {
+.#{$select-ns}-wrapper.single .#{$select-ns}-input.input-active {
 	background: $select-color-input;
 	cursor: text;
 }

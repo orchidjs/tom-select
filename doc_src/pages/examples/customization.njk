@@ -26,19 +26,13 @@ tags: demo
 
 <style type="text/css">
 {% set style %}
-.ts-control .option .title {
+.ts-wrapper .option .title {
 	display: block;
 }
-.ts-control .option .url {
+.ts-wrapper .option .url {
 	font-size: 12px;
 	display: block;
 	color: #a0a0a0;
-}
-.ts-control .item a {
-	color: #006ef5;
-}
-.ts-control .item.active a {
-	color: #303030;
 }
 {% endset %}
 </style>
@@ -63,7 +57,7 @@ new TomSelect('#select-links',{
 				'</div>';
 		},
 		item: function(data, escape) {
-			return '<div><a href="' + escape(data.url) + '">' + escape(data.title) + '</a></div>';
+			return '<div title="' + escape(data.url) + '">' + escape(data.title) + '</div>';
 		}
 	}
 });

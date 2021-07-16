@@ -41,7 +41,7 @@ export default {
 	searchConjunction: 'and',
 
 	mode: null,
-	wrapperClass: 'ts-control',
+	wrapperClass: 'ts-wrapper',
 	inputClass: 'ts-input',
 	dropdownClass: 'ts-dropdown',
 	dropdownContentClass: 'ts-dropdown-content',

@@ -137,7 +137,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
 }
 
-.#{$select-ns}-control {
+.#{$select-ns}-wrapper {
 
 	.input-group-sm > &,
 	&.form-control-sm{
@@ -190,7 +190,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
 }
 
-.form-control.#{$select-ns}-control {
+.form-control.#{$select-ns}-wrapper {
 	padding: 0;
 	height: auto;
 	border: none;
@@ -201,16 +201,16 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 .input-group{
 
-	& > .#{$select-ns}-control{
+	& > .#{$select-ns}-wrapper{
 		flex-grow: 1;
 	}
 
-	& > .#{$select-ns}-control:not(:nth-child(2)) > .#{$select-ns}-input{
+	& > .#{$select-ns}-wrapper:not(:nth-child(2)) > .#{$select-ns}-input{
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
 	}
 
-	& > .#{$select-ns}-control:not(:last-child) > .#{$select-ns}-input{
+	& > .#{$select-ns}-wrapper:not(:last-child) > .#{$select-ns}-input{
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 	}
