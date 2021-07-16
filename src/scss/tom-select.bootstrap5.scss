@@ -110,7 +110,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	&.dropdown-active::before {
 		display: none;
 	}
-	&.focus {
+	.focus &{
 		border-color: $input-focus-border-color;
 		outline: 0;
 		@if $enable-shadows {
@@ -130,7 +130,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 .was-validated .#{$select-ns}-control.invalid{
 	border-color: $select-color-input-error;
 
-	&.focus {
+	.focus &{
 		border-color: $select-color-input-error-focus;
 		box-shadow: 0 0 0 $input-focus-width rgba($select-color-input-error, .25);
 	}
@@ -140,7 +140,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	$_color: map-get($state-valid,'color');
 	border-color: $_color;
 
-	&.focus{
+	.focus &{
 		border-color: $_color;
 		box-shadow: 0 0 0 $input-focus-width rgba($_color, .25);
 	}

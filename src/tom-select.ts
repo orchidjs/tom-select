@@ -1999,19 +1999,22 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * and CSS classes.
 	 */
 	refreshState() {
-		var self     = this;
+		const self     = this;
 
 		self.refreshValidityState();
 
-		var isFull   = self.isFull();
-
-		var isLocked = self.isLocked;
+		const isFull	= self.isFull();
+		const isLocked	= self.isLocked;
 
 		self.wrapper.classList.toggle('rtl',self.rtl);
+		
+		
+		const wrap_classList = self.wrapper.classList;
 
-		var classList = self.control.classList;
+		wrap_classList.toggle('focus', self.isFocused)
 
-		classList.toggle('focus', self.isFocused)
+		const classList = self.control.classList;
+
 		classList.toggle('disabled', self.isDisabled)
 		classList.toggle('required', self.isRequired)
 		classList.toggle('invalid', !self.isValid)

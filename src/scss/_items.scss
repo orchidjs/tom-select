@@ -30,7 +30,7 @@
 		cursor: default !important;
 	}
 
-	&.focus {
+	.focus & {
 		box-shadow: $select-shadow-input-focus;
 	}
 

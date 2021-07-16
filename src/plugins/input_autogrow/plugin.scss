@@ -5,14 +5,16 @@
 		&.has-items > input {
 			min-width: 0;
 		}
+	}
+	
+	&.focus .#{$select-ns}-control.has-items > input {
+		flex: none;
+		min-width: 4px;
 
-		&.focus.has-items > input {
-			flex: none;
-			min-width: 4px;
-
-			&::placeholder {
-				color:transparent;
-			}
+		&::placeholder {
+			color:transparent;
 		}
 	}
+
+	
 }
