@@ -17,7 +17,7 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 
 .#{$select-ns}-wrapper {
 	&.multi {
-		.#{$select-ns}-input {
+		.#{$select-ns}-control {
 			&.has-items {
 				$padding-x: $select-padding-x - 3px;
 				padding-left: $padding-x;
@@ -48,18 +48,18 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 		}
 	}
 	&.single {
-		.#{$select-ns}-input {
+		.#{$select-ns}-control {
 			box-shadow: 0 1px 0 rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.8);
 			@include selectize-vertical-gradient(#fefefe, #f2f2f2);
 		}
 	}
 }
 
-.#{$select-ns}-wrapper.single .#{$select-ns}-input, .#{$select-ns}-dropdown.single {
+.#{$select-ns}-wrapper.single .#{$select-ns}-control, .#{$select-ns}-dropdown.single {
 	border-color: #b8b8b8;
 }
 
-.#{$select-ns}-input {
+.#{$select-ns}-control {
 	&.dropdown-active {
 		border-radius: $select-border-radius $select-border-radius 0 0;
 	}

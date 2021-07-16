@@ -1,5 +1,5 @@
 .#{$select-ns}-wrapper.plugin-drag_drop {
-	&.multi > .#{$select-ns}-input > div.ui-sortable-placeholder {
+	&.multi > .#{$select-ns}-control > div.ui-sortable-placeholder {
 		visibility: visible !important;
 		background: #f2f2f2 !important;
 		background: rgba(0,0,0,0.06) !important;

@@ -85,7 +85,7 @@ $select-spinner-border-color:					$select-color-border !default;
 
 @mixin ts-caret(){
 
-	.#{$select-ns}-wrapper.single .#{$select-ns}-input {
+	.#{$select-ns}-wrapper.single .#{$select-ns}-control {
 		padding-right: 2rem;
 		
 		&, input { cursor: pointer; }
@@ -127,8 +127,8 @@ $select-spinner-border-color:					$select-color-border !default;
 }
 
 .#{$select-ns}-dropdown,
-.#{$select-ns}-input,
-.#{$select-ns}-input input {
+.#{$select-ns}-control,
+.#{$select-ns}-control input {
 	color: $select-color-text;
 	font-family: $select-font-family;
 	font-size: $select-font-size;
@@ -136,8 +136,8 @@ $select-spinner-border-color:					$select-color-border !default;
 	font-smoothing: $select-font-smoothing;
 }
 
-.#{$select-ns}-input,
-.#{$select-ns}-wrapper.single .#{$select-ns}-input.input-active {
+.#{$select-ns}-control,
+.#{$select-ns}-wrapper.single .#{$select-ns}-control.input-active {
 	background: $select-color-input;
 	cursor: text;
 }

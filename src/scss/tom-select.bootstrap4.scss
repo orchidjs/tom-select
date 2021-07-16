@@ -94,7 +94,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	padding: 5px 0;
 }
 
-.#{$select-ns}-input {
+.#{$select-ns}-control {
 	min-height: $input-height;
 	@include box-shadow($input-box-shadow);
 	@include transition($input-transition);
@@ -115,8 +115,8 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
 }
 
-.is-invalid .#{$select-ns}-input,
-.was-validated .#{$select-ns}-input.invalid{
+.is-invalid .#{$select-ns}-control,
+.was-validated .#{$select-ns}-control.invalid{
 	border-color: $select-color-input-error;
 
 	&.focus {
@@ -125,7 +125,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
 }
 
-.is-valid .#{$select-ns}-input{
+.is-valid .#{$select-ns}-control{
 	$_color: map-get($state-valid,'color');
 	//$_icon: map-get($state-valid,'icon');
 
@@ -142,7 +142,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	.input-group-sm > &,
 	&.form-control-sm{
 
-		.#{$select-ns}-input{
+		.#{$select-ns}-control{
 			min-height: $input-height-sm;
 			padding: 0 .75rem;
 			//padding: $input-padding-y-sm $input-padding-x-sm;
@@ -150,7 +150,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 			@include font-size($input-font-size-sm);
 		}
 
-		.#{$select-ns}-input.has-items{
+		.#{$select-ns}-control.has-items{
 			min-height: $input-height-sm !important;
 			font-size: $input-font-size-sm;
 			padding-bottom: 0;
@@ -160,7 +160,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 	.input-group-sm > &.multi,
 	&.form-control-sm.multi{
-		.#{$select-ns}-input.has-items{
+		.#{$select-ns}-control.has-items{
 			// padding-top = ($input-height-sm - border-width - item-height) / 2;
 			// item-height = ($select-line-height * $input-font-size-sm) + ($select-padding-item-y * 2)
 			$border-and-padding: add($input-border-width,$select-padding-item-y) * 2;
@@ -171,18 +171,18 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 
 	&.multi {
-		.#{$select-ns}-input.has-items {
+		.#{$select-ns}-control.has-items {
 			padding-left: calc(#{$select-padding-x} - #{$select-padding-item-x});
 			padding-right: calc(#{$select-padding-x} - #{$select-padding-item-x});
 		}
-		.#{$select-ns}-input > div {
+		.#{$select-ns}-control > div {
 			border-radius: calc(#{$select-border-radius} - 1px);
 		}
 	}
 
 	.input-group-lg > & >,
 	&.form-control-lg{
-	.#{$select-ns}-input{
+	.#{$select-ns}-control{
 			min-height: $input-height-lg;
 			@include border-radius($input-border-radius-lg);
 			@include font-size($input-font-size-lg);
@@ -205,12 +205,12 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		flex-grow: 1;
 	}
 
-	& > .#{$select-ns}-wrapper:not(:nth-child(2)) > .#{$select-ns}-input{
+	& > .#{$select-ns}-wrapper:not(:nth-child(2)) > .#{$select-ns}-control{
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
 	}
 
-	& > .#{$select-ns}-wrapper:not(:last-child) > .#{$select-ns}-input{
+	& > .#{$select-ns}-wrapper:not(:last-child) > .#{$select-ns}-control{
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 	}

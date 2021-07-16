@@ -42,7 +42,7 @@ export default {
 
 	mode: null,
 	wrapperClass: 'ts-wrapper',
-	inputClass: 'ts-input',
+	controlClass: 'ts-control',
 	dropdownClass: 'ts-dropdown',
 	dropdownContentClass: 'ts-dropdown-content',
 	itemClass: 'item',

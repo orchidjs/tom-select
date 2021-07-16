@@ -1,7 +1,7 @@
 
 .#{$select-ns}-wrapper.plugin-input_autogrow{
 
-	.#{$select-ns}-input{
+	.#{$select-ns}-control{
 		&.has-items > input {
 			min-width: 0;
 		}

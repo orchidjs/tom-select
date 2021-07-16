@@ -1,7 +1,7 @@
 
 .plugin-clear_button{
 
-	.items{
+	.#{$select-ns}-control{
 		padding-right: calc( 1em + (3 * #{$select-padding-item-x}) ) !important;
 	}
 

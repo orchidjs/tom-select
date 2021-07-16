@@ -1,6 +1,6 @@
 
 
-.#{$select-ns}-input {
+.#{$select-ns}-control {
 
 	border: $select-border;
 	padding: $select-padding-y $select-padding-x;
@@ -101,11 +101,11 @@
 
 	&.rtl {
 		text-align: right;
-		&.single .#{$select-ns}-input:after {
+		&.single .#{$select-ns}-control:after {
 			left: $select-arrow-offset;
 			right: auto;
 		}
-		.#{$select-ns}-input > input {
+		.#{$select-ns}-control > input {
 			margin: $select-caret-margin-rtl !important;
 		}
 	}

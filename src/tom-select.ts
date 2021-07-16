@@ -155,7 +155,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		
 		// Create all elements
 		const wrapper			= getDom('<div>');
-		const control			= getDom('<div class="items">');
+		const control			= getDom('<div>');
 		const dropdown			= this._render('dropdown');
 		const dropdown_content	= getDom(`<div role="listbox" tabindex="-1">`);
 			
@@ -168,7 +168,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addClasses( wrapper, settings.wrapperClass, classes, inputMode);
 		
 
-		addClasses(control,settings.inputClass);
+		addClasses(control,settings.controlClass);
 		append( wrapper, control );
 
 
