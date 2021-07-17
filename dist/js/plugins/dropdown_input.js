@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.6
+* Tom Select v1.7.7
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -53,7 +53,7 @@
 	    if (val == null) {
 	      el.removeAttribute(attr);
 	    } else {
-	      el.setAttribute(attr, val);
+	      el.setAttribute(attr, '' + val);
 	    }
 	  }
 	};
@@ -110,10 +110,22 @@
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
 	  self.on('initialize', () => {
-	    // set tabIndex on wrapper
-	    setAttr(self.wrapper, {
-	      tabindex: self.input.disabled ? '-1' : '' + self.tabIndex
-	    }); // keyboard navigation
+	    // open/close dropdown when tabbing focus on wrapper
+	    addEvent(self.wrapper, 'focus', evt => {
+	      self.onFocus(evt);
+	    });
+
+	    const setTabIndex = () => {
+	      setAttr(self.wrapper, {
+	        tabindex: self.input.disabled ? '-1' : self.tabIndex
+	      });
+	    };
+
+	    self.on('dropdown_close', setTabIndex);
+	    self.on('dropdown_open', () => setAttr(self.wrapper, {
+	      tabindex: '-1'
+	    }));
+	    setTabIndex(); // keyboard navigation
 
 	    addEvent(self.wrapper, 'keypress', evt => {
 	      if (self.control.contains(evt.target)) {

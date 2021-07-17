@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.6
+* Tom Select v1.7.7
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -31,6 +31,7 @@
 
 	class MicroEvent {
 	  constructor() {
+	    this._events = void 0;
 	    this._events = {};
 	  }
 
@@ -425,6 +426,8 @@
 	   *
 	   */
 	  constructor(items, settings) {
+	    this.items = void 0;
+	    this.settings = void 0;
 	    this.items = items;
 	    this.settings = settings || {
 	      diacritics: true
@@ -939,7 +942,7 @@
 	    if (val == null) {
 	      el.removeAttribute(attr);
 	    } else {
-	      el.setAttribute(attr, val);
+	      el.setAttribute(attr, '' + val);
 	    }
 	  }
 	};
@@ -1445,10 +1448,24 @@
 	class TomSelect extends MicroPlugin(MicroEvent) {
 	  constructor(input_arg, settings) {
 	    super();
+	    this.control_input = void 0;
+	    this.wrapper = void 0;
+	    this.dropdown = void 0;
+	    this.control = void 0;
+	    this.dropdown_content = void 0;
 	    this.order = 0;
+	    this.settings = void 0;
+	    this.input = void 0;
+	    this.tabIndex = void 0;
+	    this.is_select_tag = void 0;
+	    this.rtl = void 0;
+	    this.inputId = void 0;
+	    this._destroy = void 0;
+	    this.sifter = void 0;
 	    this.tab_key = false;
 	    this.isOpen = false;
 	    this.isDisabled = false;
+	    this.isRequired = void 0;
 	    this.isInvalid = false;
 	    this.isLocked = false;
 	    this.isFocused = false;
@@ -1456,6 +1473,7 @@
 	    this.isSetup = false;
 	    this.ignoreFocus = false;
 	    this.hasOptions = false;
+	    this.currentResults = void 0;
 	    this.lastValue = '';
 	    this.caretPos = 0;
 	    this.loading = 0;
@@ -3430,18 +3448,19 @@
 	    var i, value, option, option_el, label;
 
 	    if (self.is_select_tag) {
-	      const selected = document.createDocumentFragment();
+	      const selected = [];
 
 	      function AddSelected(option_el, value, label) {
 	        if (!option_el) {
 	          option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
 	        }
 
-	        option_el.selected = true;
+	        self.input.prepend(option_el);
+	        selected.push(option_el);
 	        setAttr(option_el, {
 	          selected: 'true'
 	        });
-	        append(selected, option_el);
+	        option_el.selected = true;
 	        return option_el;
 	      } // unselect all selected options
 
@@ -3457,22 +3476,19 @@
 	        option_el = self.input.querySelector('option[value=""]');
 	        AddSelected(option_el, "", ""); // order selected <option> tags for values in self.items
 	      } else {
-	        for (i = 0; i < self.items.length; i++) {
+	        for (i = self.items.length - 1; i >= 0; i--) {
 	          value = self.items[i];
 	          option = self.options[value];
 	          label = option[self.settings.labelField] || '';
 
-	          if (selected.contains(option.$option)) {
-	            const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]`);
+	          if (selected.includes(option.$option)) {
+	            const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]:not([selected])`);
 	            AddSelected(reuse_opt, value, label);
 	          } else {
 	            option.$option = AddSelected(option.$option, value, label);
 	          }
 	        }
-	      } // prepend all of the selected options
-
-
-	      self.input.prepend(selected);
+	      }
 	    } else {
 	      self.input.value = self.getValue();
 	    }
