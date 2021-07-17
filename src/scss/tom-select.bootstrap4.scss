@@ -147,7 +147,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 			@include font-size($input-font-size-sm);
 		}
 
-		.#{$select-ns}-control.has-items{
+		&.has-items .#{$select-ns}-control{
 			min-height: $input-height-sm !important;
 			font-size: $input-font-size-sm;
 			padding-bottom: 0;
@@ -155,9 +155,9 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
 
 
-	.input-group-sm > &.multi,
-	&.form-control-sm.multi{
-		.#{$select-ns}-control.has-items{
+	.input-group-sm > &.multi.has-items,
+	&.form-control-sm.multi.has-items{
+		.#{$select-ns}-control{
 			// padding-top = ($input-height-sm - border-width - item-height) / 2;
 			// item-height = ($select-line-height * $input-font-size-sm) + ($select-padding-item-y * 2)
 			$border-and-padding: add($input-border-width,$select-padding-item-y) * 2;
@@ -168,7 +168,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 
 	&.multi {
-		.#{$select-ns}-control.has-items {
+		&.has-items .#{$select-ns}-control {
 			padding-left: calc(#{$select-padding-x} - #{$select-padding-item-x});
 			padding-right: calc(#{$select-padding-x} - #{$select-padding-item-x});
 		}

@@ -2019,11 +2019,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		wrap_classList.toggle('full', isFull)
 		wrap_classList.toggle('input-active', self.isFocused && !self.isInputHidden)
 		wrap_classList.toggle('dropdown-active', self.isOpen)
-
-		const classList = self.control.classList;
-
-		classList.toggle('has-options', isEmptyObject(self.options) )
-		classList.toggle('has-items', self.items.length > 0);
+		wrap_classList.toggle('has-options', isEmptyObject(self.options) )
+		wrap_classList.toggle('has-items', self.items.length > 0);
 
 	}
 

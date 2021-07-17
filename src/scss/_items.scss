@@ -14,7 +14,7 @@
 	display: flex;
 	flex-wrap: wrap;
 
-	.#{$select-ns}-wrapper.multi &.has-items {
+	.#{$select-ns}-wrapper.multi.has-items & {
 		$padding-x: $select-padding-x;
 		$padding-top: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-width-item-border});
 		$padding-bottom: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-margin-item-y} - #{$select-width-item-border});
@@ -84,7 +84,7 @@
 		&:focus { outline: none !important; }
 	}
 
-	&.has-items > input{
+	.has-items & > input{
 		margin: $select-caret-margin !important;
 	}
 
