@@ -24,7 +24,7 @@ describe('Validation', function(){
 
 		it_n('should have the required class', function() {
 			test_required();
-			expect(test.instance.control.classList.contains('required')).to.be.equal(true);
+			expect(test.instance.wrapper.classList.contains('required')).to.be.equal(true);
 		});
 
 		it_n('should pass validation if an element is selected',function(done) {
@@ -52,7 +52,7 @@ describe('Validation', function(){
 			test_required();
 			test.select.checkValidity();
 
-			var classList = test.instance.control.classList;
+			var classList = test.instance.wrapper.classList;
 
 			assert.equal(classList.contains('invalid'),true,'invalid class missing');
 
@@ -73,9 +73,9 @@ describe('Validation', function(){
 		it_n('should clear the invalid class after an item is selected',function(done) {
 			test_required();
 			syn.click(button, function() {
-				assert.equal(test.instance.control.classList.contains('invalid'),true);
+				assert.equal(test.instance.wrapper.classList.contains('invalid'),true);
 				test.instance.addItem('a');
-				assert.equal(test.instance.control.classList.contains('invalid'),false);
+				assert.equal(test.instance.wrapper.classList.contains('invalid'),false);
 
 				done();
 			});

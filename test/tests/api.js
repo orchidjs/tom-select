@@ -14,7 +14,7 @@
 				expect(String(test.instance.focus_node.tabIndex)).to.be.equal('-1');
 			});
 			it_n('should set "disabled" class', function() {
-				expect(test.instance.control.classList.contains('disabled')).to.be.equal(true);
+				expect(test.instance.wrapper.classList.contains('disabled')).to.be.equal(true);
 			});
 			it_n('should set isDisabled property to true', function() {
 				expect(test.instance.isDisabled).to.be.equal(true);
