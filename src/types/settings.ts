@@ -1,4 +1,4 @@
-import TomSelect from '../tom-select';
+
 import { TomCreateFilter, TomCreate, TomLoadCallback } from './index';
 import {
 	escape_html,
