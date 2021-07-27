@@ -87,7 +87,7 @@
   },
   "scripts": {
     "build": "grunt build",
-	"build:types": "tsc -p .config --emitDeclarationOnly",
+    "build:types": "tsc -p .config --emitDeclarationOnly",
     "test": "karma start",
     "test:one": "karma start --test_one",
     "test:typescript": "tsc -p .config --noemit",
@@ -113,6 +113,6 @@
     "url": "https://opencollective.com/tom-select"
   },
   "dependencies": {
-    "@orchidjs/sifter": "^0.7.4"
+    "@orchidjs/sifter": "^0.7.5"
   }
 }
