@@ -1,7 +1,7 @@
 <!DOCTYPE html><html class="no-js" lang="en"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title> Contributing -  Tom Select</title>
+		<title> Migrating to v2 -  Tom Select</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/css/stylesheet.css">
@@ -56,8 +56,8 @@
 		<a class="nav-link" href="/docs/api/">API</a>
 		<a class="nav-link" href="/docs/plugins/">Plugins</a>
 		<a class="nav-link" href="/docs/events/">Events</a>
-		<span class="nav-link active">Contribute</span>
-		<a class="nav-link" href="/docs/migration/">Migration</a>
+		<a class="nav-link" href="/docs/contribute/">Contribute</a>
+		<span class="nav-link active">Migration</span>
 		<a class="nav-link" href="/docs/selectize.js/">selectize.js</a>
 	</nav>
 	
@@ -81,7 +81,7 @@
 	<hr class="mx-4 my-2">
 
 	<div class="p-4 badges small">
-		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/docs/contribute.md">Edit this page on GitHub</a>
+		<a href="https://github.com/orchidjs/tom-select/blob/master/./doc_src/pages/docs/migration.md">Edit this page on GitHub</a>
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
@@ -92,24 +92,31 @@
 		<div class="px-3 main-col">
 			<div class="container pt-4 mt-3" id="main-container">
 				
-				<h1 class="display-4 mt-0" id="contributing">Contributing</h1>
+				<h1 class="display-4 mt-0" id="migrating-to-v2">Migrating to v2</h1>
 				
 
-				<h3 id="pull-requests">Pull Requests</h3>
-<p>If you're motivated to fix a bug or to develop a new feature, we'd love to see your code.
-When submitting pull requests, please remember the following:</p>
+				<p>Review changes to the Tom Select API to help you migrate from v1 to v2.</p>
+<h2 id="core">Core</h2>
 <ul>
-<li><strong>Make sure tests pass</strong><br>Run <kbd>npm test</kbd> to make sure your changes don't break existing functionality</li>
-<li><strong>Do not make changes to files in /dist</strong><br> Limiting your edits to files in /src or /doc_src directories keeps the size of your pull request down and makes it easier for us to evaluate. We'll update the /dist folder after your pull request is approved.</li>
-<li><strong>Add tests</strong><br>In the best case scenario, you are also adding tests to back up your changes, but don't sweat it if you don't. We can discuss them at a later date.</li>
+<li>Caret position functionality (using <kbd>←</kbd> and <kbd>→</kbd> arrow keys to move between selected items) moved to caret_position plugin</li>
+<li><code>addOption()</code> no longer treats new options as "user created" (see <a href="https://tom-select.js.org/docs/#persist">persist</a> option) by default. Use <code>addOption(option, true)</code> for registering user created options.</li>
+<li>Closing control via <kbd>esc</kbd> key, <kbd>enter</kbd>, etc no longer blurs focus to maintain keyboard control</li>
+<li>Added sync() method</li>
+<li>Original &lt;input&gt; or &lt;select&gt; element uses 'hidden-accessible' styling instead of 'hidden'</li>
+<li>controlInput=null instead of controlInput='<input>' for hidden control input</li>
+<li>Deprecated isInvalid. Use isValid instead</li>
 </ul>
-<h3 id="functional-and-unit-tests">Functional and Unit Tests</h3>
-<p>Please ensure all the tests pass:</p>
-<pre class="language-shell"><code class="language-shell">$ <span class="token function">npm</span> <span class="token builtin class-name">test</span></code></pre>
-<h3 id="local-environment">Local Environment</h3>
-<p>Runing <code>npm start</code> on your repo will start a web server allowing you to view a local copy of tom-select.js.org.</p>
-<pre class="language-shell"><code class="language-shell">$ <span class="token function">npm</span> start</code></pre>
-<p>Once started, you can run all the examples at <code>http://localhost:8000/</code>.</p>
+<h2 id="css">CSS</h2>
+<ul>
+<li>Renamed <code>.ts-control</code> to <code>.ts-wrapper</code> to align css class with name in JavaScript</li>
+<li>Renamed <code>.ts-input</code> to <code>.ts-control</code> to align css class with name in JavaScript</li>
+<li>Multiple CSS classes are now toggled on the wrapper element instead of the control element: <code>.focus</code>, <code>.disabled</code>, <code>.required</code>, <code>.invalid</code>, <code>.locked</code>, <code>.full</code>, <code>.not-full</code>, <code>.input-active</code>, <code>.dropdown-active</code>, <code>.has-options</code>, <code>.has-items</code></li>
+<li>Removed bootstrap3 style</li>
+</ul>
+<h2 id="options">Options</h2>
+<ul>
+<li><code>copyClassesToDropdown</code> defaults to false</li>
+</ul>
 
 				
 				
