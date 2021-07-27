@@ -15,6 +15,12 @@ When submitting pull requests, please remember the following:
 <li><strong>Add tests</strong><br/>In the best case scenario, you are also adding tests to back up your changes, but don't sweat it if you don't. We can discuss them at a later date.</li>
 </ul>
 
+### Build from source
+Compile TypeScript and SCSS in the /src directory to JavaScript and CSS in the /buid directory
+
+```shell
+$ npm run build
+```
 
 ### Functional and Unit Tests
 Please ensure all the tests pass:
