@@ -51,7 +51,7 @@ export default {
 	dropdownParent: null,
 	//controlInput: null,
 
-	copyClassesToDropdown: true,
+	copyClassesToDropdown: false,
 
 	placeholder: null,
 	hidePlaceholder: null,
