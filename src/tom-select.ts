@@ -331,9 +331,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// keydown on focus_node for arrow_down/arrow_up
 		addEvent(focus_node,'keydown',		(e) => self.onKeyDown(e as KeyboardEvent) );
 		
-		// keyup and keypress 
-		addEvent(control_input,'keyup',	(e) => self.onKeyUp(e as KeyboardEvent) );
+		// keypress and input/keyup
 		addEvent(control_input,'keypress',	(e) => self.onKeyPress(e as KeyboardEvent) );
+		addEvent(control_input,'input',		(e) => self.onInput(e as KeyboardEvent) );
 		
 		addEvent(focus_node,'resize',		() => self.positionDropdown(), passive_event);
 		addEvent(focus_node,'blur', 		(e) => self.onBlur(e as FocusEvent) );
@@ -730,11 +730,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Triggered on <input> keyup.
 	 *
 	 */
-	onKeyUp(e:MouseEvent|KeyboardEvent):void {
+	onInput(e:MouseEvent|KeyboardEvent):void {
 		var self = this;
 
-		if (self.isLocked){
-			preventDefault(e);
+		if( self.isLocked ){
 			return;
 		}
 
