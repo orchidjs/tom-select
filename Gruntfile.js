@@ -258,6 +258,7 @@ module.exports = function(grunt) {
 					'build/css/tom-select.default.min.css': ['build/css/tom-select.default.css'],
 					'build/css/tom-select.bootstrap3.min.css': ['build/css/tom-select.bootstrap3.css'],
 					'build/css/tom-select.bootstrap4.min.css': ['build/css/tom-select.bootstrap4.css'],
+					'build/css/tom-select.bootstrap5.min.css': ['build/css/tom-select.bootstrap5.css'],
 				}]
 			},
 			builddocs:{
