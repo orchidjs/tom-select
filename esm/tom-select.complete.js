@@ -4724,5 +4724,5 @@ TomSelect.define('virtual_scroll', function () {
   });
 });
 
-export default TomSelect;
+export { TomSelect as default };
 //# sourceMappingURL=tom-select.complete.js.map

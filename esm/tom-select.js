@@ -4039,5 +4039,5 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 }
 
-export default TomSelect;
+export { TomSelect as default };
 //# sourceMappingURL=tom-select.js.map

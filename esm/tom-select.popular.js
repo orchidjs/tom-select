@@ -4216,5 +4216,5 @@ TomSelect.define('restore_on_backspace', function (userOptions) {
   });
 });
 
-export default TomSelect;
+export { TomSelect as default };
 //# sourceMappingURL=tom-select.popular.js.map
