@@ -11,7 +11,7 @@ Review changes to the Tom Select API to help you migrate from v1 to v2.
 * Closing control via <kbd>esc</kbd> key, <kbd>enter</kbd>, etc no longer blurs focus to maintain keyboard control
 * Added sync() method
 * Original &lt;input&gt; or &lt;select&gt; element uses 'hidden-accessible' styling instead of 'hidden'
-* controlInput=null instead of controlInput='<input>' for hidden control input
+* controlInput=null instead of controlInput='&lt;input&gt;' for hidden control input
 * Deprecated isInvalid. Use isValid instead
 
 ## CSS
