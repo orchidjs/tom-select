@@ -188,12 +188,23 @@ function MicroPlugin(Interface) {
 }
 
 // https://github.com/andrewrk/node-diacritics/blob/master/index.js
+var latin_pat;
+const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}]'; // \u{2bc}
+
+const accent_reg = new RegExp(accent_pat, 'g');
+var diacritic_patterns;
+const latin_convert = {
+  'æ': 'ae',
+  'ⱥ': 'a',
+  'ø': 'o'
+};
+const convert_pat = new RegExp(Object.keys(latin_convert).join('|'), 'g');
 /**
  * code points generated from toCodePoints();
  * removed 65339 to 65345
  */
 
-var code_points = [[67, 67], [160, 160], [192, 438], [452, 652], [961, 961], [1019, 1019], [1083, 1083], [1281, 1289], [1984, 1984], [5095, 5095], [7429, 7441], [7545, 7549], [7680, 7935], [8580, 8580], [9398, 9449], [11360, 11391], [42792, 42793], [42802, 42851], [42873, 42897], [42912, 42922], [64256, 64260], [65313, 65338], [65345, 65370]];
+const code_points = [[67, 67], [160, 160], [192, 438], [452, 652], [961, 961], [1019, 1019], [1083, 1083], [1281, 1289], [1984, 1984], [5095, 5095], [7429, 7441], [7545, 7549], [7680, 7935], [8580, 8580], [9398, 9449], [11360, 11391], [42792, 42793], [42802, 42851], [42873, 42897], [42912, 42922], [64256, 64260], [65313, 65338], [65345, 65370]];
 /**
  * Remove accents
  * via https://github.com/krisk/Fuse/issues/133#issuecomment-318692703
@@ -201,50 +212,90 @@ var code_points = [[67, 67], [160, 160], [192, 438], [452, 652], [961, 961], [10
  */
 
 const asciifold = str => {
-  return str.normalize('NFD').replace(/[\u0300-\u036F]/g, '').normalize('NFKD').toLowerCase();
+  return str.normalize('NFKD').replace(accent_reg, '').toLowerCase().replace(convert_pat, function (foreignletter) {
+    return latin_convert[foreignletter];
+  });
+};
+/**
+ * Convert array of strings to a regular expression
+ *	ex ['ab','a'] => (?:ab|a)
+ *
+ */
+
+
+const arrayToPattern = (chars, glue = '|') => {
+  if (chars.length > 1) {
+    return '(?:' + chars.join(glue) + ')';
+  }
+
+  return chars[0];
+};
+/**
+ * Get all possible combinations of substrings that add up to the given string
+ * https://stackoverflow.com/questions/30169587/find-all-the-combination-of-substrings-that-add-up-to-the-given-string
+ *
+ */
+
+const allSubstrings = input => {
+  if (input.length === 1) return [[input]];
+  var result = [];
+  allSubstrings(input.substring(1)).forEach(function (subresult) {
+    var tmp = subresult.slice(0);
+    tmp[0] = input.charAt(0) + tmp[0];
+    result.push(tmp);
+    tmp = subresult.slice(0);
+    tmp.unshift(input.charAt(0));
+    result.push(tmp);
+  });
+  return result;
 };
 /**
  * Generate a list of diacritics from the list of code points
  *
  */
 
-
 const generateDiacritics = () => {
-  var latin_convert = {
-    'l·': 'l',
-    'ʼn': 'n',
-    'æ': 'ae',
-    'ø': 'o',
-    'aʾ': 'a',
-    'dž': 'dz'
-  };
-  var diacritics = {}; //var no_latin	= [];
-
+  var diacritics = {};
   code_points.forEach(code_range => {
     for (let i = code_range[0]; i <= code_range[1]; i++) {
       let diacritic = String.fromCharCode(i);
-      let latin = diacritic.normalize('NFD').replace(/[\u0300-\u036F]/g, '').normalize('NFKD');
+      let latin = asciifold(diacritic);
 
-      if (latin == diacritic) {
-        //no_latin.push(diacritic);
+      if (latin == diacritic.toLowerCase()) {
         continue;
       }
 
-      latin = latin.toLowerCase();
-
-      if (latin in latin_convert) {
-        latin = latin_convert[latin];
-      }
-
       if (!(latin in diacritics)) {
-        diacritics[latin] = latin + latin.toUpperCase();
+        diacritics[latin] = [latin];
       }
 
-      diacritics[latin] += diacritic;
+      diacritics[latin].push(diacritic);
     }
-  }); //console.log('no_latin',JSON.stringify(no_latin));
+  });
+  var latin_chars = Object.keys(diacritics); // latin character pattern
+  // match longer substrings first
 
-  return diacritics;
+  latin_chars = latin_chars.sort((a, b) => b.length - a.length);
+  latin_pat = new RegExp('(' + arrayToPattern(latin_chars) + accent_pat + '*)', 'g'); // build diacritic patterns
+  // ae needs: 
+  //	(?:(?:ae|Æ|Ǽ|Ǣ)|(?:A|Ⓐ|Ａ...)(?:E|ɛ|Ⓔ...))
+
+  var diacritic_patterns = {};
+  latin_chars.sort((a, b) => a.length - b.length).forEach(latin => {
+    var substrings = allSubstrings(latin);
+    var pattern = substrings.map(sub_pat => {
+      sub_pat = sub_pat.map(l => {
+        if (diacritics.hasOwnProperty(l)) {
+          return arrayToPattern(diacritics[l]);
+        }
+
+        return l;
+      });
+      return arrayToPattern(sub_pat, '');
+    });
+    diacritic_patterns[latin] = arrayToPattern(pattern);
+  });
+  return diacritic_patterns;
 };
 /**
  * Expand a regular expression pattern to include diacritics
@@ -252,54 +303,34 @@ const generateDiacritics = () => {
  *
  */
 
-var diacritics = null;
 const diacriticRegexPoints = regex => {
-  if (diacritics === null) {
-    diacritics = generateDiacritics();
+  if (diacritic_patterns === undefined) {
+    diacritic_patterns = generateDiacritics();
   }
 
-  for (let latin in diacritics) {
-    if (diacritics.hasOwnProperty(latin)) {
-      regex = regex.replace(new RegExp(latin, 'g'), '[' + diacritics[latin] + ']');
+  const decomposed = regex.normalize('NFKD').toLowerCase();
+  return decomposed.split(latin_pat).map(part => {
+    if (part == '') {
+      return '';
+    } // "ﬄ" or "ffl"
+
+
+    const no_accent = asciifold(part);
+
+    if (diacritic_patterns.hasOwnProperty(no_accent)) {
+      return diacritic_patterns[no_accent];
+    } // 'أهلا' (\u{623}\u{647}\u{644}\u{627}) or 'أهلا' (\u{627}\u{654}\u{647}\u{644}\u{627})
+
+
+    const composed_part = part.normalize('NFC');
+
+    if (composed_part != part) {
+      return arrayToPattern([part, composed_part]);
     }
-  }
 
-  return regex;
+    return part;
+  }).join('');
 };
-/**
- * Expand a regular expression pattern to include diacritics
- * 	eg /a/ becomes /aⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐɑAⒶＡÀÁÂẦẤẪẨÃĀĂẰẮẴẲȦǠÄǞẢÅǺǍȀȂẠẬẶḀĄȺⱯ/
- *
- * rollup will bundle this function (and the DIACRITICS constant) unless commented out
- *
-var diacriticRegex = (function() {
-
-	var list = [];
-	for( let letter in DIACRITICS ){
-
-		if( letter.toLowerCase() != letter && letter.toLowerCase() in DIACRITICS ){
-			continue;
-		}
-
-		if( DIACRITICS.hasOwnProperty(letter) ){
-
-			var replace = letter + DIACRITICS[letter];
-			if( letter.toUpperCase() in DIACRITICS ){
-				replace += letter.toUpperCase() + DIACRITICS[letter.toUpperCase()];
-			}
-
-			list.push({let:letter,pat:'['+replace+']'});
-		}
-	}
-
-	return function(regex:string):string{
-		list.forEach((item)=>{
-			regex = regex.replace( new RegExp(item.let,'g'),item.pat);
-		});
-		return regex;
-	}
-})();
-*/
 
 // @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
 
@@ -465,7 +496,7 @@ class Sifter {
 
       tokens.push({
         string: word,
-        regex: regex ? new RegExp(regex, 'i') : null,
+        regex: regex ? new RegExp(regex, 'iu') : null,
         field: field
       });
     });
@@ -697,10 +728,9 @@ class Sifter {
       options.fields = fields;
     }
 
-    query = asciifold(query + '').toLowerCase().trim();
     return {
       options: options,
-      query: query,
+      query: query.toLowerCase().trim(),
       tokens: this.tokenize(query, options.respect_word_boundaries, weights),
       total: 0,
       items: [],
