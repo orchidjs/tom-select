@@ -113,6 +113,6 @@
     "url": "https://opencollective.com/tom-select"
   },
   "dependencies": {
-    "@orchidjs/sifter": "^0.7.5"
+    "@orchidjs/sifter": "^0.8.0"
   }
 }
