@@ -553,9 +553,8 @@
 		});
 
 		describe('getOption()', function() {
-			var test;
-
-			before(function() {
+			
+			function optionTest(){
 				test = setup_test('<select>', {
 					valueField: 'value',
 					labelField: 'value',
@@ -573,32 +572,40 @@
 					]
 				});
 				test.instance.refreshOptions(true);
-			});
+				return test;
+			}
+
 
 			it_n('should allow string values', function() {
+				var test = optionTest();
 				var a = test.instance.getOption('a');
 				expect(test.instance.getOption('a')).to.be.ok;
 				expect(test.instance.getOption('b')).to.be.ok;
 			});
 			it_n('should allow integer values', function() {
+				var test = optionTest();
 				expect(test.instance.getOption(0)).to.be.ok;
 				expect(test.instance.getOption(1)).to.be.ok;
 			});
 			it_n('should allow values with quotation marks', function() {
+				var test = optionTest();
 				expect(test.instance.getOption('\'')).to.be.ok;
 				expect(test.instance.getOption('"')).to.be.ok;
 			});
 			it_n('should allow values with backslashes', function() {
+				var test = optionTest();
 				expect(test.instance.getOption('\\')).to.be.ok;
 				expect(test.instance.getOption('\\\'')).to.be.ok;
 				expect(test.instance.getOption('\\"')).to.be.ok;
 			});
 			it_n('should not allow undefined / null values', function() {
+				var test = optionTest();
 				expect(test.instance.getOption(null)).to.be.equal(null);
 				expect(test.instance.getOption(undefined)).to.be.equal(null);
 			});
 
 			it_n('should return cached option',function(){
+				var test = optionTest();
 
 				test.instance.control_input.value = 'a';
 				test.instance.refreshOptions(true);
@@ -609,6 +616,17 @@
 				var option_after = test.instance.getOption('a');
 
 				assert.equal(option_before,option_after);
+
+			});
+
+			it_n('should create option with getOption(a,true)',function(){
+				var test	= setup_test('AB_Multi');
+				
+				var option	= test.instance.getOption('a');
+				assert.isNull(option);
+
+				var option	= test.instance.getOption('a',true);
+				assert.isNotNull(option);
 
 			});
 
