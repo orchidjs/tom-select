@@ -2184,16 +2184,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		var items = self.controlChildren();
 		for( const item of items ){
-			item.remove();
+			self.removeItem(item,true);
 		}
 
-		self.items = [];
-		self.lastQuery = null;
-		self.setCaret(0);
-		self.clearActiveItems();
-		self.updateOriginalInput({silent: silent});
-		self.refreshState();
 		self.showInput();
+		if( !silent ) self.updateOriginalInput();
 		self.trigger('clear');
 	}
 

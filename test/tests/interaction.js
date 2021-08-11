@@ -362,6 +362,25 @@
 
 			});
 
+			it_n('should remove user created option when selecting other option', async () => {
+
+				var test = setup_test('AB_Single', {
+					create: true,
+					persist: false,
+				});
+
+				var len_opts_before = Object.keys(test.instance.options).length;
+				test.instance.createItem('test');
+				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before+1);
+				
+				await asyncClick(test.instance.control);
+				assert.isTrue(test.instance.isOpen);
+				var option = test.instance.getOption('a');
+				await asyncClick(option);
+				
+				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before);
+			});
+			
 		});
 
 		describe('typing in input', function() {

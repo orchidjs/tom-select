@@ -765,6 +765,20 @@
 				assert.isOk(test.instance.input.querySelector('option[value=""]'));
 			});
 
+			it_n('should remove user created option', function() {
+
+				var test = setup_test('AB_Multi', {
+					create: true,
+					persist: false,
+				});
+
+				var len_opts_before = Object.keys(test.instance.options).length;
+				test.instance.createItem('test');
+				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before+1);
+				test.instance.clear();
+				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before);
+			});
+
 		});
 
 		describe('search()', function() {
