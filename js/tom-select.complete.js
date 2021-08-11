@@ -2760,15 +2760,10 @@
 
 
 	    for (i = 0; i < n; i++) {
-	      // get option dom element, don't re-render if we
-	      let option = self.options[results.items[i].id];
-	      let opt_value = get_hash(option[self.settings.valueField]);
-	      let option_el = self.getOption(opt_value);
-
-	      if (!option_el) {
-	        option_el = self._render('option', option);
-	      } // toggle 'selected' class
-
+	      // get option dom element
+	      let opt_value = results.items[i].id;
+	      let option = self.options[opt_value];
+	      let option_el = self.getOption(opt_value, true); // toggle 'selected' class
 
 	      if (!self.settings.hideSelected) {
 	        option_el.classList.toggle('selected', self.items.includes(opt_value));
@@ -3142,9 +3137,15 @@
 	   */
 
 
-	  getOption(value) {
+	  getOption(value, create = false) {
 	    var hashed = hash_key(value);
-	    return this.rendered('option', hashed);
+	    var option_el = this.rendered('option', hashed);
+
+	    if (!option_el && create && hashed !== null) {
+	      option_el = this._render('option', this.options[hashed]);
+	    }
+
+	    return option_el;
 	  }
 	  /**
 	   * Returns the dom element of the next or previous dom element of the same type
