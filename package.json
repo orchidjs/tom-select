@@ -42,7 +42,7 @@
     "@popperjs/core": "^2.9.2",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@types/jquery": "^3.5.4",
     "@types/jqueryui": "^1.12.14",
@@ -117,6 +117,6 @@
     "url": "https://opencollective.com/tom-select"
   },
   "dependencies": {
-    "@orchidjs/sifter": "^0.8.0"
+    "@orchidjs/sifter": "^0.8.1"
   }
 }

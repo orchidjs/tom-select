@@ -1335,14 +1335,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// render and group available options individually
 		for (i = 0; i < n; i++) {
 
-			// get option dom element, don't re-render if we
-			let option			= self.options[results.items[i].id];
-			let opt_value		= get_hash(option[self.settings.valueField]);
-			let option_el		= self.getOption(opt_value);
-			if( !option_el ){
-				option_el = self._render('option', option);
-			}
-
+			// get option dom element
+			let opt_value		= results.items[i].id;
+			let option			= self.options[opt_value];
+			let option_el		= self.getOption(opt_value,true) as HTMLElement;
+			
+			
 			// toggle 'selected' class
 			if( !self.settings.hideSelected ){
 				option_el.classList.toggle('selected', self.items.includes(opt_value) );
@@ -1733,9 +1731,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * matching the given value.
 	 *
 	 */
-	getOption(value:null|string):null|HTMLElement {
+	getOption(value:null|string, create:boolean=false):null|HTMLElement {
 		var hashed = hash_key(value);
-		return this.rendered('option',hashed);
+		var option_el = this.rendered('option',hashed);
+		
+		if( !option_el && create && hashed !== null ){
+			option_el = this._render('option', this.options[hashed]);
+		}
+		
+		return option_el;
 	}
 
 	/**
@@ -2205,16 +2209,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		var items = self.controlChildren();
 		for( const item of items ){
-			item.remove();
+			self.removeItem(item,true);
 		}
 
-		self.items = [];
-		self.lastQuery = null;
-		self.setCaret(0);
-		self.clearActiveItems();
-		self.updateOriginalInput({silent: silent});
-		self.refreshState();
 		self.showInput();
+		if( !silent ) self.updateOriginalInput();
 		self.trigger('clear');
 	}
 
