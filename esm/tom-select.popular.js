@@ -376,8 +376,13 @@ const scoreValue = (value, token, weight) => {
   if (pos === 0) score += 0.5;
   return score * weight;
 };
+/**
+ *
+ * https://stackoverflow.com/questions/63006601/why-does-u-throw-an-invalid-escape-error
+ */
+
 const escape_regex = str => {
-  return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+  return (str + '').replace(/([\$\(-\+\.\?\[-\^\{-\}])/g, '\\$1');
 };
 /**
  * Cast object property to an array if it exists and has a value
@@ -3623,18 +3628,11 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var items = self.controlChildren();
 
     for (const item of items) {
-      item.remove();
+      self.removeItem(item, true);
     }
 
-    self.items = [];
-    self.lastQuery = null;
-    self.setCaret(0);
-    self.clearActiveItems();
-    self.updateOriginalInput({
-      silent: silent
-    });
-    self.refreshState();
     self.showInput();
+    if (!silent) self.updateOriginalInput();
     self.trigger('clear');
   }
   /**
