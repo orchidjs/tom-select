@@ -422,7 +422,7 @@
 				test.instance.addOption([{value: 'new1'}, {value: 'new2'}]);
 				test.instance.addItems(['a','new1','b','new2']);
 
-				var selected		= test.html.querySelectorAll('option[selected]');
+				var selected		= test.html.querySelectorAll('option:checked');
 				var option_a		= test.html.querySelector('option[value="a"]');
 				var option_new1		= test.html.querySelector('option[value="new1"]');
 				var option_b		= test.html.querySelector('option[value="b"]');
@@ -447,7 +447,7 @@
 				test.instance.createItem('new2');
 				test.instance.addItems(['a','new1','b','new2']);
 
-				var selected		= test.html.querySelectorAll('option[selected]');
+				var selected		= test.html.querySelectorAll('option:checked');
 				assert.equal(selected.length, 4,'should have four selected options');
 				assert.equal(test.instance.items.length, 4,'should have four items');
 				done();

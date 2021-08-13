@@ -2064,7 +2064,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	updateOriginalInput( opts:TomArgObject = {} ){
 		const self = this;
-		var i, value, option, option_el, label;
+		var option, label;
+		
+		const empty_option = self.input.querySelector('option[value=""]') as HTMLOptionElement;
 
 		if( self.is_select_tag ){
 
@@ -2075,43 +2077,45 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				if( !option_el ){
 					option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>') as HTMLOptionElement;
 				}
-								
-				self.input.prepend(option_el);
+
+				// don't move empty option from top of list
+				// fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293				
+				if( option_el != empty_option ){
+					self.input.append(option_el);
+				}
+				
 				selected.push(option_el);
 
-				setAttr(option_el,{selected:'true'});
 				option_el.selected = true;
 
 				return option_el;
 			}
 
 			// unselect all selected options
-			self.input.querySelectorAll('option[selected]').forEach((option_el:Element) => {
-				setAttr(option_el,{selected:null});
+			self.input.querySelectorAll('option:checked').forEach((option_el:Element) => {
 				(<HTMLOptionElement>option_el).selected = false;
 			});
 
 
 			// nothing selected?
-			if( self.items.length == 0 && self.settings.mode == 'single' && !self.isRequired ){
-				option_el = self.input.querySelector('option[value=""]') as HTMLOptionElement;
-				AddSelected(option_el, "", "");
+			if( self.items.length == 0 && self.settings.mode == 'single' ){
+							
+				AddSelected(empty_option, "", "");
 
 			// order selected <option> tags for values in self.items
 			}else{
-
-				for( i = self.items.length-1; i >=0 ; i-- ){
-					value			= self.items[i];
+					
+				self.items.forEach((value)=>{
 					option			= self.options[value];
 					label			= option[self.settings.labelField] || '';
 
 					if( selected.includes(option.$option) ){
-						const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]:not([selected])`) as HTMLOptionElement;
+						const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]:not(:checked)`) as HTMLOptionElement;
 						AddSelected(reuse_opt, value, label);
 					}else{
 						option.$option	= AddSelected(option.$option, value, label);
 					}
-				}
+				});
 
 			}
 

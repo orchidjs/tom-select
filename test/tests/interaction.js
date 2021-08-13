@@ -335,7 +335,7 @@
 						syn.type('new',test.instance.control_input,function(){
 							syn.type('[enter]',test.instance.control_input, function(){
 								click($('[data-value="a"]', test.instance.dropdown), function() {
-									var selected = test.html.querySelectorAll('option[selected]');
+									var selected = test.html.querySelectorAll('option:checked');
 									assert.equal(selected.length, 3,'should have three selected options');
 									assert.equal(option_b.nextSibling.value, 'new' ,'"new" should be after "b"');
 									assert.equal(option_b.nextSibling.nextSibling, option_a ,'"a" should be after "b"');
@@ -879,7 +879,6 @@
 				//test.instance.addItem('a');
 				//test.instance.addItem('b');
 				assert.equal( test.instance.items.length, 2 ,'items.length should = 2' );
-				assert.equal( Array.from(test.instance.input.options).filter(option => option.getAttribute('selected')).length, 2,'getAttribute(selected).length should = 2' );
 				assert.equal( Array.from(test.instance.input.options).filter(option => option.selected).length, 2,'option.selected.length should = 2' );
 
 
@@ -890,7 +889,6 @@
 						assert.equal( test.instance.items.length, 1 );
 						assert.equal( test.instance.items[0], 'a' );
 						assert.equal( option_b, option_after, 'should not remove original <option>' );
-						assert.equal( Array.from(test.instance.input.options).filter(option => option.getAttribute('selected') ).length, 1, 'getAttribute(selected).length should = 1' );
 						assert.equal( Array.from(test.instance.input.options).filter(option => option.selected).length, 1, 'option.selected.length should = 1' );
 
 						syn.type('\b', test.instance.control_input, function() {
@@ -898,7 +896,6 @@
 							var option_after = test.instance.input.querySelector('option[value="b"]');
 							assert.equal( test.instance.items.length, 0 );
 							assert.equal( option_b, option_after, 'should not remove original <option>' );
-							assert.equal( Array.from(test.instance.input.options).filter(option => option.getAttribute('selected') ).length, 0, 'getAttribute(selected).length should = 0' );
 							assert.equal( Array.from(test.instance.input.options).filter(option => option.selected).length, 0, 'option.selected.length should = 0' );
 
 							done();

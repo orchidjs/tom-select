@@ -8,8 +8,11 @@ describe('Validation', function(){
 				<option value="">Select an option...</option>
 				<option value="a">A</option>
 			</select>
-			<button type="submit">
-			</form>`);
+			<button type="submit">button</button>
+			</form>`,
+			{
+				allowEmptyOption: true,
+			});
 
 			form = test.html;
 			button = document.getElementsByTagName('button')[0];
@@ -27,25 +30,23 @@ describe('Validation', function(){
 			expect(test.instance.wrapper.classList.contains('required')).to.be.equal(true);
 		});
 
-		it_n('should pass validation if an element is selected',function(done) {
+
+		it_n('validity should update when changing values',async () => {
 			test_required();
+
+			assert.isFalse(test.select.checkValidity(),'select should be invalid');
+			assert.isFalse(form.checkValidity(),'form should be invalid');
+
+			
 			test.instance.addItem('a');
-
-			syn.click(button,function(){
-				assert.equal( form.checkValidity(), true);
-				done();
-			});
-		});
-
-
-		it_n('should not pass validation if no element is selected',function(done) {
-			test_required();
-
-			syn.click(button,function(){
-				assert.equal(form.checkValidity(),false);
-				done();
-			});
-
+			await waitFor(10);
+			assert.isTrue(test.select.checkValidity(),'select should be valid');
+			assert.isTrue(form.checkValidity(),'form should be valid');
+			
+			test.instance.removeItem('a');
+			await waitFor(10);
+			assert.isFalse(test.select.checkValidity(),'select should be invalid');
+			assert.isFalse(form.checkValidity(),'form should be invalid');
 		});
 
 		it_n('should have "invalid" class when validation fails', function(done) {
