@@ -156,9 +156,12 @@ create: function(input,callback){
 	</tr>
 	<tr>
 		<td><code>closeAfterSelect</code></td>
-		<td>If true, the dropdown will be closed after a selection is made.</td>
+		<td>After a selection is made, the dropdown will remain open if in a multi-selection control or will close in a single-selection control.
+		Setting closeAfterSelect to true will force the dropdown to close after selections are made.
+		Setting closeAfterSelect to false will keep the dropdown open after selections are made.	
+		</td>
 		<td><code>boolean</code></td>
-		<td><code>false</code></td>
+		<td><code>undefined</code></td>
 	</tr>
 	<tr>
 		<td><code>allowEmptyOption</code></td>

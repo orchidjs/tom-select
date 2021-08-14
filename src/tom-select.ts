@@ -1848,7 +1848,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.insertAtCaret(item);
 
 			if (self.isSetup) {
-				let options = self.selectable();
 
 				// update menu / remove the option (if this is not one item being added as part of series)
 				if( !self.isPending && self.settings.hideSelected ){
@@ -1866,7 +1865,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 
 				// hide the menu if the maximum number of items have been selected or no options are left
-				if ( !options.length || self.isFull()) {
+				if( self.settings.closeAfterSelect != false && self.isFull() ){
 					self.close();
 				} else if (!self.isPending) {
 					self.positionDropdown();

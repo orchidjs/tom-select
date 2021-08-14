@@ -72,6 +72,18 @@
 				});
 			});
 
+			it_n('should not close dropdown after selection made if closeAfterSelect: false and in single mode' , async () => {
+
+				var test = setup_test('AB_Single',{closeAfterSelect: false});
+
+				await asyncClick(test.instance.control);
+				assert.isTrue(test.instance.isOpen);
+				
+				await asyncClick( test.instance.dropdown.querySelector('[data-value="b"]') );
+				assert.isTrue(test.instance.isOpen);
+				
+			});
+
 			it_n('should close dropdown and clear active items after [escape] key press', async () => {
 
 				var test = setup_test('AB_Multi',{items:['a']});

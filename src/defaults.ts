@@ -22,7 +22,7 @@ export default {
 	selectOnTab: false,
 	preload: null,
 	allowEmptyOption: false,
-	closeAfterSelect: false,
+	//closeAfterSelect: false,
 
 	loadThrottle: 300,
 	loadingClass: 'loading',
