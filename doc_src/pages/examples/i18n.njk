@@ -1,0 +1,107 @@
+---
+title: Internationalization
+nav_title: Internationalization
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+
+
+{% set label %}
+<label class="h2 mb-3">
+	Internationalization
+</label>
+<p>
+	There are only a couple of default messages built into Tom Select.
+	To customize these messages, and internationalize (i18n) your Tom Select instances, use the <a href="/docs/#render-templates">render template</a> settings.
+</p>
+{% endset %}
+
+{% set html %}
+<select id="i18n" multiple>
+	<option value="">How cool is this?</option>
+	<option selected>amazing</option>
+	<option selected>awesome</option>
+	<option>cool</option>
+	<option>excellent</option>
+	<option>great</option>
+	<option>neat</option>
+	<option>superb</option>
+	<option>wonderful</option></select>
+{% endset %}
+
+
+<script>
+{% set script %}
+
+new TomSelect('#i18n',{
+	create: true,
+	render:{
+		option_create: function( data, escape ){
+			return '<div class="create">Ajouter <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+		},
+		no_results: function( data, escape ){
+			return '<div class="no-results">Aucun résultat trouvé</div>';
+		},
+	}
+});
+{% endset %}
+</script>
+
+
+{{ demo( label, html, script, style) }}
+
+
+{% set label %}
+<label class="h2 mb-3">
+	RTL Input
+</label>
+<p>
+	Tom Select will work on RTL websites if the <code>dir</code> attribute is set for the context of your Tom Select instance.
+</p>
+{% endset %}
+
+{% set html %}
+<div dir="rtl">
+<input type="text" id="input-tags" value="awesome,neat">
+</div>
+{% endset %}
+
+
+<script>
+{% set script %}
+new TomSelect('#input-tags',{
+	persist: false,
+	create: true
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+{% set label %}
+<label class="h2 mb-3">
+	RTL Select
+</label>
+{% endset %}
+
+{% set html %}
+<select id="select-beast" placeholder="Select a person..." dir="rtl">
+	<option value="">Select a person...</option>
+	<option value="4">Thomas Edison</option>
+	<option value="1">Nikola</option>
+	<option value="3">Nikola Tesla</option>
+	<option value="5">Arnold Schwarzenegger</option>
+</select>
+{% endset %}
+
+
+<script>
+{% set script %}
+new TomSelect('#select-beast');
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
