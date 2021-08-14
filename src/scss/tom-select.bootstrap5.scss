@@ -56,6 +56,10 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 @import "tom-select";
 
+.#{$select-ns}-wrapper.form-control,
+.#{$select-ns}-wrapper.form-select{
+	padding:0 !important;
+}
 
 .#{$select-ns}-dropdown,
 .#{$select-ns}-dropdown.form-control,
