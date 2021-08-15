@@ -50,7 +50,7 @@ describe('plugin: clear_button', function() {
 		
 		// select "a"
 		await asyncClick( test.instance.control );
-		var option = test.instance.dropdown_content.querySelector('[data-value="a"');
+		var option = test.instance.dropdown_content.querySelector('[data-value="a"]');
 		await asyncClick( option );
 		var itema	= test.instance.getItem('a');
 		assert.isOk( itema,'should have item "a"');
