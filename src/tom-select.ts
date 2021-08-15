@@ -2,7 +2,7 @@
 import MicroEvent from './contrib/microevent.js';
 import MicroPlugin from './contrib/microplugin.js';
 import Sifter from '@orchidjs/sifter/lib/sifter';
-import { escape_regex } from '@orchidjs/sifter/lib/utils';
+import { escape_regex, iterate } from '@orchidjs/sifter/lib/utils';
 import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight.js';
 import * as constants from './constants.js';
@@ -84,7 +84,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public options					: TomOptions = {};
 	public userOptions				: {[key:string]:boolean} = {};
 	public items					: string[] = [];
-	public renderCache				: {[key:string]:{[key:string]:HTMLElement}} = {'item':{},'option':{}};
 
 
 
@@ -1614,26 +1613,25 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var item_new;
 		var index_item;
 
-		const hashed		= hash_key(value);
-		if (hashed === null) return;
-
-
+		const value_old		= hash_key(value);
 		const value_new		= hash_key(data[self.settings.valueField]);
-		const option		= self.getOption(hashed);
-		const item			= self.getItem(hashed);
-
-
+		
 		// sanity checks
-		if (!self.options.hasOwnProperty(hashed)) return;
-		if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
+		if( value_old === null ) return;
+		if( !self.options.hasOwnProperty(value_old) ) return;
+		if( typeof value_new !== 'string' ) throw new Error('Value must be set in option data');
 
-		data.$order = data.$order || self.options[hashed].$order;
-		delete self.options[hashed];
+
+		const option		= self.getOption(value_old);
+		const item			= self.getItem(value_old);
+
+
+		data.$order = data.$order || self.options[value_old].$order;
+		delete self.options[value_old];
 
 		// invalidate render cache
 		// don't remove existing node yet, we'll remove it after replacing it
 		self.uncacheValue(value_new);
-		self.uncacheValue(hashed,false);
 
 		self.options[value_new] = data;
 
@@ -1653,7 +1651,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// update the item if we have one
 		if( item ){
-			index_item = self.items.indexOf(hashed);
+			index_item = self.items.indexOf(value_old);
 			if (index_item !== -1) {
 				self.items.splice(index_item, 1, value_new);
 			}
@@ -1695,6 +1693,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.userOptions		= {};
 		this.clearCache();
 		var selected:TomOptions	= {};
+		//iterate(this.options,(option,key)=>{
 		for( let key in this.options){
     		if( this.options.hasOwnProperty(key) && this.items.indexOf(key) >= 0 ){
 				selected[key] = this.options[key];
@@ -1708,38 +1707,26 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 	/**
-	 * Removes a value from item and option caches
-	 *
-	 */
-	uncacheValue(value:string, remove_node:boolean=true){
-		const self				= this;
-		const cache_items		= self.renderCache['item'];
-		const cache_options		= self.renderCache['option'];
-
-		if (cache_items) delete cache_items[value];
-		if (cache_options) delete cache_options[value];
-
-		if( remove_node ){
-			const option_el			= self.getOption(value);
-			if( option_el ) option_el.remove();
-		}
-	}
-
-
-	/**
 	 * Returns the dom element of the option
 	 * matching the given value.
 	 *
 	 */
 	getOption(value:null|string, create:boolean=false):null|HTMLElement {
-		var hashed = hash_key(value);
-		var option_el = this.rendered('option',hashed);
-		
-		if( !option_el && create && hashed !== null ){
-			option_el = this._render('option', this.options[hashed]);
+		const hashed = hash_key(value);
+
+		if( hashed !== null && this.options.hasOwnProperty(hashed) ){
+			const option = this.options[hashed];
+						
+			if( option.$div ){
+				return option.$div;
+			}
+			
+			if( create ){
+				return this._render('option', option);
+			}
 		}
 		
-		return option_el;
+		return null;
 	}
 
 	/**
@@ -2473,15 +2460,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	_render( templateName:TomTemplateNames, data?:any ):HTMLElement{
 		var value = '', id, html;
 		const self = this;
-
-		if (templateName === 'option' || templateName === 'item') {
+		
+		if( templateName === 'option' || templateName == 'item' ){
 			value	= get_hash(data[self.settings.valueField]);
-			html	= self.rendered(templateName,value);
-
-			if( html ){
-				return html;
-			}
-
 		}
 
 		// render markup
@@ -2523,25 +2504,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					role:'option',
 					id:data.$id
 				});
+
+				// update cache
+				self.options[value].$div = html;
 			}
 
-			// update cache
-			self.renderCache[templateName][value] = html;
 
 		}
 
 		return html;
 	}
 
-	/**
-	 * Return the previously rendered item or option
-	 *
-	 */
-	rendered( templateName:TomTemplateNames, value:null|string ):null|HTMLElement{
-		return value !== null && this.renderCache[templateName].hasOwnProperty(value)
-			? this.renderCache[templateName][value]
-			: null;
-	}
 
 	/**
 	 * Clears the render cache for a template. If
@@ -2549,22 +2522,25 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * caches.
 	 *
 	 */
-	clearCache( templateName?:'item'|'option' ):void{
-		var self = this;
+	clearCache():void{
 
-		// remove options from DOM
-		if(templateName === void 0 || 'option' ){
-			for( let key in self.options){
-				const el = self.getOption(key);
-				if( el ) el.remove();
+		iterate(this.options, (option, value)=>{
+			if( option.$div ){
+				option.$div.remove();
+				delete option.$div;
 			}
-		}
+		});
+		
+	}
 
-		if( templateName === void 0 ){
-			self.renderCache = {'item':{},'option':{}};
-		} else {
-			self.renderCache[templateName] = {};
-		}
+	/**
+	 * Removes a value from item and option caches
+	 *
+	 */
+	uncacheValue(value:string){
+
+		const option_el			= this.getOption(value);
+		if( option_el ) option_el.remove();
 
 	}
 

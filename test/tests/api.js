@@ -897,43 +897,17 @@
 			});
 
 
-			it_n('should clear the whole renderCache', function () {
+			it_n('should clear all cached option nodes', function () {
 				var option_el_before = test.instance.getOption('0');
 
 				assert.isOk(option_el_before);
-				expect( Object.keys(test.instance.renderCache['item']).length === 0).to.be.equal(false);
-				expect( Object.keys(test.instance.renderCache['option']).length === 0).to.be.equal(false);
 
 				test.instance.clearCache();
 
 				var option_el_after = test.instance.getOption('0');
 				assert.isNull(option_el_after,'should clear option dom after clearCache()');
-				expect( Object.keys(test.instance.renderCache['item']).length).to.be.equal(0);
-				expect( Object.keys(test.instance.renderCache['option']).length).to.be.equal(0);
 			});
 
-			it_n('should allow clearing just one template type from the renderCache', function () {
-				test.instance.render('item', test.instance.options[0]);
-				test.instance.render('option', test.instance.options[0]);
-				var option_el_before = test.instance.getOption('0');
-				assert.isOk(option_el_before);
-				expect( Object.keys(test.instance.renderCache['option']).length === 0,'option cache empty').to.be.equal(false);
-				expect( Object.keys(test.instance.renderCache['item']).length === 0,'item cache empty').to.be.equal(false);
-
-				test.instance.clearCache('option');
-
-				var option_el_after = test.instance.getOption('0');
-				assert.isNull(option_el_after,'should clear option dom after clearCache()');
-				expect( Object.keys(test.instance.renderCache['option']).length === 0, 'option cache not emptied').to.be.equal(true);
-				expect( Object.keys(test.instance.renderCache['item']).length === 0, 'item cache emptied').to.be.equal(false);
-			});
-
-			it_n('should return identical item dom', function () {
-				var first	= test.instance.render('item', test.instance.options[0]);
-				var second	= test.instance.render('item', test.instance.options[0]);
-				expect(first).to.be.equal(second);
-
-			});
 
 			it_n('should return different item dom after clearCache()', function () {
 				var first	= test.instance.render('item', test.instance.options[0]);
