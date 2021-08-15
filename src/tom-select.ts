@@ -189,11 +189,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// set attributes
 			var attrs = ['autocorrect','autocapitalize','autocomplete'];
-			for( const attr of attrs ){
+			iterate(attrs,(attr) => {
 				if( input.getAttribute(attr) ){
 					setAttr(control_input,{[attr]:input.getAttribute(attr)});
 				}
-			}
+			});
 			
 			control_input.tabIndex = -1;
 			control.appendChild( control_input );
@@ -435,9 +435,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// build optgroup table
-		for( const optgroup of optgroups ){
+		iterate( optgroups, (optgroup) => {
 			this.registerOptionGroup(optgroup);
-		}
+		});
 	}
 
 	/**
@@ -595,9 +595,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 
 				var splitInput = pastedText.trim().split(self.settings.splitOn);
-				for( const piece of splitInput ){
+				iterate( splitInput, (piece) => {
 					self.createItem(piece);
-				}
+				});
 			}, 0);
 		}
 	}
@@ -1304,7 +1304,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	refreshOptions( triggerDropdown:boolean = true ){
-		var i, j, k, n, optgroup, optgroups, html, has_create_option, active_value, active_group;
+		var i, j, k, n, optgroup, optgroups, html:DocumentFragment, has_create_option, active_value, active_group;
 		var create;
 		const groups: {[key:string]:DocumentFragment} = {};
 
@@ -1386,7 +1386,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// render optgroup headers & join groups
 		html = document.createDocumentFragment();
-		for( optgroup of groups_order ){
+		iterate( groups_order, (optgroup) => {
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 
 				let group_options = document.createDocumentFragment();
@@ -1401,7 +1401,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			} else {
 				append( html, groups[optgroup] );
 			}
-		}
+		});
 
 		dropdown_content.innerHTML = '';
 		append( dropdown_content, html );
@@ -1410,9 +1410,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (self.settings.highlight) {
 			removeHighlight( dropdown_content );
 			if (results.query.length && results.tokens.length) {
-				for( const tok of results.tokens ){
+				iterate( results.tokens, (tok) => {
 					highlight( dropdown_content, tok.regex);
-				}
+				});
 			}
 		}
 
@@ -1540,9 +1540,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	addOptions( data:TomOption[], user_created = false ):void{
-		for( const dat of data ){
+		iterate( data, (dat) => {
 			this.addOption(dat, user_created);
-		}
+		});
 	}
 
 	/**
@@ -1693,12 +1693,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.userOptions		= {};
 		this.clearCache();
 		var selected:TomOptions	= {};
-		//iterate(this.options,(option,key)=>{
-		for( let key in this.options){
-    		if( this.options.hasOwnProperty(key) && this.items.indexOf(key) >= 0 ){
+		iterate(this.options,(option,key)=>{
+    		if( this.items.indexOf(key as string) >= 0 ){
 				selected[key] = this.options[key];
 			}
-		}
+		});
 
 		this.options = this.sifter.items = selected;
 		this.lastQuery = null;
@@ -2198,9 +2197,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (!self.items.length) return;
 
 		var items = self.controlChildren();
-		for( const item of items ){
+		iterate(items,(item)=>{
 			self.removeItem(item,true);
-		}
+		});
 
 		self.showInput();
 		if( !silent ) self.updateOriginalInput();
@@ -2244,9 +2243,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			if (direction > 0) { caret++; }
 
-			for( const item of self.activeItems ){
-				rm_items.push( item );
-			}
+			iterate(self.activeItems, (item) => rm_items.push(item) );
 
 		} else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
 			const items = self.controlChildren();
