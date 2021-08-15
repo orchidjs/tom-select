@@ -3189,7 +3189,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     }
 
     var value = hash_key(item);
-    return value ? this.control.querySelector(`[data-value="${addSlashes(value)}"]`) : null;
+    return value !== null ? this.control.querySelector(`[data-value="${addSlashes(value)}"]`) : null;
   }
   /**
    * "Selects" multiple items at once. Adds them to the list
