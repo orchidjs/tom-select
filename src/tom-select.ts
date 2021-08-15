@@ -301,7 +301,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		addEvent(control,'click', (evt) => {
 
-			var target_match = parentMatch( evt.target as HTMLElement, '.'+self.settings.itemClass, control);
+			var target_match = parentMatch( evt.target as HTMLElement, '[data-ts-item]', control);
 			if( target_match && self.onItemSelect(evt as MouseEvent, target_match as TomItem) ){
 				preventDefault(evt,true);
 				return;
@@ -2365,7 +2365,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	controlChildren():TomItem[]{
-		return Array.from( this.control.getElementsByClassName(this.settings.itemClass) ) as TomItem[];
+		return Array.from( this.control.querySelectorAll('[data-ts-item]') ) as TomItem[];
 	}
 
 	/**
@@ -2495,6 +2495,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// make sure we have some classes if a template is overwritten
 			if( templateName === 'item' ){
 				addClasses(html,self.settings.itemClass);
+				setAttr(html,{'data-ts-item':''});
 			}else{
 				addClasses(html,self.settings.optionClass);
 				setAttr(html,{
