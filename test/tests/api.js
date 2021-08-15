@@ -682,6 +682,11 @@
 				expect(test.instance.getItem(undefined)).to.be.equal(null);
 				//expect(test.instance.getItem(undefined).length).to.be.equal(0);
 			});
+
+			it_n('should get empty item',()=>{
+				var test = setup_test('<select><option value="">empty</option><option value="a">a</option></select>',{allowEmptyOption:true});
+				assert.isOk( test.instance.getItem('') );
+			});
 		});
 
 		describe('clear()', function() {
