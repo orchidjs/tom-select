@@ -68,6 +68,37 @@ new TomSelect('#clear-button-single',{
 {{ demo( label, html, script) }}
 
 
+{% set label %}
+<label class="h2 mb-3">
+	Select Single with Empty Option
+</label>
+{% endset %}
+
+
+{% set html %}
+<select type="text" id="clear-button-empty" autocomplete="off">
+	<option value="">How cool is this?</option>
+	<option>awesome</option>
+	<option>neat</option>
+</select>
+{% endset %}
+
+<script>
+{% set script %}
+new TomSelect('#clear-button-empty',{
+	allowEmptyOption: true,
+	maxItems:1,
+	plugins: ['clear_button'],
+	persist: false,
+	create: true,
+});
+{% endset %}
+</script>
+
+
+{{ demo( label, html, script) }}
+
+
 <h2>Plugin Configuration</h2>
 
 {{ config_table([
