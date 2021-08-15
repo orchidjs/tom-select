@@ -1747,7 +1747,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		var value = hash_key(item);
-		return value
+		return value !== null
 			? this.control.querySelector(`[data-value="${addSlashes(value)}"]`)
 			: null;
 	}
