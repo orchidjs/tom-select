@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.7
+* Tom Select v1.7.8
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -27,7 +27,6 @@ function forEvents(events, callback) {
 
 class MicroEvent {
   constructor() {
-    this._events = void 0;
     this._events = {};
   }
 
@@ -190,12 +189,23 @@ function MicroPlugin(Interface) {
 }
 
 // https://github.com/andrewrk/node-diacritics/blob/master/index.js
+var latin_pat;
+const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}]'; // \u{2bc}
+
+const accent_reg = new RegExp(accent_pat, 'g');
+var diacritic_patterns;
+const latin_convert = {
+  'æ': 'ae',
+  'ⱥ': 'a',
+  'ø': 'o'
+};
+const convert_pat = new RegExp(Object.keys(latin_convert).join('|'), 'g');
 /**
  * code points generated from toCodePoints();
  * removed 65339 to 65345
  */
 
-var code_points = [[67, 67], [160, 160], [192, 438], [452, 652], [961, 961], [1019, 1019], [1083, 1083], [1281, 1289], [1984, 1984], [5095, 5095], [7429, 7441], [7545, 7549], [7680, 7935], [8580, 8580], [9398, 9449], [11360, 11391], [42792, 42793], [42802, 42851], [42873, 42897], [42912, 42922], [64256, 64260], [65313, 65338], [65345, 65370]];
+const code_points = [[67, 67], [160, 160], [192, 438], [452, 652], [961, 961], [1019, 1019], [1083, 1083], [1281, 1289], [1984, 1984], [5095, 5095], [7429, 7441], [7545, 7549], [7680, 7935], [8580, 8580], [9398, 9449], [11360, 11391], [42792, 42793], [42802, 42851], [42873, 42897], [42912, 42922], [64256, 64260], [65313, 65338], [65345, 65370]];
 /**
  * Remove accents
  * via https://github.com/krisk/Fuse/issues/133#issuecomment-318692703
@@ -203,50 +213,90 @@ var code_points = [[67, 67], [160, 160], [192, 438], [452, 652], [961, 961], [10
  */
 
 const asciifold = str => {
-  return str.normalize('NFD').replace(/[\u0300-\u036F]/g, '').normalize('NFKD').toLowerCase();
+  return str.normalize('NFKD').replace(accent_reg, '').toLowerCase().replace(convert_pat, function (foreignletter) {
+    return latin_convert[foreignletter];
+  });
+};
+/**
+ * Convert array of strings to a regular expression
+ *	ex ['ab','a'] => (?:ab|a)
+ *
+ */
+
+
+const arrayToPattern = (chars, glue = '|') => {
+  if (chars.length > 1) {
+    return '(?:' + chars.join(glue) + ')';
+  }
+
+  return chars[0];
+};
+/**
+ * Get all possible combinations of substrings that add up to the given string
+ * https://stackoverflow.com/questions/30169587/find-all-the-combination-of-substrings-that-add-up-to-the-given-string
+ *
+ */
+
+const allSubstrings = input => {
+  if (input.length === 1) return [[input]];
+  var result = [];
+  allSubstrings(input.substring(1)).forEach(function (subresult) {
+    var tmp = subresult.slice(0);
+    tmp[0] = input.charAt(0) + tmp[0];
+    result.push(tmp);
+    tmp = subresult.slice(0);
+    tmp.unshift(input.charAt(0));
+    result.push(tmp);
+  });
+  return result;
 };
 /**
  * Generate a list of diacritics from the list of code points
  *
  */
 
-
 const generateDiacritics = () => {
-  var latin_convert = {
-    'l·': 'l',
-    'ʼn': 'n',
-    'æ': 'ae',
-    'ø': 'o',
-    'aʾ': 'a',
-    'dž': 'dz'
-  };
-  var diacritics = {}; //var no_latin	= [];
-
+  var diacritics = {};
   code_points.forEach(code_range => {
     for (let i = code_range[0]; i <= code_range[1]; i++) {
       let diacritic = String.fromCharCode(i);
-      let latin = diacritic.normalize('NFD').replace(/[\u0300-\u036F]/g, '').normalize('NFKD');
+      let latin = asciifold(diacritic);
 
-      if (latin == diacritic) {
-        //no_latin.push(diacritic);
+      if (latin == diacritic.toLowerCase()) {
         continue;
       }
 
-      latin = latin.toLowerCase();
-
-      if (latin in latin_convert) {
-        latin = latin_convert[latin];
-      }
-
       if (!(latin in diacritics)) {
-        diacritics[latin] = latin + latin.toUpperCase();
+        diacritics[latin] = [latin];
       }
 
-      diacritics[latin] += diacritic;
+      diacritics[latin].push(diacritic);
     }
-  }); //console.log('no_latin',JSON.stringify(no_latin));
+  });
+  var latin_chars = Object.keys(diacritics); // latin character pattern
+  // match longer substrings first
 
-  return diacritics;
+  latin_chars = latin_chars.sort((a, b) => b.length - a.length);
+  latin_pat = new RegExp('(' + arrayToPattern(latin_chars) + accent_pat + '*)', 'g'); // build diacritic patterns
+  // ae needs: 
+  //	(?:(?:ae|Æ|Ǽ|Ǣ)|(?:A|Ⓐ|Ａ...)(?:E|ɛ|Ⓔ...))
+
+  var diacritic_patterns = {};
+  latin_chars.sort((a, b) => a.length - b.length).forEach(latin => {
+    var substrings = allSubstrings(latin);
+    var pattern = substrings.map(sub_pat => {
+      sub_pat = sub_pat.map(l => {
+        if (diacritics.hasOwnProperty(l)) {
+          return arrayToPattern(diacritics[l]);
+        }
+
+        return l;
+      });
+      return arrayToPattern(sub_pat, '');
+    });
+    diacritic_patterns[latin] = arrayToPattern(pattern);
+  });
+  return diacritic_patterns;
 };
 /**
  * Expand a regular expression pattern to include diacritics
@@ -254,54 +304,34 @@ const generateDiacritics = () => {
  *
  */
 
-var diacritics = null;
 const diacriticRegexPoints = regex => {
-  if (diacritics === null) {
-    diacritics = generateDiacritics();
+  if (diacritic_patterns === undefined) {
+    diacritic_patterns = generateDiacritics();
   }
 
-  for (let latin in diacritics) {
-    if (diacritics.hasOwnProperty(latin)) {
-      regex = regex.replace(new RegExp(latin, 'g'), '[' + diacritics[latin] + ']');
+  const decomposed = regex.normalize('NFKD').toLowerCase();
+  return decomposed.split(latin_pat).map(part => {
+    if (part == '') {
+      return '';
+    } // "ﬄ" or "ffl"
+
+
+    const no_accent = asciifold(part);
+
+    if (diacritic_patterns.hasOwnProperty(no_accent)) {
+      return diacritic_patterns[no_accent];
+    } // 'أهلا' (\u{623}\u{647}\u{644}\u{627}) or 'أهلا' (\u{627}\u{654}\u{647}\u{644}\u{627})
+
+
+    const composed_part = part.normalize('NFC');
+
+    if (composed_part != part) {
+      return arrayToPattern([part, composed_part]);
     }
-  }
 
-  return regex;
+    return part;
+  }).join('');
 };
-/**
- * Expand a regular expression pattern to include diacritics
- * 	eg /a/ becomes /aⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐɑAⒶＡÀÁÂẦẤẪẨÃĀĂẰẮẴẲȦǠÄǞẢÅǺǍȀȂẠẬẶḀĄȺⱯ/
- *
- * rollup will bundle this function (and the DIACRITICS constant) unless commented out
- *
-var diacriticRegex = (function() {
-
-	var list = [];
-	for( let letter in DIACRITICS ){
-
-		if( letter.toLowerCase() != letter && letter.toLowerCase() in DIACRITICS ){
-			continue;
-		}
-
-		if( DIACRITICS.hasOwnProperty(letter) ){
-
-			var replace = letter + DIACRITICS[letter];
-			if( letter.toUpperCase() in DIACRITICS ){
-				replace += letter.toUpperCase() + DIACRITICS[letter.toUpperCase()];
-			}
-
-			list.push({let:letter,pat:'['+replace+']'});
-		}
-	}
-
-	return function(regex:string):string{
-		list.forEach((item)=>{
-			regex = regex.replace( new RegExp(item.let,'g'),item.pat);
-		});
-		return regex;
-	}
-})();
-*/
 
 // @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
 
@@ -347,8 +377,13 @@ const scoreValue = (value, token, weight) => {
   if (pos === 0) score += 0.5;
   return score * weight;
 };
+/**
+ *
+ * https://stackoverflow.com/questions/63006601/why-does-u-throw-an-invalid-escape-error
+ */
+
 const escape_regex = str => {
-  return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+  return (str + '').replace(/([\$\(-\+\.\?\[-\^\{-\}])/g, '\\$1');
 };
 /**
  * Cast object property to an array if it exists and has a value
@@ -422,8 +457,6 @@ class Sifter {
    *
    */
   constructor(items, settings) {
-    this.items = void 0;
-    this.settings = void 0;
     this.items = items;
     this.settings = settings || {
       diacritics: true
@@ -467,7 +500,7 @@ class Sifter {
 
       tokens.push({
         string: word,
-        regex: regex ? new RegExp(regex, 'i') : null,
+        regex: regex ? new RegExp(regex, 'iu') : null,
         field: field
       });
     });
@@ -699,10 +732,9 @@ class Sifter {
       options.fields = fields;
     }
 
-    query = asciifold(query + '').toLowerCase().trim();
     return {
       options: options,
-      query: query,
+      query: query.toLowerCase().trim(),
       tokens: this.tokenize(query, options.respect_word_boundaries, weights),
       total: 0,
       items: [],
@@ -1444,24 +1476,10 @@ var instance_i = 0;
 class TomSelect extends MicroPlugin(MicroEvent) {
   constructor(input_arg, settings) {
     super();
-    this.control_input = void 0;
-    this.wrapper = void 0;
-    this.dropdown = void 0;
-    this.control = void 0;
-    this.dropdown_content = void 0;
     this.order = 0;
-    this.settings = void 0;
-    this.input = void 0;
-    this.tabIndex = void 0;
-    this.is_select_tag = void 0;
-    this.rtl = void 0;
-    this.inputId = void 0;
-    this._destroy = void 0;
-    this.sifter = void 0;
     this.tab_key = false;
     this.isOpen = false;
     this.isDisabled = false;
-    this.isRequired = void 0;
     this.isInvalid = false;
     this.isLocked = false;
     this.isFocused = false;
@@ -1469,7 +1487,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.isSetup = false;
     this.ignoreFocus = false;
     this.hasOptions = false;
-    this.currentResults = void 0;
     this.lastValue = '';
     this.caretPos = 0;
     this.loading = 0;
@@ -2721,15 +2738,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
     for (i = 0; i < n; i++) {
-      // get option dom element, don't re-render if we
-      let option = self.options[results.items[i].id];
-      let opt_value = get_hash(option[self.settings.valueField]);
-      let option_el = self.getOption(opt_value);
-
-      if (!option_el) {
-        option_el = self._render('option', option);
-      } // toggle 'selected' class
-
+      // get option dom element
+      let opt_value = results.items[i].id;
+      let option = self.options[opt_value];
+      let option_el = self.getOption(opt_value, true); // toggle 'selected' class
 
       if (!self.settings.hideSelected) {
         option_el.classList.toggle('selected', self.items.includes(opt_value));
@@ -3103,9 +3115,15 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  getOption(value) {
+  getOption(value, create = false) {
     var hashed = hash_key(value);
-    return this.rendered('option', hashed);
+    var option_el = this.rendered('option', hashed);
+
+    if (!option_el && create && hashed !== null) {
+      option_el = this._render('option', this.options[hashed]);
+    }
+
+    return option_el;
   }
   /**
    * Returns the dom element of the next or previous dom element of the same type
@@ -3155,7 +3173,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     }
 
     var value = hash_key(item);
-    return value ? this.control.querySelector(`[data-value="${addSlashes(value)}"]`) : null;
+    return value !== null ? this.control.querySelector(`[data-value="${addSlashes(value)}"]`) : null;
   }
   /**
    * "Selects" multiple items at once. Adds them to the list
@@ -3595,18 +3613,11 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var items = self.controlChildren();
 
     for (const item of items) {
-      item.remove();
+      self.removeItem(item, true);
     }
 
-    self.items = [];
-    self.lastQuery = null;
-    self.setCaret(0);
-    self.clearActiveItems();
-    self.updateOriginalInput({
-      silent: silent
-    });
-    self.refreshState();
     self.showInput();
+    if (!silent) self.updateOriginalInput();
     self.trigger('clear');
   }
   /**

@@ -380,7 +380,7 @@ export default class TomSelect extends TomSelect_base {
      * matching the given value.
      *
      */
-    getOption(value: null | string): null | HTMLElement;
+    getOption(value: null | string, create?: boolean): null | HTMLElement;
     /**
      * Returns the dom element of the next or previous dom element of the same type
      * Note: adjacent options may not be adjacent DOM elements (optgroups)
