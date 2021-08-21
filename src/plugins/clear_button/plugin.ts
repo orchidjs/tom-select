@@ -32,6 +32,11 @@ TomSelect.define('clear_button',function(this:TomSelect, userOptions:CBOptions) 
 		var button = getDom(options.html(options));
 		button.addEventListener('click',(evt)=>{
 			self.clear();
+			
+			if( self.settings.mode === 'single' && self.settings.allowEmptyOption ){
+				self.addItem('');
+			}
+			
 			evt.preventDefault();
 			evt.stopPropagation();
 		});

@@ -85,30 +85,41 @@ $select-spinner-border-color:					$select-color-border !default;
 
 @mixin ts-caret(){
 
-	.#{$select-ns}-control.single .#{$select-ns}-input {
-		padding-right: 2rem;
-		
-		&, input { cursor: pointer; }
-		&.input-active, &.input-active input { cursor: text; }
-
-		&:after {
-			content: ' ';
-			display: block;
-			position: absolute;
-			top: 50%;
-			right: $select-arrow-offset;
-			margin-top: round((-1 * $select-arrow-size / 2));
-			width: 0;
-			height: 0;
-			border-style: solid;
-			border-width: $select-arrow-size $select-arrow-size 0 $select-arrow-size;
-			border-color: $select-arrow-color transparent transparent transparent;
+	.#{$select-ns}-wrapper.single{
+	
+		.#{$select-ns}-control {
+			padding-right: 2rem;
+			
+			&, input {
+				cursor: pointer;
+			}
+			
+			&:after {
+				content: ' ';
+				display: block;
+				position: absolute;
+				top: 50%;
+				right: $select-arrow-offset;
+				margin-top: round((-1 * $select-arrow-size / 2));
+				width: 0;
+				height: 0;
+				border-style: solid;
+				border-width: $select-arrow-size $select-arrow-size 0 $select-arrow-size;
+				border-color: $select-arrow-color transparent transparent transparent;
+			}
 		}
-		&.dropdown-active:after {
+
+		&.dropdown-active .#{$select-ns}-control::after {
 			margin-top: $select-arrow-size * -0.8;
 			border-width: 0 $select-arrow-size $select-arrow-size $select-arrow-size;
 			border-color: transparent transparent $select-arrow-color transparent;
 		}
+		
+		&.input-active .#{$select-ns}-control, 
+		&.input-active .#{$select-ns}-control input { 
+			cursor: text;
+		}
+		
 	}
 }
 
@@ -122,13 +133,13 @@ $select-spinner-border-color:					$select-color-border !default;
 @import "../plugins/remove_button/plugin.scss";
 
 
-.#{$select-ns}-control {
+.#{$select-ns}-wrapper {
 	position: relative;
 }
 
 .#{$select-ns}-dropdown,
-.#{$select-ns}-input,
-.#{$select-ns}-input input {
+.#{$select-ns}-control,
+.#{$select-ns}-control input {
 	color: $select-color-text;
 	font-family: $select-font-family;
 	font-size: $select-font-size;
@@ -136,11 +147,23 @@ $select-spinner-border-color:					$select-color-border !default;
 	font-smoothing: $select-font-smoothing;
 }
 
-.#{$select-ns}-input,
-.#{$select-ns}-control.single .#{$select-ns}-input.input-active {
+.#{$select-ns}-control,
+.#{$select-ns}-wrapper.single.input-active .#{$select-ns}-control {
 	background: $select-color-input;
 	cursor: text;
 }
 
 @import 'items';
 @import 'dropdown';
+
+.ts-hidden-accessible{
+	border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+    white-space: nowrap !important;
+}

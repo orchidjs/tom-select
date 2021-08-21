@@ -1,4 +1,4 @@
-.#{$select-ns}-control.plugin-remove_button{
+.#{$select-ns}-wrapper.plugin-remove_button{
 
 	.item{
 		display:		inline-flex;
@@ -26,11 +26,11 @@
 		border-left-color: $select-color-item-active-border;
 	}
 
-	.disabled .item .remove:hover {
+	&.disabled .item .remove:hover {
 		background: none;
 	}
 
-	.disabled .item .remove {
+	&.disabled .item .remove {
 		border-left-color: lighten(desaturate($select-color-item-border, 100%), $select-lighten-disabled-item-border);
 	}
 

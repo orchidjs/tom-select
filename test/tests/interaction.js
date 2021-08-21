@@ -72,18 +72,16 @@
 				});
 			});
 
+			it_n('should not close dropdown after selection made if closeAfterSelect: false and in single mode' , async () => {
 
-			it_n('should blur dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
+				var test = setup_test('AB_Single',{closeAfterSelect: false});
 
-				var test = setup_test('AB_Single',{closeAfterSelect: true});
-
-				click(test.instance.control, function() {
-					expect(test.instance.isFocused).to.be.equal(true);
-					click($('[data-value=a]', test.instance.dropdown_content), function() {
-						expect(test.instance.isFocused).to.be.equal(false);
-						done();
-					});
-				});
+				await asyncClick(test.instance.control);
+				assert.isTrue(test.instance.isOpen);
+				
+				await asyncClick( test.instance.dropdown.querySelector('[data-value="b"]') );
+				assert.isTrue(test.instance.isOpen);
+				
 			});
 
 			it_n('should close dropdown and clear active items after [escape] key press', async () => {
@@ -349,7 +347,7 @@
 						syn.type('new',test.instance.control_input,function(){
 							syn.type('[enter]',test.instance.control_input, function(){
 								click($('[data-value="a"]', test.instance.dropdown), function() {
-									var selected = test.html.querySelectorAll('option[selected]');
+									var selected = test.html.querySelectorAll('option:checked');
 									assert.equal(selected.length, 3,'should have three selected options');
 									assert.equal(option_b.nextSibling.value, 'new' ,'"new" should be after "b"');
 									assert.equal(option_b.nextSibling.nextSibling, option_a ,'"a" should be after "b"');
@@ -474,17 +472,6 @@
 					.type('\b\b\b', test.instance.control_input, function() {
 						expect(test.instance.isOpen).to.be.equal(true);
 						expect( isVisible(test.instance.dropdown) ).to.be.equal(true);
-						done();
-					});
-				});
-			});
-
-			it_n('should move caret when [left] or [right] pressed', function(done) {
-				var test = setup_test('<input type="text" value="a,b,c,d">', {create: true});
-
-				click(test.instance.control, function() {
-					syn.type('[left][left]whatt', test.instance.control_input, function() {
-						expect(test.instance.caretPos).to.be.equal(2);
 						done();
 					});
 				});
@@ -626,27 +613,6 @@
 
 			});
 
-			it_n('should move caret left when [left] pressed, then should select item after control when ['+shortcut_key+'][right] pressed', function(done) {
-				var test = setup_test('AB_Multi');
-
-				test.instance.addItem('a');
-				test.instance.addItem('b');
-				var itemb = test.instance.getItem('b');
-				var itema = test.instance.getItem('a');
-
-				click(test.instance.control, function() {
-
-					syn.type('[left]['+shortcut_key+'][right]['+shortcut_key+'-up]', test.instance.control_input, function() {
-
-						assert.equal( test.instance.activeItems.length , 1);
-						assert.equal( test.instance.activeItems[0] , itemb);
-						assert.equal( itemb.previousElementSibling, test.instance.control_input );
-
-						done();
-					});
-				});
-
-			});
 
 
 			it_n('should not select next item when ['+shortcut_key+'][right] pressed at the end of item list', function(done) {
@@ -667,27 +633,6 @@
 
 			});
 
-			it_n('should move caret before selected item when [left] pressed', function(done) {
-				var test = setup_test('AB_Multi');
-
-				test.instance.addItem('a');
-				test.instance.addItem('b');
-
-				click(test.instance.control, function() {
-
-					test.instance.setActiveItem(test.instance.getItem('b'));
-
-					let last_active			= test.instance.getLastActive();
-					expect( last_active.nextElementSibling ).to.be.equal( test.instance.control_input );
-
-					syn.type('[left]', test.instance.control_input, function() {
-						let last_active			= test.instance.getLastActive();
-						expect( last_active.previousElementSibling ).to.be.equal( test.instance.control_input );
-						done();
-					});
-				});
-
-			});
 
 
 			it_n('clicking item should activate it', async () => {
@@ -702,22 +647,28 @@
 			});
 
 
-			it_n('should select option with [enter] keypress (single)', function(done) {
+			it_n('should select option with [enter] keypress (single)', async () => {
 
 				var test = setup_test('AB_Single');
 
-				click(test.instance.control, function() {
-					expect(test.instance.activeOption.dataset.value).to.be.equal('a');
+				await asyncClick(test.instance.control);
+				
+				assert.equal(test.instance.activeOption.dataset.value,'a');
 
-					syn.type('a', test.instance.control_input, function() {
-						syn.type('[enter]', test.instance.control_input, function() {
-							assert.equal( test.instance.items.length, 1);
-							assert.equal( test.instance.items[0], 'a');
-							assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
-							done();
-						});
-					});
-				});
+				await asyncType('a', test.instance.control_input);
+				await asyncType('[enter]', test.instance.control_input);
+				
+				assert.equal( test.instance.items.length, 1);
+				assert.equal( test.instance.items[0], 'a');
+				assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
+
+				await asyncType('[b]', test.instance.control_input);
+				await asyncType('[enter]', test.instance.control_input);
+
+				assert.equal( test.instance.items.length, 1);
+				assert.equal( test.instance.items[0], 'b');
+				assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
+			
 			});
 
 
@@ -775,7 +726,7 @@
 					syn.type('[tab]', test.instance.control_input, function() {
 						assert.equal(test.instance.items.length,0);
 						assert.isFalse(test.instance.isFocused);
-						assert.equal(document.activeElement,document.getElementById('next-input'));
+						//assert.equal(document.activeElement,document.getElementById('next-input'));
 						done();
 
 					});
@@ -940,7 +891,6 @@
 				//test.instance.addItem('a');
 				//test.instance.addItem('b');
 				assert.equal( test.instance.items.length, 2 ,'items.length should = 2' );
-				assert.equal( Array.from(test.instance.input.options).filter(option => option.getAttribute('selected')).length, 2,'getAttribute(selected).length should = 2' );
 				assert.equal( Array.from(test.instance.input.options).filter(option => option.selected).length, 2,'option.selected.length should = 2' );
 
 
@@ -951,7 +901,6 @@
 						assert.equal( test.instance.items.length, 1 );
 						assert.equal( test.instance.items[0], 'a' );
 						assert.equal( option_b, option_after, 'should not remove original <option>' );
-						assert.equal( Array.from(test.instance.input.options).filter(option => option.getAttribute('selected') ).length, 1, 'getAttribute(selected).length should = 1' );
 						assert.equal( Array.from(test.instance.input.options).filter(option => option.selected).length, 1, 'option.selected.length should = 1' );
 
 						syn.type('\b', test.instance.control_input, function() {
@@ -959,32 +908,12 @@
 							var option_after = test.instance.input.querySelector('option[value="b"]');
 							assert.equal( test.instance.items.length, 0 );
 							assert.equal( option_b, option_after, 'should not remove original <option>' );
-							assert.equal( Array.from(test.instance.input.options).filter(option => option.getAttribute('selected') ).length, 0, 'getAttribute(selected).length should = 0' );
 							assert.equal( Array.from(test.instance.input.options).filter(option => option.selected).length, 0, 'option.selected.length should = 0' );
 
 							done();
 						});
 
 
-					});
-				});
-
-			});
-
-			it_n('should remove first item when left then backspace pressed', function(done) {
-
-				var test = setup_test('AB_Multi');
-
-				test.instance.addItem('a');
-				test.instance.addItem('b');
-				assert.equal( test.instance.items.length, 2 );
-
-				click(test.instance.control, function() {
-					syn.type('[left]\b', test.instance.control_input, function() {
-
-						assert.equal( test.instance.items.length, 1 );
-						assert.equal( test.instance.items[0], 'b' );
-						done();
 					});
 				});
 
@@ -1232,19 +1161,17 @@
 
 		describe('openOnFocus', function() {
 
-			it_n('only open after arrow down when openOnFocus=false', function(done) {
+			it_n('only open after arrow down when openOnFocus=false', async () => {
 
 				var test = setup_test('AB_Single',{
 					openOnFocus: false,
 				});
 
-				click(test.instance.control, function(){
-					expect(test.instance.isOpen).to.be.equal(false);
-					syn.type('[down]', test.instance.control_input, function() {
-						expect(test.instance.isOpen).to.be.equal(true);
-						done();
-					});
-				});
+				await asyncClick(test.instance.control);
+				assert.isFalse(test.instance.isOpen);
+				
+				await asyncType('[down]', test.instance.control_input);
+				assert.isTrue(test.instance.isOpen);
 			});
 
 			it_n('[enter] should not add item when dropdown isn\'t open', function(done) {

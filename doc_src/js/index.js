@@ -33,11 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		return;
 	}
 
-	var themes			= window.themes || ['bootstrap5','bootstrap4','bootstrap3','default'];
+	var themes			= window.themes || ['bootstrap5','bootstrap4','default'];
 	var theme_options = {
 		bootstrap5: 'Bootstrap 5',
 		bootstrap4: 'Bootstrap 4',
-		bootstrap3: 'Bootstrap 3',
 		default: 'Default',
 	};
 

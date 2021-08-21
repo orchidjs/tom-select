@@ -15,62 +15,72 @@
 
 import TomSelect from '../../tom-select.js';
 import * as constants from '../../constants.js';
-import { getDom, setAttr } from '../../vanilla';
-import { addEvent } from '../../utils';
+import { getDom, addClasses } from '../../vanilla';
+import { addEvent, preventDefault } from '../../utils';
 
 
 TomSelect.define('dropdown_input',function(this:TomSelect) {
 	var self = this;
 
-	var input = self.settings.controlInput || '<input type="text" autocomplete="off" class="dropdown-input" />';
-	input = getDom( input ) as HTMLInputElement;
-
-	if (self.settings.placeholder) {
-		setAttr(input,{placeholder:self.settings.placeholder});
-	}
-
-	self.settings.controlInput = input;
 	self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
+	
+	self.hook('before','setup',()=>{
+		self.focus_node		= self.control;
+		
+		addClasses( self.control_input, 'dropdown-input');
 
+	 	const div = getDom('<div class="dropdown-input-wrap">');
+		div.append(self.control_input);
+		self.dropdown.insertBefore(div, self.dropdown.firstChild);
+	});
+	
+		
 	self.on('initialize',()=>{
 
-		// open/close dropdown when tabbing focus on wrapper
-		addEvent(self.wrapper,'focus', (evt) => {
-			self.onFocus(evt as MouseEvent)
-		});
-		
-		const setTabIndex = () => {
-			setAttr(self.wrapper,{tabindex:self.input.disabled ? '-1' : self.tabIndex});
-		};
-		
-		self.on('dropdown_close',setTabIndex);
-		self.on('dropdown_open',() => setAttr(self.wrapper,{tabindex:'-1'}) );
-		setTabIndex();
-
-
-		// keyboard navigation
-		addEvent(self.wrapper,'keypress',(evt) => {
-
-			if( self.control.contains(evt.target as HTMLElement) ){
+		// set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
+		self.control_input.addEventListener('keydown',(evt:KeyboardEvent) =>{
+		//addEvent(self.control_input,'keydown' as const,(evt:KeyboardEvent) =>{
+			switch( evt.keyCode ){
+				case constants.KEY_ESC:
+					if (self.isOpen) {
+						preventDefault(evt,true);
+						self.close();
+					}
+					self.clearActiveItems();
 				return;
+				case constants.KEY_TAB:
+					self.focus_node.tabIndex = -1;
+				break;
 			}
-
-			if( self.dropdown.contains(evt.target as HTMLElement) ){
-				return;
-			}
-
-			// open dropdown on enter when wrapper is tab-focused
-			switch( (<KeyboardEvent>evt).keyCode ){
-				case constants.KEY_RETURN:
-					self.onClick();
-				return;
-			}
-
+			return self.onKeyDown.call(self,evt);
 		});
 
-		let div = getDom('<div class="dropdown-input-wrap">');
-		div.appendChild(input);
-		self.dropdown.insertBefore(div, self.dropdown.firstChild);
+		self.on('blur',()=>{
+			self.focus_node.tabIndex = self.isDisabled ? -1 : self.tabIndex;
+		});
+		
+		
+		// give the control_input focus when the dropdown is open
+		self.on('dropdown_open',() =>{
+			self.control_input.focus();
+		});
+		
+		// prevent onBlur from closing when focus is on the control_input
+		const orig_onBlur = self.onBlur;
+		self.hook('instead','onBlur',(evt?:FocusEvent)=>{
+			if( evt && evt.relatedTarget == self.control_input ) return;
+			return orig_onBlur.call(self);
+		});
+
+		addEvent(self.control_input,'blur', () => self.onBlur() );
+
+		// return focus to control to allow further keyboard input
+		self.hook('before','close',() =>{
+			
+			if( !self.isOpen ) return;
+			self.focus_node.focus();
+		});
+
 	});
 
 });

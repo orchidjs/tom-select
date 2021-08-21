@@ -38,9 +38,18 @@ Note: using CSS Selectors that match multiple elements will only create a Tom Se
 	</tr>
 	</thead>
 	<tr>
-		<td><code>addOption(data)</code></td>
-		<td>Adds an available option, or array of options. If it already exists, nothing will happen. Note: this does not refresh the options list dropdown (use refreshOptions() for that).</td>
+		<td><code>addOption(data,user_created=false)</code></td>
+		<td>Adds an available option.
+		If it already exists, nothing will happen. 
+		Options created with <code>user_created=true</code> will not show up as available options once they are unselected if <code>config.persist=false</code>
+		Note: this does not refresh the options list dropdown (use refreshOptions() for that).
+	</td>
 	</tr>
+	<tr>
+		<td><code>addOptions(data[],user_created=false)</code></td>
+		<td>Adds an array of options</td>
+	</tr>
+	
 	<tr>
 		<td><code>updateOption(value, data)</code></td>
 		<td>Updates an option available for selection. If it is visible in the selected items or options dropdown, it will be re-rendered automatically.</td>
@@ -228,8 +237,8 @@ Note: using CSS Selectors that match multiple elements will only create a Tom Se
 		<td>Returns whether or not the user can select more items.</td>
 	</tr>
 	<tr>
-		<td><code>clearCache(template)</code></td>
-		<td>Clears the render cache. Takes an optional template argument (e.g. <code>option</code> , <code>item</code>) to clear only that cache.</td>
+		<td><code>clearCache()</code></td>
+		<td>Clear cached option renderings.</td>
 	</tr>
 	<tr>
 		<td><code>updatePlaceholder()</code></td>
@@ -239,6 +248,10 @@ Note: using CSS Selectors that match multiple elements will only create a Tom Se
 	<tr>
 		<td><code>setTextboxValue(str)</code></td>
 		<td>Sets the value of the input field.</td>
+	</tr>
+	<tr>
+		<td><code>sync()</code></td>
+		<td>Synchronizes the Tom Select instance with the underlying &lt;select&gt; or &lt;input&gt;</td>
 	</tr>
 </table>
 

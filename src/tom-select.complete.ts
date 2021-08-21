@@ -4,6 +4,7 @@ import './plugins/checkbox_options/plugin.js';
 import './plugins/clear_button/plugin.js';
 import './plugins/drag_drop/plugin.js';
 import './plugins/dropdown_header/plugin.js';
+import './plugins/caret_position/plugin.js';
 import './plugins/dropdown_input/plugin.js';
 import './plugins/input_autogrow/plugin.js';
 import './plugins/no_backspace_delete/plugin.js';

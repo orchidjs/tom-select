@@ -15,27 +15,16 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 @import "tom-select";
 @include ts-caret();
 
-.#{$select-ns}-control {
+.#{$select-ns}-wrapper {
 	&.multi {
-		.#{$select-ns}-input {
-			&.has-items {
-				$padding-x: $select-padding-x - 3px;
-				padding-left: $padding-x;
-				padding-right: $padding-x;
-			}
-			&.disabled [data-value] {
-				color: #999;
-				text-shadow: none;
-				background: none;
-				box-shadow: none;
-
-				&, .remove {
-					border-color: #e6e6e6;
-				}
-				.remove {
-					background: none;
-				}
-			}
+		
+		&.has-items .#{$select-ns}-control {
+			$padding-x: $select-padding-x - 3px;
+			padding-left: $padding-x;
+			padding-right: $padding-x;	
+		}
+		
+		.#{$select-ns}-control {
 			[data-value] {
 				text-shadow: 0 1px 0 rgba(0,51,83,0.3);
 				border-radius: 3px;
@@ -46,21 +35,36 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 				}
 			}
 		}
+
+		&.disabled .#{$select-ns}-control [data-value] {
+			color: #999;
+			text-shadow: none;
+			background: none;
+			box-shadow: none;
+
+			&, .remove {
+				border-color: #e6e6e6;
+			}
+			.remove {
+				background: none;
+			}
+		}
+		
 	}
 	&.single {
-		.#{$select-ns}-input {
+		.#{$select-ns}-control {
 			box-shadow: 0 1px 0 rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.8);
 			@include selectize-vertical-gradient(#fefefe, #f2f2f2);
 		}
 	}
 }
 
-.#{$select-ns}-control.single .#{$select-ns}-input, .#{$select-ns}-dropdown.single {
+.#{$select-ns}-wrapper.single .#{$select-ns}-control, .#{$select-ns}-dropdown.single {
 	border-color: #b8b8b8;
 }
 
-.#{$select-ns}-input {
-	&.dropdown-active {
+.#{$select-ns}-control {
+	.dropdown-active & {
 		border-radius: $select-border-radius $select-border-radius 0 0;
 	}
 }

@@ -1,4 +1,6 @@
 
+import { iterate } from '@orchidjs/sifter/lib/utils';
+
 /**
  * Return a dom element from either a dom query string, jQuery object, a dom element or html string
  * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
@@ -86,14 +88,14 @@ export const addClasses = ( elmts:HTMLElement|HTMLElement[], ...classes:string[]
  */
 export const classesArray = (args:string[]|string[][]):string[] => {
 	var classes:string[] = [];
-	for( let _classes of args ){
+	iterate( args, (_classes) =>{
 		if( typeof _classes === 'string' ){
 			_classes = _classes.trim().split(/[\11\12\14\15\40]/);
 		}
 		if( Array.isArray(_classes) ){
 			classes = classes.concat(_classes);
 		}
-	}
+	});
 
 	return classes.filter(Boolean);
 }
@@ -183,14 +185,13 @@ export const nodeIndex = ( el:null|Element, amongst?:string ):number => {
  *
  */
 export const setAttr = (el:Element,attrs:{ [key: string]: null|string|number }) => {
-	for( const attr in attrs ){
-		let val = attrs[attr];
+	iterate( attrs,(val,attr) => {
 		if( val == null ){
-			el.removeAttribute(attr);
+			el.removeAttribute(attr as string);
 		}else{
-			el.setAttribute(attr, ''+val);
+			el.setAttribute(attr as string, ''+val);
 		}
-	}
+	});
 }
 
 

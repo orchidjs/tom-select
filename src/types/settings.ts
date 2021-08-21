@@ -50,7 +50,7 @@ export type TomSettings = {
 
 	mode					: string,
 	wrapperClass			: string,
-	inputClass				: string,
+	controlClass			: string,
 	dropdownClass			: string,
 	dropdownContentClass	: string,
 	itemClass				: string,

@@ -1,6 +1,6 @@
 
 
-.#{$select-ns}-input {
+.#{$select-ns}-control {
 
 	border: $select-border;
 	padding: $select-padding-y $select-padding-x;
@@ -14,23 +14,23 @@
 	display: flex;
 	flex-wrap: wrap;
 
-	.#{$select-ns}-control.multi &.has-items {
+	.#{$select-ns}-wrapper.multi.has-items & {
 		$padding-x: $select-padding-x;
 		$padding-top: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-width-item-border});
 		$padding-bottom: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-margin-item-y} - #{$select-width-item-border});
 		padding: $padding-top $padding-x $padding-bottom;
 	}
 
-	&.full {
+	.full & {
 		background-color: $select-color-input-full;
 	}
 
-	&.disabled,
-	&.disabled * {
+	.disabled &,
+	.disabled & * {
 		cursor: default !important;
 	}
 
-	&.focus {
+	.focus & {
 		box-shadow: $select-shadow-input-focus;
 	}
 
@@ -39,7 +39,7 @@
 		display: inline-block;
 	}
 
-	.#{$select-ns}-control.multi & > div {
+	.#{$select-ns}-wrapper.multi & > div {
 		cursor: pointer;
 		margin: 0 $select-margin-item-x $select-margin-item-y 0;
 		padding: $select-padding-item-y $select-padding-item-x;
@@ -54,7 +54,7 @@
 		}
 	}
 
-	.#{$select-ns}-control.multi &.disabled > div {
+	.#{$select-ns}-wrapper.multi.disabled & > div {
 		&, &.active {
 			color: lighten(desaturate($select-color-item-text, 100%), $select-lighten-disabled-item-text);
 			background: lighten(desaturate($select-color-item, 100%), $select-lighten-disabled-item);
@@ -84,33 +84,22 @@
 		&:focus { outline: none !important; }
 	}
 
-	&.has-items > input{
+	.has-items & > input{
 		margin: $select-caret-margin !important;
-	}
-
-	&.dropdown-active::before {
-		content: ' ';
-		display: block;
-		position: absolute;
-		background: $select-color-dropdown-border-top;
-		height: 1px;
-		bottom: 0;
-		left: 0;
-		right: 0;
 	}
 
 	&.rtl {
 		text-align: right;
-		&.single .#{$select-ns}-input:after {
+		&.single .#{$select-ns}-control:after {
 			left: $select-arrow-offset;
 			right: auto;
 		}
-		.#{$select-ns}-input > input {
+		.#{$select-ns}-control > input {
 			margin: $select-caret-margin-rtl !important;
 		}
 	}
 
-	&.disabled {
+	.disabled & {
 		opacity: $select-opacity-disabled;
 		background-color: $select-color-disabled;
 	}

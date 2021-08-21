@@ -387,7 +387,7 @@
 				test = setup_test('<select disabled>', {});
 			});
 			it_n('should have "disabled" class', function() {
-				expect(test.instance.control.classList.contains('disabled')).to.be.equal(true);
+				expect(test.instance.wrapper.classList.contains('disabled')).to.be.equal(true);
 			});
 			it_n('should have isDisabled property set to true', function() {
 				expect(test.instance.isDisabled).to.be.equal(true);

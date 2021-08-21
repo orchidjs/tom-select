@@ -1,18 +1,18 @@
 
-.#{$select-ns}-control.plugin-input_autogrow{
+.#{$select-ns}-wrapper.plugin-input_autogrow{
 
-	.#{$select-ns}-input{
-		&.has-items > input {
-			min-width: 0;
-		}
+	&.has-items .#{$select-ns}-control > input {
+		min-width: 0;
+	}
+	
+	&.has-items.focus .#{$select-ns}-control > input {
+		flex: none;
+		min-width: 4px;
 
-		&.focus.has-items > input {
-			flex: none;
-			min-width: 4px;
-
-			&::placeholder {
-				color:transparent;
-			}
+		&::placeholder {
+			color:transparent;
 		}
 	}
+
+	
 }

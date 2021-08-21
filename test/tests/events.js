@@ -248,22 +248,15 @@ describe('Events', function() {
 	});
 
 	describe('option_add', function() {
-		it_n('should contain option value', function(done) {
-			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-			test.instance.on('option_add', function(value, data) {
-				expect(value).to.be.equal('e');
-				done();
-			});
-			test.instance.addOption({value: 'e'});
-		});
-		it_n('should contain option data', function(done) {
+		it_n('should contain option value and data', function(done) {
 			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
 			var option = {value: 'e'};
 			test.instance.on('option_add', function(value, data) {
-				expect(option).to.eql(data);
+				assert.equal(option,data);
+				assert.equal(value,'e');
 				done();
 			});
-			test.instance.addOption(option);
+			test.instance.addOption(option,true);
 		});
 	});
 
@@ -329,31 +322,5 @@ describe('Events', function() {
 			syn.click(test.instance.control).type('a', test.instance.control_input);
 		});
 	});
-
-
-	describe('invalid',function(){
-
-		it_n('should be invalid if pattern does not match', function() {
-
-			var test = setup_test('<form><input class="setup-here" pattern="[a-z]+" required /><button type="submit" id="submit"></button></form>',{create:true});
-
-			test.instance.createItem('BB');
-			document.getElementById('submit').click();
-			expect(test.instance.isInvalid).to.be.true;
-
-		});
-
-		it_n('should be valid if pattern matches', function() {
-
-			var test = setup_test('<input pattern="[a-z]+" required />',{create:true});
-
-			test.instance.createItem('bb');
-			test.instance.refreshState();
-			expect(test.instance.isInvalid).to.be.false;
-		});
-
-
-
-	});
-
+	
 });

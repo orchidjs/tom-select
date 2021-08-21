@@ -8,27 +8,35 @@
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script> -->
 		<script src="bootstrap.bundle.js"></script>
 		<style>
-		.ts-input.has-items > input::placeholder {
-   color:transparent;
-}
+		.has-items .ts-control > input::placeholder {
+		   color:transparent;
+		}
 </style>
 	</head>
 	<body>
 
 		<div class="p-4">
 			<form method="get">
-			<input name="before" />
-			<select id="input-tags" placeholder="How cool is this?" multiple>
-				<optgroup label="A">
-					<option>One</option>
-					<option>Two</option>
-				</optgroup>
-				<optgroup label="B">
-					<option>One</option>
-					<option>Two</option>
-				</optgroup>
-			</selec>
-			<input name="before" />
+			<div class="py-3">
+				<input name="before" autocomplete="off" />
+			</div>
+	
+			<div class="py-3">
+				<label for="input-tags">label</label>
+				<select id="input-tags" placeholder="How cool is this?" multiple>
+					<optgroup label="A">
+						<option>One</option>
+						<option>Two</option>
+					</optgroup>
+					<optgroup label="B">
+						<option>One</option>
+						<option>Two</option>
+					</optgroup>
+				</select>
+			</div>
+			<div class="py-3">
+				<input name="after" autocomplete="off" />
+			</div>
 			<button type="submit">submit</button>
 			</form>
 		</div>

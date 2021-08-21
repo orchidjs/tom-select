@@ -13,6 +13,8 @@ Review changes to the Tom Select API to help you migrate from v1 to v2.
 * Original &lt;input&gt; or &lt;select&gt; element uses 'hidden-accessible' styling instead of 'hidden'
 * controlInput=null instead of controlInput='&lt;input&gt;' for hidden control input
 * Deprecated isInvalid. Use isValid instead
+* Removed support for ```querySelector('option[selected]')```. Use ```querySelector('option:checked')``` instead
+* Removed renderCache
 
 ## CSS
 * Renamed ```.ts-control``` to ```.ts-wrapper``` to align css class with name in JavaScript

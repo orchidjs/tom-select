@@ -6,11 +6,7 @@ describe('plugin: dropdown_input', function() {
 	it_n('dropdown should open onclick', function(done) {
 		let test = setup_test('<input value="a,b" tabindex="1" placeholder="test placeholder" />', {plugins: ['dropdown_input']});
 
-		// confirm controlInput is in dropdown
-		assert.equal( test.instance.dropdown.contains(test.instance.settings.controlInput), true);
-
-		// confirm placeholder has been applied to dropdown input
-		assert.equal( test.instance.settings.controlInput.getAttribute('placeholder'), 'test placeholder');
+		assert.isTrue( test.instance.dropdown.contains(test.instance.control_input), 'control_input should be in dropdown');
 
 		syn.click(test.instance.control).delay(0,function(){
 			assert.equal(test.instance.isOpen, true);
@@ -27,18 +23,115 @@ describe('plugin: dropdown_input', function() {
 
 	});
 
-	it_n('[enter] on wrapper should open', function(done) {
+	it_n('should select option with [enter] keypress (single)', async () => {
 
-		let test = setup_test('<input value="a,b" tabindex="1" />', {plugins: ['dropdown_input']});
-		var adjacent = document.getElementById('adjacent-input');
+		var test = setup_test('AB_Single', {plugins: ['dropdown_input']});
 
-		assert.equal(test.instance.wrapper.tabIndex, 1);
+		await asyncClick(test.instance.control);
+		
+		assert.equal(test.instance.activeOption.dataset.value,'a');
 
-		syn.type('[enter]',test.instance.wrapper,function(){
-			assert.equal(test.instance.isOpen, true);
-			done();
+		await asyncType('a', test.instance.control_input);
+		await asyncType('[enter]', test.instance.control_input);
+		
+		assert.equal( test.instance.items.length, 1);
+		assert.equal( test.instance.items[0], 'a');
+		assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
+		assert.equal(test.instance.isOpen, false);
+
+		await asyncType('[down]', document.activeElement);
+		assert.equal(test.instance.isOpen, true);
+
+		await asyncType('[b]', test.instance.control_input);
+		await asyncType('[enter]', test.instance.control_input);
+
+		assert.equal( test.instance.items.length, 1);
+		assert.equal( test.instance.items[0], 'b');
+		assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
+	
+	});
+
+
+	it_n('only open after arrow down when openOnFocus=false', async () => {
+
+		var test = setup_test('AB_Single',{
+			plugins: ['dropdown_input'],
+			openOnFocus: false,
+		});
+
+		await asyncClick(test.instance.control);
+		assert.isFalse(test.instance.isOpen);
+		
+		await asyncType('[down]', test.instance.control_input);
+		assert.isTrue(test.instance.isOpen);
+	});
+
+
+	it_n('should load results for "a" after loading results for "ab"', function(done) {
+
+		var expected_load_queries = ['ab','a'];
+
+		var test = setup_test('AB_Single',{
+			plugins: ['dropdown_input'],
+			load: function(query, load_cb) {
+
+				var expected_load_query = expected_load_queries.shift();
+
+				assert.equal(query, expected_load_query);
+
+				if( expected_load_queries.length == 0 ){
+					done();
+				}
+
+				return load_cb();
+			}
+		});
+
+		click(test.instance.control, function(){
+			syn.type('a', test.instance.control_input,function(){
+				assert.equal(test.instance.loading,1);
+				syn.type('b', test.instance.control_input,function(){
+					assert.equal(test.instance.loading,1);
+					setTimeout(function(){
+						syn.type('\b', test.instance.control_input,function(){
+							assert.equal(test.instance.loading,1);
+						});
+					},400); // greater than load throttle
+				});
+			});
 		});
 
 	});
+	
+	it_n('[esc] to close & [down] to open',async () =>{
+		
+		var test = setup_test('AB_Multi',{
+			plugins: ['dropdown_input'],
+		});
+		
+		await asyncClick( test.instance.control );
+		assert.isTrue( test.instance.isOpen );
 
+		await asyncType('[escape]', document.activeElement );
+		assert.isFalse( test.instance.isOpen, 'not closed' );
+		
+		await asyncType('[down]', document.activeElement );
+		assert.isTrue( test.instance.isOpen, 'not re-opened' );
+
+	});
+	
+	it_n('clicking outside should close', async () => {
+
+		var test = setup_test('AB_Multi',{
+			plugins: ['dropdown_input'],
+		});
+		
+		await asyncClick( test.instance.control );
+		assert.isTrue( test.instance.isOpen );
+
+		await asyncClick( document.body );
+		assert.isFalse( test.instance.isOpen );
+		
+	});
+	
 });

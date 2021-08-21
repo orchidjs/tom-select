@@ -7,14 +7,14 @@
 
 			before(function() {
 				test = setup_test('<select tabindex="4">', {});
-				expect(String(test.instance.control_input.tabIndex)).to.be.equal('4');
+				expect(String(test.instance.focus_node.tabIndex)).to.be.equal('4');
 				test.instance.disable();
 			});
 			it_n('should set "tabindex" prop to -1', function() {
-				expect(String(test.instance.control_input.tabIndex)).to.be.equal('-1');
+				expect(String(test.instance.focus_node.tabIndex)).to.be.equal('-1');
 			});
 			it_n('should set "disabled" class', function() {
-				expect(test.instance.control.classList.contains('disabled')).to.be.equal(true);
+				expect(test.instance.wrapper.classList.contains('disabled')).to.be.equal(true);
 			});
 			it_n('should set isDisabled property to true', function() {
 				expect(test.instance.isDisabled).to.be.equal(true);
@@ -54,11 +54,11 @@
 
 			before(function() {
 				test = setup_test('<select disabled tabindex="2">', {});
-				expect(String(test.instance.control_input.tabIndex)).to.be.equal('-1');
+				expect(String(test.instance.focus_node.tabIndex)).to.be.equal('-1');
 				test.instance.enable();
 			});
 			it_n('should restore original "tabindex" prop', function() {
-				expect(String(test.instance.control_input.tabIndex)).to.be.equal('2');
+				expect(String(test.instance.focus_node.tabIndex)).to.be.equal('2');
 			});
 			it_n('should remove "disabled" class', function() {
 				expect(test.instance.control.classList.contains('disabled')).to.be.equal(false);
@@ -422,7 +422,7 @@
 				test.instance.addOption([{value: 'new1'}, {value: 'new2'}]);
 				test.instance.addItems(['a','new1','b','new2']);
 
-				var selected		= test.html.querySelectorAll('option[selected]');
+				var selected		= test.html.querySelectorAll('option:checked');
 				var option_a		= test.html.querySelector('option[value="a"]');
 				var option_new1		= test.html.querySelector('option[value="new1"]');
 				var option_b		= test.html.querySelector('option[value="b"]');
@@ -447,7 +447,7 @@
 				test.instance.createItem('new2');
 				test.instance.addItems(['a','new1','b','new2']);
 
-				var selected		= test.html.querySelectorAll('option[selected]');
+				var selected		= test.html.querySelectorAll('option:checked');
 				assert.equal(selected.length, 4,'should have four selected options');
 				assert.equal(test.instance.items.length, 4,'should have four items');
 				done();
@@ -857,49 +857,14 @@
 		});
 
 		describe('destroy()', function() {
-			var has_namespaced_event = function($el, ns) {
-				var i, n, key;
-				var data = ($._data || $.data).apply($, [$(window)[0], 'events']);
-				ns = ns.replace(/^./, '');
-				for (key in data) {
-					if (data.hasOwnProperty(key)) {
-						for (i = 0, n = data[key].length; i < n; i++) {
-							if (data[key][i].namespace.indexOf(ns) !== -1) {
-								return true;
-							}
-						}
-					}
-				}
 
-				return false;
-			};
 			it_n('should remove control from DOM', function() {
 				var test = setup_test('<select>', {});
 				test.instance.destroy();
-				expect($.contains(document.documentElement, test.instance.wrapper)).to.be.equal(false);
+				assert.isFalse( document.documentElement.contains(test.instance.wrapper), 'should remove control from DOM');
+				assert.isUndefined( test.instance.input.instance, 'should delete "instance" reference on original input element');
 			});
-			it_n('should delete "instance" reference on original input element', function() {
-				var test = setup_test('<select>', {});
-				test.instance.destroy();
-				expect(test.instance.input.instance).to.be.equal(undefined);
-			});
-			/*
-			it_n('should unbind events on window', function() {
-				var test = setup_test('<select>', {});
-				test.instance.destroy();
-				expect(has_namespaced_event($(window), test.instance.eventNS)).to.be.equal(false);
-			});
-			it_n('should unbind events on document', function() {
-				var test = setup_test('<select>', {});
-				test.instance.destroy();
-				expect(has_namespaced_event($(document), test.instance.eventNS)).to.be.equal(false);
-			});
-			it_n('should unbind events on <body>', function() {
-				var test = setup_test('<select>', {});
-				test.instance.destroy();
-				expect(has_namespaced_event($('body'), test.instance.eventNS)).to.be.equal(false);
-			});
-			*/
+
 			it_n('should restore original options and tabindex', function() {
 				var children = '<optgroup label="Swedish Cars">' +
 					'<option value="volvo">Volvo</option>' +
@@ -937,43 +902,17 @@
 			});
 
 
-			it_n('should clear the whole renderCache', function () {
+			it_n('should clear all cached option nodes', function () {
 				var option_el_before = test.instance.getOption('0');
 
 				assert.isOk(option_el_before);
-				expect( Object.keys(test.instance.renderCache['item']).length === 0).to.be.equal(false);
-				expect( Object.keys(test.instance.renderCache['option']).length === 0).to.be.equal(false);
 
 				test.instance.clearCache();
 
 				var option_el_after = test.instance.getOption('0');
 				assert.isNull(option_el_after,'should clear option dom after clearCache()');
-				expect( Object.keys(test.instance.renderCache['item']).length).to.be.equal(0);
-				expect( Object.keys(test.instance.renderCache['option']).length).to.be.equal(0);
 			});
 
-			it_n('should allow clearing just one template type from the renderCache', function () {
-				test.instance.render('item', test.instance.options[0]);
-				test.instance.render('option', test.instance.options[0]);
-				var option_el_before = test.instance.getOption('0');
-				assert.isOk(option_el_before);
-				expect( Object.keys(test.instance.renderCache['option']).length === 0,'option cache empty').to.be.equal(false);
-				expect( Object.keys(test.instance.renderCache['item']).length === 0,'item cache empty').to.be.equal(false);
-
-				test.instance.clearCache('option');
-
-				var option_el_after = test.instance.getOption('0');
-				assert.isNull(option_el_after,'should clear option dom after clearCache()');
-				expect( Object.keys(test.instance.renderCache['option']).length === 0, 'option cache not emptied').to.be.equal(true);
-				expect( Object.keys(test.instance.renderCache['item']).length === 0, 'item cache emptied').to.be.equal(false);
-			});
-
-			it_n('should return identical item dom', function () {
-				var first	= test.instance.render('item', test.instance.options[0]);
-				var second	= test.instance.render('item', test.instance.options[0]);
-				expect(first).to.be.equal(second);
-
-			});
 
 			it_n('should return different item dom after clearCache()', function () {
 				var first	= test.instance.render('item', test.instance.options[0]);
@@ -1046,4 +985,17 @@
 			});
 		});
 
+		describe('sync()',function(){
+			it_n('sync() should update options',function(){
+				const test		= setup_test('AB_Single',{items:['a']});
+				var opt_count	= Object.keys(test.instance.options).length;
+				var opt			= new Option('new', 'new',true,true);
+				test.select.append(opt);
+				test.instance.sync();
+
+				assert.equal( Object.keys(test.instance.options).length, opt_count+1);
+				assert.equal(test.instance.items.length, 1,'should have one item');
+				assert.equal(test.instance.items[0], 'new');
+			});
+		});
 	});

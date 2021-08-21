@@ -14,25 +14,11 @@
  */
 
 import TomSelect from '../../tom-select.js';
-import getSettings from '../../getSettings.js';
-import { TomSettings } from '../../types/index';
 import { addEvent } from '../../utils';
 
 TomSelect.define('change_listener',function(this:TomSelect){
-	const self		= this;
-	const joined	= (arr:string[]):string => arr.join(self.settings.delimiter);
-
-	addEvent(self.input,'change',()=>{
-
-		var settings	= getSettings( self.input, {delimiter:self.settings.delimiter} as TomSettings );
-
-		// prevent infinite loops
-		if( joined(self.items) == joined(settings.items) ){
-			return;
-		}
-
-		self.setupOptions(settings.options,settings.optgroups);
-		self.setValue(settings.items);
+	addEvent(this.input,'change',()=>{
+		this.sync();
 	});
 
 });
