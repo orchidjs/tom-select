@@ -37,6 +37,10 @@ describe('plugin: dropdown_input', function() {
 		assert.equal( test.instance.items.length, 1);
 		assert.equal( test.instance.items[0], 'a');
 		assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
+		assert.equal(test.instance.isOpen, false);
+
+		await asyncType('[down]', document.activeElement);
+		assert.equal(test.instance.isOpen, true);
 
 		await asyncType('[b]', test.instance.control_input);
 		await asyncType('[enter]', test.instance.control_input);
@@ -97,5 +101,37 @@ describe('plugin: dropdown_input', function() {
 			});
 		});
 
-	});	
+	});
+	
+	it_n('[esc] to close & [down] to open',async () =>{
+		
+		var test = setup_test('AB_Multi',{
+			plugins: ['dropdown_input'],
+		});
+		
+		await asyncClick( test.instance.control );
+		assert.isTrue( test.instance.isOpen );
+
+		await asyncType('[escape]', document.activeElement );
+		assert.isFalse( test.instance.isOpen, 'not closed' );
+		
+		await asyncType('[down]', document.activeElement );
+		assert.isTrue( test.instance.isOpen, 'not re-opened' );
+
+	});
+	
+	it_n('clicking outside should close', async () => {
+
+		var test = setup_test('AB_Multi',{
+			plugins: ['dropdown_input'],
+		});
+		
+		await asyncClick( test.instance.control );
+		assert.isTrue( test.instance.isOpen );
+
+		await asyncClick( document.body );
+		assert.isFalse( test.instance.isOpen );
+		
+	});
+	
 });

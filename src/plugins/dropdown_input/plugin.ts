@@ -76,7 +76,8 @@ TomSelect.define('dropdown_input',function(this:TomSelect) {
 
 		// return focus to control to allow further keyboard input
 		self.hook('before','close',() =>{
-		//self.on('dropdown_close',() =>{
+			
+			if( !self.isOpen ) return;
 			self.focus_node.focus();
 		});
 
