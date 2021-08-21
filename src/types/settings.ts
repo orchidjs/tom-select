@@ -4,13 +4,16 @@ import {
 	escape_html,
 } from '../utils';
 
+import { TPluginItem, TPluginHash } from '../contrib/microplugin';
+
+
 
 export type TomSettings = {
 	options					?: any[],
 	optgroups				?: any[],
 	items					: any[],
 
-	plugins					: any[],
+	plugins					: string[]|TPluginItem[]|TPluginHash,
 	delimiter				: string,
 	splitOn					: RegExp|string, // regexp or string for splitting up values from a paste command
 	persist					: boolean,
