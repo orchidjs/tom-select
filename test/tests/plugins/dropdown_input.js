@@ -25,7 +25,7 @@ describe('plugin: dropdown_input', function() {
 
 	it_n('should select option with [enter] keypress (single)', async () => {
 
-		var test = setup_test('AB_Single');
+		var test = setup_test('AB_Single', {plugins: ['dropdown_input']});
 
 		await asyncClick(test.instance.control);
 		
@@ -51,6 +51,7 @@ describe('plugin: dropdown_input', function() {
 	it_n('only open after arrow down when openOnFocus=false', async () => {
 
 		var test = setup_test('AB_Single',{
+			plugins: ['dropdown_input'],
 			openOnFocus: false,
 		});
 
@@ -67,6 +68,7 @@ describe('plugin: dropdown_input', function() {
 		var expected_load_queries = ['ab','a'];
 
 		var test = setup_test('AB_Single',{
+			plugins: ['dropdown_input'],
 			load: function(query, load_cb) {
 
 				var expected_load_query = expected_load_queries.shift();
