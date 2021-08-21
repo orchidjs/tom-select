@@ -1,9 +1,17 @@
 /**
-* Tom Select v1.7.8
+* Tom Select v2.0.0-Beta.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
 import TomSelect from '../../tom-select.js';
+
+// https://github.com/andrewrk/node-diacritics/blob/master/index.js
+const latin_convert = {
+  'æ': 'ae',
+  'ⱥ': 'a',
+  'ø': 'o'
+};
+new RegExp(Object.keys(latin_convert).join('|'), 'g');
 
 /**
  * Return a dom element from either a dom query string, jQuery object, a dom element or html string
@@ -11,6 +19,7 @@ import TomSelect from '../../tom-select.js';
  *
  * param query should be {}
  */
+
 const getDom = query => {
   if (query.jquery) {
     return query[0];

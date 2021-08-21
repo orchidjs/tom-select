@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.8
+* Tom Select v2.0.0-Beta.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -10,12 +10,14 @@ const KEY_RIGHT = 39;
 typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
  // ctrl key or apple key for ma
 
-/**
- * Return a dom element from either a dom query string, jQuery object, a dom element or html string
- * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
- *
- * param query should be {}
- */
+// https://github.com/andrewrk/node-diacritics/blob/master/index.js
+const latin_convert = {
+  'æ': 'ae',
+  'ⱥ': 'a',
+  'ø': 'o'
+};
+new RegExp(Object.keys(latin_convert).join('|'), 'g');
+
 /**
  * Get the closest node to the evt.target matching the selector
  * Stops at wrapper

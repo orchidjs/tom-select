@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.8
+* Tom Select v2.0.0-Beta.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -13,12 +13,38 @@
 
 	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
 
+	// https://github.com/andrewrk/node-diacritics/blob/master/index.js
+	const latin_convert = {
+	  'æ': 'ae',
+	  'ⱥ': 'a',
+	  'ø': 'o'
+	};
+	new RegExp(Object.keys(latin_convert).join('|'), 'g');
+
+	// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
 	/**
-	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
-	 * https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
+	 * Iterates over arrays and hashes.
 	 *
-	 * param query should be {}
+	 * ```
+	 * iterate(this.items, function(item, id) {
+	 *    // invoked for each item
+	 * });
+	 * ```
+	 *
 	 */
+
+	const iterate = (object, callback) => {
+	  if (Array.isArray(object)) {
+	    object.forEach(callback);
+	  } else {
+	    for (var key in object) {
+	      if (object.hasOwnProperty(key)) {
+	        callback(object[key], key);
+	      }
+	    }
+	  }
+	};
+
 	/**
 	 * Add css classes
 	 *
@@ -40,8 +66,7 @@
 
 	const classesArray = args => {
 	  var classes = [];
-
-	  for (let _classes of args) {
+	  iterate(args, _classes => {
 	    if (typeof _classes === 'string') {
 	      _classes = _classes.trim().split(/[\11\12\14\15\40]/);
 	    }
@@ -49,8 +74,7 @@
 	    if (Array.isArray(_classes)) {
 	      classes = classes.concat(_classes);
 	    }
-	  }
-
+	  });
 	  return classes.filter(Boolean);
 	};
 	/**

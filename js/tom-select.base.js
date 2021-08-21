@@ -1,5 +1,5 @@
 /**
-* Tom Select v1.7.8
+* Tom Select v2.0.0-Beta.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -806,6 +806,7 @@
 	 *
 	 * param query should be {}
 	 */
+
 	const getDom = query => {
 	  if (query.jquery) {
 	    return query[0];
@@ -880,8 +881,7 @@
 
 	const classesArray = args => {
 	  var classes = [];
-
-	  for (let _classes of args) {
+	  iterate(args, _classes => {
 	    if (typeof _classes === 'string') {
 	      _classes = _classes.trim().split(/[\11\12\14\15\40]/);
 	    }
@@ -889,8 +889,7 @@
 	    if (Array.isArray(_classes)) {
 	      classes = classes.concat(_classes);
 	    }
-	  }
-
+	  });
 	  return classes.filter(Boolean);
 	};
 	/**
@@ -971,15 +970,13 @@
 	 */
 
 	const setAttr = (el, attrs) => {
-	  for (const attr in attrs) {
-	    let val = attrs[attr];
-
+	  iterate(attrs, (val, attr) => {
 	    if (val == null) {
 	      el.removeAttribute(attr);
 	    } else {
 	      el.setAttribute(attr, '' + val);
 	    }
-	  }
+	  });
 	};
 	/**
 	 * Replace a node
@@ -1094,7 +1091,7 @@
 	  selectOnTab: false,
 	  preload: null,
 	  allowEmptyOption: false,
-	  closeAfterSelect: false,
+	  //closeAfterSelect: false,
 	  loadThrottle: 300,
 	  loadingClass: 'loading',
 	  dataAttr: null,
@@ -1110,15 +1107,15 @@
 	  searchField: ['text'],
 	  searchConjunction: 'and',
 	  mode: null,
-	  wrapperClass: 'ts-control',
-	  inputClass: 'ts-input',
+	  wrapperClass: 'ts-wrapper',
+	  controlClass: 'ts-control',
 	  dropdownClass: 'ts-dropdown',
 	  dropdownContentClass: 'ts-dropdown-content',
 	  itemClass: 'item',
 	  optionClass: 'option',
 	  dropdownParent: null,
-	  controlInput: null,
-	  copyClassesToDropdown: true,
+	  //controlInput: null,
+	  copyClassesToDropdown: false,
 	  placeholder: null,
 	  hidePlaceholder: null,
 	  shouldLoad: function (query) {
@@ -1421,15 +1418,13 @@
 	      optgroup_data[field_disabled] = optgroup_data[field_disabled] || optgroup.disabled;
 	      settings_element.optgroups.push(optgroup_data);
 	      id = optgroup_data[field_optgroup_value];
-
-	      for (const option of optgroup.children) {
+	      iterate(optgroup.children, option => {
 	        addOption(option, id);
-	      }
+	      });
 	    };
 
 	    settings_element.maxItems = input.hasAttribute('multiple') ? null : 1;
-
-	    for (const child of input.children) {
+	    iterate(input.children, child => {
 	      tagName = child.tagName.toLowerCase();
 
 	      if (tagName === 'optgroup') {
@@ -1437,7 +1432,7 @@
 	      } else if (tagName === 'option') {
 	        addOption(child);
 	      }
-	    }
+	    });
 	  };
 	  /**
 	   * Initialize from a <input type="text"> element.
@@ -1452,21 +1447,18 @@
 	      var value = input.value.trim() || '';
 	      if (!settings.allowEmptyOption && !value.length) return;
 	      const values = value.split(settings.delimiter);
-
-	      for (const _value of values) {
+	      iterate(values, value => {
 	        const option = {};
-	        option[field_label] = _value;
-	        option[field_value] = _value;
+	        option[field_label] = value;
+	        option[field_value] = value;
 	        settings_element.options.push(option);
-	      }
-
+	      });
 	      settings_element.items = values;
 	    } else {
 	      settings_element.options = JSON.parse(data_raw);
-
-	      for (const opt of settings_element.options) {
+	      iterate(settings_element.options, opt => {
 	        settings_element.items.push(opt[field_value]);
-	      }
+	      });
 	    }
 	  };
 
@@ -1481,6 +1473,7 @@
 
 	var instance_i = 0;
 	class TomSelect extends MicroPlugin(MicroEvent) {
+	  // @deprecated 1.8
 	  constructor(input_arg, settings) {
 	    super();
 	    this.control_input = void 0;
@@ -1488,6 +1481,7 @@
 	    this.dropdown = void 0;
 	    this.control = void 0;
 	    this.dropdown_content = void 0;
+	    this.focus_node = void 0;
 	    this.order = 0;
 	    this.settings = void 0;
 	    this.input = void 0;
@@ -1497,11 +1491,11 @@
 	    this.inputId = void 0;
 	    this._destroy = void 0;
 	    this.sifter = void 0;
-	    this.tab_key = false;
 	    this.isOpen = false;
 	    this.isDisabled = false;
 	    this.isRequired = void 0;
 	    this.isInvalid = false;
+	    this.isValid = true;
 	    this.isLocked = false;
 	    this.isFocused = false;
 	    this.isInputHidden = false;
@@ -1519,14 +1513,9 @@
 	    this.options = {};
 	    this.userOptions = {};
 	    this.items = [];
-	    this.renderCache = {
-	      'item': {},
-	      'option': {}
-	    };
 	    instance_i++;
 	    var dir;
 	    var input = getDom(input_arg);
-	    var self = this;
 
 	    if (input.tomselect) {
 	      throw new Error('Tom Select already initialized on this element');
@@ -1537,7 +1526,8 @@
 	    var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
 	    dir = computedStyle.getPropertyValue('direction'); // setup default state
 
-	    this.settings = getSettings(input, settings);
+	    settings = getSettings(input, settings);
+	    this.settings = settings;
 	    this.input = input;
 	    this.tabIndex = input.tabIndex || 0;
 	    this.is_select_tag = input.tagName.toLowerCase() === 'select';
@@ -1546,24 +1536,21 @@
 	    this.isRequired = input.required; // search system
 
 	    this.sifter = new Sifter(this.options, {
-	      diacritics: this.settings.diacritics
-	    });
-	    this.setupOptions(this.settings.options, this.settings.optgroups);
-	    delete this.settings.optgroups;
-	    delete this.settings.options; // option-dependent defaults
+	      diacritics: settings.diacritics
+	    }); // option-dependent defaults
 
-	    this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
+	    settings.mode = settings.mode || (settings.maxItems === 1 ? 'single' : 'multi');
 
-	    if (typeof this.settings.hideSelected !== 'boolean') {
-	      this.settings.hideSelected = this.settings.mode === 'multi';
+	    if (typeof settings.hideSelected !== 'boolean') {
+	      settings.hideSelected = settings.mode === 'multi';
 	    }
 
-	    if (typeof this.settings.hidePlaceholder !== 'boolean') {
-	      this.settings.hidePlaceholder = this.settings.mode !== 'multi';
+	    if (typeof settings.hidePlaceholder !== 'boolean') {
+	      settings.hidePlaceholder = settings.mode !== 'multi';
 	    } // set up createFilter callback
 
 
-	    var filter = this.settings.createFilter;
+	    var filter = settings.createFilter;
 
 	    if (typeof filter !== 'function') {
 	      if (typeof filter === 'string') {
@@ -1571,98 +1558,119 @@
 	      }
 
 	      if (filter instanceof RegExp) {
-	        this.settings.createFilter = input => filter.test(input);
+	        settings.createFilter = input => filter.test(input);
 	      } else {
-	        this.settings.createFilter = () => true;
+	        settings.createFilter = () => true;
 	      }
 	    }
 
-	    this.initializePlugins(this.settings.plugins);
+	    this.initializePlugins(settings.plugins);
 	    this.setupCallbacks();
-	    this.setupTemplates();
-	    /**
-	     * Create all elements and set up event bindings.
-	     *
-	     */
+	    this.setupTemplates(); // Create all elements
 
-	    var settings = self.settings;
-	    var wrapper;
-	    var control;
+	    const wrapper = getDom('<div>');
+	    const control = getDom('<div>');
+
+	    const dropdown = this._render('dropdown');
+
+	    const dropdown_content = getDom(`<div role="listbox" tabindex="-1">`);
+	    const classes = this.input.getAttribute('class') || '';
+	    const inputMode = settings.mode;
 	    var control_input;
-	    var dropdown;
-	    var dropdown_content;
-	    var inputMode;
-	    var classes;
-	    var classes_plugins;
-	    var input = self.input;
-	    var control_id;
-	    const passive_event = {
-	      passive: true
-	    };
-	    const listboxId = self.inputId + '-ts-dropdown';
-	    inputMode = self.settings.mode;
-	    classes = input.getAttribute('class') || '';
-	    wrapper = getDom('<div>');
 	    addClasses(wrapper, settings.wrapperClass, classes, inputMode);
-	    control = getDom('<div class="items">');
-	    addClasses(control, settings.inputClass);
+	    addClasses(control, settings.controlClass);
 	    append(wrapper, control);
-	    dropdown = self._render('dropdown');
 	    addClasses(dropdown, settings.dropdownClass, inputMode);
-	    dropdown_content = getDom(`<div role="listbox" id="${listboxId}" tabindex="-1">`);
+
+	    if (settings.copyClassesToDropdown) {
+	      addClasses(dropdown, classes);
+	    }
+
 	    addClasses(dropdown_content, settings.dropdownContentClass);
 	    append(dropdown, dropdown_content);
-	    getDom(settings.dropdownParent || wrapper).appendChild(dropdown);
+	    getDom(settings.dropdownParent || wrapper).appendChild(dropdown); // default controlInput
 
-	    if (settings.controlInput) {
-	      control_input = getDom(settings.controlInput);
-	    } else {
+	    if (!settings.hasOwnProperty('controlInput')) {
 	      control_input = getDom('<input type="text" autocomplete="off" size="1" />'); // set attributes
 
 	      var attrs = ['autocorrect', 'autocapitalize', 'autocomplete'];
-
-	      for (const attr of attrs) {
+	      iterate(attrs, attr => {
 	        if (input.getAttribute(attr)) {
 	          setAttr(control_input, {
 	            [attr]: input.getAttribute(attr)
 	          });
 	        }
-	      }
-	    }
-
-	    if (!settings.controlInput) {
-	      control_input.tabIndex = input.disabled ? -1 : self.tabIndex;
+	      });
+	      control_input.tabIndex = -1;
 	      control.appendChild(control_input);
+	      this.focus_node = control_input; // custom controlInput
+	    } else if (settings.controlInput) {
+	      control_input = getDom(settings.controlInput);
+	      this.focus_node = control_input; // controlInput = null
+	    } else {
+	      control_input = getDom('<input/>');
+	      this.focus_node = control;
 	    }
 
-	    setAttr(control_input, {
+	    this.wrapper = wrapper;
+	    this.dropdown = dropdown;
+	    this.dropdown_content = dropdown_content;
+	    this.control = control;
+	    this.control_input = control_input;
+	    this.setup();
+	  }
+	  /**
+	   * set up event bindings.
+	   *
+	   */
+
+
+	  setup() {
+	    const self = this;
+	    const settings = self.settings;
+	    const control_input = self.control_input;
+	    const dropdown = self.dropdown;
+	    const dropdown_content = self.dropdown_content;
+	    const wrapper = self.wrapper;
+	    const control = self.control;
+	    const input = self.input;
+	    const focus_node = self.focus_node;
+	    const passive_event = {
+	      passive: true
+	    };
+	    const listboxId = self.inputId + '-ts-dropdown';
+	    setAttr(dropdown_content, {
+	      id: listboxId
+	    });
+	    setAttr(focus_node, {
 	      role: 'combobox',
-	      haspopup: 'listbox',
+	      'aria-haspopup': 'listbox',
 	      'aria-expanded': 'false',
 	      'aria-controls': listboxId
 	    });
-	    control_id = getId(control_input, self.inputId + '-tomselected');
-	    let query = "label[for='" + escapeQuery(self.inputId) + "']";
-	    let label = document.querySelector(query);
+	    const control_id = getId(focus_node, self.inputId + '-ts-control');
+	    const query = "label[for='" + escapeQuery(self.inputId) + "']";
+	    const label = document.querySelector(query);
+	    const label_click = self.focus.bind(self);
 
 	    if (label) {
+	      addEvent(label, 'click', label_click);
 	      setAttr(label, {
 	        for: control_id
 	      });
-	      let label_id = getId(label, self.inputId + '-ts-label');
+	      const label_id = getId(label, self.inputId + '-ts-label');
+	      setAttr(focus_node, {
+	        'aria-labelledby': label_id
+	      });
 	      setAttr(dropdown_content, {
 	        'aria-labelledby': label_id
 	      });
 	    }
 
-	    if (self.settings.copyClassesToDropdown) {
-	      addClasses(dropdown, classes);
-	    }
-
 	    wrapper.style.width = input.style.width;
 
 	    if (self.plugins.names.length) {
-	      classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
+	      const classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
 	      addClasses([wrapper, dropdown], classes_plugins);
 	    }
 
@@ -1685,15 +1693,10 @@
 	    // after initializePlugins() so plugins can create/modify user defined loaders
 
 
-	    if (this.settings.load && this.settings.loadThrottle) {
-	      this.settings.load = loadDebounce(this.settings.load, this.settings.loadThrottle);
+	    if (settings.load && settings.loadThrottle) {
+	      settings.load = loadDebounce(settings.load, settings.loadThrottle);
 	    }
 
-	    this.control = control;
-	    this.control_input = control_input;
-	    this.wrapper = wrapper;
-	    this.dropdown = dropdown;
-	    this.dropdown_content = dropdown_content;
 	    self.control_input.type = input.type; // clicking on an option should select it
 
 	    addEvent(dropdown, 'click', evt => {
@@ -1705,7 +1708,7 @@
 	      }
 	    });
 	    addEvent(control, 'click', evt => {
-	      var target_match = parentMatch(evt.target, '.' + self.settings.itemClass, control);
+	      var target_match = parentMatch(evt.target, '[data-ts-item]', control);
 
 	      if (target_match && self.onItemSelect(evt, target_match)) {
 	        preventDefault(evt, true);
@@ -1727,14 +1730,16 @@
 	      if (control_input.value !== '') {
 	        e.stopPropagation();
 	      }
-	    });
-	    addEvent(control_input, 'keydown', e => self.onKeyDown(e));
-	    addEvent(control_input, 'keyup', e => self.onKeyUp(e));
+	    }); // keydown on focus_node for arrow_down/arrow_up
+
+	    addEvent(focus_node, 'keydown', e => self.onKeyDown(e)); // keypress and input/keyup
+
 	    addEvent(control_input, 'keypress', e => self.onKeyPress(e));
-	    addEvent(control_input, 'resize', () => self.positionDropdown(), passive_event);
-	    addEvent(control_input, 'blur', () => self.onBlur());
-	    addEvent(control_input, 'focus', e => self.onFocus(e));
-	    addEvent(control_input, 'paste', e => self.onPaste(e));
+	    addEvent(control_input, 'input', e => self.onInput(e));
+	    addEvent(focus_node, 'resize', () => self.positionDropdown(), passive_event);
+	    addEvent(focus_node, 'blur', e => self.onBlur(e));
+	    addEvent(focus_node, 'focus', e => self.onFocus(e));
+	    addEvent(focus_node, 'paste', e => self.onPaste(e));
 
 	    const doc_mousedown = evt => {
 	      // blur if target is outside of this instance
@@ -1761,13 +1766,14 @@
 	    };
 
 	    addEvent(document, 'mousedown', doc_mousedown);
-	    addEvent(window, 'sroll', win_scroll, passive_event);
+	    addEvent(window, 'scroll', win_scroll, passive_event);
 	    addEvent(window, 'resize', win_scroll, passive_event);
 
 	    this._destroy = () => {
 	      document.removeEventListener('mousedown', doc_mousedown);
 	      window.removeEventListener('sroll', win_scroll);
 	      window.removeEventListener('resize', win_scroll);
+	      if (label) label.removeEventListener('click', label_click);
 	    }; // store original html and tab index so that they can be
 	    // restored when the destroy() method is called.
 
@@ -1777,16 +1783,14 @@
 	      tabIndex: input.tabIndex
 	    };
 	    input.tabIndex = -1;
-	    setAttr(input, {
-	      hidden: 'hidden'
-	    });
 	    input.insertAdjacentElement('afterend', self.wrapper);
-	    self.setValue(settings.items);
+	    self.sync(false);
 	    settings.items = [];
+	    delete settings.optgroups;
+	    delete settings.options;
 	    addEvent(input, 'invalid', e => {
-	      preventDefault(e);
-
-	      if (!self.isInvalid) {
+	      if (self.isValid) {
+	        self.isValid = false;
 	        self.isInvalid = true;
 	        self.refreshState();
 	      }
@@ -1799,25 +1803,18 @@
 
 	    if (input.disabled) {
 	      self.disable();
+	    } else {
+	      self.enable(); //sets tabIndex
 	    }
 
 	    self.on('change', this.onChange);
-	    addClasses(input, 'tomselected');
+	    addClasses(input, 'tomselected', 'ts-hidden-accessible');
 	    self.trigger('initialize'); // preload options
 
 	    if (settings.preload === true) {
 	      self.load('');
 	    }
-
-	    self.setup();
 	  }
-	  /**
-	   * @deprecated v1.7.6
-	   *
-	   */
-
-
-	  setup() {}
 	  /**
 	   * Register options and optgroups
 	   *
@@ -1826,14 +1823,11 @@
 
 	  setupOptions(options = [], optgroups = []) {
 	    // build options table
-	    for (const option of options) {
-	      this.registerOption(option);
-	    } // build optgroup table
+	    this.addOptions(options); // build optgroup table
 
-
-	    for (const optgroup of optgroups) {
+	    iterate(optgroups, optgroup => {
 	      this.registerOptionGroup(optgroup);
-	    }
+	    });
 	  }
 	  /**
 	   * Sets up default rendering functions.
@@ -1911,6 +1905,22 @@
 	    }
 	  }
 	  /**
+	   * Sync the Tom Select instance with the original input or select
+	   *
+	   */
+
+
+	  sync(get_settings = true) {
+	    const self = this;
+	    const settings = get_settings ? getSettings(self.input, {
+	      delimiter: self.settings.delimiter
+	    }) : self.settings;
+	    self.setupOptions(settings.options, settings.optgroups);
+	    self.setValue(settings.items, true); // silent prevents recursion
+
+	    self.lastQuery = null; // so updated options will be displayed in dropdown
+	  }
+	  /**
 	   * Triggered when the main control element
 	   * has a click event.
 	   *
@@ -1976,10 +1986,9 @@
 	        }
 
 	        var splitInput = pastedText.trim().split(self.settings.splitOn);
-
-	        for (const piece of splitInput) {
+	        iterate(splitInput, piece => {
 	          self.createItem(piece);
-	        }
+	        });
 	      }, 0);
 	    }
 	  }
@@ -2089,12 +2098,10 @@
 	      case KEY_TAB:
 	        if (self.settings.selectOnTab) {
 	          if (self.isOpen && self.activeOption) {
-	            self.tab_key = true;
 	            self.onOptionSelect(e, self.activeOption); // prevent default [tab] behaviour of jump to the next field
 	            // if select isFull, then the dropdown won't be open and [tab] will work normally
 
 	            preventDefault(e);
-	            self.tab_key = false;
 	          }
 
 	          if (self.settings.create && self.createItem()) {
@@ -2122,11 +2129,10 @@
 	   */
 
 
-	  onKeyUp(e) {
+	  onInput(e) {
 	    var self = this;
 
 	    if (self.isLocked) {
-	      preventDefault(e);
 	      return;
 	    }
 
@@ -2177,7 +2183,7 @@
 	   */
 
 
-	  onBlur() {
+	  onBlur(e) {
 	    var self = this;
 	    if (!self.isFocused) return;
 	    self.isFocused = false;
@@ -2489,7 +2495,7 @@
 	    this.clearActiveOption();
 	    if (!option) return;
 	    this.activeOption = option;
-	    setAttr(this.control_input, {
+	    setAttr(this.focus_node, {
 	      'aria-activedescendant': option.getAttribute('id')
 	    });
 	    setAttr(option, {
@@ -2549,7 +2555,7 @@
 	    }
 
 	    this.activeOption = null;
-	    setAttr(this.control_input, {
+	    setAttr(this.focus_node, {
 	      'aria-activedescendant': null
 	    });
 	  }
@@ -2578,7 +2584,7 @@
 
 	  inputState() {
 	    var self = this;
-	    if (self.settings.controlInput) return;
+	    if (!self.control.contains(self.control_input)) return;
 
 	    if (self.activeItems.length > 0 || !self.isFocused && this.settings.hidePlaceholder && self.items.length > 0) {
 	      self.setTextboxValue();
@@ -2625,7 +2631,7 @@
 	    var self = this;
 	    if (self.isDisabled) return;
 	    self.ignoreFocus = true;
-	    self.control_input.focus();
+	    self.focus_node.focus();
 	    setTimeout(() => {
 	      self.ignoreFocus = false;
 	      self.onFocus();
@@ -2638,7 +2644,7 @@
 
 
 	  blur() {
-	    this.control_input.blur();
+	    this.focus_node.blur();
 	    this.onBlur();
 	  }
 	  /**
@@ -2815,8 +2821,7 @@
 
 
 	    html = document.createDocumentFragment();
-
-	    for (optgroup of groups_order) {
+	    iterate(groups_order, optgroup => {
 	      if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
 	        let group_options = document.createDocumentFragment();
 	        let header = self.render('optgroup_header', self.optgroups[optgroup]);
@@ -2830,8 +2835,7 @@
 	      } else {
 	        append(html, groups[optgroup]);
 	      }
-	    }
-
+	    });
 	    dropdown_content.innerHTML = '';
 	    append(dropdown_content, html); // highlight matching terms inline
 
@@ -2839,9 +2843,9 @@
 	      removeHighlight(dropdown_content);
 
 	      if (results.query.length && results.tokens.length) {
-	        for (const tok of results.tokens) {
+	        iterate(results.tokens, tok => {
 	          highlight(dropdown_content, tok.regex);
-	        }
+	        });
 	      }
 	    } // helper method for adding templates to dropdown
 
@@ -2933,37 +2937,51 @@
 	   */
 
 
-	  addOption(data) {
-	    var value,
-	        self = this;
+	  addOption(data, user_created = false) {
+	    const self = this; // @deprecated 1.7.7
+	    // use addOptions( array, user_created ) for adding multiple options
 
 	    if (Array.isArray(data)) {
-	      for (const dat of data) {
-	        self.addOption(dat);
-	      }
-
-	      return;
+	      self.addOptions(data, user_created);
+	      return false;
 	    }
 
-	    if (value = self.registerOption(data)) {
-	      self.userOptions[value] = true;
-	      self.lastQuery = null;
-	      self.trigger('option_add', value, data);
+	    const key = hash_key(data[self.settings.valueField]);
+
+	    if (key === null || self.options.hasOwnProperty(key)) {
+	      return false;
 	    }
+
+	    data.$order = data.$order || ++self.order;
+	    data.$id = self.inputId + '-opt-' + data.$order;
+	    self.options[key] = data;
+	    self.lastQuery = null;
+
+	    if (user_created) {
+	      self.userOptions[key] = user_created;
+	      self.trigger('option_add', key, data);
+	    }
+
+	    return key;
 	  }
 	  /**
-	   * Registers an option to the pool of options.
+	   * Add multiple options
 	   *
 	   */
 
 
+	  addOptions(data, user_created = false) {
+	    iterate(data, dat => {
+	      this.addOption(dat, user_created);
+	    });
+	  }
+	  /**
+	   * @deprecated 1.7.7
+	   */
+
+
 	  registerOption(data) {
-	    var key = hash_key(data[this.settings.valueField]);
-	    if (key === null || this.options.hasOwnProperty(key)) return false;
-	    data.$order = data.$order || ++this.order;
-	    data.$id = this.inputId + '-opt-' + data.$order;
-	    this.options[key] = data;
-	    return key;
+	    return this.addOption(data);
 	  }
 	  /**
 	   * Registers an option group to the pool of option groups.
@@ -3029,20 +3047,19 @@
 	    const self = this;
 	    var item_new;
 	    var index_item;
-	    const hashed = hash_key(value);
-	    if (hashed === null) return;
-	    const value_new = hash_key(data[self.settings.valueField]);
-	    const option = self.getOption(hashed);
-	    const item = self.getItem(hashed); // sanity checks
+	    const value_old = hash_key(value);
+	    const value_new = hash_key(data[self.settings.valueField]); // sanity checks
 
-	    if (!self.options.hasOwnProperty(hashed)) return;
+	    if (value_old === null) return;
+	    if (!self.options.hasOwnProperty(value_old)) return;
 	    if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
-	    data.$order = data.$order || self.options[hashed].$order;
-	    delete self.options[hashed]; // invalidate render cache
+	    const option = self.getOption(value_old);
+	    const item = self.getItem(value_old);
+	    data.$order = data.$order || self.options[value_old].$order;
+	    delete self.options[value_old]; // invalidate render cache
 	    // don't remove existing node yet, we'll remove it after replacing it
 
 	    self.uncacheValue(value_new);
-	    self.uncacheValue(hashed, false);
 	    self.options[value_new] = data; // update the option if it's in the dropdown
 
 	    if (option) {
@@ -3061,7 +3078,7 @@
 
 
 	    if (item) {
-	      index_item = self.items.indexOf(hashed);
+	      index_item = self.items.indexOf(value_old);
 
 	      if (index_item !== -1) {
 	        self.items.splice(index_item, 1, value_new);
@@ -3101,34 +3118,14 @@
 	    this.userOptions = {};
 	    this.clearCache();
 	    var selected = {};
-
-	    for (let key in this.options) {
-	      if (this.options.hasOwnProperty(key) && this.items.indexOf(key) >= 0) {
+	    iterate(this.options, (option, key) => {
+	      if (this.items.indexOf(key) >= 0) {
 	        selected[key] = this.options[key];
 	      }
-	    }
-
+	    });
 	    this.options = this.sifter.items = selected;
 	    this.lastQuery = null;
 	    this.trigger('option_clear');
-	  }
-	  /**
-	   * Removes a value from item and option caches
-	   *
-	   */
-
-
-	  uncacheValue(value, remove_node = true) {
-	    const self = this;
-	    const cache_items = self.renderCache['item'];
-	    const cache_options = self.renderCache['option'];
-	    if (cache_items) delete cache_items[value];
-	    if (cache_options) delete cache_options[value];
-
-	    if (remove_node) {
-	      const option_el = self.getOption(value);
-	      if (option_el) option_el.remove();
-	    }
 	  }
 	  /**
 	   * Returns the dom element of the option
@@ -3138,14 +3135,21 @@
 
 
 	  getOption(value, create = false) {
-	    var hashed = hash_key(value);
-	    var option_el = this.rendered('option', hashed);
+	    const hashed = hash_key(value);
 
-	    if (!option_el && create && hashed !== null) {
-	      option_el = this._render('option', this.options[hashed]);
+	    if (hashed !== null && this.options.hasOwnProperty(hashed)) {
+	      const option = this.options[hashed];
+
+	      if (option.$div) {
+	        return option.$div;
+	      }
+
+	      if (create) {
+	        return this._render('option', option);
+	      }
 	    }
 
-	    return option_el;
+	    return null;
 	  }
 	  /**
 	   * Returns the dom element of the next or previous dom element of the same type
@@ -3254,8 +3258,7 @@
 	      self.insertAtCaret(item);
 
 	      if (self.isSetup) {
-	        let options = self.selectable(); // update menu / remove the option (if this is not one item being added as part of series)
-
+	        // update menu / remove the option (if this is not one item being added as part of series)
 	        if (!self.isPending && self.settings.hideSelected) {
 	          let option = self.getOption(hashed);
 	          let next = self.getAdjacent(option, 1);
@@ -3272,7 +3275,7 @@
 	        } // hide the menu if the maximum number of items have been selected or no options are left
 
 
-	        if (!options.length || self.isFull()) {
+	        if (self.settings.closeAfterSelect != false && self.isFull()) {
 	          self.close();
 	        } else if (!self.isPending) {
 	          self.positionDropdown();
@@ -3367,7 +3370,7 @@
 	      }
 
 	      self.setTextboxValue();
-	      self.addOption(data);
+	      self.addOption(data, true);
 	      self.setCaret(caret);
 	      self.addItem(value);
 	      self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
@@ -3413,23 +3416,22 @@
 
 
 	  refreshState() {
-	    var self = this;
+	    const self = this;
 	    self.refreshValidityState();
-	    var isFull = self.isFull();
-	    var isLocked = self.isLocked;
+	    const isFull = self.isFull();
+	    const isLocked = self.isLocked;
 	    self.wrapper.classList.toggle('rtl', self.rtl);
-	    var classList = self.control.classList;
-	    classList.toggle('focus', self.isFocused);
-	    classList.toggle('disabled', self.isDisabled);
-	    classList.toggle('required', self.isRequired);
-	    classList.toggle('invalid', self.isInvalid);
-	    classList.toggle('locked', isLocked);
-	    classList.toggle('full', isFull);
-	    classList.toggle('not-full', !isFull);
-	    classList.toggle('input-active', self.isFocused && !self.isInputHidden);
-	    classList.toggle('dropdown-active', self.isOpen);
-	    classList.toggle('has-options', isEmptyObject(self.options));
-	    classList.toggle('has-items', self.items.length > 0);
+	    const wrap_classList = self.wrapper.classList;
+	    wrap_classList.toggle('focus', self.isFocused);
+	    wrap_classList.toggle('disabled', self.isDisabled);
+	    wrap_classList.toggle('required', self.isRequired);
+	    wrap_classList.toggle('invalid', !self.isValid);
+	    wrap_classList.toggle('locked', isLocked);
+	    wrap_classList.toggle('full', isFull);
+	    wrap_classList.toggle('input-active', self.isFocused && !self.isInputHidden);
+	    wrap_classList.toggle('dropdown-active', self.isOpen);
+	    wrap_classList.toggle('has-options', isEmptyObject(self.options));
+	    wrap_classList.toggle('has-items', self.items.length > 0);
 	  }
 	  /**
 	   * Update the `required` attribute of both input and control input.
@@ -3446,20 +3448,10 @@
 
 	    if (!self.input.checkValidity) {
 	      return;
-	    } // if required, make sure the input required attribute = true so checkValidity() will work
-
-
-	    if (this.isRequired) {
-	      self.input.required = true;
 	    }
 
-	    var invalid = !self.input.checkValidity();
-	    self.isInvalid = invalid;
-	    self.control_input.required = invalid;
-
-	    if (this.isRequired) {
-	      self.input.required = !invalid;
-	    }
+	    self.isValid = self.input.checkValidity();
+	    self.isInvalid = !self.isValid;
 	  }
 	  /**
 	   * Determines whether or not more items can be added
@@ -3481,7 +3473,8 @@
 
 	  updateOriginalInput(opts = {}) {
 	    const self = this;
-	    var i, value, option, option_el, label;
+	    var option, label;
+	    const empty_option = self.input.querySelector('option[value=""]');
 
 	    if (self.is_select_tag) {
 	      const selected = [];
@@ -3489,41 +3482,38 @@
 	      function AddSelected(option_el, value, label) {
 	        if (!option_el) {
 	          option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
+	        } // don't move empty option from top of list
+	        // fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293				
+
+
+	        if (option_el != empty_option) {
+	          self.input.append(option_el);
 	        }
 
-	        self.input.prepend(option_el);
 	        selected.push(option_el);
-	        setAttr(option_el, {
-	          selected: 'true'
-	        });
 	        option_el.selected = true;
 	        return option_el;
 	      } // unselect all selected options
 
 
-	      self.input.querySelectorAll('option[selected]').forEach(option_el => {
-	        setAttr(option_el, {
-	          selected: null
-	        });
+	      self.input.querySelectorAll('option:checked').forEach(option_el => {
 	        option_el.selected = false;
 	      }); // nothing selected?
 
-	      if (self.items.length == 0 && self.settings.mode == 'single' && !self.isRequired) {
-	        option_el = self.input.querySelector('option[value=""]');
-	        AddSelected(option_el, "", ""); // order selected <option> tags for values in self.items
+	      if (self.items.length == 0 && self.settings.mode == 'single') {
+	        AddSelected(empty_option, "", ""); // order selected <option> tags for values in self.items
 	      } else {
-	        for (i = self.items.length - 1; i >= 0; i--) {
-	          value = self.items[i];
+	        self.items.forEach(value => {
 	          option = self.options[value];
 	          label = option[self.settings.labelField] || '';
 
 	          if (selected.includes(option.$option)) {
-	            const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]:not([selected])`);
+	            const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]:not(:checked)`);
 	            AddSelected(reuse_opt, value, label);
 	          } else {
 	            option.$option = AddSelected(option.$option, value, label);
 	          }
-	        }
+	        });
 	      }
 	    } else {
 	      self.input.value = self.getValue();
@@ -3545,7 +3535,7 @@
 	    var self = this;
 	    if (self.isLocked || self.isOpen || self.settings.mode === 'multi' && self.isFull()) return;
 	    self.isOpen = true;
-	    setAttr(self.control_input, {
+	    setAttr(self.focus_node, {
 	      'aria-expanded': 'true'
 	    });
 	    self.refreshState();
@@ -3575,18 +3565,12 @@
 	      self.setTextboxValue();
 
 	      if (self.settings.mode === 'single' && self.items.length) {
-	        self.hideInput(); // Do not trigger blur while inside a blur event,
-	        // this fixes some weird tabbing behavior in FF and IE.
-	        // See #selectize.js#1164
-
-	        if (!self.tab_key) {
-	          self.blur(); // close keyboard on iOS
-	        }
+	        self.hideInput();
 	      }
 	    }
 
 	    self.isOpen = false;
-	    setAttr(self.control_input, {
+	    setAttr(self.focus_node, {
 	      'aria-expanded': 'false'
 	    });
 	    applyCSS(self.dropdown, {
@@ -3633,11 +3617,9 @@
 	    var self = this;
 	    if (!self.items.length) return;
 	    var items = self.controlChildren();
-
-	    for (const item of items) {
+	    iterate(items, item => {
 	      self.removeItem(item, true);
-	    }
-
+	    });
 	    self.showInput();
 	    if (!silent) self.updateOriginalInput();
 	    self.trigger('clear');
@@ -3650,16 +3632,10 @@
 
 
 	  insertAtCaret(el) {
-	    var self = this;
-	    var caret = Math.min(self.caretPos, self.items.length);
-	    var target = self.control;
-
-	    if (caret === 0) {
-	      target.insertBefore(el, target.firstChild);
-	    } else {
-	      target.insertBefore(el, target.children[caret]);
-	    }
-
+	    const self = this;
+	    const caret = self.caretPos;
+	    const target = self.control;
+	    target.insertBefore(el, target.children[caret]);
 	    self.setCaret(caret + 1);
 	  }
 	  /**
@@ -3684,9 +3660,7 @@
 	        caret++;
 	      }
 
-	      for (const item of self.activeItems) {
-	        rm_items.push(item);
-	      }
+	      iterate(self.activeItems, item => rm_items.push(item));
 	    } else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
 	      const items = self.controlChildren();
 
@@ -3728,8 +3702,7 @@
 
 
 	  advanceSelection(direction, e) {
-	    var idx,
-	        last_active,
+	    var last_active,
 	        adjacent,
 	        self = this;
 	    if (self.rtl) direction *= -1;
@@ -3759,18 +3732,12 @@
 	        self.setActiveItemClass(adjacent); // mark as last_active !! after removeActiveItem() on last_active
 	      } // move caret to the left or right
 
-	    } else if (self.isFocused && !self.activeItems.length) {
-	      self.setCaret(self.caretPos + direction); // move caret before or after selected items
 	    } else {
-	      last_active = self.getLastActive(direction);
-
-	      if (last_active) {
-	        idx = nodeIndex(last_active);
-	        self.setCaret(direction > 0 ? idx + 1 : idx);
-	        self.setActiveItem();
-	      }
+	      self.moveCaret(direction);
 	    }
 	  }
+
+	  moveCaret(direction) {}
 	  /**
 	   * Get the last active item
 	   *
@@ -3801,25 +3768,7 @@
 
 
 	  setCaret(new_pos) {
-	    var self = this;
-
-	    if (self.settings.mode === 'single' || self.settings.controlInput) {
-	      new_pos = self.items.length;
-	    } else {
-	      new_pos = Math.max(0, Math.min(self.items.length, new_pos));
-
-	      if (new_pos != self.caretPos && !self.isPending) {
-	        self.controlChildren().forEach((child, j) => {
-	          if (j < new_pos) {
-	            self.control_input.insertAdjacentElement('beforebegin', child);
-	          } else {
-	            self.control.appendChild(child);
-	          }
-	        });
-	      }
-	    }
-
-	    self.caretPos = new_pos;
+	    this.caretPos = this.items.length;
 	  }
 	  /**
 	   * Return list of item dom elements
@@ -3828,7 +3777,7 @@
 
 
 	  controlChildren() {
-	    return Array.from(this.control.getElementsByClassName(this.settings.itemClass));
+	    return Array.from(this.control.querySelectorAll('[data-ts-item]'));
 	  }
 	  /**
 	   * Disables user input on the control. Used while
@@ -3860,7 +3809,7 @@
 	    var self = this;
 	    self.input.disabled = true;
 	    self.control_input.disabled = true;
-	    self.control_input.tabIndex = -1;
+	    self.focus_node.tabIndex = -1;
 	    self.isDisabled = true;
 	    self.lock();
 	  }
@@ -3874,7 +3823,7 @@
 	    var self = this;
 	    self.input.disabled = false;
 	    self.control_input.disabled = false;
-	    self.control_input.tabIndex = self.tabIndex;
+	    self.focus_node.tabIndex = self.tabIndex;
 	    self.isDisabled = false;
 	    self.unlock();
 	  }
@@ -3894,11 +3843,7 @@
 	    self.dropdown.remove();
 	    self.input.innerHTML = revertSettings.innerHTML;
 	    self.input.tabIndex = revertSettings.tabIndex;
-	    removeClasses(self.input, 'tomselected');
-	    setAttr(self.input, {
-	      hidden: null
-	    });
-	    self.input.required = this.isRequired;
+	    removeClasses(self.input, 'tomselected', 'ts-hidden-accessible');
 
 	    self._destroy();
 
@@ -3930,13 +3875,8 @@
 	        html;
 	    const self = this;
 
-	    if (templateName === 'option' || templateName === 'item') {
+	    if (templateName === 'option' || templateName == 'item') {
 	      value = get_hash(data[self.settings.valueField]);
-	      html = self.rendered(templateName, value);
-
-	      if (html) {
-	        return html;
-	      }
 	    } // render markup
 
 
@@ -3978,28 +3918,21 @@
 
 	      if (templateName === 'item') {
 	        addClasses(html, self.settings.itemClass);
+	        setAttr(html, {
+	          'data-ts-item': ''
+	        });
 	      } else {
 	        addClasses(html, self.settings.optionClass);
 	        setAttr(html, {
 	          role: 'option',
 	          id: data.$id
-	        });
-	      } // update cache
+	        }); // update cache
 
-
-	      self.renderCache[templateName][value] = html;
+	        self.options[value].$div = html;
+	      }
 	    }
 
 	    return html;
-	  }
-	  /**
-	   * Return the previously rendered item or option
-	   *
-	   */
-
-
-	  rendered(templateName, value) {
-	    return value !== null && this.renderCache[templateName].hasOwnProperty(value) ? this.renderCache[templateName][value] : null;
 	  }
 	  /**
 	   * Clears the render cache for a template. If
@@ -4009,24 +3942,23 @@
 	   */
 
 
-	  clearCache(templateName) {
-	    var self = this; // remove options from DOM
-
-	    if (templateName === void 0 || 'option') {
-	      for (let key in self.options) {
-	        const el = self.getOption(key);
-	        if (el) el.remove();
+	  clearCache() {
+	    iterate(this.options, (option, value) => {
+	      if (option.$div) {
+	        option.$div.remove();
+	        delete option.$div;
 	      }
-	    }
+	    });
+	  }
+	  /**
+	   * Removes a value from item and option caches
+	   *
+	   */
 
-	    if (templateName === void 0) {
-	      self.renderCache = {
-	        'item': {},
-	        'option': {}
-	      };
-	    } else {
-	      self.renderCache[templateName] = {};
-	    }
+
+	  uncacheValue(value) {
+	    const option_el = this.getOption(value);
+	    if (option_el) option_el.remove();
 	  }
 	  /**
 	   * Determines whether or not to display the
