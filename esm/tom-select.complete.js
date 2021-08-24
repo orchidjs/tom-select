@@ -219,16 +219,26 @@ const asciifold = str => {
 /**
  * Convert array of strings to a regular expression
  *	ex ['ab','a'] => (?:ab|a)
+ * 	ex ['a','b'] => [ab]
  *
  */
 
 
 const arrayToPattern = (chars, glue = '|') => {
-  if (chars.length > 1) {
-    return '(?:' + chars.join(glue) + ')';
+  if (chars.length == 1) {
+    return chars[0];
   }
 
-  return chars[0];
+  var longest = 1;
+  chars.forEach(a => {
+    longest = Math.max(longest, a.length);
+  });
+
+  if (longest == 1) {
+    return '[' + chars.join('') + ']';
+  }
+
+  return '(?:' + chars.join(glue) + ')';
 };
 /**
  * Get all possible combinations of substrings that add up to the given string
@@ -267,6 +277,12 @@ const generateDiacritics = () => {
 
       if (!(latin in diacritics)) {
         diacritics[latin] = [latin];
+      }
+
+      var patt = new RegExp(arrayToPattern(diacritics[latin]), 'iu');
+
+      if (diacritic.match(patt)) {
+        continue;
       }
 
       diacritics[latin].push(diacritic);
@@ -1806,7 +1822,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     self.trigger('initialize'); // preload options
 
     if (settings.preload === true) {
-      self.load('');
+      self.preload();
     }
   }
   /**
@@ -2161,7 +2177,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     if (self.ignoreFocus) return;
     self.isFocused = true;
-    if (self.settings.preload === 'focus') self.load('');
+    if (self.settings.preload === 'focus') self.preload();
     if (!wasFocused) self.trigger('focus');
 
     if (!self.activeItems.length) {
@@ -2314,6 +2330,13 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     }
 
     self.trigger('load', options, optgroups);
+  }
+
+  preload() {
+    var classList = this.wrapper.classList;
+    if (classList.contains('preloaded')) return;
+    classList.add('preloaded');
+    this.load('');
   }
   /**
    * Sets the input field of the control to the specified value.
@@ -2855,13 +2878,13 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       }
 
       return content;
-    }; // invalid query
+    }; // add loading message
 
 
-    if (!self.settings.shouldLoad.call(self, query)) {
-      add_template('not_loading'); // add loading message
-    } else if (self.loading) {
-      add_template('loading'); // add no_results message
+    if (self.loading) {
+      add_template('loading'); // invalid query
+    } else if (!self.settings.shouldLoad.call(self, query)) {
+      add_template('not_loading'); // add no_results message
     } else if (results.items.length === 0) {
       add_template('no_results');
     } // add create option
