@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.0.0-rc.1
+* Tom Select v2.0.0-rc.2
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
