@@ -1,7 +1,7 @@
 
 describe('load', function() {
 
-	it_n('should start loading results if preload:"focus"', function(done) {
+	it_n('should start loading results if preload:"focus"', async () => {
 		var calls_focus = 0;
 		var calls_load = 0;
 
@@ -20,13 +20,18 @@ describe('load', function() {
 			calls_focus++;
 		});
 
-		click(test.instance.control, function() {
-			setTimeout(function() {
-				assert.equal(calls_focus, 1);
-				assert.equal(calls_load, 1);
-				done();
-			}, 300);
-		});
+		await asyncClick(test.instance.control);
+		await waitFor(300);
+		assert.equal(calls_focus, 1);
+		assert.equal(calls_load, 1);
+		
+		await asyncClick(document.body);
+		await asyncClick(test.instance.control);
+		await waitFor(300);
+		assert.equal(calls_focus, 2);
+		assert.equal(calls_load, 1);
+		
+		
 	});
 
 

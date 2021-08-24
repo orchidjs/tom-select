@@ -418,7 +418,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// preload options
 		if (settings.preload === true) {
-			self.load('');
+			self.preload();
 		}
 
 	}
@@ -766,7 +766,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if (self.ignoreFocus) return;
 		self.isFocused = true;
-		if (self.settings.preload === 'focus') self.load('');
+		if( self.settings.preload === 'focus' ) self.preload();
 
 		if (!wasFocused) self.trigger('focus');
 
@@ -918,6 +918,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		self.trigger('load', options, optgroups);
+	}
+	
+	preload():void{
+		var classList = this.wrapper.classList;
+		if( classList.contains('preloaded') ) return;
+		classList.add('preloaded');
+		this.load('');
 	}
 
 
