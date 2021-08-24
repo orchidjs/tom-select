@@ -17,9 +17,9 @@
   "description": "Tom Select is a versatile and dynamic <select> UI control. Forked from Selectize.js to provide a framework agnostic autocomplete widget with native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, etc.",
   "homepage": "https://tom-select.js.org",
   "version": "2.0.0-rc.1",
-  "files":[
+  "files": [
     "/dist",
-	"/src"
+    "/src"
   ],
   "author": "Josh Schmidt (https://github.com/oyejorge)",
   "contributors": [
@@ -117,6 +117,6 @@
     "url": "https://opencollective.com/tom-select"
   },
   "dependencies": {
-    "@orchidjs/sifter": "^0.8.1"
+    "@orchidjs/sifter": "^0.8.2"
   }
 }
