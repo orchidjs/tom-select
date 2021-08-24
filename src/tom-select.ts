@@ -1432,14 +1432,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 			return content;
 		};
-
-		// invalid query
-		if( !self.settings.shouldLoad.call(self,query) ){
-			add_template('not_loading');
+		
 
 		// add loading message
-		}else if( self.loading ){
+		if( self.loading ){
 			add_template('loading');
+			
+		// invalid query
+		}else if( !self.settings.shouldLoad.call(self,query) ){
+			add_template('not_loading');
 
 		// add no_results message
 		}else if( results.items.length === 0 ){

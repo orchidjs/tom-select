@@ -12,7 +12,7 @@ describe('load', function() {
 				assert.equal(query, '');
 				setTimeout(function() {
 					load_cb([{value: 'c', text: 'C'}]);
-				});
+				},100);
 			}
 		});
 
@@ -21,6 +21,8 @@ describe('load', function() {
 		});
 
 		await asyncClick(test.instance.control);
+		assert.isOk(test.instance.dropdown.querySelector('.spinner'));
+		
 		await waitFor(300);
 		assert.equal(calls_focus, 1);
 		assert.equal(calls_load, 1);
