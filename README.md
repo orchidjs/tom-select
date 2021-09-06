@@ -53,9 +53,13 @@ All pre-built files needed to use Tom Select can be found in the "dist" folder v
 		<th class="border-top-0"></th>
 	</tr>
 	<tr>
-		<td><a href="https://github.com/orchidjs/tom-select/">GitHub</a></td>
-		<td>Clone or <a href="https://github.com/orchidjs/tom-select/archive/master.zip">download</a> the full repo.
-			All production files (js, css, scss) can be found in the <a href="https://github.com/orchidjs/tom-select/tree/master/dist">/dist folder</a>
+		<td><a href="https://www.jsdelivr.com/package/npm/tom-select?path=dist">jsDelivr</a></td>
+		<td>
+		The fastest way to add Tom Select into your project is to just include the js and css from jsDelivr.
+<pre>
+&lt;link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet"&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"&gt;&lt;/script&gt;
+</pre>
 		</td>
 	</tr>
 	<tr>
@@ -65,12 +69,9 @@ All pre-built files needed to use Tom Select can be found in the "dist" folder v
 		</td>
 	</tr>
 	<tr>
-		<td><a href="https://www.jsdelivr.com/package/npm/tom-select?path=dist">jsDelivr</a></td>
-		<td>Include the js and css files in your project directly from jsDelivr:
-<pre>
-&lt;link href="https://cdn.jsdelivr.net/npm/tom-select@1.1/dist/css/tom-select.css" rel="stylesheet"&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/tom-select@1.1/dist/js/tom-select.complete.min.js"&gt;&lt;/script&gt;
-</pre>
+		<td><a href="https://github.com/orchidjs/tom-select/">GitHub</a></td>
+		<td>Clone or <a href="https://github.com/orchidjs/tom-select/archive/master.zip">download</a> the full repo.
+		Use <code>npm run build</code> <a href="/docs/contribute">and other commands</a> to build from source, test and start the doc server.
 		</td>
 	</tr>
 </table>
