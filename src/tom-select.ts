@@ -87,7 +87,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 
-	constructor( input_arg: string|TomInput, settings:TomSettings ){
+	constructor( input_arg: string|TomInput, user_settings:Partial<TomSettings> ){
 		super();
 
 		instance_i++;
@@ -108,7 +108,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		dir						= computedStyle.getPropertyValue('direction');
 
 		// setup default state
-		settings				= getSettings( input, settings );
+		const settings			= getSettings( input, user_settings );
 		this.settings			= settings;
 		this.input				= input;
 		this.tabIndex			= input.tabIndex || 0;
