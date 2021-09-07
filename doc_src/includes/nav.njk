@@ -9,26 +9,26 @@
 
 	<a href="/examples/" class="h5 px-4 py-3 my-0 d-block">Examples</a>
 	{% if 'examples' in page.filePathStem %}
-	<nav class="nav flex-column">
+	<div>
 		{% for item in collections.demosAlpha %}
  			{% nav_link item %}
 		{% endfor %}
-	</nav>
+	</div>
 	{% endif %}
 
 	<a href="/plugins/" class="h5 px-4 py-3 my-0 d-block">Plugins</a>
 	{% if '/plugins/' in page.filePathStem %}
-	<nav class="nav flex-column">
+	<div>
 		{% for item in collections.plugins %}
 			{% nav_link item %}
 		{% endfor %}
-	</nav>
+	</div>
 	{% endif %}
 
 
 	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
 	{% if 'docs' in page.filePathStem %}
-	<nav class="nav flex-column">
+	<div>
 		{% nav_link {url:'/docs/',title:'Usage'} %}
 		{% nav_link {url:'/docs/api/',title:'API'} %}
 		{% nav_link {url:'/docs/plugins/',title:'Plugins'} %}
@@ -36,7 +36,7 @@
 		{% nav_link {url:'/docs/contribute/',title:'Contribute'} %}
 		{% nav_link {url:'/docs/migration/',title:'Migration'} %}
 		{% nav_link {url:'/docs/selectize.js/',title:'selectize.js'} %}
-	</nav>
+	</div>
 	{% endif %}
 
 	<hr class="m-4"/>
