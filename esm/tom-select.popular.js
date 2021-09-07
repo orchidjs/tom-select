@@ -1484,7 +1484,7 @@ function getSettings(input, settings_user) {
 var instance_i = 0;
 class TomSelect extends MicroPlugin(MicroEvent) {
   // @deprecated 1.8
-  constructor(input_arg, settings) {
+  constructor(input_arg, user_settings) {
     super();
     this.control_input = void 0;
     this.wrapper = void 0;
@@ -1536,7 +1536,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
     dir = computedStyle.getPropertyValue('direction'); // setup default state
 
-    settings = getSettings(input, settings);
+    const settings = getSettings(input, user_settings);
     this.settings = settings;
     this.input = input;
     this.tabIndex = input.tabIndex || 0;
@@ -2194,6 +2194,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   onBlur(e) {
+    if (document.hasFocus() === false) return;
     var self = this;
     if (!self.isFocused) return;
     self.isFocused = false;
