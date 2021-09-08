@@ -407,6 +407,7 @@ const escape_regex = str => {
 
 const propToArray = (obj, key) => {
   var value = obj[key];
+  if (typeof value == 'function') return value;
 
   if (value && !Array.isArray(value)) {
     obj[key] = [value];
@@ -643,11 +644,16 @@ class Sifter {
           sort = !search.query && options.sort_empty ? options.sort_empty : options.sort,
           sort_flds = [],
           multipliers = [];
+
+    if (typeof sort == 'function') {
+      return sort.bind(this);
+    }
     /**
      * Fetches the specified sort field value
      * from a search result item.
      *
      */
+
 
     const get_field = function get_field(name, result) {
       if (name === '$score') return result.score;
@@ -2603,15 +2609,24 @@ class TomSelect extends MicroPlugin(MicroEvent) {
   inputState() {
     var self = this;
     if (!self.control.contains(self.control_input)) return;
+    setAttr(self.control_input, {
+      placeholder: self.settings.placeholder
+    });
 
-    if (self.activeItems.length > 0 || !self.isFocused && this.settings.hidePlaceholder && self.items.length > 0) {
+    if (self.activeItems.length > 0 || !self.isFocused && self.settings.hidePlaceholder && self.items.length > 0) {
       self.setTextboxValue();
       self.isInputHidden = true;
-      addClasses(self.wrapper, 'input-hidden');
     } else {
+      if (self.settings.hidePlaceholder && self.items.length > 0) {
+        setAttr(self.control_input, {
+          placeholder: ''
+        });
+      }
+
       self.isInputHidden = false;
-      removeClasses(self.wrapper, 'input-hidden');
     }
+
+    self.wrapper.classList.toggle('input-hidden', self.isInputHidden);
   }
   /**
    * Hides the input element out of view, while
@@ -3309,6 +3324,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       }
 
       if (!self.isPending || !wasFull && self.isFull()) {
+        self.inputState();
         self.refreshState();
       }
     });

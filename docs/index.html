@@ -34,8 +34,9 @@
 				<input type="text" class="form-control" placeholder="Search" id="docsearch-input">
 			</div>
 
-			<div id="offcanvas-inner" class="d-flex flex-column">
-				
+			<div id="offcanvas-inner">
+				<div class="d-flex flex-column">
+					
 
 	<a href="/" class="h5 my-0 px-4 py-3 d-block">Home</a>
 
@@ -51,7 +52,7 @@
 
 	<a href="/docs" class="h5 px-4 py-3 my-0 d-block">Docs</a>
 	
-	<nav class="nav flex-column">
+	<div>
 		<span class="nav-link active">Usage</span>
 		<a class="nav-link" href="/docs/api/">API</a>
 		<a class="nav-link" href="/docs/plugins/">Plugins</a>
@@ -59,7 +60,7 @@
 		<a class="nav-link" href="/docs/contribute/">Contribute</a>
 		<a class="nav-link" href="/docs/migration/">Migration</a>
 		<a class="nav-link" href="/docs/selectize.js/">selectize.js</a>
-	</nav>
+	</div>
 	
 
 	<hr class="m-4">
@@ -85,6 +86,7 @@
 		<div class="mt-2"><a href="https://github.com/orchidjs/tom-select/graphs/contributors">© 2021 Contributors</a></div>
 	</div>
 
+				</div>
 			</div>
 		</div>
 
@@ -142,7 +144,7 @@ element.
 <pre class="language-js"><code class="language-js"><span class="token function-variable function">create</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">input</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token keyword">return</span> <span class="token punctuation">{</span>value<span class="token operator">:</span>input<span class="token punctuation">,</span>text<span class="token operator">:</span>input<span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
 <pre class="language-js"><code class="language-js"><span class="token function-variable function">create</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">input<span class="token punctuation">,</span>callback</span><span class="token punctuation">)</span><span class="token punctuation">{</span><br>	<span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">{</span>value<span class="token operator">:</span>input<span class="token punctuation">,</span>text<span class="token operator">:</span>input<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
 </td>
-<td><code>boolean/function</code></td>
+<td><code>boolean|function</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
@@ -357,12 +359,13 @@ element.
 	<tr>
 		<td id="sortfield"><code>sortField</code></td>
 		<td>
-			<p>A single field or an array of fields to sort by. Each item in the array should be an object containing at least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code> or <code>'desc'</code>. The order of the array defines the sort precedence.</p>
-			<p>Unless present, a special `$score` field will be automatically added to the beginning of the sort list. This will make results sorted primarily by match quality (descending).</p>
-			<p>You can override the `$score` function. For more information, see the <a href="https://github.com/orchidjs/sifter.js#sifterjs">sifter documentation</a>.</p>
-		</td>
-		<td><code>string|array</code></td>
-		<td><code>'$order'</code></td>
+			<p>sortField maps directly to the <a href="https://github.com/orchidjs/sifter.js#searchquery-options">sort setting in Sifter</a>.</p>
+			<p>By default, results will be sorted by their <a href="#scoresearch">$score</a> first, then by the original order of options.
+			To disable sorting entirely and maintain the original order of options, use:
+</p><pre class="language-js"><code class="language-js"><span class="token function-variable function">sortField</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token number">1</span></code></pre>
+</td>
+		<td><code>string<br>array<br>function</code></td>
+		<td><code>[{field:'$score'}, {field:'$order'}]</code></td>
 	</tr>
 	<tr>
 		<td id="searchfield"><code>searchField</code></td>

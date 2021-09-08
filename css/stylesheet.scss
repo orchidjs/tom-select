@@ -187,6 +187,11 @@ pre[class*="language-"]{
 		bottom:				0;
 		overflow-y:			auto;
 		overflow-x:			hidden;
+		
+		> div{
+			min-height:		100%;
+		}
+		
 	}
 
 	&:hover,
