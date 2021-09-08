@@ -5,6 +5,7 @@ import {
 } from '../utils';
 
 import { TPluginItem, TPluginHash } from '../contrib/microplugin';
+import * as SifterTypes from '@orchidjs/sifter/lib/types';
 
 
 
@@ -46,7 +47,7 @@ export type TomSettings = {
 	optgroupValueField		: string,
 	lockOptgroupOrder		: boolean,
 
-	sortField				: string|any[],
+	sortField				: string|SifterTypes.Sort[]|SifterTypes.SortFn,
 	searchField				: string[],
 	searchConjunction		: string,
 	nesting					: boolean,

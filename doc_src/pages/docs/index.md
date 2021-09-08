@@ -87,7 +87,7 @@ create: function(input,callback){
 }
 ```
 </td>
-<td><code>boolean/function</code></td>
+<td><code>boolean|function</code></td>
 <td><code>false</code></td>
 </tr>
 
@@ -312,12 +312,16 @@ create: function(input,callback){
 	<tr>
 		<td><code>sortField</code></td>
 		<td>
-			<p>A single field or an array of fields to sort by. Each item in the array should be an object containing at least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code> or <code>'desc'</code>. The order of the array defines the sort precedence.</p>
-			<p>Unless present, a special `$score` field will be automatically added to the beginning of the sort list. This will make results sorted primarily by match quality (descending).</p>
-			<p>You can override the `$score` function. For more information, see the <a href="https://github.com/orchidjs/sifter.js#sifterjs">sifter documentation</a>.</p>
-		</td>
-		<td><code>string|array</code></td>
-		<td><code>'$order'</code></td>
+			<p>sortField maps directly to the <a href="https://github.com/orchidjs/sifter.js#searchquery-options">sort setting in Sifter</a>.</p>
+			<p>By default, results will be sorted by their <a href="#scoresearch">$score</a> first, then by the original order of options.
+			To disable sorting entirely and maintain the original order of options, use:
+			
+```js
+sortField:()=>1
+```
+</td>
+		<td><code>string<br/>array<br/>function</code></td>
+		<td><code>[{field:'$score'}, {field:'$order'}]</code></td>
 	</tr>
 	<tr>
 		<td><code>searchField</td>
