@@ -1175,15 +1175,22 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self = this;
 
 		if( !self.control.contains(self.control_input) ) return;
+					
+		setAttr(self.control_input,{placeholder:self.settings.placeholder});
 
-		if( self.activeItems.length > 0 || (!self.isFocused && this.settings.hidePlaceholder && self.items.length > 0) ){
+		if( self.activeItems.length > 0 || (!self.isFocused && self.settings.hidePlaceholder && self.items.length > 0) ){
 			self.setTextboxValue();
 			self.isInputHidden = true;
-			addClasses(self.wrapper,'input-hidden');
+			
 		}else{
+						
+			if( self.settings.hidePlaceholder && self.items.length > 0 ){
+				setAttr(self.control_input,{placeholder:''});
+			}			
 			self.isInputHidden = false;
-			removeClasses(self.wrapper,'input-hidden');
 		}
+
+		self.wrapper.classList.toggle('input-hidden', self.isInputHidden );
 	}
 
 	/**
@@ -1876,6 +1883,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			if (!self.isPending || (!wasFull && self.isFull())) {
+				self.inputState();
 				self.refreshState();
 			}
 
