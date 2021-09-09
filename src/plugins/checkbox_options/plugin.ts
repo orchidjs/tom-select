@@ -12,7 +12,7 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select.js';
+import TomSelect from '../../tom-select';
 import { preventDefault, hash_key } from '../../utils';
 import { getDom } from '../../vanilla';
 

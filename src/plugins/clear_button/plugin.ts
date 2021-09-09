@@ -13,7 +13,7 @@
  *
  */
 
-import TomSelect from '../../tom-select.js';
+import TomSelect from '../../tom-select';
 import { getDom } from '../../vanilla';
 import { CBOptions } from './types';
 

@@ -13,8 +13,8 @@
  *
  */
 
-import TomSelect from '../../tom-select.js';
-import * as constants from '../../constants.js';
+import TomSelect from '../../tom-select';
+import * as constants from '../../constants';
 import { parentMatch, nodeIndex } from '../../vanilla';
 
 TomSelect.define('optgroup_columns', function(this:TomSelect) {

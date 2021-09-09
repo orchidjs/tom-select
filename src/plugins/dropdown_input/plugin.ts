@@ -13,8 +13,8 @@
  *
  */
 
-import TomSelect from '../../tom-select.js';
-import * as constants from '../../constants.js';
+import TomSelect from '../../tom-select';
+import * as constants from '../../constants';
 import { getDom, addClasses } from '../../vanilla';
 import { addEvent, preventDefault } from '../../utils';
 

@@ -1,12 +1,12 @@
 
-import MicroEvent from './contrib/microevent.js';
-import MicroPlugin from './contrib/microplugin.js';
+import MicroEvent from './contrib/microevent';
+import MicroPlugin from './contrib/microplugin';
 import Sifter from '@orchidjs/sifter/lib/sifter';
 import { escape_regex, iterate } from '@orchidjs/sifter/lib/utils';
 import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames } from './types/index';
-import {highlight, removeHighlight} from './contrib/highlight.js';
-import * as constants from './constants.js';
-import getSettings from './getSettings.js';
+import {highlight, removeHighlight} from './contrib/highlight';
+import * as constants from './constants';
+import getSettings from './getSettings';
 import {
 	hash_key,
 	get_hash,

@@ -12,7 +12,7 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select.js';
+import TomSelect from '../../tom-select';
 
 TomSelect.define('drag_drop',function(this:TomSelect) {
 	var self = this;
