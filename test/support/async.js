@@ -20,9 +20,9 @@ async function asyncClick(el){
 	await waitFor(100);
 }
 
-async function asyncType(text,el){
+async function asyncType(text){
 	return new Promise(resolve => {
-		syn.type(text,el,()=>{
+		syn.type(text,document.activeElement,()=>{
 			resolve();
 		});
 	});

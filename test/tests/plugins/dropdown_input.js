@@ -31,19 +31,19 @@ describe('plugin: dropdown_input', function() {
 		
 		assert.equal(test.instance.activeOption.dataset.value,'a');
 
-		await asyncType('a', test.instance.control_input);
-		await asyncType('[enter]', test.instance.control_input);
+		await asyncType('a');
+		await asyncType('[enter]');
 		
 		assert.equal( test.instance.items.length, 1);
 		assert.equal( test.instance.items[0], 'a');
 		assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
 		assert.equal(test.instance.isOpen, false);
 
-		await asyncType('[down]', document.activeElement);
+		await asyncType('[down]');
 		assert.equal(test.instance.isOpen, true);
 
-		await asyncType('[b]', test.instance.control_input);
-		await asyncType('[enter]', test.instance.control_input);
+		await asyncType('[b]');
+		await asyncType('[enter]');
 
 		assert.equal( test.instance.items.length, 1);
 		assert.equal( test.instance.items[0], 'b');
@@ -62,7 +62,7 @@ describe('plugin: dropdown_input', function() {
 		await asyncClick(test.instance.control);
 		assert.isFalse(test.instance.isOpen);
 		
-		await asyncType('[down]', test.instance.control_input);
+		await asyncType('[down]');
 		assert.isTrue(test.instance.isOpen);
 	});
 
@@ -112,10 +112,10 @@ describe('plugin: dropdown_input', function() {
 		await asyncClick( test.instance.control );
 		assert.isTrue( test.instance.isOpen );
 
-		await asyncType('[escape]', document.activeElement );
+		await asyncType('[escape]');
 		assert.isFalse( test.instance.isOpen, 'not closed' );
 		
-		await asyncType('[down]', document.activeElement );
+		await asyncType('[down]');
 		assert.isTrue( test.instance.isOpen, 'not re-opened' );
 
 	});
@@ -146,7 +146,7 @@ describe('plugin: dropdown_input', function() {
 		await asyncClick(test.instance.control);
 		assert.equal( test.instance.activeItems.length, 0 );
 
-		await asyncType('['+shortcut_key+']a['+shortcut_key+'-up]', test.instance.control_input);
+		await asyncType('['+shortcut_key+']a['+shortcut_key+'-up]');
 		assert.equal( test.instance.activeItems.length, 2 );
 
 	});

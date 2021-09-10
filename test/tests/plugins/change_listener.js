@@ -44,7 +44,7 @@ describe('plugin: change_listener', function() {
 		await asyncClick(test.instance.control);
 		assert.isTrue(test.instance.isFocused,'should be focused');
 
-		await asyncType('new[enter]',test.instance.control_input);
+		await asyncType('new[enter]');
 		await waitFor(10);
 
 		assert.equal(test.instance.control_input, document.activeElement,'should maintain input focus');

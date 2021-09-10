@@ -50,7 +50,7 @@ describe('plugin: virtual_scroll', function() {
 
 		// load first set of data for "a"
 		await asyncClick(test.instance.control);
-		await asyncType('a',test.instance.control_input);
+		await asyncType('a');
 		await waitFor(100); // wait for data to load
 		assert.equal( Object.keys(test.instance.options).length,20,'should load first set of data');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 1, 'should have loading-more-reuslts template');
@@ -78,7 +78,7 @@ describe('plugin: virtual_scroll', function() {
 
 
 		// load first set of data for "b"
-		await asyncType('\bb',test.instance.control_input);
+		await asyncType('\bb');
 		await waitFor(100); // wait for data to load
 		assert.equal( Object.keys(test.instance.options).length,20,'should load new set of data for "b"');
 		assert.equal( load_calls, 3);

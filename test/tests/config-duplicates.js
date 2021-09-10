@@ -26,7 +26,7 @@ describe('duplicates', function() {
 
 		while( items.length ){
 			items.pop();
-			await asyncType('\b',test.instance.control_input);
+			await asyncType('\b');
 			const items_after = test.instance.controlChildren();
 			assert.deepEqual( items, items_after);
 		}

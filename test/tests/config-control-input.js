@@ -20,15 +20,15 @@ describe('Control Input', function() {
 			assert.isTrue( test.instance.isOpen );
 			assert.equal(test.instance.activeOption.dataset.value,'a');
 
-			await asyncType('[enter]', test.instance.control);
+			await asyncType('[enter]');
 			assert.isFalse( test.instance.isOpen );
 			assert.equal( test.instance.items.length, 1);
 			assert.equal( test.instance.items[0], 'a');
 
-			await asyncType('[down]', test.instance.control);
+			await asyncType('[down]');
 			assert.isTrue( test.instance.isOpen );
 			
-			await asyncType('[down][enter]', test.instance.control);
+			await asyncType('[down][enter]');
 			assert.equal( test.instance.items.length, 1);
 			assert.equal( test.instance.items[0], 'b');
 		
@@ -44,7 +44,7 @@ describe('Control Input', function() {
 			await asyncClick(test.instance.control);
 			assert.isFalse(test.instance.isOpen);
 			
-			await asyncType('[down]', test.instance.control);
+			await asyncType('[down]');
 			assert.isTrue(test.instance.isOpen);
 		});
 

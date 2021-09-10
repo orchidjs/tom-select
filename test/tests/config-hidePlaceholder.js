@@ -18,7 +18,7 @@ describe('hidePlaceholder', function() {
 		assert.equal( test.instance.items.length, 1);
 		assert.equal( test.instance.control_input.placeholder, '', 'placeholder should be empty');
 		
-		await asyncType( '\b', test.instance.control_input);
+		await asyncType( '\b');
 		assert.equal( test.instance.items.length, 0);
 		assert.equal( test.instance.control_input.placeholder, 'test-placeholder', 'placeholder should match setting');
 		

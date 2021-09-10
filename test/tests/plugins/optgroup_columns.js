@@ -47,7 +47,8 @@ describe('plugin: optgroup_columns', function() {
 	it_n('three optgroups should be displayed', async () => {
 
 		var test = optgroup_test();
-		await asyncType('a',test.instance.control_input);
+		await asyncClick(test.instance.control);
+		await asyncType('a');
 
 		var optgroups = test.instance.dropdown_content.querySelectorAll('.optgroup');
 		expect(optgroups.length).to.be.equal(3);
@@ -58,13 +59,14 @@ describe('plugin: optgroup_columns', function() {
 		var test = optgroup_test();
 
 		// 1) move right to audi
-		await asyncType('a[right]',test.instance.control_input);
+		await asyncClick(test.instance.control);
+		await asyncType('a[right]');
 
 		var optgroup			= test.instance.activeOption.parentNode;
 		expect(optgroup.dataset.group).to.be.equal('audi');
 
 		// 2) move left to chevy
-		await asyncType('[left]',test.instance.control_input);
+		await asyncType('[left]');
 
 		var optgroup			= test.instance.activeOption.parentNode;
 		expect(optgroup.dataset.group).to.be.equal('chevrolet');

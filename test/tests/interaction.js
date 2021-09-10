@@ -95,7 +95,7 @@
 				assert.equal( test.instance.items.length, 1 , 'should have 1 item' );
 				assert.equal( test.instance.activeItems.length, 1 , 'should 1 active item' );
 
-				await asyncType('[escape]', test.instance.control_input);
+				await asyncType('[escape]');
 				assert.equal( test.instance.isOpen, false, 'not closed' );
 				assert.equal( test.instance.activeItems.length, 0 , 'not cleared' );
 				assert.equal( test.instance.control_input.value,'','should clear control_input');
@@ -107,20 +107,19 @@
 				var test = setup_test('AB_Multi',{items:['a']});
 
 				await asyncClick(test.instance.control);
-				await asyncType('b', test.instance.control_input);
+				await asyncType('b');
 
 				assert.equal( test.instance.isOpen, true, 'not open' );
 				assert.equal( test.instance.control_input.value,'b','should type "b"');
 
-				await asyncType('[escape]', test.instance.control_input);
+				await asyncType('[escape]');
 				assert.equal( test.instance.isOpen, false, 'not closed' );
 				assert.equal( test.instance.control_input.value,'','should clear control_input');
 
 			});
 
 
-			it_n('should change activeOption with [down] and [up] keypress', function(done) {
-
+			it_n('should change activeOption with [down] and [up] keypress', async () => {
 				var test = setup_test(`<select>
 										<optgroup>
 											<option>a</option>
@@ -131,20 +130,14 @@
 										</select>
 										`);
 
-				click(test.instance.control, function() {
-					assert.equal( test.instance.activeOption.dataset.value, 'a', 'activeOption should be "a" to start');
+				await asyncClick(test.instance.control);
+				assert.equal( test.instance.activeOption.dataset.value, 'a', 'activeOption should be "a" to start');
 
-					syn.type('[down]', test.instance.control_input, function() {
-						assert.equal( test.instance.activeOption.dataset.value, 'b', 'activeOption should be changed to "b"');
+				await asyncType('[down]');
+				assert.equal( test.instance.activeOption.dataset.value, 'b', 'activeOption should be changed to "b"');
 
-						syn.type('[up]', test.instance.control_input, function() {
-							assert.equal( test.instance.activeOption.dataset.value, 'a', 'activeOption should be changed back to "a"');
-							done();
-						});
-
-					});
-
-				});
+				await asyncType('[up]');
+				assert.equal( test.instance.activeOption.dataset.value, 'a', 'activeOption should be changed back to "a"');
 			});
 
 			it_n('should not close dropdown when clicking on dropdown header', function(done) {
@@ -655,15 +648,15 @@
 				
 				assert.equal(test.instance.activeOption.dataset.value,'a');
 
-				await asyncType('a', test.instance.control_input);
-				await asyncType('[enter]', test.instance.control_input);
+				await asyncType('a');
+				await asyncType('[enter]');
 				
 				assert.equal( test.instance.items.length, 1);
 				assert.equal( test.instance.items[0], 'a');
 				assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
 
-				await asyncType('[b]', test.instance.control_input);
-				await asyncType('[enter]', test.instance.control_input);
+				await asyncType('[b]');
+				await asyncType('[enter]');
 
 				assert.equal( test.instance.items.length, 1);
 				assert.equal( test.instance.items[0], 'b');
@@ -745,7 +738,7 @@
 				await asyncClick(test.instance.control);
 				assert.equal( test.instance.activeItems.length, 0 );
 
-				await asyncType('['+shortcut_key+']a['+shortcut_key+'-up]', test.instance.control_input)
+				await asyncType('['+shortcut_key+']a['+shortcut_key+'-up]');
 				assert.equal( test.instance.activeItems.length, 2 );
 
 			});
@@ -1166,7 +1159,7 @@
 				await asyncClick(test.instance.control);
 				assert.isFalse(test.instance.isOpen);
 				
-				await asyncType('[down]', test.instance.control_input);
+				await asyncType('[down]');
 				assert.isTrue(test.instance.isOpen);
 			});
 
