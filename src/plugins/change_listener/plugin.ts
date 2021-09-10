@@ -13,7 +13,7 @@
  *
  */
 
-import TomSelect from '../../tom-select.js';
+import TomSelect from '../../tom-select';
 import { addEvent } from '../../utils';
 
 TomSelect.define('change_listener',function(this:TomSelect){
