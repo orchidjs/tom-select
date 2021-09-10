@@ -1226,7 +1226,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (self.isDisabled) return;
 
 		self.ignoreFocus = true;
-		self.focus_node.focus();
+		
+		if( self.control_input.offsetWidth ){
+			self.control_input.focus();
+		}else{
+			self.focus_node.focus();
+		}
 		
 		setTimeout(() => {
 			self.ignoreFocus = false;
