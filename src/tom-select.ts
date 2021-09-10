@@ -639,6 +639,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// ctrl+A: select all
 			case constants.KEY_A:
 				if( isKeyDown(constants.KEY_SHORTCUT,e) ){
+					preventDefault(e);
 					self.selectAll();
 					return;
 				}
@@ -1156,15 +1157,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if (this.settings.mode === 'single') return;
 
-		this.activeItems = this.controlChildren();
+		const activeItems = this.controlChildren();
 
-		if( this.activeItems.length ){
-			addClasses( this.activeItems, 'active' );
+		if( !activeItems.length ) return;
+		
+		this.hideInput();
+		this.close();
 
-			this.hideInput();
-			this.close();
-		}
-		this.focus();
+		this.activeItems = activeItems;
+		addClasses( activeItems, 'active' );
 	}
 
 	/**

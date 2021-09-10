@@ -735,23 +735,19 @@
 			});
 
 
-			it_n('should select all items when ['+shortcut_key+'-a] pressed', function(done) {
+			it_n('should select all items when ['+shortcut_key+'-a] pressed', async () => {
 
 				var test = setup_test('AB_Multi');
 
 				test.instance.addItem('a');
 				test.instance.addItem('b');
 
-				click(test.instance.control, function() {
-					assert.equal( test.instance.activeItems.length, 0 );
+				await asyncClick(test.instance.control);
+				assert.equal( test.instance.activeItems.length, 0 );
 
-					syn.type('['+shortcut_key+']a['+shortcut_key+'-up]', test.instance.control_input, function() {
-						assert.equal( test.instance.activeItems.length, 2 );
-						done();
+				await asyncType('['+shortcut_key+']a['+shortcut_key+'-up]', test.instance.control_input)
+				assert.equal( test.instance.activeItems.length, 2 );
 
-					});
-
-				});
 			});
 
 

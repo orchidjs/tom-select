@@ -133,5 +133,22 @@ describe('plugin: dropdown_input', function() {
 		assert.isFalse( test.instance.isOpen );
 		
 	});
+
+	it_n('should select all items when ['+shortcut_key+'-a] pressed', async () => {
+
+		var test = setup_test('AB_Multi',{
+			plugins: ['dropdown_input'],
+		});
+
+		test.instance.addItem('a');
+		test.instance.addItem('b');
+
+		await asyncClick(test.instance.control);
+		assert.equal( test.instance.activeItems.length, 0 );
+
+		await asyncType('['+shortcut_key+']a['+shortcut_key+'-up]', test.instance.control_input);
+		assert.equal( test.instance.activeItems.length, 2 );
+
+	});
 	
 });
