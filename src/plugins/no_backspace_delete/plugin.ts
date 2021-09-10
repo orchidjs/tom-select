@@ -11,7 +11,7 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select.js';
+import TomSelect from '../../tom-select';
 
 TomSelect.define('no_backspace_delete', function(this:TomSelect) {
 	var self = this;

@@ -1,4 +1,4 @@
-import defaults from './defaults.js';
+import defaults from './defaults';
 import { hash_key } from './utils';
 import { TomOption, TomSettings } from './types/index';
 import { iterate } from '@orchidjs/sifter/lib/utils';

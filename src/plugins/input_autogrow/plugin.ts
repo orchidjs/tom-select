@@ -11,7 +11,7 @@
  * governing permissions and limitations under the License.
  *
  */
-import TomSelect from '../../tom-select.js';
+import TomSelect from '../../tom-select';
 import { addEvent } from '../../utils';
 
 TomSelect.define('input_autogrow', function(this:TomSelect) {
