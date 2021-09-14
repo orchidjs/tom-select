@@ -2051,6 +2051,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       // ctrl+A: select all
       case KEY_A:
         if (isKeyDown(KEY_SHORTCUT, e)) {
+          preventDefault(e);
           self.selectAll();
           return;
         }
@@ -2590,15 +2591,12 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
   selectAll() {
     if (this.settings.mode === 'single') return;
-    this.activeItems = this.controlChildren();
-
-    if (this.activeItems.length) {
-      addClasses(this.activeItems, 'active');
-      this.hideInput();
-      this.close();
-    }
-
-    this.focus();
+    const activeItems = this.controlChildren();
+    if (!activeItems.length) return;
+    this.hideInput();
+    this.close();
+    this.activeItems = activeItems;
+    addClasses(activeItems, 'active');
   }
   /**
    * Determines if the control_input should be in a hidden or visible state
@@ -2664,7 +2662,13 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     var self = this;
     if (self.isDisabled) return;
     self.ignoreFocus = true;
-    self.focus_node.focus();
+
+    if (self.control_input.offsetWidth) {
+      self.control_input.focus();
+    } else {
+      self.focus_node.focus();
+    }
+
     setTimeout(() => {
       self.ignoreFocus = false;
       self.onFocus();
