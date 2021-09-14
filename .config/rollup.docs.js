@@ -33,7 +33,7 @@ var terser_config = terser({
 configs.push({
 	input: 'doc_src/js/index.js',
 	output: {
-		file: path.resolve(__dirname,'../build/docs/js/index.bundle.js'),
+		file: path.resolve(__dirname,'../build-docs/js/index.bundle.js'),
 		name: 'bootstrap',
 		format: 'umd',
 		sourcemap: true,

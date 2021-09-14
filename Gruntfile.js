@@ -161,7 +161,7 @@ module.exports = function(grunt) {
 		// delete old build files
 		clean: {
 			library: ['build/scss/*','build/js/*','build/esm/*','build/css/*','build/cjs/*'],
-			builddocs: ['build/docs/*']
+			builddocs: ['build-docs/*']
 		},
 
 		// copy scss files to build folder
@@ -196,8 +196,8 @@ module.exports = function(grunt) {
 			},
 			builddocs:{
 				files:[
-					{src:['build/docs/js/index.bundle.js'],dest:'build/docs/js/index.bundle.js'},
-					{src:['build/docs/index.html'],dest:'build/docs/index.html'}
+					{src:['build-docs/js/index.bundle.js'],dest:'build-docs/js/index.bundle.js'},
+					{src:['build-docs/index.html'],dest:'build-docs/index.html'}
 				]
 			}
 		},
@@ -223,7 +223,7 @@ module.exports = function(grunt) {
 					flatten: true,
 					ext: '.css',
 					src: ['doc_src/css/*.scss'],
-					dest: 'build/docs/css'
+					dest: 'build-docs/css'
 				}],
 			}
 		},
@@ -271,8 +271,8 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					flatten: true,
-					src: ['build/docs/css/*.css'],
-					dest: 'build/docs/css'
+					src: ['build-docs/css/*.css'],
+					dest: 'build-docs/css'
 				}],
 			},
 		},
@@ -281,12 +281,12 @@ module.exports = function(grunt) {
 		connect: {
 			server:{
 				options: {
-					base: 'build/docs',
+					base: 'build-docs',
 				}
 			}
 		},
 
-		// generate /build/docs
+		// generate /build-docs
 		shell: {
 			builddocs: {
 				command: 'npx @11ty/eleventy --config=.config/eleventy.js',

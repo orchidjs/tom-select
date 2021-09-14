@@ -30,6 +30,6 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: ./build/docs
+          publish_dir: ./build-docs
           github_token: ${{ secrets.GITHUB_TOKEN }}
           cname: tom-select.js.org

@@ -6,7 +6,7 @@ node_modules
 package-lock.json
 *.lock
 build/*
-dist/docs/*
+build-docs/*
 .sass-cache
 x-*
 *.err
