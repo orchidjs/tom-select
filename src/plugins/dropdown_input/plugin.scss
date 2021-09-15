@@ -5,7 +5,7 @@
 		box-shadow: none;
 		border: $select-border;
 		@if variable-exists(input-box-shadow) {
-			@include box-shadow($input-box-shadow);
+			box-shadow: $input-box-shadow;
 		}
 	}
 
