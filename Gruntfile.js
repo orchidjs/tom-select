@@ -172,6 +172,8 @@ module.exports = function(grunt) {
 					'build/scss/tom-select.default.scss': ['src/scss/tom-select.default.scss'],
 					'build/scss/tom-select.bootstrap4.scss': ['src/scss/tom-select.bootstrap4.scss'],
 					'build/scss/tom-select.bootstrap5.scss': ['src/scss/tom-select.bootstrap5.scss'],
+					'build/scss/_dropdown.scss': ['src/scss/_dropdown.scss'],
+					'build/scss/_items.scss': ['src/scss/_items.scss'],
 				}]
 			},
 			scss_plugins:{
