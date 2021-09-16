@@ -30,6 +30,7 @@ module.exports = function(grunt) {
 		'postcss:prefix',
 		'postcss:min',
 		'replace:css_post',
+		'replace:scss_plugin_paths'
 	]);
 
 	grunt.registerTask('serve', [
@@ -153,6 +154,20 @@ module.exports = function(grunt) {
 	var autoprefixer = require('autoprefixer')();
 
 
+	var version_replace_options = {
+		prefix: '//@@',
+		variables: {
+			'version': '<%= pkg.version %>',
+		}
+	};
+
+	var scss_plugin_path_replace_options = {
+		patterns: [{
+			match: /\.\.\/plugins\/(.+?)\/plugin\.scss/g,
+			replacement: './plugins/$1.scss'
+		}],
+		usePrefix: false
+	};
 
 
 	grunt.initConfig({
@@ -172,6 +187,8 @@ module.exports = function(grunt) {
 					'build/scss/tom-select.default.scss': ['src/scss/tom-select.default.scss'],
 					'build/scss/tom-select.bootstrap4.scss': ['src/scss/tom-select.bootstrap4.scss'],
 					'build/scss/tom-select.bootstrap5.scss': ['src/scss/tom-select.bootstrap5.scss'],
+					'build/scss/_dropdown.scss': ['src/scss/_dropdown.scss'],
+					'build/scss/_items.scss': ['src/scss/_items.scss'],
 				}]
 			},
 			scss_plugins:{
@@ -181,25 +198,25 @@ module.exports = function(grunt) {
 
 		// replace //@@version with current package version
 		replace: {
-			options: {
-				prefix: '//@@',
-				variables: {
-					'version': '<%= pkg.version %>',
-				},
-			},
 			// add version to css & scss headers
 			css_post: {
+				options: version_replace_options,
 				files: [
 					{expand: true, flatten: false, src: ['build/css/*.css'], dest: ''},
 					{expand: true, flatten: false, src: ['build/scss/*.scss'], dest: ''},
 				]
 			},
 			builddocs:{
+				options: version_replace_options,
 				files:[
 					{src:['build-docs/js/index.bundle.js'],dest:'build-docs/js/index.bundle.js'},
 					{src:['build-docs/index.html'],dest:'build-docs/index.html'}
 				]
-			}
+			},
+			scss_plugin_paths: {
+				options: scss_plugin_path_replace_options,
+				files: [{expand: true, flatten: false, src: ['build/scss/tom-select.scss'], dest: ''}]
+			},
 		},
 
 
