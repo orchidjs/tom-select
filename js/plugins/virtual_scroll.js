@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.0.0-rc.3
+* Tom Select v2.0.0-rc.4
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -7,7 +7,7 @@
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select')) :
 	typeof define === 'function' && define.amd ? define(['../../tom-select'], factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
-}(this, (function (TomSelect) { 'use strict';
+})(this, (function (TomSelect) { 'use strict';
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -104,7 +104,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default['default'].define('virtual_scroll', function () {
+	TomSelect__default["default"].define('virtual_scroll', function () {
 	  const self = this;
 	  const orig_canLoad = self.canLoad;
 	  const orig_clearActiveOption = self.clearActiveOption;
@@ -239,5 +239,5 @@
 	  });
 	});
 
-})));
+}));
 //# sourceMappingURL=virtual_scroll.js.map

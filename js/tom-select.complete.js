@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.0.0-rc.3
+* Tom Select v2.0.0-rc.4
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -7,7 +7,7 @@
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.TomSelect = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
 	/**
 	 * MicroEvent - to make any js object an event emitter
@@ -4788,6 +4788,6 @@
 
 	return TomSelect;
 
-})));
+}));
 var tomSelect=function(el,opts){return new TomSelect(el,opts);} 
 //# sourceMappingURL=tom-select.complete.js.map
