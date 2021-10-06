@@ -12,12 +12,12 @@
  * governing permissions and limitations under the License.
  *
  */
+
 import TomSelect from '../../tom-select';
 import { TomOption } from '../../types/index';
 import { addClasses } from '../../vanilla';
 
-
-TomSelect.define('virtual_scroll',function(this:TomSelect) {
+export default function(this:TomSelect) {
 	const self							= this;
 	const orig_canLoad					= self.canLoad;
 	const orig_clearActiveOption		= self.clearActiveOption;
@@ -172,4 +172,4 @@ TomSelect.define('virtual_scroll',function(this:TomSelect) {
 		});
 	});
 
-});
+};

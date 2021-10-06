@@ -17,7 +17,7 @@ import TomSelect from '../../tom-select';
 import { nodeIndex } from '../../vanilla';
 
 
-TomSelect.define('caret_position',function(this:TomSelect) {
+export default function(this:TomSelect) {
 	var self = this;
 
 	/**
@@ -49,9 +49,9 @@ TomSelect.define('caret_position',function(this:TomSelect) {
 
 		self.caretPos = new_pos;
 	});
-	
+
 	self.hook('instead','moveCaret',(direction:number) => {
-			
+
 		if( !self.isFocused ) return;
 
 		// move caret before or after selected items
@@ -66,7 +66,7 @@ TomSelect.define('caret_position',function(this:TomSelect) {
 			self.setCaret(self.caretPos + direction);
 
 		}
-		
+
 	});
 
-});
+};

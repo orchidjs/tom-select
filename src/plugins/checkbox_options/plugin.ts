@@ -12,12 +12,13 @@
  * governing permissions and limitations under the License.
  *
  */
+
 import TomSelect from '../../tom-select';
 import { preventDefault, hash_key } from '../../utils';
 import { getDom } from '../../vanilla';
 
 
-TomSelect.define('checkbox_options',function(this:TomSelect) {
+export default function(this:TomSelect) {
 	var self = this;
 	var orig_onOptionSelect = self.onOptionSelect;
 
@@ -88,5 +89,4 @@ TomSelect.define('checkbox_options',function(this:TomSelect) {
 		UpdateCheckbox(option);
 	});
 
-
-});
+};

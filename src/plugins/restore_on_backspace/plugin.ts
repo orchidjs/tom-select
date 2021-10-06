@@ -19,7 +19,7 @@ type TPluginOptions = {
 	text?:(option:TomOption)=>string,
 };
 
-TomSelect.define('restore_on_backspace',function(this:TomSelect, userOptions:TPluginOptions) {
+export default function(this:TomSelect, userOptions:TPluginOptions) {
 	const self = this;
 
 	const options = Object.assign({
@@ -37,4 +37,4 @@ TomSelect.define('restore_on_backspace',function(this:TomSelect, userOptions:TPl
 		}
 	});
 
-});
+};

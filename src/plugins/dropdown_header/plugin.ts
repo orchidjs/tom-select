@@ -18,7 +18,7 @@ import { getDom } from '../../vanilla';
 import { preventDefault } from '../../utils';
 import { DHOptions } from './types';
 
-TomSelect.define('dropdown_header',function(this:TomSelect, userOptions:DHOptions) {
+export default function(this:TomSelect, userOptions:DHOptions) {
 	const self = this;
 
 	const options = Object.assign({
@@ -54,4 +54,4 @@ TomSelect.define('dropdown_header',function(this:TomSelect, userOptions:DHOption
 		self.dropdown.insertBefore(header, self.dropdown.firstChild);
 	});
 
-});
+};

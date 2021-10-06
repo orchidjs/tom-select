@@ -12,9 +12,10 @@
  * governing permissions and limitations under the License.
  *
  */
+
 import TomSelect from '../../tom-select';
 
-TomSelect.define('drag_drop',function(this:TomSelect) {
+export default function(this:TomSelect) {
 	var self = this;
 	if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	if (self.settings.mode !== 'multi') return;
@@ -57,4 +58,4 @@ TomSelect.define('drag_drop',function(this:TomSelect) {
 
 	});
 
-});
+};
