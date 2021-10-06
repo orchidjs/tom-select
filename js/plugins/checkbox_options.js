@@ -4,14 +4,10 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
-})(this, (function (TomSelect) { 'use strict';
-
-	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.checkbox_options = factory());
+})(this, (function () { 'use strict';
 
 	/**
 	 * Converts a scalar to its best string representation
@@ -98,7 +94,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default["default"].define('checkbox_options', function () {
+	function plugin () {
 	  var self = this;
 	  var orig_onOptionSelect = self.onOptionSelect;
 	  self.settings.hideSelected = false; // update the checkbox for an option
@@ -160,7 +156,9 @@
 	    orig_onOptionSelect.call(self, evt, option);
 	    UpdateCheckbox(option);
 	  });
-	});
+	}
+
+	return plugin;
 
 }));
 //# sourceMappingURL=checkbox_options.js.map

@@ -4064,7 +4064,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('caret_position', function () {
+	function caret_position () {
 	  var self = this;
 	  /**
 	   * Moves the caret to the specified index.
@@ -4107,7 +4107,7 @@
 	      self.setCaret(self.caretPos + direction);
 	    }
 	  });
-	});
+	}
 
 	/**
 	 * Plugin: "dropdown_input" (Tom Select)
@@ -4123,7 +4123,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('dropdown_input', function () {
+	function dropdown_input () {
 	  var self = this;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
@@ -4175,7 +4175,7 @@
 	      self.focus_node.focus();
 	    });
 	  });
-	});
+	}
 
 	/**
 	 * Plugin: "input_autogrow" (Tom Select)
@@ -4190,7 +4190,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('no_backspace_delete', function () {
+	function no_backspace_delete () {
 	  var self = this;
 	  var orig_deleteSelection = self.deleteSelection;
 	  this.hook('instead', 'deleteSelection', evt => {
@@ -4200,7 +4200,7 @@
 
 	    return false;
 	  });
-	});
+	}
 
 	/**
 	 * Plugin: "remove_button" (Tom Select)
@@ -4216,7 +4216,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('remove_button', function (userOptions) {
+	function remove_button (userOptions) {
 	  const options = Object.assign({
 	    label: '&times;',
 	    title: 'Remove',
@@ -4252,7 +4252,7 @@
 	      return rendered;
 	    };
 	  });
-	});
+	}
 
 	/**
 	 * Plugin: "restore_on_backspace" (Tom Select)
@@ -4268,7 +4268,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect.define('restore_on_backspace', function (userOptions) {
+	function restore_on_backspace (userOptions) {
 	  const self = this;
 	  const options = Object.assign({
 	    text: option => {
@@ -4284,7 +4284,13 @@
 	      }
 	    }
 	  });
-	});
+	}
+
+	TomSelect.define('caret_position', caret_position);
+	TomSelect.define('dropdown_input', dropdown_input);
+	TomSelect.define('no_backspace_delete', no_backspace_delete);
+	TomSelect.define('remove_button', remove_button);
+	TomSelect.define('restore_on_backspace', restore_on_backspace);
 
 	return TomSelect;
 

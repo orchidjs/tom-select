@@ -4,14 +4,10 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
-})(this, (function (TomSelect) { 'use strict';
-
-	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.dropdown_input = factory());
+})(this, (function () { 'use strict';
 
 	const KEY_ESC = 27;
 	const KEY_TAB = 9;
@@ -171,7 +167,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default["default"].define('dropdown_input', function () {
+	function plugin () {
 	  var self = this;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
@@ -223,7 +219,9 @@
 	      self.focus_node.focus();
 	    });
 	  });
-	});
+	}
+
+	return plugin;
 
 }));
 //# sourceMappingURL=dropdown_input.js.map

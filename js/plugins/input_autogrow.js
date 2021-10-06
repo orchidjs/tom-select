@@ -4,14 +4,10 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
-})(this, (function (TomSelect) { 'use strict';
-
-	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.input_autogrow = factory());
+})(this, (function () { 'use strict';
 
 	/**
 	 * Converts a scalar to its best string representation
@@ -49,7 +45,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default["default"].define('input_autogrow', function () {
+	function plugin () {
 	  var self = this;
 	  self.on('initialize', () => {
 	    var test_input = document.createElement('span');
@@ -84,7 +80,9 @@
 	    addEvent(control, 'blur', resize);
 	    addEvent(control, 'update', resize);
 	  });
-	});
+	}
+
+	return plugin;
 
 }));
 //# sourceMappingURL=input_autogrow.js.map

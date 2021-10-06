@@ -4,14 +4,10 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
-})(this, (function (TomSelect) { 'use strict';
-
-	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.remove_button = factory());
+})(this, (function () { 'use strict';
 
 	// https://github.com/andrewrk/node-diacritics/blob/master/index.js
 	const latin_convert = {
@@ -106,7 +102,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default["default"].define('remove_button', function (userOptions) {
+	function plugin (userOptions) {
 	  const options = Object.assign({
 	    label: '&times;',
 	    title: 'Remove',
@@ -142,7 +138,9 @@
 	      return rendered;
 	    };
 	  });
-	});
+	}
+
+	return plugin;
 
 }));
 //# sourceMappingURL=remove_button.js.map

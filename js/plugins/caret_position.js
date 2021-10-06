@@ -4,14 +4,10 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
-})(this, (function (TomSelect) { 'use strict';
-
-	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.caret_position = factory());
+})(this, (function () { 'use strict';
 
 	// https://github.com/andrewrk/node-diacritics/blob/master/index.js
 	const latin_convert = {
@@ -54,7 +50,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default["default"].define('caret_position', function () {
+	function plugin () {
 	  var self = this;
 	  /**
 	   * Moves the caret to the specified index.
@@ -97,7 +93,9 @@
 	      self.setCaret(self.caretPos + direction);
 	    }
 	  });
-	});
+	}
+
+	return plugin;
 
 }));
 //# sourceMappingURL=caret_position.js.map

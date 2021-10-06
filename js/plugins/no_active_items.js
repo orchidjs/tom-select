@@ -4,14 +4,10 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
-})(this, (function (TomSelect) { 'use strict';
-
-	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.no_active_items = factory());
+})(this, (function () { 'use strict';
 
 	/**
 	 * Plugin: "input_autogrow" (Tom Select)
@@ -26,10 +22,12 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default["default"].define('no_active_items', function () {
+	function plugin () {
 	  this.hook('instead', 'setActiveItem', () => {});
 	  this.hook('instead', 'selectAll', () => {});
-	});
+	}
+
+	return plugin;
 
 }));
 //# sourceMappingURL=no_active_items.js.map

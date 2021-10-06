@@ -4,14 +4,10 @@
 */
 
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('../../tom-select')) :
-	typeof define === 'function' && define.amd ? define(['../../tom-select'], factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.TomSelect));
-})(this, (function (TomSelect) { 'use strict';
-
-	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-	var TomSelect__default = /*#__PURE__*/_interopDefaultLegacy(TomSelect);
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.optgroup_columns = factory());
+})(this, (function () { 'use strict';
 
 	const KEY_LEFT = 37;
 	const KEY_RIGHT = 39;
@@ -78,7 +74,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
-	TomSelect__default["default"].define('optgroup_columns', function () {
+	function plugin () {
 	  var self = this;
 	  var orig_keydown = self.onKeyDown;
 	  self.hook('instead', 'onKeyDown', evt => {
@@ -112,7 +108,9 @@
 	      self.setActiveOption(option);
 	    }
 	  });
-	});
+	}
+
+	return plugin;
 
 }));
 //# sourceMappingURL=optgroup_columns.js.map
