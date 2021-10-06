@@ -11,9 +11,10 @@
  * governing permissions and limitations under the License.
  *
  */
+
 import TomSelect from '../../tom-select';
 
-TomSelect.define('no_active_items', function(this:TomSelect) {
+export default function(this:TomSelect) {
 	this.hook('instead','setActiveItem',() => {});
 	this.hook('instead','selectAll',() => {});
-});
+};

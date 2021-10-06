@@ -1,9 +1,15 @@
 import TomSelect from './tom-select';
-import './plugins/caret_position/plugin';
-import './plugins/dropdown_input/plugin';
-import './plugins/no_backspace_delete/plugin';
-import './plugins/remove_button/plugin';
-import './plugins/restore_on_backspace/plugin';
 
+import caret_position from './plugins/caret_position/plugin';
+import dropdown_input from './plugins/dropdown_input/plugin';
+import no_backspace_delete from './plugins/no_backspace_delete/plugin';
+import remove_button from './plugins/remove_button/plugin';
+import restore_on_backspace from './plugins/restore_on_backspace/plugin';
+
+TomSelect.define('caret_position', caret_position);
+TomSelect.define('dropdown_input', dropdown_input);
+TomSelect.define('no_backspace_delete', no_backspace_delete);
+TomSelect.define('remove_button', remove_button);
+TomSelect.define('restore_on_backspace', restore_on_backspace);
 
 export default TomSelect;

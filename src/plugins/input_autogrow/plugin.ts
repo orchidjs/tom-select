@@ -11,11 +11,11 @@
  * governing permissions and limitations under the License.
  *
  */
+
 import TomSelect from '../../tom-select';
 import { addEvent } from '../../utils';
 
-TomSelect.define('input_autogrow', function(this:TomSelect) {
-
+export default function(this:TomSelect) {
 	var self					= this;
 
 	self.on('initialize',()=>{
@@ -58,4 +58,4 @@ TomSelect.define('input_autogrow', function(this:TomSelect) {
 		addEvent(control,'update', resize );
 	});
 
-});
+};

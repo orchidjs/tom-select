@@ -12,14 +12,14 @@
  * governing permissions and limitations under the License.
  *
  */
+
 import TomSelect from '../../tom-select';
 import { getDom } from '../../vanilla';
 import { escape_html, preventDefault, addEvent } from '../../utils';
 import { TomOption } from '../../types/index';
 import { RBOptions } from './types';
 
-
-TomSelect.define('remove_button',function(this:TomSelect, userOptions:RBOptions ){
+export default function(this:TomSelect, userOptions:RBOptions) {
 
 	const options = Object.assign({
 			label     : '&times;',
@@ -72,4 +72,4 @@ TomSelect.define('remove_button',function(this:TomSelect, userOptions:RBOptions 
 	});
 
 
-});
+};

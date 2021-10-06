@@ -17,7 +17,7 @@ import TomSelect from '../../tom-select';
 import { getDom } from '../../vanilla';
 import { CBOptions } from './types';
 
-TomSelect.define('clear_button',function(this:TomSelect, userOptions:CBOptions) {
+export default function(this:TomSelect, userOptions:CBOptions) {
 	const self = this;
 
 	const options = Object.assign({
@@ -32,15 +32,15 @@ TomSelect.define('clear_button',function(this:TomSelect, userOptions:CBOptions) 
 		var button = getDom(options.html(options));
 		button.addEventListener('click',(evt)=>{
 			self.clear();
-			
+
 			if( self.settings.mode === 'single' && self.settings.allowEmptyOption ){
 				self.addItem('');
 			}
-			
+
 			evt.preventDefault();
 			evt.stopPropagation();
 		});
 		self.control.appendChild(button);
 	});
 
-});
+};
