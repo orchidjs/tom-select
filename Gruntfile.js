@@ -126,8 +126,11 @@ module.exports = function(grunt) {
 	if( plugin_arg ){
 		var plugin_args	= plugin_arg.split(/\s*,\s*/);
 
-		plugin_args.map(function(plugin_name){
-			custom_content.push(`import './plugins/${plugin_name}/plugin.js'; `);
+		plugin_args.map((plugin_name) => {
+			custom_content.push(`import ${plugin_name} from './plugins/${plugin_name}/plugin.js';`);
+		});
+		plugin_args.map((plugin_name) => {
+			custom_content.push(`TomSelect.define('${plugin_name}', ${plugin_name});`);
 		});
 		custom_content.push('export default TomSelect;');
 
