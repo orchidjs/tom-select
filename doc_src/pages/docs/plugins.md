@@ -45,7 +45,27 @@ Save some bandwidth with a bundle that's about 4kb smaller. <code>tom-select.pop
 
 #### tom-select.base.js
 If you don't need any plugins, or want to load plugins individually, use <code>tom-select.base.js</code>.
-Add plugins to your project by including their js files: <code>/js/plugins/remove_button.js</code>, <code>/js/plugins/dropdown_header.js</code>, etc.
+
+Add plugins to your project by including their js files and calling `TomSelect.define`.
+
+```js
+import TomSelect from 'tom-select/dist/js/tom-select.base.js';
+import TomSelect_remove_button from 'tom-select/dist/js/plugins/remove_button.js';
+import TomSelect_dropdown_header from 'tom-select/dist/js/plugins/dropdown_header.js';
+
+TomSelect.define('remove_button', TomSelect_remove_button);
+TomSelect.define('dropdown_header', TomSelect_dropdown_header);
+```
+
+Alternatively you can `require` plugins directly if your build tool supports it.
+
+```js
+import TomSelect from 'tom-select/dist/js/tom-select.base.js';
+
+TomSelect.define('remove_button', require('tom-select/dist/js/plugins/remove_button.js'));
+TomSelect.define('dropdown_header', require('tom-select/dist/js/plugins/dropdown_header.js'));
+```
+
 
 #### tom-select.custom.js
 Use NPM to hand-pick plugins and create <code>/build/js/tom-select.custom.js</code>
@@ -62,7 +82,6 @@ npm install
 npm run build -- --plugins=remove_button,restore_on_backspace
 ```
 
-
 ## Creating Plugins
 
 **A few notes:**
@@ -70,6 +89,7 @@ npm run build -- --plugins=remove_button,restore_on_backspace
 - Plugin names should follow the format: `/[a-z_]+$`
 - JS source should live in a "plugin.js" file (required).
 - CSS should live in a "plugin.scss" file (optional). It will be bundled at build time.
+- Plugins should not call `TomSelect.define` directly, this is done when importing the plugin.
 - Plugins are initialized right before the control is setup.
   This means that if you want to listen for events on any of the control's
   elements, you should override the `setup()` method (see ["DOM Events"](#dom-events)).
@@ -78,18 +98,20 @@ npm run build -- --plugins=remove_button,restore_on_backspace
 ### Boilerplate
 
 ```js
-TomSelect.define('plugin_name', function(plugin_options) {
-	// options: plugin-specific options
+// in src/plugins/plugin_name/plugin.js
+export default function(plugin_options) {
+	// plugin_options: plugin-specific options
 	// this: TomSelect instance
-});
+};
 ```
 
 #### Adding Dependencies
 
 ```js
-TomSelect.define('plugin_name', function(plugin_options) {
+// in src/plugins/plugin_name/plugin.js
+export default function(plugin_options) {
 	this.require('another_plugin');
-});
+};
 ```
 
 #### Method Hooks
@@ -97,11 +119,12 @@ TomSelect.define('plugin_name', function(plugin_options) {
 Execute plugin code 'before' or 'after' existing methods
 
 ```js
-TomSelect.define('plugin_name', function(plugin_options) {
-	this.hook('after','setup',function(){
+// in src/plugins/plugin_name/plugin.js
+export default function(plugin_options) {
+	this.hook('after', 'setup', function() {
 		// .. additional setup
 	});
-});
+};
 ```
 
 #### Overriding Methods
@@ -111,13 +134,14 @@ Use the 'instead' hook to override existing methods.
 overridden function returns a value as well.
 
 ```js
-TomSelect.define('plugin_name', function(plugin_options) {
+// in src/plugins/plugin_name/plugin.js
+export default function(plugin_options) {
 	var original_setup = this.setup;
-	this.hook('instead','setup',function(){
+	this.hook('instead', 'setup', function() {
 		// .. custom setup
 		return original_setup.apply(this, arguments);
 	});
-});
+};
 ```
 
 
@@ -125,11 +149,12 @@ TomSelect.define('plugin_name', function(plugin_options) {
 If you want to add event listeners to dom elements, add them after the `setup()` method.
 
 ```js
-TomSelect.define('plugin_name', function(plugin_options) {
-	this.hook('after','setup',function(){
+// in src/plugins/plugin_name/plugin.js
+export default function(plugin_options) {
+	this.hook('after', 'setup', function() {
 		this.control.addEventListener('click',function(evt){
 			alert('the control was clicked');
 		});
 	});
-});
+};
 ```
