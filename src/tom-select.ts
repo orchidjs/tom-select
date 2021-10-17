@@ -676,8 +676,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// return: select active option
 			case constants.KEY_RETURN:
-				if (self.isOpen && self.activeOption) {
-					self.onOptionSelect(e,self.activeOption);
+				if( self.canSelect(self.activeOption) ){
+					self.onOptionSelect(e,self.activeOption!);
 					preventDefault(e);
 
 				// if the option_create=null, the dropdown might be closed
@@ -700,8 +700,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			case constants.KEY_TAB:
 
 				if( self.settings.selectOnTab ){
-					if( self.isOpen && self.activeOption) {
-						self.onOptionSelect(e,self.activeOption);
+					if( self.canSelect(self.activeOption) ){
+						self.onOptionSelect(e,self.activeOption!);
 
 						// prevent default [tab] behaviour of jump to the next field
 						// if select isFull, then the dropdown won't be open and [tab] will work normally
@@ -815,9 +815,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	onOptionSelect( evt:MouseEvent|KeyboardEvent, option:HTMLElement ){
 		var value, self = this;
 
-		if( !option ){
-			return;
-		}
 
 		// should not be possible to trigger a option under a disabled optgroup
 		if( option.parentElement && option.parentElement.matches('[data-disabled]') ){
@@ -845,6 +842,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Return true if the given option can be selected
+	 *
+	 */
+	canSelect(option:HTMLElement|null):boolean{
+
+		if( this.isOpen && option && this.dropdown_content.contains(option) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

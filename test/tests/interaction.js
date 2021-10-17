@@ -684,6 +684,20 @@
 				});
 			});
 
+
+
+			it_n('should not select option with [enter] keypress when dropdown is empty', async () => {
+
+				var test = setup_test('AB_Multi');
+
+				await asyncClick(test.instance.control);
+				
+				await asyncType('xxx');
+				await asyncType('[enter]');
+				
+				assert.equal( test.instance.items.length, 0);			
+			});
+
 			it_n('should select option with [tab] keypress when selectOnTab = true', function(done) {
 
 				var test = setup_test('AB_Single',{selectOnTab:true});
