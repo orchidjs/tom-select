@@ -78,8 +78,8 @@ All pre-built files needed to use Tom Select can be found in the "dist" folder v
 
 
 ## Files
-- [tom-select.complete.js](https://cdn.jsdelivr.net/npm/tom-select@//@@version/dist/js/tom-select.complete.js) — Includes dependencies and plugins
-- [tom-select.base.js](https://cdn.jsdelivr.net/npm/tom-select@//@@version/dist/js/tom-select.base.js) — Does not include any plugins
+- [tom-select.complete.js](https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.js) — Includes dependencies and plugins
+- [tom-select.base.js](https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.base.js) — Does not include any plugins
 - [CSS](https://www.jsdelivr.com/package/npm/tom-select?path=dist%2Fcss) — Compiled themes
 - [SCSS](https://www.jsdelivr.com/package/npm/tom-select?path=dist%2Fscss) — Uncompiled theme sources
 
