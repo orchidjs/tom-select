@@ -10,7 +10,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-replace');
 	grunt.loadNpmTasks('@lodder/grunt-postcss');
 
-	const sass = require('node-sass');
+	const sass = require('sass');
+	
 
 	require('load-grunt-tasks')(grunt); //sass
 
