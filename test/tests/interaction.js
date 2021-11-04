@@ -72,7 +72,7 @@
 						var create_option = test.instance.dropdown.querySelector('.create');
 						click(create_option,function(){
 							expect(test.instance.items[0]).to.be.equal('d');
-              expect(test.instance.isOpen).to.be.equal(false);
+							assert.equal(test.instance.isOpen, false, 'should be closed after select');
 							done();
 						});
 
