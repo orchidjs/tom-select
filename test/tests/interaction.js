@@ -58,6 +58,29 @@
 				});
 			});
 
+      it_n('should close dropdown after creating item if closeAfterSelect: true', function(done) {
+
+				var test = setup_test('AB_Multi', {closeAfterSelect: true, create: true});
+
+				// 1) focus on control
+				click(test.instance.control, function() {
+
+					// 2) type "d"
+					syn.type('d', test.instance.control_input, function() {
+
+						// 3) click on create option to create
+						var create_option = test.instance.dropdown.querySelector('.create');
+						click(create_option,function(){
+							expect(test.instance.items[0]).to.be.equal('d');
+              expect(test.instance.isOpen).to.be.equal(false);
+							done();
+						});
+
+					});
+
+				});
+			});
+
 
 			it_n('should close dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
 
