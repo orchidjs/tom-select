@@ -10,6 +10,7 @@ describe('plugin: dropdown_input', function() {
 
 		syn.click(test.instance.control).delay(0,function(){
 			assert.equal(test.instance.isOpen, true);
+			assert.equal(document.activeElement, test.instance.control_input);
 			done();
 		});
 	});
