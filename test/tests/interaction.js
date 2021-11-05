@@ -757,6 +757,21 @@
 
 			});
 
+			it_n('should select text when control_input is not empty and ['+shortcut_key+'-a] pressed', async () => {
+
+				var test = setup_test('AB_Multi');
+
+				test.instance.addItem('a');
+				test.instance.addItem('b');
+
+				await asyncClick(test.instance.control);
+				await asyncType('test');
+				assert.equal( test.instance.activeItems.length, 0 );
+
+				await asyncType('['+shortcut_key+']a['+shortcut_key+'-up]');
+				assert.equal( test.instance.activeItems.length, 0 );
+			});
+
 
 			it_n('should not close dropdown when ['+shortcut_key+'-a] pressed no items', function(done) {
 

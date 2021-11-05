@@ -639,9 +639,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// ctrl+A: select all
 			case constants.KEY_A:
 				if( isKeyDown(constants.KEY_SHORTCUT,e) ){
-					preventDefault(e);
-					self.selectAll();
-					return;
+					if( self.control_input.value == '' ){
+						preventDefault(e);
+						self.selectAll();
+						return;
+					}
 				}
 				break;
 
