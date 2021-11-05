@@ -316,16 +316,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			preventDefault(evt,true);
 		});
 
-
-		// retain focus by preventing native handling. if the
-		// event target is the input it should not be modified.
-		// otherwise, text selection within the input won't work.
-		addEvent(control_input,'mousedown',	(e) =>{
-			if( control_input.value !== '' ){
-				e.stopPropagation();
-			}
-		});
-
 		
 		// keydown on focus_node for arrow_down/arrow_up
 		addEvent(focus_node,'keydown',		(e) => self.onKeyDown(e as KeyboardEvent) );
@@ -353,8 +343,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				return;
 			}
 
-			// clicking anywhere in the control should not blur the control_input & close the dropdown
-			preventDefault(evt,true);
+			
+			// retain focus by preventing native handling. if the
+			// event target is the input it should not be modified.
+			// otherwise, text selection within the input won't work.
+			if( target == control_input && control_input.value !== '' ){
+				evt.stopPropagation();
+
+			// clicking anywhere in the control should not blur the control_input (which would close the dropdown)
+			}else{
+				preventDefault(evt,true);
+			}
+						
 		};
 
 		var win_scroll = () => {
