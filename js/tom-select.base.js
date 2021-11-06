@@ -1744,14 +1744,6 @@
 
 	      self.onClick();
 	      preventDefault(evt, true);
-	    }); // retain focus by preventing native handling. if the
-	    // event target is the input it should not be modified.
-	    // otherwise, text selection within the input won't work.
-
-	    addEvent(control_input, 'mousedown', e => {
-	      if (control_input.value !== '') {
-	        e.stopPropagation();
-	      }
 	    }); // keydown on focus_node for arrow_down/arrow_up
 
 	    addEvent(focus_node, 'keydown', e => self.onKeyDown(e)); // keypress and input/keyup
@@ -1775,10 +1767,17 @@
 
 	        self.inputState();
 	        return;
-	      } // clicking anywhere in the control should not blur the control_input & close the dropdown
+	      } // retain focus by preventing native handling. if the
+	      // event target is the input it should not be modified.
+	      // otherwise, text selection within the input won't work.
+	      // Fixes bug #212 which is no covered by tests
 
 
-	      preventDefault(evt, true);
+	      if (target == control_input && self.isOpen) {
+	        evt.stopPropagation(); // clicking anywhere in the control should not blur the control_input (which would close the dropdown)
+	      } else {
+	        preventDefault(evt, true);
+	      }
 	    };
 
 	    var win_scroll = () => {
@@ -2057,9 +2056,11 @@
 	      // ctrl+A: select all
 	      case KEY_A:
 	        if (isKeyDown(KEY_SHORTCUT, e)) {
-	          preventDefault(e);
-	          self.selectAll();
-	          return;
+	          if (self.control_input.value == '') {
+	            preventDefault(e);
+	            self.selectAll();
+	            return;
+	          }
 	        }
 
 	        break;
@@ -3321,7 +3322,7 @@
 	        // otherwise setActiveOption() will be called by refreshOptions() with the wrong value
 
 
-	        if (!self.isPending) {
+	        if (!self.isPending && !self.settings.closeAfterSelect) {
 	          self.refreshOptions(self.isFocused && inputMode !== 'single');
 	        } // hide the menu if the maximum number of items have been selected or no options are left
 
@@ -3425,7 +3426,6 @@
 	      self.addOption(data, true);
 	      self.setCaret(caret);
 	      self.addItem(value);
-	      self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
 	      callback(data);
 	      created = true;
 	    };
