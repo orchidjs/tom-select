@@ -342,12 +342,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.inputState();
 				return;
 			}
-
+				
 			
 			// retain focus by preventing native handling. if the
 			// event target is the input it should not be modified.
 			// otherwise, text selection within the input won't work.
-			if( target == control_input && control_input.value !== '' ){
+			// Fixes bug #212 which is no covered by tests
+			if( target == control_input && self.isOpen ){
 				evt.stopPropagation();
 
 			// clicking anywhere in the control should not blur the control_input (which would close the dropdown)
