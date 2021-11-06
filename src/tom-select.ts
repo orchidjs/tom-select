@@ -1881,7 +1881,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				// refreshOptions after setActiveOption(),
 				// otherwise setActiveOption() will be called by refreshOptions() with the wrong value
-				if( !self.isPending ){
+				if( !self.isPending && !self.settings.closeAfterSelect ){
 					self.refreshOptions(self.isFocused && inputMode !== 'single');
 				}
 
@@ -1982,7 +1982,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.addOption(data,true);
 			self.setCaret(caret);
 			self.addItem(value);
-			self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
 			callback(data);
 			created = true;
 		};
