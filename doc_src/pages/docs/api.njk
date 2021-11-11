@@ -13,6 +13,12 @@ control.addOption({value:'test'});
 control.addItem('test');
 {% endhighlight %}
 
+<p>To address an already <em>existing</em> Tom Select control, you can get it with:</p>
+{% highlight "js" %}
+let select = document.getElementById('#select');
+let control = select.tomselect;
+{% endhighlight %}
+
 <h2>Constructor</h2>
 
 {% highlight "js" %}
