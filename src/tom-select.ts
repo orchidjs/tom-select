@@ -579,10 +579,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	onPaste(e:MouseEvent|KeyboardEvent):void {
 		var self = this;
 
-		if (self.isFull() || self.isInputHidden || self.isLocked) {
+		if( self.isInputHidden || self.isLocked ){
 			preventDefault(e);
 			return;
-		}
+		}		
 
 		// If a regex or string is included, this will split the pasted
 		// input and create Items for each separate value
