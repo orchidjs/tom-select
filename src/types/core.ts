@@ -3,8 +3,13 @@ import TomSelect from '../tom-select';
 import { escape_html } from '../utils';
 
 
-export interface TomInput extends HTMLInputElement{
+export interface TomInput extends HTMLElement{
 	tomselect				?: TomSelect;
+	disabled				: boolean;
+	required				: boolean;
+	value					: string;
+	type					: string;
+	checkValidity			: () => boolean;
 }
 
 export type TomArgObject = {
