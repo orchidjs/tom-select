@@ -58,41 +58,66 @@
 				});
 			});
 
-      it_n('should close dropdown after creating item if closeAfterSelect: true', function(done) {
+			it_n('should close dropdown after creating item if closeAfterSelect: true' , async () => {
+				var evts = [];
 
 				var test = setup_test('AB_Multi', {closeAfterSelect: true, create: true});
 
-				// 1) focus on control
-				click(test.instance.control, function() {
-
-					// 2) type "d"
-					syn.type('d', test.instance.control_input, function() {
-
-						// 3) click on create option to create
-						var create_option = test.instance.dropdown.querySelector('.create');
-						click(create_option,function(){
-							expect(test.instance.items[0]).to.be.equal('d');
-							assert.equal(test.instance.isOpen, false, 'should be closed after select');
-							done();
-						});
-
-					});
-
+				test.instance.on('change', function() {
+					evts.push('change');
 				});
+				
+				test.instance.on('dropdown_close', function() {
+					evts.push('dropdown_close');
+				});
+
+
+				// 1) focus on control
+				await asyncClick(test.instance.control);
+				assert.isTrue(test.instance.isOpen);
+				
+				// 2) type "d"
+				await asyncType( 'd' );
+
+
+				// 3) click on create option to create
+				var create_option = test.instance.dropdown.querySelector('.create');
+				await asyncClick(create_option);
+				expect(test.instance.items[0]).to.be.equal('d');
+				assert.equal(test.instance.isOpen, false, 'should be closed after select');				
+				
+				await waitFor(300);
+				assert.equal(evts.length,2);
+				assert.equal(evts[0],'change');
+				assert.equal(evts[1],'dropdown_close');
 			});
 
 
-			it_n('should close dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
+			it_n('should close dropdown after selection made if closeAfterSelect: true and in single mode' , async () => {
+
+				var evts = [];
 
 				var test = setup_test('AB_Single',{closeAfterSelect: true});
 
-				click(test.instance.control, function() {
-					expect(test.instance.isOpen).to.be.equal(true);
-					click($('[data-value=a]', test.instance.dropdown_content), function() {
-						expect(test.instance.isOpen).to.be.equal(false);
-						done();
-					});
+				test.instance.on('change', function() {
+					evts.push('change');
 				});
+				
+				test.instance.on('dropdown_close', function() {
+					evts.push('dropdown_close');
+				});
+
+				// 1) focus on control
+				await asyncClick(test.instance.control);
+				assert.isTrue(test.instance.isOpen);
+
+				await asyncClick( test.instance.dropdown.querySelector('[data-value="b"]') );
+				expect(test.instance.isOpen).to.be.equal(false);
+
+				await waitFor(300);
+				assert.equal(evts.length,2);
+				assert.equal(evts[0],'change');
+				assert.equal(evts[1],'dropdown_close');
 			});
 
 			it_n('should not close dropdown after selection made if closeAfterSelect: false and in single mode' , async () => {

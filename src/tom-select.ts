@@ -1836,7 +1836,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	addItem( value:string, silent?:boolean ):void{
-		var events = silent ? [] : ['change'];
+		var events = silent ? [] : ['change','dropdown_close'];
 
 		debounce_events(this, events, () => {
 			var item, wasFull;
@@ -2409,7 +2409,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * items are being asynchronously created.
 	 */
 	lock() {
-		this.close();
 		this.isLocked = true;
 		this.refreshState();
 	}
@@ -2432,6 +2431,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.control_input.disabled		= true;
 		self.focus_node.tabIndex		= -1;
 		self.isDisabled					= true;
+		this.close();
 		self.lock();
 	}
 
