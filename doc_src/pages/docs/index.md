@@ -8,20 +8,30 @@ tags: docs
 <link href="tom-select.bootstrap4.css" rel="stylesheet" />
 <input id="select" />
 <script>
-var config = {};
-new TomSelect('#select',config);
+var settings = {};
+new TomSelect('#select',settings);
 </script>
 ```
 
 ### Glossary
 
-- Config / configuration: settings passed to the object constructor
-- Settings: the current settings. Accessible with the `settings` property of the select object.
-- Options: the list of objects to display.
-  Each object must have a property with an unique **value** to identify the option; the property name is defined by the `valueField` setting.
-  Option objects must also have a property with the **label** to display (as tag, in the drop down, etc.); the property name is defined by the `labelField` setting.
-  The options can have other properties, ignored, unless referenced by other settings, like `sortField` or `searchField`.
-- Items: the list of selected options. Or more exactly, the list of the values of the selected options.
+<dl>
+	<dt><code>Settings</code></dt>
+		<dd>Configuration parameters passed to the TomSelect constructor and accessible with the <code>settings</code> property of the select object</dd>
+	<dt><code>Options</code></dt>
+		<dd>The list of objects to display.
+		  Each object must have a property with an unique <strong>value</strong> to identify the option; the property name is defined by the <code>valueField</code> setting.
+		  Option objects must also have a property with the <strong>label</strong> to display (as tag, in the drop down, etc.); the property name is defined by the <code>labelField</code> setting.
+		  The options can have other properties, ignored, unless referenced by other settings, like <code>sortField</code> or <code>searchField</code>.
+		  </dd>
+	<dt><code>Items</code></dt>
+		<dd>The list of selected options. Or more exactly, the list of the values of the selected options.</dd>
+	<dt><code>NodeDefinition</code></dt>
+		<dd>An <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement">HTMLElement</a> or DOMString.
+		  If a DOMString is used, it should either be a <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">CSS Selector</a> or <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML">a string of HTML compatible with innerHTML</a>.
+		</dd>
+</dl>
+  
 
 ## General Configuration
 
@@ -197,7 +207,7 @@ create: function(input,callback){
 	<tr>
 		<td><code>preload</code></td>
 		<td>If true, the <code>load</code> function will be called upon control initialization (with an empty search). Alternatively it can be set to <code>'focus'</code> to call the <code>load</code> function when control receives focus.</td>
-		<td><code>boolean/string</code></td>
+		<td><code>boolean|string</code></td>
 		<td><code>false</code></td>
 	</tr>
 	<tr>
@@ -226,9 +236,11 @@ create: function(input,callback){
 	</tr>
 	<tr>
 		<td><code>controlInput</code></td>
-		<td>Supply a custom &lt;input&gt; element</td>
-		<td><code>&lt;input&gt; element</code></td>
-		<td><code>null</code></td>
+		<td>Supply a custom &lt;input&gt; element.
+		Supplying a <code>null</code> value will disable the default functionality.			
+		</td>
+		<td><code><a href="/docs/#glossary">NodeDefinition</a>|null</code></td>
+		<td><code>&lt;input...&gt;</code></td>
 	</tr>
 	<tr>
 		<td><code>duplicates</code></td>
@@ -458,7 +470,7 @@ new TomSelect('#select',{
 ## Render Templates
 
 Nearly every piece of HTML in Tom Select is customizable with a render template.
-Each template is defined by a function that is passed two arguments (<code>data</code> and <code>escape</code>) and returns HTML (string or DOM element) with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.
+Each template is defined by a function that is passed two arguments (<code>data</code> and <code>escape</code>) and returns <a href="/docs/#glossary">NodeDefinition</a> with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.
 
 ```js
 new TomSelect('#input',{

@@ -22,16 +22,11 @@ let control = select.tomselect;
 <h2>Constructor</h2>
 
 {% highlight "js" %}
-new TomSelect(input_element,config);
+new TomSelect(input_element,settings);
 {% endhighlight %}
 <p>
-<code>input_element</code> can be any of the following: 
-<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">CSS Selector</a>,
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement">Input Element</a>,
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement">Select Element</a>,
-string of html (eg: <code>"&lt;input/&gt;"</code>),
-or jQuery object (eg: <code>$('input')</code>).
-Note: using CSS Selectors that match multiple elements will only create a Tom Select instance on the first matching element.
+Where <code>input_element</code> is a <a href="/docs/#glossary">NodeDefinition</a> of an <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement">Input Element</a> or
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement">Select Element</a>.
 </p>
 
 <h2>Option Methods</h2>
@@ -47,7 +42,7 @@ Note: using CSS Selectors that match multiple elements will only create a Tom Se
 		<td><code>addOption(data,user_created=false)</code></td>
 		<td>Adds an available option.
 		If it already exists, nothing will happen. 
-		Options created with <code>user_created=true</code> will not show up as available options once they are unselected if <code>config.persist=false</code>
+		Options created with <code>user_created=true</code> will not show up as available options once they are unselected if <code>settings.persist=false</code>
 		Note: this does not refresh the options list dropdown (use refreshOptions() for that).
 	</td>
 	</tr>
