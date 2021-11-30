@@ -22,5 +22,5 @@ Review changes to the Tom Select API to help you migrate from v1 to v2.
 * Multiple CSS classes are now toggled on the wrapper element instead of the control element: ```.focus```, ```.disabled```, ```.required```, ```.invalid```, ```.locked```, ```.full```, ```.not-full```, ```.input-active```, ```.dropdown-active```, ```.has-options```, ```.has-items```
 * Removed bootstrap3 style
 
-## Options
+## Settings
 * ```copyClassesToDropdown``` defaults to false
