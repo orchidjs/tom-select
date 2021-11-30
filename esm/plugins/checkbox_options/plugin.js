@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.0.0-rc.5
+* Tom Select v2.0.0
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -64,7 +64,7 @@ const getDom = query => {
     return query;
   }
 
-  if (query.indexOf('<') > -1) {
+  if (isHtmlString(query)) {
     let div = document.createElement('div');
     div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
 
@@ -72,6 +72,13 @@ const getDom = query => {
   }
 
   return document.querySelector(query);
+};
+const isHtmlString = arg => {
+  if (typeof arg === 'string' && arg.indexOf('<') > -1) {
+    return true;
+  }
+
+  return false;
 };
 
 /**
