@@ -461,19 +461,17 @@
 			});
 
 
-			it_n('should hide dropdown if no results present and no_result template is null', function(done) {
+			it_n('should hide dropdown if no results present and no_result template is null', async () => {
 				var test = setup_test('AB_Multi', {
 					render:{'no_results':null}
 				});
 
-				click(test.instance.control, function() {
-					syn.type('awaw', test.instance.control_input)
-					.delay(0, function() {
-						expect(test.instance.isOpen).to.be.equal(false);
-						expect( isVisible(test.instance.dropdown) ).to.be.equal(false);
-						done();
-					});
-				});
+				await asyncClick(test.instance.control);
+				await asyncType('aww');
+				
+				await waitFor(1);
+				expect(test.instance.isOpen).to.be.equal(false);
+				expect( isVisible(test.instance.dropdown) ).to.be.equal(false);
 			});
 
 
