@@ -49,7 +49,7 @@ export default {
 	optionClass: 'option',
 
 	dropdownParent: null,
-	//controlInput: null,
+	controlInput: '<input type="text" autocomplete="off" size="1" />',
 
 	copyClassesToDropdown: false,
 

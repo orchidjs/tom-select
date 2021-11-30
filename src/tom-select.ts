@@ -184,8 +184,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// default controlInput
-		if( !settings.hasOwnProperty('controlInput') ){
-			control_input		= getDom('<input type="text" autocomplete="off" size="1" />' ) as HTMLInputElement;
+		if( typeof settings.controlInput === 'string' && settings.controlInput.indexOf('<') > -1 ){
+			control_input		= getDom(settings.controlInput ) as HTMLInputElement;
 
 			// set attributes
 			var attrs = ['autocorrect','autocapitalize','autocomplete'];
@@ -198,13 +198,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			control_input.tabIndex = -1;
 			control.appendChild( control_input );
 			this.focus_node		= control_input;
-			
-		// custom controlInput
+		
+		// dom element	
 		}else if( settings.controlInput ){
 			control_input		= getDom( settings.controlInput ) as HTMLInputElement;
 			this.focus_node		= control_input;
-			
-		// controlInput = null
+
 		}else{
 			control_input		= getDom('<input/>') as HTMLInputElement;
 			this.focus_node		= control;
