@@ -17,7 +17,7 @@ export const getDom = ( query:any ):HTMLElement => {
 		return query;
 	}
 
-	if( query.indexOf('<') > -1 ){
+	if( isHtmlString(query) ){
 		let div = document.createElement('div');
 		div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
 		return div.firstChild as HTMLElement;
@@ -25,6 +25,13 @@ export const getDom = ( query:any ):HTMLElement => {
 
 	return document.querySelector(query);
 };
+
+export const isHtmlString = (arg:any): boolean => {
+	if( typeof arg === 'string' && arg.indexOf('<') > -1 ){
+		return true;
+	}
+	return false;
+}
 
 export const escapeQuery = (query:string):string => {
 	return query.replace(/['"\\]/g, '\\$&');

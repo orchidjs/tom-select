@@ -24,6 +24,7 @@ import {
 
 import {
 	getDom,
+	isHtmlString,
 	escapeQuery,
 	triggerEvent,
 	applyCSS,
@@ -184,7 +185,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// default controlInput
-		if( typeof settings.controlInput === 'string' && settings.controlInput.indexOf('<') > -1 ){
+		if( isHtmlString(settings.controlInput) ){
 			control_input		= getDom(settings.controlInput ) as HTMLInputElement;
 
 			// set attributes
