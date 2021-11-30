@@ -1130,7 +1130,7 @@ var defaults = {
   itemClass: 'item',
   optionClass: 'option',
   dropdownParent: null,
-  //controlInput: null,
+  controlInput: '<input type="text" autocomplete="off" size="1" />',
   copyClassesToDropdown: false,
   placeholder: null,
   hidePlaceholder: null,
@@ -1245,8 +1245,10 @@ const debounce_events = (self, types, fn) => {
   fn.apply(self, []);
   self.trigger = trigger; // trigger queued events
 
-  for (type in event_args) {
-    trigger.apply(self, event_args[type]);
+  for (type of types) {
+    if (type in event_args) {
+      trigger.apply(self, event_args[type]);
+    }
   }
 };
 /**
@@ -1606,8 +1608,8 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     append(dropdown, dropdown_content);
     getDom(settings.dropdownParent || wrapper).appendChild(dropdown); // default controlInput
 
-    if (!settings.hasOwnProperty('controlInput')) {
-      control_input = getDom('<input type="text" autocomplete="off" size="1" />'); // set attributes
+    if (typeof settings.controlInput === 'string' && settings.controlInput.indexOf('<') > -1) {
+      control_input = getDom(settings.controlInput); // set attributes
 
       var attrs = ['autocorrect', 'autocapitalize', 'autocomplete'];
       iterate(attrs, attr => {
@@ -1619,10 +1621,10 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       });
       control_input.tabIndex = -1;
       control.appendChild(control_input);
-      this.focus_node = control_input; // custom controlInput
+      this.focus_node = control_input; // dom element	
     } else if (settings.controlInput) {
       control_input = getDom(settings.controlInput);
-      this.focus_node = control_input; // controlInput = null
+      this.focus_node = control_input;
     } else {
       control_input = getDom('<input/>');
       this.focus_node = control;
@@ -3272,7 +3274,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   addItem(value, silent) {
-    var events = silent ? [] : ['change'];
+    var events = silent ? [] : ['change', 'dropdown_close'];
     debounce_events(this, events, () => {
       var item, wasFull;
       const self = this;
@@ -3832,7 +3834,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   lock() {
-    this.close();
     this.isLocked = true;
     this.refreshState();
   }
@@ -3857,6 +3858,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     self.control_input.disabled = true;
     self.focus_node.tabIndex = -1;
     self.isDisabled = true;
+    this.close();
     self.lock();
   }
   /**

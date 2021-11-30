@@ -80,8 +80,10 @@ const debounce_events = (self, types, fn) => {
   fn.apply(self, []);
   self.trigger = trigger; // trigger queued events
 
-  for (type in event_args) {
-    trigger.apply(self, event_args[type]);
+  for (type of types) {
+    if (type in event_args) {
+      trigger.apply(self, event_args[type]);
+    }
   }
 };
 /**
