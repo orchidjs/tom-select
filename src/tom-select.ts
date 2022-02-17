@@ -2092,6 +2092,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( self.is_select_tag ){
 
 			const selected:HTMLOptionElement[]		= [];
+			const has_selected:number				= self.input.querySelectorAll('option:checked').length;
 
 			function AddSelected(option_el:HTMLOptionElement|null, value:string, label:string):HTMLOptionElement{
 
@@ -2107,7 +2108,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				
 				selected.push(option_el);
 
-				option_el.selected = true;
+				// marking empty option as selected can break validation
+				// fixes https://github.com/orchidjs/tom-select/issues/303
+				if( option_el != empty_option || has_selected > 0 ){
+					option_el.selected = true;
+				}
 
 				return option_el;
 			}

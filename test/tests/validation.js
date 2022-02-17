@@ -107,6 +107,24 @@ describe('Validation', function(){
 			assert.isFalse(test.instance.isValid,'should be invalid');
 		});
 
+
+		it_n('should not validate with size attribute',() => {
+
+			var test_required = `<form>
+					<select class="setup-here" name="n" required size="2"/>
+						<option value="">select..</option>
+						<option value="a">A</option>
+						<option value="b">B</option>
+					</select>
+					<button type="submit" id="submit"></button>
+				</form>`;
+				
+			var test = setup_test(test_required);
+			
+			assert.isFalse(test.select.checkValidity(),'select should be invalid');
+			assert.isFalse(form.checkValidity(),'form should be invalid');			
+		});
+
 	});
 
 	describe('<select> (not required)', function(){
