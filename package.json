@@ -31,7 +31,7 @@
     "url": "https://github.com/orchidjs/tom-select.git"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy": "^1.0.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.0",
     "@babel/core": "^7.13.1",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
@@ -65,7 +65,7 @@
     "husky": "^7.0.0",
     "icon-blender": "^1.0.0-beta.4",
     "jquery": "^3.6.0",
-    "jsdom": "^18.1.1",
+    "jsdom": "^19.0.0",
     "karma": "^6.1.1",
     "karma-accessibility-checker": "^3.1.5",
     "karma-browserstack-launcher": "^1.6.0",
