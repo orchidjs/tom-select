@@ -21,7 +21,7 @@
 	}
 
 	&.focus.has-items .clear-button,
-	&:hover.has-items .clear-button{
+	&:not(.disabled):hover.has-items .clear-button{
 		opacity:		1;
 	}
 

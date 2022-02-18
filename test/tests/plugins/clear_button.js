@@ -66,4 +66,20 @@ describe('plugin: clear_button', function() {
 		
 	});
 
+
+	it_n('should not clear if disabled', async () => {
+
+		let test = setup_test('<input type="text" value="neat,cool,wow" disabled>',
+			{
+				plugins: ['clear_button']
+			}
+		);
+
+		var button			= test.instance.control.querySelector('.clear-button');
+				
+		await asyncClick( button );
+		assert.equal( test.instance.items.length,3);
+		
+	});
+
 });
