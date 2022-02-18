@@ -25,6 +25,10 @@ function plugin (userOptions) {
     }
   }, userOptions);
   self.on('item_remove', function (value) {
+    if (!self.isFocused) {
+      return;
+    }
+
     if (self.control_input.value.trim() === '') {
       var option = self.options[value];
 
