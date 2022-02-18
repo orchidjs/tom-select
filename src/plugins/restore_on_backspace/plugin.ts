@@ -29,6 +29,10 @@ export default function(this:TomSelect, userOptions:TPluginOptions) {
 	},userOptions);
 
 	self.on('item_remove',function(value:string){
+		if( !self.isFocused ){
+			return;
+		}
+
 		if( self.control_input.value.trim() === '' ){
 			var option = self.options[value];
 			if( option ){

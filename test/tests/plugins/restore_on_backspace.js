@@ -44,4 +44,15 @@ describe('plugin: restore_on_backspace', function() {
 
 	});
 
+	
+	it_n('should not fill control_input.value if not focused', async () => {
+
+		var test		= setup_test('<input type="text" value="neat,cool,wow" autocomplete="off">',{hidePlaceholder:true,plugins:['restore_on_backspace','clear_button']});
+		var button		= test.instance.control.querySelector('.clear-button');
+		
+		await asyncClick( button );
+		assert.equal( test.instance.control_input.value, '', 'control_input is not empty');
+			
+	});	
+
 });
