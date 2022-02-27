@@ -2608,13 +2608,16 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   selectAll() {
-    if (this.settings.mode === 'single') return;
-    const activeItems = this.controlChildren();
+    const self = this;
+    if (self.settings.mode === 'single') return;
+    const activeItems = self.controlChildren();
     if (!activeItems.length) return;
-    this.hideInput();
-    this.close();
-    this.activeItems = activeItems;
-    addClasses(activeItems, 'active');
+    self.hideInput();
+    self.close();
+    self.activeItems = activeItems;
+    iterate(activeItems, item => {
+      self.setActiveItemClass(item);
+    });
   }
   /**
    * Determines if the control_input should be in a hidden or visible state

@@ -11,6 +11,74 @@ const latin_convert = {
 };
 new RegExp(Object.keys(latin_convert).join('|'), 'g');
 
+// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
+/**
+ * Iterates over arrays and hashes.
+ *
+ * ```
+ * iterate(this.items, function(item, id) {
+ *    // invoked for each item
+ * });
+ * ```
+ *
+ */
+
+const iterate = (object, callback) => {
+  if (Array.isArray(object)) {
+    object.forEach(callback);
+  } else {
+    for (var key in object) {
+      if (object.hasOwnProperty(key)) {
+        callback(object[key], key);
+      }
+    }
+  }
+};
+
+/**
+ * Remove css classes
+ *
+ */
+
+const removeClasses = (elmts, ...classes) => {
+  var norm_classes = classesArray(classes);
+  elmts = castAsArray(elmts);
+  elmts.map(el => {
+    norm_classes.map(cls => {
+      el.classList.remove(cls);
+    });
+  });
+};
+/**
+ * Return arguments
+ *
+ */
+
+const classesArray = args => {
+  var classes = [];
+  iterate(args, _classes => {
+    if (typeof _classes === 'string') {
+      _classes = _classes.trim().split(/[\11\12\14\15\40]/);
+    }
+
+    if (Array.isArray(_classes)) {
+      classes = classes.concat(_classes);
+    }
+  });
+  return classes.filter(Boolean);
+};
+/**
+ * Create an array from arg if it's not already an array
+ *
+ */
+
+const castAsArray = arg => {
+  if (!Array.isArray(arg)) {
+    arg = [arg];
+  }
+
+  return arg;
+};
 /**
  * Get the index of an element amongst sibling nodes of the same type
  *
@@ -82,7 +150,8 @@ function plugin () {
     if (last_active) {
       const idx = nodeIndex(last_active);
       self.setCaret(direction > 0 ? idx + 1 : idx);
-      self.setActiveItem(); // move caret left or right of current position
+      self.setActiveItem();
+      removeClasses(last_active, 'last-active'); // move caret left or right of current position
     } else {
       self.setCaret(self.caretPos + direction);
     }

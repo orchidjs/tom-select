@@ -2608,13 +2608,16 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
 
   selectAll() {
-    if (this.settings.mode === 'single') return;
-    const activeItems = this.controlChildren();
+    const self = this;
+    if (self.settings.mode === 'single') return;
+    const activeItems = self.controlChildren();
     if (!activeItems.length) return;
-    this.hideInput();
-    this.close();
-    this.activeItems = activeItems;
-    addClasses(activeItems, 'active');
+    self.hideInput();
+    self.close();
+    self.activeItems = activeItems;
+    iterate(activeItems, item => {
+      self.setActiveItemClass(item);
+    });
   }
   /**
    * Determines if the control_input should be in a hidden or visible state
@@ -4356,7 +4359,8 @@ function caret_position () {
     if (last_active) {
       const idx = nodeIndex(last_active);
       self.setCaret(direction > 0 ? idx + 1 : idx);
-      self.setActiveItem(); // move caret left or right of current position
+      self.setActiveItem();
+      removeClasses(last_active, 'last-active'); // move caret left or right of current position
     } else {
       self.setCaret(self.caretPos + direction);
     }
@@ -4507,7 +4511,7 @@ function no_backspace_delete () {
 }
 
 /**
- * Plugin: "input_autogrow" (Tom Select)
+ * Plugin: "no_active_items" (Tom Select)
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:

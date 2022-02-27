@@ -363,7 +363,7 @@ element.
 			<p>sortField maps directly to the <a href="https://github.com/orchidjs/sifter.js#searchquery-options">sort setting in Sifter</a>.</p>
 			<p>By default, results will be sorted by their <a href="#scoresearch">$score</a> first, then by the original order of options.
 			To disable sorting entirely and maintain the original order of options, use:
-</p><pre class="language-js"><code class="language-js"><span class="token function-variable function">sortField</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token number">1</span></code></pre>
+</p><pre class="language-js"><code class="language-js"><span class="token literal-property property">sortField</span><span class="token operator">:</span><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token literal-property property">field</span><span class="token operator">:</span><span class="token string">'$order'</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token literal-property property">field</span><span class="token operator">:</span><span class="token string">'$score'</span><span class="token punctuation">}</span><span class="token punctuation">]</span></code></pre>
 </td>
 		<td><code>string<br>array<br>function</code></td>
 		<td><code>[{field:'$score'}, {field:'$order'}]</code></td>
