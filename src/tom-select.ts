@@ -1166,18 +1166,22 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Selects all items (CTRL + A).
 	 */
 	selectAll() {
+		const self = this;
 
-		if (this.settings.mode === 'single') return;
+		if (self.settings.mode === 'single') return;
 
-		const activeItems = this.controlChildren();
+		const activeItems = self.controlChildren();
 
 		if( !activeItems.length ) return;
 		
-		this.hideInput();
-		this.close();
+		self.hideInput();
+		self.close();
 
-		this.activeItems = activeItems;
-		addClasses( activeItems, 'active' );
+		self.activeItems = activeItems;
+		iterate( activeItems, (item) => {
+			self.setActiveItemClass(item);
+		});
+		
 	}
 
 	/**
