@@ -329,7 +329,7 @@ create: function(input,callback){
 			To disable sorting entirely and maintain the original order of options, use:
 			
 ```js
-sortField:()=>1
+sortField:[{field:'$order'},{field:'$score'}]
 ```
 </td>
 		<td><code>string<br/>array<br/>function</code></td>
