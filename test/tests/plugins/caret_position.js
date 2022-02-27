@@ -45,17 +45,17 @@ describe('plugin: caret_position', function() {
 
 		test.instance.addItem('a');
 		test.instance.addItem('b');
+		var itema = test.instance.getItem('a');
+		var itemb = test.instance.getItem('b');
 
 		click(test.instance.control, function() {
 
-			test.instance.setActiveItem(test.instance.getItem('b'));
-
-			let last_active			= test.instance.getLastActive();
-			expect( last_active.nextElementSibling ).to.be.equal( test.instance.control_input );
+			test.instance.setActiveItem(itemb);
+			
+			expect( itemb.nextElementSibling ).to.be.equal( test.instance.control_input );
 
 			syn.type('[left]', test.instance.control_input, function() {
-				let last_active			= test.instance.getLastActive();
-				expect( last_active.previousElementSibling ).to.be.equal( test.instance.control_input );
+				expect( itemb.previousElementSibling ).to.be.equal( test.instance.control_input );
 				done();
 			});
 		});
@@ -81,6 +81,29 @@ describe('plugin: caret_position', function() {
 				done();
 			});
 		});
+
+	});
+
+	it_n('move after active item', async() => {
+
+		var test = setup_test('AB_Multi',{
+			plugins:['caret_position'],
+		});
+		
+		test.instance.addItem('a');
+		test.instance.addItem('b');
+		assert.equal( test.instance.items.length, 2 );
+		
+		var itemb = test.instance.getItem('b');
+		await asyncClick(itemb);
+		
+		assert.isTrue( itemb.classList.contains('last-active') );
+
+		assert.equal(test.instance.caretPos,2);
+		await asyncType('[left]');
+		assert.equal(test.instance.caretPos,1);
+		await asyncType('[left]');
+		assert.equal(test.instance.caretPos,0);
 
 	});
 	

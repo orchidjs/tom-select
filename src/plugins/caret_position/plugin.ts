@@ -14,7 +14,7 @@
  */
 
 import TomSelect from '../../tom-select';
-import { nodeIndex } from '../../vanilla';
+import { nodeIndex, removeClasses } from '../../vanilla';
 
 
 export default function(this:TomSelect) {
@@ -60,6 +60,7 @@ export default function(this:TomSelect) {
 			const idx = nodeIndex(last_active);
 			self.setCaret(direction > 0 ? idx + 1: idx);
 			self.setActiveItem();
+			removeClasses(last_active as HTMLElement,'last-active');
 
 		// move caret left or right of current position
 		}else{
