@@ -1351,13 +1351,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var self					= this;
 		var query					= self.inputValue();
 		var results					= self.search(query);
-		var active_option			= self.activeOption;
+		var active_option			= null; //self.activeOption;
 		var show_dropdown			= self.settings.shouldOpen || false;
 		var dropdown_content		= self.dropdown_content;
 
-		if( active_option ){
-			active_value = active_option.dataset.value;
-			active_group = active_option.closest('[data-group]') as HTMLElement;
+		if( self.activeOption ){
+			active_value = self.activeOption.dataset.value;
+			active_group = self.activeOption.closest('[data-group]') as HTMLElement;
 		}
 
 		// build markup
@@ -1406,8 +1406,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 
 				// make sure we keep the activeOption in the same group
-				if( active_value == opt_value && active_group && active_group.dataset.group === optgroup ){
-					active_option = option_el;
+				if( !active_option && active_value == opt_value ){
+					if( active_group ){
+						if( active_group.dataset.group === optgroup ){
+							active_option = option_el;
+						}
+					}else{
+						active_option = option_el;
+					}	
 				}
 
 				groups[optgroup].appendChild(option_el);
@@ -1495,7 +1501,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			if (results.items.length > 0) {
 
-				if( !dropdown_content.contains(active_option) && self.settings.mode === 'single' && self.items.length ){
+				if( !active_option && self.settings.mode === 'single' && self.items.length ){
 					active_option = self.getOption(self.items[0]);
 				}
 

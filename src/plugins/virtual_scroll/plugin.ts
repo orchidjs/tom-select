@@ -26,6 +26,7 @@ export default function(this:TomSelect) {
 	var pagination:{[key:string]:any}	= {};
 	var dropdown_content:HTMLElement;
 	var loading_more					= false;
+	var load_more_opt:HTMLElement;
 
 
 	if( !self.settings.firstUrl ){
@@ -74,6 +75,28 @@ export default function(this:TomSelect) {
 
 		return self.settings.firstUrl(query);
 	};
+	
+	// return true if additional results should be loaded
+	self.shouldLoadMore = function():boolean{
+		
+		const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
+		if( scroll_percent > 0.9 ){
+			return true;
+		}
+
+		
+		if( self.activeOption ){
+			var selectable	= self.selectable();
+			var index		= [...selectable].indexOf(self.activeOption);
+			if( index >= (selectable.length-2) ){
+				return true;
+			}
+		}
+			
+		
+		return false;
+	};
+	
 
 	// don't clear the active option (and cause unwanted dropdown scroll)
 	// while loading more results
@@ -103,6 +126,8 @@ export default function(this:TomSelect) {
 
 		if( !loading_more ){
 			self.clearOptions();
+		}else if( load_more_opt && options.length > 0 ){
+			load_more_opt.dataset.value		= options[0][self.settings.valueField];
 		}
 
 		orig_loadCallback.call( self, options, optgroups);
@@ -121,7 +146,10 @@ export default function(this:TomSelect) {
 
 		if( canLoadMore(query) ){
 			option = self.render('loading_more',{query:query});
-			if( option ) option.setAttribute('data-selectable',''); // so that navigating dropdown with [down] keypresses can navigate to this node
+			if( option ){
+				option.setAttribute('data-selectable',''); // so that navigating dropdown with [down] keypresses can navigate to this node
+				load_more_opt = option;
+			}
 
 		}else if( (query in pagination) && !dropdown_content.querySelector('.no-results') ){
 			option = self.render('no_more_results',{query:query});
@@ -152,11 +180,10 @@ export default function(this:TomSelect) {
 
 		// watch dropdown content scroll position
 		dropdown_content.addEventListener('scroll',function(){
-
-			const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
-			if( scroll_percent < 0.95 ){
+			
+			if( !self.shouldLoadMore() ){
 				return;
-			}
+			}			
 
 			// !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
 			if( !canLoadMore(self.lastValue) ){
