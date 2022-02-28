@@ -102,6 +102,7 @@ function plugin () {
   var pagination = {};
   var dropdown_content;
   var loading_more = false;
+  var load_more_opt;
 
   if (!self.settings.firstUrl) {
     throw 'virtual_scroll plugin requires a firstUrl() method';
@@ -144,6 +145,26 @@ function plugin () {
 
     pagination = {};
     return self.settings.firstUrl(query);
+  }; // return true if additional results should be loaded
+
+
+  self.shouldLoadMore = function () {
+    const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
+
+    if (scroll_percent > 0.9) {
+      return true;
+    }
+
+    if (self.activeOption) {
+      var selectable = self.selectable();
+      var index = [...selectable].indexOf(self.activeOption);
+
+      if (index >= selectable.length - 2) {
+        return true;
+      }
+    }
+
+    return false;
   }; // don't clear the active option (and cause unwanted dropdown scroll)
   // while loading more results
 
@@ -168,6 +189,8 @@ function plugin () {
   self.hook('instead', 'loadCallback', (options, optgroups) => {
     if (!loading_more) {
       self.clearOptions();
+    } else if (load_more_opt && options.length > 0) {
+      load_more_opt.dataset.value = options[0][self.settings.valueField];
     }
 
     orig_loadCallback.call(self, options, optgroups);
@@ -184,7 +207,12 @@ function plugin () {
       option = self.render('loading_more', {
         query: query
       });
-      if (option) option.setAttribute('data-selectable', ''); // so that navigating dropdown with [down] keypresses can navigate to this node
+
+      if (option) {
+        option.setAttribute('data-selectable', ''); // so that navigating dropdown with [down] keypresses can navigate to this node
+
+        load_more_opt = option;
+      }
     } else if (query in pagination && !dropdown_content.querySelector('.no-results')) {
       option = self.render('no_more_results', {
         query: query
@@ -210,9 +238,7 @@ function plugin () {
     }, self.settings.render); // watch dropdown content scroll position
 
     dropdown_content.addEventListener('scroll', function () {
-      const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
-
-      if (scroll_percent < 0.95) {
+      if (!self.shouldLoadMore()) {
         return;
       } // !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
 

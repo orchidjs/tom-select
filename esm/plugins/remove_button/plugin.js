@@ -135,6 +135,7 @@ function plugin (userOptions) {
         var value = rendered.dataset.value;
         self.removeItem(value);
         self.refreshOptions(false);
+        self.inputState();
       });
       return rendered;
     };
