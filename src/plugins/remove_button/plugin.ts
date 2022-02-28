@@ -64,6 +64,7 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 				var value = rendered.dataset.value;
 				self.removeItem(value);
 				self.refreshOptions(false);
+				self.inputState();
 			});
 
 			return rendered;
