@@ -2,7 +2,7 @@ blank_issues_enabled: false
 contact_links:
   - name: ❓ Help
     url: https://stackoverflow.com/questions/tagged/tom-select
-    about: Need help? Stack overflow is a great resource!
+    about: Need help? Stack Overflow is a great resource!
   - name: 🚀 Feature Request
     url: https://github.com/orchidjs/tom-select/discussions/new?category_id=32011067
     about: Share and vote on ideas for new features
