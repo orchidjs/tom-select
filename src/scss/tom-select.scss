@@ -83,16 +83,21 @@ $select-spinner-border-color:					$select-color-border !default;
 }
 
 
+.#{$select-ns}-wrapper.single{
+	.#{$select-ns}-control {
+		&, input {
+			cursor: pointer;
+		}
+	}
+}
+
+
 @mixin ts-caret(){
 
 	.#{$select-ns}-wrapper.single{
 	
 		.#{$select-ns}-control {
 			padding-right: 2rem;
-			
-			&, input {
-				cursor: pointer;
-			}
 			
 			&:after {
 				content: ' ';
