@@ -29,6 +29,29 @@ export default function(this:TomSelect) {
 	var load_more_opt:HTMLElement;
 
 
+	if( !self.settings.shouldLoadMore ){
+		
+		// return true if additional results should be loaded
+		self.settings.shouldLoadMore = function():boolean{
+			
+			const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
+			if( scroll_percent > 0.9 ){
+				return true;
+			}
+
+			if( self.activeOption ){
+				var selectable	= self.selectable();
+				var index		= [...selectable].indexOf(self.activeOption);
+				if( index >= (selectable.length-2) ){
+					return true;
+				}
+			}
+			
+			return false;
+		}
+	}
+
+
 	if( !self.settings.firstUrl ){
 		throw 'virtual_scroll plugin requires a firstUrl() method';
 		return;
@@ -73,30 +96,9 @@ export default function(this:TomSelect) {
 		// we need to load the first page again
 		pagination = {};
 
-		return self.settings.firstUrl(query);
+		return self.settings.firstUrl.call(self,query);
 	};
-	
-	// return true if additional results should be loaded
-	self.shouldLoadMore = function():boolean{
-		
-		const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
-		if( scroll_percent > 0.9 ){
-			return true;
-		}
 
-		
-		if( self.activeOption ){
-			var selectable	= self.selectable();
-			var index		= [...selectable].indexOf(self.activeOption);
-			if( index >= (selectable.length-2) ){
-				return true;
-			}
-		}
-			
-		
-		return false;
-	};
-	
 
 	// don't clear the active option (and cause unwanted dropdown scroll)
 	// while loading more results
@@ -181,7 +183,7 @@ export default function(this:TomSelect) {
 		// watch dropdown content scroll position
 		dropdown_content.addEventListener('scroll',function(){
 			
-			if( !self.shouldLoadMore() ){
+			if( !self.settings.shouldLoadMore.call(self) ){
 				return;
 			}			
 

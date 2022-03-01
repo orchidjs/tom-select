@@ -86,6 +86,12 @@ new TomSelect('#reddit-search',{
 			default:'null'
 		},
 		{
+			name:'shouldLoadMore',
+			desc:'The shouldLoadMore() method determines if additinal results should be loaded based on the dropdown scroll position.',
+			type:'callback',
+			default:'callback'
+		},
+		{
 			name:'maxOptions',
 			desc:'The max number of options to display in the dropdown.',
 			type:'int',
