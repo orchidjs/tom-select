@@ -140,9 +140,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			var theme			= localStorage.getItem('theme') || 'bootstrap4';
 			var css_urls		= [
 										`https://cdn.jsdelivr.net/npm/tom-select@//@@version/dist/css/tom-select.${theme}.min.css`,
-										'https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css',
 										'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css',
 									];
+									
+			if( localStorage.getItem('theme') == 'bootstrap4' ){
+				css_urls.push('https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css');
+			}else{
+				css_urls.push('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
+			}
 
 			var js_urls			= ['https://cdn.jsdelivr.net/npm/tom-select@//@@version/dist/js/tom-select.complete.min.js'];
 
