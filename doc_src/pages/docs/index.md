@@ -148,13 +148,13 @@ create: function(input,callback){
 	</tr>
 	<tr>
 		<td><code>maxOptions</code></td>
-		<td>The max number of options to display in the dropdown.</td>
+		<td>The max number of options to display in the dropdown. Set maxOptions to <code>null</code> for an unlimited number of options.</td>
 		<td><code>int</code></td>
 		<td><code>50</code></td>
 	</tr>
 	<tr name="maxItems">
 		<td><code>maxItems</code></td>
-		<td>The max number of items the user can select. 1 makes the control mono-selection, null allows an unlimited number of items.</td>
+		<td>The max number of items the user can select. A vlue of <code>1</code> makes the control mono-selection, <code>null</code> allows an unlimited number of items.</td>
 		<td><code>int</code></td>
 		<td><code>null</code></td>
 	</tr>
