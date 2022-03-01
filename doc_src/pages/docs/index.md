@@ -154,7 +154,7 @@ create: function(input,callback){
 	</tr>
 	<tr name="maxItems">
 		<td><code>maxItems</code></td>
-		<td>The max number of items the user can select. A vlue of <code>1</code> makes the control mono-selection, <code>null</code> allows an unlimited number of items.</td>
+		<td>The max number of items the user can select. A value of <code>1</code> makes the control mono-selection, <code>null</code> allows an unlimited number of items.</td>
 		<td><code>int</code></td>
 		<td><code>null</code></td>
 	</tr>
