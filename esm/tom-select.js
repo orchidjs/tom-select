@@ -793,7 +793,7 @@ class Sifter {
         }
       });
     } else {
-      iterate(self.items, (item, id) => {
+      iterate(self.items, (_, id) => {
         search.items.push({
           'score': 1,
           'id': id
