@@ -4698,6 +4698,28 @@ function virtual_scroll () {
   var loading_more = false;
   var load_more_opt;
 
+  if (!self.settings.shouldLoadMore) {
+    // return true if additional results should be loaded
+    self.settings.shouldLoadMore = function () {
+      const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
+
+      if (scroll_percent > 0.9) {
+        return true;
+      }
+
+      if (self.activeOption) {
+        var selectable = self.selectable();
+        var index = [...selectable].indexOf(self.activeOption);
+
+        if (index >= selectable.length - 2) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+  }
+
   if (!self.settings.firstUrl) {
     throw 'virtual_scroll plugin requires a firstUrl() method';
   } // in order for virtual scrolling to work,
@@ -4738,27 +4760,7 @@ function virtual_scroll () {
 
 
     pagination = {};
-    return self.settings.firstUrl(query);
-  }; // return true if additional results should be loaded
-
-
-  self.shouldLoadMore = function () {
-    const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
-
-    if (scroll_percent > 0.9) {
-      return true;
-    }
-
-    if (self.activeOption) {
-      var selectable = self.selectable();
-      var index = [...selectable].indexOf(self.activeOption);
-
-      if (index >= selectable.length - 2) {
-        return true;
-      }
-    }
-
-    return false;
+    return self.settings.firstUrl.call(self, query);
   }; // don't clear the active option (and cause unwanted dropdown scroll)
   // while loading more results
 
@@ -4832,7 +4834,7 @@ function virtual_scroll () {
     }, self.settings.render); // watch dropdown content scroll position
 
     dropdown_content.addEventListener('scroll', function () {
-      if (!self.shouldLoadMore()) {
+      if (!self.settings.shouldLoadMore.call(self)) {
         return;
       } // !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
 
