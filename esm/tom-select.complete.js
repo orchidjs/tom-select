@@ -1628,7 +1628,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       });
       control_input.tabIndex = -1;
       control.appendChild(control_input);
-      this.focus_node = control_input; // dom element	
+      this.focus_node = control_input; // dom element
     } else if (settings.controlInput) {
       control_input = getDom(settings.controlInput);
       this.focus_node = control_input;
@@ -3549,7 +3549,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
         if (!option_el) {
           option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
         } // don't move empty option from top of list
-        // fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293				
+        // fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293
 
 
         if (option_el != empty_option) {
