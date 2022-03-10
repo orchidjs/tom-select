@@ -30,10 +30,10 @@ export default function(this:TomSelect) {
 
 
 	if( !self.settings.shouldLoadMore ){
-		
+
 		// return true if additional results should be loaded
 		self.settings.shouldLoadMore = function():boolean{
-			
+
 			const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
 			if( scroll_percent > 0.9 ){
 				return true;
@@ -46,7 +46,7 @@ export default function(this:TomSelect) {
 					return true;
 				}
 			}
-			
+
 			return false;
 		}
 	}
@@ -182,10 +182,10 @@ export default function(this:TomSelect) {
 
 		// watch dropdown content scroll position
 		dropdown_content.addEventListener('scroll',function(){
-			
+
 			if( !self.settings.shouldLoadMore.call(self) ){
 				return;
-			}			
+			}
 
 			// !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
 			if( !canLoadMore(self.lastValue) ){

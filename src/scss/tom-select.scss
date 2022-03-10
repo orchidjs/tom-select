@@ -95,10 +95,10 @@ $select-spinner-border-color:					$select-color-border !default;
 @mixin ts-caret(){
 
 	.#{$select-ns}-wrapper.single{
-	
+
 		.#{$select-ns}-control {
 			padding-right: 2rem;
-			
+
 			&:after {
 				content: ' ';
 				display: block;
@@ -119,12 +119,12 @@ $select-spinner-border-color:					$select-color-border !default;
 			border-width: 0 $select-arrow-size $select-arrow-size $select-arrow-size;
 			border-color: transparent transparent $select-arrow-color transparent;
 		}
-		
-		&.input-active .#{$select-ns}-control, 
-		&.input-active .#{$select-ns}-control input { 
+
+		&.input-active .#{$select-ns}-control,
+		&.input-active .#{$select-ns}-control input {
 			cursor: text;
 		}
-		
+
 	}
 }
 

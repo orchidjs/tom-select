@@ -17,13 +17,13 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 
 .#{$select-ns}-wrapper {
 	&.multi {
-		
+
 		&.has-items .#{$select-ns}-control {
 			$padding-x: $select-padding-x - 3px;
 			padding-left: $padding-x;
-			padding-right: $padding-x;	
+			padding-right: $padding-x;
 		}
-		
+
 		.#{$select-ns}-control {
 			[data-value] {
 				text-shadow: 0 1px 0 rgba(0,51,83,0.3);
@@ -49,7 +49,7 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 				background: none;
 			}
 		}
-		
+
 	}
 	&.single {
 		.#{$select-ns}-control {
