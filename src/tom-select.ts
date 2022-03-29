@@ -530,7 +530,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.setupOptions(settings.options,settings.optgroups);
 
-		self.setValue(settings.items,true); // silent prevents recursion
+		self.setValue(settings.items||[],true); // silent prevents recursion
 
 		self.lastQuery = null; // so updated options will be displayed in dropdown
 	}
