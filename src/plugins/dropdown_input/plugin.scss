@@ -19,7 +19,7 @@
 		background:		transparent;
 	}
 
-	&.focus ~ .#{$select-ns}-dropdown .dropdown-input{
+	&.focus .#{$select-ns}-dropdown .dropdown-input{
 		@if variable-exists(input-focus-border-color) {
 			border-color: $input-focus-border-color;
 
