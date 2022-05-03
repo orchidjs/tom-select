@@ -1,6 +1,6 @@
 {
   "name": "orchidjs/tom-select",
-  "description": "Tom Select is a versatile and dynamic <select> UI control. Framework agnostic with autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, etc.",
+  "description": "Tom Select is a dynamic, framework agnostic, and lightweight (~16kb gzipped) <select> UI control. With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.",
   "type": "component",
   "homepage": "https://tom-select.js.org/",
   "license": "Apache-2.0",
