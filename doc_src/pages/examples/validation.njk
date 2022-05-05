@@ -104,7 +104,7 @@ Then, within your submit listener, you can either add the <code>was-validated</c
 
 {% set html %}
 <form id="bootstrap-form" novalidate>
-	<select id="select-bootstrap" required placeholder="Select a person..." name="beast">
+	<select class="form-select" id="select-bootstrap" required placeholder="Select a person..." name="beast">
 		<option value="">Select a person...</option>
 		<option value="4">Thomas Edison</option>
 		<option value="1">Nikola</option>
@@ -123,16 +123,7 @@ Then, within your submit listener, you can either add the <code>was-validated</c
 
 <script>
 {% set script %}
-var my_select = new TomSelect('#select-bootstrap',{
-	create: true,
-	sortField: {
-		field: 'text',
-		direction: 'asc'
-	},
-	onChange:function(){
-		this.wrapper.classList.toggle('is-invalid',!this.isValid);
-	}
-});
+var my_select = new TomSelect('#select-bootstrap');
 
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -141,9 +132,6 @@ form.addEventListener('submit', function (event){
 
 	// add was-validated to display custom colors
 	form.classList.add('was-validated')
-
-	// or, add is-invalid to the wrapper to display custom colors and invalid-feedback messages
-	my_select.wrapper.classList.toggle('is-invalid',!my_select.isValid);
 
 	if (!form.checkValidity()) {
 		event.preventDefault()

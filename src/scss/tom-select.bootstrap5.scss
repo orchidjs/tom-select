@@ -16,10 +16,8 @@ $select-color-text: $gray-800 !default;
 $select-color-highlight: rgba(255,237,40,0.4) !default;
 $select-color-input: $input-bg !default;
 $select-color-input-full: $input-bg !default;
-$select-color-input-error: map-get($state-invalid,'color') !default;
 
 
-$select-color-input-error-focus: darken($select-color-input-error, 10%) !default;
 $select-color-disabled: $input-disabled-bg !default;
 $select-color-item: #efefef !default;
 $select-color-item-border: $border-color !default;
@@ -55,6 +53,43 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 
 @import "tom-select";
+
+
+@mixin ts-form-validation-state-selector($state) {
+
+	$state-map: map-get($form-validation-states,$state);
+
+	.is-#{$state},
+	.was-validated .#{$state},
+	.was-validated :#{$state} ~ .#{$select-ns}-wrapper{
+
+		$color: map-get($state-map,'color');
+		$icon: map-get($state-map,'icon');
+
+		border-color: $color;
+
+		&:not(.single){
+			background-image: escape-svg($icon);
+			background-position: right $input-height-inner-quarter center;
+			background-size: $input-height-inner-half $input-height-inner-half;
+			background-repeat: no-repeat;
+		}
+
+		&.single{
+			background-image: escape-svg($form-select-indicator), escape-svg($icon);
+			background-position: $form-select-bg-position, $form-select-feedback-icon-position;
+			background-size: $form-select-bg-size, $form-select-feedback-icon-size;
+			background-repeat: no-repeat;
+		}
+
+		&.focus .#{$select-ns}-control{
+			border-color: $color;
+	        box-shadow: 0 0 $input-btn-focus-blur $input-focus-width rgba($color, $input-btn-focus-color-opacity);
+		}
+
+	}
+}
+
 
 .#{$select-ns}-wrapper.form-control,
 .#{$select-ns}-wrapper.form-select{
@@ -128,25 +163,10 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
 }
 
-.is-invalid .#{$select-ns}-control,
-.was-validated .invalid .#{$select-ns}-control{
-	border-color: $select-color-input-error;
 
-	.focus &{
-		border-color: $select-color-input-error-focus;
-		box-shadow: 0 0 0 $input-focus-width rgba($select-color-input-error, .25);
-	}
-}
+@include ts-form-validation-state-selector('invalid');
+@include ts-form-validation-state-selector('valid');
 
-.is-valid .#{$select-ns}-control{
-	$_color: map-get($state-valid,'color');
-	border-color: $_color;
-
-	.focus &{
-		border-color: $_color;
-		box-shadow: 0 0 0 $input-focus-width rgba($_color, .25);
-	}
-}
 
 .#{$select-ns}-wrapper {
 
@@ -205,7 +225,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 
-.#{$select-ns}-wrapper:not(.form-select){
+.#{$select-ns}-wrapper:not(.form-control):not(.form-select){
 	padding: 0;
 		border: none;
 		height: auto;
@@ -222,6 +242,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 }
 
+.#{$select-ns}-wrapper.form-control,
 .#{$select-ns}-wrapper.form-select{
 	padding: 0;
 	height: auto;
