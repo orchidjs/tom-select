@@ -82,4 +82,25 @@ describe('plugin: checkbox_options', function() {
 	});
 
 
+	it_n('adding item after dropdown open should check option', async () => {
+
+		let test = setup_test('AB_Multi', {plugins: ['checkbox_options']});
+
+		await asyncClick( test.instance.control );
+
+		var option = test.instance.getOption('a');
+		var checkbox = option.querySelector('input');
+		assert.equal(checkbox.checked, false,'checkbox should not be checked');
+
+		test.instance.addItem('a');
+
+		await waitFor(100); // setTimeout in UpdateCheckbox
+
+		//var option = test.instance.getOption('a');
+		//var checkbox = option.querySelector('input');
+
+		assert.equal(checkbox.checked, true,'checkbox should be checked');
+
+	});
+
 });
