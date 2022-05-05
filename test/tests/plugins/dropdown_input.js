@@ -4,32 +4,22 @@
 describe('plugin: dropdown_input', function() {
 
 	it_n('dropdown should open onclick', async () => {
-		let test = setup_test('AB_Multi', {plugins: ['dropdown_input']});
+		let test = setup_test('<input value="a,b" tabindex="1" placeholder="test placeholder" />', {plugins: ['dropdown_input']});
+		let placeholder = test.instance.control.querySelector('.items-placeholder');
 
-		assert.isFalse( test.instance.dropdown.contains(test.instance.control_input), 'control_input should not be in dropdown yet');
-		assert.isFalse( test.instance.dropdown.contains(test.instance.control_input), 'control_input should still be in control');
-
-		await asyncClick( test.instance.control );
-
-		assert.isTrue( test.instance.isOpen);
-		assert.equal( document.activeElement, test.instance.control_input );
+		assert.isFalse( isVisible(placeholder),'items-placeholder should not be visible');
 		assert.isTrue( test.instance.dropdown.contains(test.instance.control_input), 'control_input should be in dropdown');
 
-		await asyncType( '[escape]' );
-		await waitFor(100);
-
-		assert.isFalse( test.instance.isOpen,'dropdown should be closed');
-		assert.isFalse( test.instance.dropdown.contains(test.instance.control_input), 'control_input should not be in dropdown any more ');
-		assert.isTrue( test.instance.control.contains(test.instance.control_input), 'control_input should should be back in control');
+		await asyncClick(test.instance.control);
+		assert.equal(test.instance.isOpen, true);
+		assert.equal(document.activeElement, test.instance.control_input);
 
 	});
 
-	it_n('dropdown should open onclick without available options', function(done) {
+	it_n('dropdown should open onclick without available options', async () => {
 		let test = setup_test('<select multiple><option selected>A</option></select>', {plugins: ['dropdown_input']});
-		syn.click(test.instance.control).delay(0,function(){
-			assert.equal(test.instance.isOpen, true);
-			done();
-		});
+		await asyncClick(test.instance.control);
+		assert.equal(test.instance.isOpen, true);
 
 	});
 
@@ -37,14 +27,9 @@ describe('plugin: dropdown_input', function() {
 
 		var test = setup_test('AB_Single', {plugins: ['dropdown_input']});
 
-		assert.isFalse( test.instance.dropdown.contains(test.instance.control_input), 'control_input should not be in dropdown yet');
-
 		await asyncClick(test.instance.control);
 
-		assert.equal(test.instance.isOpen, true,'should open on click');
 		assert.equal(test.instance.activeOption.dataset.value,'a');
-		assert.equal(document.activeElement, test.instance.control_input,'control input should be focused');
-		assert.isTrue( test.instance.dropdown.contains(test.instance.control_input), 'control_input should be in dropdown');
 
 		await asyncType('a');
 		await asyncType('[enter]');
@@ -53,7 +38,6 @@ describe('plugin: dropdown_input', function() {
 		assert.equal( test.instance.items[0], 'a');
 		assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
 		assert.equal(test.instance.isOpen, false);
-		assert.isTrue( test.instance.dropdown.contains(test.instance.control_input), 'control_input should still be in dropdown');
 
 		await asyncType('[down]');
 		assert.equal(test.instance.isOpen, true);
@@ -125,8 +109,12 @@ describe('plugin: dropdown_input', function() {
 			plugins: ['dropdown_input'],
 		});
 
+		let placeholder = test.instance.control.querySelector('.items-placeholder');
+		assert.isTrue( isVisible(placeholder),'items-placeholder should be visible');
+
 		await asyncClick( test.instance.control );
 		assert.isTrue( test.instance.isOpen );
+		assert.isFalse( isVisible(placeholder),'items-placeholder should not be visible');
 
 		await asyncType('[escape]');
 		assert.isFalse( test.instance.isOpen, 'not closed' );

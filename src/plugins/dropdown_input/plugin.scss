@@ -34,4 +34,14 @@
 
 	}
 
+	.items-placeholder{
+		border: 0 none !important;
+		box-shadow: none !important;
+		width: 100%;
+	}
+
+	&.has-items .items-placeholder,
+	&.dropdown-active .items-placeholder{
+		display: none !important;
+	}
 }
