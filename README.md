@@ -11,7 +11,7 @@
 <a href="https://github.com/orchidjs/tom-select/issues" class="m-1 d-inline-block"><img alt="GitHub Issues" src="https://img.shields.io/github/issues/orchidjs/tom-select"></a>
 </p>
 
-Tom Select is a dynamic, framework agnostic, and lightweight (~16kb gzipped) <select> UI control.
+Tom Select is a dynamic, framework agnostic, and lightweight (~16kb gzipped) &lt;select&gt; UI control.
 With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
 Tom Select was forked from [selectize.js](https://tom-select.js.org/docs/selectize.js/) with the goal of modernizing the code base, decoupling from jQuery, and expanding functionality.
 
