@@ -83,19 +83,10 @@ All pre-built files needed to use Tom Select can be found in the "dist" folder v
 - [SCSS](https://www.jsdelivr.com/package/npm/tom-select?path=dist%2Fscss) — Uncompiled theme sources
 
 
-## Platinum Sponsors
+## Sponsors
 <p>
 Many thanks to all our sponsors who help make development possible. <a href="https://opencollective.com/tom-select">Become a sponsor</a>.
 </p>
-<br>
-<p>
-<a href="http://www.peopleforce.io"><img src="https://raw.githubusercontent.com/orchidjs/tom-select/master/doc_src/img/peopleforce.png"></a>
-</p>
-<br>
-
-
-## Sponsors
-<br>
 <p>
 <a href="https://opencollective.com/tom-select/sponsor/0/website"><img src="https://opencollective.com/tom-select/sponsor/0/avatar.svg" alt="Trust My Paper Logo"></a>
 </p>
