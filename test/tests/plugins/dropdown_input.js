@@ -3,16 +3,25 @@
 
 describe('plugin: dropdown_input', function() {
 
-	it_n('dropdown should open onclick', function(done) {
-		let test = setup_test('<input value="a,b" tabindex="1" placeholder="test placeholder" />', {plugins: ['dropdown_input']});
+	it_n('dropdown should open onclick', async () => {
+		let test = setup_test('AB_Multi', {plugins: ['dropdown_input']});
 
+		assert.isFalse( test.instance.dropdown.contains(test.instance.control_input), 'control_input should not be in dropdown yet');
+		assert.isFalse( test.instance.dropdown.contains(test.instance.control_input), 'control_input should still be in control');
+
+		await asyncClick( test.instance.control );
+
+		assert.isTrue( test.instance.isOpen);
+		assert.equal( document.activeElement, test.instance.control_input );
 		assert.isTrue( test.instance.dropdown.contains(test.instance.control_input), 'control_input should be in dropdown');
 
-		syn.click(test.instance.control).delay(0,function(){
-			assert.equal(test.instance.isOpen, true);
-			assert.equal(document.activeElement, test.instance.control_input);
-			done();
-		});
+		await asyncType( '[escape]' );
+		await waitFor(100);
+
+		assert.isFalse( test.instance.isOpen,'dropdown should be closed');
+		assert.isFalse( test.instance.dropdown.contains(test.instance.control_input), 'control_input should not be in dropdown any more ');
+		assert.isTrue( test.instance.control.contains(test.instance.control_input), 'control_input should should be back in control');
+
 	});
 
 	it_n('dropdown should open onclick without available options', function(done) {
@@ -28,17 +37,23 @@ describe('plugin: dropdown_input', function() {
 
 		var test = setup_test('AB_Single', {plugins: ['dropdown_input']});
 
+		assert.isFalse( test.instance.dropdown.contains(test.instance.control_input), 'control_input should not be in dropdown yet');
+
 		await asyncClick(test.instance.control);
-		
+
+		assert.equal(test.instance.isOpen, true,'should open on click');
 		assert.equal(test.instance.activeOption.dataset.value,'a');
+		assert.equal(document.activeElement, test.instance.control_input,'control input should be focused');
+		assert.isTrue( test.instance.dropdown.contains(test.instance.control_input), 'control_input should be in dropdown');
 
 		await asyncType('a');
 		await asyncType('[enter]');
-		
+
 		assert.equal( test.instance.items.length, 1);
 		assert.equal( test.instance.items[0], 'a');
 		assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
 		assert.equal(test.instance.isOpen, false);
+		assert.isTrue( test.instance.dropdown.contains(test.instance.control_input), 'control_input should still be in dropdown');
 
 		await asyncType('[down]');
 		assert.equal(test.instance.isOpen, true);
@@ -49,7 +64,7 @@ describe('plugin: dropdown_input', function() {
 		assert.equal( test.instance.items.length, 1);
 		assert.equal( test.instance.items[0], 'b');
 		assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
-	
+
 	});
 
 
@@ -62,7 +77,7 @@ describe('plugin: dropdown_input', function() {
 
 		await asyncClick(test.instance.control);
 		assert.isFalse(test.instance.isOpen);
-		
+
 		await asyncType('[down]');
 		assert.isTrue(test.instance.isOpen);
 	});
@@ -103,36 +118,36 @@ describe('plugin: dropdown_input', function() {
 		});
 
 	});
-	
+
 	it_n('[esc] to close & [down] to open',async () =>{
-		
+
 		var test = setup_test('AB_Multi',{
 			plugins: ['dropdown_input'],
 		});
-		
+
 		await asyncClick( test.instance.control );
 		assert.isTrue( test.instance.isOpen );
 
 		await asyncType('[escape]');
 		assert.isFalse( test.instance.isOpen, 'not closed' );
-		
+
 		await asyncType('[down]');
 		assert.isTrue( test.instance.isOpen, 'not re-opened' );
 
 	});
-	
+
 	it_n('clicking outside should close', async () => {
 
 		var test = setup_test('AB_Multi',{
 			plugins: ['dropdown_input'],
 		});
-		
+
 		await asyncClick( test.instance.control );
 		assert.isTrue( test.instance.isOpen );
 
 		await asyncClick( document.body );
 		assert.isFalse( test.instance.isOpen );
-		
+
 	});
 
 	it_n('should select all items when ['+shortcut_key+'-a] pressed', async () => {
@@ -151,5 +166,5 @@ describe('plugin: dropdown_input', function() {
 		assert.equal( test.instance.activeItems.length, 2 );
 
 	});
-	
+
 });
