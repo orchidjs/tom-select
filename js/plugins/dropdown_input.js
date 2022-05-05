@@ -175,15 +175,19 @@
 	 *
 	 */
 	function plugin () {
-	  let self = this;
-	  let wrap;
+	  const self = this;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
 	  self.hook('before', 'setup', () => {
 	    self.focus_node = self.control;
 	    addClasses(self.control_input, 'dropdown-input');
-	    wrap = getDom('<div class="dropdown-input-wrap">');
-	    self.dropdown.insertBefore(wrap, self.dropdown.firstChild);
+	    const div = getDom('<div class="dropdown-input-wrap">');
+	    div.append(self.control_input);
+	    self.dropdown.insertBefore(div, self.dropdown.firstChild); // set a placeholder in the select control
+
+	    const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />');
+	    placeholder.placeholder = self.settings.placeholder;
+	    self.control.append(placeholder);
 	  });
 	  self.on('initialize', () => {
 	    // set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
@@ -211,14 +215,7 @@
 	    }); // give the control_input focus when the dropdown is open
 
 	    self.on('dropdown_open', () => {
-	      wrap.append(self.control_input);
 	      self.control_input.focus();
-	    }); // move the control_input back to the control if there aren't any selected items
-
-	    self.on('dropdown_close', () => {
-	      if (self.items.length == 0) {
-	        self.control.append(self.control_input);
-	      }
 	    }); // prevent onBlur from closing when focus is on the control_input
 
 	    const orig_onBlur = self.onBlur;
