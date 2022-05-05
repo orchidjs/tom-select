@@ -3,6 +3,10 @@ title: Usage Documentation
 tags: docs
 ---
 
+<div class="row">
+<div class="col-md-6">
+<h3>Single instance using an #id selector</h3>
+
 ```html
 <script src="tom-select.complete.js"></script>
 <link href="tom-select.bootstrap4.css" rel="stylesheet" />
@@ -12,6 +16,24 @@ var settings = {};
 new TomSelect('#select',settings);
 </script>
 ```
+</div>
+<div class="col-md-6">
+<h3>Multiple instances using a .class selector</h3>
+
+```html
+<script src="tom-select.complete.js"></script>
+<link href="tom-select.bootstrap4.css" rel="stylesheet" />
+<input class="select" /> ... <input class="select" />
+<script>
+document.querySelectorAll('.select').forEach((el)=>{
+	let settings = {};
+ 	new TomSelect(el,settings);
+});
+</script>
+```
+</div>
+</div>
+
 
 ### Glossary
 
@@ -31,7 +53,7 @@ new TomSelect('#select',settings);
 		  If a DOMString is used, it should either be a <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">CSS Selector</a> or <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML">a string of HTML compatible with innerHTML</a>.
 		</dd>
 </dl>
-  
+
 
 ## General Configuration
 
@@ -168,7 +190,7 @@ create: function(input,callback){
 		<td><code>closeAfterSelect</code></td>
 		<td>After a selection is made, the dropdown will remain open if in a multi-selection control or will close in a single-selection control.
 		Setting closeAfterSelect to true will force the dropdown to close after selections are made.
-		Setting closeAfterSelect to false will keep the dropdown open after selections are made.	
+		Setting closeAfterSelect to false will keep the dropdown open after selections are made.
 		</td>
 		<td><code>boolean</code></td>
 		<td><code>undefined</code></td>
@@ -327,7 +349,7 @@ create: function(input,callback){
 			<p>sortField maps directly to the <a href="https://github.com/orchidjs/sifter.js#searchquery-options">sort setting in Sifter</a>.</p>
 			<p>By default, results will be sorted by their <a href="#scoresearch">$score</a> first, then by the original order of options.
 			To disable sorting entirely and maintain the original order of options, use:
-			
+
 ```js
 sortField:[{field:'$order'},{field:'$score'}]
 ```

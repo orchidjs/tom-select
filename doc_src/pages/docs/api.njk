@@ -27,6 +27,7 @@ new TomSelect(input_element,settings);
 <p>
 Where <code>input_element</code> is a <a href="/docs/#glossary">NodeDefinition</a> of an <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement">Input Element</a> or
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement">Select Element</a>.
+Note: using CSS Selectors that match multiple elements will only create a Tom Select instance on the first matching element.
 </p>
 
 <h2>Option Methods</h2>
@@ -41,7 +42,7 @@ Where <code>input_element</code> is a <a href="/docs/#glossary">NodeDefinition</
 	<tr>
 		<td><code>addOption(data,user_created=false)</code></td>
 		<td>Adds an available option.
-		If it already exists, nothing will happen. 
+		If it already exists, nothing will happen.
 		Options created with <code>user_created=true</code> will not show up as available options once they are unselected if <code>settings.persist=false</code>
 		Note: this does not refresh the options list dropdown (use refreshOptions() for that).
 	</td>
@@ -50,7 +51,7 @@ Where <code>input_element</code> is a <a href="/docs/#glossary">NodeDefinition</
 		<td><code>addOptions(data[],user_created=false)</code></td>
 		<td>Adds an array of options</td>
 	</tr>
-	
+
 	<tr>
 		<td><code>updateOption(value, data)</code></td>
 		<td>Updates an option available for selection. If it is visible in the selected items or options dropdown, it will be re-rendered automatically.</td>
