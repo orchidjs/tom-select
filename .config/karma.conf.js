@@ -171,7 +171,7 @@ module.exports = function(config) {
 		browsers: browsers,
 		singleRun: true,
 		browserDisconnectTolerance: 3,
-		browserDisconnectTimeout: 10000,
+		browserDisconnectTimeout: 15000,
 		browserNoActivityTimeout: 120000
 	});
 };
