@@ -149,6 +149,15 @@
 
 	      UpdateCheckbox(option);
 	    }
+	  }); // check when item added
+
+	  self.on('item_add', value => {
+	    var option = self.getOption(value);
+
+	    if (option) {
+	      // if dropdown hasn't been opened yet, the option won't exist
+	      UpdateCheckbox(option);
+	    }
 	  }); // remove items when selected option is clicked
 
 	  self.hook('instead', 'onOptionSelect', (evt, option) => {
