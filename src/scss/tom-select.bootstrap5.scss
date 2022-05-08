@@ -137,7 +137,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{$select-ns}-control {
-	min-height: $input-height;
+	//min-height: $input-height; // causes wrapper to be 2px too large
 	@include box-shadow($input-box-shadow);
 	@include transition($input-transition);
 	display:flex;
