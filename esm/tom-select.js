@@ -1795,7 +1795,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
 
     this._destroy = () => {
       document.removeEventListener('mousedown', doc_mousedown);
-      window.removeEventListener('sroll', win_scroll);
+      window.removeEventListener('scroll', win_scroll);
       window.removeEventListener('resize', win_scroll);
       if (label) label.removeEventListener('click', label_click);
     }; // store original html and tab index so that they can be
