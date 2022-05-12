@@ -143,7 +143,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if( filter instanceof RegExp ){
 				settings.createFilter = (input) => (filter as RegExp).test(input);
 			}else{
-				settings.createFilter = () => true;
+				settings.createFilter = (value) => {
+					return this.settings.duplicates || !this.options[value];
+				};
 			}
 		}
 

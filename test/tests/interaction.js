@@ -1124,6 +1124,34 @@
 				});
 			});
 
+			it_n('should not show create option for existing options', async function() {
+
+				var test = setup_test('AB_Multi', {create: true});
+
+				// focus & open
+				await asyncClick(test.instance.control);
+				assert.isTrue( test.instance.isOpen );
+
+				// type "a"
+				await asyncType('a', test.instance.control_input);
+				let create_option = test.instance.dropdown.querySelector('.create');
+				assert.isNotOk( create_option,'should not have create option for "a"');
+			});
+
+			it_n('should show create option for existing options if duplicates=true', async function() {
+
+				var test = setup_test('AB_Multi', {create: true, duplicates:true});
+
+				// focus & open
+				await asyncClick(test.instance.control);
+				assert.isTrue( test.instance.isOpen );
+
+				// type "a"
+				await asyncType('a', test.instance.control_input);
+				let create_option = test.instance.dropdown.querySelector('.create');
+				assert.isOk( create_option,'should have create option for "a"');
+			});
+
 
 			it_n('should focus create option with [up] keypress', function(done) {
 
