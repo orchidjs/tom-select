@@ -3,18 +3,16 @@
 
 describe('ESM Module', function(d1){
 
-	this.timeout(7000);
+	this.timeout(10000);
 
-	it_n('should initialize without exceptions', function(done){
+	it_n('should initialize without exceptions', async () =>{
 
 		import('/base/build/esm/tom-select.complete.js').then(function(SelectModule){
 			var instance = new SelectModule.default('<select>');
 			assert.equal( true, true);
-			done();
 
 		}).catch(function(err){
 			assert.equal( true, false,'import tom-select.complete.js failed');
-			done();
 
 		});
 	});
