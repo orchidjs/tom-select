@@ -1591,7 +1591,9 @@
 	      if (filter instanceof RegExp) {
 	        settings.createFilter = input => filter.test(input);
 	      } else {
-	        settings.createFilter = () => true;
+	        settings.createFilter = value => {
+	          return this.settings.duplicates || !this.options[value];
+	        };
 	      }
 	    }
 
