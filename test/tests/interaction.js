@@ -66,7 +66,7 @@
 				test.instance.on('change', function() {
 					evts.push('change');
 				});
-				
+
 				test.instance.on('dropdown_close', function() {
 					evts.push('dropdown_close');
 				});
@@ -75,7 +75,7 @@
 				// 1) focus on control
 				await asyncClick(test.instance.control);
 				assert.isTrue(test.instance.isOpen);
-				
+
 				// 2) type "d"
 				await asyncType( 'd' );
 
@@ -84,8 +84,8 @@
 				var create_option = test.instance.dropdown.querySelector('.create');
 				await asyncClick(create_option);
 				expect(test.instance.items[0]).to.be.equal('d');
-				assert.equal(test.instance.isOpen, false, 'should be closed after select');				
-				
+				assert.equal(test.instance.isOpen, false, 'should be closed after select');
+
 				await waitFor(300);
 				assert.equal(evts.length,2);
 				assert.equal(evts[0],'change');
@@ -102,7 +102,7 @@
 				test.instance.on('change', function() {
 					evts.push('change');
 				});
-				
+
 				test.instance.on('dropdown_close', function() {
 					evts.push('dropdown_close');
 				});
@@ -126,10 +126,10 @@
 
 				await asyncClick(test.instance.control);
 				assert.isTrue(test.instance.isOpen);
-				
+
 				await asyncClick( test.instance.dropdown.querySelector('[data-value="b"]') );
 				assert.isTrue(test.instance.isOpen);
-				
+
 			});
 
 			it_n('should close dropdown and clear active items after [escape] key press', async () => {
@@ -411,15 +411,15 @@
 				var len_opts_before = Object.keys(test.instance.options).length;
 				test.instance.createItem('test');
 				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before+1);
-				
+
 				await asyncClick(test.instance.control);
 				assert.isTrue(test.instance.isOpen);
 				var option = test.instance.getOption('a');
 				await asyncClick(option);
-				
+
 				expect( Object.keys(test.instance.options).length).to.be.equal(len_opts_before);
 			});
-			
+
 		});
 
 		describe('typing in input', function() {
@@ -468,7 +468,7 @@
 
 				await asyncClick(test.instance.control);
 				await asyncType('aww');
-				
+
 				await waitFor(1);
 				expect(test.instance.isOpen).to.be.equal(false);
 				expect( isVisible(test.instance.dropdown) ).to.be.equal(false);
@@ -691,12 +691,12 @@
 				var test = setup_test('AB_Single');
 
 				await asyncClick(test.instance.control);
-				
+
 				assert.equal(test.instance.activeOption.dataset.value,'a');
 
 				await asyncType('a');
 				await asyncType('[enter]');
-				
+
 				assert.equal( test.instance.items.length, 1);
 				assert.equal( test.instance.items[0], 'a');
 				assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
@@ -707,7 +707,7 @@
 				assert.equal( test.instance.items.length, 1);
 				assert.equal( test.instance.items[0], 'b');
 				assert.equal( test.instance.control_input.value, '', 'control_input.value != ""' );
-			
+
 			});
 
 
@@ -737,11 +737,11 @@
 				var test = setup_test('AB_Multi');
 
 				await asyncClick(test.instance.control);
-				
+
 				await asyncType('xxx');
 				await asyncType('[enter]');
-				
-				assert.equal( test.instance.items.length, 0);			
+
+				assert.equal( test.instance.items.length, 0);
 			});
 
 			it_n('should select option with [tab] keypress when selectOnTab = true', function(done) {
@@ -1076,39 +1076,42 @@
 
 		describe('creating items',function(){
 
-			it_n('should create item when clicking on create option', function(done) {
+			it_n('should create item when clicking on create option', async function() {
 
-				var test = setup_test('AB_Multi', {create: true});
+				const select = '<select multiple><option value="aa">aa</option><option value="ab">ab</option><option value="ba">ba</option></select>';
+				let test = setup_test(select, {create: true});
 
 				// 1) focus on control
-				click(test.instance.control, function() {
+				await asyncClick( test.instance.control );
+				assert.isTrue( test.instance.isOpen );
+				let create_option = test.instance.dropdown.querySelector('.create');
+				assert.isNotOk( create_option,'should not have create option');
 
-					// 2) type "d"
-					syn.type('d', test.instance.control_input, function() {
 
-						// 3) click on create option to create
-						var create_option = test.instance.dropdown.querySelector('.create');
-						click(create_option,function(){
-							expect(test.instance.items[0]).to.be.equal('d');
-							done();
-						});
+				// 2) type "b"
+				await asyncType('b', test.instance.control_input);
+				create_option = test.instance.dropdown.querySelector('.create');
+				assert.isOk( create_option,'should have create option');
+				assert.isFalse( test.instance.activeOption.classList.contains('create'), 'create item should not be focused when addPrecedence=false (default)');
 
-					});
 
-				});
+				// 3) click on create option to create
+				create_option = test.instance.dropdown.querySelector('.create');
+				await asyncClick(create_option);
+				assert.equal(test.instance.items[0],'b');
+
+
 			});
 
-			it_n('create item should be focused when addPrecedence=true', function(done) {
+			it_n('create item should be focused when addPrecedence=true', async function() {
 
-				var test = setup_test('AB_Multi', {create: true,addPrecedence: true});
+				const select = '<select multiple><option value="aa">aa</option><option value="ab">ab</option><option value="ac">ac</option></select>';
+				var test = setup_test(select, {create: true, addPrecedence: true});
 
-				click(test.instance.control, function() {
-					syn.type('b', test.instance.control_input, function() {
-						assert.equal( test.instance.activeOption.classList.contains('create'), true);
-						done();
-					});
+				await asyncClick(test.instance.control);
+				await asyncType('b', test.instance.control_input);
+				assert.isTrue( test.instance.activeOption.classList.contains('create') );
 
-				});
 			});
 
 			it_n('create item should be focused when addPrecedence=false (default)', function(done) {
@@ -1261,7 +1264,7 @@
 
 				await asyncClick(test.instance.control);
 				assert.isFalse(test.instance.isOpen);
-				
+
 				await asyncType('[down]');
 				assert.isTrue(test.instance.isOpen);
 			});
