@@ -61,7 +61,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 	.is-#{$state},
 	.was-validated .#{$state},
-	.was-validated :#{$state} ~ .#{$select-ns}-wrapper{
+	.was-validated :#{$state} + .#{$select-ns}-wrapper{
 
 		$color: map-get($state-map,'color');
 		$icon: map-get($state-map,'icon');
