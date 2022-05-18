@@ -1,6 +1,6 @@
 ---
-title: Customizing HTML
-nav_title: Custom HTML
+title: Customizing
+nav_title: Customizing
 tags: demo
 ---
 
@@ -13,7 +13,7 @@ tags: demo
 
 {% set label %}
 <label class="h2 mb-3">
-	Custom Option and Item templates
+	Custom Option and Item HTML
 </label>
 <p>
 	This example provides a simple demonstration of how to override the default templates for options and items along with proper use of the <kbd>escape()</kbd> method.
@@ -59,6 +59,70 @@ new TomSelect('#select-links',{
 		item: function(data, escape) {
 			return '<div title="' + escape(data.url) + '">' + escape(data.title) + '</div>';
 		}
+	}
+});
+{% endset %}
+</script>
+
+
+{{ demo( label, html, script, style) }}
+
+
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	Custom JavaScript
+</label>
+<p>
+	There are a number of ways to customize the JavaScript functionality.
+	<a href="/plugins/">Plugins</a> are a great example but sometimes you just want to add some functionality to items or options.
+	The example below shows how to add a clickable button within an option but the same concept can be applied to items.
+</p>
+{% endset %}
+
+{% set html %}
+<select id="custom_js" multiple>
+	<option value="">How cool is this?</option>
+	<option selected>amazing</option>
+	<option selected>awesome</option>
+	<option>cool</option>
+	<option>excellent</option>
+	<option>great</option>
+	<option>neat</option>
+	<option>superb</option>
+	<option>wonderful</option></select>
+{% endset %}
+
+
+<script>
+{% set script %}
+
+new TomSelect('#custom_js',{
+	create: true,
+	render:{
+		option: function(data) {
+
+			const div = document.createElement('div');
+			div.className = 'd-flex align-items-center';
+
+			const span = document.createElement('span');
+			span.className = 'flex-grow-1';
+			span.innerText = data.text;
+			div.append(span);
+
+			const a = document.createElement('a');
+			a.innerText = '#';
+			a.className = 'btn btn-sm btn-light';
+			div.append(a);
+			a.addEventListener('click',function(evt){
+				evt.stopPropagation();
+				alert(`You clicked # within the "${data.text}" option`);
+			});
+
+			return div;
+		},
 	}
 });
 {% endset %}
