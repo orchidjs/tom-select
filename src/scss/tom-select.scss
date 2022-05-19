@@ -49,7 +49,8 @@ $select-opacity-disabled:						0.5 !default;
 
 $select-shadow-input:							none !default;
 $select-shadow-input-focus:						none !default;
-$select-border:									1px solid $select-color-border !default;
+$select-border-width:							1px !default;
+$select-border:									$select-border-width solid $select-color-border !default;
 $select-dropdown-border:						1px solid $select-color-dropdown-border !default;
 $select-border-radius:							3px !default;
 

@@ -94,6 +94,9 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 .#{$select-ns}-wrapper.form-control,
 .#{$select-ns}-wrapper.form-select{
 	padding:0 !important;
+	height: auto;
+	box-shadow: none;
+	display: flex;
 }
 
 .#{$select-ns}-dropdown,
@@ -137,7 +140,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{$select-ns}-control {
-	//min-height: $input-height; // causes wrapper to be 2px too large
 	@include box-shadow($input-box-shadow);
 	@include transition($input-transition);
 	display:flex;
@@ -169,13 +171,15 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 
 .#{$select-ns}-wrapper {
+	min-height: $input-height;
+	display:flex;
 
 	.input-group-sm > &,
 	&.form-select-sm,
 	&.form-control-sm{
+		min-height: $input-height-sm;
 
 		.#{$select-ns}-control{
-			min-height: $input-height-sm;
 			padding: 0 .75rem;
 				//padding: $input-padding-y-sm $input-padding-x-sm;
 			@include border-radius($input-border-radius-sm);
@@ -183,7 +187,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		}
 
 		&.has-items .#{$select-ns}-control{
-			min-height: $input-height-sm !important;
 			font-size: $input-font-size-sm;
 			padding-bottom: 0;
 		}
@@ -213,11 +216,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		}
 	}
 
-	.input-group-lg > & >,
+	.input-group-lg > &,
 	&.form-control-lg,
 	&.form-select-lg{
-	.#{$select-ns}-control{
-			min-height: $input-height-lg;
+		min-height: $input-height-lg;
+		.#{$select-ns}-control{
 			@include border-radius($input-border-radius-lg);
 			@include font-size($input-font-size-lg);
 		}
@@ -244,9 +247,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 .#{$select-ns}-wrapper.form-control,
 .#{$select-ns}-wrapper.form-select{
-	padding: 0;
-	height: auto;
-	box-shadow: none;
 
 	.#{$select-ns}-control,
 	&.single.input-active .#{$select-ns}-control{
