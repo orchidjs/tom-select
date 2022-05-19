@@ -1713,15 +1713,15 @@
 	      });
 	    }
 
-	    if (self.settings.placeholder) {
+	    if (settings.placeholder) {
 	      setAttr(control_input, {
 	        placeholder: settings.placeholder
 	      });
 	    } // if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 
 
-	    if (!self.settings.splitOn && self.settings.delimiter) {
-	      self.settings.splitOn = new RegExp('\\s*' + escape_regex(self.settings.delimiter) + '+\\s*');
+	    if (!settings.splitOn && settings.delimiter) {
+	      settings.splitOn = new RegExp('\\s*' + escape_regex(settings.delimiter) + '+\\s*');
 	    } // debounce user defined load() if loadThrottle > 0
 	    // after initializePlugins() so plugins can create/modify user defined loaders
 

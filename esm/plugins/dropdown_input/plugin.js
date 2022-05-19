@@ -180,7 +180,7 @@ function plugin () {
     self.dropdown.insertBefore(div, self.dropdown.firstChild); // set a placeholder in the select control
 
     const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />');
-    placeholder.placeholder = self.settings.placeholder;
+    placeholder.placeholder = self.settings.placeholder || '';
     self.control.append(placeholder);
   });
   self.on('initialize', () => {
