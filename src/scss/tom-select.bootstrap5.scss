@@ -59,7 +59,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 	$state-map: map-get($form-validation-states,$state);
 
-	.is-#{$state},
+	.#{$select-ns}-wrapper.is-#{$state},
 	.was-validated .#{$state},
 	.was-validated :#{$state} + .#{$select-ns}-wrapper{
 
