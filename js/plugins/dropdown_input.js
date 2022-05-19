@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.0.2
+* Tom Select v2.0.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -142,7 +142,7 @@
 	 *
 	 */
 
-	const preventDefault = (evt, stop = false) => {
+	const preventDefault = (evt, stop) => {
 	  if (evt) {
 	    evt.preventDefault();
 
