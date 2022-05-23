@@ -68,6 +68,8 @@ export type TomSettings = {
 	placeholder				: string,
 	hidePlaceholder			: boolean,
 
+	collapsedItemsTemplate?	: string,
+
 	load					: (value:string, callback:TomLoadCallback) => void,
 	score					?: (query:string) => () => any,
 	shouldLoad				: (query:string) => boolean,
