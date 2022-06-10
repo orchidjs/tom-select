@@ -69,7 +69,7 @@
 	 *
 	 */
 
-	const preventDefault = (evt, stop) => {
+	const preventDefault = (evt, stop = false) => {
 	  if (evt) {
 	    evt.preventDefault();
 
