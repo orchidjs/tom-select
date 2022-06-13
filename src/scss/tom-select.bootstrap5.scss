@@ -205,6 +205,16 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		}
 	}
 
+	&.single {
+        &.has-items.input-hidden {
+            .#{$select-ns}-control {
+                .item {
+                    padding-right: $select-padding-item-x * 8;
+                }
+            }
+        }
+    }
+
 
 	&.multi {
 		&.has-items .#{$select-ns}-control {
