@@ -2115,7 +2115,7 @@
 	          preventDefault(e); // if the option_create=null, the dropdown might be closed
 	        } else if (self.settings.create && self.createItem()) {
 	          preventDefault(e); // don't submit form when searching for a value
-	        } else if (document.activeElement == self.control_input && this.isOpen) {
+	        } else if (document.activeElement == self.control_input && self.isOpen) {
 	          preventDefault(e);
 	        }
 
