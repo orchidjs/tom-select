@@ -209,6 +209,7 @@ function plugin () {
     }); // give the control_input focus when the dropdown is open
 
     self.on('dropdown_open', () => {
+      console.log('dropdown open');
       self.control_input.focus();
     }); // prevent onBlur from closing when focus is on the control_input
 
@@ -221,7 +222,9 @@ function plugin () {
 
     self.hook('before', 'close', () => {
       if (!self.isOpen) return;
-      self.focus_node.focus();
+      self.focus_node.focus({
+        preventScroll: true
+      });
     });
   });
 }

@@ -240,7 +240,10 @@ element.
 	</tr>
 	<tr>
 		<td id="placeholder"><code>placeholder</code></td>
-		<td>The placeholder of the control. Defaults to input element's placeholder, unless this one is specified.</td>
+		<td>The placeholder of the control. Defaults to input element's placeholder, unless this one is specified.
+		To update the placeholder setting after initialization, call <code>inputState()</code>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> tom <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#input-id'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>tom<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>placeholder <span class="token operator">=</span> <span class="token string">"New placeholder"</span><span class="token punctuation">;</span><br>tom<span class="token punctuation">.</span><span class="token function">inputState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+</td>
 		<td><code>string</code></td>
 		<td><code>undefined</code></td>
 	</tr>

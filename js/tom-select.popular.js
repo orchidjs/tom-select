@@ -2114,6 +2114,8 @@
 	          self.onOptionSelect(e, self.activeOption);
 	          preventDefault(e); // if the option_create=null, the dropdown might be closed
 	        } else if (self.settings.create && self.createItem()) {
+	          preventDefault(e); // don't submit form when searching for a value
+	        } else if (document.activeElement == self.control_input && this.isOpen) {
 	          preventDefault(e);
 	        }
 
@@ -4200,6 +4202,7 @@
 	    }); // give the control_input focus when the dropdown is open
 
 	    self.on('dropdown_open', () => {
+	      console.log('dropdown open');
 	      self.control_input.focus();
 	    }); // prevent onBlur from closing when focus is on the control_input
 
@@ -4212,7 +4215,9 @@
 
 	    self.hook('before', 'close', () => {
 	      if (!self.isOpen) return;
-	      self.focus_node.focus();
+	      self.focus_node.focus({
+	        preventScroll: true
+	      });
 	    });
 	  });
 	}
