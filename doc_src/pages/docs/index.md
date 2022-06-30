@@ -215,7 +215,15 @@ create: function(input,callback){
 	</tr>
 	<tr>
 		<td><code>placeholder</code></td>
-		<td>The placeholder of the control. Defaults to input element's placeholder, unless this one is specified.</td>
+		<td>The placeholder of the control. Defaults to input element's placeholder, unless this one is specified.
+		To update the placeholder setting after initialization, call <code>inputState()</code>
+
+```js
+const tom = new TomSelect('#input-id');
+tom.settings.placeholder = "New placeholder";
+tom.inputState();
+```
+</td>
 		<td><code>string</code></td>
 		<td><code>undefined</code></td>
 	</tr>
