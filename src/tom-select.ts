@@ -688,7 +688,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				// if the option_create=null, the dropdown might be closed
 				}else if (self.settings.create && self.createItem()) {
 					preventDefault(e);
+
+				// don't submit form when searching for a value
+				}else if( document.activeElement == self.control_input && this.isOpen ){
+					preventDefault(e);
 				}
+
 				return;
 
 			// left: modifiy item selection to the left

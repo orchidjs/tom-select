@@ -1345,4 +1345,26 @@
 			assert.isTrue(instance.isOpen,'should be open');
 		});
 
+
+		it_n('should not submit form with [enter] keypress', async () => {
+
+			const html = `<form>
+					<select class="setup-here" name="n" />
+						<option value="a">A</option>
+						<option value="b">B</option>
+					</select>
+					<button type="submit" id="submit"></button>
+				</form>`;
+			const test = setup_test(html);
+
+			test.html.addEventListener('submit',(evt)=>{
+				throw 'form should not be submitted';
+			});
+
+			await asyncClick(test.instance.control);
+			await asyncType('aww');
+			await asyncType('[enter]');// should not refresh page (which would error the test)
+			await waitFor(300);
+		});
+
 	});
