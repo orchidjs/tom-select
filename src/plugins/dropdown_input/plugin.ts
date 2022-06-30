@@ -68,6 +68,7 @@ export default function(this:TomSelect) {
 
 		// give the control_input focus when the dropdown is open
 		self.on('dropdown_open',() =>{
+			console.log('dropdown open');
 			self.control_input.focus();
 		});
 
@@ -84,7 +85,7 @@ export default function(this:TomSelect) {
 		self.hook('before','close',() =>{
 
 			if( !self.isOpen ) return;
-			self.focus_node.focus();
+			self.focus_node.focus({preventScroll: true});
 		});
 
 	});
