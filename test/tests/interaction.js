@@ -1358,13 +1358,15 @@
 			const test = setup_test(html);
 
 			test.html.addEventListener('submit',(evt)=>{
+				console.log('isopen',test.instance.isOpen,'activeElement',document.activeElement);
 				throw 'form should not be submitted';
 			});
 
 			await asyncClick(test.instance.control);
+			assert.isTrue(test.instance.isOpen);
 			await asyncType('aww');
 			await asyncType('[enter]');// should not refresh page (which would error the test)
-			await waitFor(300);
+			//await waitFor(300);
 		});
 
 	});

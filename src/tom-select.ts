@@ -690,7 +690,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					preventDefault(e);
 
 				// don't submit form when searching for a value
-				}else if( document.activeElement == self.control_input && this.isOpen ){
+				}else if( document.activeElement == self.control_input && self.isOpen ){
 					preventDefault(e);
 				}
 
