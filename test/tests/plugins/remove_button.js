@@ -90,7 +90,7 @@ describe('plugin: remove_button', function() {
 			}
 
 		}
-		
+
 		let test			= setup_test('<select><option selected value="a">a</option><option>b</option></select>', config);
 		var itema			= test.instance.getItem('a');
 		var remove_button	= itema.querySelector('.customclass');
@@ -104,4 +104,23 @@ describe('plugin: remove_button', function() {
 
 	});
 
+	it_n('should not remove item when onDelete returns false', async () => {
+
+		let test = setup_test('AB_Multi', {
+			plugins: ['remove_button'],
+			onDelete: () => false,
+		});
+
+		test.instance.addItem('a');
+		test.instance.addItem('b');
+		test.instance.lock();
+		assert.equal( test.instance.items.length, 2 );
+
+		var itema			= test.instance.getItem('b');
+		var remove_button	= itema.querySelector('.remove');
+
+		await asyncClick(remove_button);
+		await waitFor(100);
+		assert.equal( test.instance.items.length, 2 );
+	});
 });

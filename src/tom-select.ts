@@ -2313,10 +2313,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		}
 
-		const values = rm_items.map(item => item.dataset.value);
-
-		// allow the callback to abort
-		if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete.call(self,values,e) === false)) {
+		if( !self.shouldDelete(rm_items,e) ){
 			return false;
 		}
 
@@ -2334,6 +2331,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.showInput();
 		self.positionDropdown();
 		self.refreshOptions(false);
+
+		return true;
+	}
+
+	/**
+	 * Return true if the items should be deleted
+	 */
+	shouldDelete(items:TomItem[],evt:MouseEvent|KeyboardEvent){
+
+		const values = items.map(item => item.dataset.value);
+
+		// allow the callback to abort
+		if( !values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete(values,evt) === false) ){
+			return false;
+		}
 
 		return true;
 	}

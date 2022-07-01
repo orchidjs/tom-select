@@ -16,7 +16,7 @@
 import TomSelect from '../../tom-select';
 import { getDom } from '../../vanilla';
 import { escape_html, preventDefault, addEvent } from '../../utils';
-import { TomOption } from '../../types/index';
+import { TomOption, TomItem } from '../../types/index';
 import { RBOptions } from './types';
 
 export default function(this:TomSelect, userOptions:RBOptions) {
@@ -45,10 +45,10 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 
 		self.settings.render.item = (data:TomOption, escape:typeof escape_html) => {
 
-			var rendered = getDom(orig_render_item.call(self, data, escape));
+			var item = getDom(orig_render_item.call(self, data, escape)) as TomItem;
 
 			var close_button = getDom(html);
-			rendered.appendChild(close_button);
+			item.appendChild(close_button);
 
 			addEvent(close_button,'mousedown',(evt) => {
 				preventDefault(evt,true);
@@ -59,15 +59,15 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 				// propagating will trigger the dropdown to show for single mode
 				preventDefault(evt,true);
 
-				if (self.isLocked) return;
+				if( self.isLocked ) return;
+				if( !self.shouldDelete([item],evt as MouseEvent) ) return;
 
-				var value = rendered.dataset.value;
-				self.removeItem(value);
+				self.removeItem(item);
 				self.refreshOptions(false);
 				self.inputState();
 			});
 
-			return rendered;
+			return item;
 		};
 
 	});
