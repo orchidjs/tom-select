@@ -329,7 +329,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		addEvent(focus_node,'resize',		() => self.positionDropdown(), passive_event);
 		addEvent(focus_node,'blur', 		(e) => self.onBlur(e as FocusEvent) );
 		addEvent(focus_node,'focus',		(e) => self.onFocus(e as MouseEvent) );
-		addEvent(focus_node,'paste',		(e) => self.onPaste(e as MouseEvent) );
+		addEvent(control_input,'paste',		(e) => self.onPaste(e as MouseEvent) );
 
 
 		const doc_mousedown = (evt:Event) => {
@@ -588,21 +588,29 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// If a regex or string is included, this will split the pasted
 		// input and create Items for each separate value
-		if (self.settings.splitOn) {
-
-			// Wait for pasted text to be recognized in value
-			setTimeout(() => {
-				var pastedText = self.inputValue();
-				if( !pastedText.match(self.settings.splitOn)){
-					return
-				}
-
-				var splitInput = pastedText.trim().split(self.settings.splitOn);
-				iterate( splitInput, (piece) => {
-					self.createItem(piece);
-				});
-			}, 0);
+		if( !self.settings.splitOn ){
+			return;
 		}
+
+		// Wait for pasted text to be recognized in value
+		setTimeout(() => {
+			var pastedText = self.inputValue();
+			if( !pastedText.match(self.settings.splitOn)){
+				return
+			}
+
+			var splitInput = pastedText.trim().split(self.settings.splitOn);
+			iterate( splitInput, (piece) => {
+
+				piece = hash_key(piece);
+				if( this.options[piece] ){
+					self.addItem(piece);
+				}else{
+					self.createItem(piece);
+				}
+			});
+		}, 0);
+
 	}
 
 	/**

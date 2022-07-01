@@ -155,4 +155,24 @@ describe('plugin: dropdown_input', function() {
 
 	});
 
+	it_n('create new items on paste', async () => {
+
+		var test = setup_test('AB_Multi',{
+			plugins: ['dropdown_input'],
+			create:true,
+			maxItems: 3,
+		});
+
+		const ev = new Event('input');
+
+		await asyncClick(test.instance.control);
+		assert.equal( test.instance.items.length, 0);
+
+		test.instance.control_input.value = 'a-new,b-new,a';
+		test.instance.onPaste(ev);
+
+		await waitFor(10);
+
+		assert.equal( test.instance.items.length, 3);
+	});
 });

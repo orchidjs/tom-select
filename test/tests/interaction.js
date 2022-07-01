@@ -1288,35 +1288,32 @@
 
 		describe('paste', function() {
 
-			it_n('create new items on paste', function(done) {
+			it_n('create new items on paste', async () => {
+
 				var test = setup_test('AB_Multi',{
 					create:true,
-					maxItems: 2,
+					maxItems: 3,
 				});
 
 				const ev = new Event('input');
 
+				await asyncClick(test.instance.control);
+				assert.equal( test.instance.items.length, 0);
 
-				click(test.instance.control, function(){
+				test.instance.control_input.value = 'a-new,b-new,a';
+				test.instance.onPaste(ev);
 
-					assert.equal( test.instance.items.length, 0);
+				await waitFor(10);
 
-					test.instance.control_input.value = 'a-new,b-new';
-					test.instance.onPaste(ev);
+				assert.equal( test.instance.items.length, 3);
 
-					setTimeout(()=>{
-						assert.equal( test.instance.items.length, 2);
+				test.instance.control_input.value = 'c-new,d-new';
+				test.instance.onPaste(ev);
 
-						test.instance.control_input.value = 'c-new,d-new';
-						test.instance.onPaste(ev);
 
-						setTimeout(()=>{
-							assert.equal( test.instance.items.length, 2,'should not paste when full');
-							done();
-						},10);
+				await waitFor(10);
+				assert.equal( test.instance.items.length, 3,'should not paste when full');
 
-					},10);
-				});
 
 			});
 		});
