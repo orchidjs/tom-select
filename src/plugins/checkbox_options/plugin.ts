@@ -29,10 +29,12 @@ export default function(this:TomSelect) {
 	var UpdateCheckbox = function(option:HTMLElement){
 		setTimeout(()=>{
 			var checkbox = option.querySelector('input') as HTMLInputElement;
-			if( option.classList.contains('selected') ){
-				checkbox.checked = true;
-			}else{
-				checkbox.checked = false;
+			if( checkbox ){
+				if( option.classList.contains('selected') ){
+					checkbox.checked = true;
+				}else{
+					checkbox.checked = false;
+				}
 			}
 		},1);
 	};

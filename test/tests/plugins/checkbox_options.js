@@ -103,4 +103,23 @@ describe('plugin: checkbox_options', function() {
 
 	});
 
+	it_n('creating item should check option', async () => {
+
+		let test = setup_test('AB_Multi', {
+			create: true,
+			plugins: ['checkbox_options']
+		});
+
+		await asyncClick( test.instance.control );
+		await asyncType( 'new-value' );
+		await asyncType( '[enter]' );
+
+		await waitFor(100); // setTimeout in UpdateCheckbox
+
+		var option = test.instance.getOption('new-value');
+		var checkbox = option.querySelector('input');
+		assert.equal(checkbox.checked, true,'checkbox should be checked');
+	});
+
+
 });
