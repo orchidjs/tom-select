@@ -122,9 +122,9 @@ function plugin (userOptions) {
     var orig_render_item = self.settings.render.item;
 
     self.settings.render.item = (data, escape) => {
-      var rendered = getDom(orig_render_item.call(self, data, escape));
+      var item = getDom(orig_render_item.call(self, data, escape));
       var close_button = getDom(html);
-      rendered.appendChild(close_button);
+      item.appendChild(close_button);
       addEvent(close_button, 'mousedown', evt => {
         preventDefault(evt, true);
       });
@@ -132,12 +132,12 @@ function plugin (userOptions) {
         // propagating will trigger the dropdown to show for single mode
         preventDefault(evt, true);
         if (self.isLocked) return;
-        var value = rendered.dataset.value;
-        self.removeItem(value);
+        if (!self.shouldDelete([item], evt)) return;
+        self.removeItem(item);
         self.refreshOptions(false);
         self.inputState();
       });
-      return rendered;
+      return item;
     };
   });
 }

@@ -1764,7 +1764,7 @@
 	    addEvent(focus_node, 'resize', () => self.positionDropdown(), passive_event);
 	    addEvent(focus_node, 'blur', e => self.onBlur(e));
 	    addEvent(focus_node, 'focus', e => self.onFocus(e));
-	    addEvent(focus_node, 'paste', e => self.onPaste(e));
+	    addEvent(control_input, 'paste', e => self.onPaste(e));
 
 	    const doc_mousedown = evt => {
 	      // blur if target is outside of this instance
@@ -2008,21 +2008,29 @@
 	    // input and create Items for each separate value
 
 
-	    if (self.settings.splitOn) {
-	      // Wait for pasted text to be recognized in value
-	      setTimeout(() => {
-	        var pastedText = self.inputValue();
+	    if (!self.settings.splitOn) {
+	      return;
+	    } // Wait for pasted text to be recognized in value
 
-	        if (!pastedText.match(self.settings.splitOn)) {
-	          return;
-	        }
 
-	        var splitInput = pastedText.trim().split(self.settings.splitOn);
-	        iterate(splitInput, piece => {
+	    setTimeout(() => {
+	      var pastedText = self.inputValue();
+
+	      if (!pastedText.match(self.settings.splitOn)) {
+	        return;
+	      }
+
+	      var splitInput = pastedText.trim().split(self.settings.splitOn);
+	      iterate(splitInput, piece => {
+	        piece = hash_key(piece);
+
+	        if (this.options[piece]) {
+	          self.addItem(piece);
+	        } else {
 	          self.createItem(piece);
-	        });
-	      }, 0);
-	    }
+	        }
+	      });
+	    }, 0);
 	  }
 	  /**
 	   * Triggered on <input> keypress.
@@ -3752,9 +3760,7 @@
 	      }
 	    }
 
-	    const values = rm_items.map(item => item.dataset.value); // allow the callback to abort
-
-	    if (!values.length || typeof self.settings.onDelete === 'function' && self.settings.onDelete.call(self, values, e) === false) {
+	    if (!self.shouldDelete(rm_items, e)) {
 	      return false;
 	    }
 
@@ -3771,6 +3777,20 @@
 	    self.showInput();
 	    self.positionDropdown();
 	    self.refreshOptions(false);
+	    return true;
+	  }
+	  /**
+	   * Return true if the items should be deleted
+	   */
+
+
+	  shouldDelete(items, evt) {
+	    const values = items.map(item => item.dataset.value); // allow the callback to abort
+
+	    if (!values.length || typeof this.settings.onDelete === 'function' && this.settings.onDelete(values, evt) === false) {
+	      return false;
+	    }
+
 	    return true;
 	  }
 	  /**
@@ -4130,10 +4150,12 @@
 	    setTimeout(() => {
 	      var checkbox = option.querySelector('input');
 
-	      if (option.classList.contains('selected')) {
-	        checkbox.checked = true;
-	      } else {
-	        checkbox.checked = false;
+	      if (checkbox) {
+	        if (option.classList.contains('selected')) {
+	          checkbox.checked = true;
+	        } else {
+	          checkbox.checked = false;
+	        }
 	      }
 	    }, 1);
 	  }; // add checkbox to option template
@@ -4448,7 +4470,6 @@
 	    }); // give the control_input focus when the dropdown is open
 
 	    self.on('dropdown_open', () => {
-	      console.log('dropdown open');
 	      self.control_input.focus();
 	    }); // prevent onBlur from closing when focus is on the control_input
 
@@ -4644,9 +4665,9 @@
 	    var orig_render_item = self.settings.render.item;
 
 	    self.settings.render.item = (data, escape) => {
-	      var rendered = getDom(orig_render_item.call(self, data, escape));
+	      var item = getDom(orig_render_item.call(self, data, escape));
 	      var close_button = getDom(html);
-	      rendered.appendChild(close_button);
+	      item.appendChild(close_button);
 	      addEvent(close_button, 'mousedown', evt => {
 	        preventDefault(evt, true);
 	      });
@@ -4654,12 +4675,12 @@
 	        // propagating will trigger the dropdown to show for single mode
 	        preventDefault(evt, true);
 	        if (self.isLocked) return;
-	        var value = rendered.dataset.value;
-	        self.removeItem(value);
+	        if (!self.shouldDelete([item], evt)) return;
+	        self.removeItem(item);
 	        self.refreshOptions(false);
 	        self.inputState();
 	      });
-	      return rendered;
+	      return item;
 	    };
 	  });
 	}

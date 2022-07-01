@@ -1758,7 +1758,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     addEvent(focus_node, 'resize', () => self.positionDropdown(), passive_event);
     addEvent(focus_node, 'blur', e => self.onBlur(e));
     addEvent(focus_node, 'focus', e => self.onFocus(e));
-    addEvent(focus_node, 'paste', e => self.onPaste(e));
+    addEvent(control_input, 'paste', e => self.onPaste(e));
 
     const doc_mousedown = evt => {
       // blur if target is outside of this instance
@@ -2002,21 +2002,29 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     // input and create Items for each separate value
 
 
-    if (self.settings.splitOn) {
-      // Wait for pasted text to be recognized in value
-      setTimeout(() => {
-        var pastedText = self.inputValue();
+    if (!self.settings.splitOn) {
+      return;
+    } // Wait for pasted text to be recognized in value
 
-        if (!pastedText.match(self.settings.splitOn)) {
-          return;
-        }
 
-        var splitInput = pastedText.trim().split(self.settings.splitOn);
-        iterate(splitInput, piece => {
+    setTimeout(() => {
+      var pastedText = self.inputValue();
+
+      if (!pastedText.match(self.settings.splitOn)) {
+        return;
+      }
+
+      var splitInput = pastedText.trim().split(self.settings.splitOn);
+      iterate(splitInput, piece => {
+        piece = hash_key(piece);
+
+        if (this.options[piece]) {
+          self.addItem(piece);
+        } else {
           self.createItem(piece);
-        });
-      }, 0);
-    }
+        }
+      });
+    }, 0);
   }
   /**
    * Triggered on <input> keypress.
@@ -3746,9 +3754,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       }
     }
 
-    const values = rm_items.map(item => item.dataset.value); // allow the callback to abort
-
-    if (!values.length || typeof self.settings.onDelete === 'function' && self.settings.onDelete.call(self, values, e) === false) {
+    if (!self.shouldDelete(rm_items, e)) {
       return false;
     }
 
@@ -3765,6 +3771,20 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     self.showInput();
     self.positionDropdown();
     self.refreshOptions(false);
+    return true;
+  }
+  /**
+   * Return true if the items should be deleted
+   */
+
+
+  shouldDelete(items, evt) {
+    const values = items.map(item => item.dataset.value); // allow the callback to abort
+
+    if (!values.length || typeof this.settings.onDelete === 'function' && this.settings.onDelete(values, evt) === false) {
+      return false;
+    }
+
     return true;
   }
   /**

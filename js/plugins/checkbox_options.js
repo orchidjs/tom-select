@@ -110,10 +110,12 @@
 	    setTimeout(() => {
 	      var checkbox = option.querySelector('input');
 
-	      if (option.classList.contains('selected')) {
-	        checkbox.checked = true;
-	      } else {
-	        checkbox.checked = false;
+	      if (checkbox) {
+	        if (option.classList.contains('selected')) {
+	          checkbox.checked = true;
+	        } else {
+	          checkbox.checked = false;
+	        }
 	      }
 	    }, 1);
 	  }; // add checkbox to option template
