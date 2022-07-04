@@ -66,23 +66,25 @@ script: <script src="/js/jquery.min.js"></script><script src="/js/jqueryui.js"><
 	<div class="col-md-6">
 		<h4 class="mt-0"><a href="/plugins/input-autogrow">Input Autogrow</a></h4>
 		<div>
-			Resizes the control input as the user types.
+			Increase the width of the input as users type.
 			<br/><a href="/plugins/input-autogrow">More info...</a>
 		</div>
 	</div>
 	<div class="col-md-6">
 
 		{% set html %}
-		<select id="ex-input-autogrow" multiple autocomplete="off" placeholder="How cool is this?">
-			<option>amazing</option>
-			<option>awesome</option>
-			<option>cool</option>
-			<option>excellent</option>
-			<option>great</option>
-			<option>neat</option>
-			<option>superb</option>
-			<option>wonderful</option>
-		</select>
+		<div class="d-inline-block">
+			<select id="ex-input-autogrow" multiple autocomplete="off" placeholder="How cool is this?">
+				<option>amazing</option>
+				<option>awesome</option>
+				<option>cool</option>
+				<option>excellent</option>
+				<option>great</option>
+				<option>neat</option>
+				<option>superb</option>
+				<option>wonderful</option>
+			</select>
+		</div>
 		{% endset %}
 
 		<script>

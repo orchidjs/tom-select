@@ -14,9 +14,13 @@ tags: demo
 <label class="h2 mb-3">
 	Example
 </label>
+<p>
+	The input_autogrow plugin will increase the width of the input as users type.
+</p>
 {% endset %}
 
 {% set html %}
+<div class="d-inline-block">
 <select id="ex-input-autogrow" multiple autocomplete="off" placeholder="How cool is this?">
 	<option>amazing</option>
 	<option>awesome</option>
@@ -27,6 +31,7 @@ tags: demo
 	<option>superb</option>
 	<option>wonderful</option>
 </select>
+</div>
 {% endset %}
 
 <script>
