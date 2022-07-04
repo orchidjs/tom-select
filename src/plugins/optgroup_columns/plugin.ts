@@ -29,6 +29,7 @@ export default function(this:TomSelect) {
 			return orig_keydown.call(self,evt);
 		}
 
+		self.ignoreHover	= true;
 		optgroup			= parentMatch(self.activeOption,'[data-group]');
 		index				= nodeIndex(self.activeOption,'[data-selectable]');
 

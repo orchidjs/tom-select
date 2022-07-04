@@ -71,6 +71,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public isInputHidden			: boolean = false;
 	public isSetup					: boolean = false;
 	public ignoreFocus				: boolean = false;
+	public ignoreHover				: boolean = false;
 	public hasOptions				: boolean = false;
 	public currentResults			?: ReturnType<Sifter['search']>;
 	public lastValue				: string = '';
@@ -291,6 +292,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.control_input.type	= input.type;
 
+		addEvent(dropdown,'mouseenter', (e) => {
+
+			var target_match = parentMatch(e.target as HTMLElement, '[data-selectable]', dropdown);
+			if( target_match ) self.onOptionHover( e as MouseEvent, target_match );
+
+		}, {capture:true});
 
 		// clicking on an option should select it
 		addEvent(dropdown,'click',(evt) => {
@@ -360,19 +367,24 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		};
 
-		var win_scroll = () => {
+		const win_scroll = () => {
 			if (self.isOpen) {
 				self.positionDropdown();
 			}
 		};
 
+		const win_hover = () => {
+			self.ignoreHover = false;
+		};
 
 		addEvent(document,'mousedown', doc_mousedown);
 		addEvent(window,'scroll', win_scroll, passive_event);
 		addEvent(window,'resize', win_scroll, passive_event);
+		addEvent(window,'mousemove', win_hover, passive_event);
 
 		this._destroy = () => {
 			document.removeEventListener('mousedown',doc_mousedown);
+			window.removeEventListener('mousemove',win_hover);
 			window.removeEventListener('scroll',win_scroll);
 			window.removeEventListener('resize',win_scroll);
 			if( label ) label.removeEventListener('click',label_click);
@@ -638,6 +650,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	onKeyDown(e:KeyboardEvent):void {
 		var self = this;
 
+		self.ignoreHover = true;
+
 		if (self.isLocked) {
 			if (e.keyCode !== constants.KEY_TAB) {
 				preventDefault(e);
@@ -768,6 +782,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 	}
 
+	/**
+	 * Triggered when the user rolls over
+	 * an option in the autocomplete dropdown menu.
+	 *
+	 */
+	onOptionHover( evt:MouseEvent|KeyboardEvent, option:HTMLElement ):void{
+		if( this.ignoreHover ) return;
+		this.setActiveOption(option, false);
+	}
 
 	/**
 	 * Triggered on <input> focus.
@@ -1112,7 +1135,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * of available options.
 	 *
 	 */
-	setActiveOption( option:null|HTMLElement ):void{
+	setActiveOption( option:null|HTMLElement,scroll:boolean=true ):void{
 
 		if( option === this.activeOption ){
 			return;
@@ -1125,7 +1148,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		setAttr(this.focus_node,{'aria-activedescendant':option.getAttribute('id')});
 		setAttr(option,{'aria-selected':'true'});
 		addClasses(option,'active');
-		this.scrollToOption(option);
+		if( scroll ) this.scrollToOption(option);
 	}
 
 	/**

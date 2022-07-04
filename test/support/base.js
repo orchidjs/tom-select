@@ -13,6 +13,11 @@ var sandbox = document.createElement('div');
 sandbox.setAttribute('role','main');
 document.body.appendChild(sandbox);
 
+var preventHover = document.createElement('div');
+preventHover.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;z-index:10000';
+document.body.appendChild(preventHover);
+
+
 var IS_MAC      		= /Mac/.test(navigator.userAgent);
 var shortcut_key		= IS_MAC ? 'meta' : 'ctrl';
 var test_number			= 0;
