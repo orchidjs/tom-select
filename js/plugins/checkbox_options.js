@@ -46,13 +46,13 @@
 	  }
 	};
 
-	// https://github.com/andrewrk/node-diacritics/blob/master/index.js
+	// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
 	const latin_convert = {
 	  'æ': 'ae',
 	  'ⱥ': 'a',
 	  'ø': 'o'
 	};
-	new RegExp(Object.keys(latin_convert).join('|'), 'g');
+	new RegExp(Object.keys(latin_convert).join('|'), 'gu');
 
 	/**
 	 * Return a dom element from either a dom query string, jQuery object, a dom element or html string
@@ -110,7 +110,7 @@
 	    setTimeout(() => {
 	      var checkbox = option.querySelector('input');
 
-	      if (checkbox) {
+	      if (checkbox instanceof HTMLInputElement) {
 	        if (option.classList.contains('selected')) {
 	          checkbox.checked = true;
 	        } else {

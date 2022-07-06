@@ -193,24 +193,20 @@
 	  };
 	}
 
+	// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
 	// https://github.com/andrewrk/node-diacritics/blob/master/index.js
 	var latin_pat;
 	const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}]'; // \u{2bc}
 
-	const accent_reg = new RegExp(accent_pat, 'g');
+	const accent_reg = new RegExp(accent_pat, 'gu');
 	var diacritic_patterns;
 	const latin_convert = {
 	  'æ': 'ae',
 	  'ⱥ': 'a',
 	  'ø': 'o'
 	};
-	const convert_pat = new RegExp(Object.keys(latin_convert).join('|'), 'g');
-	/**
-	 * code points generated from toCodePoints();
-	 * removed 65339 to 65345
-	 */
-
-	const code_points = [[67, 67], [160, 160], [192, 438], [452, 652], [961, 961], [1019, 1019], [1083, 1083], [1281, 1289], [1984, 1984], [5095, 5095], [7429, 7441], [7545, 7549], [7680, 7935], [8580, 8580], [9398, 9449], [11360, 11391], [42792, 42793], [42802, 42851], [42873, 42897], [42912, 42922], [64256, 64260], [65313, 65338], [65345, 65370]];
+	const convert_pat = new RegExp(Object.keys(latin_convert).join('|'), 'gu');
+	const code_points = [[0, 65535]];
 	/**
 	 * Remove accents
 	 * via https://github.com/krisk/Fuse/issues/133#issuecomment-318692703
@@ -229,7 +225,6 @@
 	 *
 	 */
 
-
 	const arrayToPattern = (chars, glue = '|') => {
 	  if (chars.length == 1) {
 	    return chars[0];
@@ -245,6 +240,10 @@
 	  }
 
 	  return '(?:' + chars.join(glue) + ')';
+	};
+	const escapeToPattern = chars => {
+	  const escaped = chars.map(diacritic => escape_regex(diacritic));
+	  return arrayToPattern(escaped);
 	};
 	/**
 	 * Get all possible combinations of substrings that add up to the given string
@@ -270,7 +269,7 @@
 	 *
 	 */
 
-	const generateDiacritics = () => {
+	const generateDiacritics = code_points => {
 	  var diacritics = {};
 	  code_points.forEach(code_range => {
 	    for (let i = code_range[0]; i <= code_range[1]; i++) {
@@ -279,13 +278,22 @@
 
 	      if (latin == diacritic.toLowerCase()) {
 	        continue;
+	      } // skip when latin is a string longer than 3 characters long
+	      // bc the resulting regex patterns will be long
+	      // eg:
+	      // latin صلى الله عليه وسلم length 18 code point 65018
+	      // latin جل جلاله length 8 code point 65019
+
+
+	      if (latin.length > 3) {
+	        continue;
 	      }
 
 	      if (!(latin in diacritics)) {
 	        diacritics[latin] = [latin];
 	      }
 
-	      var patt = new RegExp(arrayToPattern(diacritics[latin]), 'iu');
+	      var patt = new RegExp(escapeToPattern(diacritics[latin]), 'iu');
 
 	      if (diacritic.match(patt)) {
 	        continue;
@@ -293,13 +301,23 @@
 
 	      diacritics[latin].push(diacritic);
 	    }
-	  });
-	  var latin_chars = Object.keys(diacritics); // latin character pattern
+	  }); // filter out if there's only one character in the list
+
+	  let latin_chars = Object.keys(diacritics);
+
+	  for (let i = 0; i < latin_chars.length; i++) {
+	    const latin = latin_chars[i];
+
+	    if (diacritics[latin].length < 2) {
+	      delete diacritics[latin];
+	    }
+	  } // latin character pattern
 	  // match longer substrings first
 
-	  latin_chars = latin_chars.sort((a, b) => b.length - a.length);
-	  latin_pat = new RegExp('(' + arrayToPattern(latin_chars) + accent_pat + '*)', 'g'); // build diacritic patterns
-	  // ae needs: 
+
+	  latin_chars = Object.keys(diacritics).sort((a, b) => b.length - a.length);
+	  latin_pat = new RegExp('(' + escapeToPattern(latin_chars) + accent_pat + '*)', 'gu'); // build diacritic patterns
+	  // ae needs:
 	  //	(?:(?:ae|Æ|Ǽ|Ǣ)|(?:A|Ⓐ|Ａ...)(?:E|ɛ|Ⓔ...))
 
 	  var diacritic_patterns = {};
@@ -308,7 +326,7 @@
 	    var pattern = substrings.map(sub_pat => {
 	      sub_pat = sub_pat.map(l => {
 	        if (diacritics.hasOwnProperty(l)) {
-	          return arrayToPattern(diacritics[l]);
+	          return escapeToPattern(diacritics[l]);
 	        }
 
 	        return l;
@@ -327,27 +345,20 @@
 
 	const diacriticRegexPoints = regex => {
 	  if (diacritic_patterns === undefined) {
-	    diacritic_patterns = generateDiacritics();
+	    diacritic_patterns = generateDiacritics(code_points);
 	  }
 
 	  const decomposed = regex.normalize('NFKD').toLowerCase();
 	  return decomposed.split(latin_pat).map(part => {
-	    if (part == '') {
-	      return '';
-	    } // "ﬄ" or "ffl"
-
-
+	    // "ﬄ" or "ffl"
 	    const no_accent = asciifold(part);
+
+	    if (no_accent == '') {
+	      return '';
+	    }
 
 	    if (diacritic_patterns.hasOwnProperty(no_accent)) {
 	      return diacritic_patterns[no_accent];
-	    } // 'أهلا' (\u{623}\u{647}\u{644}\u{627}) or 'أهلا' (\u{627}\u{654}\u{647}\u{644}\u{627})
-
-
-	    const composed_part = part.normalize('NFC');
-
-	    if (composed_part != part) {
-	      return arrayToPattern([part, composed_part]);
 	    }
 
 	    return part;
@@ -513,10 +524,10 @@
 	      }
 
 	      if (word.length > 0) {
-	        regex = escape_regex(word);
-
 	        if (this.settings.diacritics) {
-	          regex = diacriticRegexPoints(regex);
+	          regex = diacriticRegexPoints(word);
+	        } else {
+	          regex = escape_regex(word);
 	        }
 
 	        if (respect_word_boundaries) regex = "\\b" + regex;
@@ -1532,6 +1543,7 @@
 	    this.isInputHidden = false;
 	    this.isSetup = false;
 	    this.ignoreFocus = false;
+	    this.ignoreHover = false;
 	    this.hasOptions = false;
 	    this.currentResults = void 0;
 	    this.lastValue = '';
@@ -1730,7 +1742,13 @@
 	      settings.load = loadDebounce(settings.load, settings.loadThrottle);
 	    }
 
-	    self.control_input.type = input.type; // clicking on an option should select it
+	    self.control_input.type = input.type;
+	    addEvent(dropdown, 'mouseenter', e => {
+	      var target_match = parentMatch(e.target, '[data-selectable]', dropdown);
+	      if (target_match) self.onOptionHover(e, target_match);
+	    }, {
+	      capture: true
+	    }); // clicking on an option should select it
 
 	    addEvent(dropdown, 'click', evt => {
 	      const option = parentMatch(evt.target, '[data-selectable]');
@@ -1791,18 +1809,24 @@
 	      }
 	    };
 
-	    var win_scroll = () => {
+	    const win_scroll = () => {
 	      if (self.isOpen) {
 	        self.positionDropdown();
 	      }
 	    };
 
+	    const win_hover = () => {
+	      self.ignoreHover = false;
+	    };
+
 	    addEvent(document, 'mousedown', doc_mousedown);
 	    addEvent(window, 'scroll', win_scroll, passive_event);
 	    addEvent(window, 'resize', win_scroll, passive_event);
+	    addEvent(window, 'mousemove', win_hover, passive_event);
 
 	    this._destroy = () => {
 	      document.removeEventListener('mousedown', doc_mousedown);
+	      window.removeEventListener('mousemove', win_hover);
 	      window.removeEventListener('scroll', win_scroll);
 	      window.removeEventListener('resize', win_scroll);
 	      if (label) label.removeEventListener('click', label_click);
@@ -2062,6 +2086,7 @@
 
 	  onKeyDown(e) {
 	    var self = this;
+	    self.ignoreHover = true;
 
 	    if (self.isLocked) {
 	      if (e.keyCode !== KEY_TAB) {
@@ -2193,6 +2218,17 @@
 	      self.refreshOptions();
 	      self.trigger('type', value);
 	    }
+	  }
+	  /**
+	   * Triggered when the user rolls over
+	   * an option in the autocomplete dropdown menu.
+	   *
+	   */
+
+
+	  onOptionHover(evt, option) {
+	    if (this.ignoreHover) return;
+	    this.setActiveOption(option, false);
 	  }
 	  /**
 	   * Triggered on <input> focus.
@@ -2548,7 +2584,7 @@
 	   */
 
 
-	  setActiveOption(option) {
+	  setActiveOption(option, scroll = true) {
 	    if (option === this.activeOption) {
 	      return;
 	    }
@@ -2563,7 +2599,7 @@
 	      'aria-selected': 'true'
 	    });
 	    addClasses(option, 'active');
-	    this.scrollToOption(option);
+	    if (scroll) this.scrollToOption(option);
 	  }
 	  /**
 	   * Sets the dropdown_content scrollTop to display the option
@@ -3529,11 +3565,11 @@
 	  refreshValidityState() {
 	    var self = this;
 
-	    if (!self.input.checkValidity) {
+	    if (!self.input.validity) {
 	      return;
 	    }
 
-	    self.isValid = self.input.checkValidity();
+	    self.isValid = self.input.validity.valid;
 	    self.isInvalid = !self.isValid;
 	  }
 	  /**

@@ -14,13 +14,13 @@
 	typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
 	 // ctrl key or apple key for ma
 
-	// https://github.com/andrewrk/node-diacritics/blob/master/index.js
+	// @ts-ignore TS2691 "An import path cannot end with a '.ts' extension"
 	const latin_convert = {
 	  'æ': 'ae',
 	  'ⱥ': 'a',
 	  'ø': 'o'
 	};
-	new RegExp(Object.keys(latin_convert).join('|'), 'g');
+	new RegExp(Object.keys(latin_convert).join('|'), 'gu');
 
 	/**
 	 * Get the closest node to the evt.target matching the selector
@@ -84,6 +84,7 @@
 	      return orig_keydown.call(self, evt);
 	    }
 
+	    self.ignoreHover = true;
 	    optgroup = parentMatch(self.activeOption, '[data-group]');
 	    index = nodeIndex(self.activeOption, '[data-selectable]');
 
