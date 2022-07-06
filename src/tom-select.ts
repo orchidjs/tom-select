@@ -2108,11 +2108,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	refreshValidityState() {
 		var self = this;
 
-		if( !self.input.checkValidity ){
+		if( !self.input.validity ){
 			return;
 		}
 
-		self.isValid = self.input.checkValidity();
+		self.isValid = self.input.validity.valid;
 		self.isInvalid = !self.isValid;
 	}
 
