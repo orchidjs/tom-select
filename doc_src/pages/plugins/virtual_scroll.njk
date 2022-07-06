@@ -45,8 +45,10 @@ new TomSelect('#reddit-search',{
 
 				// prepare the next url that will be loaded when the dropdown is scrolled to the bottom
 				// important! should set before invoking callback()
-				const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
-				this.setNextUrl(query, next_url);
+				if( json.data.after ){
+					const next_url = 'https://api.reddit.com/search?q=' + encodeURIComponent(query)+'&after='+json.data.after;
+					this.setNextUrl(query, next_url);
+				}
 
 				// add data to the results
 				let data = json.data.children.map(row => row.data);
