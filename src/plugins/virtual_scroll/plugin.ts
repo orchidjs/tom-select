@@ -146,7 +146,7 @@ export default function(this:TomSelect) {
 		const query		= self.lastValue;
 		var option;
 
-		if( loading_more ){
+		if( canLoadMore(query) ){
 
 			option = self.render('loading_more',{query:query});
 			if( option ){
