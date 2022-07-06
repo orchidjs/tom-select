@@ -146,7 +146,8 @@ export default function(this:TomSelect) {
 		const query		= self.lastValue;
 		var option;
 
-		if( canLoadMore(query) ){
+		if( loading_more ){
+
 			option = self.render('loading_more',{query:query});
 			if( option ){
 				option.setAttribute('data-selectable',''); // so that navigating dropdown with [down] keypresses can navigate to this node
