@@ -32,7 +32,7 @@ export default function(this:TomSelect) {
 	if( !self.settings.shouldLoadMore ){
 
 		// return true if additional results should be loaded
-		self.settings.shouldLoadMore = function():boolean{
+		self.settings.shouldLoadMore = ():boolean=>{
 
 			const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
 			if( scroll_percent > 0.9 ){
@@ -64,7 +64,7 @@ export default function(this:TomSelect) {
 
 
 	// can we load more results for given query?
-	function canLoadMore(query:string):boolean{
+	const canLoadMore = (query:string):boolean => {
 
 		if( typeof self.settings.maxOptions === 'number' && dropdown_content.children.length >= self.settings.maxOptions ){
 			return false;
@@ -75,23 +75,23 @@ export default function(this:TomSelect) {
 		}
 
 		return false;
-	}
+	};
 
-	function clearFilter(option:TomOption, value:string):boolean{
+	const clearFilter = (option:TomOption, value:string):boolean => {
 		if( self.items.indexOf(value) >= 0 || default_values.indexOf(value) >= 0 ){
 			return true;
 		}
 		return false;
-	}
+	};
 
 
 	// set the next url that will be
-	self.setNextUrl = function(value:string,next_url:any):void{
+	self.setNextUrl = (value:string,next_url:any):void => {
 		pagination[value] = next_url;
 	};
 
 	// getUrl() to be used in settings.load()
-	self.getUrl = function(query:string):any{
+	self.getUrl = (query:string):any =>{
 
 		if( query in pagination ){
 			const next_url = pagination[query];
@@ -175,22 +175,22 @@ export default function(this:TomSelect) {
 
 	// add scroll listener and default templates
 	self.on('initialize',()=>{
-		default_values = Object.keys(this.options);
+		default_values = Object.keys(self.options);
 		dropdown_content = self.dropdown_content;
 
 		// default templates
 		self.settings.render = Object.assign({}, {
-			loading_more:function(){
+			loading_more:() => {
 				return `<div class="loading-more-results">Loading more results ... </div>`;
 			},
-			no_more_results:function(){
+			no_more_results:() =>{
 				return `<div class="no-more-results">No more results</div>`;
 			}
 		},self.settings.render);
 
 
 		// watch dropdown content scroll position
-		dropdown_content.addEventListener('scroll',function(){
+		dropdown_content.addEventListener('scroll',()=>{
 
 			if( !self.settings.shouldLoadMore.call(self) ){
 				return;
