@@ -3226,19 +3226,34 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
 
 
-  clearOptions() {
+  clearOptions(filter) {
+    const boundFilter = (filter || this.clearFilter).bind(this);
     this.loadedSearches = {};
     this.userOptions = {};
     this.clearCache();
-    var selected = {};
+    const selected = {};
     iterate(this.options, (option, key) => {
-      if (this.items.indexOf(key) >= 0) {
+      if (boundFilter(option, key)) {
         selected[key] = this.options[key];
       }
     });
     this.options = this.sifter.items = selected;
     this.lastQuery = null;
     this.trigger('option_clear');
+  }
+  /**
+   * Used by clearOptions() to decide whether or not an option should be removed
+   * Return true to keep an option, false to remove
+   *
+   */
+
+
+  clearFilter(option, value) {
+    if (this.items.indexOf(value) >= 0) {
+      return true;
+    }
+
+    return false;
   }
   /**
    * Returns the dom element of the option

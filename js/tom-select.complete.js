@@ -3232,19 +3232,34 @@
 	   */
 
 
-	  clearOptions() {
+	  clearOptions(filter) {
+	    const boundFilter = (filter || this.clearFilter).bind(this);
 	    this.loadedSearches = {};
 	    this.userOptions = {};
 	    this.clearCache();
-	    var selected = {};
+	    const selected = {};
 	    iterate(this.options, (option, key) => {
-	      if (this.items.indexOf(key) >= 0) {
+	      if (boundFilter(option, key)) {
 	        selected[key] = this.options[key];
 	      }
 	    });
 	    this.options = this.sifter.items = selected;
 	    this.lastQuery = null;
 	    this.trigger('option_clear');
+	  }
+	  /**
+	   * Used by clearOptions() to decide whether or not an option should be removed
+	   * Return true to keep an option, false to remove
+	   *
+	   */
+
+
+	  clearFilter(option, value) {
+	    if (this.items.indexOf(value) >= 0) {
+	      return true;
+	    }
+
+	    return false;
 	  }
 	  /**
 	   * Returns the dom element of the option
@@ -4777,10 +4792,11 @@
 	  var dropdown_content;
 	  var loading_more = false;
 	  var load_more_opt;
+	  var default_values = [];
 
 	  if (!self.settings.shouldLoadMore) {
 	    // return true if additional results should be loaded
-	    self.settings.shouldLoadMore = function () {
+	    self.settings.shouldLoadMore = () => {
 	      const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
 
 	      if (scroll_percent > 0.9) {
@@ -4812,7 +4828,7 @@
 	    field: '$score'
 	  }]; // can we load more results for given query?
 
-	  function canLoadMore(query) {
+	  const canLoadMore = query => {
 	    if (typeof self.settings.maxOptions === 'number' && dropdown_content.children.length >= self.settings.maxOptions) {
 	      return false;
 	    }
@@ -4822,15 +4838,23 @@
 	    }
 
 	    return false;
-	  } // set the next url that will be
+	  };
+
+	  const clearFilter = (option, value) => {
+	    if (self.items.indexOf(value) >= 0 || default_values.indexOf(value) >= 0) {
+	      return true;
+	    }
+
+	    return false;
+	  }; // set the next url that will be
 
 
-	  self.setNextUrl = function (value, next_url) {
+	  self.setNextUrl = (value, next_url) => {
 	    pagination[value] = next_url;
 	  }; // getUrl() to be used in settings.load()
 
 
-	  self.getUrl = function (query) {
+	  self.getUrl = query => {
 	    if (query in pagination) {
 	      const next_url = pagination[query];
 	      pagination[query] = false;
@@ -4864,7 +4888,7 @@
 
 	  self.hook('instead', 'loadCallback', (options, optgroups) => {
 	    if (!loading_more) {
-	      self.clearOptions();
+	      self.clearOptions(clearFilter);
 	    } else if (load_more_opt && options.length > 0) {
 	      load_more_opt.dataset.value = options[0][self.settings.valueField];
 	    }
@@ -4902,18 +4926,19 @@
 	  }); // add scroll listener and default templates
 
 	  self.on('initialize', () => {
+	    default_values = Object.keys(self.options);
 	    dropdown_content = self.dropdown_content; // default templates
 
 	    self.settings.render = Object.assign({}, {
-	      loading_more: function () {
+	      loading_more: () => {
 	        return `<div class="loading-more-results">Loading more results ... </div>`;
 	      },
-	      no_more_results: function () {
+	      no_more_results: () => {
 	        return `<div class="no-more-results">No more results</div>`;
 	      }
 	    }, self.settings.render); // watch dropdown content scroll position
 
-	    dropdown_content.addEventListener('scroll', function () {
+	    dropdown_content.addEventListener('scroll', () => {
 	      if (!self.settings.shouldLoadMore.call(self)) {
 	        return;
 	      } // !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
