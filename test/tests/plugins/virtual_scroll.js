@@ -88,7 +88,7 @@ describe('plugin: virtual_scroll', function() {
 
 	it_n('keyboard navigation',async ()=>{
 
-		var load_calls = 0;		
+		var load_calls = 0;
 
 		var test = setup_test('<input>',{
 			plugins:['virtual_scroll'],
@@ -119,7 +119,7 @@ describe('plugin: virtual_scroll', function() {
 		await asyncClick(test.instance.control);
 		await asyncType('a');
 		await waitFor(100); // wait for data to load
-		
+
 		var loading_more = test.instance.dropdown_content.querySelector('.loading-more-results');
 		assert.equal( Object.keys(test.instance.options).length,20,'should load first set of data');
 		assert.isOk( loading_more, 'should have loading-more-reuslts template');
@@ -127,20 +127,20 @@ describe('plugin: virtual_scroll', function() {
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 21 ,'Should display 20 options plus .loading-more-results');
 
 		assert.equal( load_calls, 1);
-		
+
 		// get index of loading_more tempalte
 		var selectable	= test.instance.selectable();
 		var index		= [].indexOf.call(selectable, loading_more);
-		
-		
+
+
 		var len = test.instance.selectable().length - 1;
 		for(var i = 0; i < len; i ++ ){
 			await asyncType('[down]');
 		}
-		
+
 		await waitFor(500); // wait for scroll + more data to load
-		
-		
+
+
 		var selectable	= test.instance.selectable();
 		var index		= [].indexOf.call(selectable, test.instance.activeOption);
 		assert.equal(index,index,'active option should be first of newest options');
@@ -152,4 +152,27 @@ describe('plugin: virtual_scroll', function() {
 
 	});
 
+
+	it_n('keep default options',async ()=>{
+
+
+		var test = setup_test('AB_Multi',{
+			plugins:['virtual_scroll'],
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				callback({});
+			}
+		});
+
+		const values_before = Object.keys(test.instance.options);
+
+		// load first set of data for "a"
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100); // wait for data to load
+		assert.deepEqual( Object.keys(test.instance.options), values_before);
+	});
 });

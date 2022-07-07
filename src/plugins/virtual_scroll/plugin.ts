@@ -27,7 +27,7 @@ export default function(this:TomSelect) {
 	var dropdown_content:HTMLElement;
 	var loading_more					= false;
 	var load_more_opt:HTMLElement;
-
+	var default_values: string[]		= [];
 
 	if( !self.settings.shouldLoadMore ){
 
@@ -74,6 +74,13 @@ export default function(this:TomSelect) {
 			return true;
 		}
 
+		return false;
+	}
+
+	function clearFilter(option:TomOption, value:string):boolean{
+		if( self.items.indexOf(value) >= 0 || default_values.indexOf(value) >= 0 ){
+			return true;
+		}
 		return false;
 	}
 
@@ -127,7 +134,7 @@ export default function(this:TomSelect) {
 	self.hook('instead','loadCallback',( options:TomOption[], optgroups:TomOption[])=>{
 
 		if( !loading_more ){
-			self.clearOptions();
+			self.clearOptions(clearFilter);
 		}else if( load_more_opt && options.length > 0 ){
 			load_more_opt.dataset.value		= options[0][self.settings.valueField];
 		}
@@ -168,6 +175,7 @@ export default function(this:TomSelect) {
 
 	// add scroll listener and default templates
 	self.on('initialize',()=>{
+		default_values = Object.keys(this.options);
 		dropdown_content = self.dropdown_content;
 
 		// default templates
