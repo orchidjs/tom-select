@@ -53,3 +53,5 @@ export type TomTemplates = {
 }
 
 export type TomTemplateNames = keyof TomTemplates;
+
+export type TomClearFilter = (option:TomOption,value:string) => boolean;

@@ -61,10 +61,6 @@ Note: using CSS Selectors that match multiple elements will only create a Tom Se
 		<td>Removes the option identified by the given value.</td>
 	</tr>
 	<tr>
-		<td><code>clearOptions()</code></td>
-		<td>Removes all unselected options from the control. To clear selection options, call clear() before calling clearOptions()</td>
-	</tr>
-	<tr>
 		<td><code>getOption(value,create=false)</code></td>
 		<td>Retrieves the dom element for the option identified by the given value. If <code>create</code> is true, the dom element will be created if it hasn't already been created.</td>
 	</tr>
@@ -75,6 +71,17 @@ Note: using CSS Selectors that match multiple elements will only create a Tom Se
 	<tr>
 		<td><code>refreshOptions(triggerDropdown)</code></td>
 		<td>Refreshes the list of available options shown in the autocomplete dropdown menu.</td>
+	</tr>
+	<tr>
+		<td><code>clearOptions(clearFilter?)</code></td>
+		<td>
+			<p>Removes all unselected options from the control. To clear selection options, call clear() before calling clearOptions().</p>
+			<p>As of v2.1, a custom clearFilter() can be passed as an argument to control which options are removed.</p>
+		</td>
+	</tr>
+	<tr>
+		<td><code>clearFilter(option,value)</code></td>
+		<td>Callback used by clearOptions() to decide whether or not an option should be removed. Return true to keep an option, false to remove</td>
 	</tr>
 </table>
 

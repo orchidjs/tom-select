@@ -3,7 +3,7 @@ import MicroEvent from './contrib/microevent';
 import MicroPlugin from './contrib/microplugin';
 import Sifter from '@orchidjs/sifter/lib/sifter';
 import { escape_regex, iterate } from '@orchidjs/sifter/lib/utils';
-import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight';
 import * as constants from './constants';
 import getSettings from './getSettings';
@@ -1771,14 +1771,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	/**
 	 * Clears all options.
 	 */
-	clearOptions() {
+	clearOptions(filter?:TomClearFilter ) {
+
+		const boundFilter = (filter || this.clearFilter).bind(this);
 
 		this.loadedSearches		= {};
 		this.userOptions		= {};
 		this.clearCache();
-		var selected:TomOptions	= {};
+
+		const selected:TomOptions	= {};
 		iterate(this.options,(option,key)=>{
-    		if( this.items.indexOf(key as string) >= 0 ){
+			if( boundFilter(option,key as string) ){
 				selected[key] = this.options[key];
 			}
 		});
@@ -1788,6 +1791,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.trigger('option_clear');
 	}
 
+	/**
+	 * Used by clearOptions() to decide whether or not an option should be removed
+	 * Return true to keep an option, false to remove
+	 *
+	 */
+	clearFilter(option:TomOption,value:string){
+		if( this.items.indexOf(value) >= 0 ){
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Returns the dom element of the option
