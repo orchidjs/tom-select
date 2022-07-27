@@ -251,6 +251,10 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	.#{$select-ns}-control,
 	&.single.input-active .#{$select-ns}-control{
 		border:		none !important;
+	}
+
+	&:not(.disabled) .#{$select-ns}-control,
+	&:not(.disabled).single.input-active .#{$select-ns}-control{
 		background: transparent !important; // let the background of .form-select show through
 	}
 
