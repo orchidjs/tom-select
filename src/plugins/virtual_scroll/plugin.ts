@@ -54,7 +54,6 @@ export default function(this:TomSelect) {
 
 	if( !self.settings.firstUrl ){
 		throw 'virtual_scroll plugin requires a firstUrl() method';
-		return;
 	}
 
 

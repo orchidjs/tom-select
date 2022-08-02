@@ -10,7 +10,8 @@
 		"alwaysStrict": true,
 	    "strictNullChecks": true,
 	    "noImplicitReturns": true,
-		"noUnusedLocals": true,
+	    "noUnusedLocals": true,
+	    "allowUnreachableCode": false,
 
 		"declaration": true,
 		"declarationDir": "../dist/types",
