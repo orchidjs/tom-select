@@ -52,7 +52,11 @@
 	    }
 
 	    forEvents(events, event => {
-	      if (n === 1) return delete this._events[event];
+	      if (n === 1) {
+	        delete this._events[event];
+	        return;
+	      }
+
 	      if (event in this._events === false) return;
 
 	      this._events[event].splice(this._events[event].indexOf(fct), 1);
@@ -215,7 +219,7 @@
 
 	const asciifold = str => {
 	  return str.normalize('NFKD').replace(accent_reg, '').toLowerCase().replace(convert_pat, function (foreignletter) {
-	    return latin_convert[foreignletter];
+	    return latin_convert[foreignletter] || foreignletter;
 	  });
 	};
 	/**
@@ -226,7 +230,7 @@
 	 */
 
 	const arrayToPattern = (chars, glue = '|') => {
-	  if (chars.length == 1) {
+	  if (chars.length === 1 && chars[0] != undefined) {
 	    return chars[0];
 	  }
 
@@ -289,33 +293,29 @@
 	        continue;
 	      }
 
-	      if (!(latin in diacritics)) {
-	        diacritics[latin] = [latin];
-	      }
-
-	      var patt = new RegExp(escapeToPattern(diacritics[latin]), 'iu');
+	      const latin_diacritics = diacritics[latin] || [latin];
+	      const patt = new RegExp(escapeToPattern(latin_diacritics), 'iu');
 
 	      if (diacritic.match(patt)) {
 	        continue;
 	      }
 
-	      diacritics[latin].push(diacritic);
+	      latin_diacritics.push(diacritic);
+	      diacritics[latin] = latin_diacritics;
 	    }
 	  }); // filter out if there's only one character in the list
+	  // todo: this may not be needed
 
-	  let latin_chars = Object.keys(diacritics);
+	  Object.keys(diacritics).forEach(latin => {
+	    const latin_diacritics = diacritics[latin] || [];
 
-	  for (let i = 0; i < latin_chars.length; i++) {
-	    const latin = latin_chars[i];
-
-	    if (diacritics[latin].length < 2) {
+	    if (latin_diacritics.length < 2) {
 	      delete diacritics[latin];
 	    }
-	  } // latin character pattern
+	  }); // latin character pattern
 	  // match longer substrings first
 
-
-	  latin_chars = Object.keys(diacritics).sort((a, b) => b.length - a.length);
+	  let latin_chars = Object.keys(diacritics).sort((a, b) => b.length - a.length);
 	  latin_pat = new RegExp('(' + escapeToPattern(latin_chars) + accent_pat + '*)', 'gu'); // build diacritic patterns
 	  // ae needs:
 	  //	(?:(?:ae|Æ|Ǽ|Ǣ)|(?:A|Ⓐ|Ａ...)(?:E|ɛ|Ⓔ...))
@@ -711,10 +711,6 @@
 	          break;
 	        }
 	      }
-	    }
-
-	    for (i = 0, n = sort_flds.length; i < n; i++) {
-	      multipliers.push(sort_flds[i].direction === 'desc' ? -1 : 1);
 	    } // build function
 
 
@@ -722,25 +718,25 @@
 
 	    if (!sort_flds_count) {
 	      return null;
-	    } else if (sort_flds_count === 1) {
-	      const sort_fld = sort_flds[0].field;
-	      const multiplier = multipliers[0];
-	      return function (a, b) {
-	        return multiplier * cmp(get_field(sort_fld, a), get_field(sort_fld, b));
-	      };
-	    } else {
-	      return function (a, b) {
-	        var i, result, field;
+	    }
 
-	        for (i = 0; i < sort_flds_count; i++) {
-	          field = sort_flds[i].field;
-	          result = multipliers[i] * cmp(get_field(field, a), get_field(field, b));
-	          if (result) return result;
+	    return function (a, b) {
+	      var i, result, field;
+
+	      for (i = 0; i < sort_flds_count; i++) {
+	        field = sort_flds[i].field;
+	        let multiplier = multipliers[i];
+
+	        if (multiplier == undefined) {
+	          multiplier = sort_flds[i].direction === 'desc' ? -1 : 1;
 	        }
 
-	        return 0;
-	      };
-	    }
+	        result = multiplier * cmp(get_field(field, a), get_field(field, b));
+	        if (result) return result;
+	      }
+
+	      return 0;
+	    };
 	  }
 
 	  /**
@@ -4009,26 +4005,11 @@
 
 
 	  render(templateName, data) {
-	    if (typeof this.settings.render[templateName] !== 'function') {
-	      return null;
-	    }
-
-	    return this._render(templateName, data);
-	  }
-	  /**
-	   * _render() can be called directly when we know we don't want to hit the cache
-	   * return type could be null for some templates, we need https://github.com/microsoft/TypeScript/issues/33014
-	   */
-
-
-	  _render(templateName, data) {
-	    var value = '',
-	        id,
-	        html;
+	    var id, html;
 	    const self = this;
 
-	    if (templateName === 'option' || templateName == 'item') {
-	      value = get_hash(data[self.settings.valueField]);
+	    if (typeof this.settings.render[templateName] !== 'function') {
+	      return null;
 	    } // render markup
 
 
@@ -4064,6 +4045,7 @@
 	    }
 
 	    if (templateName === 'option' || templateName === 'item') {
+	      const value = get_hash(data[self.settings.valueField]);
 	      setAttr(html, {
 	        'data-value': value
 	      }); // make sure we have some classes if a template is overwritten
@@ -4082,6 +4064,21 @@
 
 	        self.options[value].$div = html;
 	      }
+	    }
+
+	    return html;
+	  }
+	  /**
+	   * Type guarded rendering
+	   *
+	   */
+
+
+	  _render(templateName, data) {
+	    const html = this.render(templateName, data);
+
+	    if (html == null) {
+	      throw 'HTMLElement expected';
 	    }
 
 	    return html;
@@ -4805,7 +4802,7 @@
 
 	      if (self.activeOption) {
 	        var selectable = self.selectable();
-	        var index = [...selectable].indexOf(self.activeOption);
+	        var index = Array.from(selectable).indexOf(self.activeOption);
 
 	        if (index >= selectable.length - 2) {
 	          return true;
