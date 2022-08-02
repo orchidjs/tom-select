@@ -228,19 +228,25 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 
-.#{$select-ns}-wrapper:not(.form-control):not(.form-select){
-	padding: 0;
+.#{$select-ns}-wrapper{
+
+	&:not(.form-control):not(.form-select){
+		padding: 0;
 		border: none;
 		height: auto;
 		box-shadow: none;
 		background: none;
 
+		&.single .#{$select-ns}-control{
+			background-image: escape-svg($form-select-indicator);
+			background-repeat: no-repeat;
+			background-position: $form-select-bg-position;
+			background-size: $form-select-bg-size;
+		}
+	}
+
 	&.single .#{$select-ns}-control{
-		background-image: escape-svg($form-select-indicator);
-		background-repeat: no-repeat;
-		background-position: $form-select-bg-position;
-		background-size: $form-select-bg-size;
-		padding-right: 2rem;
+		padding-right: $form-select-indicator-padding;
 	}
 
 }
