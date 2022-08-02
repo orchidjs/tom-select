@@ -41,7 +41,7 @@ export default function(this:TomSelect) {
 
 			if( self.activeOption ){
 				var selectable	= self.selectable();
-				var index		= [...selectable].indexOf(self.activeOption);
+				var index		= Array.from(selectable).indexOf(self.activeOption);
 				if( index >= (selectable.length-2) ){
 					return true;
 				}
