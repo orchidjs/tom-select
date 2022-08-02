@@ -44,7 +44,10 @@ export default class MicroEvent{
 
 		forEvents(events,(event) => {
 
-			if (n === 1) return delete this._events[event];
+			if (n === 1){
+				delete this._events[event];
+				return
+			}
 
 			if (event in this._events === false) return;
 			this._events[event].splice(this._events[event].indexOf(fct), 1);

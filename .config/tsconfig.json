@@ -4,8 +4,12 @@
 		"allowJs": true,
 		"checkJs": true,
 		"strict": true,
-		"target": "esnext",
+		"target": "ES6",
 		"module": "esnext",
+		"noUnusedLocals": true,
+		"alwaysStrict": true,
+	    "strictNullChecks": true,
+	    "noImplicitReturns": true,
 		"noUnusedLocals": true,
 
 		"declaration": true,
@@ -13,4 +17,8 @@
 		"isolatedModules": true,
 		"moduleResolution": "node"
 	},
+    "lib": [
+      "ESNext",
+      "dom"
+    ],
 }
