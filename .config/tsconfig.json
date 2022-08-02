@@ -12,14 +12,14 @@
 	    "noImplicitReturns": true,
 	    "noUnusedLocals": true,
 	    "allowUnreachableCode": false,
+		"lib": [
+	      "ESNext",
+	      "dom"
+	    ],
 
 		"declaration": true,
 		"declarationDir": "../dist/types",
 		"isolatedModules": true,
 		"moduleResolution": "node"
 	},
-    "lib": [
-      "ESNext",
-      "dom"
-    ],
 }
