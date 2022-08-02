@@ -2557,24 +2557,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	render( templateName:TomTemplateNames, data?:any ):null|HTMLElement{
+		var id, html;
+		const self = this;
 
 		if( typeof this.settings.render[templateName] !== 'function' ){
 			return null;
-		}
-
-		return this._render(templateName, data);
-	}
-
-	/**
-	 * _render() can be called directly when we know we don't want to hit the cache
-	 * return type could be null for some templates, we need https://github.com/microsoft/TypeScript/issues/33014
-	 */
-	_render( templateName:TomTemplateNames, data?:any ):HTMLElement{
-		var value = '', id, html;
-		const self = this;
-
-		if( templateName === 'option' || templateName == 'item' ){
-			value	= get_hash(data[self.settings.valueField]);
 		}
 
 		// render markup
@@ -2604,6 +2591,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		if (templateName === 'option' || templateName === 'item') {
+			const value	= get_hash(data[self.settings.valueField]);
 			setAttr(html,{'data-value': value });
 
 
@@ -2625,6 +2613,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		}
 
+		return html;
+
+	}
+
+
+	/**
+	 * Type guarded rendering
+	 *
+	 */
+	_render( templateName:TomTemplateNames, data?:any ):HTMLElement{
+		const html = this.render(templateName, data);
+
+		if( html == null ){
+			throw 'HTMLElement expected';
+		}
 		return html;
 	}
 

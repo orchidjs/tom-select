@@ -1,8 +1,5 @@
 
-import { TomCreateFilter, TomCreate, TomLoadCallback } from './index';
-import {
-	escape_html,
-} from '../utils';
+import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates } from './index';
 
 import { TPluginItem, TPluginHash } from '../contrib/microplugin';
 import * as SifterTypes from '@orchidjs/sifter/lib/types';
@@ -90,9 +87,7 @@ export type TomSettings = {
 	onBlur					: (evt:Event) => void,
 	onDelete				: (values:string[], evt:KeyboardEvent|MouseEvent) => boolean,
 
-	render					: {
-		[key:string]:(data:any, escape:typeof escape_html) => string|HTMLElement
-	},
+	render					: TomTemplates,
 
 	// virtual scroll plugin
 	firstUrl				: (query:string)=>any
