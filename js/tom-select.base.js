@@ -2913,7 +2913,7 @@
 
 	        if (!active_option && active_value == opt_value) {
 	          if (active_group) {
-	            if (active_group.dataset.group === optgroup) {
+	            if (active_group.dataset.group === optgroup.toString()) {
 	              active_option = option_el;
 	            }
 	          } else {
