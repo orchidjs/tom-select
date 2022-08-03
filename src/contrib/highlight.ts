@@ -31,7 +31,7 @@ export const highlight = (element:HTMLElement, regex:string|RegExp) => {
 			spannode.className	= 'highlight';
 			var middlebit		= node.splitText(match.index as number);
 
-			middlebit.splitText(match[0].length);
+			middlebit.splitText(match[0]!.length);
 			var middleclone		= middlebit.cloneNode(true);
 
 			spannode.appendChild(middleclone);
@@ -46,9 +46,9 @@ export const highlight = (element:HTMLElement, regex:string|RegExp) => {
 	// is childless, <script>, <style>, or already highlighted: <span class="hightlight">
 	const highlightChildren = ( node:Element ):void => {
 		if( node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName) && ( node.className !== 'highlight' || node.tagName !== 'SPAN' ) ){
-			for (var i = 0; i < node.childNodes.length; ++i) {
-				i += highlightRecursive(node.childNodes[i]);
-			}
+			Array.from(node.childNodes).forEach(element => {
+				highlightRecursive(element);
+			});
 		}
 	};
 
