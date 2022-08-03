@@ -415,7 +415,7 @@
 	 */
 
 	const escape_regex = str => {
-	  return (str + '').replace(/([\$\(-\+\.\?\[-\^\{-\}])/g, '\\$1');
+	  return (str + '').replace(/([\$\(\)\*\+\.\?\[\]\^\{\|\}\\])/gu, '\\$1');
 	};
 	/**
 	 * Cast object property to an array if it exists and has a value
