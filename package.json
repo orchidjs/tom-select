@@ -107,9 +107,10 @@
     "not dead",
     "Chrome >= 60",
     "Firefox >= 60",
+	"Firefox ESR",
     "Edge >= 17",
-    "iOS >= 10",
-    "Safari >= 10",
+    "iOS >= 12",
+    "Safari >= 12",
     "not Explorer <= 11"
   ],
   "funding": {
