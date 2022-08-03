@@ -172,6 +172,7 @@ module.exports = function(config) {
 		singleRun: true,
 		browserDisconnectTolerance: 3,
 		browserDisconnectTimeout: 15000,
-		browserNoActivityTimeout: 120000
+		browserNoActivityTimeout: 120000,
+		concurrency: 3,
 	});
 };
