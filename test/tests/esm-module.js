@@ -9,56 +9,54 @@ describe('ESM Module', function(d1){
 
 		import('/base/build/esm/tom-select.complete.js').then(function(SelectModule){
 			var instance = new SelectModule.default('<select>');
-			assert.equal( true, true);
+			assert.isTrue(true);
 
 		}).catch(function(err){
-			assert.equal( true, false,'import tom-select.complete.js failed');
+			assert.fail('import tom-select.complete.js failed');
 
 		});
 	});
 
 
-	it_n('isKeyDown', function(done){
+	it_n('isKeyDown', async() => {
 
 		var last_keydown;
 		document.body.addEventListener('keydown',function(evt){
 			last_keydown = evt;
 		});
 
-		import('/base/build/esm/utils.js').then(function(util_module){
+		const util_module = await import('/base/build/esm/utils.js');
 
-			syn.type('[alt]', document.body, function(evt) {
-				assert.equal( util_module.isKeyDown('shiftKey',last_keydown), false, 'should return false if [alt] is pressed');
-				syn.type('[alt-up]', document.body);
-			});
+		await asyncType('[alt]', document.body);
+		await waitFor(100);
+		assert.equal( util_module.isKeyDown('shiftKey',last_keydown), false, 'should return false if [alt] is pressed');
+		await asyncType('[alt-up]', document.body);
 
-			syn.type('[alt][shift]', document.body, function() {
-				assert.equal( util_module.isKeyDown('shiftKey',last_keydown), false, 'should return false if [alt][shift] is pressed');
-				syn.type('[alt-up][shift-up]', document.body);
-			});
+		await asyncType('[alt][shift]', document.body);
+		await waitFor(100);
+		assert.equal( util_module.isKeyDown('shiftKey',last_keydown), false, 'should return false if [alt][shift] is pressed');
+		await asyncType('[alt-up][shift-up]', document.body);
 
-			syn.type('['+shortcut_key+'][shift]', document.body, function() {
-				assert.equal( util_module.isKeyDown('shiftKey',last_keydown), false, 'should return false if ['+shortcut_key+'][shift] is pressed');
-				assert.equal( util_module.isKeyDown('ctrlKey',last_keydown), false, 'should return false if ['+shortcut_key+'][shift] is pressed');
-				syn.type('['+shortcut_key+'-up][shift-up]', document.body);
-			});
 
-			syn.type('[shift]', document.body, function() {
-				assert.equal( util_module.isKeyDown('shiftKey',last_keydown), true, 'should return true if [shift] is pressed');
-				syn.type('[shift-up]', document.body);
-			});
+		await asyncType('['+shortcut_key+'][shift]', document.body);
+		await waitFor(100);
+		assert.equal( util_module.isKeyDown('shiftKey',last_keydown), false, 'should return false if ['+shortcut_key+'][shift] is pressed');
+		assert.equal( util_module.isKeyDown('ctrlKey',last_keydown), false, 'should return false if ['+shortcut_key+'][shift] is pressed');
+		await asyncType('['+shortcut_key+'-up][shift-up]', document.body);
 
-			syn.type('['+shortcut_key+']', document.body, function() {
-				assert.equal( util_module.isKeyDown(shortcut_key+'Key',last_keydown), true, 'should return true if ['+shortcut_key+'] is pressed');
-				syn.type('['+shortcut_key+'-up]', document.body);
-			});
-			done();
 
-		}).catch(function(err){
-			assert.equal( true, false, 'import utils.js failed');
-			done();
+		await asyncType('[shift]', document.body);
+		await waitFor(100);
+		assert.equal( util_module.isKeyDown('shiftKey',last_keydown), true, 'should return true if [shift] is pressed');
+		await asyncType('[shift-up]', document.body);
 
-		});
+
+		await asyncType('['+shortcut_key+']', document.body);
+		await waitFor(100);
+		assert.equal( util_module.isKeyDown(shortcut_key+'Key',last_keydown), true, 'should return true if ['+shortcut_key+'] is pressed');
+		await asyncType('['+shortcut_key+'-up]', document.body);
+
+
 
 	});
 
