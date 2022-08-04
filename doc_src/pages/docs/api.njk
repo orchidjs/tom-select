@@ -110,8 +110,11 @@ Note: using CSS Selectors that match multiple elements will only create a Tom Se
 		<td>Removes the selected item matching the provided value. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
-		<td><code>createItem(value, [triggerDropdown], [callback])</code></td>
-		<td>Invokes the <code>create</code> method provided in the settings that should provide the data for the new item, given the user input. Once this completes, it will be added to the item list.</td>
+		<td><code>createItem(value, [callback])</code></td>
+		<td>
+			Invokes the <code>create</code> method provided in the settings that should provide the data for the new item, given the user input. Once this completes, it will be added to the item list.
+			Prior to v2.1.1, the method's signature was <code>createItem( value, [triggerDropdown], and [callback])</code>.
+		</td>
 	</tr>
 	<tr>
 		<td><code>refreshItems()</code></td>

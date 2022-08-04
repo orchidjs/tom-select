@@ -406,7 +406,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		delete settings.optgroups;
 		delete settings.options;
 
-		addEvent(input,'invalid', (e) => {
+		addEvent(input,'invalid', () => {
 			if( self.isValid ){
 				self.isValid = false;
 				self.isInvalid = true;
@@ -841,7 +841,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		};
 
 		if (self.settings.create && self.settings.createOnBlur) {
-			self.createItem(null, false, deactivate);
+			self.createItem(null, deactivate);
 		} else {
 			deactivate();
 		}
@@ -864,7 +864,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		if( option.classList.contains('create') ){
-			self.createItem(null, true, () => {
+			self.createItem(null, () => {
 				if (self.settings.closeAfterSelect) {
 					self.close();
 				}
@@ -2038,7 +2038,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * to the item list.
 	 *
 	 */
-	createItem( input:null|string=null, triggerDropdown:boolean=true, callback:TomCreateCallback = ()=>{} ):boolean{
+	createItem( input:null|string=null, callback:TomCreateCallback = ()=>{} ):boolean{
+
+		// triggerDropdown parameter @deprecated 2.1.1
+		if( arguments.length === 3 ){
+			callback = arguments[2];
+		}
+		if( typeof callback != 'function' ){
+			callback = () => {};
+		}
+
 		var self  = this;
 		var caret = self.caretPos;
 		var output;
@@ -2665,7 +2674,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	clearCache():void{
 
-		iterate(this.options, (option, value)=>{
+		iterate(this.options, (option)=>{
 			if( option.$div ){
 				option.$div.remove();
 				delete option.$div;
