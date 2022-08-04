@@ -1414,8 +1414,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// get option dom element
 			let opt_value		= results.items[i].id;
 			let option			= self.options[opt_value];
-			let option_el		= self.getOption(opt_value,true) as HTMLElement;
 
+			if( option === undefined ) continue;
+
+			let option_el		= self.getOption(opt_value,true) as HTMLElement;
 
 			// toggle 'selected' class
 			if( !self.settings.hideSelected ){
@@ -1430,8 +1432,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				if (!self.optgroups.hasOwnProperty(optgroup)) {
 					optgroup = '';
 				}
-				if (!groups.hasOwnProperty(optgroup)) {
-					groups[optgroup] = document.createDocumentFragment();
+
+				let group_fragment = groups[optgroup];
+				if( group_fragment === undefined ){
+					group_fragment = document.createDocumentFragment();
 					groups_order.push(optgroup);
 				}
 
@@ -1454,15 +1458,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					}
 				}
 
-				groups[optgroup].appendChild(option_el);
+				group_fragment.appendChild(option_el);
+				groups[optgroup] = group_fragment;
 			}
 		}
 
 		// sort optgroups
-		if (this.settings.lockOptgroupOrder) {
+		if( self.settings.lockOptgroupOrder ){
 			groups_order.sort((a, b) => {
-				var a_order = self.optgroups[a] && self.optgroups[a].$order || 0;
-				var b_order = self.optgroups[b] && self.optgroups[b].$order || 0;
+				const grp_a		= self.optgroups[a];
+				const grp_b		= self.optgroups[b];
+				const a_order	= grp_a && grp_a.$order || 0;
+				const b_order	= grp_b && grp_b.$order || 0;
 				return a_order - b_order;
 			});
 		}
@@ -1470,19 +1477,26 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// render optgroup headers & join groups
 		html = document.createDocumentFragment();
 		iterate( groups_order, (optgroup) => {
-			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].children.length) {
+
+			let group_fragment = groups[optgroup];
+
+			if( !group_fragment || !group_fragment.children.length ) return;
+
+			let group_heading = self.optgroups[optgroup];
+
+			if( group_heading !== undefined ){
 
 				let group_options = document.createDocumentFragment();
-				let header = self.render('optgroup_header', self.optgroups[optgroup]);
+				let header = self.render('optgroup_header', group_heading);
 				append( group_options, header );
-				append( group_options, groups[optgroup] );
+				append( group_options, group_fragment );
 
-				let group_html = self.render('optgroup', {group:self.optgroups[optgroup],options:group_options} );
+				let group_html = self.render('optgroup', {group:group_heading,options:group_options} );
 
 				append( html, group_html );
 
 			} else {
-				append( html, groups[optgroup] );
+				append( html, group_fragment );
 			}
 		});
 
@@ -1539,7 +1553,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			if (results.items.length > 0) {
 
-				if( !active_option && self.settings.mode === 'single' && self.items.length ){
+				if( !active_option && self.settings.mode === 'single' && self.items[0] != undefined ){
 					active_option = self.getOption(self.items[0]);
 				}
 
@@ -1702,7 +1716,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// sanity checks
 		if( value_old === null ) return;
-		if( !self.options.hasOwnProperty(value_old) ) return;
+
+		const data_old		= self.options[value_old];
+
+		if( data_old == undefined ) return;
 		if( typeof value_new !== 'string' ) throw new Error('Value must be set in option data');
 
 
@@ -1710,7 +1727,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		const item			= self.getItem(value_old);
 
 
-		data.$order = data.$order || self.options[value_old].$order;
+		data.$order = data.$order || data_old.$order;
 		delete self.options[value_old];
 
 		// invalidate render cache
@@ -1782,7 +1799,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		const selected:TomOptions	= {};
 		iterate(this.options,(option,key)=>{
 			if( boundFilter(option,key as string) ){
-				selected[key] = this.options[key];
+				selected[key] = option;
 			}
 		});
 
@@ -1809,10 +1826,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	getOption(value:null|string, create:boolean=false):null|HTMLElement {
-		const hashed = hash_key(value);
 
-		if( hashed !== null && this.options.hasOwnProperty(hashed) ){
-			const option = this.options[hashed];
+		const hashed = hash_key(value);
+		if( hashed === null ) return null;
+
+		const option = this.options[hashed];
+		if( option != undefined ){
 
 			if( option.$div ){
 				return option.$div;
@@ -1886,10 +1905,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		var items = Array.isArray(values) ? values : [values];
 		items = items.filter(x => self.items.indexOf(x) === -1);
-		for (let i = 0, n = items.length; i < n; i++) {
-			self.isPending = (i < n - 1);
-			self.addItem(items[i], silent);
-		}
+		const last_item = items[items.length - 1];
+		items.forEach(item => {
+			self.isPending = (item !== last_item);
+			self.addItem(item, silent);
+		});
 	}
 
 	/**
@@ -2194,7 +2214,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}else{
 
 				self.items.forEach((value)=>{
-					option			= self.options[value];
+					option			= self.options[value]!;
 					label			= option[self.settings.labelField] || '';
 
 					if( selected.includes(option.$option) ){
@@ -2319,8 +2339,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		const caret		= self.caretPos;
 		const target	= self.control;
 
-		target.insertBefore(el, target.children[caret]);
-
+		target.insertBefore(el, target.children[caret] || null);
 		self.setCaret(caret + 1);
 	}
 
@@ -2350,11 +2369,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		} else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
 			const items = self.controlChildren();
-			if (direction < 0 && selection.start === 0 && selection.length === 0) {
-				rm_items.push( items[self.caretPos - 1]);
+			let rm_item;
+			if( direction < 0 && selection.start === 0 && selection.length === 0 ){
+				rm_item = items[self.caretPos - 1];
 
-			} else if (direction > 0 && selection.start === self.inputValue().length) {
-				rm_items.push(items[self.caretPos]);
+			}else if( direction > 0 && selection.start === self.inputValue().length ){
+				rm_item = items[self.caretPos];
+			}
+
+			if( rm_item !== undefined ){
+				rm_items.push( rm_item );
 			}
 		}
 
@@ -2607,7 +2631,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				});
 
 				// update cache
-				self.options[value].$div = html;
+				data.$div = html;
+				self.options[value] = data;
 			}
 
 

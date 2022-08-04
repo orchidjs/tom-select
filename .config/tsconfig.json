@@ -12,6 +12,8 @@
 	    "noImplicitReturns": true,
 	    "noUnusedLocals": true,
 	    "allowUnreachableCode": false,
+	    "noUncheckedIndexedAccess": true,
+
 		"lib": [
 	      "ESNext",
 	      "dom"

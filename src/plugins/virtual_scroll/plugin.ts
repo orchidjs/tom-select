@@ -134,8 +134,11 @@ export default function(this:TomSelect) {
 
 		if( !loading_more ){
 			self.clearOptions(clearFilter);
-		}else if( load_more_opt && options.length > 0 ){
-			load_more_opt.dataset.value		= options[0][self.settings.valueField];
+		}else if( load_more_opt ){
+			const first_option = options[0];
+			if( first_option !== undefined ){
+				load_more_opt.dataset.value		= first_option[self.settings.valueField];
+			}
 		}
 
 		orig_loadCallback.call( self, options, optgroups);
