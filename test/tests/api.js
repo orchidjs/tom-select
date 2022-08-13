@@ -259,17 +259,17 @@
 
 			it_n('should select all', function(done) {
 				var test = setup_test('AB_Multi', {});
-				
+
 				var selected_values = [];
 				test.instance.on('item_select', function(item) {
 					selected_values.push(item.dataset.value);
-					
+
 					if( selected_values.length == 2 ){
 						assert.deepEqual(selected_values,['a','b']);
 						done();
 					}
 				});
-				
+
 				assert.equal( test.instance.activeItems.length, 0 );
 				test.instance.addItem('a');
 				test.instance.addItem('b');
@@ -563,7 +563,7 @@
 		});
 
 		describe('getOption()', function() {
-			
+
 			function optionTest(){
 				test = setup_test('<select>', {
 					valueField: 'value',
@@ -631,7 +631,7 @@
 
 			it_n('should create option with getOption(a,true)',function(){
 				var test	= setup_test('AB_Multi');
-				
+
 				var option	= test.instance.getOption('a');
 				assert.isNull(option);
 
