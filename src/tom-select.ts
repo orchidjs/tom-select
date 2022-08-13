@@ -292,6 +292,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.control_input.type	= input.type;
 
+		addEvent(dropdown,'mousemove', () => {
+			self.ignoreHover = false;
+		});
+
 		addEvent(dropdown,'mouseenter', (e) => {
 
 			var target_match = parentMatch(e.target as HTMLElement, '[data-selectable]', dropdown);
@@ -373,18 +377,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		};
 
-		const win_hover = () => {
-			self.ignoreHover = false;
-		};
 
 		addEvent(document,'mousedown', doc_mousedown);
 		addEvent(window,'scroll', win_scroll, passive_event);
 		addEvent(window,'resize', win_scroll, passive_event);
-		addEvent(window,'mousemove', win_hover, passive_event);
 
 		this._destroy = () => {
 			document.removeEventListener('mousedown',doc_mousedown);
-			window.removeEventListener('mousemove',win_hover);
 			window.removeEventListener('scroll',win_scroll);
 			window.removeEventListener('resize',win_scroll);
 			if( label ) label.removeEventListener('click',label_click);
