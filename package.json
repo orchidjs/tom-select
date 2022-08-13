@@ -107,7 +107,7 @@
     "not dead",
     "Chrome >= 60",
     "Firefox >= 60",
-	"Firefox ESR",
+    "Firefox ESR",
     "Edge >= 17",
     "iOS >= 12",
     "Safari >= 12",
