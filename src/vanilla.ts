@@ -18,9 +18,9 @@ export const getDom = ( query:any ):HTMLElement => {
 	}
 
 	if( isHtmlString(query) ){
-		let div = document.createElement('div');
-		div.innerHTML = query.trim(); // Never return a text node of whitespace as the result
-		return div.firstChild as HTMLElement;
+		var tpl = document.createElement('template');
+		tpl.innerHTML = query.trim(); // Never return a text node of whitespace as the result
+		return tpl.content.firstChild as HTMLElement;
 	}
 
 	return document.querySelector(query);
