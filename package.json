@@ -43,7 +43,7 @@
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@rollup/plugin-node-resolve": "^14.0.0",
     "@types/jquery": "^3.5.14",
     "@types/jqueryui": "^1.12.14",
     "autoprefixer": "^10.2.4",
