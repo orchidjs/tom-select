@@ -283,6 +283,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
 }
 
-.#{$select-ns}-wrapper .plugin-clear_button.single .clear-button {
-	right: .75em;
+.#{$select-ns}-wrapper.plugin-clear_button.single .clear-button {
+	right: $select-padding-dropdown-item-x;
 }
