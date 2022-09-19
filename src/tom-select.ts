@@ -1,8 +1,8 @@
 
 import MicroEvent from './contrib/microevent';
 import MicroPlugin from './contrib/microplugin';
-import Sifter from '@orchidjs/sifter/lib/sifter';
-import { escape_regex, iterate } from '@orchidjs/sifter/lib/utils';
+import { Sifter, iterate } from '@orchidjs/sifter';
+import { escape_regex } from '@orchidjs/unicode-variants';
 import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight';
 import * as constants from './constants';
@@ -193,7 +193,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// set attributes
 			var attrs = ['autocorrect','autocapitalize','autocomplete'];
-			iterate(attrs,(attr) => {
+			iterate(attrs,(attr:string) => {
 				if( input.getAttribute(attr) ){
 					setAttr(control_input,{[attr]:input.getAttribute(attr)});
 				}
@@ -449,7 +449,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		// build optgroup table
-		iterate( optgroups, (optgroup) => {
+		iterate( optgroups, (optgroup:TomOption) => {
 			this.registerOptionGroup(optgroup);
 		});
 	}
@@ -611,13 +611,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			var splitInput = pastedText.trim().split(self.settings.splitOn);
-			iterate( splitInput, (piece) => {
+			iterate( splitInput, (piece:string) => {
 
-				piece = hash_key(piece);
-				if( this.options[piece] ){
-					self.addItem(piece);
-				}else{
-					self.createItem(piece);
+				const hash = hash_key(piece);
+				if( hash ){
+					if( this.options[piece] ){
+						self.addItem(piece);
+					}else{
+						self.createItem(piece);
+					}
 				}
 			});
 		}, 0);
@@ -1215,7 +1217,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.close();
 
 		self.activeItems = activeItems;
-		iterate( activeItems, (item) => {
+		iterate( activeItems, (item:TomItem) => {
 			self.setActiveItemClass(item);
 		});
 
@@ -1340,7 +1342,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	search(query:string) : ReturnType<Sifter['search']>{
-		var i, result, calculateScore;
+		var result, calculateScore;
 		var self     = this;
 		var options  = this.getSearchOptions();
 
@@ -1363,12 +1365,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// filter out selected items
 		if( self.settings.hideSelected ){
-			for (i = result.items.length - 1; i >= 0; i--) {
-				let hashed = hash_key(result.items[i].id);
-				if( hashed && self.items.indexOf(hashed) !== -1 ){
-					result.items.splice(i, 1);
-				}
-			}
+			result.items = result.items.filter((item) => {
+				let hashed = hash_key(item.id);
+				return !(hashed && self.items.indexOf(hashed) !== -1 );
+			});
 		}
 
 		return result;
@@ -1411,16 +1411,20 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		for (i = 0; i < n; i++) {
 
 			// get option dom element
-			let opt_value		= results.items[i].id;
+			let item			= results.items[i];
+			if( !item ) continue;
+
+			let opt_value		= item.id;
 			let option			= self.options[opt_value];
 
 			if( option === undefined ) continue;
 
-			let option_el		= self.getOption(opt_value,true) as HTMLElement;
+			let opt_hash		= get_hash(opt_value);
+			let option_el		= self.getOption(opt_hash,true) as HTMLElement;
 
 			// toggle 'selected' class
 			if( !self.settings.hideSelected ){
-				option_el.classList.toggle('selected', self.items.includes(opt_value) );
+				option_el.classList.toggle('selected', self.items.includes(opt_hash) );
 			}
 
 			optgroup    = option[self.settings.optgroupField] || '';
@@ -1475,7 +1479,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		// render optgroup headers & join groups
 		html = document.createDocumentFragment();
-		iterate( groups_order, (optgroup) => {
+		iterate( groups_order, (optgroup:string) => {
 
 			let group_fragment = groups[optgroup];
 
@@ -1637,7 +1641,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	addOptions( data:TomOption[], user_created = false ):void{
-		iterate( data, (dat) => {
+		iterate( data, (dat:TomOption) => {
 			this.addOption(dat, user_created);
 		});
 	}
@@ -1796,7 +1800,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.clearCache();
 
 		const selected:TomOptions	= {};
-		iterate(this.options,(option,key)=>{
+		iterate(this.options,(option:TomOption,key:string)=>{
 			if( boundFilter(option,key as string) ){
 				selected[key] = option;
 			}
@@ -2328,7 +2332,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (!self.items.length) return;
 
 		var items = self.controlChildren();
-		iterate(items,(item)=>{
+		iterate(items,(item:TomItem)=>{
 			self.removeItem(item,true);
 		});
 
@@ -2373,7 +2377,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			if (direction > 0) { caret++; }
 
-			iterate(self.activeItems, (item) => rm_items.push(item) );
+			iterate(self.activeItems, (item:TomItem) => rm_items.push(item) );
 
 		} else if ((self.isFocused || self.settings.mode === 'single') && self.items.length) {
 			const items = self.controlChildren();
@@ -2673,7 +2677,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	clearCache():void{
 
-		iterate(this.options, (option)=>{
+		iterate(this.options, (option:TomOption)=>{
 			if( option.$div ){
 				option.$div.remove();
 				delete option.$div;

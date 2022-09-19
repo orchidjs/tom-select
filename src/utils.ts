@@ -17,12 +17,12 @@ import { TomLoadCallback } from './types/index';
  *   1         -> '1'
  *
  */
-export const hash_key = (value:undefined|null|boolean|string):string|null => {
+export const hash_key = (value:undefined|null|boolean|string|number):string|null => {
 	if (typeof value === 'undefined' || value === null) return null;
 	return get_hash(value);
 };
 
-export const get_hash = (value:boolean|string):string => {
+export const get_hash = (value:boolean|string|number):string => {
 	if (typeof value === 'boolean') return value ? '1' : '0';
 	return value + '';
 };
