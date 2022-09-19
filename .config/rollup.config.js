@@ -1,5 +1,4 @@
-import resolve from '@rollup/plugin-node-resolve'; // so Rollup can resolve imports without file extensions and `node_modules`
-import commonjs from '@rollup/plugin-commonjs'; // so Rollup can convert commonjs to an ES module
+import {nodeResolve} from '@rollup/plugin-node-resolve'; // so Rollup can resolve imports without file extensions and `node_modules`
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import pkg from '../package.json';
@@ -17,7 +16,7 @@ const banner = `/**
 `;
 
 const extensions = [
-  '.js', '.jsx', '.ts', '.tsx',
+  '.js', '.jsx', '.ts', '.tsx', '.mjs',
 ];
 
 var babel_config = babel({
@@ -27,8 +26,10 @@ var babel_config = babel({
 	exclude:'node_modules/**/*.js'
 });
 
-var resolve_config = resolve({
+var resolve_config = nodeResolve({
+	//browser: true,
 	extensions: extensions,
+	mainFields: ['module'],
 });
 
 
@@ -56,7 +57,6 @@ inputs.forEach((slug)=>{
 			banner: banner,
 		},
 		plugins:[babel_config,resolve_config,],
-		//external: ['@orchidjs/sifter/dist/esm/sifter.js'],
 	});
 
 	// cjs
@@ -71,7 +71,6 @@ inputs.forEach((slug)=>{
 			exports: "auto",
 		},
 		plugins:[babel_config,resolve_config],
-		//external: ['@orchidjs/sifter/dist/esm/sifter.js'],
 	});
 
 });
@@ -110,8 +109,7 @@ function createConfig( input, output, plugins ){
 
 	config.plugins = [
 			resolve_config,
-			babel_config,
-			commonjs(),
+			babel_config
 		];
 
 	config.plugins	= config.plugins.concat(plugins);
