@@ -1,5 +1,5 @@
 
-import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates } from './index';
+import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates, TomOption } from './index';
 
 import { TPluginItem, TPluginHash } from '../contrib/microplugin';
 import * as SifterTypes from '@orchidjs/sifter/lib/types';
@@ -68,23 +68,23 @@ export type TomSettings = {
 	load					: (value:string, callback:TomLoadCallback) => void,
 	score					?: (query:string) => () => any,
 	shouldLoad				: (query:string) => boolean,
-	onInitialize			: (evt:Event) => void,
-	onChange				: (evt:Event) => void,
-	onItemAdd				: (evt:Event) => void,
-	onItemRemove			: (evt:Event) => void,
-	onClear					: (evt:Event) => void,
-	onOptionAdd				: (evt:Event) => void,
-	onOptionRemove			: (evt:Event) => void,
-	onOptionClear			: (evt:Event) => void,
-	onOptionGroupAdd		: (evt:Event) => void,
-	onOptionGroupRemove		: (evt:Event) => void,
-	onOptionGroupClear		: (evt:Event) => void,
-	onDropdownOpen			: (evt:Event) => void,
-	onDropdownClose			: (evt:Event) => void,
-	onType					: (evt:Event) => void,
-	onLoad					: (evt:Event) => void,
-	onFocus					: (evt:Event) => void,
-	onBlur					: (evt:Event) => void,
+	onInitialize			: () => void,
+	onChange				: (value:string|number) => void,
+	onItemAdd				: (value:string|number,item:HTMLDivElement) => void,
+	onItemRemove			: (value:string|number,item:HTMLDivElement) => void,
+	onClear					: () => void,
+	onOptionAdd				: (value:string|number,data:TomOption) => void,
+	onOptionRemove			: (value:string|number) => void,
+	onOptionClear			: () => void,
+	onOptionGroupAdd		: (value:string|number,data:TomOption) => void,
+	onOptionGroupRemove		: (value:string|number) => void,
+	onOptionGroupClear		: () => void,
+	onDropdownOpen			: (dropdown:HTMLDivElement) => void,
+	onDropdownClose			: (dropdown:HTMLDivElement) => void,
+	onType					: (str:string) => void,
+	onLoad					: (options:TomOption[],optgroups:TomOption[]) => void,
+	onFocus					: () => void,
+	onBlur					: () => void,
 	onDelete				: (values:string[], evt:KeyboardEvent|MouseEvent) => boolean,
 
 	render					: TomTemplates,
