@@ -1828,7 +1828,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * matching the given value.
 	 *
 	 */
-	getOption(value:null|string, create:boolean=false):null|HTMLElement {
+	getOption(value:undefined|null|boolean|string|number, create:boolean=false):null|HTMLElement {
 
 		const hashed = hash_key(value);
 		if( hashed === null ) return null;
