@@ -1380,21 +1380,26 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	refreshOptions( triggerDropdown:boolean = true ){
-		var i, j, k, n, optgroup, optgroups, html:DocumentFragment, has_create_option, active_value, active_group;
+		var i, j, k, n, optgroup, optgroups, html:DocumentFragment, has_create_option, active_group;
 		var create;
 		const groups: {[key:string]:DocumentFragment} = {};
 
 		const groups_order:string[]	= [];
 		var self					= this;
 		var query					= self.inputValue();
+		const same_query			= query === self.lastQuery || (query == '' && self.lastQuery == null);
 		var results					= self.search(query);
-		var active_option			= null; //self.activeOption;
+		var active_option			= null;
 		var show_dropdown			= self.settings.shouldOpen || false;
 		var dropdown_content		= self.dropdown_content;
 
-		if( self.activeOption ){
-			active_value = self.activeOption.dataset.value;
-			active_group = self.activeOption.closest('[data-group]') as HTMLElement;
+
+		if( same_query ){
+			active_option			= self.activeOption;
+
+			if( active_option ){
+				active_group = active_option.closest('[data-group]') as HTMLElement;
+			}
 		}
 
 		// build markup
@@ -1448,16 +1453,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					setAttr(option_el,{id: option.$id+'-clone-'+j,'aria-selected':null});
 					option_el.classList.add('ts-cloned');
 					removeClasses(option_el,'active');
-				}
 
-				// make sure we keep the activeOption in the same group
-				if( !active_option && active_value == opt_value ){
-					if( active_group ){
-						if( active_group.dataset.group === optgroup.toString() ){
+
+					// make sure we keep the activeOption in the same group
+					if( self.activeOption && self.activeOption.dataset.value == opt_value ){
+						if( active_group && active_group.dataset.group === optgroup.toString() ){
 							active_option = option_el;
 						}
-					}else{
-						active_option = option_el;
 					}
 				}
 
