@@ -1,7 +1,7 @@
 
 .plugin-clear_button{
 
-	--ts-clear-button-right: 1em;
+	--ts-pr-clear-button: 1em;
 
 
 	.clear-button{
@@ -19,10 +19,10 @@
 	&.single .clear-button{
 
 		@if variable-exists(select-padding-dropdown-item-x) {
-			right:		$select-padding-dropdown-item-x;
+			right:		max( var(--ts-pr-caret), #{$select-padding-dropdown-item-x});
 		}
 		@else{
-			right:		calc(#{$select-padding-x} - #{$select-padding-item-x} +  2rem);
+			right:		max( var(--ts-pr-caret), calc(#{$select-padding-x} - #{$select-padding-item-x}) );
 		}
 	}
 
