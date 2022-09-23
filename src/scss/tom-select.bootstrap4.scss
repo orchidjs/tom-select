@@ -175,7 +175,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	&.multi {
 		&.has-items .#{$select-ns}-control {
 			padding-left: calc(#{$select-padding-x} - #{$select-padding-item-x});
-			padding-right: calc(#{$select-padding-x} - #{$select-padding-item-x});
+			--ts-ctrl-padding-right: calc(#{$select-padding-x} - #{$select-padding-item-x});
 		}
 		.#{$select-ns}-control > div {
 			border-radius: calc(#{$select-border-radius} - 1px);

@@ -1,9 +1,8 @@
 
 .plugin-clear_button{
 
-	.#{$select-ns}-control{
-		padding-right: calc( 1em + (3 * #{$select-padding-item-x}) ) !important;
-	}
+	--ts-clear-button-right: 1em;
+
 
 	.clear-button{
 		opacity:		0;
@@ -16,6 +15,7 @@
 		cursor:			pointer;
 	}
 
+	&.form-select .clear-button,
 	&.single .clear-button{
 		right:			calc(#{$select-padding-x} - #{$select-padding-item-x} +  2rem);
 	}

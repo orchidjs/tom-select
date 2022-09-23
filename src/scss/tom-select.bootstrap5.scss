@@ -180,7 +180,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		min-height: $input-height-sm;
 
 		.#{$select-ns}-control{
-			padding: 0 .75rem;
 				//padding: $input-padding-y-sm $input-padding-x-sm;
 			@include border-radius($input-border-radius-sm);
 			@include font-size($input-font-size-sm);
@@ -209,7 +208,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	&.multi {
 		&.has-items .#{$select-ns}-control {
 			padding-left: calc(#{$select-padding-x} - #{$select-padding-item-x});
-			padding-right: calc(#{$select-padding-x} - #{$select-padding-item-x});
+			--ts-ctrl-padding-right: calc(#{$select-padding-x} - #{$select-padding-item-x});
 		}
 		.#{$select-ns}-control > div {
 			border-radius: calc(#{$select-border-radius} - 1px);
@@ -245,8 +244,9 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		}
 	}
 
-	&.single .#{$select-ns}-control{
-		padding-right: $form-select-indicator-padding;
+	&.form-select,
+	&.single{
+		--ts-caret-right: #{$form-select-indicator-padding};
 	}
 
 }

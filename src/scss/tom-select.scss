@@ -77,6 +77,12 @@ $select-spinner-size:							30px !default;
 $select-spinner-border-size:					5px !default;
 $select-spinner-border-color:					$select-color-border !default;
 
+:root{
+	--ts-clear-button-right:					0;
+	--ts-caret-right:							0;
+	--ts-ctrl-padding-right:					.75rem;
+}
+
 @mixin selectize-vertical-gradient($color-top, $color-bottom) {
     background-color: mix($color-top, $color-bottom, 60%);
     background-image: linear-gradient(to bottom, $color-top, $color-bottom);
@@ -92,13 +98,16 @@ $select-spinner-border-color:					$select-color-border !default;
 	}
 }
 
+.#{$select-ns}-control {
+	padding-right:	max( var(--ts-ctrl-padding-right), calc( var(--ts-clear-button-right) + var(--ts-caret-right)) ) !important;
+}
 
 @mixin ts-caret(){
 
 	.#{$select-ns}-wrapper.single{
 
 		.#{$select-ns}-control {
-			padding-right: 2rem;
+			--ts-caret-right: 2rem;
 
 			&:after {
 				content: ' ';
