@@ -24,7 +24,7 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 		className: 'clear-button',
 		title: 'Clear All',
 		html: (data:CBOptions) => {
-			return `<div class="${data.className}" title="${data.title}">&times;</div>`;
+			return `<div class="${data.className}" title="${data.title}">&#10799;</div>`;
 		}
 	}, userOptions);
 
