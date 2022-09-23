@@ -17,7 +17,13 @@
 
 	&.form-select .clear-button,
 	&.single .clear-button{
-		right:			calc(#{$select-padding-x} - #{$select-padding-item-x} +  2rem);
+
+		@if variable-exists(select-padding-dropdown-item-x) {
+			right:		$select-padding-dropdown-item-x;
+		}
+		@else{
+			right:		calc(#{$select-padding-x} - #{$select-padding-item-x} +  2rem);
+		}
 	}
 
 	&.focus.has-items .clear-button,
