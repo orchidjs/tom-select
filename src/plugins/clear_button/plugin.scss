@@ -7,7 +7,8 @@
 	.clear-button{
 		opacity:		0;
 		position:		absolute;
-		top:			$select-padding-y;
+		top:			50%;
+		transform:		translateY(-50%);
 		right:			calc(#{$select-padding-x} - #{$select-padding-item-x});
 		margin-right:	0 !important;
 		background:		transparent !important;
