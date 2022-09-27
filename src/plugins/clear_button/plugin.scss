@@ -1,8 +1,5 @@
-
 .plugin-clear_button{
-
 	--ts-pr-clear-button: 1em;
-
 
 	.clear-button{
 		opacity:		0;
@@ -20,10 +17,10 @@
 	&.single .clear-button{
 
 		@if variable-exists(select-padding-dropdown-item-x) {
-			right:		max( var(--ts-pr-caret), #{$select-padding-dropdown-item-x});
+			right:	Max( var(--ts-pr-caret), #{$select-padding-dropdown-item-x});
 		}
 		@else{
-			right:		max( var(--ts-pr-caret), calc(#{$select-padding-x} - #{$select-padding-item-x}) );
+			right:	Max( var(--ts-pr-caret), calc(#{$select-padding-x} - #{$select-padding-item-x}) );
 		}
 	}
 
@@ -31,7 +28,4 @@
 	&:not(.disabled):hover.has-items .clear-button{
 		opacity:		1;
 	}
-
-
-
 }
