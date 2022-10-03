@@ -1,11 +1,11 @@
 import defaults from './defaults';
 import { hash_key } from './utils';
-import { TomOption, TomSettings } from './types/index';
+import { TomOption, TomSettings, RecursivePartial } from './types/index';
 import { iterate } from '@orchidjs/sifter/lib/utils';
 import { TomInput } from './types/index';
 
 
-export default function getSettings( input:TomInput, settings_user:Partial<TomSettings>):TomSettings{
+export default function getSettings( input:TomInput, settings_user:RecursivePartial<TomSettings>):TomSettings{
 	var settings:TomSettings	= Object.assign({}, defaults, settings_user);
 
 	var attr_data				= settings.dataAttr;

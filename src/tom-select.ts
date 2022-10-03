@@ -3,7 +3,7 @@ import MicroEvent from './contrib/microevent';
 import MicroPlugin from './contrib/microplugin';
 import { Sifter, iterate } from '@orchidjs/sifter';
 import { escape_regex } from '@orchidjs/unicode-variants';
-import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter } from './types/index';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter, RecursivePartial } from './types/index';
 import {highlight, removeHighlight} from './contrib/highlight';
 import * as constants from './constants';
 import getSettings from './getSettings';
@@ -89,7 +89,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 
-	constructor( input_arg: string|TomInput, user_settings:Partial<TomSettings> ){
+	constructor( input_arg: string|TomInput, user_settings:RecursivePartial<TomSettings> ){
 		super();
 
 		instance_i++;
@@ -539,7 +539,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	sync(get_settings:boolean=true):void{
 		const self		= this;
-		const settings	= get_settings ? getSettings( self.input, {delimiter:self.settings.delimiter} as TomSettings ) : self.settings;
+		const settings	= get_settings ? getSettings( self.input, {delimiter:self.settings.delimiter} as RecursivePartial<TomSettings> ) : self.settings;
 
 		self.setupOptions(settings.options,settings.optgroups);
 
@@ -2605,8 +2605,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// render markup
 		html = self.settings.render[templateName].call(this, data, escape_html);
 
-		if( html == null ){
-			return html;
+		if( !html ){
+			return null;
 		}
 
 		html = getDom( html );
