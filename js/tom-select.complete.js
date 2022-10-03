@@ -4501,8 +4501,8 @@
 
 	    html = self.settings.render[templateName].call(this, data, escape_html);
 
-	    if (html == null) {
-	      return html;
+	    if (!html) {
+	      return null;
 	    }
 
 	    html = getDom(html); // add mandatory attributes
