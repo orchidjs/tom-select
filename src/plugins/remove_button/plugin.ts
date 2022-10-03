@@ -41,7 +41,10 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 
 	self.hook('after','setupTemplates',() => {
 
-		var orig_render_item = self.settings.render.item;
+		const orig_render_item = self.settings.render.item;
+		if( !orig_render_item ) {
+			return;
+		}
 
 		self.settings.render.item = (data:TomOption, escape:typeof escape_html) => {
 

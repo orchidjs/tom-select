@@ -87,7 +87,7 @@ export type TomSettings = {
 	onBlur					: () => void,
 	onDelete				: (values:string[], evt:KeyboardEvent|MouseEvent) => boolean,
 
-	render					: TomTemplates,
+	render					: Partial<TomTemplates>,
 
 	// virtual scroll plugin
 	firstUrl				: (query:string)=>any

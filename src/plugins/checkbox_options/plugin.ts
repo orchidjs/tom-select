@@ -42,7 +42,10 @@ export default function(this:TomSelect) {
 	// add checkbox to option template
 	self.hook('after','setupTemplates',() => {
 
-		var orig_render_option = self.settings.render.option;
+		const orig_render_option = self.settings.render.option;
+		if( !orig_render_option ) {
+			return;
+		}
 
 		self.settings.render.option = (data, escape_html) => {
 			var rendered = getDom(orig_render_option.call(self, data, escape_html));
