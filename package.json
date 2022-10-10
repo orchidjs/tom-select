@@ -40,7 +40,7 @@
     "@lodder/grunt-postcss": "^3.0.0",
     "@orchidjs/eleventy-plugin-ids": "^0.1.0",
     "@popperjs/core": "^2.9.2",
-    "@rollup/plugin-alias": "^3.1.2",
+    "@rollup/plugin-alias": "^4.0.0",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-node-resolve": "^14.1.0",
     "@types/jquery": "^3.5.14",
