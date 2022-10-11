@@ -45,7 +45,7 @@ module.exports = function( eleventyConfig, config = {} ) {
 		dom.window.document.querySelectorAll(type).forEach( (element) => {
 			if( element.hasAttribute('csp-hash') ){
 				const hash = 'sha256-'+crypto.createHash('sha256').update(element.textContent).digest('base64')
-				element.setAttribute("csp-hash", hash);
+				element.removeAttribute('csp-hash');
 				hashes.push(`'${hash}'`);
 			}else if( element.textContent.trim() == '' && element.getAttribute('src') === null ){
 				element.remove();
