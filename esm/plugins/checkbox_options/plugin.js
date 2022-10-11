@@ -25,15 +25,14 @@ const get_hash = value => {
   if (typeof value === 'boolean') return value ? '1' : '0';
   return value + '';
 };
+
 /**
  * Prevent default
  *
  */
-
 const preventDefault = (evt, stop = false) => {
   if (evt) {
     evt.preventDefault();
-
     if (stop) {
       evt.stopPropagation();
     }
@@ -41,16 +40,65 @@ const preventDefault = (evt, stop = false) => {
 };
 
 /*! @orchidjs/unicode-variants | https://github.com/orchidjs/unicode-variants | Apache License (v2) */
-const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}]'; // \u{2bc}
+const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}\u{2bc}]';
 /** @type {TUnicodeMap} */
 
-const latin_convert = {
-  'æ': 'ae',
-  'ⱥ': 'a',
-  'ø': 'o',
-  '⁄': '/',
-  '∕': '/'
+const latin_convert = {};
+/** @type {TUnicodeMap} */
+
+const latin_condensed = {
+  '/': '⁄∕',
+  '0': '߀',
+  "a": "ⱥɐɑ",
+  "aa": "ꜳ",
+  "ae": "æǽǣ",
+  "ao": "ꜵ",
+  "au": "ꜷ",
+  "av": "ꜹꜻ",
+  "ay": "ꜽ",
+  "b": "ƀɓƃ",
+  "c": "ꜿƈȼↄ",
+  "d": "đɗɖᴅƌꮷԁɦ",
+  "e": "ɛǝᴇɇ",
+  "f": "ꝼƒ",
+  "g": "ǥɠꞡᵹꝿɢ",
+  "h": "ħⱨⱶɥ",
+  "i": "i̇ɨı",
+  "j": "ɉȷ",
+  "k": "ƙⱪꝁꝃꝅꞣ",
+  "l": "łƚɫⱡꝉꝇꞁɭ",
+  "m": "ɱɯϻ",
+  "n": "ꞥƞɲꞑᴎлԉ",
+  "o": "øǿɔɵꝋꝍᴑ",
+  "oe": "œ",
+  "oi": "ƣ",
+  "oo": "ꝏ",
+  "ou": "ȣ",
+  "p": "ƥᵽꝑꝓꝕρ",
+  "q": "ꝗꝙɋ",
+  "r": "ɍɽꝛꞧꞃ",
+  "s": "ßȿꞩꞅʂṧṩ",
+  "t": "ŧƭʈⱦꞇ",
+  "th": "þ",
+  "tz": "ꜩ",
+  "u": "ʉ",
+  "v": "ʋꝟʌ",
+  "vy": "ꝡ",
+  "w": "ⱳ",
+  "y": "ƴɏỿ",
+  "z": "ƶȥɀⱬꝣ",
+  "hv": "ƕ"
 };
+
+for (let latin in latin_condensed) {
+  let unicode = latin_condensed[latin] || '';
+
+  for (let i = 0; i < unicode.length; i++) {
+    let char = unicode.substring(i, i + 1);
+    latin_convert[char] = latin;
+  }
+}
+
 new RegExp(Object.keys(latin_convert).join('|') + '|' + accent_pat, 'gu');
 
 /**
@@ -59,30 +107,24 @@ new RegExp(Object.keys(latin_convert).join('|') + '|' + accent_pat, 'gu');
  *
  * param query should be {}
  */
-
 const getDom = query => {
   if (query.jquery) {
     return query[0];
   }
-
   if (query instanceof HTMLElement) {
     return query;
   }
-
   if (isHtmlString(query)) {
     var tpl = document.createElement('template');
     tpl.innerHTML = query.trim(); // Never return a text node of whitespace as the result
-
     return tpl.content.firstChild;
   }
-
   return document.querySelector(query);
 };
 const isHtmlString = arg => {
   if (typeof arg === 'string' && arg.indexOf('<') > -1) {
     return true;
   }
-
   return false;
 };
 
@@ -103,12 +145,12 @@ const isHtmlString = arg => {
 function plugin () {
   var self = this;
   var orig_onOptionSelect = self.onOptionSelect;
-  self.settings.hideSelected = false; // update the checkbox for an option
+  self.settings.hideSelected = false;
 
+  // update the checkbox for an option
   var UpdateCheckbox = function UpdateCheckbox(option) {
     setTimeout(() => {
       var checkbox = option.querySelector('input');
-
       if (checkbox instanceof HTMLInputElement) {
         if (option.classList.contains('selected')) {
           checkbox.checked = true;
@@ -117,12 +159,11 @@ function plugin () {
         }
       }
     }, 1);
-  }; // add checkbox to option template
+  };
 
-
+  // add checkbox to option template
   self.hook('after', 'setupTemplates', () => {
     var orig_render_option = self.settings.render.option;
-
     self.settings.render.option = (data, escape_html) => {
       var rendered = getDom(orig_render_option.call(self, data, escape_html));
       var checkbox = document.createElement('input');
@@ -131,36 +172,34 @@ function plugin () {
       });
       checkbox.type = 'checkbox';
       const hashed = hash_key(data[self.settings.valueField]);
-
       if (hashed && self.items.indexOf(hashed) > -1) {
         checkbox.checked = true;
       }
-
       rendered.prepend(checkbox);
       return rendered;
     };
-  }); // uncheck when item removed
+  });
 
+  // uncheck when item removed
   self.on('item_remove', value => {
     var option = self.getOption(value);
-
     if (option) {
       // if dropdown hasn't been opened yet, the option won't exist
       option.classList.remove('selected'); // selected class won't be removed yet
-
       UpdateCheckbox(option);
     }
-  }); // check when item added
+  });
 
+  // check when item added
   self.on('item_add', value => {
     var option = self.getOption(value);
-
     if (option) {
       // if dropdown hasn't been opened yet, the option won't exist
       UpdateCheckbox(option);
     }
-  }); // remove items when selected option is clicked
+  });
 
+  // remove items when selected option is clicked
   self.hook('instead', 'onOptionSelect', (evt, option) => {
     if (option.classList.contains('selected')) {
       option.classList.remove('selected');
@@ -169,7 +208,6 @@ function plugin () {
       preventDefault(evt, true);
       return;
     }
-
     orig_onOptionSelect.call(self, evt, option);
     UpdateCheckbox(option);
   });

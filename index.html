@@ -1,6 +1,5 @@
 <!DOCTYPE html><html class="no-js" lang="en"><head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title> Tom Select</title>
 		<meta name="description" content="Tom Select is a dynamic, framework agnostic, and lightweight (~16kb gzipped) &amp;lt;select&amp;gt; UI control. With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -141,7 +140,7 @@
 
 			<div class="demo-html">
 				
-	<select id="select-tags" multiple="" placeholder="Best movies and TV shows" class="form-control">
+	<select id="select-tags" multiple="" data-placeholder="Best movies and TV shows" class="form-control">
 		<optgroup label="TV Shows">
 			<option value="Blue Bloods" data-date="2010-2021">Blue Bloods (2010-2021)</option>
 			<option value="Magnum P.I." data-date="1980-1988" selected="">Magnum P.I. (1980-1988)</option>
@@ -159,7 +158,7 @@
 			</div>
 
 			
-			<textarea hidden="">	&lt;select id="select-tags" multiple placeholder="Best movies and TV shows" class="form-control"&gt;
+			<textarea hidden="">	&lt;select id="select-tags" multiple data-placeholder="Best movies and TV shows" class="form-control"&gt;
 		&lt;optgroup label="TV Shows"&gt;
 			&lt;option value="Blue Bloods" data-date="2010-2021"&gt;Blue Bloods (2010-2021)&lt;/option&gt;
 			&lt;option value="Magnum P.I." data-date="1980-1988" selected&gt;Magnum P.I. (1980-1988)&lt;/option&gt;
@@ -178,7 +177,7 @@
 
 	
 		
-		<script csp-hash="sha256-tCLxQtvLiye+uztkGNR32Jfw+zzBMdy1jvXg9bkXiIc=">
+		<script>
 	new TomSelect("#select-tags",{
 		plugins: ['remove_button'],
 		create: true,
@@ -310,8 +309,8 @@ Many thanks to all our sponsors who help make development possible. <a href="htt
 			</div>
 		</div>
 
-		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-		<script type="text/javascript" csp-hash="sha256-f0siOSaHuBl9HM/PAuPWEGfaasKD5P5LQPQi3fUeQyI="> docsearch({
+		<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+		<script> docsearch({
 			apiKey: '662e3a3a9d206ebad6d19f341b85acbd',
 			indexName: 'tom-select',
 			inputSelector: '#docsearch-input',

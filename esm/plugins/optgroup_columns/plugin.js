@@ -9,16 +9,65 @@ typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
  // ctrl key or apple key for ma
 
 /*! @orchidjs/unicode-variants | https://github.com/orchidjs/unicode-variants | Apache License (v2) */
-const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}]'; // \u{2bc}
+const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}\u{2bc}]';
 /** @type {TUnicodeMap} */
 
-const latin_convert = {
-  'æ': 'ae',
-  'ⱥ': 'a',
-  'ø': 'o',
-  '⁄': '/',
-  '∕': '/'
+const latin_convert = {};
+/** @type {TUnicodeMap} */
+
+const latin_condensed = {
+  '/': '⁄∕',
+  '0': '߀',
+  "a": "ⱥɐɑ",
+  "aa": "ꜳ",
+  "ae": "æǽǣ",
+  "ao": "ꜵ",
+  "au": "ꜷ",
+  "av": "ꜹꜻ",
+  "ay": "ꜽ",
+  "b": "ƀɓƃ",
+  "c": "ꜿƈȼↄ",
+  "d": "đɗɖᴅƌꮷԁɦ",
+  "e": "ɛǝᴇɇ",
+  "f": "ꝼƒ",
+  "g": "ǥɠꞡᵹꝿɢ",
+  "h": "ħⱨⱶɥ",
+  "i": "i̇ɨı",
+  "j": "ɉȷ",
+  "k": "ƙⱪꝁꝃꝅꞣ",
+  "l": "łƚɫⱡꝉꝇꞁɭ",
+  "m": "ɱɯϻ",
+  "n": "ꞥƞɲꞑᴎлԉ",
+  "o": "øǿɔɵꝋꝍᴑ",
+  "oe": "œ",
+  "oi": "ƣ",
+  "oo": "ꝏ",
+  "ou": "ȣ",
+  "p": "ƥᵽꝑꝓꝕρ",
+  "q": "ꝗꝙɋ",
+  "r": "ɍɽꝛꞧꞃ",
+  "s": "ßȿꞩꞅʂṧṩ",
+  "t": "ŧƭʈⱦꞇ",
+  "th": "þ",
+  "tz": "ꜩ",
+  "u": "ʉ",
+  "v": "ʋꝟʌ",
+  "vy": "ꝡ",
+  "w": "ⱳ",
+  "y": "ƴɏỿ",
+  "z": "ƶȥɀⱬꝣ",
+  "hv": "ƕ"
 };
+
+for (let latin in latin_condensed) {
+  let unicode = latin_condensed[latin] || '';
+
+  for (let i = 0; i < unicode.length; i++) {
+    let char = unicode.substring(i, i + 1);
+    latin_convert[char] = latin;
+  }
+}
+
 new RegExp(Object.keys(latin_convert).join('|') + '|' + accent_pat, 'gu');
 
 /**
@@ -26,36 +75,31 @@ new RegExp(Object.keys(latin_convert).join('|') + '|' + accent_pat, 'gu');
  * Stops at wrapper
  *
  */
-
 const parentMatch = (target, selector, wrapper) => {
   if (wrapper && !wrapper.contains(target)) {
     return;
   }
-
   while (target && target.matches) {
     if (target.matches(selector)) {
       return target;
     }
-
     target = target.parentNode;
   }
 };
+
 /**
  * Get the index of an element amongst sibling nodes of the same type
  *
  */
-
 const nodeIndex = (el, amongst) => {
   if (!el) return -1;
   amongst = amongst || el.nodeName;
   var i = 0;
-
   while (el = el.previousElementSibling) {
     if (el.matches(amongst)) {
       i++;
     }
   }
-
   return i;
 };
 
@@ -78,32 +122,25 @@ function plugin () {
   var orig_keydown = self.onKeyDown;
   self.hook('instead', 'onKeyDown', evt => {
     var index, option, options, optgroup;
-
     if (!self.isOpen || !(evt.keyCode === KEY_LEFT || evt.keyCode === KEY_RIGHT)) {
       return orig_keydown.call(self, evt);
     }
-
     self.ignoreHover = true;
     optgroup = parentMatch(self.activeOption, '[data-group]');
     index = nodeIndex(self.activeOption, '[data-selectable]');
-
     if (!optgroup) {
       return;
     }
-
     if (evt.keyCode === KEY_LEFT) {
       optgroup = optgroup.previousSibling;
     } else {
       optgroup = optgroup.nextSibling;
     }
-
     if (!optgroup) {
       return;
     }
-
     options = optgroup.querySelectorAll('[data-selectable]');
     option = options[Math.min(options.length - 1, index)];
-
     if (option) {
       self.setActiveOption(option);
     }

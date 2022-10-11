@@ -17,11 +17,11 @@
  *   1         -> '1'
  *
  */
+
 /**
  * Prevent default
  *
  */
-
 const addEvent = (target, type, callback, options) => {
   target.addEventListener(type, callback, options);
 };

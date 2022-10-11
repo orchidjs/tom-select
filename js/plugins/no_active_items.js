@@ -22,6 +22,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function plugin () {
 	  this.hook('instead', 'setActiveItem', () => {});
 	  this.hook('instead', 'selectAll', () => {});

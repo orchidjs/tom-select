@@ -17,6 +17,7 @@
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin () {
   var self = this;
   if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');

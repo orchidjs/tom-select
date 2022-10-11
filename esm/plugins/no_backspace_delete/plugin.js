@@ -16,6 +16,7 @@
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin () {
   var self = this;
   var orig_deleteSelection = self.deleteSelection;
@@ -23,7 +24,6 @@ function plugin () {
     if (self.activeItems.length) {
       return orig_deleteSelection.call(self, evt);
     }
-
     return false;
   });
 }

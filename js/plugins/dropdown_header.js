@@ -10,16 +10,65 @@
 })(this, (function () { 'use strict';
 
   /*! @orchidjs/unicode-variants | https://github.com/orchidjs/unicode-variants | Apache License (v2) */
-  const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}]'; // \u{2bc}
+  const accent_pat = '[\u0300-\u036F\u{b7}\u{2be}\u{2bc}]';
   /** @type {TUnicodeMap} */
 
-  const latin_convert = {
-    'æ': 'ae',
-    'ⱥ': 'a',
-    'ø': 'o',
-    '⁄': '/',
-    '∕': '/'
+  const latin_convert = {};
+  /** @type {TUnicodeMap} */
+
+  const latin_condensed = {
+    '/': '⁄∕',
+    '0': '߀',
+    "a": "ⱥɐɑ",
+    "aa": "ꜳ",
+    "ae": "æǽǣ",
+    "ao": "ꜵ",
+    "au": "ꜷ",
+    "av": "ꜹꜻ",
+    "ay": "ꜽ",
+    "b": "ƀɓƃ",
+    "c": "ꜿƈȼↄ",
+    "d": "đɗɖᴅƌꮷԁɦ",
+    "e": "ɛǝᴇɇ",
+    "f": "ꝼƒ",
+    "g": "ǥɠꞡᵹꝿɢ",
+    "h": "ħⱨⱶɥ",
+    "i": "i̇ɨı",
+    "j": "ɉȷ",
+    "k": "ƙⱪꝁꝃꝅꞣ",
+    "l": "łƚɫⱡꝉꝇꞁɭ",
+    "m": "ɱɯϻ",
+    "n": "ꞥƞɲꞑᴎлԉ",
+    "o": "øǿɔɵꝋꝍᴑ",
+    "oe": "œ",
+    "oi": "ƣ",
+    "oo": "ꝏ",
+    "ou": "ȣ",
+    "p": "ƥᵽꝑꝓꝕρ",
+    "q": "ꝗꝙɋ",
+    "r": "ɍɽꝛꞧꞃ",
+    "s": "ßȿꞩꞅʂṧṩ",
+    "t": "ŧƭʈⱦꞇ",
+    "th": "þ",
+    "tz": "ꜩ",
+    "u": "ʉ",
+    "v": "ʋꝟʌ",
+    "vy": "ꝡ",
+    "w": "ⱳ",
+    "y": "ƴɏỿ",
+    "z": "ƶȥɀⱬꝣ",
+    "hv": "ƕ"
   };
+
+  for (let latin in latin_condensed) {
+    let unicode = latin_condensed[latin] || '';
+
+    for (let i = 0; i < unicode.length; i++) {
+      let char = unicode.substring(i, i + 1);
+      latin_convert[char] = latin;
+    }
+  }
+
   new RegExp(Object.keys(latin_convert).join('|') + '|' + accent_pat, 'gu');
 
   /**
@@ -28,30 +77,24 @@
    *
    * param query should be {}
    */
-
   const getDom = query => {
     if (query.jquery) {
       return query[0];
     }
-
     if (query instanceof HTMLElement) {
       return query;
     }
-
     if (isHtmlString(query)) {
       var tpl = document.createElement('template');
       tpl.innerHTML = query.trim(); // Never return a text node of whitespace as the result
-
       return tpl.content.firstChild;
     }
-
     return document.querySelector(query);
   };
   const isHtmlString = arg => {
     if (typeof arg === 'string' && arg.indexOf('<') > -1) {
       return true;
     }
-
     return false;
   };
 
@@ -69,15 +112,14 @@
    *   1         -> '1'
    *
    */
+
   /**
    * Prevent default
    *
    */
-
   const preventDefault = (evt, stop = false) => {
     if (evt) {
       evt.preventDefault();
-
       if (stop) {
         evt.stopPropagation();
       }
@@ -113,14 +155,12 @@
     self.on('initialize', () => {
       var header = getDom(options.html(options));
       var close_link = header.querySelector('.' + options.closeClass);
-
       if (close_link) {
         close_link.addEventListener('click', evt => {
           preventDefault(evt, true);
           self.close();
         });
       }
-
       self.dropdown.insertBefore(header, self.dropdown.firstChild);
     });
   }

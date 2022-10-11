@@ -23,6 +23,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function plugin (userOptions) {
 	  const self = this;
 	  const options = Object.assign({
@@ -34,10 +35,8 @@
 	    if (!self.isFocused) {
 	      return;
 	    }
-
 	    if (self.control_input.value.trim() === '') {
 	      var option = self.options[value];
-
 	      if (option) {
 	        self.setTextboxValue(options.text.call(self, option));
 	      }
