@@ -126,7 +126,7 @@ export const preventDefault = (evt?:Event, stop:boolean=false):void => {
 
 
 /**
- * Prevent default
+ * Add event helper
  *
  */
 export const addEvent = (target:EventTarget, type:string, callback:EventListenerOrEventListenerObject, options?:object):void => {
