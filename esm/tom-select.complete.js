@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.2.1
+* Tom Select v2.2.2
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -342,7 +342,7 @@ const latin_condensed = {
   "f": "ꝼƒ",
   "g": "ǥɠꞡᵹꝿɢ",
   "h": "ħⱨⱶɥ",
-  "i": "i̇ɨı",
+  "i": "ɨı",
   "j": "ɉȷ",
   "k": "ƙⱪꝁꝃꝅꞣ",
   "l": "łƚɫⱡꝉꝇꞁɭ",
@@ -356,7 +356,7 @@ const latin_condensed = {
   "p": "ƥᵽꝑꝓꝕρ",
   "q": "ꝗꝙɋ",
   "r": "ɍɽꝛꞧꞃ",
-  "s": "ßȿꞩꞅʂṧṩ",
+  "s": "ßȿꞩꞅʂ",
   "t": "ŧƭʈⱦꞇ",
   "th": "þ",
   "tz": "ꜩ",
@@ -398,38 +398,36 @@ const initialize = _code_points => {
 
 const normalize = (str, form = 'NFKD') => str.normalize(form);
 /**
- * Compatibility Decomposition without reordering string
+ * Remove accents without reordering string
  * calling str.normalize('NFKD') on \u{594}\u{595}\u{596} becomes \u{596}\u{594}\u{595}
- * @param {string} str
- */
-
-const decompose = str => {
-  if (str.match(/[\u0f71-\u0f81]/)) {
-    return toArray(str).reduce(
-    /**
-     * @param {string} result
-     * @param {string} char
-     */
-    (result, char) => {
-      return result + normalize(char);
-    }, '');
-  }
-
-  return normalize(str);
-};
-/**
- * Remove accents
  * via https://github.com/krisk/Fuse/issues/133#issuecomment-318692703
  * @param {string} str
  * @return {string}
  */
 
 const asciifold = str => {
-  return decompose(str).toLowerCase().replace(convert_pat, (
+  return toArray(str).reduce(
+  /**
+   * @param {string} result
+   * @param {string} char
+   */
+  (result, char) => {
+    return result + _asciifold(char);
+  }, '');
+};
+/**
+ * @param {string} str
+ * @return {string}
+ */
+
+const _asciifold = str => {
+  str = normalize(str).toLowerCase().replace(convert_pat, (
   /** @type {string} */
   char) => {
     return latin_convert[char] || '';
-  });
+  }); //return str;
+
+  return normalize(str, 'NFC');
 };
 /**
  * Generate a list of unicode variants from the list of code points
@@ -457,13 +455,6 @@ function* generator(code_points) {
       }
 
       if (folded.length == 0) {
-        continue;
-      }
-
-      let decomposed = normalize(composed);
-      let recomposed = normalize(decomposed, 'NFC');
-
-      if (recomposed === composed && folded === decomposed) {
         continue;
       }
 

@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.2.1
+* Tom Select v2.2.2
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -27,7 +27,7 @@ const latin_condensed = {
   "f": "ꝼƒ",
   "g": "ǥɠꞡᵹꝿɢ",
   "h": "ħⱨⱶɥ",
-  "i": "i̇ɨı",
+  "i": "ɨı",
   "j": "ɉȷ",
   "k": "ƙⱪꝁꝃꝅꞣ",
   "l": "łƚɫⱡꝉꝇꞁɭ",
@@ -41,7 +41,7 @@ const latin_condensed = {
   "p": "ƥᵽꝑꝓꝕρ",
   "q": "ꝗꝙɋ",
   "r": "ɍɽꝛꞧꞃ",
-  "s": "ßȿꞩꞅʂṧṩ",
+  "s": "ßȿꞩꞅʂ",
   "t": "ŧƭʈⱦꞇ",
   "th": "þ",
   "tz": "ꜩ",
