@@ -114,7 +114,7 @@ const preventDefault = (evt, stop = false) => {
 };
 
 /**
- * Prevent default
+ * Add event helper
  *
  */
 const addEvent = (target, type, callback, options) => {

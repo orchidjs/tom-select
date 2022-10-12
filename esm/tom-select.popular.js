@@ -1769,7 +1769,7 @@ const preventDefault = (evt, stop = false) => {
 };
 
 /**
- * Prevent default
+ * Add event helper
  *
  */
 const addEvent = (target, type, callback, options) => {
@@ -2215,7 +2215,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     // keypress and input/keyup
     addEvent(control_input, 'keypress', e => self.onKeyPress(e));
     addEvent(control_input, 'input', e => self.onInput(e));
-    addEvent(focus_node, 'resize', () => self.positionDropdown(), passive_event);
     addEvent(focus_node, 'blur', e => self.onBlur(e));
     addEvent(focus_node, 'focus', e => self.onFocus(e));
     addEvent(control_input, 'paste', e => self.onPaste(e));
