@@ -42,7 +42,7 @@
     "@popperjs/core": "^2.9.2",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@types/jquery": "^3.5.14",
     "@types/jqueryui": "^1.12.14",
     "autoprefixer": "^10.2.4",
