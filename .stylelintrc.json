@@ -2,5 +2,10 @@
   "extends": [
     "stylelint-config-standard-scss",
     "stylelint-config-prettier-scss"
-  ]
+  ],
+
+  "rules": {
+    "scss/no-global-function-names": null,
+    "scss/dollar-variable-pattern": null
+  }
 }
