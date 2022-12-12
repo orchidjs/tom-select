@@ -1,4 +1,3 @@
-
 .plugin-dropdown_input{
 
 	&.focus.dropdown-active .#{$select-ns}-control{
@@ -22,16 +21,13 @@
 	&.focus .#{$select-ns}-dropdown .dropdown-input{
 		@if variable-exists(input-focus-border-color) {
 			border-color: $input-focus-border-color;
-
 			outline: 0;
 			@if $enable-shadows {
 				box-shadow: $input-box-shadow, $input-focus-box-shadow;
 			} @else {
 				box-shadow: $input-focus-box-shadow;
 			}
-
 		}
-
 	}
 
 	.items-placeholder{

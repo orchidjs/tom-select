@@ -103,7 +103,7 @@
     "start": "grunt serve",
     "pretest": "grunt build",
     "prepare": "husky install",
-    "stylelint": "stylelint src/scss *.scss"
+    "stylelint": "stylelint 'src/**/*.scss'"
   },
   "engines": {
     "node": "*"
