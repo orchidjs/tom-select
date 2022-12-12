@@ -1,5 +1,4 @@
 .#{$select-ns}-wrapper.plugin-remove_button{
-
 	.item{
 		display:		inline-flex;
 		align-items:	center;
@@ -32,11 +31,9 @@
 		top: 0;
 		font-size: 23px;
 	}
-
 }
 
 .#{$select-ns}-wrapper.plugin-remove_button:not(.rtl){
-
 	.item .remove {
 		border-left:		1px solid $select-color-item-border;
 		margin-left:		$select-padding-item-x;
@@ -49,11 +46,9 @@
 	&.disabled .item .remove {
 		border-left-color: lighten(desaturate($select-color-item-border, 100%), $select-lighten-disabled-item-border);
 	}
-
 }
 
 .#{$select-ns}-wrapper.plugin-remove_button.rtl {
-
 	.item .remove {
 		border-right: 1px solid $select-color-item-border;
 		margin-right: $select-padding-item-x;
@@ -66,5 +61,4 @@
 	&.disabled .item .remove {
 		border-right-color: lighten(desaturate($select-color-item-border, 100%), $select-lighten-disabled-item-border);
 	}
-
 }

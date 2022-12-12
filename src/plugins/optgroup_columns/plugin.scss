@@ -1,5 +1,4 @@
 .#{$select-ns}-dropdown.plugin-optgroup_columns {
-
 	.ts-dropdown-content{
 		display:	flex;
 	}
@@ -11,12 +10,15 @@
 	    flex-basis: 0;
 		min-width: 0;
 	}
+
 	.optgroup:last-child {
 		border-right: 0 none;
 	}
-	.optgroup:before {
+
+	.optgroup::before {
 		display: none;
 	}
+
 	.optgroup-header {
 		border-top: 0 none;
 	}
