@@ -3,7 +3,6 @@
  */
 
 // Import Bootstrap 4 functions and variables
-
 $state-valid: map-get($form-validation-states,'valid') !default;
 $state-invalid: map-get($form-validation-states,'invalid') !default;
 $enable-shadows: true !default;
@@ -46,7 +45,6 @@ $select-margin-item-y: 3px !default;
 $select-arrow-size: 5px !default;
 $select-arrow-color: $select-color-text !default;
 $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
-
 
 @import "tom-select";
 @include ts-caret;
@@ -159,7 +157,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		}
 	}
 
-
 	.input-group-sm > &.multi.has-items,
 	&.form-control-sm.multi.has-items {
 		.#{$select-ns}-control {
@@ -171,7 +168,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 			padding-top: $ts-select-padding-sm !important;
 		}
 	}
-
 
 	&.multi {
 		&.has-items .#{$select-ns}-control {
@@ -205,7 +201,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .input-group {
-
 	& > .#{$select-ns}-wrapper {
 		flex-grow: 1;
 	}
