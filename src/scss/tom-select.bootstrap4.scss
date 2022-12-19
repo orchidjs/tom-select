@@ -127,8 +127,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 .is-valid .#{$select-ns}-control {
 	$_color: map-get($state-valid,'color');
 
-	// $_icon: map-get($state-valid,'icon');
-
 	border-color: $_color;
 
 	.focus & {
@@ -195,8 +193,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	height: auto;
 	border: none;
 	background: none;
-
-	// box-shadow: none;
 	border-radius: 0;
 }
 
