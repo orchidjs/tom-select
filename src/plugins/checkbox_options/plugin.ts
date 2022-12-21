@@ -1,5 +1,5 @@
 /**
- * Plugin: "restore_on_backspace" (Tom Select)
+ * Plugin: "checkbox_options" (Tom Select)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -16,25 +16,51 @@
 import TomSelect from '../../tom-select';
 import { preventDefault, hash_key } from '../../utils';
 import { getDom } from '../../vanilla';
+import { CBOptions } from './types';
 
 
-export default function(this:TomSelect) {
+export default function(this:TomSelect, userOptions:CBOptions) {
 	var self = this;
 	var orig_onOptionSelect = self.onOptionSelect;
 
 	self.settings.hideSelected = false;
 
+	const cbOptions : CBOptions = Object.assign({
+		// so that the user may add different ones as well
+		className             : "tomselect-checkbox",
+
+		// the following default to the historic plugin's values
+		checkedClassNames     : undefined,
+		uncheckedClassNames   : undefined,
+	}, userOptions);
+
+
+	var UpdateChecked = function(checkbox:HTMLInputElement, toCheck : boolean) {
+		if( toCheck ){
+			checkbox.checked = true;
+			if (cbOptions.uncheckedClassNames) {
+				checkbox.classList.remove(...cbOptions.uncheckedClassNames);
+			}
+			if (cbOptions.checkedClassNames) {
+				checkbox.classList.add(...cbOptions.checkedClassNames);
+			}
+		}else{
+			checkbox.checked = false;
+			if (cbOptions.checkedClassNames) {
+				checkbox.classList.remove(...cbOptions.checkedClassNames);
+			}
+			if (cbOptions.uncheckedClassNames) {
+				checkbox.classList.add(...cbOptions.uncheckedClassNames);
+			}
+		}
+	}
 
 	// update the checkbox for an option
 	var UpdateCheckbox = function(option:HTMLElement){
 		setTimeout(()=>{
-			var checkbox = option.querySelector('input');
+			var checkbox = option.querySelector('input.' + cbOptions.className);
 			if( checkbox instanceof HTMLInputElement ){
-				if( option.classList.contains('selected') ){
-					checkbox.checked = true;
-				}else{
-					checkbox.checked = false;
-				}
+				UpdateChecked(checkbox, option.classList.contains('selected'));
 			}
 		},1);
 	};
@@ -47,6 +73,9 @@ export default function(this:TomSelect) {
 		self.settings.render.option = (data, escape_html) => {
 			var rendered = getDom(orig_render_option.call(self, data, escape_html));
 			var checkbox = document.createElement('input');
+			if (cbOptions.className) {
+				checkbox.classList.add(cbOptions.className);
+			}
 			checkbox.addEventListener('click',function(evt){
 				preventDefault(evt);
 			});
@@ -54,10 +83,7 @@ export default function(this:TomSelect) {
 			checkbox.type = 'checkbox';
 			const hashed = hash_key(data[self.settings.valueField]);
 
-
-			if( hashed && self.items.indexOf(hashed) > -1 ){
-				checkbox.checked = true;
-			}
+			UpdateChecked(checkbox, !!(hashed && self.items.indexOf(hashed) > -1) );
 
 			rendered.prepend(checkbox);
 			return rendered;
