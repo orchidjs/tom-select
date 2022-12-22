@@ -6,6 +6,7 @@ tags: demo
 
 
 {% from "demo.njk" import demo %}
+{% from "macro_config.njk" import config_table %}
 
 
 {% set label %}
@@ -30,7 +31,12 @@ tags: demo
 <script>
 {% set script %}
 new TomSelect('#ex-checkbox-options',{
-	plugins: ['checkbox_options'],
+	plugins: {
+		'checkbox_options': {
+			'checkedClassNames':   ['ts-checked'],
+			'uncheckedClassNames': ['ts-unchecked'],
+		}
+	},
 });
 {% endset %}
 </script>
@@ -39,4 +45,9 @@ new TomSelect('#ex-checkbox-options',{
 
 
 <h2>Plugin Configuration</h2>
-<p>No additional configuration settings for this plugin</p>
+{{ config_table([
+		{name:'className',desc:'<p>Search CSS class for the checkbox</p>',type:'string',default:'tomselect-checkbox'},
+		{name:'checkedClassNames',desc:'<p>The CSS classes the checkbox has if it was checked</p>',type:'string[]',default:undefined},
+		{name:'uncheckedClassNames',desc:'<p>The CSS classes the checkbox has if it was not checked</p>',type:'string[]',default:undefined}
+	])
+}}
