@@ -9,13 +9,13 @@
 	}
 
 	.dropdown-input {
-		border:			1px solid $select-color-border;
-		border-width:	0 0 1px;
-		display:		block;
-		padding:		$select-padding-y $select-padding-x;
-		box-shadow:		$select-shadow-input;
-		width:			100%;
-		background:		transparent;
+		border: 1px solid $select-color-border;
+		border-width: 0 0 1px;
+		display: block;
+		padding: $select-padding-y $select-padding-x;
+		box-shadow: $select-shadow-input;
+		width: 100%;
+		background: transparent;
 	}
 
 	&.focus .#{$select-ns}-dropdown .dropdown-input{

@@ -1,12 +1,12 @@
-$select-color-item:								#1da7ee;
-$select-color-item-text:					#fff;
+$select-color-item:					#1da7ee;
+$select-color-item-text:			#fff;
 $select-color-item-active-text:		#fff;
-$select-color-item-border:				#0073bb;
-$select-color-item-active:				#92c836;
+$select-color-item-border:			#0073bb;
+$select-color-item-active:			#92c836;
 $select-color-item-active-border:	#00578d;
-$select-width-item-border:				1px;
-$select-shadow-input:							inset 0 1px 1px rgb(0 0 0 / 10%) !default;
-$select-shadow-input-focus:				inset 0 1px 2px rgb(0 0 0 / 15%) !default;
+$select-width-item-border:			1px;
+$select-shadow-input:				inset 0 1px 1px rgb(0 0 0 / 10%) !default;
+$select-shadow-input-focus:			inset 0 1px 2px rgb(0 0 0 / 15%) !default;
 
 @import "tom-select";
 @include ts-caret;

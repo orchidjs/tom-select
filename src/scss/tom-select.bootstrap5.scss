@@ -73,7 +73,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 		&.focus .#{$select-ns}-control {
 			border-color: $color;
-	        box-shadow: 0 0 $input-btn-focus-blur $input-focus-width rgba($color, $input-btn-focus-color-opacity);
+			box-shadow: 0 0 $input-btn-focus-blur $input-focus-width rgba($color, $input-btn-focus-color-opacity);
 		}
 	}
 }
