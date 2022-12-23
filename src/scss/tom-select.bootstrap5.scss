@@ -164,7 +164,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		min-height: $input-height-sm;
 
 		.#{$select-ns}-control {
-			// padding: $input-padding-y-sm $input-padding-x-sm;
 			@include border-radius($input-border-radius-sm);
 			@include font-size($input-font-size-sm);
 		}
