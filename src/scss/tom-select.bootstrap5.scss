@@ -173,6 +173,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 .#{$select-ns}-wrapper {
 	min-height: $input-height;
 	display:flex;
+	width: 1%;
 
 	.input-group-sm > &,
 	&.form-select-sm,
