@@ -27,6 +27,8 @@ Tom Select was forked from [selectize.js](https://tom-select.js.org/docs/selecti
 - **Extensible**<br> [Plugin API](https://tom-select.js.org/docs/plugins/) for developing custom features (uses [microplugin](https://github.com/brianreavis/microplugin.js)).
 - **Accessible**, **Touch Support**, **Clean API**, ...
 
+> It is important to mention when choosing this library that `readonly` attribute is not yet implemented.
+
 ## Usage
 
 ```html
