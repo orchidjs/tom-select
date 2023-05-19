@@ -1,7 +1,6 @@
 
 
 .#{$select-ns}-control {
-
 	border: $select-border;
 	padding: $select-padding-y $select-padding-x;
 	width: 100%;
@@ -18,6 +17,7 @@
 		$padding-x: $select-padding-x;
 		$padding-top: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-width-item-border});
 		$padding-bottom: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-margin-item-y} - #{$select-width-item-border});
+
 		padding: $padding-top $padding-x $padding-bottom;
 	}
 
@@ -56,9 +56,9 @@
 
 	.#{$select-ns}-wrapper.multi.disabled & > div {
 		&, &.active {
-			color: lighten(desaturate($select-color-item-text, 100%), $select-lighten-disabled-item-text);
-			background: lighten(desaturate($select-color-item, 100%), $select-lighten-disabled-item);
-			border: $select-width-item-border solid lighten(desaturate($select-color-item-border, 100%), $select-lighten-disabled-item-border);
+			color: color.adjust(color.adjust($select-color-item-text, $saturation: -100%), $lightness: $select-lighten-disabled-item-text);
+			background: color.adjust(color.adjust($select-color-item, $saturation: -100%), $lightness: $select-lighten-disabled-item);
+			border: $select-width-item-border solid color.adjust(color.adjust($select-color-item-border, $saturation: -100%), $lightness: $select-lighten-disabled-item-border);
 		}
 	}
 

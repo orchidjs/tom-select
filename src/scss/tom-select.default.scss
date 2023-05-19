@@ -8,31 +8,34 @@ $select-color-item-active:			#92c836;
 $select-color-item-active-border:	#00578d;
 $select-width-item-border:			1px;
 
-$select-shadow-input:				inset 0 1px 1px rgba(0,0,0,0.1) !default;
-$select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
+$select-shadow-input:				inset 0 1px 1px rgb(0 0 0 / 10%) !default;
+$select-shadow-input-focus:			inset 0 1px 2px rgb(0 0 0 / 15%) !default;
 
 
 @import "tom-select";
-@include ts-caret();
+@include ts-caret;
 
 .#{$select-ns}-wrapper {
-	display:flex;
-	min-height:$select-line-height + ($select-padding-y*2) + ($select-border-width *2);
+	display: flex;
+	min-height: $select-line-height + ($select-padding-y * 2) + ($select-border-width * 2);
 
 	&.multi {
-
 		&.has-items .#{$select-ns}-control {
+			--ts-pr-min: $padding-x;
+
 			$padding-x: $select-padding-x - 3px;
+			
 			padding-left: $padding-x;
-			--ts-pr-min:$padding-x;
 		}
 
 		.#{$select-ns}-control {
 			[data-value] {
-				text-shadow: 0 1px 0 rgba(0,51,83,0.3);
-				border-radius: 3px;
 				@include selectize-vertical-gradient(#1da7ee, #178ee9);
-				box-shadow: 0 1px 0 rgba(0,0,0,0.2),inset 0 1px rgba(255,255,255,0.03);
+				
+				text-shadow: 0 1px 0 rgb(0 51 83 / 30%);
+				border-radius: 3px;
+				box-shadow: 0 1px 0 rgb(0 0 0 / 20%), inset 0 1px rgb(255 255 255 / 3%);
+
 				&.active {
 					@include selectize-vertical-gradient(#008fd8, #0075cf);
 				}
@@ -48,16 +51,19 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 			&, .remove {
 				border-color: #e6e6e6;
 			}
+
 			.remove {
 				background: none;
 			}
 		}
 
 	}
+
 	&.single {
 		.#{$select-ns}-control {
-			box-shadow: 0 1px 0 rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.8);
 			@include selectize-vertical-gradient(#fefefe, #f2f2f2);
+
+			box-shadow: 0 1px 0 rgb(0 0 0 / 5%), inset 0 1px 0 rgb(255 255 255 / 80%);
 		}
 	}
 }
@@ -78,8 +84,10 @@ $select-shadow-input-focus:			inset 0 1px 2px rgba(0,0,0,0.15) !default;
 		font-weight: bold;
 		font-size: 0.85em;
 	}
+
 	.optgroup {
 		border-top: 1px solid $select-color-dropdown-border-top;
+
 		&:first-child {
 			border-top: 0 none;
 		}
