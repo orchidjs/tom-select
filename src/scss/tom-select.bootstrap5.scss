@@ -1,6 +1,8 @@
 /**
  * Tom Select bootstrap 5
  */
+@use "sass:color";
+@use "sass:map";
 
 // Import Boostrap 5 functions and variables
 $state-valid: map.get($form-validation-states,'valid') !default;

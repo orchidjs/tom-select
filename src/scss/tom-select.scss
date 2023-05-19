@@ -13,6 +13,9 @@
  *
  */
 
+@use "sass:color";
+@use "sass:math";
+
 
 // base styles
 $select-ns:										'ts' !default;
@@ -38,7 +41,7 @@ $select-color-dropdown-border:					$select-color-border !default;
 $select-color-dropdown-border-top:				#f0f0f0 !default;
 $select-color-dropdown-item-active:				#f5fafd !default;
 $select-color-dropdown-item-active-text: 		#495c68 !default;
-$select-color-dropdown-item-create-text:		rgb(color.red($select-color-text) color.green($select-color-text) color.blue($select-color-text) / 50%) !default;
+$select-color-dropdown-item-create-text:		rgba(color.red($select-color-text), color.green($select-color-text), color.blue($select-color-text), 50%) !default;
 $select-color-dropdown-item-create-active-text:	$select-color-dropdown-item-active-text !default;
 $select-color-optgroup:							$select-color-dropdown !default;
 $select-color-optgroup-text:					$select-color-text !default;
