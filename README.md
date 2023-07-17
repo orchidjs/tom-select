@@ -1,6 +1,4 @@
-<p align="center">
-<h1 align="center">Tom Select</h1>
-</p>
+# Tom Select
 
 <p align="center">
 <a href="https://github.com/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/orchidjs/tom-select?label=GitHub%20stars&color=007ec6"></a>

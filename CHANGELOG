@@ -1,0 +1,7 @@
+Version 2.2.23 (17 July 2023)
+=============================
+ - Merge [PR #534](https://github.com/orchidjs/tom-select/pull/534) from original repo.
+   - Fix SCSS Warnings - from @MatthewKennedy
+ - Merge [PR #601](https://github.com/orchidjs/tom-select/pull/601) from original repo.
+   - Adapt Bootstrap 5 SCSS for Bootstrap 5.3+ = from @czj
+ - Update syntax to allow SASS to compile properly from @Robert430404
