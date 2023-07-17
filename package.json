@@ -24,12 +24,12 @@
   "author": "Josh Schmidt (https://github.com/oyejorge)",
   "contributors": [
     "Brian Reavis <brian@thirdroute.com>",
-	"RemoteDevForce <>"
+    "RemoteDevForce"
   ],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/orchidjs/tom-select.git"
+    "url": "git+https://github.com/orchidjs/tom-select.git"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.0",
