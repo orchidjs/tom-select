@@ -1,6 +1,18 @@
 module.exports = function (config) {
-	var customLaunchers = {};
-
+	let customLaunchers = {
+		HeadlessFirefox: {
+			base: "Firefox",
+			flags: ["-headless"],
+		},
+		HeadlessChrome: {
+			base: "ChromeHeadless",
+			flags: [
+				"--disable-translate",
+				"--disable-extensions",
+				"--remote-debugging-port=9223",
+			],
+		},
+	};
 	if (process.env.TARGET === "browserstack") {
 		// define browsers
 		// https://www.browserstack.com/automate/capabilities
@@ -82,52 +94,48 @@ module.exports = function (config) {
 				browser: "Android",
 			},
 		};
-	} else {
-		customLaunchers["HeadlessFirefox"] = {
-			base: "Firefox",
-			flags: ["-headless"],
-		};
-
-		customLaunchers["HeadlessChrome"] = {
-			base: "ChromeHeadless",
-			flags: [
-				"--disable-translate",
-				"--disable-extensions",
-				"--remote-debugging-port=9223",
-			],
-		};
 	}
 
-	var targets = {
+	const targets = {
 		browserstack: Object.keys(customLaunchers),
 		HeadlessFirefox: ["HeadlessFirefox"],
 		HeadlessChrome: ["HeadlessChrome"],
 	};
 
-	var reporters = ["mocha", "coverage", "aChecker"];
+	const reporters = ["mocha", "coverage", "aChecker"];
 	if (process.env.TRAVIS_CI) {
-		reporters = ["mocha", "coverage", "coveralls", "aChecker"];
+		reporters.push("coveralls");
 	}
 
-	var target = process.env.TARGET;
-	if (!target) {
-		target = "HeadlessChrome";
+	const target = process.env.TARGET || "HeadlessChrome";
+	if (target === "HeadlessChrome") {
 		process.env.CHROME_BIN = require("puppeteer").executablePath();
 	}
 
-	var browsers = targets[target];
-	if (process.env.BROWSERS) {
-		browsers = process.env.BROWSERS.split(",");
-	}
+	const browsers = process.env.BROWSERS
+		? process.env.BROWSERS.split(",")
+		: targets[target];
 
-	config.set({
+	const builtConfig = {
+		browsers,
+		reporters,
 		basePath: "../",
+		customLaunchers: customLaunchers,
+		colors: true,
+		logLevel: config.LOG_INFO,
+		singleRun: true,
+		browserDisconnectTolerance: 3,
+		browserDisconnectTimeout: 15000,
+		browserNoActivityTimeout: 120000,
+		concurrency: 3,
 		plugins: [
 			require("karma-accessibility-checker"),
 			require("karma-coverage"),
 			"karma-mocha-reporter",
 			"karma-mocha",
 			require("karma-chai"),
+			require("karma-firefox-launcher"),
+			require("karma-chrome-launcher"),
 			"karma-sourcemap-loader",
 		],
 		frameworks: ["mocha", "chai", "aChecker"],
@@ -165,15 +173,7 @@ module.exports = function (config) {
 			project: process.env.TRAVIS_CI ? "tom-select" : "",
 			name: process.env.TRAVIS_CI ? "tom-select" : "",
 		},
-		customLaunchers: customLaunchers,
-		reporters: reporters,
-		colors: true,
-		logLevel: config.LOG_INFO,
-		browsers: browsers,
-		singleRun: true,
-		browserDisconnectTolerance: 3,
-		browserDisconnectTimeout: 15000,
-		browserNoActivityTimeout: 120000,
-		concurrency: 3,
-	});
+	};
+
+	config.set(builtConfig);
 };
