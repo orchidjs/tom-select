@@ -77,7 +77,7 @@ if ! npm test; then
 fi
 
 # update package.json and package-lock.json
-if ! sed -i 's/"version": "[^"]*"/"version": "'$VERSION'"/' package.json; then
+if ! sed -i.bak 's/"version": "[^"]*"/"version": "'$VERSION'"/' package.json && rm package.json.bak; then
 	echo 'version not replaced in package-lock.json'
 	exit
 fi
