@@ -1,8 +1,5 @@
-
-
-describe('A11Y Compliance', function() {
-
-	var html = `<div>
+describe("A11Y Compliance", function () {
+	const html = `<div>
 				<label for="a11y-test">
 				<select multiple id="a11y-test" class="setup-here" placeholder="a11y test">
 					<option value="a">a</option>
@@ -11,36 +8,43 @@ describe('A11Y Compliance', function() {
 				</select>
 				</div>`;
 
-	it_n('setup', function(done) {
+	it.skip("setup", (done) => {
+		const test = setup_test(html);
 
-		var test = setup_test(html);
+		aChecker.getCompliance(test.instance.wrapper, "setup", (results) => {
+			const returnCode = aChecker.assertCompliance(results);
 
-		aChecker.getCompliance(test.instance.wrapper, 'setup', function (results) {
+			assert.equal(
+				returnCode,
+				0,
+				"A11Y Scan failed." + JSON.stringify(results)
+			);
 
-		    var returnCode = aChecker.assertCompliance(results);
-		    assert.equal( returnCode, 0, "A11Y Scan failed." + JSON.stringify(results) );
-		    done();
+			done();
 		});
+	}).timeout(5000);
 
-	});
+	it.skip("isOpen", (done) => {
+		const test = setup_test(html);
 
-	it_n('isOpen', function(done) {
+		click(test.instance.control, () => {
+			assert.equal(test.instance.isOpen, true);
 
-		var test = setup_test(html);
+			aChecker.getCompliance(
+				test.instance.wrapper,
+				"isOpen",
+				(results) => {
+					const returnCode = aChecker.assertCompliance(results);
 
-		click(test.instance.control, function(){
+					assert.equal(
+						returnCode,
+						0,
+						"A11Y Scan failed." + JSON.stringify(results)
+					);
 
-			assert.equal(test.instance.isOpen,true);
-
-			aChecker.getCompliance(test.instance.wrapper, 'isOpen', function (results) {
-
-			    var returnCode = aChecker.assertCompliance(results);
-			    assert.equal( returnCode, 0, "A11Y Scan failed." + JSON.stringify(results) );
-			    done();
-			});
+					done();
+				}
+			);
 		});
-
 	});
-
-
 });
