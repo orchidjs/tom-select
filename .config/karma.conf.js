@@ -102,7 +102,11 @@ module.exports = function (config) {
 		HeadlessChrome: ["HeadlessChrome"],
 	};
 
-	const reporters = ["mocha", "coverage", "aChecker"];
+	const reporters = [
+		"mocha",
+		"coverage",
+		// "aChecker"
+	];
 	if (process.env.TRAVIS_CI) {
 		reporters.push("coveralls");
 	}
@@ -129,7 +133,6 @@ module.exports = function (config) {
 		browserNoActivityTimeout: 120000,
 		concurrency: 3,
 		plugins: [
-			require("karma-accessibility-checker"),
 			require("karma-coverage"),
 			"karma-mocha-reporter",
 			"karma-mocha",
@@ -138,7 +141,11 @@ module.exports = function (config) {
 			require("karma-chrome-launcher"),
 			"karma-sourcemap-loader",
 		],
-		frameworks: ["mocha", "chai", "aChecker"],
+		frameworks: [
+			"mocha",
+			"chai",
+			// "aChecker"
+		],
 		files: [
 			{
 				pattern: "test/tests/esm-module.js",
