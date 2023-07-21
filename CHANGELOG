@@ -5,6 +5,6 @@ Version 2.2.23 (17 July 2023)
  - Merge [PR #601](https://github.com/orchidjs/tom-select/pull/601) from original repo.
    - Adapt Bootstrap 5 SCSS for Bootstrap 5.3+ = from @czj
  - Update syntax to allow SASS to compile properly from @Robert430404
- - Refactored the karma configs to properly load plugins locally
- - Added package lock to pin the versions of packages
- - Disabled a11y tests due to non-conformance
+ - Refactored the karma configs to properly load plugins locally from @Robert430404
+ - Added package lock to pin the versions of packages from @Robert430404
+ - Disabled a11y tests due to non-conformance from @Robert430404
