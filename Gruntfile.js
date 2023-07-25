@@ -167,7 +167,7 @@ module.exports = function(grunt) {
 
 	var scss_plugin_path_replace_options = {
 		patterns: [{
-			match: /\.\.\/plugins\/(.+?)\/plugin\.scss/g,
+			match: /\.\.\/plugins\/(.+?)\/plugin/g,
 			replacement: './plugins/$1.scss'
 		}],
 		usePrefix: false
