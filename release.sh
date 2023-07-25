@@ -76,9 +76,14 @@ if ! npm test; then
 	exit
 fi
 
-# update package.json and package-lock.json
-if ! sed -i.bak 's/"version": "[^"]*"/"version": "'$VERSION'"/' package.json && rm package.json.bak; then
-	echo 'version not replaced in package-lock.json'
+# update package.json
+if ! sed -i.bak 's/"version": "[^"]*"/"version": "'$VERSION'"/' package.json; then
+	echo 'version not replaced in package.json'
+	exit
+fi
+
+if ! rm package.json.bak; then
+	echo 'could not remove package.json.bak'
 	exit
 fi
 
