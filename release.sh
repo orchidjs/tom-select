@@ -58,7 +58,7 @@ fi
 
 # make sure there aren't any uncommited changes
 if ! git diff-index --quiet HEAD --; then
-	echo 'Commit all changes before releas before making release'
+	echo 'Commit all changes before making release'
 	exit
 fi
 
