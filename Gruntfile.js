@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 		};
 
 		const checker = new SiteChecker(options,handlers)
-		checker.enqueue('http://localhost:8000/', {});
+		checker.enqueue('http://127.0.0.1:8000/', {});
 	});
 
 
