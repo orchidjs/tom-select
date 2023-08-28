@@ -243,6 +243,8 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 	&.form-select,
 	&.single {
+		border: none !important;
+
 		--ts-pr-caret: #{$form-select-indicator-padding};
 	}
 
