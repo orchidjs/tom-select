@@ -17,6 +17,7 @@ import TomSelect from '../../tom-select';
 
 export default function(this:TomSelect) {
 	var self = this;
+	var $ = jQuery;
 	if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	if (self.settings.mode !== 'multi') return;
 
