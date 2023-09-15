@@ -1,13 +1,12 @@
 # Tom Select
 
-<p align="center">
-<a href="https://github.com/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/orchidjs/tom-select?label=GitHub%20stars&color=007ec6"></a>
-<a href="https://www.jsdelivr.com/package/npm/tom-select" class="m-1 d-inline-block"><img alt="jsDelivr hits (npm)" src="https://img.shields.io/jsdelivr/npm/hm/tom-select?label=jsDelivr%20hits&color=007ec6"></a>
-<a href="https://www.npmjs.com/package/tom-select" class="m-1 d-inline-block"><img alt="npmjs.org" src="https://img.shields.io/npm/v/tom-select.svg?color=007ec6"></a>
-<a href="https://travis-ci.com/github/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="travis-ci.com" src="https://img.shields.io/travis/com/orchidjs/tom-select?color=4c1"></a>
-<a href="https://coveralls.io/github/orchidjs/tom-select" class="m-1 d-inline-block"><img alt="Coveralls Coverage" src="https://img.shields.io/coveralls/github/orchidjs/tom-select?color=4c1"></a>
-<a href="https://github.com/orchidjs/tom-select/issues" class="m-1 d-inline-block"><img alt="GitHub Issues" src="https://img.shields.io/github/issues/orchidjs/tom-select"></a>
-</p>
+This is a **fork** of the [original bundle](https://github.com/orchidjs/tom-select). It exists as a public service to 
+attempt to merge and release some of the outstanding PRs from that project and improve forward-compatibility.
+I am not an expert in most of the tech used here - I see myself strictly as a steward.
+If you want something merged, you need to provide a PR and it needs to pass the pipelines.
+I'm happy to merge passing PRs and release when appropriate.
+
+---
 
 Tom Select is a dynamic, framework agnostic, and lightweight (~16kb gzipped) &lt;select&gt; UI control.
 With autocomplete and native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, and so on.
@@ -38,60 +37,6 @@ new TomSelect('#tom-select-it',config);
 ```
 
 Available configuration settings are [documented here](https://tom-select.js.org/docs)
-
-
-## Installation
-
-All pre-built files needed to use Tom Select can be found in the "dist" folder via any of these sources:
-
-<table class="table mt-5">
-	<tr>
-		<th class="border-top-0">Source</th>
-		<th class="border-top-0"></th>
-	</tr>
-	<tr>
-		<td><a href="https://www.jsdelivr.com/package/npm/tom-select?path=dist">jsDelivr</a></td>
-		<td>
-		The fastest way to add Tom Select into your project is to just include the js and css from jsDelivr.
-<pre>
-&lt;link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet"&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"&gt;&lt;/script&gt;
-</pre>
-		</td>
-	</tr>
-	<tr>
-		<td><a href="https://www.npmjs.com/package/tom-select">npm</a></td>
-		<td><pre><code>npm i tom-select</code></pre>
-		<div><a href="https://tom-select.js.org/docs/contribute/">Additional CLI usage</a></div>
-		</td>
-	</tr>
-	<tr>
-		<td><a href="https://github.com/orchidjs/tom-select/">GitHub</a></td>
-		<td>Clone or <a href="https://github.com/orchidjs/tom-select/archive/master.zip">download</a> the full repo.
-		Use <code>npm run build</code> <a href="/docs/contribute">and other commands</a> to build from source, test and start the doc server.
-		</td>
-	</tr>
-</table>
-
-
-## Files
-- [tom-select.complete.js](https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.js) — Includes dependencies and plugins
-- [tom-select.base.js](https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.base.js) — Does not include any plugins
-- [CSS](https://www.jsdelivr.com/package/npm/tom-select?path=dist%2Fcss) — Compiled themes
-- [SCSS](https://www.jsdelivr.com/package/npm/tom-select?path=dist%2Fscss) — Uncompiled theme sources
-
-
-## Sponsors
-<p>
-Many thanks to all our sponsors who help make development possible. <a href="https://opencollective.com/tom-select">Become a sponsor</a>.
-</p>
-<p>
-<a href="https://opencollective.com/tom-select/sponsor/0/website"><img src="https://opencollective.com/tom-select/sponsor/0/avatar.svg" alt="Trust My Paper Logo"></a>
-<a href="https://opencollective.com/tom-select/sponsor/2/website"><img src="https://opencollective.com/tom-select/sponsor/2/avatar.svg" alt="WiseEssays.com"></a>
-</p>
-<br>
-
-
 
 ## License
 
