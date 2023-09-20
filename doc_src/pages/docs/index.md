@@ -379,6 +379,12 @@ Weights can be given to each field to improve search results
 searchField: [{field:'text',weight:2},{field:'text2',weight:0.5}]
 ```
 
+To complete disable the client side filtering (if youre getting the search results from an external source), set the `searchField` to an empty array.
+
+```js
+searchField: []
+```
+
 </td>
 		<td><code>array</code></td>
 		<td><code>['text']</code></td>
