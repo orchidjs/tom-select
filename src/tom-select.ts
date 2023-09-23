@@ -247,6 +247,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		setAttr(focus_node,{
 			role:'combobox',
+			spellcheck:'false',
+			autocomplete:"off",
 			'aria-haspopup':'listbox',
 			'aria-expanded':'false',
 			'aria-controls':listboxId
