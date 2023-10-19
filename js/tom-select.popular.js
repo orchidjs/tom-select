@@ -1954,8 +1954,6 @@
 
 	var instance_i = 0;
 	class TomSelect extends MicroPlugin(MicroEvent) {
-	  // @deprecated 1.8
-
 	  constructor(input_arg, user_settings) {
 	    super();
 	    this.control_input = void 0;
@@ -1977,6 +1975,7 @@
 	    this.isDisabled = false;
 	    this.isRequired = void 0;
 	    this.isInvalid = false;
+	    // @deprecated 1.8
 	    this.isValid = true;
 	    this.isLocked = false;
 	    this.isFocused = false;
