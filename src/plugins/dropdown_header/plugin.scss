@@ -1,4 +1,3 @@
-
 .#{$select-ns}-wrapper{
 	.dropdown-header {
 		position: relative;
@@ -7,6 +6,7 @@
 		background: color-mix($select-color-dropdown, $select-color-border, 85%);
 		border-radius: $select-border-radius $select-border-radius 0 0;
 	}
+
 	.dropdown-header-close {
 		position: absolute;
 		right: $select-padding-dropdown-item-x;
@@ -17,6 +17,7 @@
 		line-height: 20px;
 		font-size: 20px !important;
 	}
+
 	.dropdown-header-close:hover {
 		color: darken($select-color-text, 25%);
 	}
