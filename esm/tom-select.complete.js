@@ -4380,7 +4380,7 @@ function change_listener () {
 }
 
 /**
- * Plugin: "restore_on_backspace" (Tom Select)
+ * Plugin: "checkbox_options" (Tom Select)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -4394,21 +4394,43 @@ function change_listener () {
  *
  */
 
-function checkbox_options () {
+function checkbox_options (userOptions) {
   var self = this;
   var orig_onOptionSelect = self.onOptionSelect;
   self.settings.hideSelected = false;
+  const cbOptions = Object.assign({
+    // so that the user may add different ones as well
+    className: "tomselect-checkbox",
+    // the following default to the historic plugin's values
+    checkedClassNames: undefined,
+    uncheckedClassNames: undefined
+  }, userOptions);
+  var UpdateChecked = function UpdateChecked(checkbox, toCheck) {
+    if (toCheck) {
+      checkbox.checked = true;
+      if (cbOptions.uncheckedClassNames) {
+        checkbox.classList.remove(...cbOptions.uncheckedClassNames);
+      }
+      if (cbOptions.checkedClassNames) {
+        checkbox.classList.add(...cbOptions.checkedClassNames);
+      }
+    } else {
+      checkbox.checked = false;
+      if (cbOptions.checkedClassNames) {
+        checkbox.classList.remove(...cbOptions.checkedClassNames);
+      }
+      if (cbOptions.uncheckedClassNames) {
+        checkbox.classList.add(...cbOptions.uncheckedClassNames);
+      }
+    }
+  };
 
   // update the checkbox for an option
   var UpdateCheckbox = function UpdateCheckbox(option) {
     setTimeout(() => {
-      var checkbox = option.querySelector('input');
+      var checkbox = option.querySelector('input.' + cbOptions.className);
       if (checkbox instanceof HTMLInputElement) {
-        if (option.classList.contains('selected')) {
-          checkbox.checked = true;
-        } else {
-          checkbox.checked = false;
-        }
+        UpdateChecked(checkbox, option.classList.contains('selected'));
       }
     }, 1);
   };
@@ -4419,14 +4441,15 @@ function checkbox_options () {
     self.settings.render.option = (data, escape_html) => {
       var rendered = getDom(orig_render_option.call(self, data, escape_html));
       var checkbox = document.createElement('input');
+      if (cbOptions.className) {
+        checkbox.classList.add(cbOptions.className);
+      }
       checkbox.addEventListener('click', function (evt) {
         preventDefault(evt);
       });
       checkbox.type = 'checkbox';
       const hashed = hash_key(data[self.settings.valueField]);
-      if (hashed && self.items.indexOf(hashed) > -1) {
-        checkbox.checked = true;
-      }
+      UpdateChecked(checkbox, !!(hashed && self.items.indexOf(hashed) > -1));
       rendered.prepend(checkbox);
       return rendered;
     };

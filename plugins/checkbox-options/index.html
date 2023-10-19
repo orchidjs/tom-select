@@ -15,7 +15,7 @@
 		
 
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com cdn.jsdelivr.net;script-src 'self' 'unsafe-eval' mc.yandex.ru cdn.jsdelivr.net 'sha256-X8drr/ynZqYaPZlh4m1wnHtf6VDy1KLH4H2TiPnb83E=' 'sha256-f0siOSaHuBl9HM/PAuPWEGfaasKD5P5LQPQi3fUeQyI=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru https://*.algolia.net https://*.algolianet.com"></head>
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self';img-src https://* data:;style-src 'self' unpkg.com cdnjs.cloudflare.com cdn.jsdelivr.net;script-src 'self' 'unsafe-eval' mc.yandex.ru cdn.jsdelivr.net 'sha256-mMKxevpYo+f+CzYS+SJL2Kz4nXLBgloHcVbBB2JK/MM=' 'sha256-f0siOSaHuBl9HM/PAuPWEGfaasKD5P5LQPQi3fUeQyI=';font-src 'self' cdnjs.cloudflare.com;connect-src api.github.com whatcms.org api.reddit.com mc.yandex.ru https://*.algolia.net https://*.algolianet.com"></head>
     <body>
 
 		
@@ -122,6 +122,7 @@
 
 
 
+
 	
 
 	<div class="demo py-4 ">
@@ -166,7 +167,12 @@
 		
 		<script>
 new TomSelect('#ex-checkbox-options',{
-	plugins: ['checkbox_options'],
+	plugins: {
+		'checkbox_options': {
+			'checkedClassNames':   ['ts-checked'],
+			'uncheckedClassNames': ['ts-unchecked'],
+		}
+	},
 });
 </script>
 	
@@ -226,7 +232,12 @@ new TomSelect('#ex-checkbox-options',{
 				
 				<div class="tab-pane fade show active" id="javascript-tab-1" role="tabpanel" aria-labelledby="home-tab">
 					<pre class="language-js"><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">TomSelect</span><span class="token punctuation">(</span><span class="token string">'#ex-checkbox-options'</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
-	<span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'checkbox_options'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	<span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+		<span class="token string-property property">'checkbox_options'</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+			<span class="token string-property property">'checkedClassNames'</span><span class="token operator">:</span>   <span class="token punctuation">[</span><span class="token string">'ts-checked'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+			<span class="token string-property property">'uncheckedClassNames'</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'ts-unchecked'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 				</div>
 				
@@ -254,7 +265,73 @@ new TomSelect('#ex-checkbox-options',{
 
 
 <h2 id="plugin-configuration">Plugin Configuration</h2>
-<p>No additional configuration settings for this plugin</p>
+
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Setting</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	
+		
+
+	<tbody><tr>
+	<td id="classname"><code>className</code></td>
+	<td>
+		<div><p>Search CSS class for the checkbox</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string</code></span>
+			<span>Default:</span>
+
+			
+				<code>tomselect-checkbox</code>
+			
+		</div>
+	</td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td id="checkedclassnames"><code>checkedClassNames</code></td>
+	<td>
+		<div><p>The CSS classes the checkbox has if it was checked</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string[]</code></span>
+			<span>Default:</span>
+
+			
+				<code></code>
+			
+		</div>
+	</td>
+	</tr>
+
+
+	
+		
+
+	<tr>
+	<td id="uncheckedclassnames"><code>uncheckedClassNames</code></td>
+	<td>
+		<div><p>The CSS classes the checkbox has if it was not checked</p></div>
+		<div class="mt-2">
+			<span class="me-3">Type: <code>string[]</code></span>
+			<span>Default:</span>
+
+			
+				<code></code>
+			
+		</div>
+	</td>
+	</tr>
+
+
+	
+	</tbody></table>
 
 				
 	<h2 id="available-plugins">Available Plugins</h2>
