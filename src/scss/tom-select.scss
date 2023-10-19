@@ -78,13 +78,13 @@ $select-spinner-border-size:					5px !default;
 $select-spinner-border-color:					$select-color-border !default;
 
 :root{
-	--ts-pr-clear-button:						0;
-	--ts-pr-caret:								0;
+	--ts-pr-clear-button:						0rem;
+	--ts-pr-caret:								0rem;
 	--ts-pr-min:								.75rem;
 }
 
 @mixin selectize-vertical-gradient($color-top, $color-bottom) {
-    background-color: mix($color-top, $color-bottom, 60%);
+    background-color: color-mix($color-top, $color-bottom, 60%);
     background-image: linear-gradient(to bottom, $color-top, $color-bottom);
     background-repeat: repeat-x;
 }

@@ -2,7 +2,7 @@
 import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates, TomOption } from './index';
 
 import { TPluginItem, TPluginHash } from '../contrib/microplugin';
-import * as SifterTypes from '@orchidjs/sifter/lib/types';
+import * as SifterTypes from '@orchidjs/sifter/dist/types/types';
 
 
 
