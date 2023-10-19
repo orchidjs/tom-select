@@ -1,13 +1,19 @@
 import {nodeResolve} from '@rollup/plugin-node-resolve'; // so Rollup can resolve imports without file extensions and `node_modules`
 import babel from '@rollup/plugin-babel';
-import { terser } from 'rollup-plugin-terser';
-import pkg from '../package.json';
+import terser from '@rollup/plugin-terser';
+import pkg from '../package.json' assert { type: "json" };
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const tom_select_path_js	= path.resolve( 'src/tom-select.js' );
 const tom_select_path_ts	= path.resolve( 'src/tom-select.ts' );
 const configs				= [];
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const banner = `/**
 * Tom Select v${pkg.version}
@@ -74,6 +80,7 @@ inputs.forEach((slug)=>{
 	});
 
 });
+
 
 
 var terser_config = terser({

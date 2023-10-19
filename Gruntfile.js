@@ -313,10 +313,10 @@ module.exports = function(grunt) {
 				command: 'npx @11ty/eleventy --config=.config/eleventy.js',
 			},
 			rollupdocs: {
-				command: 'npx rollup -c .config/rollup.docs.js',
+				command: 'npx rollup -c .config/rollup.docs.mjs',
 			},
 			buildjs: {
-				command: 'npx rollup -c .config/rollup.config.js',
+				command: 'npx rollup -c .config/rollup.config.mjs',
 			},
 		},
 
