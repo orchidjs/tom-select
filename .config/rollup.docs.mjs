@@ -1,8 +1,13 @@
 import alias from '@rollup/plugin-alias';
 import resolve from '@rollup/plugin-node-resolve'; // so Rollup can resolve imports without file extensions and `node_modules`
 import babel from '@rollup/plugin-babel';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 var configs = [];
 
@@ -21,6 +26,7 @@ var resolve_config = resolve({
 	extensions: extensions,
 });
 
+
 var terser_config = terser({
   mangle: true,
   toplevel: true, // removes tomSelect footer
@@ -28,6 +34,7 @@ var terser_config = terser({
     semicolons: false,
   },
 });
+
 
 // bootstrap tabs for docs
 configs.push({
