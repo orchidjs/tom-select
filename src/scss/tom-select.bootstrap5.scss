@@ -28,7 +28,7 @@ $select-color-optgroup: $dropdown-bg !default;
 $select-color-optgroup-text: $dropdown-header-color !default;
 $select-color-optgroup-border: $dropdown-divider-bg !default;
 $select-color-dropdown: $dropdown-bg !default;
-$select-color-dropdown-border-top: mix($input-border-color, $input-bg, 80%) !default;
+$select-color-dropdown-border-top: color-mix($input-border-color, $input-bg, 80%) !default;
 $select-color-dropdown-item-active: $dropdown-link-hover-bg !default;
 $select-color-dropdown-item-active-text: $dropdown-link-hover-color !default;
 $select-color-dropdown-item-create-active-text: $dropdown-link-hover-color !default;
@@ -198,8 +198,8 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		.#{$select-ns}-control{
 			// padding-top = ($input-height-sm - border-width - item-height) / 2;
 			// item-height = ($select-line-height * $input-font-size-sm) + ($select-padding-item-y * 2)
-			$border-and-padding: add($input-border-width,$select-padding-item-y) * 2;
-			$ts-select-padding-sm: calc( (#{$input-height-sm} - (#{$select-line-height} * #{$input-font-size-sm}) - #{$border-and-padding})/2);
+			$border-and-padding: calc(($input-border-width + $select-padding-item-y) * 2);
+			$ts-select-padding-sm: calc((#{$input-height-sm} - (#{$select-line-height} * #{$input-font-size-sm}) - #{$border-and-padding})/2);
 			padding-top: $ts-select-padding-sm !important;
 		}
 	}
