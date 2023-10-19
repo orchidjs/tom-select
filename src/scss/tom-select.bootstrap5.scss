@@ -158,10 +158,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	min-height: $input-height;
 	display:flex;
 	
-	.input-group-sm > &, .input-group-lg > & {
-		width: 1%;
-	}
-
 	.input-group-sm > &,
 	&.form-select-sm,
 	&.form-control-sm {
@@ -248,6 +244,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 .input-group{
 	& > .#{$select-ns}-wrapper {
 		flex-grow: 1;
+		width: 1%;
 	}
 
 	& > .#{$select-ns}-wrapper:not(:nth-child(2)) > .#{$select-ns}-control {
