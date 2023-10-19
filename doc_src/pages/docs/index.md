@@ -466,7 +466,7 @@ new TomSelect('#select',{
 		<td>Invoked when an item is selected.</td>
 	</tr>
 	<tr>
-		<td><code>onItemRemove(value)</code></td>
+		<td><code>onItemRemove(value, $item)</code></td>
 		<td>Invoked when an item is deselected.</td>
 	</tr>
 	<tr>
