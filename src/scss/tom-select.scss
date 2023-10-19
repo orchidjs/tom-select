@@ -87,9 +87,9 @@ $select-spinner-border-color:					$select-color-border !default;
 }
 
 @mixin selectize-vertical-gradient($color-top, $color-bottom) {
-	background-color: mix($color-top, $color-bottom, 60%);
-	background-image: linear-gradient(to bottom, $color-top, $color-bottom);
-	background-repeat: repeat-x;
+    background-color: color-mix($color-top, $color-bottom, 60%);
+    background-image: linear-gradient(to bottom, $color-top, $color-bottom);
+    background-repeat: repeat-x;
 }
 
 .#{$select-ns}-wrapper.single {
