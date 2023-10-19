@@ -100,11 +100,15 @@ export default function(this:TomSelect) {
 
 		// if the user goes back to a previous query
 		// we need to load the first page again
-		pagination = {};
+		self.clearPagination();
 
 		return self.settings.firstUrl.call(self,query);
 	};
 
+	// clear pagination
+	self.clearPagination = ():void =>{
+		pagination = {};
+	};
 
 	// don't clear the active option (and cause unwanted dropdown scroll)
 	// while loading more results
