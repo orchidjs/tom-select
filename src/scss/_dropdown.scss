@@ -93,8 +93,7 @@
 }
 
 .#{$select-ns}-dropdown-content {
-	overflow-y: auto;
-	overflow-x: hidden;
+	overflow: hidden auto;
 	max-height: $select-max-height-dropdown;
 	scroll-behavior: smooth;
 }
