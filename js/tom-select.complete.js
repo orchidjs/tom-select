@@ -1499,6 +1499,7 @@
 	 * - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
 	 * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
 	 */
+
 	const highlight = (element, regex) => {
 	  if (regex === null) return;
 
@@ -4377,6 +4378,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function change_listener () {
 	  addEvent(this.input, 'change', () => {
 	    this.sync();
@@ -4397,6 +4399,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function checkbox_options () {
 	  var self = this;
 	  var orig_onOptionSelect = self.onOptionSelect;
@@ -4482,6 +4485,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function clear_button (userOptions) {
 	  const self = this;
 	  const options = Object.assign({
@@ -4578,6 +4582,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function dropdown_header (userOptions) {
 	  const self = this;
 	  const options = Object.assign({
@@ -4617,6 +4622,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function caret_position () {
 	  var self = this;
 
@@ -4677,6 +4683,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function dropdown_input () {
 	  const self = this;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
@@ -4751,6 +4758,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function input_autogrow () {
 	  var self = this;
 	  self.on('initialize', () => {
@@ -4839,6 +4847,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function optgroup_columns () {
 	  var self = this;
 	  var orig_keydown = self.onKeyDown;
@@ -4883,6 +4892,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function remove_button (userOptions) {
 	  const options = Object.assign({
 	    label: '&times;',
@@ -4971,6 +4981,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function virtual_scroll () {
 	  const self = this;
 	  const orig_canLoad = self.canLoad;

@@ -11,7 +11,6 @@
 
   const KEY_ESC = 27;
   const KEY_TAB = 9;
-  typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
    // ctrl key or apple key for ma
 
   /*! @orchidjs/unicode-variants | https://github.com/orchidjs/unicode-variants | Apache License (v2) */
@@ -217,6 +216,7 @@
    * governing permissions and limitations under the License.
    *
    */
+
   function plugin () {
     const self = this;
     self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown

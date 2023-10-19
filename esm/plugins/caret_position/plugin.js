@@ -159,6 +159,7 @@ const nodeIndex = (el, amongst) => {
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin () {
   var self = this;
 

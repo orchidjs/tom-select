@@ -148,6 +148,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function plugin () {
 	  var self = this;
 	  var orig_onOptionSelect = self.onOptionSelect;

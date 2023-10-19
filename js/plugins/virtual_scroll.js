@@ -149,6 +149,7 @@
    * governing permissions and limitations under the License.
    *
    */
+
   function plugin () {
     const self = this;
     const orig_canLoad = self.canLoad;

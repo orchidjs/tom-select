@@ -39,6 +39,7 @@ const addEvent = (target, type, callback, options) => {
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin () {
   var self = this;
   self.on('initialize', () => {

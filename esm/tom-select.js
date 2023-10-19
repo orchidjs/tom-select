@@ -1493,6 +1493,7 @@ const replaceNode = (existing, replacement) => {
  * - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
  * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
+
 const highlight = (element, regex) => {
   if (regex === null) return;
 

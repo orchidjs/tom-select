@@ -150,6 +150,7 @@ const addEvent = (target, type, callback, options) => {
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin (userOptions) {
   const options = Object.assign({
     label: '&times;',

@@ -140,6 +140,7 @@
    * governing permissions and limitations under the License.
    *
    */
+
   function plugin (userOptions) {
     const self = this;
     const options = Object.assign({

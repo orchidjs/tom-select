@@ -5,7 +5,6 @@
 
 const KEY_LEFT = 37;
 const KEY_RIGHT = 39;
-typeof navigator === 'undefined' ? false : /Mac/.test(navigator.userAgent);
  // ctrl key or apple key for ma
 
 /*! @orchidjs/unicode-variants | https://github.com/orchidjs/unicode-variants | Apache License (v2) */
@@ -117,6 +116,7 @@ const nodeIndex = (el, amongst) => {
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin () {
   var self = this;
   var orig_keydown = self.onKeyDown;

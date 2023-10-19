@@ -46,6 +46,7 @@
 	 * governing permissions and limitations under the License.
 	 *
 	 */
+
 	function plugin () {
 	  addEvent(this.input, 'change', () => {
 	    this.sync();

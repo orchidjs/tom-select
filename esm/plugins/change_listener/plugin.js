@@ -40,6 +40,7 @@ const addEvent = (target, type, callback, options) => {
  * governing permissions and limitations under the License.
  *
  */
+
 function plugin () {
   addEvent(this.input, 'change', () => {
     this.sync();

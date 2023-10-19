@@ -1493,6 +1493,7 @@ const replaceNode = (existing, replacement) => {
  * - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
  * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
+
 const highlight = (element, regex) => {
   if (regex === null) return;
 
@@ -4371,6 +4372,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
  * governing permissions and limitations under the License.
  *
  */
+
 function caret_position () {
   var self = this;
 
@@ -4431,6 +4433,7 @@ function caret_position () {
  * governing permissions and limitations under the License.
  *
  */
+
 function dropdown_input () {
   const self = this;
   self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
@@ -4531,6 +4534,7 @@ function no_backspace_delete () {
  * governing permissions and limitations under the License.
  *
  */
+
 function remove_button (userOptions) {
   const options = Object.assign({
     label: '&times;',
