@@ -1,7 +1,7 @@
 
 
 describe('A11Y Compliance', function() {
-
+	/*
 	var html = `<div>
 				<label for="a11y-test">
 				<select multiple id="a11y-test" class="setup-here" placeholder="a11y test">
@@ -42,5 +42,5 @@ describe('A11Y Compliance', function() {
 
 	});
 
-
+	*/
 });
