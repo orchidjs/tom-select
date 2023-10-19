@@ -101,11 +101,11 @@ $select-spinner-border-color:					$select-color-border !default;
 }
 
 .#{$select-ns}-control:not(.rtl) {
-	padding-right:	Max( var(--ts-pr-min), calc( var(--ts-pr-clear-button) + var(--ts-pr-caret)) ) !important;
+	padding-right:	max( var(--ts-pr-min), calc( var(--ts-pr-clear-button) + var(--ts-pr-caret)) ) !important;
 }
 
 .#{$select-ns}-control.rtl {
-	padding-left:	Max( var(--ts-pr-min), calc( var(--ts-pr-clear-button) + var(--ts-pr-caret)) ) !important;
+	padding-left:	max( var(--ts-pr-min), calc( var(--ts-pr-clear-button) + var(--ts-pr-caret)) ) !important;
 }
 
 @mixin ts-caret() {
@@ -126,11 +126,11 @@ $select-spinner-border-color:					$select-color-border !default;
 				border-color: $select-arrow-color transparent transparent transparent;
 			}
 			
-			&:not(.rtl):after {
+			&:not(.rtl)::after {
 				right: $select-arrow-offset;
 			}
 			
-			&.rtl:after {
+			&.rtl::after {
 				left: $select-arrow-offset;
 			}
 		}

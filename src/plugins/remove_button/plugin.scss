@@ -1,6 +1,5 @@
 .#{$select-ns}-wrapper.plugin-remove_button{
-
-  .item {
+	.item {
 		display: inline-flex;
 		align-items: center;
 	}
@@ -33,12 +32,11 @@
 }
 
 .#{$select-ns}-wrapper.plugin-remove_button:not(.rtl){
-
 	.item {
 		padding-right:	0 !important;
 	}
 
-  .item .remove {
+	.item .remove {
 		border-left: 1px solid $select-color-item-border;
 		margin-left: $select-padding-item-x;
 	}
@@ -53,7 +51,6 @@
 }
 
 .#{$select-ns}-wrapper.plugin-remove_button.rtl {
-  
 	.item {
 		padding-left:	0 !important;
 	}
