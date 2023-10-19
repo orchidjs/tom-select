@@ -16,7 +16,7 @@ jobs:
 
         stale-issue-message: 'This issue has not been active in 120 days and has been marked "stale". Remove stale label or comment or this will be closed in 15 days'
         stale-issue-label: 'stale'
-		exempt-issue-labels: 'has fix'
+        exempt-issue-labels: 'has fix'
 
         stale-pr-message: 'This pull request has not been active in 120 days and has been marked "stale". Remove stale label or comment or this will be closed in 15 days'
         stale-pr-label: 'stale'
