@@ -221,8 +221,13 @@
 
       // if the user goes back to a previous query
       // we need to load the first page again
-      pagination = {};
+      self.clearPagination();
       return self.settings.firstUrl.call(self, query);
+    };
+
+    // clear pagination
+    self.clearPagination = () => {
+      pagination = {};
     };
 
     // don't clear the active option (and cause unwanted dropdown scroll)
