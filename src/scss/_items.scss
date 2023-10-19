@@ -1,7 +1,4 @@
-
-
 .#{$select-ns}-control {
-
 	border: $select-border;
 	padding: $select-padding-y $select-padding-x;
 	width: 100%;
@@ -18,6 +15,7 @@
 		$padding-x: $select-padding-x;
 		$padding-top: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-width-item-border});
 		$padding-bottom: calc( #{$select-padding-y} - #{$select-padding-item-y} - #{$select-margin-item-y} - #{$select-width-item-border});
+
 		padding: $padding-top $padding-x $padding-bottom;
 	}
 
@@ -106,10 +104,9 @@
 
 	// hide input, while retaining its focus, and maintain layout so users can still click on the space to bring the display back
 	// visibility:hidden can prevent the input from receiving focus
-	.input-hidden & > input{
+	.input-hidden & > input {
 		opacity: 0;
 		position: absolute;
 		left: -10000px;
 	}
-
 }
