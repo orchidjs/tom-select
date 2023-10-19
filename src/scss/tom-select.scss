@@ -100,8 +100,12 @@ $select-spinner-border-color:					$select-color-border !default;
 	}
 }
 
-.#{$select-ns}-control {
-	padding-right:  max( var(--ts-pr-min), calc( var(--ts-pr-clear-button) + var(--ts-pr-caret)) ) !important;
+.#{$select-ns}-control:not(.rtl) {
+	padding-right:	Max( var(--ts-pr-min), calc( var(--ts-pr-clear-button) + var(--ts-pr-caret)) ) !important;
+}
+
+.#{$select-ns}-control.rtl {
+	padding-left:	Max( var(--ts-pr-min), calc( var(--ts-pr-clear-button) + var(--ts-pr-caret)) ) !important;
 }
 
 @mixin ts-caret() {
@@ -114,13 +118,20 @@ $select-spinner-border-color:					$select-color-border !default;
 				display: block;
 				position: absolute;
 				top: 50%;
-				right: $select-arrow-offset;
 				margin-top: round(-0.5 * $select-arrow-size);
 				width: 0;
 				height: 0;
 				border-style: solid;
 				border-width: $select-arrow-size $select-arrow-size 0 $select-arrow-size;
 				border-color: $select-arrow-color transparent transparent transparent;
+			}
+			
+			&:not(.rtl):after {
+				right: $select-arrow-offset;
+			}
+			
+			&.rtl:after {
+				left: $select-arrow-offset;
 			}
 		}
 
