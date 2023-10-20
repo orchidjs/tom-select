@@ -78,13 +78,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	}
 }
 
-.#{$select-ns}-wrapper.form-control,
-.#{$select-ns}-wrapper.form-select {
-	padding:0 !important;
-	height: auto;
-	box-shadow: none;
-	display: flex;
-}
 
 .#{$select-ns}-dropdown,
 .#{$select-ns}-dropdown.form-control,
@@ -230,6 +223,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 	&.form-control, 
 	&.form-select {
+		padding:0 !important;
+		height: auto;
+		box-shadow: none;
+		display: flex;
+
 		.#{$select-ns}-control,
 		&.single.input-active .#{$select-ns}-control {
 			border:		none !important;
