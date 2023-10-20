@@ -170,7 +170,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 		&.has-items .#{$select-ns}-control {
 			font-size: $input-font-size-sm;
-			padding-bottom: 0;
+			//padding-bottom: 0;
 		}
 	}
 
