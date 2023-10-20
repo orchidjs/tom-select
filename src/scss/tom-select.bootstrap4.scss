@@ -11,7 +11,7 @@ $select-font-size: inherit !default;
 $select-line-height: $input-btn-line-height !default; // formerly line-height-computed
 
 $select-color-text: gray("800") !default; // $gray-800
-$select-color-highlight: rgb(255 237 40 / 40%) !default;
+$select-color-highlight: rgb(255, 237, 40, 40%) !default;
 $select-color-input: $input-bg !default;
 $select-color-input-full: $input-bg !default;
 $select-color-input-error: map-get($state-invalid,'color') !default;
@@ -21,7 +21,7 @@ $select-color-item: #efefef !default;
 $select-color-item-border: $border-color !default;
 $select-color-item-active: $component-active-bg !default;
 $select-color-item-active-text: #fff !default;
-$select-color-item-active-border: rgb(0 0 0 / 0%) !default;
+$select-color-item-active-border: rgb(0, 0, 0, 0%) !default;
 $select-color-optgroup: $dropdown-bg !default;
 $select-color-optgroup-text: $dropdown-header-color !default;
 $select-color-optgroup-border: $dropdown-divider-bg !default;
@@ -62,7 +62,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	background: $select-color-dropdown;
 	border: 1px solid $dropdown-border-color; // $dropdown-fallback-border
 	border-radius: $border-radius;
-	box-shadow: 0 6px 12px rgb(0 0 0 / 17.5%);
+	box-shadow: 0 6px 12px rgb(0, 0, 0, 17.5%);
 }
 
 .#{$select-ns}-dropdown {

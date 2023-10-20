@@ -7,6 +7,7 @@
   "rules": {
     "selector-class-pattern": null,
     "scss/no-global-function-names": null,
-    "scss/dollar-variable-pattern": null
+    "scss/dollar-variable-pattern": null,
+	"color-function-notation": "legacy"
   }
 }
