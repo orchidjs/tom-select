@@ -1380,9 +1380,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	refreshOptions( triggerDropdown:boolean = true ){
 		var i, j, k, n, optgroup, optgroups, html:DocumentFragment, has_create_option, active_group;
 		var create;
-		const groups: {[key:string]:DocumentFragment} = {};
 
-		const groups_order:string[]	= [];
+		type Group = {fragment:DocumentFragment,order:number,optgroup:string}
+		const groups: {[key:string]:number} = {};
+		const groups_order:Group[]	= [];
+
 		var self					= this;
 		var query					= self.inputValue();
 		const same_query			= query === self.lastQuery || (query == '' && self.lastQuery == null);
@@ -1410,6 +1412,25 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			show_dropdown = true;
 		}
 
+		// get fragment for group and the position of the group in group_order
+		const getGroupFragment = (optgroup:string,order:number):[number,DocumentFragment] => {
+
+			let group_order_i = groups[optgroup];
+
+			if( group_order_i !== undefined ){
+				let order_group = groups_order[group_order_i];
+				if( order_group !== undefined ){
+					return [group_order_i,order_group.fragment];
+				}
+			}
+
+			let group_fragment = document.createDocumentFragment();
+			group_order_i = groups_order.length;
+			groups_order.push({fragment:group_fragment,order,optgroup});
+
+			return [group_order_i,group_fragment]
+		}
+
 		// render and group available options individually
 		for (i = 0; i < n; i++) {
 
@@ -1432,18 +1453,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			optgroup    = option[self.settings.optgroupField] || '';
 			optgroups   = Array.isArray(optgroup) ? optgroup : [optgroup];
+			
 
 			for (j = 0, k = optgroups && optgroups.length; j < k; j++) {
 				optgroup = optgroups[j];
-				if (!self.optgroups.hasOwnProperty(optgroup)) {
+
+				let order = option.$order;
+				let self_optgroup = self.optgroups[optgroup];
+				if( self_optgroup === undefined ){					
 					optgroup = '';
+				}else{
+					order = self_optgroup.$order;
 				}
 
-				let group_fragment = groups[optgroup];
-				if( group_fragment === undefined ){
-					group_fragment = document.createDocumentFragment();
-					groups_order.push(optgroup);
-				}
+				const [group_order_i,group_fragment] = getGroupFragment(optgroup,order);
+
 
 				// nodes can only have one parent, so if the option is in mutple groups, we need a clone
 				if( j > 0 ){
@@ -1459,29 +1483,28 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 							active_option = option_el;
 						}
 					}
-				}
-
+				}	
+				
 				group_fragment.appendChild(option_el);
-				groups[optgroup] = group_fragment;
+				if( optgroup != '' ){
+					groups[optgroup] = group_order_i;
+				}
 			}
 		}
 
 		// sort optgroups
 		if( self.settings.lockOptgroupOrder ){
 			groups_order.sort((a, b) => {
-				const grp_a		= self.optgroups[a];
-				const grp_b		= self.optgroups[b];
-				const a_order	= grp_a && grp_a.$order || 0;
-				const b_order	= grp_b && grp_b.$order || 0;
-				return a_order - b_order;
+				return a.order - b.order;
 			});
 		}
 
 		// render optgroup headers & join groups
 		html = document.createDocumentFragment();
-		iterate( groups_order, (optgroup:string) => {
+		iterate( groups_order, (group_order:Group) => {
 
-			let group_fragment = groups[optgroup];
+			let group_fragment = group_order.fragment;
+			let optgroup = group_order.optgroup
 
 			if( !group_fragment || !group_fragment.children.length ) return;
 

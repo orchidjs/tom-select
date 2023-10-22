@@ -51,6 +51,7 @@ export default function getSettings( input:TomInput, settings_user:RecursivePart
 		var options = settings_element.options;
 		var optionsMap:{[key:string]:any} = {};
 		var group_count = 1;
+		let $order = 0;
 
 		var readData = (el:HTMLElement):TomOption => {
 
@@ -94,6 +95,7 @@ export default function getSettings( input:TomInput, settings_user:RecursivePart
 				option_data[field_disabled] = option_data[field_disabled] || option.disabled;
 				option_data[field_optgroup] = option_data[field_optgroup] || group;
 				option_data.$option			= option;
+				option_data.$order			= option_data.$order || ++$order;
 
 				optionsMap[value] = option_data;
 				options.push(option_data);
@@ -111,6 +113,8 @@ export default function getSettings( input:TomInput, settings_user:RecursivePart
 			optgroup_data[field_optgroup_label]		= optgroup_data[field_optgroup_label] || optgroup.getAttribute('label') || '';
 			optgroup_data[field_optgroup_value]		= optgroup_data[field_optgroup_value] || group_count++;
 			optgroup_data[field_disabled]			= optgroup_data[field_disabled] || optgroup.disabled;
+			optgroup_data.$order					= optgroup_data.$order || ++$order;
+
 			settings_element.optgroups.push(optgroup_data);
 
 			id = optgroup_data[field_optgroup_value];

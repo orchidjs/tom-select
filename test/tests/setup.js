@@ -129,16 +129,16 @@
 				var test = setup_test('<select></select>', {});
 			});
 			it_n('should allow for values optgroups with duplicated options', function() {
-				var test = setup_test(['<select>',
-					'<optgroup data-val="Group 1" label="Group 1">',
-					'<option value="a">Item A</option>',
-					'<option value="b">Item B</option>',
-					'</optgroup>',
-					'<optgroup data-val="Group 2" label="Group 2">',
-					'<option value="a">Item A</option>',
-					'<option value="b">Item B</option>',
-					'</optgroup>',
-					'</select>'].join(''), {
+				var test = setup_test(`<select>
+					<optgroup data-val="Group 1" label="Group 1">
+					<option value="a">Item A</option>
+					<option value="b">Item B</option>
+					</optgroup>
+					<optgroup data-val="Group 2" label="Group 2">
+					<option value="a">Item A</option>
+					<option value="b">Item B</option>
+					</optgroup>
+					</select>`, {
 					optgroupValueField: 'val',
 					optgroupField: 'grp',
 					disabledField: 'dis'
@@ -147,32 +147,32 @@
 				assert.equal( test.instance.options['a'].text,'Item A');
 				assert.equal( test.instance.options['a'].value,'a');
 				assert.deepEqual( test.instance.options['a'].grp,['Group 1', 'Group 2']);
-				assert.equal( test.instance.options['a'].$order,1);
+				assert.equal( test.instance.options['a'].$order,2);
 				assert.equal( test.instance.options['a'].dis,false);
 
 				assert.equal( test.instance.options['b'].text,'Item B');
 				assert.equal( test.instance.options['b'].value,'b');
 				assert.deepEqual( test.instance.options['b'].grp,['Group 1', 'Group 2']);
-				assert.equal( test.instance.options['b'].$order,2);
+				assert.equal( test.instance.options['b'].$order,3);
 				assert.equal( test.instance.options['b'].dis,false);
 
 
 				assert.deepEqual(test.instance.optgroups, {
-					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
+					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 1, dis: false},
 					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: false}
 				}, '2');
 			});
 			it_n('should respect disabled flags of option and optgroup', function() {
-				var test = setup_test(['<select>',
-					'<optgroup data-val="Group 1" label="Group 1">',
-					'<option value="a" disabled>Item A</option>',
-					'<option value="b">Item B</option>',
-					'</optgroup>',
-					'<optgroup data-val="Group 2" label="Group 2" disabled>',
-					'<option value="a">Item A</option>',
-					'<option value="b">Item B</option>',
-					'</optgroup>',
-					'</select>'].join(''), {
+				var test = setup_test(`<select>
+					<optgroup data-val="Group 1" label="Group 1">
+					<option value="a" disabled>Item A</option>
+					<option value="b">Item B</option>
+					</optgroup>
+					<optgroup data-val="Group 2" label="Group 2" disabled>
+					<option value="a">Item A</option>
+					<option value="b">Item B</option>
+					</optgroup>
+					</select>`, {
 					optgroupValueField: 'val',
 					optgroupField: 'grp',
 					disabledField: 'dis'
@@ -181,17 +181,17 @@
 				assert.equal( test.instance.options['a'].text,'Item A');
 				assert.equal( test.instance.options['a'].value,'a');
 				assert.deepEqual( test.instance.options['a'].grp,['Group 1', 'Group 2']);
-				assert.equal( test.instance.options['a'].$order,1);
+				assert.equal( test.instance.options['a'].$order,2);
 				assert.equal( test.instance.options['a'].dis,true);
 
 				assert.equal( test.instance.options['b'].text,'Item B');
 				assert.equal( test.instance.options['b'].value,'b');
 				assert.deepEqual( test.instance.options['b'].grp,['Group 1', 'Group 2']);
-				assert.equal( test.instance.options['b'].$order,2);
+				assert.equal( test.instance.options['b'].$order,3);
 				assert.equal( test.instance.options['b'].dis,false);
 
 				assert.deepEqual(test.instance.optgroups, {
-					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
+					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 1, dis: false},
 					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: true}
 				}, '2');
 			});
@@ -215,19 +215,25 @@
 
 			it_n('display non-optgroup items and optgroups with lockOptgroupOrder = true', function(done) {
 				var test = setup_test(`<select>
-					<option>Item</option>
-					<optgroup label="Group 1">
-					<option value="a">Item A</option>
-					<option value="b">Item B</option>
-					</optgroup>
-					<optgroup label="Group 2">
-					<option value="a">Item A</option>
-					<option value="b">Item B</option>
-					</optgroup>
-					</select>`,{lockOptgroupOrder:true});
+						<option value="first">First</option>
+						<optgroup label="Group 1">
+							<option value="a">Item A</option>
+							<option value="b">Item B</option>
+						</optgroup>
+						<optgroup label="Group 2">
+							<option value="a">Item A</option>
+							<option value="b">Item B</option>
+						</optgroup>
+						<option value="last">Last</option>
+					</select>`,{
+						lockOptgroupOrder:true
+					});
 				test.instance.refreshOptions(true);
 				assert.equal(test.instance.dropdown_content.querySelectorAll('.optgroup').length, 2, 'expect 2 optgroups');
-				assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length, 5, 'expect 5 options');
+				assert.equal(test.instance.dropdown_content.querySelectorAll('.option').length, 6, 'expect 6 options');
+				assert.equal( test.instance.dropdown_content.querySelector('.option[data-value=last]').nextElementSibling, null,'should preserve order of options outside of optgroups');
+				assert.equal( test.instance.dropdown_content.querySelector('.option[data-value=first]').previousElementSibling, null,'should preserve order of options outside of optgroups');
+
 				done();
 			});
 
