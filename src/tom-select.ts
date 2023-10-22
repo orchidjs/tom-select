@@ -1387,7 +1387,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var query					= self.inputValue();
 		const same_query			= query === self.lastQuery || (query == '' && self.lastQuery == null);
 		var results					= self.search(query);
-		var active_option			= null;
+		var active_option:HTMLElement|null = null;
 		var show_dropdown			= self.settings.shouldOpen || false;
 		var dropdown_content		= self.dropdown_content;
 
