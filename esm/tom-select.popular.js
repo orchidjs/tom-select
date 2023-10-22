@@ -1850,6 +1850,7 @@ function getSettings(input, settings_user) {
     var options = settings_element.options;
     var optionsMap = {};
     var group_count = 1;
+    let $order = 0;
     var readData = el => {
       var data = Object.assign({}, el.dataset); // get plain object from DOMStringMap
       var json = attr_data && data[attr_data];
@@ -1885,6 +1886,7 @@ function getSettings(input, settings_user) {
         option_data[field_disabled] = option_data[field_disabled] || option.disabled;
         option_data[field_optgroup] = option_data[field_optgroup] || group;
         option_data.$option = option;
+        option_data.$order = option_data.$order || ++$order;
         optionsMap[value] = option_data;
         options.push(option_data);
       }
@@ -1898,6 +1900,7 @@ function getSettings(input, settings_user) {
       optgroup_data[field_optgroup_label] = optgroup_data[field_optgroup_label] || optgroup.getAttribute('label') || '';
       optgroup_data[field_optgroup_value] = optgroup_data[field_optgroup_value] || group_count++;
       optgroup_data[field_disabled] = optgroup_data[field_disabled] || optgroup.disabled;
+      optgroup_data.$order = optgroup_data.$order || ++$order;
       settings_element.optgroups.push(optgroup_data);
       id = optgroup_data[field_optgroup_value];
       iterate(optgroup.children, option => {
@@ -3189,6 +3192,25 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       show_dropdown = true;
     }
 
+    // get fragment for group and the position of the group in group_order
+    const getGroupFragment = (optgroup, order) => {
+      let group_order_i = groups[optgroup];
+      if (group_order_i !== undefined) {
+        let order_group = groups_order[group_order_i];
+        if (order_group !== undefined) {
+          return [group_order_i, order_group.fragment];
+        }
+      }
+      let group_fragment = document.createDocumentFragment();
+      group_order_i = groups_order.length;
+      groups_order.push({
+        fragment: group_fragment,
+        order,
+        optgroup
+      });
+      return [group_order_i, group_fragment];
+    };
+
     // render and group available options individually
     for (i = 0; i < n; i++) {
       // get option dom element
@@ -3208,14 +3230,14 @@ class TomSelect extends MicroPlugin(MicroEvent) {
       optgroups = Array.isArray(optgroup) ? optgroup : [optgroup];
       for (j = 0, k = optgroups && optgroups.length; j < k; j++) {
         optgroup = optgroups[j];
-        if (!self.optgroups.hasOwnProperty(optgroup)) {
+        let order = option.$order;
+        let self_optgroup = self.optgroups[optgroup];
+        if (self_optgroup === undefined) {
           optgroup = '';
+        } else {
+          order = self_optgroup.$order;
         }
-        let group_fragment = groups[optgroup];
-        if (group_fragment === undefined) {
-          group_fragment = document.createDocumentFragment();
-          groups_order.push(optgroup);
-        }
+        const [group_order_i, group_fragment] = getGroupFragment(optgroup, order);
 
         // nodes can only have one parent, so if the option is in mutple groups, we need a clone
         if (j > 0) {
@@ -3235,25 +3257,24 @@ class TomSelect extends MicroPlugin(MicroEvent) {
           }
         }
         group_fragment.appendChild(option_el);
-        groups[optgroup] = group_fragment;
+        if (optgroup != '') {
+          groups[optgroup] = group_order_i;
+        }
       }
     }
 
     // sort optgroups
     if (self.settings.lockOptgroupOrder) {
       groups_order.sort((a, b) => {
-        const grp_a = self.optgroups[a];
-        const grp_b = self.optgroups[b];
-        const a_order = grp_a && grp_a.$order || 0;
-        const b_order = grp_b && grp_b.$order || 0;
-        return a_order - b_order;
+        return a.order - b.order;
       });
     }
 
     // render optgroup headers & join groups
     html = document.createDocumentFragment();
-    iterate$1(groups_order, optgroup => {
-      let group_fragment = groups[optgroup];
+    iterate$1(groups_order, group_order => {
+      let group_fragment = group_order.fragment;
+      let optgroup = group_order.optgroup;
       if (!group_fragment || !group_fragment.children.length) return;
       let group_heading = self.optgroups[optgroup];
       if (group_heading !== undefined) {
