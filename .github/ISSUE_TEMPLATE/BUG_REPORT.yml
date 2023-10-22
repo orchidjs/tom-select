@@ -30,8 +30,7 @@ body:
       label: Steps to reproduce
       description: |
         Create an example on JSFiddle, CodePen or similar service and outline the steps for reproducing the bug.
-        
-        **Tip** go to [tom-select.js.org](https://tom-select.js.org) and click "edit" -> "JSFiddle" or "CodePen" to start a example)
+        **Tip** go to tom-select.js.org and click "edit" -> "JSFiddle" or "CodePen" to start a example)
       value: |
         1. Go to ...
         2. Click on ....
@@ -44,10 +43,10 @@ body:
     attributes:
       label: Additional context
       description: Add any other context about the problem here
-      value: "
+      value: |
         - OS: [e.g. iOS, Windows]
         - Browser [e.g. chrome, safari]
         - Version [e.g. 22]
-        - Device: [e.g. iPhone6]"
+        - Device: [e.g. iPhone6]
     validations:
       required: true
