@@ -1,3 +1,7 @@
 [*]
 indent_style = tab
 tab_width = 4
+
+[*.yml]
+indent_style = space
+indent_size = 2

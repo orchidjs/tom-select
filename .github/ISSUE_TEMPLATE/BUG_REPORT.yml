@@ -1,0 +1,53 @@
+name: "Tom Select Bug report"
+description: "Submit a report and help us improve our free and open-source project"
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Thank you for contributing to our project!
+        Before submitting, we'd appreciate it if you:
+          - Verify that your issue is not [already reported on GitHub](https://github.com/orchidjs/tom-select/issues?q=is%3Aissue).
+          - Check if your TomSelect is up to date. If not, we recommend that you update first.
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug description
+      description: Provide a description of the bug you're experiencing.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Describe what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Create an example on JSFiddle, CodePen or similar service and outline the steps for reproducing the bug.
+        
+        **Tip** go to [tom-select.js.org](https://tom-select.js.org) and click "edit" -> "JSFiddle" or "CodePen" to start a example)
+      value: |
+        1. Go to ...
+        2. Click on ....
+        ...
+        X. See error
+    validations:
+      required: true
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here
+      value: "
+        - OS: [e.g. iOS, Windows]
+        - Browser [e.g. chrome, safari]
+        - Version [e.g. 22]
+        - Device: [e.g. iPhone6]"
+    validations:
+      required: true
