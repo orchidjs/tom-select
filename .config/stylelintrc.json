@@ -8,6 +8,7 @@
     "selector-class-pattern": null,
     "scss/no-global-function-names": null,
     "scss/dollar-variable-pattern": null,
-	"color-function-notation": "legacy"
+	"color-function-notation": "legacy",
+	"scss/at-import-partial-extension": null
   }
 }
