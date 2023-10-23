@@ -71,14 +71,14 @@ $select-spinner-border-color:					$select-color-border !default;
 @import 'items';
 @import 'dropdown';
 
-@import "../plugins/drag_drop/plugin";
-@import "../plugins/checkbox_options/plugin";
-@import "../plugins/clear_button/plugin";
-@import "../plugins/dropdown_header/plugin";
-@import "../plugins/dropdown_input/plugin";
-@import "../plugins/input_autogrow/plugin";
-@import "../plugins/optgroup_columns/plugin";
-@import "../plugins/remove_button/plugin";
+@import "../plugins/drag_drop/plugin.scss";
+@import "../plugins/checkbox_options/plugin.scss";
+@import "../plugins/clear_button/plugin.scss";
+@import "../plugins/dropdown_header/plugin.scss";
+@import "../plugins/dropdown_input/plugin.scss";
+@import "../plugins/input_autogrow/plugin.scss";
+@import "../plugins/optgroup_columns/plugin.scss";
+@import "../plugins/remove_button/plugin.scss";
 
 :root {
 	--ts-pr-clear-button: 0;
