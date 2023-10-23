@@ -92,6 +92,8 @@ const debounce_events = (self, types, fn) => {
  *   - start
  *   - length
  *
+ * Note: "selectionStart, selectionEnd ... apply only to inputs of types text, search, URL, tel and password"
+ * 	- https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
  */
 const getSelection = input => {
   return {

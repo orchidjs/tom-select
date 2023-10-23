@@ -1745,6 +1745,8 @@
 	 *   - start
 	 *   - length
 	 *
+	 * Note: "selectionStart, selectionEnd ... apply only to inputs of types text, search, URL, tel and password"
+	 * 	- https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
 	 */
 	const getSelection = input => {
 	  return {
@@ -2175,7 +2177,6 @@
 	    if (settings.load && settings.loadThrottle) {
 	      settings.load = loadDebounce(settings.load, settings.loadThrottle);
 	    }
-	    self.control_input.type = input.type;
 	    addEvent(dropdown, 'mousemove', () => {
 	      self.ignoreHover = false;
 	    });
