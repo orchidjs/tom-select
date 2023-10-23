@@ -812,7 +812,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (!wasFocused) self.trigger('focus');
 
 		if (!self.activeItems.length) {
-			self.showInput();
+			self.inputState();
 			self.refreshOptions(!!self.settings.openOnFocus);
 		}
 
@@ -1051,7 +1051,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( !item ){
 			self.clearActiveItems();
 			if (self.isFocused) {
-				self.showInput();
+				self.inputState();
 			}
 			return;
 		}
@@ -2359,7 +2359,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.removeItem(item,true);
 		});
 
-		self.showInput();
+		self.inputState();
 		if( !silent ) self.updateOriginalInput();
 		self.trigger('clear');
 	}
@@ -2432,7 +2432,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.removeItem(rm_items.pop());
 		}
 
-		self.showInput();
+		self.inputState();
 		self.positionDropdown();
 		self.refreshOptions(false);
 
