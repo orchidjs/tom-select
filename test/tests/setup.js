@@ -113,17 +113,6 @@
 		});
 
 
-		describe('<input type="number">', function() {
-			it_n('should complete without exceptions', function(done) {
-				var test = setup_test('<input type="number">', {});
-
-				assert.equal(test.instance.control_input.getAttribute('type'), 'number');
-				done();
-
-			});
-		});
-
-
 		describe('<select>', function() {
 			it_n('should complete without exceptions', function() {
 				var test = setup_test('<select></select>', {});

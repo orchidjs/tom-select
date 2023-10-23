@@ -290,8 +290,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			settings.load = loadDebounce(settings.load,settings.loadThrottle)
 		}
 
-		self.control_input.type	= input.type;
-
 		addEvent(dropdown,'mousemove', () => {
 			self.ignoreHover = false;
 		});

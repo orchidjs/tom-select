@@ -102,6 +102,8 @@ export const debounce_events = ( self:TomSelect, types:string[], fn:() => void )
  *   - start
  *   - length
  *
+ * Note: "selectionStart, selectionEnd ... apply only to inputs of types text, search, URL, tel and password"
+ * 	- https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
  */
 export const getSelection = (input:HTMLInputElement):{ start: number; length: number } => {
 	return {
