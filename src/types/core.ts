@@ -56,6 +56,10 @@ export type TomTemplateNames = keyof TomTemplates;
 
 export type TomClearFilter = (option:TomOption,value:string) => boolean;
 
+// https://stackoverflow.com/questions/41980195/recursive-partialt-in-typescript
 export type RecursivePartial<T> = {
-    [P in keyof T]?: RecursivePartial<T[P]>;
+  [P in keyof T]?:
+    T[P] extends (infer U)[] ? RecursivePartial<U>[] :
+    T[P] extends object | undefined ? RecursivePartial<T[P]> :
+    T[P];
 };
