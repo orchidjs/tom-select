@@ -2919,7 +2919,7 @@
 	    }
 
 	    // ensure control has focus
-	    self.hideInput();
+	    self.inputState();
 	    if (!self.isFocused) {
 	      self.focus();
 	    }
@@ -3037,7 +3037,7 @@
 	    if (self.settings.mode === 'single') return;
 	    const activeItems = self.controlChildren();
 	    if (!activeItems.length) return;
-	    self.hideInput();
+	    self.inputState();
 	    self.close();
 	    self.activeItems = activeItems;
 	    iterate$1(activeItems, item => {
@@ -3067,23 +3067,6 @@
 	      self.isInputHidden = false;
 	    }
 	    self.wrapper.classList.toggle('input-hidden', self.isInputHidden);
-	  }
-
-	  /**
-	   * Hides the input element out of view, while
-	   * retaining its focus.
-	   * @deprecated 1.3
-	   */
-	  hideInput() {
-	    this.inputState();
-	  }
-
-	  /**
-	   * Restores input visibility.
-	   * @deprecated 1.3
-	   */
-	  showInput() {
-	    this.inputState();
 	  }
 
 	  /**
@@ -4003,7 +3986,7 @@
 	      // before blur() to prevent form onchange event
 	      self.setTextboxValue();
 	      if (self.settings.mode === 'single' && self.items.length) {
-	        self.hideInput();
+	        self.inputState();
 	      }
 	    }
 	    self.isOpen = false;
