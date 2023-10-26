@@ -194,7 +194,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			control_input		= getDom(settings.controlInput ) as HTMLInputElement;
 
 			// set attributes
-			var attrs = ['autocorrect','autocapitalize','autocomplete'];
+			var attrs = ['autocorrect','autocapitalize','autocomplete','spellcheck'];
 			iterate(attrs,(attr:string) => {
 				if( input.getAttribute(attr) ){
 					setAttr(control_input,{[attr]:input.getAttribute(attr)});
