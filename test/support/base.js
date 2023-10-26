@@ -65,6 +65,8 @@ window.setup_test = function(html, options, callback) {
 	}
 
 	if( select.nodeName == 'SELECT' || select.nodeName == 'INPUT' ){
+		options = options || {};
+		options.refreshThrottle = 0;
 		instance = tomSelect(select,options);
 	}
 

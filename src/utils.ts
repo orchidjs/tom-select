@@ -41,6 +41,18 @@ export const escape_html = (str:string):string => {
 
 
 /**
+ * use setTimeout if timeout > 0 
+ */
+export const timeout = (fn:()=>void,timeout:number) => {
+	if( timeout > 0 ){
+		return setTimeout(fn,timeout);
+	}
+
+	fn.call(null);
+	return null;
+}
+
+/**
  * Debounce the user provided load function
  *
  */

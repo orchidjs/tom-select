@@ -16,6 +16,7 @@ import {
 	preventDefault,
 	addEvent,
 	loadDebounce,
+	timeout,
 	isKeyDown,
 	getId,
 	addSlashes,
@@ -87,6 +88,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public userOptions				: {[key:string]:boolean} = {};
 	public items					: string[] = [];
 
+	private refreshTimeout			: null|ReturnType<typeof setTimeout> = null;
 
 
 	constructor( input_arg: string|TomInput, user_settings:RecursivePartial<TomSettings> ){
@@ -760,23 +762,39 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	onInput(e:MouseEvent|KeyboardEvent):void {
-		var self = this;
-
-		if( self.isLocked ){
+		
+		if( this.isLocked ){
 			return;
 		}
 
-		var value = self.inputValue();
-		if (self.lastValue !== value) {
-			self.lastValue = value;
-
-			if( self.settings.shouldLoad.call(self,value) ){
-				self.load(value);
-			}
-
-			self.refreshOptions();
-			self.trigger('type', value);
+		const value = this.inputValue();
+		if( this.lastValue === value ) return;
+		this.lastValue = value;
+		
+		if( value == '' ){
+			this._onInput();
+			return;
 		}
+
+		if( this.refreshTimeout ){
+			clearTimeout(this.refreshTimeout);
+		}
+
+		this.refreshTimeout = timeout(()=> {
+			this.refreshTimeout = null;
+			this._onInput();
+		}, this.settings.refreshThrottle);
+	}
+
+	_onInput():void {
+		const value = this.lastValue;
+
+		if( this.settings.shouldLoad.call(this,value) ){
+			this.load(value);
+		}
+
+		this.refreshOptions();
+		this.trigger('type', value);
 	}
 
 	/**

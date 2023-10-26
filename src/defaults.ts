@@ -23,6 +23,8 @@ export default {
 	preload: null,
 	allowEmptyOption: false,
 	//closeAfterSelect: false,
+	refreshThrottle: 300,
+
 
 	loadThrottle: 300,
 	loadingClass: 'loading',
