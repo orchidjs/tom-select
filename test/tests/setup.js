@@ -526,7 +526,7 @@
 			});
 
 			it_n('should not hide external control', function() {
-				test.instance.hideInput();
+				test.instance.inputState();
 				assert.equal(test.instance.isInputHidden, false);
 			});
 
