@@ -390,6 +390,17 @@
 		});
 
 
+		describe('<input readonly>', function() {
+			it_n('should be readonly', function() {
+
+				const test = setup_test('<input readonly>', {});
+
+				assert.equal( test.instance.isReadOnly,true);
+				assert.equal( test.instance.wrapper.classList.contains('readonly'),true,`readonly class not found ${test.instance.wrapper.className}`);
+
+			});
+		});
+
 		describe('<select> (custom string render)', function() {
 
 			it_n('should render the custom option element', function(done) {
