@@ -1984,6 +1984,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.sifter = void 0;
     this.isOpen = false;
     this.isDisabled = false;
+    this.isReadOnly = false;
     this.isRequired = void 0;
     this.isInvalid = false;
     // @deprecated 1.8
@@ -2290,6 +2291,8 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     self.isSetup = true;
     if (input.disabled) {
       self.disable();
+    } else if (input.readOnly) {
+      self.setReadOnly(true);
     } else {
       self.enable(); //sets tabIndex
     }
@@ -2653,7 +2656,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
   onFocus(e) {
     var self = this;
     var wasFocused = self.isFocused;
-    if (self.isDisabled) {
+    if (self.isDisabled || self.isReadOnly) {
       self.blur();
       preventDefault(e);
       return;
@@ -3089,7 +3092,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    */
   focus() {
     var self = this;
-    if (self.isDisabled) return;
+    if (self.isDisabled || self.isReadOnly) return;
     self.ignoreFocus = true;
     if (self.control_input.offsetWidth) {
       self.control_input.focus();
@@ -3857,6 +3860,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     const wrap_classList = self.wrapper.classList;
     wrap_classList.toggle('focus', self.isFocused);
     wrap_classList.toggle('disabled', self.isDisabled);
+    wrap_classList.toggle('readonly', self.isReadOnly);
     wrap_classList.toggle('required', self.isRequired);
     wrap_classList.toggle('invalid', !self.isValid);
     wrap_classList.toggle('locked', isLocked);
@@ -4206,15 +4210,21 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    * items are being asynchronously created.
    */
   lock() {
-    this.isLocked = true;
-    this.refreshState();
+    this.setLocked(true);
   }
 
   /**
    * Re-enables user input on the control.
    */
   unlock() {
-    this.isLocked = false;
+    this.setLocked(false);
+  }
+
+  /**
+   * Disable or enable user input on the control
+   */
+  setLocked(lock = this.isReadOnly || this.isDisabled) {
+    this.isLocked = lock;
     this.refreshState();
   }
 
@@ -4223,13 +4233,8 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    * While disabled, it cannot receive focus.
    */
   disable() {
-    var self = this;
-    self.input.disabled = true;
-    self.control_input.disabled = true;
-    self.focus_node.tabIndex = -1;
-    self.isDisabled = true;
+    this.setDisabled(true);
     this.close();
-    self.lock();
   }
 
   /**
@@ -4237,12 +4242,20 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    * to focus and user input.
    */
   enable() {
-    var self = this;
-    self.input.disabled = false;
-    self.control_input.disabled = false;
-    self.focus_node.tabIndex = self.tabIndex;
-    self.isDisabled = false;
-    self.unlock();
+    this.setDisabled(false);
+  }
+  setDisabled(disabled) {
+    this.focus_node.tabIndex = disabled ? -1 : this.tabIndex;
+    this.isDisabled = disabled;
+    this.input.disabled = disabled;
+    this.control_input.disabled = disabled;
+    this.setLocked();
+  }
+  setReadOnly(isReadOnly) {
+    this.isReadOnly = isReadOnly;
+    this.input.readOnly = isReadOnly;
+    this.control_input.readOnly = isReadOnly;
+    this.setLocked();
   }
 
   /**

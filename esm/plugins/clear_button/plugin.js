@@ -119,9 +119,7 @@ function plugin (userOptions) {
   self.on('initialize', () => {
     var button = getDom(options.html(options));
     button.addEventListener('click', evt => {
-      if (self.isDisabled) {
-        return;
-      }
+      if (self.isLocked) return;
       self.clear();
       if (self.settings.mode === 'single' && self.settings.allowEmptyOption) {
         self.addItem('');

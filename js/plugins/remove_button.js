@@ -183,6 +183,8 @@
           preventDefault(evt, true);
         });
         addEvent(close_button, 'click', evt => {
+          if (self.isLocked) return;
+
           // propagating will trigger the dropdown to show for single mode
           preventDefault(evt, true);
           if (self.isLocked) return;
