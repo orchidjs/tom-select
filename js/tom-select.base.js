@@ -2091,7 +2091,7 @@
 	      control_input = getDom(settings.controlInput);
 
 	      // set attributes
-	      var attrs = ['autocorrect', 'autocapitalize', 'autocomplete'];
+	      var attrs = ['autocorrect', 'autocapitalize', 'autocomplete', 'spellcheck'];
 	      iterate$1(attrs, attr => {
 	        if (input.getAttribute(attr)) {
 	          setAttr(control_input, {
