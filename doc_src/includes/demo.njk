@@ -44,10 +44,10 @@
 {% endmacro %}
 
 
-{% macro demo( label, html, script, style, jquery ) %}
+{% macro demo( label, html, script, style ) %}
 	{% set dd = demo_count.push('a') %}
 
-	<div class="demo py-4 {% if jquery %} demo-jquery {% endif %}">
+	<div class="demo py-4">
 
 		{{ label | safe }}
 	<div>
@@ -116,9 +116,9 @@
 	</div>
 {% endmacro %}
 
-{% macro demo_small( html, script, style, jquery ) %}
+{% macro demo_small( html, script, style ) %}
 
-	<div class="demo demo-small {% if jquery %} demo-jquery {% endif %}">
+	<div class="demo demo-small">
 		<div class="d-flex align-items-end flex-wrap">
 			<ul class="nav nav-tabs ms-auto flex-nowrap" role="tablist">
 				{% if script %}
@@ -142,7 +142,7 @@
 {% endmacro %}
 
 
-{% macro demo_mini( label, html, script, style, jquery ) %}
+{% macro demo_mini( label, html, script, style ) %}
 
 	<div class="demo demo-mini">
 	<div>

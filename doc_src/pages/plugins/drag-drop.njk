@@ -2,7 +2,6 @@
 title: Drag 'n Drop
 nav_title: Drag 'n Drop
 tags: demo
-script: <script src="/js/jquery.min.js"></script><script src="/js/jqueryui.js"></script>
 
 ---
 
@@ -16,7 +15,7 @@ script: <script src="/js/jquery.min.js"></script><script src="/js/jqueryui.js"><
 <label class="h2 mb-3">
 	Example
 </label>
-<p>Drag 'n drop selected items. Requires jQuery + jQuery UI</p>
+<p>Drag 'n drop selected items</p>
 {% endset %}
 
 {% set html %}
@@ -33,7 +32,7 @@ new TomSelect('#input-sortable',{
 {% endset %}
 </script>
 
-{{ demo( label, html, script,'',true) }}
+{{ demo( label, html, script,'') }}
 
 
 <h2>Plugin Configuration</h2>

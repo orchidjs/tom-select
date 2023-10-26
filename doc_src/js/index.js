@@ -152,12 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			var js_urls			= ['https://cdn.jsdelivr.net/npm/tom-select@//@@version/dist/js/tom-select.complete.min.js'];
 
 
-			// add jquery when needed
-			if( demo.classList.contains('demo-jquery') ){
-				js_urls.push('https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js');
-				js_urls.push('https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.js');
-			}
-
 			// codesandbox
 			codesandbox = {
 				files: {
