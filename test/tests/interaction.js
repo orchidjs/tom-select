@@ -16,7 +16,8 @@
 				var test = setup_test('AB_Multi',{});
 
 				click(test.instance.control, function() {
-					click($('[data-value=a]', test.instance.dropdown_content), function() {
+
+					click(test.instance.dropdown_content.querySelector('[data-value=a]'), function() {
 						expect(test.instance.isOpen).to.be.equal(true);
 						expect(test.instance.isFocused).to.be.equal(true);
 						done();
@@ -29,7 +30,7 @@
 				var test = setup_test('AB_Multi',{dropdownParent:'body'});
 
 				click(test.instance.control, function() {
-					click($('[data-value=a]', test.instance.dropdown_content), function() {
+					click( test.instance.dropdown_content.querySelector('[data-value=a]'), function() {
 						expect(test.instance.isOpen).to.be.equal(true);
 						expect(test.instance.isFocused).to.be.equal(true);
 						done();
@@ -42,7 +43,7 @@
 				var test = setup_test('AB_Multi',{closeAfterSelect: true});
 
 				click(test.instance.control, function() {
-					click($('[data-value=a]', test.instance.dropdown_content), function() {
+					click( test.instance.dropdown_content.querySelector('[data-value=a]'), function() {
 
 						assert.equal(test.instance.isOpen, false, 'should be closed after select');
 						assert.equal(test.instance.isFocused, true, 'should be closed w/ focus after select');
@@ -383,11 +384,11 @@
 					var option_b = test.html.querySelector('option[value="b"]');
 					assert.equal(option_a.nextSibling, option_b,'should be original order');
 
-					click($('[data-value="b"]', test.instance.dropdown), function() {
+					click( test.instance.dropdown.querySelector('[data-value="b"]'), function() {
 
 						syn.type('new',test.instance.control_input,function(){
 							syn.type('[enter]',test.instance.control_input, function(){
-								click($('[data-value="a"]', test.instance.dropdown), function() {
+								click( test.instance.dropdown.querySelector('[data-value="a"]'), function() {
 									var selected = test.html.querySelectorAll('option:checked');
 									assert.equal(selected.length, 3,'should have three selected options');
 									assert.equal(option_b.nextSibling.value, 'new' ,'"new" should be after "b"');
@@ -431,8 +432,8 @@
 					syn.type('a', test.instance.control_input)
 					.delay(0, function() {
 						assert.equal(test.instance.control_input.value,'a','control_input should have value="a"');
-						expect($('[data-value="a"]', test.instance.dropdown).length).to.be.equal(1);
-						expect($('[data-value="b"]', test.instance.dropdown).length).to.be.equal(0);
+						expect( test.instance.dropdown.querySelectorAll('[data-value="a"]').length).to.be.equal(1);
+						expect( test.instance.dropdown.querySelectorAll('[data-value="b"]').length).to.be.equal(0);
 
 						click(test.instance.control_input,function(){
 							assert.equal(test.instance.control_input.value,'a','should not clear control_input');
@@ -553,7 +554,7 @@
 				click(test.instance.control, function() {
 					// Here, the 'S' in St will also match the 's' in Isabel (a duplicate match)
 					syn.type('Isabel St', test.instance.control_input, function() {
-						expect($(test.instance.dropdown_content).find('.option[data-value=b]').text()).to.be.equal('Isabel Street');
+						expect( test.instance.dropdown_content.querySelector('.option[data-value=b]').textContent ).to.be.equal('Isabel Street');
 						done();
 					});
 				});
@@ -1229,7 +1230,7 @@
 				);
 
 				execFilterTests('should not add an item or display the create label if the input does not match the createFilter (B)', ['foo', /foo/, function() { return false; }], function(instance) {
-					expect($(instance.dropdown_content).filter('.create').length).to.be.equal(0);
+					expect( instance.dropdown_content.querySelectorAll('.create').length ).to.be.equal(0);
 				});
 
 			});
