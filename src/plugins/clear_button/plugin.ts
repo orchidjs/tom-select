@@ -32,9 +32,7 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 		var button = getDom(options.html(options));
 		button.addEventListener('click',(evt)=>{
 
-			if( self.isDisabled ){
-				return;
-			}
+			if( self.isLocked ) return;
 
 			self.clear();
 

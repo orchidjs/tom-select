@@ -56,6 +56,8 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 
 			addEvent(close_button,'click',(evt) => {
 
+				if( self.isLocked ) return;
+
 				// propagating will trigger the dropdown to show for single mode
 				preventDefault(evt,true);
 
