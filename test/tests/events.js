@@ -79,7 +79,7 @@ describe('Events', function() {
 
 			syn.click(test.instance.control).delay(0, function() {
 				syn
-					.click($('[data-value="a"]', $(test.instance.dropdown)))
+					.click( test.instance.dropdown.querySelector('[data-value="a"]') )
 					.delay(0, function() {
 						expect(test.counter).to.be.equal(0);
 						done();
@@ -97,7 +97,7 @@ describe('Events', function() {
 
 			syn.click(test.instance.control).delay(0, function() {
 				syn
-					.click($('[data-value="a"]', $(test.instance.dropdown)))
+					.click( test.instance.dropdown.querySelector('[data-value="a"]') )
 					.delay(0, function() {
 						expect(test.counter).to.be.equal(0);
 						done();
@@ -118,7 +118,7 @@ describe('Events', function() {
 
 			syn.click(test.instance.control).delay(0, function() {
 				syn
-					.click($('[data-value="c"]', $(test.instance.dropdown)))
+					.click( test.instance.dropdown.querySelector('[data-value="c"]') )
 					.delay(0, function() {
 						expect(test.counter).to.be.equal(0);
 						done();
@@ -148,7 +148,7 @@ describe('Events', function() {
 
 			syn.click(test.instance.control).delay(0, function() {
 				syn
-					.click($('[data-value="a"]', test.instance.dropdown))
+					.click( test.instance.dropdown.querySelector('[data-value="a"]') )
 					.delay(0, function() {
 						expect(counter).to.be.equal(0);
 						done();

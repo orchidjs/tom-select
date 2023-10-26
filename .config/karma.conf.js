@@ -156,7 +156,6 @@ module.exports = function(config) {
 
 			'build/js/tom-select.complete.js',
 			'node_modules/syn/dist/global/syn.js',
-			'node_modules/jquery/dist/jquery.js',
 			'build/css/tom-select.default.css',
 			'test/support/*.js',
 			config.test_one ? 'test/tests/interaction.js' : 'test/tests/**/*.js',

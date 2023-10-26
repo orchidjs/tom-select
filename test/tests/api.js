@@ -21,7 +21,7 @@
 			});
 			it_n('should add "disabled" attribute on inputs', function() {
 				expect(test.instance.input.disabled).to.be.equal(true);
-				expect( $(test.instance.control_input).is(':disabled')).to.be.equal(true);
+				expect( test.instance.control_input.disabled ).to.be.equal(true);
 			});
 		});
 
@@ -68,7 +68,7 @@
 			});
 			it_n('should remove "disabled" attribute on inputs', function() {
 				expect(test.instance.input.disabled).to.be.equal(false);
-				expect( $(test.instance.control_input).is(':disabled')).to.be.equal(false);
+				expect( test.instance.control_input.disabled ).to.be.equal(false);
 			});
 		});
 
@@ -405,16 +405,16 @@
 			});
 			it_n('should update DOM (1)', function() {
 				test.instance.addItem('c');
-				expect( $(test.instance.control).find('[data-value=c]').length).to.be.equal(1);
+				expect( test.instance.control.querySelectorAll('[data-value=c]').length).to.be.equal(1);
 
 				test.instance.addItem('$1');
 				var found = false;
-				$(test.instance.control).children().each(function() {
-					if (this.getAttribute('data-value') === '$1') {
+				for( const child of test.instance.control.children ){
+					if( child.getAttribute('data-value') === '$1' ){
 						found = true;
-						return false;
+						break;
 					}
-				});
+				}
 				expect(found).to.be.equal(true);
 			});
 

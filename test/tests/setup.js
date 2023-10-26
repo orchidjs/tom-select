@@ -326,8 +326,8 @@
 
 				test.instance.refreshOptions(true);
 
-				$(test.instance.dropdown).find('[data-value]').each(function(i, el) {
-					order_actual.push($(el).attr('data-value'));
+				test.instance.dropdown.querySelectorAll('[data-value]').forEach(function(el) {
+					order_actual.push( el.dataset.value );
 				});
 
 				expect(order_actual).to.eql(order_expected);
@@ -342,8 +342,8 @@
 
 				test.instance.refreshOptions(true);
 
-				expect($(test.instance.dropdown).find('.option')).to.has.length(2);
-				expect($(test.instance.dropdown).find('[data-selectable]')).to.has.length(1);
+				expect( test.instance.dropdown.querySelectorAll('.option') ).to.has.length(2);
+				expect( test.instance.dropdown.querySelectorAll('[data-selectable]') ).to.has.length(1);
 				done();
 
 			});
@@ -455,13 +455,13 @@
 				test.instance.focus();
 
 				window.setTimeout(function() {
-					expect($(test.instance.dropdown_content).find('.custom-option').length).to.be.equal(1);
+					expect( test.instance.dropdown_content.querySelectorAll('.custom-option').length ).to.be.equal(1);
 					done();
 				}, 5);
 			});
 		});
 
-		describe('<select> (custom jquery render)', function() {
+		describe('<select> (custom render)', function() {
 			var test;
 
 			beforeEach(function() {
@@ -471,7 +471,11 @@
 				'</select>', {
 					render: {
 						option: function(item, escape) {
-							return $('<div class="option custom-option">').text(item.text);
+
+							let div = document.createElement('div');
+							div.className = 'option custom-option';
+							div.innerText = item.text;
+							return div
 						}
 					}
 				});
@@ -481,7 +485,7 @@
 				test.instance.focus();
 
 				window.setTimeout(function() {
-					expect($(test.instance.dropdown_content).find('.custom-option').length).to.be.equal(1);
+					expect( test.instance.dropdown_content.querySelectorAll('.custom-option').length).to.be.equal(1);
 					done();
 				}, 5);
 			});
