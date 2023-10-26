@@ -35,6 +35,17 @@ const escape_html = str => {
 };
 
 /**
+ * use setTimeout if timeout > 0 
+ */
+const timeout = (fn, timeout) => {
+  if (timeout > 0) {
+    return setTimeout(fn, timeout);
+  }
+  fn.call(null);
+  return null;
+};
+
+/**
  * Debounce the user provided load function
  *
  */
@@ -171,5 +182,5 @@ const append = (parent, node) => {
   if (node) parent.append(node);
 };
 
-export { addEvent, addSlashes, append, debounce_events, escape_html, getId, getSelection, get_hash, hash_key, isKeyDown, loadDebounce, preventDefault };
+export { addEvent, addSlashes, append, debounce_events, escape_html, getId, getSelection, get_hash, hash_key, isKeyDown, loadDebounce, preventDefault, timeout };
 //# sourceMappingURL=utils.js.map

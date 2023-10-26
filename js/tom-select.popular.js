@@ -1595,7 +1595,7 @@
 	  preload: null,
 	  allowEmptyOption: false,
 	  //closeAfterSelect: false,
-
+	  refreshThrottle: 300,
 	  loadThrottle: 300,
 	  loadingClass: 'loading',
 	  dataAttr: null,
@@ -1685,6 +1685,17 @@
 	 */
 	const escape_html = str => {
 	  return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	};
+
+	/**
+	 * use setTimeout if timeout > 0 
+	 */
+	const timeout = (fn, timeout) => {
+	  if (timeout > 0) {
+	    return setTimeout(fn, timeout);
+	  }
+	  fn.call(null);
+	  return null;
 	};
 
 	/**
@@ -2001,6 +2012,7 @@
 	    this.options = {};
 	    this.userOptions = {};
 	    this.items = [];
+	    this.refreshTimeout = null;
 	    instance_i++;
 	    var dir;
 	    var input = getDom(input_arg);
@@ -2603,19 +2615,31 @@
 	   *
 	   */
 	  onInput(e) {
-	    var self = this;
-	    if (self.isLocked) {
+	    if (this.isLocked) {
 	      return;
 	    }
-	    var value = self.inputValue();
-	    if (self.lastValue !== value) {
-	      self.lastValue = value;
-	      if (self.settings.shouldLoad.call(self, value)) {
-	        self.load(value);
-	      }
-	      self.refreshOptions();
-	      self.trigger('type', value);
+	    const value = this.inputValue();
+	    if (this.lastValue === value) return;
+	    this.lastValue = value;
+	    if (value == '') {
+	      this._onInput();
+	      return;
 	    }
+	    if (this.refreshTimeout) {
+	      clearTimeout(this.refreshTimeout);
+	    }
+	    this.refreshTimeout = timeout(() => {
+	      this.refreshTimeout = null;
+	      this._onInput();
+	    }, this.settings.refreshThrottle);
+	  }
+	  _onInput() {
+	    const value = this.lastValue;
+	    if (this.settings.shouldLoad.call(this, value)) {
+	      this.load(value);
+	    }
+	    this.refreshOptions();
+	    this.trigger('type', value);
 	  }
 
 	  /**

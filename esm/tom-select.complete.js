@@ -1589,7 +1589,7 @@ var defaults = {
   preload: null,
   allowEmptyOption: false,
   //closeAfterSelect: false,
-
+  refreshThrottle: 300,
   loadThrottle: 300,
   loadingClass: 'loading',
   dataAttr: null,
@@ -1679,6 +1679,17 @@ const get_hash = value => {
  */
 const escape_html = str => {
   return (str + '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+};
+
+/**
+ * use setTimeout if timeout > 0 
+ */
+const timeout = (fn, timeout) => {
+  if (timeout > 0) {
+    return setTimeout(fn, timeout);
+  }
+  fn.call(null);
+  return null;
 };
 
 /**
@@ -1995,6 +2006,7 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     this.options = {};
     this.userOptions = {};
     this.items = [];
+    this.refreshTimeout = null;
     instance_i++;
     var dir;
     var input = getDom(input_arg);
@@ -2597,19 +2609,31 @@ class TomSelect extends MicroPlugin(MicroEvent) {
    *
    */
   onInput(e) {
-    var self = this;
-    if (self.isLocked) {
+    if (this.isLocked) {
       return;
     }
-    var value = self.inputValue();
-    if (self.lastValue !== value) {
-      self.lastValue = value;
-      if (self.settings.shouldLoad.call(self, value)) {
-        self.load(value);
-      }
-      self.refreshOptions();
-      self.trigger('type', value);
+    const value = this.inputValue();
+    if (this.lastValue === value) return;
+    this.lastValue = value;
+    if (value == '') {
+      this._onInput();
+      return;
     }
+    if (this.refreshTimeout) {
+      clearTimeout(this.refreshTimeout);
+    }
+    this.refreshTimeout = timeout(() => {
+      this.refreshTimeout = null;
+      this._onInput();
+    }, this.settings.refreshThrottle);
+  }
+  _onInput() {
+    const value = this.lastValue;
+    if (this.settings.shouldLoad.call(this, value)) {
+      this.load(value);
+    }
+    this.refreshOptions();
+    this.trigger('type', value);
   }
 
   /**
@@ -4566,44 +4590,102 @@ function clear_button (userOptions) {
  *
  */
 
+const insertAfter = (referenceNode, newNode) => {
+  var _referenceNode$parent;
+  (_referenceNode$parent = referenceNode.parentNode) == null || _referenceNode$parent.insertBefore(newNode, referenceNode.nextSibling);
+};
+const insertBefore = (referenceNode, newNode) => {
+  var _referenceNode$parent2;
+  (_referenceNode$parent2 = referenceNode.parentNode) == null || _referenceNode$parent2.insertBefore(newNode, referenceNode);
+};
+const isBefore = (referenceNode, newNode) => {
+  do {
+    var _newNode;
+    newNode = (_newNode = newNode) == null ? void 0 : _newNode.previousElementSibling;
+    if (referenceNode == newNode) {
+      return true;
+    }
+  } while (newNode && newNode.previousElementSibling);
+  return false;
+};
 function drag_drop () {
   var self = this;
-  if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
   if (self.settings.mode !== 'multi') return;
   var orig_lock = self.lock;
   var orig_unlock = self.unlock;
+  let sortable = true;
+  let drag_item;
+
+  /**
+   * Add draggable attribute to item
+   */
+  self.hook('after', 'setupTemplates', () => {
+    var orig_render_item = self.settings.render.item;
+    self.settings.render.item = (data, escape) => {
+      const item = getDom(orig_render_item.call(self, data, escape));
+      setAttr(item, {
+        'draggable': 'true'
+      });
+
+      // prevent doc_mousedown (see tom-select.ts)
+      const mousedown = evt => {
+        if (!sortable) preventDefault(evt);
+        evt.stopPropagation();
+      };
+      const dragStart = evt => {
+        drag_item = item;
+        setTimeout(() => {
+          item.classList.add('ts-dragging');
+        }, 0);
+      };
+      const dragOver = evt => {
+        evt.preventDefault();
+        item.classList.add('ts-drag-over');
+        moveitem(item, drag_item);
+      };
+      const dragLeave = () => {
+        item.classList.remove('ts-drag-over');
+      };
+      const moveitem = (targetitem, dragitem) => {
+        if (dragitem === undefined) return;
+        if (isBefore(dragitem, item)) {
+          insertAfter(targetitem, dragitem);
+        } else {
+          insertBefore(targetitem, dragitem);
+        }
+      };
+      const dragend = () => {
+        var _drag_item;
+        document.querySelectorAll('.ts-drag-over').forEach(el => el.classList.remove('ts-drag-over'));
+        (_drag_item = drag_item) == null || _drag_item.classList.remove('ts-dragging');
+        drag_item = undefined;
+        var values = [];
+        self.control.querySelectorAll(`[data-value]`).forEach(el => {
+          if (el.dataset.value) {
+            let value = el.dataset.value;
+            if (value) {
+              values.push(value);
+            }
+          }
+        });
+        self.setValue(values);
+      };
+      addEvent(item, 'mousedown', mousedown);
+      addEvent(item, 'dragstart', dragStart);
+      addEvent(item, 'dragenter', dragOver);
+      addEvent(item, 'dragover', dragOver);
+      addEvent(item, 'dragleave', dragLeave);
+      addEvent(item, 'dragend', dragend);
+      return item;
+    };
+  });
   self.hook('instead', 'lock', () => {
-    var sortable = $(self.control).data('sortable');
-    if (sortable) sortable.disable();
+    sortable = false;
     return orig_lock.call(self);
   });
   self.hook('instead', 'unlock', () => {
-    var sortable = $(self.control).data('sortable');
-    if (sortable) sortable.enable();
+    sortable = true;
     return orig_unlock.call(self);
-  });
-  self.on('initialize', () => {
-    var $control = $(self.control).sortable({
-      items: '[data-value]',
-      forcePlaceholderSize: true,
-      disabled: self.isLocked,
-      start: (e, ui) => {
-        ui.placeholder.css('width', ui.helper.css('width'));
-        $control.css({
-          overflow: 'visible'
-        });
-      },
-      stop: () => {
-        $control.css({
-          overflow: 'hidden'
-        });
-        var values = [];
-        $control.children('[data-value]').each(function () {
-          if (this.dataset.value) values.push(this.dataset.value);
-        });
-        self.setValue(values);
-      }
-    });
   });
 }
 
