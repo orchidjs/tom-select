@@ -14,7 +14,7 @@ body:
     id: bug-description
     attributes:
       label: Bug description
-      description: Provide a description of the bug you're experiencing.
+      description: Provide a description of the bug you're experiencing. Please include any relevant error messages.
     validations:
       required: true
   - type: textarea
