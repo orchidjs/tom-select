@@ -6,7 +6,7 @@ import { escape_html } from '../utils';
 export interface TomInput extends HTMLElement{
 	tomselect				?: TomSelect;
 	disabled				: boolean;
-	readOnly				: boolean;
+	readOnly				?: boolean;
 	required				: boolean;
 	value					: string;
 	type					: string;
