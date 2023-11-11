@@ -18,6 +18,12 @@ import { preventDefault, hash_key } from '../../utils';
 import { getDom } from '../../vanilla';
 import { CBOptions } from './types';
 
+function wrap(nodes:Array<HTMLElement>) {
+	const wrapper = document.createElement('div')
+	nodes.forEach((n:HTMLElement) => wrapper.appendChild(n))
+
+	return wrapper
+}
 
 export default function(this:TomSelect, userOptions:CBOptions) {
 	var self = this;
@@ -85,7 +91,10 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 
 			UpdateChecked(checkbox, !!(hashed && self.items.indexOf(hashed) > -1) );
 
-			rendered.prepend(checkbox);
+			const nodes = Array.prototype.slice.call(rendered.childNodes)
+			rendered.appendChild(wrap(nodes));
+			rendered.prepend(wrap([checkbox]));
+
 			return rendered;
 		};
 	});
