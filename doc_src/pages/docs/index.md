@@ -197,9 +197,15 @@ create: function(input,callback){
 	</tr>
 	<tr>
 		<td><code>allowEmptyOption</code></td>
-		<td>If true, any options with a "" value will be treated like normal. This defaults to false to accommodate the common &lt;select&gt; practice of having the first empty option to act as a placeholder.</td>
+		<td>If true, any options with value="" (or other value if specified by <code>emptyOptionValue</code>) will be treated like normal. This defaults to false to accommodate the common &lt;select&gt; practice of having the first empty option to act as a placeholder.</td>
 		<td><code>boolean</code></td>
 		<td><code>false</code></td>
+	</tr>
+	<tr>
+		<td><code>emptyOptionValue</code></td>
+		<td>The value of an option that is to be treated as empty in case <code>allowEmptyOption</code> is <code>false</code>.</td>
+		<td><code>string</code></td>
+		<td><code>''</code></td>
 	</tr>
 	<tr>
 		<td><code>loadThrottle</code></td>

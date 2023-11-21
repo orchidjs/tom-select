@@ -39,6 +39,11 @@ export const escape_html = (str:string):string => {
 		.replace(/"/g, '&quot;');
 };
 
+/**
+ * Escapes a string for use within a CSS selector.
+ */
+export const escape_css = (str:string):string => CSS.escape(str);
+
 
 /**
  * use setTimeout if timeout > 0 

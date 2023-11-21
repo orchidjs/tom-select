@@ -11,6 +11,7 @@ import {
 	hash_key,
 	get_hash,
 	escape_html,
+	escape_css,
 	debounce_events,
 	getSelection,
 	preventDefault,
@@ -2207,7 +2208,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		const self = this;
 		var option, label;
 
-		const empty_option = self.input.querySelector('option[value=""]') as HTMLOptionElement;
+		const empty_option = self.input.querySelector(`option[value="${escape_css(self.settings.emptyOptionValue)}"]`) as HTMLOptionElement;
 
 		if( self.is_select_tag ){
 
