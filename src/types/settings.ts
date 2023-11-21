@@ -30,6 +30,7 @@ export type TomSettings = {
 	selectOnTab				: boolean,
 	preload					: boolean|string,
 	allowEmptyOption		: boolean,
+	emptyOptionValue		: string,
 	closeAfterSelect		: boolean,
 	refreshThrottle			: number,
 

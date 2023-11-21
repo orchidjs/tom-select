@@ -22,6 +22,7 @@ export default {
 	selectOnTab: false,
 	preload: null,
 	allowEmptyOption: false,
+	emptyOptionValue: '',
 	//closeAfterSelect: false,
 	refreshThrottle: 300,
 

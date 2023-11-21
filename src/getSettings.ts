@@ -1,5 +1,5 @@
 import defaults from './defaults';
-import { hash_key } from './utils';
+import { hash_key, escape_css } from './utils';
 import { TomOption, TomSettings, RecursivePartial } from './types/index';
 import { iterate } from '@orchidjs/sifter/lib/utils';
 import { TomInput } from './types/index';
@@ -19,8 +19,10 @@ export default function getSettings( input:TomInput, settings_user:RecursivePart
 	var tag_name				= input.tagName.toLowerCase();
 	var placeholder				= input.getAttribute('placeholder') || input.getAttribute('data-placeholder');
 
+	var empty_option_value 		= settings.emptyOptionValue;
+
 	if (!placeholder && !settings.allowEmptyOption) {
-		let option		= input.querySelector('option[value=""]');
+		let option		= input.querySelector(`option[value="${escape_css(empty_option_value)}"]`);
 		if( option ){
 			placeholder = option.textContent;
 		}
@@ -69,7 +71,7 @@ export default function getSettings( input:TomInput, settings_user:RecursivePart
 
 			var value = hash_key(option.value);
 			if ( value == null ) return;
-			if ( !value && !settings.allowEmptyOption) return;
+			if ( option.value == settings.emptyOptionValue && !settings.allowEmptyOption) return;
 
 			// if the option already exists, it's probably been
 			// duplicated in another optgroup. in this case, push
