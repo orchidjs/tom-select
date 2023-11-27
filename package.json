@@ -62,7 +62,7 @@
     "grunt-shell": "^4.0.0",
     "husky": "^8.0.3",
     "icon-blender": "^1.0.0-beta.4",
-    "jsdom": "^22.1.0",
+    "jsdom": "^23.0.0",
     "karma": "^6.4.2",
     "karma-browserstack-launcher": "^1.6.0",
     "karma-chai": "^0.1.0",
