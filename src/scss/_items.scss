@@ -54,8 +54,8 @@
 
 	.#{$select-ns}-wrapper.multi.disabled & > div {
 		&, &.active {
-			color: lighten(desaturate($select-color-item-text, 100%), $select-lighten-disabled-item-text);
-			background: lighten(desaturate($select-color-item, 100%), $select-lighten-disabled-item);
+			color: $select-color-item-text, $select-lighten-disabled-item-text;
+			background: $select-color-item, $select-lighten-disabled-item;
 			border: $select-width-item-border solid lighten(desaturate($select-color-item-border, 100%), $select-lighten-disabled-item-border);
 		}
 	}

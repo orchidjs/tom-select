@@ -19,6 +19,6 @@
 	}
 
 	.dropdown-header-close:hover {
-		color: darken($select-color-text, 25%);
+		filter: contrast(200%);
 	}
 }

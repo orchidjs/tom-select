@@ -35,9 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	var themes			= window.themes || ['bootstrap5','bootstrap4','default'];
 	var theme_options = {
+		bootstrap5D: 'Bootstrap 5 Dark',
 		bootstrap5: 'Bootstrap 5',
-		bootstrap4: 'Bootstrap 4',
-		default: 'Default',
+        bootstrap4: 'Bootstrap 4',
+        default: 'Default',
 	};
 
 	var theme			= localStorage.getItem('theme');
@@ -97,11 +98,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		link				= document.createElement('link');
 		link.id				= 'select-theme';
-
+		let clean_theme;
+		let color_mode;
+		switch(theme) {
+			case 'bootstrap5D':
+				color_mode = 'dark'
+				clean_theme = 'bootstrap5'
+				break;
+			default:
+				color_mode = 'light'
+				clean_theme = theme
+		}
+		
 		link.setAttribute('rel','stylesheet');
-		link.setAttribute('href','/css/tom-select.' + theme + '.css');
+		link.setAttribute('href','/css/tom-select.' + clean_theme + '.css');
 		document.getElementsByTagName('head')[0].appendChild(link);
-
+		document.getElementsByTagName('body')[0].dataset.bsTheme = color_mode;
 	}
 
 
