@@ -60,7 +60,7 @@
     "grunt-replace": "^2.0.0",
     "grunt-sass": "^3.1.0",
     "grunt-shell": "^4.0.0",
-    "husky": "^8.0.3",
+    "husky": "^9.0.2",
     "icon-blender": "^1.0.0-beta.4",
     "jsdom": "^22.1.0",
     "karma": "^6.4.2",
