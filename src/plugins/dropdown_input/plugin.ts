@@ -18,58 +18,58 @@ import * as constants from '../../constants';
 import { getDom, addClasses, removeClasses } from '../../vanilla';
 import { preventDefault } from '../../utils';
 
-export default function(this:TomSelect) {
+export default function (this: TomSelect) {
 	const self = this;
 	const dropdownInputWrap = getDom('<div class="dropdown-input-wrap">');
 
-	const moveToDropdown = ()=>{
+	const delayedRefocus = () => {
+		self.ignoreFocus = true;
+		setTimeout(() => {
+			self.focus_node.focus();
+			self.ignoreFocus = false;
+		}, 0);
+	}
+
+	const moveToDropdown = () => {
 		if (!dropdownInputWrap.contains(self.focus_node)) {
 			dropdownInputWrap.append(self.focus_node);
-			addClasses( self.focus_node, 'dropdown-input');
-			self.ignoreFocus = true;
-			setTimeout(() => {
-				self.focus_node.focus();
-				self.ignoreFocus = false;
-			}, 0);
+			addClasses(self.focus_node, 'dropdown-input');
+			delayedRefocus();
 			self.control_input.placeholder = self.settings.placeholder;
 			self.isInputHidden = false;
-			removeClasses( self.wrapper, 'input-hidden');		
+			removeClasses(self.wrapper, 'input-hidden');
 		}
 	}
-	const moveToControl = ()=>{
+	
+	const moveToControl = () => {
 		if (!self.control.contains(self.focus_node)) {
-			removeClasses( self.focus_node, 'dropdown-input');
+			removeClasses(self.focus_node, 'dropdown-input');
 			self.control.append(self.focus_node);
-			self.ignoreFocus = true;
-			setTimeout(() => {
-				self.focus_node.focus();
-				self.ignoreFocus = false;
-			}, 0);
+			delayedRefocus();
 			self.inputState();
 		}
 	}
 
 	self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
-	self.hook('before','setup',()=>{
+	self.hook('before', 'setup', () => {
 		self.dropdown.insertBefore(dropdownInputWrap, self.dropdown.firstChild);
 	});
 
-	self.on('initialize',()=>{
+	self.on('initialize', () => {
 		// Change parent depending on if dropdown is visible
 		self.on('dropdown_open', moveToDropdown);
 		self.on('dropdown_close', moveToControl);
 		// Make sure we can still open on keydown
-		self.focus_node.addEventListener('keydown', (evt:KeyboardEvent) =>{
-			switch( evt.keyCode ){
+		self.focus_node.addEventListener('keydown', (evt: KeyboardEvent) => {
+			switch (evt.keyCode) {
 				case constants.KEY_DOWN:
 					if (!self.isOpen) {
-						preventDefault(evt,true);
+						preventDefault(evt, true);
 						self.open();
 					}
-				return;					
+					return;
 			}
 		});
 	});
-
 };
