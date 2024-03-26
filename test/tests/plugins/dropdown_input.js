@@ -5,15 +5,12 @@ describe('plugin: dropdown_input', function() {
 
 	it_n('dropdown should open onclick', async () => {
 		let test = setup_test('<input value="a,b" tabindex="1" placeholder="test placeholder" />', {plugins: ['dropdown_input']});
-		let placeholder = test.instance.control.querySelector('.items-placeholder');
 
-		assert.isFalse( isVisible(placeholder),'items-placeholder should not be visible');
-		assert.isTrue( test.instance.dropdown.contains(test.instance.control_input), 'control_input should be in dropdown');
-
+		assert.isFalse( test.instance.dropdown.contains(test.instance.control_input), 'control_input should not be in dropdown');
 		await asyncClick(test.instance.control);
 		assert.equal(test.instance.isOpen, true);
 		assert.equal(document.activeElement, test.instance.control_input);
-
+		assert.isTrue( test.instance.dropdown.contains(test.instance.control_input), 'control_input should be in dropdown');
 	});
 
 	it_n('dropdown should open onclick without available options', async () => {
@@ -109,12 +106,8 @@ describe('plugin: dropdown_input', function() {
 			plugins: ['dropdown_input'],
 		});
 
-		let placeholder = test.instance.control.querySelector('.items-placeholder');
-		assert.isTrue( isVisible(placeholder),'items-placeholder should be visible');
-
 		await asyncClick( test.instance.control );
 		assert.isTrue( test.instance.isOpen );
-		assert.isFalse( isVisible(placeholder),'items-placeholder should not be visible');
 
 		await asyncType('[escape]');
 		assert.isFalse( test.instance.isOpen, 'not closed' );
@@ -174,5 +167,19 @@ describe('plugin: dropdown_input', function() {
 		await waitFor(10);
 
 		assert.equal( test.instance.items.length, 3);
+	});
+
+	it_n('update active descendent on [down] and [up]', async () => {
+		var test = setup_test('AB_Single', {plugins: ['dropdown_input']});
+		let lastActiveDescendant = "";
+		await asyncClick(test.instance.control);
+		await asyncType('[down]');
+		assert.isTrue(test.instance.focus_node.getAttribute("aria-activedescendant") != lastActiveDescendant);
+		lastActiveDescendant = test.instance.focus_node.getAttribute("aria-activedescendant");
+		await asyncType('[down]');
+		assert.isTrue(test.instance.focus_node.getAttribute("aria-activedescendant") != lastActiveDescendant);
+		lastActiveDescendant = test.instance.focus_node.getAttribute("aria-activedescendant");
+		await asyncType('[up]');
+		assert.isTrue(test.instance.focus_node.getAttribute("aria-activedescendant") != lastActiveDescendant);
 	});
 });

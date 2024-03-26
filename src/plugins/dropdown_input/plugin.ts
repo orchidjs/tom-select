@@ -15,78 +15,61 @@
 
 import TomSelect from '../../tom-select';
 import * as constants from '../../constants';
-import { getDom, addClasses } from '../../vanilla';
-import { addEvent, preventDefault } from '../../utils';
-
+import { getDom, addClasses, removeClasses } from '../../vanilla';
+import { preventDefault } from '../../utils';
 
 export default function(this:TomSelect) {
 	const self = this;
+	const dropdownInputWrap = getDom('<div class="dropdown-input-wrap">');
+
+	const moveToDropdown = ()=>{
+		if (!dropdownInputWrap.contains(self.focus_node)) {
+			dropdownInputWrap.append(self.focus_node);
+			addClasses( self.focus_node, 'dropdown-input');
+			self.ignoreFocus = true;
+			setTimeout(() => {
+				self.focus_node.focus();
+				self.ignoreFocus = false;
+			}, 0);
+			self.control_input.placeholder = self.settings.placeholder;
+			self.isInputHidden = false;
+			removeClasses( self.wrapper, 'input-hidden');		
+		}
+	}
+	const moveToControl = ()=>{
+		if (!self.control.contains(self.focus_node)) {
+			removeClasses( self.focus_node, 'dropdown-input');
+			self.control.append(self.focus_node);
+			self.ignoreFocus = true;
+			setTimeout(() => {
+				self.focus_node.focus();
+				self.ignoreFocus = false;
+			}, 0);
+			self.inputState();
+		}
+	}
 
 	self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
 	self.hook('before','setup',()=>{
-		self.focus_node		= self.control;
-
-		addClasses( self.control_input, 'dropdown-input');
-
-	 	const div = getDom('<div class="dropdown-input-wrap">');
-		div.append(self.control_input);
-		self.dropdown.insertBefore(div, self.dropdown.firstChild);
-
-		// set a placeholder in the select control
-		const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />') as HTMLInputElement;
-		placeholder.placeholder = self.settings.placeholder ||'';
-		self.control.append(placeholder);
-
+		self.dropdown.insertBefore(dropdownInputWrap, self.dropdown.firstChild);
 	});
 
-
 	self.on('initialize',()=>{
-
-		// set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
-		self.control_input.addEventListener('keydown',(evt:KeyboardEvent) =>{
-		//addEvent(self.control_input,'keydown' as const,(evt:KeyboardEvent) =>{
+		// Change parent depending on if dropdown is visible
+		self.on('dropdown_open', moveToDropdown);
+		self.on('dropdown_close', moveToControl);
+		// Make sure we can still open on keydown
+		self.focus_node.addEventListener('keydown', (evt:KeyboardEvent) =>{
 			switch( evt.keyCode ){
-				case constants.KEY_ESC:
-					if (self.isOpen) {
+				case constants.KEY_DOWN:
+					if (!self.isOpen) {
 						preventDefault(evt,true);
-						self.close();
+						self.open();
 					}
-					self.clearActiveItems();
-				return;
-				case constants.KEY_TAB:
-					self.focus_node.tabIndex = -1;
-				break;
+				return;					
 			}
-			return self.onKeyDown.call(self,evt);
 		});
-
-		self.on('blur',()=>{
-			self.focus_node.tabIndex = self.isDisabled ? -1 : self.tabIndex;
-		});
-
-
-		// give the control_input focus when the dropdown is open
-		self.on('dropdown_open',() =>{
-			self.control_input.focus();
-		});
-
-		// prevent onBlur from closing when focus is on the control_input
-		const orig_onBlur = self.onBlur;
-		self.hook('instead','onBlur',(evt?:FocusEvent)=>{
-			if( evt && evt.relatedTarget == self.control_input ) return;
-			return orig_onBlur.call(self);
-		});
-
-		addEvent(self.control_input,'blur', () => self.onBlur() );
-
-		// return focus to control to allow further keyboard input
-		self.hook('before','close',() =>{
-
-			if( !self.isOpen ) return;
-			self.focus_node.focus({preventScroll: true});
-		});
-
 	});
 
 };
