@@ -169,7 +169,14 @@ describe('plugin: dropdown_input', function() {
 		assert.equal( test.instance.items.length, 3);
 	});
 
-	it_n('update active descendent on [down] and [up]', async () => {
+	it_n('focus_node and control_input is the same', async () => {
+		var test = setup_test('AB_Single', {plugins: ['dropdown_input']});
+		assert.equal(test.instance.focus_node, test.instance.control_input, 'focus_node is equal to control_input');
+		await asyncClick(test.instance.control);
+		assert.equal(test.instance.focus_node, test.instance.control_input, 'focus_node is equal to control_input');
+	});
+
+	it_n('should update active descendent on [down] and [up]', async () => {
 		var test = setup_test('AB_Single', {plugins: ['dropdown_input']});
 		let lastActiveDescendant = "";
 		await asyncClick(test.instance.control);
@@ -181,5 +188,14 @@ describe('plugin: dropdown_input', function() {
 		lastActiveDescendant = test.instance.focus_node.getAttribute("aria-activedescendant");
 		await asyncType('[up]');
 		assert.isTrue(test.instance.focus_node.getAttribute("aria-activedescendant") != lastActiveDescendant);
+	});
+
+	it_n('label should be connected to input', async () => {
+		var test = setup_test('<label for="select1">Testlabel</label><select class="setup-here" id="select1" multiple></select>', {plugins: ['dropdown_input']});
+		assert.equal( test.instance.control_input.labels.length, 1, 'control_input should have at least one label');
+		await asyncClick(test.instance.control);
+		assert.equal(test.instance.isOpen, true);
+		assert.equal(document.activeElement, test.instance.control_input);
+		assert.isTrue( test.instance.control_input.labels.length > 0, 'control_input should have at least one label');
 	});
 });

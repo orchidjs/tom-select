@@ -22,10 +22,13 @@ export default function (this: TomSelect) {
 	const self = this;
 	const dropdownInputWrap = getDom('<div class="dropdown-input-wrap">');
 
-	const delayedRefocus = () => {
+	const ignoreFocusUntilNextTick = () => {
 		self.ignoreFocus = true;
 		setTimeout(() => {
-			self.focus_node.focus();
+			// Firefox needs to refocus on the next tick
+			if (document.activeElement != self.focus_node) {
+				self.focus_node.focus();
+			}
 			self.ignoreFocus = false;
 		}, 0);
 	}
@@ -34,7 +37,8 @@ export default function (this: TomSelect) {
 		if (!dropdownInputWrap.contains(self.focus_node)) {
 			dropdownInputWrap.append(self.focus_node);
 			addClasses(self.focus_node, 'dropdown-input');
-			delayedRefocus();
+			ignoreFocusUntilNextTick();
+			self.focus_node.focus();
 			self.control_input.placeholder = self.settings.placeholder;
 			self.isInputHidden = false;
 			removeClasses(self.wrapper, 'input-hidden');
@@ -45,7 +49,8 @@ export default function (this: TomSelect) {
 		if (!self.control.contains(self.focus_node)) {
 			removeClasses(self.focus_node, 'dropdown-input');
 			self.control.append(self.focus_node);
-			delayedRefocus();
+			ignoreFocusUntilNextTick();
+			self.focus_node.focus();
 			self.inputState();
 		}
 	}
