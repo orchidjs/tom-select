@@ -54,8 +54,12 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	.was-validated :#{$state} + .#{$select-ns}-wrapper {
 		$color: map-get($state-map,'color');
 		$icon: map-get($state-map,'icon');
+		$focus-box-shadow: map-get($state-map,'focus-box-shadow');
+		$border-color: map-get($state-map,'border-color');
 
-		border-color: $color;
+		.#{$select-ns}-control {
+			border-color: $border-color;
+		}
 
 		&:not(.single) {
 			background-image: escape-svg($icon);
@@ -72,8 +76,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		}
 
 		&.focus .#{$select-ns}-control {
-			border-color: $color;
-			box-shadow: 0 0 $input-btn-focus-blur $input-focus-width rgba($color, $input-btn-focus-color-opacity);
+			box-shadow: $focus-box-shadow
 		}
 	}
 }
@@ -150,7 +153,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 .#{$select-ns}-wrapper {
 	min-height: $input-height;
 	display:flex;
-	
+
 	.input-group-sm > &,
 	&.form-select-sm,
 	&.form-control-sm {
@@ -221,17 +224,13 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		--ts-pr-caret: #{$form-select-indicator-padding};
 	}
 
-	&.form-control, 
+	&.form-control,
 	&.form-select {
 		padding:0 !important;
 		height: auto;
 		box-shadow: none;
 		display: flex;
-
-		.#{$select-ns}-control,
-		&.single.input-active .#{$select-ns}-control {
-			border:		none !important;
-		}
+		border: none !important;
 
 		&:not(.disabled) .#{$select-ns}-control,
 		&:not(.disabled).single.input-active .#{$select-ns}-control {
