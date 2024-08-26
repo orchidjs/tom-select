@@ -61,19 +61,10 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 			border-color: $border-color;
 		}
 
-		&:not(.single) {
-			background-image: escape-svg($icon);
-			background-position: right $input-height-inner-quarter center;
-			background-size: $input-height-inner-half $input-height-inner-half;
-			background-repeat: no-repeat;
-		}
-
-		&.single {
-			background-image: escape-svg($form-select-indicator), escape-svg($icon);
-			background-position: $form-select-bg-position, $form-select-feedback-icon-position;
-			background-size: $form-select-bg-size, $form-select-feedback-icon-size;
-			background-repeat: no-repeat;
-		}
+		background-image: escape-svg($form-select-indicator), escape-svg($icon);
+		background-position: $form-select-bg-position, $form-select-feedback-icon-position;
+		background-size: $form-select-bg-size, $form-select-feedback-icon-size;
+		background-repeat: no-repeat;
 
 		&.focus .#{$select-ns}-control {
 			box-shadow: $focus-box-shadow
