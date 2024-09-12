@@ -135,7 +135,7 @@ new TomSelect('#select-state',{
 				.then(response => response.json())
 				.then(json => {
 					callback(json.result.list);
-					self.settings.load = null;
+					self.settings.load = (query, callback) => callback();
 				}).catch(()=>{
 					callback();
 				});
