@@ -87,14 +87,14 @@
     "stylelint-config-standard-scss": "^11.0.0",
     "syn": "^0.15.0",
     "tslib": "^2.6.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.7.1-rc"
   },
   "scripts": {
     "build": "grunt build",
-    "build:types": "npx typescript -p .config --emitDeclarationOnly",
+    "build:types": "tsc -p .config --emitDeclarationOnly",
     "test": "karma start",
     "test:one": "karma start --test_one",
-    "test:typescript": "npx typescript -p .config --noemit",
+    "test:typescript": "tsc -p .config --noemit",
     "start": "grunt serve",
     "pretest": "grunt build",
     "prepare": "husky install",
