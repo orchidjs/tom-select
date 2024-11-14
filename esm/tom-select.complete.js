@@ -387,7 +387,7 @@ const convert_pat = new RegExp(Object.keys(latin_convert).join('|') + '|' + acce
 
 const initialize = _code_points => {
   if (unicode_map !== undefined) return;
-  unicode_map = generateMap(_code_points || code_points);
+  unicode_map = generateMap(code_points);
 };
 /**
  * Helper method for normalize a string
@@ -2296,7 +2296,6 @@ class TomSelect extends MicroPlugin(MicroEvent) {
     } else {
       self.enable(); //sets tabIndex
     }
-
     self.on('change', this.onChange);
     addClasses(input, 'tomselected', 'ts-hidden-accessible');
     self.trigger('initialize');

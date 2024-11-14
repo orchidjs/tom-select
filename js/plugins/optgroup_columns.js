@@ -81,9 +81,6 @@
    *
    */
   const parentMatch = (target, selector, wrapper) => {
-    if (wrapper && !wrapper.contains(target)) {
-      return;
-    }
     while (target && target.matches) {
       if (target.matches(selector)) {
         return target;
