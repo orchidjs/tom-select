@@ -149,7 +149,7 @@ module.exports = function(grunt) {
 	var matched_files = grunt.file.expand(['src/plugins/*/plugin.scss']);
 	for (var i = 0, n = matched_files.length; i < n; i++) {
 		var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
-		scss_plugin_files.push({src: matched_files[i], dest: 'build/scss/plugins/' + plugin_name + '.scss'});
+		scss_plugin_files.push({src: matched_files[i], dest: 'dist/scss/plugins/' + plugin_name + '.scss'});
 	}
 
 
@@ -177,9 +177,9 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
-		// delete old build files
+		// delete old files
 		clean: {
-			library: ['build/scss/*','build/js/*','build/esm/*','build/css/*','build/cjs/*'],
+			library: ['dist/*'],
 			builddocs: ['build-docs/*']
 		},
 
@@ -187,12 +187,12 @@ module.exports = function(grunt) {
 		copy: {
 			scss:{
 				files: [{
-					'build/scss/tom-select.scss': ['src/scss/tom-select.scss'],
-					'build/scss/tom-select.default.scss': ['src/scss/tom-select.default.scss'],
-					'build/scss/tom-select.bootstrap4.scss': ['src/scss/tom-select.bootstrap4.scss'],
-					'build/scss/tom-select.bootstrap5.scss': ['src/scss/tom-select.bootstrap5.scss'],
-					'build/scss/_dropdown.scss': ['src/scss/_dropdown.scss'],
-					'build/scss/_items.scss': ['src/scss/_items.scss'],
+					'dist/scss/tom-select.scss': ['src/scss/tom-select.scss'],
+					'dist/scss/tom-select.default.scss': ['src/scss/tom-select.default.scss'],
+					'dist/scss/tom-select.bootstrap4.scss': ['src/scss/tom-select.bootstrap4.scss'],
+					'dist/scss/tom-select.bootstrap5.scss': ['src/scss/tom-select.bootstrap5.scss'],
+					'dist/scss/_dropdown.scss': ['src/scss/_dropdown.scss'],
+					'dist/scss/_items.scss': ['src/scss/_items.scss'],
 				}]
 			},
 			scss_plugins:{
@@ -206,8 +206,8 @@ module.exports = function(grunt) {
 			css_post: {
 				options: version_replace_options,
 				files: [
-					{expand: true, flatten: false, src: ['build/css/*.css'], dest: ''},
-					{expand: true, flatten: false, src: ['build/scss/*.scss'], dest: ''},
+					{expand: true, flatten: false, src: ['dist/css/*.css'], dest: ''},
+					{expand: true, flatten: false, src: ['dist/scss/*.scss'], dest: ''},
 				]
 			},
 			builddocs:{
@@ -219,7 +219,7 @@ module.exports = function(grunt) {
 			},
 			scss_plugin_paths: {
 				options: scss_plugin_path_replace_options,
-				files: [{expand: true, flatten: false, src: ['build/scss/tom-select.scss'], dest: ''}]
+				files: [{expand: true, flatten: false, src: ['dist/scss/tom-select.scss'], dest: ''}]
 			},
 		},
 
@@ -232,10 +232,10 @@ module.exports = function(grunt) {
 			},
 			build: {
 				files: [{
-					'build/css/tom-select.css': ['src/scss/tom-select.scss'],
-					'build/css/tom-select.default.css': ['src/scss/tom-select.default.scss'],
-					'build/css/tom-select.bootstrap4.css': ['src/scss/-tom-select.bootstrap4.scss'],
-					'build/css/tom-select.bootstrap5.css': ['src/scss/-tom-select.bootstrap5.scss'],
+					'dist/css/tom-select.css': ['src/scss/tom-select.scss'],
+					'dist/css/tom-select.default.css': ['src/scss/tom-select.default.scss'],
+					'dist/css/tom-select.bootstrap4.css': ['src/scss/-tom-select.bootstrap4.scss'],
+					'dist/css/tom-select.bootstrap5.css': ['src/scss/-tom-select.bootstrap5.scss'],
 				}]
 			},
 			builddocs: {
@@ -261,7 +261,7 @@ module.exports = function(grunt) {
 						autoprefixer,
 					]
 				},
-				files: [{expand: true, flatten: false, src: ['build/css/*.css'], dest: ''}],
+				files: [{expand: true, flatten: false, src: ['dist/css/*.css'], dest: ''}],
 			},
 			min: {
 				options: {
@@ -273,10 +273,10 @@ module.exports = function(grunt) {
 					]
 				},
 				files: [{
-					'build/css/tom-select.min.css': ['build/css/tom-select.css'],
-					'build/css/tom-select.default.min.css': ['build/css/tom-select.default.css'],
-					'build/css/tom-select.bootstrap4.min.css': ['build/css/tom-select.bootstrap4.css'],
-					'build/css/tom-select.bootstrap5.min.css': ['build/css/tom-select.bootstrap5.css'],
+					'dist/css/tom-select.min.css': ['dist/css/tom-select.css'],
+					'dist/css/tom-select.default.min.css': ['dist/css/tom-select.default.css'],
+					'dist/css/tom-select.bootstrap4.min.css': ['dist/css/tom-select.bootstrap4.css'],
+					'dist/css/tom-select.bootstrap5.min.css': ['dist/css/tom-select.bootstrap5.css'],
 				}]
 			},
 			builddocs:{
@@ -316,7 +316,7 @@ module.exports = function(grunt) {
 				command: 'npx rollup -c .config/rollup.docs.mjs',
 			},
 			buildjs: {
-				command: 'npx rollup -c .config/rollup.config.mjs',
+				command: 'npm run build:js',
 			},
 		},
 

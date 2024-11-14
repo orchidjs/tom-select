@@ -10,10 +10,25 @@
     "tagging",
     "tag"
   ],
-  "main": "dist/js/tom-select.complete.js",
-  "browser": "dist/js/tom-select.complete.js",
+  "main": "dist/cjs/tom-select.complete.js",
   "module": "dist/esm/tom-select.complete.js",
-  "types": "dist/types/tom-select.complete.d.ts",
+  "browser": "dist/js/tom-select.complete.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/tom-select.complete.js",
+      "require": "./dist/cjs/tom-select.complete.js"
+    },
+    "./utils": {
+      "import": "./dist/esm/utils.js",
+      "require": "./dist/cjs/utils.js"
+    },
+    "./plugins/*": {
+      "import": "./dist/esm/plugins/*",
+      "require": "./dist/cjs/plugins/*"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
   "description": "Tom Select is a versatile and dynamic <select> UI control. Forked from Selectize.js to provide a framework agnostic autocomplete widget with native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, etc.",
   "homepage": "https://tom-select.js.org",
   "version": "2.3.1",
@@ -91,7 +106,11 @@
   },
   "scripts": {
     "build": "grunt build",
-    "build:types": "tsc -p .config --emitDeclarationOnly",
+    "build:js": "npm run build:js:esm && npm run build:js:cjs && npm run build:js:umd",
+    "build:js:esm": "tsc -p .config/tsconfig.esm.json && echo '{\"type\":\"module\"}' > ./dist/esm/package.json",
+    "build:js:cjs": "tsc -p .config/tsconfig.cjs.json",
+    "build:js:umd": "rollup -c .config/rollup.config.mjs",
+    "build:types": "tsc -p .config/tsconfig.types.json",
     "test": "karma start",
     "test:one": "karma start --test_one",
     "test:typescript": "tsc -p .config --noemit",
@@ -119,7 +138,6 @@
     "url": "https://opencollective.com/tom-select"
   },
   "dependencies": {
-    "@orchidjs/sifter": "^1.0.3",
-    "@orchidjs/unicode-variants": "^1.0.4"
+    "@orchidjs/sifter": "^1.0.3"
   }
 }

@@ -40,46 +40,45 @@ var resolve_config = nodeResolve({
 
 
 // esm & cjs
-const inputs = [
-	'tom-select.ts',
-	'tom-select.complete.ts',
-	'tom-select.popular.ts',
-	'utils.ts',
-];
+// const inputs = [
+// 	'tom-select.ts',
+// 	'tom-select.complete.ts',
+// 	'tom-select.popular.ts',
+// 	'utils.ts',
+// ];
 
-inputs.forEach((slug)=>{
+// inputs.forEach((slug)=>{
 
-	let input = path.resolve(__dirname,'../src',slug)
+// 	let input = path.resolve(__dirname,'../src',slug)
 
-	// esm
-	configs.push({
-		input: input,
-		output:{
-			//file: path.resolve(__dirname,'../build/esm',slug),
-			dir: path.resolve(__dirname,'../build/esm'),
-			format: 'esm',
-			preserveModules: false,
-			sourcemap: true,
-			banner: banner,
-		},
-		plugins:[babel_config,resolve_config,],
-	});
+// 	// esm
+// 	configs.push({
+// 		input: input,
+// 		output:{
+// 			dir: path.resolve(__dirname,'../dist/esm'),
+// 			format: 'esm',
+// 			preserveModules: false,
+// 			sourcemap: true,
+// 			banner: banner,
+// 		},
+// 		plugins:[babel_config,resolve_config,],
+// 	});
 
-	// cjs
-	configs.push({
-		input: input,
-		output:{
-			dir: path.resolve(__dirname,'../build/cjs'),
-			format: 'cjs',
-			preserveModules: false,
-			sourcemap: true,
-			banner: banner,
-			exports: "auto",
-		},
-		plugins:[babel_config,resolve_config],
-	});
+// 	// cjs
+// 	configs.push({
+// 		input: input,
+// 		output:{
+// 			dir: path.resolve(__dirname,'../dist/cjs'),
+// 			format: 'cjs',
+// 			preserveModules: false,
+// 			sourcemap: true,
+// 			banner: banner,
+// 			exports: "auto",
+// 		},
+// 		plugins:[babel_config,resolve_config],
+// 	});
 
-});
+// });
 
 
 
@@ -128,7 +127,7 @@ function configCore( input, filename, plugins ){
 
 	var output = {
 		name: 'TomSelect',
-		file: `build/js/${filename}`,
+		file: `dist/js/${filename}`,
 		footer: 'var tomSelect=function(el,opts){return new TomSelect(el,opts);} ',
 	};
 
@@ -156,7 +155,7 @@ var plugin_dir = path.resolve(__dirname,'../src/plugins');
 var files = fs.readdirSync( plugin_dir );
 files.map(function(file){
 	let input	= path.resolve(__dirname,'../src/plugins',file,'plugin.ts');
-	let output	= {file:`build/js/plugins/${file}.js`,'name':file};
+	let output	= {file:`dist/js/plugins/${file}.js`,'name':file};
 	pluginConfig( input, output);
 
 
@@ -164,7 +163,7 @@ files.map(function(file){
 	configs.push({
 		input: input,
 		output:{
-			file: path.resolve(__dirname,'../build/esm/plugins',file,'plugin.js'),
+			file: path.resolve(__dirname,'../dist/esm/plugins',file,'plugin.js'),
 			format: 'esm',
 			preserveModules: false,
 			sourcemap: true,
