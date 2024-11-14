@@ -97,7 +97,7 @@ export const classesArray = (args:string[]|string[][]):string[] => {
 	var classes:string[] = [];
 	iterate( args, (_classes) =>{
 		if( typeof _classes === 'string' ){
-			_classes = _classes.trim().split(/[\x09\x0A\x0C\x0D\x20]/);
+			_classes = _classes.trim().split(/[\t\n\f\r\s]/);
 		}
 		if( Array.isArray(_classes) ){
 			classes = classes.concat(_classes);
