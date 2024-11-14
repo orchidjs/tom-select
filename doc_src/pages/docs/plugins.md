@@ -50,8 +50,8 @@ Add plugins to your project by including their js files and calling `TomSelect.d
 
 ```js
 import TomSelect from 'tom-select/dist/js/tom-select.base.js';
-import TomSelect_remove_button from 'tom-select/dist/js/plugins/remove_button.js';
-import TomSelect_dropdown_header from 'tom-select/dist/js/plugins/dropdown_header.js';
+import TomSelect_remove_button from 'tom-select/plugins/remove_button.js';
+import TomSelect_dropdown_header from 'tom-select/dropdown_header.js';
 
 TomSelect.define('remove_button', TomSelect_remove_button);
 TomSelect.define('dropdown_header', TomSelect_dropdown_header);

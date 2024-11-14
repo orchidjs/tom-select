@@ -1,5 +1,5 @@
 
-import { iterate } from '@orchidjs/sifter/lib/utils';
+import { iterate } from './utils.ts';
 
 /**
  * Return a dom element from either a dom query string, jQuery object, a dom element or html string

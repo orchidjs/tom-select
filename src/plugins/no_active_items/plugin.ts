@@ -12,7 +12,7 @@
  *
  */
 
-import TomSelect from '../../tom-select';
+import type TomSelect from '../../tom-select.ts';
 
 export default function(this:TomSelect) {
 	this.hook('instead','setActiveItem',() => {});

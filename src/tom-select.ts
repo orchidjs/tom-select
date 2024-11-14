@@ -1,12 +1,12 @@
 
-import MicroEvent from './contrib/microevent';
-import MicroPlugin from './contrib/microplugin';
-import { Sifter, iterate } from '@orchidjs/sifter';
+import MicroEvent from './contrib/microevent.ts';
+import MicroPlugin from './contrib/microplugin.ts';
+import { Sifter } from '@orchidjs/sifter';
 import { escape_regex } from '@orchidjs/unicode-variants';
-import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter, RecursivePartial } from './types/index';
-import {highlight, removeHighlight} from './contrib/highlight';
-import * as constants from './constants';
-import getSettings from './getSettings';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter, RecursivePartial } from './types/index.ts';
+import {highlight, removeHighlight} from './contrib/highlight.ts';
+import * as constants from './constants.ts';
+import getSettings from './getSettings.ts';
 import {
 	hash_key,
 	get_hash,
@@ -20,8 +20,9 @@ import {
 	isKeyDown,
 	getId,
 	addSlashes,
-	append
-} from './utils';
+	append,
+	iterate
+} from './utils.ts';
 
 import {
 	getDom,
@@ -37,7 +38,7 @@ import {
 	nodeIndex,
 	setAttr,
 	replaceNode
-} from './vanilla';
+} from './vanilla.ts';
 
 var instance_i = 0;
 
@@ -145,9 +146,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			if( filter instanceof RegExp ){
-				settings.createFilter = (input) => (filter as RegExp).test(input);
+				settings.createFilter = (input: string) => (filter as RegExp).test(input);
 			}else{
-				settings.createFilter = (value) => {
+				settings.createFilter = (value: string) => {
 					return this.settings.duplicates || !this.options[value];
 				};
 			}

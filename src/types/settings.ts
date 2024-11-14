@@ -1,7 +1,7 @@
 
-import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates, TomOption } from './index';
+import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates, TomOption } from './index.ts';
 
-import { TPluginItem, TPluginHash } from '../contrib/microplugin';
+import { TPluginItem, TPluginHash } from '../contrib/microplugin.ts';
 import * as SifterTypes from '@orchidjs/sifter/dist/types/types';
 
 

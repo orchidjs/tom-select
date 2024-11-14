@@ -1,6 +1,6 @@
 
-import TomSelect from './tom-select';
-import { TomLoadCallback } from './types/index';
+import type TomSelect from './tom-select.ts';
+import { TomLoadCallback } from './types/index.ts';
 
 
 /**
@@ -202,4 +202,29 @@ export const addSlashes = (str:string):string => {
  */
 export const append = ( parent:Element|DocumentFragment, node: string|Node|null|undefined ):void =>{
 	if( node ) parent.append(node);
+};
+
+/**
+ * Iterates over arrays and hashes.
+ *
+ * ```
+ * iterate(this.items, function(item, id) {
+ *    // invoked for each item
+ * });
+ * ```
+ *
+ */
+export const iterate = (object:[]|{[key:string]:any}, callback:(value:any,key:any)=>any) => {
+
+	if ( Array.isArray(object)) {
+		object.forEach(callback);
+
+	}else{
+
+		for (var key in object) {
+			if (object.hasOwnProperty(key)) {
+				callback(object[key], key);
+			}
+		}
+	}
 };

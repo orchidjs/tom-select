@@ -13,10 +13,11 @@
  *
  */
 
-import TomSelect from '../../tom-select';
-import { preventDefault, hash_key } from '../../utils';
-import { getDom } from '../../vanilla';
-import { CBOptions } from './types';
+import type TomSelect from '../../tom-select.ts';
+import { TomTemplate } from '../../types/index.ts';
+import { preventDefault, hash_key } from '../../utils.ts';
+import { getDom } from '../../vanilla.ts';
+import { CBOptions } from './types.ts';
 
 
 export default function(this:TomSelect, userOptions:CBOptions) {
@@ -70,7 +71,7 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 
 		var orig_render_option = self.settings.render.option;
 
-		self.settings.render.option = (data, escape_html) => {
+		self.settings.render.option = ((data, escape_html) => {
 			var rendered = getDom(orig_render_option.call(self, data, escape_html));
 			var checkbox = document.createElement('input');
 			if (cbOptions.className) {
@@ -87,7 +88,7 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 
 			rendered.prepend(checkbox);
 			return rendered;
-		};
+		}) satisfies TomTemplate;
 	});
 
 	// uncheck when item removed
