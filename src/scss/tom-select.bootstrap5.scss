@@ -28,7 +28,7 @@ $select-color-dropdown-border-top: color-mix($input-border-color, $input-bg, 80%
 $select-color-dropdown-item-active: $dropdown-link-hover-bg !default;
 $select-color-dropdown-item-active-text: $dropdown-link-hover-color !default;
 $select-color-dropdown-item-create-active-text: $dropdown-link-hover-color !default;
-$select-opacity-disabled: 0.5 !default;
+$select-opacity-disabled: 1 !default;
 $select-border: 1px solid $input-border-color !default;
 $select-border-radius: $input-border-radius !default;
 $select-width-item-border: 0 !default;
@@ -54,26 +54,20 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	.was-validated :#{$state} + .#{$select-ns}-wrapper {
 		$color: map-get($state-map,'color');
 		$icon: map-get($state-map,'icon');
+		$focus-box-shadow: map-get($state-map,'focus-box-shadow');
+		$border-color: map-get($state-map,'border-color');
 
-		border-color: $color;
-
-		&:not(.single) {
-			background-image: escape-svg($icon);
-			background-position: right $input-height-inner-quarter center;
-			background-size: $input-height-inner-half $input-height-inner-half;
-			background-repeat: no-repeat;
+		.#{$select-ns}-control {
+			border-color: $border-color;
 		}
 
-		&.single {
-			background-image: escape-svg($form-select-indicator), escape-svg($icon);
-			background-position: $form-select-bg-position, $form-select-feedback-icon-position;
-			background-size: $form-select-bg-size, $form-select-feedback-icon-size;
-			background-repeat: no-repeat;
-		}
+		background-image: escape-svg($form-select-indicator), escape-svg($icon);
+		background-position: $form-select-bg-position, $form-select-feedback-icon-position;
+		background-size: $form-select-bg-size, $form-select-feedback-icon-size;
+		background-repeat: no-repeat;
 
 		&.focus .#{$select-ns}-control {
-			border-color: $color;
-			box-shadow: 0 0 $input-btn-focus-blur $input-focus-width rgba($color, $input-btn-focus-color-opacity);
+			box-shadow: $focus-box-shadow
 		}
 	}
 }
@@ -150,7 +144,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 .#{$select-ns}-wrapper {
 	min-height: $input-height;
 	display:flex;
-	
+
 	.input-group-sm > &,
 	&.form-select-sm,
 	&.form-control-sm {
@@ -221,21 +215,21 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		--ts-pr-caret: #{$form-select-indicator-padding};
 	}
 
-	&.form-control, 
+	&.form-control,
 	&.form-select {
 		padding:0 !important;
 		height: auto;
 		box-shadow: none;
 		display: flex;
+		border: none !important;
 
 		.#{$select-ns}-control,
-		&.single.input-active .#{$select-ns}-control {
-			border:		none !important;
-		}
-
-		&:not(.disabled) .#{$select-ns}-control,
 		&:not(.disabled).single.input-active .#{$select-ns}-control {
 			background: transparent !important; // let the background of .form-select show through
+		}
+
+		&.disabled {
+			background-color: $select-color-disabled;
 		}
 	}
 }
