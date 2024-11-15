@@ -114,19 +114,19 @@ The plugin system is lean, makes very few assumptions, and gives the developer c
 <h4 id="tom-selectbasejs">tom-select.base.js</h4>
 <p>If you don't need any plugins, or want to load plugins individually, use <code>tom-select.base.js</code>.</p>
 <p>Add plugins to your project by including their js files and calling <code>TomSelect.define</code>.</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> TomSelect <span class="token keyword">from</span> <span class="token string">'tom-select/dist/js/tom-select.base.js'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> TomSelect_remove_button <span class="token keyword">from</span> <span class="token string">'tom-select/dist/js/plugins/remove_button.js'</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> TomSelect_dropdown_header <span class="token keyword">from</span> <span class="token string">'tom-select/dist/js/plugins/dropdown_header.js'</span><span class="token punctuation">;</span>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> TomSelect <span class="token keyword">from</span> <span class="token string">'tom-select/base'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> TomSelect_remove_button <span class="token keyword">from</span> <span class="token string">'tom-select/plugins/remove_button.js'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> TomSelect_dropdown_header <span class="token keyword">from</span> <span class="token string">'tom-select/dropdown_header.js'</span><span class="token punctuation">;</span>
 
 TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'remove_button'</span><span class="token punctuation">,</span> TomSelect_remove_button<span class="token punctuation">)</span><span class="token punctuation">;</span>
 TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'dropdown_header'</span><span class="token punctuation">,</span> TomSelect_dropdown_header<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>Alternatively you can <code>require</code> plugins directly if your build tool supports it.</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> TomSelect <span class="token keyword">from</span> <span class="token string">'tom-select/dist/js/tom-select.base.js'</span><span class="token punctuation">;</span>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> TomSelect <span class="token keyword">from</span> <span class="token string">'tom-select/base'</span><span class="token punctuation">;</span>
 
-TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'remove_button'</span><span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'tom-select/dist/js/plugins/remove_button.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'dropdown_header'</span><span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'tom-select/dist/js/plugins/dropdown_header.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'remove_button'</span><span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'tom-select/plugins/remove_button.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+TomSelect<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'dropdown_header'</span><span class="token punctuation">,</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'tom-select/plugins/dropdown_header.js'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h4 id="tom-selectcustomjs">tom-select.custom.js</h4>
-<p>Use NPM to hand-pick plugins and create <code>/build/js/tom-select.custom.js</code></p>
+<p>Use NPM to hand-pick plugins and create <code>/dist/js/tom-select.custom.js</code></p>
 <pre class="language-shell"><code class="language-shell"><span class="token comment"># clone the repo</span>
 <span class="token function">git</span> clone https://github.com/orchidjs/tom-select.git
 <span class="token builtin class-name">cd</span> tom-select
@@ -134,7 +134,7 @@ TomSelect<span class="token punctuation">.</span><span class="token function">de
 <span class="token comment"># install dev dependencies</span>
 <span class="token function">npm</span> <span class="token function">install</span>
 
-<span class="token comment"># create /build/js/tom-select.custom.js</span>
+<span class="token comment"># create /dist/js/tom-select.custom.js</span>
 <span class="token function">npm</span> run build -- <span class="token parameter variable">--plugins</span><span class="token operator">=</span>remove_button,restore_on_backspace</code></pre>
 <h2 id="creating-plugins">Creating Plugins</h2>
 <p><strong>A few notes:</strong></p>
