@@ -5,12 +5,12 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addLayoutAlias('about', 'layouts/about.html');
 	eleventyConfig.addPassthroughCopy({'doc_src/css':'css'});
 	eleventyConfig.addPassthroughCopy({'doc_src/js':'js'});
-	eleventyConfig.addPassthroughCopy({'build/js':'js'});
-	eleventyConfig.addPassthroughCopy({'build/css':'css'});
-	eleventyConfig.addPassthroughCopy({'build/esm':'esm'});
+	eleventyConfig.addPassthroughCopy({'dist/js':'js'});
+	eleventyConfig.addPassthroughCopy({'dist/css':'css'});
+	eleventyConfig.addPassthroughCopy({'dist/esm':'esm'});
 
 	// content security policy
-	const csp_plugin = require('./eleventy.csp.js');
+	const csp_plugin = require('./eleventy.csp.cjs');
 	eleventyConfig.addPlugin(csp_plugin,{
 		csp:{
 			'default-src':		["'self'"],

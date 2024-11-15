@@ -68,7 +68,7 @@ TomSelect.define('dropdown_header', require('tom-select/plugins/dropdown_header.
 
 
 #### tom-select.custom.js
-Use NPM to hand-pick plugins and create <code>/build/js/tom-select.custom.js</code>
+Use NPM to hand-pick plugins and create <code>/dist/js/tom-select.custom.js</code>
 
 ```shell
 # clone the repo
@@ -78,7 +78,7 @@ cd tom-select
 # install dev dependencies
 npm install
 
-# create /build/js/tom-select.custom.js
+# create /dist/js/tom-select.custom.js
 npm run build -- --plugins=remove_button,restore_on_backspace
 ```
 

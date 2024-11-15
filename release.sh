@@ -49,19 +49,11 @@ if [[ "$BRANCH" != "master" ]]; then
   exit 1;
 fi
 
-# make sure typescript test passes
-if ! npm run test:types; then
-	echo 'test:types failed'
-	exit
-fi
-
-
 # make sure there aren't any uncommited changes
 if ! git diff-index --quiet HEAD --; then
 	echo 'Commit all changes before releas before making release'
 	exit
 fi
-
 
 # make sure release number is valid
 if ! [[ "$VERSION" =~ ^([0-9]\.[0-9]\.[0-9]) ]]; then
@@ -69,16 +61,9 @@ if ! [[ "$VERSION" =~ ^([0-9]\.[0-9]\.[0-9]) ]]; then
 	exit
 fi
 
-
-# make sure tests pass
-if ! npm test; then
-	echo 'Tests failed... cannot create release'
-	exit
-fi
-
 # update package.json and package-lock.json
-if ! sed -i 's/"version": "[^"]*"/"version": "'$VERSION'"/' package.json; then
-	echo 'version not replaced in package-lock.json'
+if ! npm version --git-tag-version=false $VERSION; then
+	echo 'Version not updated'
 	exit
 fi
 
@@ -88,23 +73,15 @@ if ! npm run build; then
 	exit
 fi
 
-# remove contents of dist folder
-if ! rm -r dist/*; then
-	echo '/dist not emptied... cannot create release'
+# make sure tests pass
+if ! npm test; then
+	echo 'Tests failed... cannot create release'
 	exit
 fi
 
-
-# copy /build to /dist
-if ! cp -r build/* dist; then
-	echo '/build not copied to /dist... cannot create release'
-	exit
-fi
-
-# make sure types are up-to-date
-# grunt build does not create types
-if ! npm run build:types; then
-	echo 'types not generated'
+# make sure typescript test passes
+if ! npm run test:types; then
+	echo 'test:types failed'
 	exit
 fi
 
@@ -113,7 +90,6 @@ if ! ask "Version $VERSION is ready for release. Are you sure?"; then
 	echo 'release aborted'
     exit
 fi
-
 
 git add .
 git commit -a -m "v$VERSION Release"

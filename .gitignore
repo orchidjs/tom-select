@@ -5,7 +5,6 @@ node_modules
 *.log
 *.tmp.*
 *.lock
-build/*
 build-docs/*
 .sass-cache
 x-*

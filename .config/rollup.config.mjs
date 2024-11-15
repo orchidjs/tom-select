@@ -1,7 +1,6 @@
 import {nodeResolve} from '@rollup/plugin-node-resolve'; // so Rollup can resolve imports without file extensions and `node_modules`
 import babel from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
-import pkg from '../package.json' assert { type: "json" };
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -14,6 +13,8 @@ const configs				= [];
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const pkg = JSON.parse(fs.readFileSync(path.resolve(__dirname,'../package.json'),'utf-8'));
 
 const banner = `/**
 * Tom Select v${pkg.version}

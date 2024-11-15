@@ -154,20 +154,20 @@ module.exports = function(config) {
 				included: true,
 			},
 
-			'build/js/tom-select.complete.js',
+			'dist/js/tom-select.complete.js',
 			'node_modules/syn/dist/global/syn.js',
-			'build/css/tom-select.default.css',
+			'dist/css/tom-select.default.css',
 			'test/support/*.js',
 			config.test_one ? 'test/tests/interaction.js' : 'test/tests/**/*.js',
 
 			{
-				pattern: 'build/**/*',
+				pattern: 'dist/**/*',
 				included: false,
 			},
 
 		],
 		preprocessors: {
-			'build/**/*.js': ['sourcemap','coverage'],
+			'dist/**/*.js': ['sourcemap','coverage'],
 		},
 		coverageReporter: {
 			reporters:[

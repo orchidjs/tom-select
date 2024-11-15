@@ -310,7 +310,7 @@ module.exports = function(grunt) {
 		// generate /build-docs
 		shell: {
 			builddocs: {
-				command: 'npx @11ty/eleventy --config=.config/eleventy.js',
+				command: 'npx @11ty/eleventy --config=.config/eleventy.cjs',
 			},
 			rollupdocs: {
 				command: 'npx rollup -c .config/rollup.docs.mjs',
