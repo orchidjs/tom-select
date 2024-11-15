@@ -23,6 +23,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-      - run: npm run test
+      - run: npm run build:docs
+      # Use `--ignore-scripts` to avoid running the `pretest` script. We already
+      # built the project in a previous step, no need to build it again.
+      - run: npm run test --ignore-scripts
       - run: npm run test:types
       - run: npm run stylelint
