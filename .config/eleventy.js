@@ -26,17 +26,6 @@ export default function(eleventyConfig) {
 	
 	// header anchors
 	eleventyConfig.addPlugin(IdAttributePlugin);
-	// eleventyConfig.addPlugin(IdAttributePlugin, {
-	// 	selector: [
-	// 		'.container h1',
-	// 		'.container h2',
-	// 		'.container h3',
-	// 		'.container h4',
-	// 		'.container h5',
-	// 		'.container h6',
-	// 		'.container td:first-child',
-	// 	].join(', '),
-	// });
 
 	// syntax highlighting
 	eleventyConfig.addPlugin(syntaxHighlight);
