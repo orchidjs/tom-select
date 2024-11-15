@@ -55,7 +55,7 @@
     "url": "https://github.com/orchidjs/tom-select.git"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
     "@arethetypeswrong/cli": "^0.17.0",
     "@babel/core": "^7.23.2",
