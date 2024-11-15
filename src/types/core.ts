@@ -1,6 +1,6 @@
 
-import TomSelect from '../tom-select';
-import { escape_html } from '../utils';
+import type TomSelect from '../tom-select.ts';
+import { escape_html } from '../utils.ts';
 
 
 export interface TomInput extends HTMLElement{

@@ -13,10 +13,10 @@
  *
  */
 
-import TomSelect from '../../tom-select';
-import * as constants from '../../constants';
-import { getDom, addClasses } from '../../vanilla';
-import { addEvent, preventDefault } from '../../utils';
+import type TomSelect from '../../tom-select.ts';
+import * as constants from '../../constants.ts';
+import { getDom, addClasses } from '../../vanilla.ts';
+import { addEvent, preventDefault } from '../../utils.ts';
 
 
 export default function(this:TomSelect) {

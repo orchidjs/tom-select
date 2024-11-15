@@ -49,9 +49,9 @@ If you don't need any plugins, or want to load plugins individually, use <code>t
 Add plugins to your project by including their js files and calling `TomSelect.define`.
 
 ```js
-import TomSelect from 'tom-select/dist/js/tom-select.base.js';
-import TomSelect_remove_button from 'tom-select/dist/js/plugins/remove_button.js';
-import TomSelect_dropdown_header from 'tom-select/dist/js/plugins/dropdown_header.js';
+import TomSelect from 'tom-select/base';
+import TomSelect_remove_button from 'tom-select/plugins/remove_button.js';
+import TomSelect_dropdown_header from 'tom-select/dropdown_header.js';
 
 TomSelect.define('remove_button', TomSelect_remove_button);
 TomSelect.define('dropdown_header', TomSelect_dropdown_header);
@@ -60,15 +60,15 @@ TomSelect.define('dropdown_header', TomSelect_dropdown_header);
 Alternatively you can `require` plugins directly if your build tool supports it.
 
 ```js
-import TomSelect from 'tom-select/dist/js/tom-select.base.js';
+import TomSelect from 'tom-select/base';
 
-TomSelect.define('remove_button', require('tom-select/dist/js/plugins/remove_button.js'));
-TomSelect.define('dropdown_header', require('tom-select/dist/js/plugins/dropdown_header.js'));
+TomSelect.define('remove_button', require('tom-select/plugins/remove_button.js'));
+TomSelect.define('dropdown_header', require('tom-select/plugins/dropdown_header.js'));
 ```
 
 
 #### tom-select.custom.js
-Use NPM to hand-pick plugins and create <code>/build/js/tom-select.custom.js</code>
+Use NPM to hand-pick plugins and create <code>/dist/js/tom-select.custom.js</code>
 
 ```shell
 # clone the repo
@@ -78,7 +78,7 @@ cd tom-select
 # install dev dependencies
 npm install
 
-# create /build/js/tom-select.custom.js
+# create /dist/js/tom-select.custom.js
 npm run build -- --plugins=remove_button,restore_on_backspace
 ```
 

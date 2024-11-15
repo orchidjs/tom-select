@@ -13,9 +13,9 @@
  *
  */
 
-import TomSelect from '../../tom-select';
-import { TomOption } from '../../types/index';
-import { addClasses } from '../../vanilla';
+import type TomSelect from '../../tom-select.ts';
+import { TomOption } from '../../types/index.ts';
+import { addClasses } from '../../vanilla.ts';
 
 export default function(this:TomSelect) {
 	const self							= this;

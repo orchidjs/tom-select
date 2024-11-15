@@ -13,11 +13,11 @@
  *
  */
 
-import TomSelect from '../../tom-select';
-import { getDom } from '../../vanilla';
-import { escape_html, preventDefault, addEvent } from '../../utils';
-import { TomOption, TomItem } from '../../types/index';
-import { RBOptions } from './types';
+import type TomSelect from '../../tom-select.ts';
+import { getDom } from '../../vanilla.ts';
+import { escape_html, preventDefault, addEvent } from '../../utils.ts';
+import { TomOption, TomItem } from '../../types/index.ts';
+import { RBOptions } from './types.ts';
 
 export default function(this:TomSelect, userOptions:RBOptions) {
 
