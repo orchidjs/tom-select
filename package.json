@@ -55,7 +55,7 @@
     "url": "https://github.com/orchidjs/tom-select.git"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
     "@arethetypeswrong/cli": "^0.17.0",
     "@babel/core": "^7.23.2",
@@ -63,7 +63,6 @@
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-typescript": "^7.23.2",
     "@lodder/grunt-postcss": "^3.0.0",
-    "@orchidjs/eleventy-plugin-ids": "^0.1.0",
     "@popperjs/core": "^2.11.8",
     "@rollup/plugin-alias": "^5.0.1",
     "@rollup/plugin-babel": "^6.0.3",
