@@ -1,6 +1,9 @@
+import { IdAttributePlugin } from "@11ty/eleventy";
+import syntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
+import markdownIt from 'markdown-it';
+import csp_plugin from './eleventy.csp.cjs';
 
-
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
 	// Aliases are in relation to the _includes folder
 	eleventyConfig.addLayoutAlias('about', 'layouts/about.html');
 	eleventyConfig.addPassthroughCopy({'doc_src/css':'css'});
@@ -10,7 +13,6 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({'dist/esm':'esm'});
 
 	// content security policy
-	const csp_plugin = require('./eleventy.csp.cjs');
 	eleventyConfig.addPlugin(csp_plugin,{
 		csp:{
 			'default-src':		["'self'"],
@@ -23,23 +25,20 @@ module.exports = function(eleventyConfig) {
 	});
 	
 	// header anchors
-	const anchors_plugin = require('@orchidjs/eleventy-plugin-ids');
-	eleventyConfig.addPlugin(anchors_plugin,{
-		prefix:'',
-		selectors:[
-			'.container h1',
-			'.container h2',
-			'.container h3',
-			'.container h4',
-			'.container h5',
-			'.container h6',
-			'.container td:first-child',
-		]
-	});
-
+	eleventyConfig.addPlugin(IdAttributePlugin);
+	// eleventyConfig.addPlugin(IdAttributePlugin, {
+	// 	selector: [
+	// 		'.container h1',
+	// 		'.container h2',
+	// 		'.container h3',
+	// 		'.container h4',
+	// 		'.container h5',
+	// 		'.container h6',
+	// 		'.container td:first-child',
+	// 	].join(', '),
+	// });
 
 	// syntax highlighting
-	const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 	eleventyConfig.addPlugin(syntaxHighlight);
 
 	function GlobCollection(name, glob){
@@ -81,8 +80,7 @@ module.exports = function(eleventyConfig) {
 
 
 
-	let markdownIt = require('markdown-it');
-	md = markdownIt({
+	const md = markdownIt({
 		html: true,
 		breaks: false,
 		//linkify: true
