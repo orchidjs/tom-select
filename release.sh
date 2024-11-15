@@ -50,8 +50,8 @@ if [[ "$BRANCH" != "master" ]]; then
 fi
 
 # make sure typescript test passes
-if ! npm run test:typescript; then
-	echo 'test:typescript failed'
+if ! npm run test:types; then
+	echo 'test:types failed'
 	exit
 fi
 

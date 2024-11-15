@@ -49,6 +49,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+    "@arethetypeswrong/cli": "^0.17.0",
     "@babel/core": "^7.23.2",
     "@babel/plugin-transform-class-properties": "^7.22.5",
     "@babel/preset-env": "^7.23.2",
@@ -114,7 +115,7 @@
     "build:types": "tsc -p .config/tsconfig.types.json",
     "test": "karma start",
     "test:one": "karma start --test_one",
-    "test:typescript": "tsc -p .config --noemit",
+    "test:types": "attw --pack --profile node16 .",
     "start": "grunt serve",
     "pretest": "grunt build",
     "prepare": "husky install",
