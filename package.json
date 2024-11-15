@@ -19,6 +19,14 @@
       "import": "./dist/esm/tom-select.complete.js",
       "require": "./dist/cjs/tom-select.complete.js"
     },
+    "./base": {
+      "import": "./dist/esm/tom-select.js",
+      "require": "./dist/cjs/tom-select.js"
+    },
+    "./popular": {
+      "import": "./dist/esm/tom-select.popular.js",
+      "require": "./dist/cjs/tom-select.popular.js"
+    },
     "./utils": {
       "import": "./dist/esm/utils.js",
       "require": "./dist/cjs/utils.js"
