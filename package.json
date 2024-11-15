@@ -10,13 +10,37 @@
     "tagging",
     "tag"
   ],
-  "main": "dist/js/tom-select.complete.js",
-  "browser": "dist/js/tom-select.complete.js",
+  "type": "module",
+  "main": "dist/cjs/tom-select.complete.js",
   "module": "dist/esm/tom-select.complete.js",
-  "types": "dist/types/tom-select.complete.d.ts",
+  "browser": "dist/js/tom-select.complete.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/tom-select.complete.js",
+      "require": "./dist/cjs/tom-select.complete.js"
+    },
+    "./base": {
+      "import": "./dist/esm/tom-select.js",
+      "require": "./dist/cjs/tom-select.js"
+    },
+    "./popular": {
+      "import": "./dist/esm/tom-select.popular.js",
+      "require": "./dist/cjs/tom-select.popular.js"
+    },
+    "./utils": {
+      "import": "./dist/esm/utils.js",
+      "require": "./dist/cjs/utils.js"
+    },
+    "./plugins/*": {
+      "import": "./dist/esm/plugins/*",
+      "require": "./dist/cjs/plugins/*"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
   "description": "Tom Select is a versatile and dynamic <select> UI control. Forked from Selectize.js to provide a framework agnostic autocomplete widget with native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, etc.",
   "homepage": "https://tom-select.js.org",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "files": [
     "/dist",
     "/src"
@@ -33,6 +57,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+    "@arethetypeswrong/cli": "^0.17.0",
     "@babel/core": "^7.23.2",
     "@babel/plugin-transform-class-properties": "^7.22.5",
     "@babel/preset-env": "^7.23.2",
@@ -77,7 +102,7 @@
     "load-grunt-tasks": "^5.1.0",
     "mocha": "^10.2.0",
     "postcss": "^8.4.31",
-    "puppeteer": "^21.3.8",
+    "puppeteer": "^23.8.0",
     "rollup": "^4.1.4",
     "rollup-plugin-insert": "^1.3.2",
     "sass": "^1.69.4",
@@ -87,14 +112,18 @@
     "stylelint-config-standard-scss": "^11.0.0",
     "syn": "^0.15.0",
     "tslib": "^2.6.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.7.1-rc"
   },
   "scripts": {
     "build": "grunt build",
-    "build:types": "npx typescript -p .config --emitDeclarationOnly",
-    "test": "karma start",
-    "test:one": "karma start --test_one",
-    "test:typescript": "npx typescript -p .config --noemit",
+    "build:js": "npm run build:js:esm && npm run build:js:cjs && npm run build:js:umd",
+    "build:js:esm": "tsc -p .config/tsconfig.esm.json",
+    "build:js:cjs": "tsc -p .config/tsconfig.cjs.json && echo '{\"type\":\"commonjs\"}' > ./dist/cjs/package.json",
+    "build:js:umd": "rollup -c .config/rollup.config.mjs && echo '{\"type\":\"commonjs\"}' > ./dist/js/package.json",
+    "build:types": "tsc -p .config/tsconfig.types.json",
+    "test": "karma start .config/karma.conf.cjs",
+    "test:one": "karma start --test_one .config/karma.conf.cjs",
+    "test:types": "attw --pack --profile node16 .",
     "start": "grunt serve",
     "pretest": "grunt build",
     "prepare": "husky install",
@@ -119,7 +148,7 @@
     "url": "https://opencollective.com/tom-select"
   },
   "dependencies": {
-    "@orchidjs/sifter": "^1.0.3",
-    "@orchidjs/unicode-variants": "^1.0.4"
+    "@orchidjs/sifter": "^1.1.0",
+    "@orchidjs/unicode-variants": "^1.1.2"
   }
 }

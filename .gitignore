@@ -1,11 +1,10 @@
 .DS_Store
+.vscode
 .DAV
 node_modules
 *.log
 *.tmp.*
-package-lock.json
 *.lock
-build/*
 build-docs/*
 .sass-cache
 x-*

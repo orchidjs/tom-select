@@ -13,10 +13,10 @@
  *
  */
 
-import TomSelect from '../../tom-select';
-import { TomOption, TomItem } from '../../types/index';
-import { escape_html, preventDefault, addEvent } from '../../utils';
-import { getDom, setAttr } from '../../vanilla';
+import type TomSelect from '../../tom-select.ts';
+import { TomOption, TomItem } from '../../types/index.ts';
+import { escape_html, preventDefault, addEvent } from '../../utils.ts';
+import { getDom, setAttr } from '../../vanilla.ts';
 
 
 const insertAfter = (referenceNode:Element, newNode:Element) => {

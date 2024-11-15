@@ -13,9 +13,9 @@
  *
  */
 
-import TomSelect from '../../tom-select';
-import { getDom } from '../../vanilla';
-import { CBOptions } from './types';
+import type TomSelect from '../../tom-select.ts';
+import { getDom } from '../../vanilla.ts';
+import { CBOptions } from './types.ts';
 
 export default function(this:TomSelect, userOptions:CBOptions) {
 	const self = this;

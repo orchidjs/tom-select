@@ -1,5 +1,5 @@
 
-import { iterate } from '@orchidjs/sifter/lib/utils';
+import { iterate } from './utils.ts';
 
 /**
  * Return a dom element from either a dom query string, jQuery object, a dom element or html string
@@ -97,7 +97,7 @@ export const classesArray = (args:string[]|string[][]):string[] => {
 	var classes:string[] = [];
 	iterate( args, (_classes) =>{
 		if( typeof _classes === 'string' ){
-			_classes = _classes.trim().split(/[\11\12\14\15\40]/);
+			_classes = _classes.trim().split(/[\t\n\f\r\s]/);
 		}
 		if( Array.isArray(_classes) ){
 			classes = classes.concat(_classes);

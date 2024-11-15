@@ -6,7 +6,7 @@
  * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
 
-import {replaceNode} from '../vanilla';
+import {replaceNode} from '../vanilla.ts';
 
 
 export const highlight = (element:HTMLElement, regex:string|RegExp) => {

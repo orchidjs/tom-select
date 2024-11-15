@@ -1,8 +1,8 @@
 
-import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates, TomOption } from './index';
+import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates, TomOption } from './index.ts';
 
-import { TPluginItem, TPluginHash } from '../contrib/microplugin';
-import * as SifterTypes from '@orchidjs/sifter/dist/types/types';
+import { TPluginItem, TPluginHash } from '../contrib/microplugin.ts';
+import { type Sort as SifterSort, type SortFn as SifterSortFn } from '@orchidjs/sifter';
 
 
 
@@ -45,7 +45,7 @@ export type TomSettings = {
 	optgroupValueField		: string,
 	lockOptgroupOrder		: boolean,
 
-	sortField				: string|SifterTypes.Sort[]|SifterTypes.SortFn,
+	sortField				: string|SifterSort[]|SifterSortFn,
 	searchField				: string[],
 	searchConjunction		: string,
 	nesting					: boolean,
