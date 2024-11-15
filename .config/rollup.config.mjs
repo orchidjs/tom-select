@@ -39,49 +39,6 @@ var resolve_config = nodeResolve({
 });
 
 
-// esm & cjs
-// const inputs = [
-// 	'tom-select.ts',
-// 	'tom-select.complete.ts',
-// 	'tom-select.popular.ts',
-// 	'utils.ts',
-// ];
-
-// inputs.forEach((slug)=>{
-
-// 	let input = path.resolve(__dirname,'../src',slug)
-
-// 	// esm
-// 	configs.push({
-// 		input: input,
-// 		output:{
-// 			dir: path.resolve(__dirname,'../dist/esm'),
-// 			format: 'esm',
-// 			preserveModules: false,
-// 			sourcemap: true,
-// 			banner: banner,
-// 		},
-// 		plugins:[babel_config,resolve_config,],
-// 	});
-
-// 	// cjs
-// 	configs.push({
-// 		input: input,
-// 		output:{
-// 			dir: path.resolve(__dirname,'../dist/cjs'),
-// 			format: 'cjs',
-// 			preserveModules: false,
-// 			sourcemap: true,
-// 			banner: banner,
-// 			exports: "auto",
-// 		},
-// 		plugins:[babel_config,resolve_config],
-// 	});
-
-// });
-
-
-
 var terser_config = terser({
   mangle: true,
   //toplevel: true, // removes tomSelect footer
