@@ -5,10 +5,11 @@
   ],
 
   "rules": {
+    "color-function-notation": "legacy",
     "selector-class-pattern": null,
-    "scss/no-global-function-names": null,
+    "shorthand-property-no-redundant-values": null,
     "scss/dollar-variable-pattern": null,
-	"color-function-notation": "legacy",
-	"scss/at-import-partial-extension": null
+    "scss/load-partial-extension": null,
+    "scss/no-global-function-names": null
   }
 }
