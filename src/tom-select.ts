@@ -90,7 +90,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public userOptions				: {[key:string]:boolean} = {};
 	public items					: string[] = [];
 
-	private refreshTimeout			: null|ReturnType<typeof setTimeout> = null;
+	private refreshTimeout			: null|number = null;
 
 
 	constructor( input_arg: string|TomInput, user_settings:RecursivePartial<TomSettings> ){
@@ -781,7 +781,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		if( this.refreshTimeout ){
-			clearTimeout(this.refreshTimeout);
+			window.clearTimeout(this.refreshTimeout);
 		}
 
 		this.refreshTimeout = timeout(()=> {

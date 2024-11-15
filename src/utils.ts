@@ -43,9 +43,9 @@ export const escape_html = (str:string):string => {
 /**
  * use setTimeout if timeout > 0 
  */
-export const timeout = (fn:()=>void,timeout:number) => {
+export const timeout = (fn:()=>void,timeout:number): number | null => {
 	if( timeout > 0 ){
-		return setTimeout(fn,timeout);
+		return window.setTimeout(fn,timeout);
 	}
 
 	fn.call(null);
