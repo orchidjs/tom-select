@@ -72,7 +72,7 @@
     "bootstrap-sass": "^3.4.3",
     "bootstrap5": "npm:bootstrap@^5.3.3",
     "broken-link-checker": "^0.7.8",
-    "chai": "^4.5.0",
+    "chai": "^5.1.2",
     "cssnano": "^7.0.6",
     "grunt": "^1.6.1",
     "grunt-cli": "^1.5.0",
