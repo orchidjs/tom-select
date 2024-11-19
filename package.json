@@ -35,6 +35,7 @@
       "import": "./dist/esm/plugins/*",
       "require": "./dist/cjs/plugins/*"
     },
+    "./src/*": "./src/*",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
