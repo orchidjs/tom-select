@@ -14,6 +14,7 @@
   "main": "dist/cjs/tom-select.complete.js",
   "module": "dist/esm/tom-select.complete.js",
   "browser": "dist/js/tom-select.complete.js",
+  "style": "dist/css/tom-select.default.css",
   "exports": {
     ".": {
       "import": "./dist/esm/tom-select.complete.js",
