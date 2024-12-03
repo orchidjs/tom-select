@@ -100,7 +100,7 @@
     "karma-safari-launcher": "^1.0.0",
     "karma-sourcemap-loader": "^0.4.0",
     "load-grunt-tasks": "^5.1.0",
-    "mocha": "^10.8.2",
+    "mocha": "^11.0.1",
     "postcss": "^8.4.49",
     "puppeteer": "^23.8.0",
     "rollup": "^4.27.2",
