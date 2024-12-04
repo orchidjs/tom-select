@@ -44,6 +44,7 @@
 		background: $select-color-item;
 		color: $select-color-item-text;
 		border: $select-width-item-border solid $select-color-item-border;
+		overflow: auto;
 
 		&.active {
 			background: $select-color-item-active;
