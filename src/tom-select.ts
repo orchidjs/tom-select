@@ -541,7 +541,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	sync(get_settings:boolean=true):void{
 		const self		= this;
-		const settings	= get_settings ? getSettings( self.input, {delimiter:self.settings.delimiter} as RecursivePartial<TomSettings> ) : self.settings;
+		const settings	= get_settings ? getSettings( self.input, {delimiter:self.settings.delimiter,allowEmptyOption:self.settings.allowEmptyOption} as RecursivePartial<TomSettings> ) : self.settings;
 
 		self.setupOptions(settings.options,settings.optgroups);
 
