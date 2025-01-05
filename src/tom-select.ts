@@ -3,7 +3,7 @@ import MicroEvent from './contrib/microevent.ts';
 import MicroPlugin from './contrib/microplugin.ts';
 import { Sifter } from '@orchidjs/sifter';
 import { escape_regex } from '@orchidjs/unicode-variants';
-import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomSettings, TomTemplateNames, TomClearFilter, RecursivePartial } from './types/index.ts';
+import { TomInput, TomArgObject, TomOption, TomOptions, TomCreateFilter, TomCreateCallback, TomItem, TomCreateOptgroup, TomSettings, TomTemplateNames, TomClearFilter, RecursivePartial } from './types/index.ts';
 import {highlight, removeHighlight} from './contrib/highlight.ts';
 import * as constants from './constants.ts';
 import getSettings from './getSettings.ts';
