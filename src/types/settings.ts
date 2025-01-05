@@ -44,6 +44,7 @@ export type TomSettings = {
 	optgroupLabelField		: string,
 	optgroupValueField		: string,
 	lockOptgroupOrder		: boolean,
+	optionGroupRegister		: TomCreateOptgroup,
 
 	sortField				: string|SifterSort[]|SifterSortFn,
 	searchField				: string[],
