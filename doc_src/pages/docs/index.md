@@ -346,6 +346,32 @@ tom.inputState();
 		<td><code>'optgroup'</code></td>
 	</tr>
 	<tr>
+		<td><code>optionGroupRegister</td>
+		<td>A function to transform and manage non existent Optgroups (f.e. for remote data)
+
+```js
+optionGroupRegister: function (optgroup) {}
+```
+
+You can style the Optgroup like normal configuration. Here for example the first letter will capitalized and used as Optgroup name.
+
+```js
+optionGroupRegister: function (optgroup) {
+        var capitalised = optgroup.charAt(0).toUpperCase() + optgroup.substring(1);
+        var group = {
+          label: capitalised
+        };
+
+        group[this.settings.optgroupValueField] = optgroup;
+
+        return group;
+      },
+```
+</td>
+		<td><code>function</code></td>
+		<td><code>null</code></td>
+	</tr>
+	<tr>
 		<td><code>disabledField</code></td>
 		<td>The name of the property to disabled option and optgroup.</td>
 		<td><code>string</code></td>
