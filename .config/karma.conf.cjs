@@ -102,7 +102,7 @@ module.exports = function(config) {
 										flags: [
 											'--disable-translate',
 											'--disable-extensions',
-											'--remote-debugging-port=9223'
+											'--remote-debugging-port=9223',
 										]
 									};
 	}
