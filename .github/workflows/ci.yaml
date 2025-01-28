@@ -32,3 +32,20 @@ jobs:
       - run: npm run test --ignore-scripts
       - run: npm run test:types
       - run: npm run stylelint
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Release
+        env:
+          GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: "todo"
+        run: npx semantic-release --dry-run
