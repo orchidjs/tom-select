@@ -1,3 +1,3 @@
 export default {
-      "branches": ["main"]
-    }
+  "branches": ["master"]
+}
