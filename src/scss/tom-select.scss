@@ -81,8 +81,8 @@ $select-spinner-border-color:					$select-color-border !default;
 @import "../plugins/remove_button/plugin.scss";
 
 :root {
-	--ts-pr-clear-button: 0;
-	--ts-pr-caret: 0;
+	--ts-pr-clear-button: 0px;
+	--ts-pr-caret: 0px;
 	--ts-pr-min: .75rem;
 }
 
