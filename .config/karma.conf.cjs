@@ -103,8 +103,6 @@ module.exports = function(config) {
 											'--disable-translate',
 											'--disable-extensions',
 											'--remote-debugging-port=9223',
-											// Needed to run on Ubuntu 24.04 in GitHub Actions.
-											'--no-sandbox'
 										]
 									};
 	}
