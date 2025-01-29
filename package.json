@@ -108,7 +108,7 @@
     "sass": "^1.81.0",
     "stylelint": "^16.10.0",
     "stylelint-config-prettier-scss": "^1.0.0",
-    "stylelint-config-standard": "^36.0.1",
+    "stylelint-config-standard": "^37.0.0",
     "stylelint-config-standard-scss": "^14.0.0",
     "syn": "^0.15.0",
     "tslib": "^2.8.1",
