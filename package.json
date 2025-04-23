@@ -42,7 +42,7 @@
   },
   "description": "Tom Select is a versatile and dynamic <select> UI control. Forked from Selectize.js to provide a framework agnostic autocomplete widget with native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, etc.",
   "homepage": "https://tom-select.js.org",
-  "version": "2.4.1",
+  "version": "2.4.3",
   "files": [
     "/dist",
     "/src"
@@ -102,7 +102,7 @@
     "load-grunt-tasks": "^5.1.0",
     "mocha": "^11.0.1",
     "postcss": "^8.4.49",
-    "puppeteer": "^23.8.0",
+    "puppeteer": "^24.1.1",
     "rollup": "^4.27.2",
     "rollup-plugin-insert": "^1.3.2",
     "sass": "^1.81.0",
