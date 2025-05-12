@@ -413,7 +413,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		});
 
-		self.updateOriginalInput();
 		self.refreshItems();
 		self.close(false);
 		self.inputState();
