@@ -76,6 +76,7 @@
     "broken-link-checker": "^0.7.8",
     "chai": "^4.5.0",
     "cssnano": "^7.0.6",
+    "esbuild": "^0.24.2",
     "grunt": "^1.6.1",
     "grunt-cli": "^1.5.0",
     "grunt-contrib-clean": "^2.0.1",
@@ -117,8 +118,9 @@
   "scripts": {
     "build": "grunt build",
     "build:docs": "grunt builddocs",
-    "build:js": "npm run build:js:esm && npm run build:js:cjs && npm run build:js:umd",
+    "build:js": "npm run build:js:esm && npm run build:js:cjs && npm run build:js:umd && npm run build:js:esmbundle",
     "build:js:esm": "tsc -p .config/tsconfig.esm.json",
+    "build:js:esmbundle": "esbuild --bundle src/tom-select.complete.ts src/tom-select.popular.ts src/tom-select.ts --outdir=dist/esm-bundle --format=esm --minify",
     "build:js:cjs": "tsc -p .config/tsconfig.cjs.json && echo '{\"type\":\"commonjs\"}' > ./dist/cjs/package.json",
     "build:js:umd": "rollup -c .config/rollup.config.mjs && echo '{\"type\":\"commonjs\"}' > ./dist/js/package.json",
     "build:types": "tsc -p .config/tsconfig.types.json",
