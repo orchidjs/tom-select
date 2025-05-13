@@ -27,6 +27,8 @@ export type TomCreateCallback = (data?:TomOption)=>void;
 
 export type TomCreate = (input:string,create:TomCreateCallback) => boolean;
 
+export type TomCreateOptgroup = (create:TomCreateCallback) => TomOption;
+
 export interface TomItem extends HTMLElement{
 	dataset:{
 		value: string;
