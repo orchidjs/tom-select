@@ -28,7 +28,7 @@ $select-color-dropdown-border-top: color-mix($input-border-color, $input-bg, 80%
 $select-color-dropdown-item-active: $dropdown-link-hover-bg !default;
 $select-color-dropdown-item-active-text: $dropdown-link-hover-color !default;
 $select-color-dropdown-item-create-active-text: $dropdown-link-hover-color !default;
-$select-opacity-disabled: 0.5 !default;
+$select-opacity-disabled: 1 !default;
 $select-border: 1px solid $input-border-color !default;
 $select-border-radius: $input-border-radius !default;
 $select-width-item-border: 0 !default;
@@ -254,5 +254,13 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	& > .#{$select-ns}-wrapper:not(:last-child) > .#{$select-ns}-control {
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
+	}
+}
+
+.form-select {
+	.#{$select-ns}-dropdown,
+	.#{$select-ns}-control,
+	.#{$select-ns}-control input {
+		color: $form-select-color;
 	}
 }
