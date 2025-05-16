@@ -2031,7 +2031,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		var i,idx;
 		const value	= item.dataset.value;
-		i = nodeIndex(item);
+		i = nodeIndex(item, '.item');
 
 		item.remove();
 		if( item.classList.contains('active') ){
