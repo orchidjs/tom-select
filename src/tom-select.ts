@@ -1658,10 +1658,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			if( triggerDropdown && !self.isOpen ){
-				self.open();
+				if(!self.isOpen) {
+					self.open();
+				}
 				self.scrollToOption(active_option,'auto');
 			}
-			if( self.settings.focusOptionOnOpen !== false ) {
+			if( self.settings.focusOptionOnOpen !== false || self.currentResults.query !== '') {
 				self.setActiveOption(active_option);
 			} else if( resetActiveOption ) {
 				self.setActiveOption(null);
