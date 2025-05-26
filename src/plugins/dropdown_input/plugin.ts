@@ -16,7 +16,7 @@
 import type TomSelect from '../../tom-select.ts';
 import * as constants from '../../constants.ts';
 import { getDom, addClasses } from '../../vanilla.ts';
-import { addEvent, preventDefault } from '../../utils.ts';
+import { preventDefault } from '../../utils.ts';
 import {DIOptions} from './types.ts';
 
 
@@ -83,7 +83,7 @@ export default function(this:TomSelect, options?: DIOptions) {
 			return orig_onBlur.call(self);
 		});
 
-		addEvent(self.control_input, 'keydown', (evt: KeyboardEvent) => {
+		self.control_input.addEventListener('keydown', (evt: KeyboardEvent) => {
 			switch (evt.keyCode) {
 				case constants.KEY_TAB:
 					self.onBlur();
