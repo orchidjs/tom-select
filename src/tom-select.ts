@@ -2301,14 +2301,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			function AddSelected(option_el:HTMLOptionElement|null, value:string, label:string):HTMLOptionElement{
 
+				let created = false;
 				if( !option_el ){
+					created = true;
 					option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>') as HTMLOptionElement;
 				}
 
 				// don't move empty option from top of list
 				// fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293
 				if( option_el != empty_option ){
-					self.input.append(option_el);
+					if (self.plugins.names.includes('drag_drop') || created) {
+						self.input.append(option_el);
+					}
 				}
 
 				selected.push(option_el);
