@@ -15,7 +15,7 @@
 
 import type TomSelect from '../../tom-select.ts';
 import { TomOption, TomItem } from '../../types/index.ts';
-import { escape_html, preventDefault, addEvent } from '../../utils.ts';
+import { escape_html, preventDefault } from '../../utils.ts';
 import { getDom, setAttr } from '../../vanilla.ts';
 import {DIOptions} from './types.ts';
 
@@ -51,8 +51,8 @@ export default function(this:TomSelect, options?: DIOptions) {
 	let sortable = true;
 	let drag_item:TomItem|undefined;
 
-	const updateOrderOfValues = () => {
-		var values:string[] = [];
+	const updateValuesByItemsOrder = () => {
+		const values:string[] = [];
 		self.control.querySelectorAll(`[data-value]`).forEach((el:Element)=> {
 			if( (<HTMLOptionElement>el).dataset.value ){
 				let value = (<HTMLOptionElement>el).dataset.value;
@@ -75,7 +75,7 @@ export default function(this:TomSelect, options?: DIOptions) {
 			const item = getDom(orig_render_item.call(self, data, escape)) as TomItem;
 
 			if (options?.dragDropIcon) {
-				item.innerHTML = options.dragDropIcon + item.innerHTML;
+				item.insertAdjacentHTML('afterbegin', options.dragDropIcon);
 			}
 
 			setAttr(item,{'draggable':'true'});
@@ -87,8 +87,12 @@ export default function(this:TomSelect, options?: DIOptions) {
 				evt.stopPropagation();
 			}
 
-			const dragStart = (evt:Event) => {
+			const dragStart = (evt: DragEvent) => {
 				drag_item = item;
+				if (evt.dataTransfer) {
+					evt.dataTransfer.effectAllowed = 'move';
+					evt.dataTransfer.setData("text", data.value)
+				}
 				
 				setTimeout(() => {
 					item.classList.add('ts-dragging');
@@ -96,8 +100,11 @@ export default function(this:TomSelect, options?: DIOptions) {
 				
 			}
 
-			const dragOver = (evt:Event) =>{
+			const dragOver = (evt: DragEvent) =>{
 				evt.preventDefault();
+				if (evt.dataTransfer) {
+					evt.dataTransfer.dropEffect = 'move';
+				}
 				item.classList.add('ts-drag-over');
 				moveitem(item,drag_item);
 			}
@@ -121,17 +128,16 @@ export default function(this:TomSelect, options?: DIOptions) {
 				drag_item?.classList.remove('ts-dragging');
 				drag_item = undefined;
 
-				updateOrderOfValues()
-			}	
+				updateValuesByItemsOrder();
+			}
 
+			item.addEventListener('mousedown', mousedown);
+			item.addEventListener('dragstart', dragStart);
+			item.addEventListener('dragenter', dragOver)
+			item.addEventListener('dragover', dragOver);
+			item.addEventListener('dragleave', dragLeave);
+			item.addEventListener('dragend', dragend);
 
-			addEvent(item,'mousedown', mousedown);
-			addEvent(item,'dragstart', dragStart);
-			addEvent(item,'dragenter', dragOver)
-			addEvent(item,'dragover', dragOver);
-			addEvent(item,'dragleave', dragLeave);
-			addEvent(item,'dragend', dragend);
-				
 			return item;
 		}	
 	});
@@ -148,34 +154,29 @@ export default function(this:TomSelect, options?: DIOptions) {
 		return orig_unlock.call(self);
 	});
 
-	self.on('initialize',()=>{
-		addEvent(self.control, 'keydown', (evt: Event) => {
-			const dragItem: TomItem | undefined = self.activeItems[0];
-			let targetItem: Element;
+	self.on('initialize', () => {
+		// prevent browser from default drop action
+		self.control.addEventListener('drop', evt => evt.preventDefault());
 
-			if (dragItem) {
-				if ((evt as KeyboardEvent).key === 'ArrowLeft') {
-					if (dragItem.previousElementSibling && dragItem.previousElementSibling.hasAttribute('draggable')) {
-						targetItem = dragItem.previousElementSibling;
-					}
-				} else if ((evt as KeyboardEvent).key === 'ArrowRight') {
-					if (dragItem.nextElementSibling && dragItem.nextElementSibling.hasAttribute('draggable')) {
-						targetItem = dragItem.nextElementSibling;
-					}
+		self.control.addEventListener('keydown', (evt: KeyboardEvent) => {
+			const activeItem: TomItem | undefined = self.activeItems[0];
+			let targetItem: Element | null = null;
+
+			if (activeItem) {
+				if (evt.key === 'ArrowLeft') {
+					targetItem = activeItem.previousElementSibling;
+				} else if (evt.key === 'ArrowRight') {
+					targetItem = activeItem.nextElementSibling;
 				}
 
-				if (targetItem!) {
-					if( isBefore(dragItem,targetItem) ){
-						insertAfter(targetItem,dragItem);
-					}else{
-						insertBefore(targetItem,dragItem);
+				if (targetItem && targetItem.hasAttribute('draggable')) {
+					if (isBefore(activeItem, targetItem)) {
+						insertAfter(targetItem, activeItem);
+					} else {
+						insertBefore(targetItem, activeItem);
 					}
 
-					updateOrderOfValues();
-					const dragItemDataValue = dragItem.getAttribute('data-value');
-
-					const activeItem = self.control.querySelector(`[data-value="${dragItemDataValue}"]`);
-					self.setActiveItem(activeItem as TomItem);
+					updateValuesByItemsOrder();
 				}
 			}
 		});
