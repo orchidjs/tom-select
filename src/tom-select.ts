@@ -2765,7 +2765,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				setAttr(html, {'role': 'group'});
 			}
 
-			setAttr(html, {id: 'optgroup-header-' + instance_i});
+			setAttr(html, {id: 'optgroup-header-' + data.$order});
 		}
 
 		if (templateName === 'option' || templateName === 'item') {
