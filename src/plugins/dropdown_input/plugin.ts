@@ -16,7 +16,7 @@
 import type TomSelect from '../../tom-select.ts';
 import * as constants from '../../constants.ts';
 import {getDom, addClasses, setAttr} from '../../vanilla.ts';
-import { preventDefault } from '../../utils.ts';
+import {preventDefault} from '../../utils.ts';
 import {DIOptions} from './types.ts';
 
 
@@ -45,6 +45,14 @@ export default function(this:TomSelect, options?: DIOptions) {
 		if (options?.searchPlaceholder) {
 			self.control_input.placeholder = options.searchPlaceholder;
 		}
+
+		setAttr(self.control_input, {
+			role: 'combobox',
+			'aria-haspopup': 'listbox',
+			'aria-expanded': 'true',
+			'aria-controls': self.dropdown_content.id,
+			'aria-labelledby': self.settings.labelId
+		});
 
 		// set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
 		self.control_input.addEventListener('keydown',(evt:KeyboardEvent) =>{

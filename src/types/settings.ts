@@ -45,6 +45,7 @@ export type TomSettings = {
 	optgroupField			: string,
 	valueField				: string,
 	labelField				: string,
+	labelId                 : string, // id of external label for referencing
 	disabledField			: string,
 	optgroupLabelField		: string,
 	optgroupValueField		: string,
