@@ -34,6 +34,7 @@ export default function(this:TomSelect, options?: DIOptions) {
 		if(options?.showControlPlaceholder) {
 			const placeholderInput: HTMLInputElement = self.control_input.cloneNode() as HTMLInputElement;
 			placeholderInput.placeholder = origPlaceholder;
+			placeholderInput.classList.add('placeholder-input');
 			self.control.appendChild(placeholderInput);
 		}
 

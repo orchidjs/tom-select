@@ -16,9 +16,15 @@
 import type TomSelect from '../../tom-select.ts';
 import { TomOption } from '../../types/index.ts';
 import { addClasses } from '../../vanilla.ts';
+import {VSOptions} from './types';
 
-export default function(this:TomSelect) {
+export default function(this:TomSelect, userOptions: VSOptions) {
 	const self							= this;
+
+	const pluginOptions = Object.assign<VSOptions, VSOptions>({
+		clearDropdownBeforeLoadCallback: true,
+	}, userOptions);
+
 	const orig_canLoad					= self.canLoad;
 	const orig_clearActiveOption		= self.clearActiveOption;
 	const orig_loadCallback				= self.loadCallback;
@@ -136,7 +142,7 @@ export default function(this:TomSelect) {
 	// wrap the load
 	self.hook('instead','loadCallback',( options:TomOption[], optgroups:TomOption[])=>{
 
-		if( !loading_more ){
+		if(pluginOptions.clearDropdownBeforeLoadCallback && !loading_more ){
 			self.clearOptions(clearFilter);
 		}else if( load_more_opt ){
 			const first_option = options[0];
