@@ -17,6 +17,7 @@ import type TomSelect from '../../tom-select.ts';
 import { TomOption, TomItem } from '../../types/index.ts';
 import { escape_html, preventDefault, addEvent } from '../../utils.ts';
 import { getDom, setAttr } from '../../vanilla.ts';
+import {DIOptions} from './types.ts';
 
 
 const insertAfter = (referenceNode:Element, newNode:Element) => {
@@ -41,25 +42,42 @@ const isBefore = (referenceNode:Element|undefined|null, newNode:Element|undefine
 	return false;
 }
 
-export default function(this:TomSelect) {
+export default function(this:TomSelect, options?: DIOptions) {
 	var self = this;
 	if (self.settings.mode !== 'multi') return;
 
 	var orig_lock		= self.lock;
 	var orig_unlock		= self.unlock;
 	let sortable = true;
-		let drag_item:TomItem|undefined;
+	let drag_item:TomItem|undefined;
 
+	const updateOrderOfValues = () => {
+		var values:string[] = [];
+		self.control.querySelectorAll(`[data-value]`).forEach((el:Element)=> {
+			if( (<HTMLOptionElement>el).dataset.value ){
+				let value = (<HTMLOptionElement>el).dataset.value;
+				if( value ){
+					values.push(value);
+				}
+			}
+		});
+
+		self.setValue(values);
+	}
 
 	/**
 	 * Add draggable attribute to item
 	 */
 	self.hook('after','setupTemplates',() => {
-
 		var orig_render_item = self.settings.render.item;
 
 		self.settings.render.item = (data:TomOption, escape:typeof escape_html) => {
 			const item = getDom(orig_render_item.call(self, data, escape)) as TomItem;
+
+			if (options?.dragDropIcon) {
+				item.innerHTML = options.dragDropIcon + item.innerHTML;
+			}
+
 			setAttr(item,{'draggable':'true'});
 
 
@@ -103,17 +121,7 @@ export default function(this:TomSelect) {
 				drag_item?.classList.remove('ts-dragging');
 				drag_item = undefined;
 
-				var values:string[] = [];
-				self.control.querySelectorAll(`[data-value]`).forEach((el:Element)=> {
-					if( (<HTMLOptionElement>el).dataset.value ){
-						let value = (<HTMLOptionElement>el).dataset.value;
-						if( value ){
-							values.push(value);
-						}
-					}
-				});
-
-				self.setValue(values);
+				updateOrderOfValues()
 			}	
 
 
@@ -140,4 +148,36 @@ export default function(this:TomSelect) {
 		return orig_unlock.call(self);
 	});
 
+	self.on('initialize',()=>{
+		addEvent(self.control, 'keydown', (evt: Event) => {
+			const dragItem: TomItem | undefined = self.activeItems[0];
+			let targetItem: Element;
+
+			if (dragItem) {
+				if ((evt as KeyboardEvent).key === 'ArrowLeft') {
+					if (dragItem.previousElementSibling && dragItem.previousElementSibling.hasAttribute('draggable')) {
+						targetItem = dragItem.previousElementSibling;
+					}
+				} else if ((evt as KeyboardEvent).key === 'ArrowRight') {
+					if (dragItem.nextElementSibling && dragItem.nextElementSibling.hasAttribute('draggable')) {
+						targetItem = dragItem.nextElementSibling;
+					}
+				}
+
+				if (targetItem!) {
+					if( isBefore(dragItem,targetItem) ){
+						insertAfter(targetItem,dragItem);
+					}else{
+						insertBefore(targetItem,dragItem);
+					}
+
+					updateOrderOfValues();
+					const dragItemDataValue = dragItem.getAttribute('data-value');
+
+					const activeItem = self.control.querySelector(`[data-value="${dragItemDataValue}"]`);
+					self.setActiveItem(activeItem as TomItem);
+				}
+			}
+		});
+	});
 };

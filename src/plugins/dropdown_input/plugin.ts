@@ -83,7 +83,12 @@ export default function(this:TomSelect, options?: DIOptions) {
 			return orig_onBlur.call(self);
 		});
 
-		addEvent(self.control_input,'blur', () => self.onBlur() );
+		addEvent(self.control_input,'blur', () => {
+			// avoids closing the dropdown on drag and drop action
+			if (!self.plugins.names.includes('drag_drop')) {
+				self.onBlur();
+			}
+		} );
 
 		// return focus to control to allow further keyboard input
 		self.hook('before','close',() =>{

@@ -979,6 +979,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	onItemSelect( evt?:MouseEvent, item?:TomItem ):boolean{
 		var self = this;
 
+		if (!self.isOpen) {
+			self.open();
+		}
+
 		if( !self.isLocked && self.settings.mode === 'multi' ){
 			preventDefault(evt);
 			self.setActiveItem(item, evt);
