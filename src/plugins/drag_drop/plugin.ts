@@ -177,6 +177,10 @@ export default function(this:TomSelect, options?: DIOptions) {
 					}
 
 					updateValuesByItemsOrder();
+
+					const dragItemDataValue = activeItem.getAttribute('data-value');
+					const currentActiveItem = self.control.querySelector(`[data-value="${dragItemDataValue}"]`);
+					self.setActiveItem(currentActiveItem as TomItem);
 				}
 			}
 		});
