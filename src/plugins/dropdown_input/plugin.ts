@@ -25,19 +25,7 @@ export default function(this:TomSelect, options?: DIOptions) {
 
 	self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
-	const origPlaceholder = self.settings.placeholder;
-	if(options?.searchPlaceholder) {
-		self.settings.placeholder = options.searchPlaceholder;
-	}
-
 	self.hook('before','setup',()=>{
-		if(options?.showControlPlaceholder) {
-			const placeholderInput: HTMLInputElement = self.control_input.cloneNode() as HTMLInputElement;
-			placeholderInput.placeholder = origPlaceholder;
-			placeholderInput.classList.add('placeholder-input');
-			self.control.appendChild(placeholderInput);
-		}
-
 		self.focus_node		= self.control;
 
 		addClasses( self.control_input, 'dropdown-input');
@@ -50,11 +38,13 @@ export default function(this:TomSelect, options?: DIOptions) {
 		const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />') as HTMLInputElement;
 		placeholder.placeholder = self.settings.placeholder ||'';
 		self.control.append(placeholder);
-
 	});
 
 
 	self.on('initialize',()=>{
+		if (options?.searchPlaceholder) {
+			self.control_input.placeholder = options.searchPlaceholder;
+		}
 
 		// set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
 		self.control_input.addEventListener('keydown',(evt:KeyboardEvent) =>{
