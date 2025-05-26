@@ -331,6 +331,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		});
 
+		// mousedown event on document defaultPrevented only when the current activeElement is inside the wrapper.
+		// If mousedown defaultPrevented when the activeElement is a textfield, the browser would display the autocomplete of the field on mousedown.
+		// To avoid this, the mousedown event only prevented when the target is not the control_input.
+		// The focus event need to be skipped then so the dropdown opening on click, and not on mousedown.
+		addEvent(control_input, 'mousedown', () => this.ignoreFocus = true);
+		addEvent(control_input, 'mouseup', () => this.ignoreFocus = false);
+
 		addEvent(control,'click', (evt) => {
 
 			var target_match = parentMatch( evt.target as HTMLElement, '[data-ts-item]', control);
@@ -378,18 +385,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// event target is the input it should not be modified.
 			// otherwise, text selection within the input won't work.
 			// Fixes bug #212 which is no covered by tests
-			if( target == control_input && self.isOpen ){
-				evt.stopPropagation();
-
-			// clicking anywhere in the control should not blur the control_input (which would close the dropdown)
-			} else {
-				const root: DocumentOrShadowRoot = wrapper.getRootNode() as Document | ShadowRoot;
-
-				if(root.activeElement
-					&& (wrapper === root.activeElement
-						|| wrapper.contains(root.activeElement))) {
-					preventDefault(evt, true);
+			if( target == control_input ){
+				if (self.isOpen) {
+					evt.stopPropagation();
 				}
+
+				// clicking anywhere in the control should not blur the control_input (which would close the dropdown)
+			} else {
+				preventDefault(evt, true);
 			}
 
 		};
@@ -903,7 +906,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if (self.settings.create && self.settings.createOnBlur) {
 			self.createItem(null, deactivate);
-		} else {
+		} else if(self.settings.focusInputOnOpen !== false) {
 			deactivate();
 		}
 	}
