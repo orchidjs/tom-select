@@ -37,6 +37,8 @@ export type TomSettings = {
 	loadingClass			: string,
 
 	focusOptionOnOpen       : boolean,
+	focusInputOnOpen        : boolean,
+	closeOnInputClick       : boolean,
 	allowOptgroupSelection  : boolean, // Allows the selection of all Options from a group
 
 	dataAttr				: string, //'data-data',

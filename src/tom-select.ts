@@ -323,6 +323,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		});
 
+		addEvent(control_input, 'click', (evt) => {
+			if(self.isFocused && self.isOpen && self.settings.closeOnInputClick === false) {
+				if((control_input.getRootNode() as Document | ShadowRoot)?.activeElement === control_input) {
+					preventDefault(evt, true);
+				}
+			}
+		});
+
 		addEvent(control,'click', (evt) => {
 
 			var target_match = parentMatch( evt.target as HTMLElement, '[data-ts-item]', control);
@@ -374,8 +382,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				evt.stopPropagation();
 
 			// clicking anywhere in the control should not blur the control_input (which would close the dropdown)
-			}else{
-				preventDefault(evt,true);
+			} else {
+				const root: DocumentOrShadowRoot = wrapper.getRootNode() as Document | ShadowRoot;
+
+				if(root.activeElement
+					&& (wrapper === root.activeElement
+						|| wrapper.contains(root.activeElement))) {
+					preventDefault(evt, true);
+				}
 			}
 
 		};
@@ -579,7 +593,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( self.isFocused && self.isOpen ){
 			self.blur();
 		} else {
-			self.focus();
+			if(self.settings.focusInputOnOpen !== false) {
+				self.focus();
+			} else {
+				self.onFocus();
+			}
 		}
 	}
 
@@ -2341,7 +2359,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		applyCSS(self.dropdown,{visibility: 'hidden', display: 'block'});
 		self.positionDropdown();
 		applyCSS(self.dropdown,{visibility: 'visible', display: 'block'});
-		self.focus();
+
+		if (self.settings.focusInputOnOpen !== false) {
+			self.focus();
+		} else {
+			self.onFocus();
+		}
 		self.trigger('dropdown_open', self.dropdown);
 	}
 
