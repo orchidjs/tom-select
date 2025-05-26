@@ -172,7 +172,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var control_input: HTMLInputElement;
 
 
-		addClasses( wrapper, settings.wrapperClass, classes, inputMode);
+		addClasses( wrapper, settings.wrapperClass, classes, inputMode, settings.hidePlaceholder ? 'hide-placeholder' : '');
 
 
 		addClasses(control,settings.controlClass);
@@ -398,7 +398,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		input.tabIndex = -1;
-		input.insertAdjacentElement('afterend', self.wrapper);
+		if(settings.wrapperParent instanceof HTMLElement) {
+			append(settings.wrapperParent, self.wrapper);
+		} else {
+			input.insertAdjacentElement('afterend', self.wrapper);
+		}
 
 		self.sync(false);
 		settings.items = [];
@@ -582,8 +586,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * input / select element.
 	 */
 	onChange() {
-		triggerEvent(this.input, 'input');
-		triggerEvent(this.input, 'change');
+		if (this.settings.triggerChangeEvent !== false) {
+			triggerEvent(this.input, 'input');
+			triggerEvent(this.input, 'change');
+		}
 	}
 
 	/**
@@ -875,8 +881,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var value, self = this;
 
 
-		// should not be possible to trigger a option under a disabled optgroup
-		if( option.parentElement && option.parentElement.matches('[data-disabled]') ){
+		// should not be possible to trigger a option under a disabled optgroup, or a disabled-group itself
+		if(option.matches('[data-disabled]') || option.parentElement && option.parentElement.matches('[data-disabled]') ){
 			return;
 		}
 
@@ -899,6 +905,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				if( !self.settings.hideSelected && evt.type && /click/.test(evt.type) ){
 					self.setActiveOption(option);
 				}
+			} else if(self.settings.allowOptgroupSelection
+				&& self.settings.mode === 'multi'
+				&& option.classList.contains('optgroup-header')
+				&& option.parentElement?.hasAttribute('data-group')) {
+				self.addItems(self.getOptionsByGroup(option.parentElement.getAttribute('data-group')).map(option => option.value))
 			}
 		}
 	}
@@ -984,6 +995,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.setupOptions(options,optgroups);
 
 		self.refreshOptions(self.isFocused && !self.isInputHidden);
+		self.positionDropdown();
 
 		if (!self.loading) {
 			removeClasses(self.wrapper,self.settings.loadingClass);
@@ -1874,6 +1886,19 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	}
 
 	/**
+	 * Returns all options which assigned to an optgroup
+	 */
+	getOptionsByGroup(group: null|string): TomOption[] {
+		const hashed = hash_key(group);
+
+		if (hashed === null) {
+			return Object.values(this.options).filter(option => option.optgroup === undefined);
+		}
+
+		return Object.values(this.options).filter(option => option.optgroup === hashed);
+	}
+
+	/**
 	 * Returns the dom element of the next or previous dom element of the same type
 	 * Note: adjacent options may not be adjacent DOM elements (optgroups)
 	 *
@@ -2436,8 +2461,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		self.inputState();
-		self.positionDropdown();
 		self.refreshOptions(false);
+		self.positionDropdown();
 
 		return true;
 	}
@@ -2660,6 +2685,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			setAttr(html,{'data-group': id});
 			if(data.group[self.settings.disabledField]) {
 				setAttr(html,{'data-disabled': ''});
+			}
+		} else if(templateName == 'optgroup_header') {
+			if (self.settings.mode === 'multi' && self.settings.allowOptgroupSelection) {
+				setAttr(html, {'data-selectable': ''});
 			}
 		}
 

@@ -17,14 +17,26 @@ import type TomSelect from '../../tom-select.ts';
 import * as constants from '../../constants.ts';
 import { getDom, addClasses } from '../../vanilla.ts';
 import { addEvent, preventDefault } from '../../utils.ts';
+import {DIOptions} from './types.ts';
 
 
-export default function(this:TomSelect) {
+export default function(this:TomSelect, options?: DIOptions) {
 	const self = this;
 
 	self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
+	const origPlaceholder = self.settings.placeholder;
+	if(options?.searchPlaceholder) {
+		self.settings.placeholder = options.searchPlaceholder;
+	}
+
 	self.hook('before','setup',()=>{
+		if(options?.showControlPlaceholder) {
+			const placeholderInput: HTMLInputElement = self.control_input.cloneNode() as HTMLInputElement;
+			placeholderInput.placeholder = origPlaceholder;
+			self.control.appendChild(placeholderInput);
+		}
+
 		self.focus_node		= self.control;
 
 		addClasses( self.control_input, 'dropdown-input');

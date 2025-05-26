@@ -67,6 +67,7 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 				self.removeItem(item);
 				self.refreshOptions(false);
 				self.inputState();
+				self.positionDropdown();
 			});
 
 			return item;

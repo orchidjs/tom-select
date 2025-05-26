@@ -29,6 +29,8 @@ export default {
 	loadThrottle: 300,
 	loadingClass: 'loading',
 
+	allowOptgroupSelection: false,
+
 	dataAttr: null, //'data-data',
 	optgroupField: 'optgroup',
 	valueField: 'value',

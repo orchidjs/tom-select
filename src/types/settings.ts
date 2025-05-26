@@ -36,6 +36,8 @@ export type TomSettings = {
 	loadThrottle			: number,
 	loadingClass			: string,
 
+	allowOptgroupSelection  : boolean, // Allows the selection of all Options from a group
+
 	dataAttr				: string, //'data-data',
 	optgroupField			: string,
 	valueField				: string,
@@ -58,6 +60,7 @@ export type TomSettings = {
 	itemClass				: string,
 	optionClass				: string,
 
+	wrapperParent           ?: HTMLElement,
 	dropdownParent			: string,
 	controlInput			: string|HTMLInputElement,
 
@@ -65,6 +68,8 @@ export type TomSettings = {
 
 	placeholder				: string,
 	hidePlaceholder			: boolean,
+
+	triggerChangeEvent     ?: boolean,
 
 	load					: (value:string, callback:TomLoadCallback) => void,
 	score					?: (query:string) => () => any,
