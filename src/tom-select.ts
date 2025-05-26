@@ -386,9 +386,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// otherwise, text selection within the input won't work.
 			// Fixes bug #212 which is no covered by tests
 			const isDropdownInputPluginPlaceholderInput = target instanceof HTMLInputElement && target.classList.contains('placeholder-input');
-			if( target == control_input
-				|| (target instanceof HTMLInputElement && target.classList.contains('placeholder-input'))){
+			if( target == control_input || isDropdownInputPluginPlaceholderInput ){
 				if (self.isOpen) {
+					if (isDropdownInputPluginPlaceholderInput) {
+						preventDefault(evt);
+					}
 					evt.stopPropagation();
 				}
 
@@ -908,7 +910,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		if (self.settings.create && self.settings.createOnBlur) {
 			self.createItem(null, deactivate);
-		} else if(self.settings.focusInputOnOpen !== false) {
+		} else {
 			deactivate();
 		}
 	}
