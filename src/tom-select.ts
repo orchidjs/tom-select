@@ -1644,7 +1644,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					active_option = self.getOption(self.items[0]);
 				}
 
-				if( !dropdown_content.contains(active_option)  ){
+				if (active_option?.classList.contains('optgroup-header')) {
+					active_option = null;
+				} else if( !dropdown_content.contains(active_option)  ){
 					resetActiveOption = true;
 
 					let active_index = 0;
@@ -1664,7 +1666,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 				self.scrollToOption(active_option,'auto');
 			}
-			if( self.settings.focusOptionOnOpen !== false || self.currentResults.query !== '') {
+			if( self.settings.focusOptionOnOpen !== false || self.currentResults?.query !== '') {
 				self.setActiveOption(active_option);
 			} else if( resetActiveOption ) {
 				self.setActiveOption(null);

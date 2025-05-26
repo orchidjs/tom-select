@@ -51,7 +51,7 @@ export type TomSettings = {
 	lockOptgroupOrder		: boolean,
 
 	sortField				: string|SifterSort[]|SifterSortFn,
-	searchField				: Array<string | SifterTypes.Field>,
+	searchField				: string[],
 	searchConjunction		: string,
 	nesting					: boolean,
 

@@ -16,7 +16,7 @@
 import type TomSelect from '../../tom-select.ts';
 import { TomOption } from '../../types/index.ts';
 import { addClasses } from '../../vanilla.ts';
-import {VSOptions} from './types';
+import {VSOptions} from './types.ts';
 
 export default function(this:TomSelect, userOptions: VSOptions) {
 	const self							= this;
