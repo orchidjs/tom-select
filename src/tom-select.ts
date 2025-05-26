@@ -314,6 +314,15 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		});
 
+		// Mouseover Option should mark it as active
+		addEvent(dropdown, 'mouseover', (evt) => {
+			const option = parentMatch(evt.target as HTMLElement, '[data-selectable]');
+			if( option ){
+				self.setActiveOption(option);
+				preventDefault(evt,true);
+			}
+		});
+
 		addEvent(control,'click', (evt) => {
 
 			var target_match = parentMatch( evt.target as HTMLElement, '[data-ts-item]', control);
@@ -696,6 +705,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				} else if (self.activeOption) {
 					let next = self.getAdjacent(self.activeOption, 1);
 					if (next) self.setActiveOption(next);
+				} else if(self.activeOption === null) {
+					const next = self.selectable().item(0)
+					if(next) {
+						self.setActiveOption(next);
+					}
 				}
 				preventDefault(e);
 				return;
@@ -705,6 +719,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				if (self.activeOption) {
 					let prev = self.getAdjacent(self.activeOption, -1);
 					if (prev) self.setActiveOption(prev);
+				} else if(self.activeOption === null) {
+					const selectable = self.selectable();
+					if(selectable.length) {
+						self.setActiveOption(selectable.item(selectable.length - 1));
+					}
 				}
 				preventDefault(e);
 				return;
@@ -1590,6 +1609,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// activate
 		self.hasOptions = results.items.length > 0 || has_create_option;
 		if( show_dropdown ){
+			// Reset activeOption on search
+			let resetActiveOption = !!query;
 
 			if (results.items.length > 0) {
 
@@ -1598,6 +1619,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 
 				if( !dropdown_content.contains(active_option)  ){
+					resetActiveOption = true;
 
 					let active_index = 0;
 					if( create && !self.settings.addPrecedence ){
@@ -1614,7 +1636,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.open();
 				self.scrollToOption(active_option,'auto');
 			}
-			self.setActiveOption(active_option);
+			if( self.settings.focusOptionOnOpen !== false ) {
+				self.setActiveOption(active_option);
+			} else if( resetActiveOption ) {
+				self.setActiveOption(null);
+			}
 
 		}else{
 			self.clearActiveOption();
@@ -1628,7 +1654,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Return list of selectable options
 	 *
 	 */
-	selectable():NodeList{
+	selectable():NodeListOf<HTMLElement>{
 		return this.dropdown_content.querySelectorAll('[data-selectable]');
 	}
 

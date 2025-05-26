@@ -36,6 +36,7 @@ export type TomSettings = {
 	loadThrottle			: number,
 	loadingClass			: string,
 
+	focusOptionOnOpen       : boolean,
 	allowOptgroupSelection  : boolean, // Allows the selection of all Options from a group
 
 	dataAttr				: string, //'data-data',
@@ -48,7 +49,7 @@ export type TomSettings = {
 	lockOptgroupOrder		: boolean,
 
 	sortField				: string|SifterSort[]|SifterSortFn,
-	searchField				: string[],
+	searchField				: Array<string | SifterTypes.Field>,
 	searchConjunction		: string,
 	nesting					: boolean,
 
