@@ -190,6 +190,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		getDom( settings.dropdownParent || wrapper ).appendChild( dropdown );
 
+		if (this.settings.mode === 'multi') {
+			setAttr(dropdown_content, {'aria-multiselectable':'true'});
+		}
 
 		// default controlInput
 		if( isHtmlString(settings.controlInput) ){
@@ -1225,7 +1228,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		this.activeOption = option;
 		setAttr(this.focus_node,{'aria-activedescendant':option.getAttribute('id')});
-		setAttr(option,{'aria-selected':'true'});
 		addClasses(option,'active');
 		if( scroll ) this.scrollToOption(option);
 	}
@@ -1272,7 +1274,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	clearActiveOption(){
 		if( this.activeOption ){
 			removeClasses(this.activeOption,'active');
-			setAttr(this.activeOption,{'aria-selected':null});
 		}
 		this.activeOption = null;
 		setAttr(this.focus_node,{'aria-activedescendant':null});
@@ -1512,6 +1513,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// toggle 'selected' class
 			if( !self.settings.hideSelected ){
 				option_el.classList.toggle('selected', self.items.includes(opt_hash) );
+
+				const isSelected = option_el.classList.contains('selected');
+				setAttr(option_el,{'aria-selected':isSelected.toString()});
 			}
 
 			optgroup    = option[self.settings.optgroupField] || '';
@@ -2758,7 +2762,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		} else if(templateName == 'optgroup_header') {
 			if (self.settings.mode === 'multi' && self.settings.allowOptgroupSelection) {
 				setAttr(html, {'data-selectable': ''});
+				setAttr(html, {'role': 'group'});
 			}
+
+			setAttr(html, {id: 'optgroup-header-' + instance_i});
 		}
 
 		if (templateName === 'option' || templateName === 'item') {

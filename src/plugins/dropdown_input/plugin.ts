@@ -15,7 +15,7 @@
 
 import type TomSelect from '../../tom-select.ts';
 import * as constants from '../../constants.ts';
-import { getDom, addClasses } from '../../vanilla.ts';
+import {getDom, addClasses, setAttr} from '../../vanilla.ts';
 import { preventDefault } from '../../utils.ts';
 import {DIOptions} from './types.ts';
 
@@ -96,6 +96,12 @@ export default function(this:TomSelect, options?: DIOptions) {
 
 			if( !self.isOpen ) return;
 			self.focus_node.focus({preventScroll: true});
+		});
+
+		self.hook('before', 'setActiveOption', ( option:null|HTMLElement) => {
+			if (option) {
+				setAttr(self.control_input,{'aria-activedescendant':option.getAttribute('id')});
+			}
 		});
 
 	});
