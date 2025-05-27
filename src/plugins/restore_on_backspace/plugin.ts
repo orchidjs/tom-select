@@ -33,7 +33,7 @@ export default function(this:TomSelect, userOptions:TPluginOptions) {
 			return;
 		}
 
-		if( self.control_input.value.trim() === '' && !self.isInputHidden){
+		if( self.control_input.value.trim() === ''){
 			var option = self.options[value];
 			if( option ){
 				self.setTextboxValue(options.text.call(self, option));
