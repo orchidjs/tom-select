@@ -389,18 +389,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// event target is the input it should not be modified.
 			// otherwise, text selection within the input won't work.
 			// Fixes bug #212 which is no covered by tests
-			const isDropdownInputPluginPlaceholderInput = target instanceof HTMLInputElement && target.classList.contains('placeholder-input');
-			if( target == control_input || isDropdownInputPluginPlaceholderInput ){
-				if (self.isOpen) {
-					if (isDropdownInputPluginPlaceholderInput) {
-						preventDefault(evt);
-					}
-					evt.stopPropagation();
-				}
+			if( target == control_input && self.isOpen ){
+				evt.stopPropagation();
 
 				// clicking anywhere in the control should not blur the control_input (which would close the dropdown)
-			} else {
-				preventDefault(evt, true);
+			}else{
+				preventDefault(evt,true);
 			}
 
 		};
@@ -737,7 +731,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				} else if(self.activeOption === null) {
 					const next = self.selectable().item(0)
 					if(next) {
-						self.setActiveOption(next);
+						self.setActiveOption(next as HTMLElement);
 					}
 				}
 				preventDefault(e);
@@ -751,7 +745,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				} else if(self.activeOption === null) {
 					const selectable = self.selectable();
 					if(selectable.length) {
-						self.setActiveOption(selectable.item(selectable.length - 1));
+						self.setActiveOption(selectable.item(selectable.length - 1) as HTMLElement);
 					}
 				}
 				preventDefault(e);
@@ -957,7 +951,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				&& self.settings.mode === 'multi'
 				&& option.classList.contains('optgroup-header')
 				&& option.parentElement?.hasAttribute('data-group')) {
-				self.addItems(self.getOptionsByGroup(option.parentElement.getAttribute('data-group')).map(option => option.value))
+				self.addItems(self.getOptionsByGroup(option.parentElement.getAttribute('data-group')).map((option: TomOption) => option.value))
 			}
 		}
 	}

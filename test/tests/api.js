@@ -430,6 +430,7 @@
 				});
 
 				test.instance.addOption([{value: 'new1'}, {value: 'new2'}]);
+				// select items - order of existing items is not changed
 				test.instance.addItems(['a','new1','b','new2']);
 
 				var selected		= test.html.querySelectorAll('option:checked');
@@ -437,12 +438,14 @@
 				var option_new1		= test.html.querySelector('option[value="new1"]');
 				var option_b		= test.html.querySelector('option[value="b"]');
 				var option_new2		= test.html.querySelector('option[value="new2"]');
+				var option_c		= test.html.querySelector('option[value="c"]');
 
 				assert.equal(selected.length, 4,'should have four selected options');
 				assert.equal(test.instance.items.length, 4,'should have four items');
-				assert.equal(option_a.nextSibling, option_new1 ,'"new1" should be after "a"');
-				assert.equal(option_new1.nextSibling, option_b ,'"b" should be after "new1"');
-				assert.equal(option_b.nextSibling, option_new2 ,'"new2" should be after "b"');
+				assert.equal(option_a.nextSibling, option_b, '"b" should be after "a"');
+				assert.equal(option_b.nextSibling, option_c, '"c should be after "b"');
+				assert.equal(option_c.nextSibling, option_new1, '"new1" should be after "c"');
+				assert.equal(option_new1.nextSibling, option_new2, '"new2" should be after "new1"');
 				done();
 
 			});
