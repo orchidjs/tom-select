@@ -15,11 +15,12 @@
 
 import type TomSelect from '../../tom-select.ts';
 import * as constants from '../../constants.ts';
-import { getDom, addClasses } from '../../vanilla.ts';
-import { addEvent, preventDefault } from '../../utils.ts';
+import {getDom, addClasses, setAttr} from '../../vanilla.ts';
+import {preventDefault} from '../../utils.ts';
+import {DIOptions} from './types.ts';
 
 
-export default function(this:TomSelect) {
+export default function(this:TomSelect, options?: DIOptions) {
 	const self = this;
 
 	self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
@@ -37,11 +38,21 @@ export default function(this:TomSelect) {
 		const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />') as HTMLInputElement;
 		placeholder.placeholder = self.settings.placeholder ||'';
 		self.control.append(placeholder);
-
 	});
 
 
 	self.on('initialize',()=>{
+		if (options?.searchPlaceholder) {
+			self.control_input.placeholder = options.searchPlaceholder;
+		}
+
+		setAttr(self.control_input, {
+			role: 'combobox',
+			'aria-haspopup': 'listbox',
+			'aria-expanded': 'true',
+			'aria-controls': self.dropdown_content.id,
+			'aria-labelledby': self.settings.labelId
+		});
 
 		// set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
 		self.control_input.addEventListener('keydown',(evt:KeyboardEvent) =>{
@@ -67,8 +78,10 @@ export default function(this:TomSelect) {
 
 
 		// give the control_input focus when the dropdown is open
-		self.on('dropdown_open',() =>{
-			self.control_input.focus();
+		self.on('dropdown_open',() => {
+			if (self.settings.focusInputOnOpen !== false) {
+				self.control_input.focus();
+			}
 		});
 
 		// prevent onBlur from closing when focus is on the control_input
@@ -78,13 +91,25 @@ export default function(this:TomSelect) {
 			return orig_onBlur.call(self);
 		});
 
-		addEvent(self.control_input,'blur', () => self.onBlur() );
+		self.control_input.addEventListener('keydown', (evt: KeyboardEvent) => {
+			switch (evt.keyCode) {
+				case constants.KEY_TAB:
+					self.onBlur();
+					break;
+			}
+		});
 
 		// return focus to control to allow further keyboard input
 		self.hook('before','close',() =>{
 
 			if( !self.isOpen ) return;
 			self.focus_node.focus({preventScroll: true});
+		});
+
+		self.hook('before', 'setActiveOption', ( option:null|HTMLElement) => {
+			if (option) {
+				setAttr(self.control_input,{'aria-activedescendant':option.getAttribute('id')});
+			}
 		});
 
 	});

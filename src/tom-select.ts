@@ -172,7 +172,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var control_input: HTMLInputElement;
 
 
-		addClasses( wrapper, settings.wrapperClass, classes, inputMode);
+		addClasses( wrapper, settings.wrapperClass, classes, inputMode, settings.hidePlaceholder ? 'hide-placeholder' : '');
 
 
 		addClasses(control,settings.controlClass);
@@ -190,6 +190,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		getDom( settings.dropdownParent || wrapper ).appendChild( dropdown );
 
+		if (this.settings.mode === 'multi') {
+			setAttr(dropdown_content, {'aria-multiselectable':'true'});
+		}
 
 		// default controlInput
 		if( isHtmlString(settings.controlInput) ){
@@ -314,6 +317,30 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		});
 
+		// Mouseover Option should mark it as active
+		addEvent(dropdown, 'mouseover', (evt) => {
+			const option = parentMatch(evt.target as HTMLElement, '[data-selectable]');
+			if( option ){
+				self.setActiveOption(option);
+				preventDefault(evt,true);
+			}
+		});
+
+		addEvent(control_input, 'click', (evt) => {
+			if(self.isFocused && self.isOpen && self.settings.closeOnInputClick === false) {
+				if((control_input.getRootNode() as Document | ShadowRoot)?.activeElement === control_input) {
+					preventDefault(evt, true);
+				}
+			}
+		});
+
+		// mousedown event on document defaultPrevented only when the current activeElement is inside the wrapper.
+		// If mousedown defaultPrevented when the activeElement is a textfield, the browser would display the autocomplete of the field on mousedown.
+		// To avoid this, the mousedown event only prevented when the target is not the control_input.
+		// The focus event need to be skipped then so the dropdown opening on click, and not on mousedown.
+		addEvent(control_input, 'mousedown', () => this.ignoreFocus = true);
+		addEvent(control_input, 'mouseup', () => this.ignoreFocus = false);
+
 		addEvent(control,'click', (evt) => {
 
 			var target_match = parentMatch( evt.target as HTMLElement, '[data-ts-item]', control);
@@ -347,8 +374,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			// blur if target is outside of this instance
 			// dropdown is not always inside wrapper
+			const composedPath = evt.composedPath();
 			const target = evt.composedPath()[0];
-			if( !wrapper.contains(target as HTMLElement) && !dropdown.contains(target as HTMLElement) ){
+			if (!composedPath.includes(wrapper) && !composedPath.includes(dropdown)) {
 				if (self.isFocused) {
 					self.blur();
 				}
@@ -364,7 +392,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if( target == control_input && self.isOpen ){
 				evt.stopPropagation();
 
-			// clicking anywhere in the control should not blur the control_input (which would close the dropdown)
+				// clicking anywhere in the control should not blur the control_input (which would close the dropdown)
 			}else{
 				preventDefault(evt,true);
 			}
@@ -398,7 +426,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 
 		input.tabIndex = -1;
-		input.insertAdjacentElement('afterend', self.wrapper);
+		if(settings.wrapperParent instanceof HTMLElement) {
+			append(settings.wrapperParent, self.wrapper);
+		} else {
+			input.insertAdjacentElement('afterend', self.wrapper);
+		}
 
 		self.sync(false);
 		settings.items = [];
@@ -566,7 +598,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( self.isFocused && self.isOpen ){
 			self.blur();
 		} else {
-			self.focus();
+			if(self.settings.focusInputOnOpen !== false) {
+				self.focus();
+			} else {
+				self.onFocus();
+			}
 		}
 	}
 
@@ -582,8 +618,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * input / select element.
 	 */
 	onChange() {
-		triggerEvent(this.input, 'input');
-		triggerEvent(this.input, 'change');
+		if (this.settings.triggerChangeEvent !== false) {
+			triggerEvent(this.input, 'input');
+			triggerEvent(this.input, 'change');
+		}
 	}
 
 	/**
@@ -690,6 +728,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				} else if (self.activeOption) {
 					let next = self.getAdjacent(self.activeOption, 1);
 					if (next) self.setActiveOption(next);
+				} else if(self.activeOption === null) {
+					const next = self.selectable().item(0)
+					if(next) {
+						self.setActiveOption(next as HTMLElement);
+					}
 				}
 				preventDefault(e);
 				return;
@@ -699,6 +742,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				if (self.activeOption) {
 					let prev = self.getAdjacent(self.activeOption, -1);
 					if (prev) self.setActiveOption(prev);
+				} else if(self.activeOption === null) {
+					const selectable = self.selectable();
+					if(selectable.length) {
+						self.setActiveOption(selectable.item(selectable.length - 1) as HTMLElement);
+					}
 				}
 				preventDefault(e);
 				return;
@@ -875,8 +923,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		var value, self = this;
 
 
-		// should not be possible to trigger a option under a disabled optgroup
-		if( option.parentElement && option.parentElement.matches('[data-disabled]') ){
+		// should not be possible to trigger a option under a disabled optgroup, or a disabled-group itself
+		if(option.matches('[data-disabled]') || option.parentElement && option.parentElement.matches('[data-disabled]') ){
 			return;
 		}
 
@@ -899,6 +947,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				if( !self.settings.hideSelected && evt.type && /click/.test(evt.type) ){
 					self.setActiveOption(option);
 				}
+			} else if(self.settings.allowOptgroupSelection
+				&& self.settings.mode === 'multi'
+				&& option.classList.contains('optgroup-header')
+				&& option.parentElement?.hasAttribute('data-group')) {
+				self.addItems(self.getOptionsByGroup(option.parentElement.getAttribute('data-group')).map((option: TomOption) => option.value))
 			}
 		}
 	}
@@ -922,6 +975,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	onItemSelect( evt?:MouseEvent, item?:TomItem ):boolean{
 		var self = this;
+
+		if (!self.isOpen) {
+			self.open();
+		}
 
 		if( !self.isLocked && self.settings.mode === 'multi' ){
 			preventDefault(evt);
@@ -984,6 +1041,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.setupOptions(options,optgroups);
 
 		self.refreshOptions(self.isFocused && !self.isInputHidden);
+		self.positionDropdown();
 
 		if (!self.loading) {
 			removeClasses(self.wrapper,self.settings.loadingClass);
@@ -1164,7 +1222,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		this.activeOption = option;
 		setAttr(this.focus_node,{'aria-activedescendant':option.getAttribute('id')});
-		setAttr(option,{'aria-selected':'true'});
 		addClasses(option,'active');
 		if( scroll ) this.scrollToOption(option);
 	}
@@ -1211,7 +1268,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	clearActiveOption(){
 		if( this.activeOption ){
 			removeClasses(this.activeOption,'active');
-			setAttr(this.activeOption,{'aria-selected':null});
 		}
 		this.activeOption = null;
 		setAttr(this.focus_node,{'aria-activedescendant':null});
@@ -1451,6 +1507,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// toggle 'selected' class
 			if( !self.settings.hideSelected ){
 				option_el.classList.toggle('selected', self.items.includes(opt_hash) );
+
+				const isSelected = option_el.classList.contains('selected');
+				setAttr(option_el,{'aria-selected':isSelected.toString()});
 			}
 
 			optgroup    = option[self.settings.optgroupField] || '';
@@ -1578,6 +1637,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// activate
 		self.hasOptions = results.items.length > 0 || has_create_option;
 		if( show_dropdown ){
+			// Reset activeOption on search
+			let resetActiveOption = !!query;
 
 			if (results.items.length > 0) {
 
@@ -1585,7 +1646,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					active_option = self.getOption(self.items[0]);
 				}
 
-				if( !dropdown_content.contains(active_option)  ){
+				if (active_option?.classList.contains('optgroup-header')) {
+					active_option = null;
+				} else if( !dropdown_content.contains(active_option)  ){
+					resetActiveOption = true;
 
 					let active_index = 0;
 					if( create && !self.settings.addPrecedence ){
@@ -1599,10 +1663,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 
 			if( triggerDropdown && !self.isOpen ){
-				self.open();
+				if(!self.isOpen) {
+					self.open();
+				}
 				self.scrollToOption(active_option,'auto');
 			}
-			self.setActiveOption(active_option);
+			if( self.settings.focusOptionOnOpen !== false || self.currentResults?.query !== '') {
+				self.setActiveOption(active_option);
+			} else if( resetActiveOption ) {
+				self.setActiveOption(null);
+			}
 
 		}else{
 			self.clearActiveOption();
@@ -1616,7 +1686,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 * Return list of selectable options
 	 *
 	 */
-	selectable():NodeList{
+	selectable():NodeListOf<HTMLElement>{
 		return this.dropdown_content.querySelectorAll('[data-selectable]');
 	}
 
@@ -1871,6 +1941,19 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns all options which assigned to an optgroup
+	 */
+	getOptionsByGroup(group: null|string): TomOption[] {
+		const hashed = hash_key(group);
+
+		if (hashed === null) {
+			return Object.values(this.options).filter(option => option.optgroup === undefined);
+		}
+
+		return Object.values(this.options).filter(option => option.optgroup === hashed);
 	}
 
 	/**
@@ -2216,14 +2299,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			function AddSelected(option_el:HTMLOptionElement|null, value:string, label:string):HTMLOptionElement{
 
+				let created = false;
 				if( !option_el ){
+					created = true;
 					option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>') as HTMLOptionElement;
 				}
 
 				// don't move empty option from top of list
 				// fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293
 				if( option_el != empty_option ){
-					self.input.append(option_el);
+					if (self.plugins.names.includes('drag_drop') || created) {
+						self.input.append(option_el);
+					}
 				}
 
 				selected.push(option_el);
@@ -2290,7 +2377,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		applyCSS(self.dropdown,{visibility: 'hidden', display: 'block'});
 		self.positionDropdown();
 		applyCSS(self.dropdown,{visibility: 'visible', display: 'block'});
-		self.focus();
+
+		if (self.settings.focusInputOnOpen !== false) {
+			self.focus();
+		} else {
+			self.onFocus();
+		}
 		self.trigger('dropdown_open', self.dropdown);
 	}
 
@@ -2436,8 +2528,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		self.inputState();
-		self.positionDropdown();
 		self.refreshOptions(false);
+		self.positionDropdown();
 
 		return true;
 	}
@@ -2661,6 +2753,13 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if(data.group[self.settings.disabledField]) {
 				setAttr(html,{'data-disabled': ''});
 			}
+		} else if(templateName == 'optgroup_header') {
+			if (self.settings.mode === 'multi' && self.settings.allowOptgroupSelection) {
+				setAttr(html, {'data-selectable': ''});
+				setAttr(html, {'role': 'group'});
+			}
+
+			setAttr(html, {id: 'optgroup-header-' + data.$order});
 		}
 
 		if (templateName === 'option' || templateName === 'item') {

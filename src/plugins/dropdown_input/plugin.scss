@@ -1,4 +1,15 @@
 .plugin-dropdown_input{
+	&.has-items {
+		&.hide-placeholder {
+			.#{$select-ns}-control {
+				> input {
+					opacity: 0;
+					position: absolute;
+					left: -10000px;
+				}
+			}
+		}
+	}
 
 	&.focus.dropdown-active .#{$select-ns}-control{
 		box-shadow: none;

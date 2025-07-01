@@ -3,7 +3,7 @@ import { TomCreateFilter, TomCreate, TomLoadCallback, TomTemplates, TomOption } 
 
 import { TPluginItem, TPluginHash } from '../contrib/microplugin.ts';
 import { type Sort as SifterSort, type SortFn as SifterSortFn } from '@orchidjs/sifter';
-
+import {Field} from '@orchidjs/sifter';
 
 
 export type TomSettings = {
@@ -36,17 +36,23 @@ export type TomSettings = {
 	loadThrottle			: number,
 	loadingClass			: string,
 
+	focusOptionOnOpen       : boolean,
+	focusInputOnOpen        : boolean,
+	closeOnInputClick       : boolean,
+	allowOptgroupSelection  : boolean, // Allows the selection of all Options from a group
+
 	dataAttr				: string, //'data-data',
 	optgroupField			: string,
 	valueField				: string,
 	labelField				: string,
+	labelId                 : string, // id of external label for referencing
 	disabledField			: string,
 	optgroupLabelField		: string,
 	optgroupValueField		: string,
 	lockOptgroupOrder		: boolean,
 
 	sortField				: string|SifterSort[]|SifterSortFn,
-	searchField				: string[],
+	searchField				: string[] | Field[],
 	searchConjunction		: string,
 	nesting					: boolean,
 
@@ -58,6 +64,7 @@ export type TomSettings = {
 	itemClass				: string,
 	optionClass				: string,
 
+	wrapperParent           ?: HTMLElement,
 	dropdownParent			: string,
 	controlInput			: string|HTMLInputElement,
 
@@ -65,6 +72,8 @@ export type TomSettings = {
 
 	placeholder				: string,
 	hidePlaceholder			: boolean,
+
+	triggerChangeEvent     ?: boolean,
 
 	load					: (value:string, callback:TomLoadCallback) => void,
 	score					?: (query:string) => () => any,
