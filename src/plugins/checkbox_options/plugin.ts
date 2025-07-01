@@ -25,6 +25,7 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 	var orig_onOptionSelect = self.onOptionSelect;
 
 	self.settings.hideSelected = false;
+	self.settings.clearSearchOnChange = false;
 
 	const cbOptions : CBOptions = Object.assign({
 		// so that the user may add different ones as well

@@ -17,6 +17,7 @@ export default {
 	maxOptions: 50,
 	maxItems: null,
 	hideSelected: null,
+	clearSearchOnChange: true,
 	duplicates: false,
 	addPrecedence: false,
 	selectOnTab: false,
