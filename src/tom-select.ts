@@ -885,6 +885,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.createItem(null, () => {
 				if (self.settings.closeAfterSelect) {
 					self.close();
+				} else if(self.settings.clearInputOnSelect) {
+					self.setTextboxValue();
 				}
 			});
 		} else {
@@ -894,6 +896,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
+				} else if(self.settings.clearInputOnSelect) {
+					self.setTextboxValue();
 				}
 
 				if( !self.settings.hideSelected && evt.type && /click/.test(evt.type) ){
@@ -2001,6 +2005,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					self.close();
 				} else if (!self.isPending) {
 					self.positionDropdown();
+				}
+				
+				//remove input value when enabled
+				if(self.settings.clearInputOnSelect) {
+					self.setTextboxValue();
 				}
 
 				self.trigger('item_add', hashed, item);
