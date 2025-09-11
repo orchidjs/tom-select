@@ -127,7 +127,7 @@ create: function(input,callback){
 <tr>
 	<td><code>createOnBlur</code></td>
 	<td>
-		If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
+		If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled). Existing options will also be added on blur.
 	<td><code>boolean</code></td>
 	<td><code>false</code></td>
 </tr>
