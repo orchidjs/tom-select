@@ -741,7 +741,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 						// if select isFull, then the dropdown won't be open and [tab] will work normally
 						preventDefault(e);
 					}
-					if (self.settings.create && self.createItem()) {
+					else (self.settings.create && self.createItem()) {
 						preventDefault(e);
 					}
 				}
