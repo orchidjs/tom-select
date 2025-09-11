@@ -2082,6 +2082,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		input = input || self.inputValue();
 
 		if (!self.canCreate(input)) {
+			const hash = hash_key(input);
+				if( hash ){
+					if( this.options[input] ){
+						self.addItem(input);
+					}
+				}
 			callback();
 			return false;
 		}
