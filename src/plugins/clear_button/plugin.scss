@@ -19,10 +19,10 @@
 	&.single .clear-button {
 
 		@if variable-exists(select-padding-dropdown-item-x) {
-			right: Max(var(--ts-pr-caret), #{$select-padding-dropdown-item-x});
+			right: unquote('max(var(--ts-pr-caret), #{$select-padding-dropdown-item-x})');
 		}
 		@else{
-			right: Max(var(--ts-pr-caret), calc(#{$select-padding-x} - #{$select-padding-item-x}));
+			right: unquote('max(var(--ts-pr-caret), calc(#{$select-padding-x} - #{$select-padding-item-x}))');
 		}
 	}
 
