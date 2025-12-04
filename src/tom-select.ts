@@ -885,6 +885,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.createItem(null, () => {
 				if (self.settings.closeAfterSelect) {
 					self.close();
+					self.blur();
 				}
 			});
 		} else {
@@ -894,6 +895,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
+					self.blur();
 				}
 
 				if( !self.settings.hideSelected && evt.type && /click/.test(evt.type) ){
@@ -1999,6 +2001,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				// hide the menu if the maximum number of items have been selected or no options are left
 				if( self.settings.closeAfterSelect != false && self.isFull() ){
 					self.close();
+					self.blur();
 				} else if (!self.isPending) {
 					self.positionDropdown();
 				}
