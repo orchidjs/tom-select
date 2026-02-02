@@ -1,0 +1,27 @@
+name: publish
+on:
+ release:
+   types: [created]
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Publish latest release
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: npm ci
+      - name: Build dist files
+        run: npm run build
+      - name: Publish
+        run: npm publish
