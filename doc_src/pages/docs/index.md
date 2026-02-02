@@ -260,7 +260,7 @@ tom.inputState();
 	</tr>
 	<tr>
 		<td><code>selectOnTab</code></td>
-		<td>If true, the tab key will choose the currently selected item.</td>
+		<td>If true, the tab key will choose the currently selected item. If the option <code>'create'</code> is enabled and no current Item is selectable, a new item will be created.</td>
 		<td><code>boolean</code></td>
 		<td><code>false</code></td>
 	</tr>
