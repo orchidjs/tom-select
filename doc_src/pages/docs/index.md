@@ -208,6 +208,12 @@ create: function(input,callback){
 		<td><code>300</code></td>
 	</tr>
 	<tr>
+		<td><code>refreshThrottle</code></td>
+		<td>The number of milliseconds to wait before search from options. If 0, the list will be refreshed immediately when you type in.</td>
+		<td><code>int</code></td>
+		<td><code>300</code></td>
+	</tr>
+	<tr>
 		<td><code>loadingClass</code></td>
 		<td>The class name added to the wrapper element while awaiting the fulfillment of load requests.</td>
 		<td><code>string</code></td>
