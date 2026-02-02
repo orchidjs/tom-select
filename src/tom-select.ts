@@ -196,7 +196,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			control_input		= getDom(settings.controlInput ) as HTMLInputElement;
 
 			// set attributes
-			var attrs = ['autocorrect','autocapitalize','autocomplete','spellcheck'];
+			var attrs = ['autocorrect','autocapitalize','autocomplete','spellcheck','aria-label'];
 			iterate(attrs,(attr:string) => {
 				if( input.getAttribute(attr) ){
 					setAttr(control_input,{[attr]:input.getAttribute(attr)});
@@ -377,12 +377,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}
 		};
 
+		const input_invalid = () => {
+			if( self.isValid ){
+				self.isValid = false;
+				self.isInvalid = true;
+				self.refreshState();
+			}
+		}
 
+		addEvent(input,'invalid', input_invalid);
 		addEvent(document,'mousedown', doc_mousedown);
 		addEvent(window,'scroll', win_scroll, passive_event);
 		addEvent(window,'resize', win_scroll, passive_event);
 
 		this._destroy = () => {
+			input.removeEventListener('invalid',input_invalid);
 			document.removeEventListener('mousedown',doc_mousedown);
 			window.removeEventListener('scroll',win_scroll);
 			window.removeEventListener('resize',win_scroll);
@@ -405,15 +414,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		delete settings.optgroups;
 		delete settings.options;
 
-		addEvent(input,'invalid', () => {
-			if( self.isValid ){
-				self.isValid = false;
-				self.isInvalid = true;
-				self.refreshState();
-			}
-		});
-
-		self.updateOriginalInput();
 		self.refreshItems();
 		self.close(false);
 		self.inputState();
@@ -766,7 +766,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	onInput(e:MouseEvent|KeyboardEvent):void {
-		
+
 		if( this.isLocked ){
 			return;
 		}
@@ -774,7 +774,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		const value = this.inputValue();
 		if( this.lastValue === value ) return;
 		this.lastValue = value;
-		
+
 		if( value == '' ){
 			this._onInput();
 			return;
@@ -1456,14 +1456,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			optgroup    = option[self.settings.optgroupField] || '';
 			optgroups   = Array.isArray(optgroup) ? optgroup : [optgroup];
-			
+
 
 			for (j = 0, k = optgroups && optgroups.length; j < k; j++) {
 				optgroup = optgroups[j];
 
 				let order = option.$order;
 				let self_optgroup = self.optgroups[optgroup];
-				if( self_optgroup === undefined ){					
+				if( self_optgroup === undefined ){
 					optgroup = '';
 				}else{
 					order = self_optgroup.$order;
@@ -1486,8 +1486,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 							active_option = option_el;
 						}
 					}
-				}	
-				
+				}
+
 				group_fragment.appendChild(option_el);
 				if( optgroup != '' ){
 					groups[optgroup] = group_order_i;
