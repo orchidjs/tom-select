@@ -26,7 +26,8 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 		role: 'button',
 		tabindex: 0,
 		html: (data:CBOptions) => {
-			return `<div class="${data.className}" title="${data.title}" role="${data.role}" tabindex="${data.tabindex}">&#10799;</div>`;
+
+		return `<div class="${data.className}" title="${data.title}" role="${data.role}" tabindex="${data.tabindex}">&times;</div>`;
 		}
 	}, userOptions);
 
