@@ -269,6 +269,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		wrapper.style.width = input.style.width;
+        wrapper.style.minWidth = input.style.minWidth;
+        wrapper.style.maxWidth = input.style.maxWidth;
 
 		if (self.plugins.names.length) {
 			const classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
