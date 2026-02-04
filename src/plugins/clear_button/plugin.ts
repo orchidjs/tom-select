@@ -42,6 +42,8 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 			if( self.settings.mode === 'single' && self.settings.allowEmptyOption ){
 				self.addItem('');
 			}
+			
+			self.refreshOptions(false);
 
 			evt.preventDefault();
 			evt.stopPropagation();
