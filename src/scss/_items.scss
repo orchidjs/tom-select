@@ -44,6 +44,7 @@
 		background: $select-color-item;
 		color: $select-color-item-text;
 		border: $select-width-item-border solid $select-color-item-border;
+		overflow: auto;
 
 		&.active {
 			background: $select-color-item-active;
@@ -61,10 +62,6 @@
 	}
 
 	> input {
-		&::-ms-clear {
-			display: none;
-		}
-
 		flex: 1 1 auto;
 		min-width: 7rem;
 		display: inline-block !important;
@@ -79,6 +76,11 @@
 		line-height: inherit !important;
 		user-select: auto !important;
 		box-shadow: none !important;
+
+		&::-ms-clear {
+			display: none;
+		}
+
 		&:focus { outline: none !important; }
 	}
 
