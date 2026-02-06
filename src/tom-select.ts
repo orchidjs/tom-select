@@ -885,7 +885,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			self.createItem(null, () => {
 				if (self.settings.closeAfterSelect) {
 					self.close();
-				} else if(self.settings.clearInputOnSelect) {
+				} else if(self.settings.clearAfterSelect) {
 					self.setTextboxValue();
 				}
 			});
@@ -896,7 +896,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
-				} else if(self.settings.clearInputOnSelect) {
+				} else if(self.settings.clearAfterSelect) {
 					self.setTextboxValue();
 				}
 
@@ -2008,7 +2008,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 				
 				//remove input value when enabled
-				if(self.settings.clearInputOnSelect) {
+				if(self.settings.clearAfterSelect) {
 					self.setTextboxValue();
 				}
 
