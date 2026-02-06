@@ -1007,5 +1007,14 @@
 				assert.equal(test.instance.items.length, 1,'should have one item');
 				assert.equal(test.instance.items[0], 'new');
 			});
+
+			it_n('sync() should retain empty value',function(){
+				const test		= setup_test('AB_Single_Empty',{allowEmptyOption:true});
+				var opt_count	= Object.keys(test.instance.options).length;
+				test.instance.sync(true);
+
+				assert.equal(test.instance.items[0], '', 'empty item should remain');
+				assert.equal( Object.keys(test.instance.options).length, opt_count, 'option count remains');
+			});
 		});
 	});
