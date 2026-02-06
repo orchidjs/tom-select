@@ -127,7 +127,7 @@ create: function(input,callback){
 <tr>
 	<td><code>createOnBlur</code></td>
 	<td>
-		If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
+		If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled). Existing options will also be added on blur.
 	<td><code>boolean</code></td>
 	<td><code>false</code></td>
 </tr>
@@ -208,6 +208,12 @@ create: function(input,callback){
 		<td><code>300</code></td>
 	</tr>
 	<tr>
+		<td><code>refreshThrottle</code></td>
+		<td>The number of milliseconds to wait before search from options. If 0, the list will be refreshed immediately when you type in.</td>
+		<td><code>int</code></td>
+		<td><code>300</code></td>
+	</tr>
+	<tr>
 		<td><code>loadingClass</code></td>
 		<td>The class name added to the wrapper element while awaiting the fulfillment of load requests.</td>
 		<td><code>string</code></td>
@@ -254,7 +260,7 @@ tom.inputState();
 	</tr>
 	<tr>
 		<td><code>selectOnTab</code></td>
-		<td>If true, the tab key will choose the currently selected item.</td>
+		<td>If true, the tab key will choose the currently selected item. If the option <code>'create'</code> is enabled and no current Item is selectable, a new item will be created.</td>
 		<td><code>boolean</code></td>
 		<td><code>false</code></td>
 	</tr>
