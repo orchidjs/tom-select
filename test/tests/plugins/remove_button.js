@@ -123,4 +123,36 @@ describe('plugin: remove_button', function() {
 		await waitFor(100);
 		assert.equal( test.instance.items.length, 2 );
 	});
+
+	it_n('onDelete should be called with correct context (this)', async () => {
+		let contextCheck = null;
+		let apiCheck = null;
+
+		let test = setup_test('AB_Multi', {
+			onDelete: function(values, evt) {
+				contextCheck = this;
+				// Verify 'this' has access to TomSelect API methods
+				apiCheck = typeof this.getValue === 'function' &&
+					typeof this.addItem === 'function' &&
+					typeof this.removeItem === 'function';
+				return true; // allow deletion
+			}
+		});
+
+		test.instance.addItem('a');
+		test.instance.addItem('b');
+		assert.equal(test.instance.items.length, 2);
+
+		// Trigger deletion by setting active item and pressing backspace
+		test.instance.setActiveItem(test.instance.getItem('b'));
+		assert.equal(test.instance.activeItems.length, 1);
+
+		await asyncType('\b', test.instance.control_input);
+		await waitFor(10);
+
+		// Verify the callback was called and had correct context
+		assert.equal(contextCheck, test.instance, 'onDelete should have TomSelect instance as context');
+		assert.isTrue(apiCheck, 'onDelete should have access to TomSelect API methods');
+		assert.equal(test.instance.items.length, 1, 'item should be deleted');
+	});
 });
