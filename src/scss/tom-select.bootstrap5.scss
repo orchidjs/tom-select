@@ -142,6 +142,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		display:	flex;
 		align-items: center;
 	}
+	
+	input::placeholder {
+		color: var(--bs-secondary-color, #a7aeb8);
+		opacity: 1;
+	}
 }
 
 @include ts-form-validation-state-selector('invalid');
