@@ -105,9 +105,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			throw new Error('Tom Select already initialized on this element');
 		}
 
-
 		input.tomselect			= this;
-
 
 		// detect rtl environment
 		var computedStyle		= window.getComputedStyle && window.getComputedStyle(input, null);
@@ -224,7 +222,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.control_input		= control_input;
 
 		this.setup();
-        this.addAriaLabel();
 	}
 
 	/**
@@ -2175,24 +2172,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		wrap_classList.toggle('dropdown-active', self.isOpen)
 		wrap_classList.toggle('has-options', isEmptyObject(self.options) )
 		wrap_classList.toggle('has-items', self.items.length > 0);
-		this.addAriaLabel();
 	}
-
-    /**
-     * TomSelect renders a custom control with a focusable <input class="items-placeholder">.
-     * The source <select>'s aria-label is not automatically propagated to that input,
-     * which triggers "Missing form label" accessibility warnings.
-     * This helper copies the label from the <select> onto the generated input.
-    */
-    private addAriaLabel(): void {
-      const label = this.input?.getAttribute('aria-label');
-      if (!label) return;
-
-      const itemsPlaceholderInputEl = this.control?.querySelector('input.items-placeholder') as HTMLInputElement | null;
-      if (itemsPlaceholderInputEl) {
-        itemsPlaceholderInputEl.setAttribute('aria-label', label);
-      }
-    }
 
 	/**
 	 * Update the `required` attribute of both input and control input.

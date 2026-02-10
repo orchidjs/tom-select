@@ -38,11 +38,22 @@ export default function(this:TomSelect) {
 		placeholder.placeholder = self.settings.placeholder ||'';
 		self.control.append(placeholder);
 
+        /**
+         * TomSelect renders a custom control with a focusable <input class="items-placeholder">.
+         * The source <select>'s aria-label is not automatically propagated to that input,
+         * which triggers "Missing form label" accessibility warnings.
+         * This helper copies the label from the <select> onto the generated input.
+         */
+        const label = self.input?.getAttribute('aria-label');
+        if (!label) return;
+
+        const itemsPlaceholderInputEl = self.control?.querySelector('input.items-placeholder') as HTMLInputElement | null;
+        if (itemsPlaceholderInputEl) {
+          itemsPlaceholderInputEl.setAttribute('aria-label', label);
+        }
 	});
 
-
 	self.on('initialize',()=>{
-
 		// set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
 		self.control_input.addEventListener('keydown',(evt:KeyboardEvent) =>{
 		//addEvent(self.control_input,'keydown' as const,(evt:KeyboardEvent) =>{
@@ -88,5 +99,4 @@ export default function(this:TomSelect) {
 		});
 
 	});
-
 };
