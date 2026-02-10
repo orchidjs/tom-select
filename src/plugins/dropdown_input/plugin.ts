@@ -46,11 +46,7 @@ export default function(this:TomSelect) {
          */
         const label = self.input?.getAttribute('aria-label');
         if (!label) return;
-
-        const itemsPlaceholderInputEl = self.control?.querySelector('input.items-placeholder') as HTMLInputElement | null;
-        if (itemsPlaceholderInputEl) {
-          itemsPlaceholderInputEl.setAttribute('aria-label', label);
-        }
+        placeholder.setAttribute('aria-label', label);
 	});
 
 	self.on('initialize',()=>{
