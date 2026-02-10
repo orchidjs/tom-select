@@ -2178,13 +2178,19 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.addAriaLabel();
 	}
 
+    /**
+     * TomSelect renders a custom control with a focusable <input class="items-placeholder">.
+     * The source <select>'s aria-label is not automatically propagated to that input,
+     * which triggers "Missing form label" accessibility warnings.
+     * This helper copies the label from the <select> onto the generated input.
+    */
     private addAriaLabel(): void {
       const label = this.input?.getAttribute('aria-label');
       if (!label) return;
 
-      const input = this.control?.querySelector('input.items-placeholder') as HTMLInputElement | null;
-      if (input) {
-        input.setAttribute('aria-label', label);
+      const itemsPlaceholderInputEl = this.control?.querySelector('input.items-placeholder') as HTMLInputElement | null;
+      if (itemsPlaceholderInputEl) {
+        itemsPlaceholderInputEl.setAttribute('aria-label', label);
       }
     }
 
