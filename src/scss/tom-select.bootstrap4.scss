@@ -112,6 +112,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 			box-shadow: $input-focus-box-shadow;
 		}
 	}
+	
+	input::placeholder {
+		color: #a7aeb8;
+		opacity: 1;
+	}
 }
 
 .is-invalid .#{$select-ns}-control,
