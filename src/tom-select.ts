@@ -224,6 +224,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		this.control_input		= control_input;
 
 		this.setup();
+        this.addAriaLabel();
 	}
 
 	/**
@@ -2174,9 +2175,18 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		wrap_classList.toggle('dropdown-active', self.isOpen)
 		wrap_classList.toggle('has-options', isEmptyObject(self.options) )
 		wrap_classList.toggle('has-items', self.items.length > 0);
-
+		this.addAriaLabel();
 	}
 
+    private addAriaLabel(): void {
+      const label = this.input?.getAttribute('aria-label');
+      if (!label) return;
+
+      const input = this.control?.querySelector('input.items-placeholder') as HTMLInputElement | null;
+      if (input) {
+        input.setAttribute('aria-label', label);
+      }
+    }
 
 	/**
 	 * Update the `required` attribute of both input and control input.
