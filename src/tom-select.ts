@@ -2468,7 +2468,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		const values = items.map(item => item.dataset.value);
 
 		// allow the callback to abort
-		if( !values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete(values,evt) === false) ){
+		if( !values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete.call(this,values,evt) === false) ){
 			return false;
 		}
 
