@@ -1362,7 +1362,12 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// perform search
 		if (query !== self.lastQuery) {
 			self.lastQuery			= query;
-			result					= self.sifter.search(query, Object.assign(options, {score: calculateScore}));
+			// temp fix for https://github.com/orchidjs/tom-select/issues/987
+			// UI crashed when more than 30 same chars in a row, prevent search and return empt result
+			if (/(.)\1{15,}/.test(query)) {
+				query 				= '';
+			}
+			result 					= self.sifter.search(query, Object.assign(options, { score: calculateScore }));
 			self.currentResults		= result;
 		} else {
 			result					= Object.assign( {}, self.currentResults);
