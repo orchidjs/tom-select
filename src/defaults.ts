@@ -11,6 +11,7 @@ export default {
 	create: null,
 	createOnBlur: false,
 	createFilter: null,
+	clearAfterSelect: false,
 	highlight: true,
 	openOnFocus: true,
 	shouldOpen: null,

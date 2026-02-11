@@ -284,6 +284,12 @@ tom.inputState();
 		<td><code>boolean</td>
 		<td><code>false</code></td>
 	</tr>
+	<tr>
+		<td><code>clearAfterSelect</code></td>
+		<td>Clearing the value from the control input after select an option.</td>
+		<td><code>boolean</td>
+		<td><code>false</code></td>
+	</tr>
 </table>
 
 ## Data / Searching
