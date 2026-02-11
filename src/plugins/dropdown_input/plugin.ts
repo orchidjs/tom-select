@@ -37,16 +37,15 @@ export default function(this:TomSelect) {
 		const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />') as HTMLInputElement;
 		placeholder.placeholder = self.settings.placeholder ||'';
 		self.control.append(placeholder);
-
-        /**
-         * TomSelect renders a custom control with a focusable <input class="items-placeholder">.
-         * The source <select>'s aria-label is not automatically propagated to that input,
-         * which triggers "Missing form label" accessibility warnings.
-         * This helper copies the label from the <select> onto the generated input.
-         */
-        const label = self.input?.getAttribute('aria-label');
-        if (!label) return;
-        placeholder.setAttribute('aria-label', label);
+		/**
+		 * TomSelect renders a custom control with a focusable <input class="items-placeholder">.
+		 * The source <select>'s aria-label is not automatically propagated to that input,
+		 * which triggers "Missing form label" accessibility warnings.
+		 * This helper copies the label from the <select> onto the generated input.
+		 */
+		const label = self.input?.getAttribute('aria-label');
+		if (!label) return;
+		placeholder.setAttribute('aria-label', label);
 	});
 
 	self.on('initialize',()=>{
