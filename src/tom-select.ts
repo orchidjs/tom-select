@@ -105,9 +105,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			throw new Error('Tom Select already initialized on this element');
 		}
 
-
 		input.tomselect			= this;
-
 
 		// detect rtl environment
 		var computedStyle		= window.getComputedStyle && window.getComputedStyle(input, null);
@@ -2183,9 +2181,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		wrap_classList.toggle('dropdown-active', self.isOpen)
 		wrap_classList.toggle('has-options', isEmptyObject(self.options) )
 		wrap_classList.toggle('has-items', self.items.length > 0);
-
 	}
-
 
 	/**
 	 * Update the `required` attribute of both input and control input.
