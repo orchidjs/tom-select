@@ -1472,7 +1472,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				let order = option.$order;
 				let self_optgroup = self.optgroups[optgroup];
-				if( self_optgroup === undefined ){
+				if (self_optgroup === undefined && typeof self.settings.optionGroupRegister === 'function') {
+	          		var regGroup;
+					if (regGroup = self.settings.optionGroupRegister.apply(self, [optgroup])) {
+						self.registerOptionGroup(regGroup);
+					}
+	        	}
+				self_optgroup = self.optgroups[optgroup];
+				if( self_optgroup === undefined ){					
 					optgroup = '';
 				}else{
 					order = self_optgroup.$order;
