@@ -61,7 +61,7 @@ export type TomSettings = {
 	optionClass				: string,
 
 	dropdownParent			: string,
-	controlInput			: string|HTMLInputElement,
+	controlInput			: null|string|HTMLInputElement,
 
 	copyClassesToDropdown	: boolean,
 
