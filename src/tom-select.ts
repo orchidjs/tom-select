@@ -1377,7 +1377,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if( self.settings.hideSelected ){
 			result.items = result.items.filter((item) => {
 				let hashed = hash_key(item.id);
-				return !(hashed && self.items.indexOf(hashed) !== -1 );
+				return !(hashed !== null && self.items.indexOf(hashed) !== -1 );
 			});
 		}
 
