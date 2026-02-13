@@ -1662,7 +1662,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		const key = hash_key(data[self.settings.valueField]);
 		if( key === null || self.options.hasOwnProperty(key) ){
-			return false;
+			return self.updateOption(data[self.settings.labelField], data);
 		}
 
 		data.$order			= data.$order || ++self.order;
