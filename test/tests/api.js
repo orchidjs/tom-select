@@ -336,10 +336,10 @@
 				expect(test.instance.options).to.have.property('a');
 				expect(test.instance.options).to.have.property('b');
 			});
-			it_n('should not override existing options', function() {
+			it_n('should update existing option when adding new one', function() {
 				test.instance.addOption([{value: 'a'}, {value: 'b'}]);
 				test.instance.addOption({value: 'a', test: 'hello'});
-				expect(test.instance.options.a).to.not.have.property('test');
+				expect(test.instance.options.a).to.have.property('test');
 			});
 		});
 
