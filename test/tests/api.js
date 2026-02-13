@@ -341,6 +341,9 @@
 				test.instance.addOption({value: 'a', test: 'hello'});
 				expect(test.instance.options.a).to.have.property('test');
 			});
+			it_n('should be false when value is missing (null)', function() {
+				expect(test.instance.addOption({value: null})).to.be.equal(false);
+			});
 		});
 
 		describe('addItem()', function() {
