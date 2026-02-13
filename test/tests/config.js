@@ -120,4 +120,25 @@ describe('Configuration settings', function() {
 		assert.equal( test.instance.items.length, 1);
 	});
 
+	it_n('allowEmptyOption + hideSelected should hide selected empty option', async () => {
+
+		let test = setup_test(`<select multiple>
+				<option value="">None</option>
+				<option value="1">Option 1</option>
+				<option value="2">Option 2</option>
+			</select>`, {allowEmptyOption:true});
+
+		assert.isTrue(test.instance.settings.hideSelected);
+
+		await asyncClick(test.instance.control);
+		var opt = test.instance.getOption('');
+		assert.isNotNull(opt, 'empty option should exist before selection');
+		await asyncClick(opt);
+		assert.equal(test.instance.items.length, 1);
+
+		await asyncClick(test.instance.control);
+		var optAfter = test.instance.dropdown_content.querySelector('[data-value=""]');
+		assert.isNull(optAfter, 'empty option should be hidden after selection');
+	});
+
 });
