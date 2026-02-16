@@ -2006,6 +2006,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 						self.setActiveOption(next);
 					}
 				}
+				
+				//remove input value when enabled
+				if(self.settings.clearAfterSelect) {
+					self.setTextboxValue();
+				}
 
 				// refreshOptions after setActiveOption(),
 				// otherwise setActiveOption() will be called by refreshOptions() with the wrong value
@@ -2018,11 +2023,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					self.close();
 				} else if (!self.isPending) {
 					self.positionDropdown();
-				}
-				
-				//remove input value when enabled
-				if(self.settings.clearAfterSelect) {
-					self.setTextboxValue();
 				}
 
 				self.trigger('item_add', hashed, item);
