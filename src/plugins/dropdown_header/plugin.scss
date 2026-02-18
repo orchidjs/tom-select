@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .#{$select-ns}-wrapper{
 	.dropdown-header {
 		position: relative;
@@ -19,6 +21,6 @@
 	}
 
 	.dropdown-header-close:hover {
-		color: darken($select-color-text, 25%);
+		color: color.adjust($select-color-text, $lightness: -25%)
 	}
 }
