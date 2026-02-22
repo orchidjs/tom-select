@@ -28,6 +28,8 @@ export default function(this:TomSelect) {
 	var loading_more					= false;
 	var load_more_opt:HTMLElement;
 	var default_values: string[]		= [];
+	var default_values_loaded			= false;
+	var default_pagination:any;
 
 	if( !self.settings.shouldLoadMore ){
 
@@ -147,6 +149,16 @@ export default function(this:TomSelect) {
 
 		orig_loadCallback.call( self, options, optgroups);
 
+		// After the initial preload (empty query), update default_values to include
+		// preloaded options, not just the HTML <option> elements captured on initialize
+		if( !loading_more && !default_values_loaded ){
+			default_values_loaded = true;
+			if( self.lastValue === '' ){
+				default_values = Object.keys(self.options);
+				default_pagination = pagination[''];
+			}
+		}
+
 		loading_more = false;
 	});
 
@@ -178,6 +190,22 @@ export default function(this:TomSelect) {
 
 	});
 
+
+	// Restore preloaded options and pagination when clearing search
+	const restoreDefaults = ():void => {
+		if( !default_values_loaded ) return;
+		self.clearOptions(clearFilter);
+		if( default_pagination ) pagination[''] = default_pagination;
+	};
+
+	self.on('type',(query:string) => {
+		if( query === '' ){
+			restoreDefaults();
+			self.refreshOptions(false);
+		}
+	});
+
+	self.on('dropdown_close', restoreDefaults);
 
 	// add scroll listener and default templates
 	self.on('initialize',()=>{
