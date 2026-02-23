@@ -146,7 +146,7 @@ export default function getSettings( input:TomInput, settings_user:RecursivePart
 		const data_raw = input.getAttribute(attr_data);
 
 		if (!data_raw) {
-			var value = input.value.trim() || '';
+			var value = input.value ? input.value.trim() : '';
 			if (!settings.allowEmptyOption && !value.length) return;
 			const values = value.split(settings.delimiter);
 
