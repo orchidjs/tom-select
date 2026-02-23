@@ -122,11 +122,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{$select-ns}-control {
-	@include box-shadow($input-box-shadow);
-	@include transition($input-transition);
-
 	display:flex;
 	align-items: center;
+
+	@include box-shadow($input-box-shadow);
+	@include transition($input-transition);
 
 	.focus & {
 		border-color: $input-focus-border-color;

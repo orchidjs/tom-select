@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .#{$select-ns}-control {
 	border: $select-border;
 	padding: $select-padding-y $select-padding-x;
@@ -55,9 +57,10 @@
 
 	.#{$select-ns}-wrapper.multi.disabled & > div {
 		&, &.active {
-			color: lighten(desaturate($select-color-item-text, 100%), $select-lighten-disabled-item-text);
-			background: lighten(desaturate($select-color-item, 100%), $select-lighten-disabled-item);
-			border: $select-width-item-border solid lighten(desaturate($select-color-item-border, 100%), $select-lighten-disabled-item-border);
+			color: color.adjust($select-color-item-text, $saturation: -100%, $lightness: $select-lighten-disabled-item-text);
+			background: color.adjust($select-color-item, $saturation: -100%, $lightness: $select-lighten-disabled-item);
+			border: $select-width-item-border solid color.adjust($select-color-item-border, $saturation: -100%, $lightness: $select-lighten-disabled-item-border);
+			
 		}
 	}
 

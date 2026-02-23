@@ -2,6 +2,8 @@
  * Tom Select Bootstrap 4
  */
 
+@use "sass:color";
+
 // Import Bootstrap 4 functions and variables
 $state-valid: map-get($form-validation-states,'valid') !default;
 $state-invalid: map-get($form-validation-states,'invalid') !default;
@@ -15,7 +17,7 @@ $select-color-highlight: rgba(255, 237, 40, 40%) !default;
 $select-color-input: $input-bg !default;
 $select-color-input-full: $input-bg !default;
 $select-color-input-error: map-get($state-invalid,'color') !default;
-$select-color-input-error-focus: darken($select-color-input-error, 10%) !default;
+$select-color-input-error-focus: color.adjust($select-color-input-error, $lightness: -10%) !default; 
 $select-color-disabled: $input-disabled-bg !default;
 $select-color-item: #efefef !default;
 $select-color-item-border: $border-color !default;
@@ -97,11 +99,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 .#{$select-ns}-control {
 	min-height: $input-height;
-	@include box-shadow($input-box-shadow);
-	@include transition($input-transition);
-
 	display:flex;
 	align-items: center;
+
+	@include box-shadow($input-box-shadow);
+	@include transition($input-transition);
 
 	.focus & {
 		border-color: $input-focus-border-color;
