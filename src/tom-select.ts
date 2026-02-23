@@ -419,14 +419,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.inputState();
 		self.isSetup = true;
 
-		if( input.disabled ){
-			self.disable();
-		}else if( input.readOnly ){
-			self.setReadOnly(true);
-		}else{
-			self.enable(); //sets tabIndex
-		}
-
 		self.on('change', this.onChange);
 
 		addClasses(input,'tomselected','ts-hidden-accessible');
@@ -1246,7 +1238,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	}
 
 	/**
-	 * Determines if the control_input should be in a hidden or visible state
+	 * Determines if the control_input should be in a hidden or visible state and check if it's disabled/readOnly
 	 *
 	 */
 	inputState(){
@@ -1266,6 +1258,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				setAttr(self.control_input,{placeholder:''});
 			}
 			self.isInputHidden = false;
+		}
+
+		if( self.input.disabled ){
+			self.disable();
+		}else if( self.input.readOnly ){
+			self.setReadOnly(true);
+		}else{
+			self.enable(); //sets tabIndex
 		}
 
 		self.wrapper.classList.toggle('input-hidden', self.isInputHidden );
