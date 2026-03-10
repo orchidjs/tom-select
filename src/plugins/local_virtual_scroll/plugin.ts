@@ -10,8 +10,9 @@
  * Maintains a sliding DOM window of pageSize * 3 items maximum.
  * Supports optGroups via a flat list with interleaved headers.
  *
- * Scroll handling uses requestAnimationFrame debounce + multi-page math:
- *   fast scroll → more pages loaded at once → no cascade of jumps.
+ * When the search query matches an optGroup label, all children of that
+ * group are included in the results — even if the individual options don't
+ * match the query text.
  */
 
 import type TomSelect from '../../tom-select.ts';
@@ -34,40 +35,86 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 	let raf_id: number | null = null;
 	let skip_programmatic = false;
 
-	// ─── Debug helper ────────────────────────────────────────────────────
-	const dbg = (...args: any[]) =>
-		console.log(`[LVS ${performance.now().toFixed(1)}ms]`, ...args);
-	dbg('plugin init — pageSize:', page_size, 'maxDom:', max_dom, 'threshold:', threshold);
-
 	// Plugin controls maxOptions (first page only; we manage the rest)
 	self.settings.maxOptions = page_size;
 
 	// ─── Build flat list: Sifter results + optgroup headers interleaved ───
+	//
+	// When the query matches an optGroup label, ALL options from that group
+	// are included regardless of whether the individual option text matches.
 
 	const buildFlatList = (): FlatItem[] => {
 		const flat: FlatItem[] = [];
 		const results = self.search(self.lastValue);
-		let current_group: string | null = null;
+		const og_field = self.settings.optgroupField;
+		const og_label_field =
+			(self.settings as any).optgroupLabelField || 'label';
+		const query = (self.lastValue || '').trim().toLowerCase();
+
+		// Helper: extract first optgroup value from an option
+		const getOg = (option: any): string => {
+			let og = option[og_field] || '';
+			if (Array.isArray(og)) og = og[0] ?? '';
+			return String(og);
+		};
+
+		// Find optgroups whose label matches the query
+		const matching_og_labels = new Set<string>();
+		if (query) {
+			for (const key of Object.keys(self.optgroups)) {
+				const label = String(
+					(self.optgroups[key] as any)[og_label_field] || '',
+				).toLowerCase();
+				if (label.includes(query)) matching_og_labels.add(key);
+			}
+		}
+
+		// Build ordered groups + their item sets from Sifter results
+		const group_order: string[] = [];
+		const group_items = new Map<string, Set<string>>();
 
 		for (const item of results.items) {
 			const option = self.options[item.id];
 			if (!option) continue;
-
-			// Use first optgroup when multiple are assigned
-			let og_val: string = option[self.settings.optgroupField] || '';
-			if (Array.isArray(og_val)) og_val = og_val[0] ?? '';
-			og_val = String(og_val);
-
-			if (og_val !== current_group && og_val && self.optgroups[og_val]) {
-				flat.push({ type: 'header', optgroup: og_val });
-				current_group = og_val;
+			const og = getOg(option);
+			if (!group_items.has(og)) {
+				group_items.set(og, new Set());
+				group_order.push(og);
 			}
-			flat.push({
-				type: 'option',
-				id: String(item.id),
-				optgroup: og_val,
-			});
+			group_items.get(og)!.add(String(item.id));
 		}
+
+		// Ensure matching optgroups appear in group_order (even with no Sifter hits)
+		for (const og of matching_og_labels) {
+			if (!group_items.has(og)) {
+				group_items.set(og, new Set());
+				group_order.push(og);
+			}
+		}
+
+		// Expand matching optgroups: add ALL their options (Set deduplicates)
+		if (matching_og_labels.size > 0) {
+			for (const id of Object.keys(self.options)) {
+				const option = self.options[id];
+				const og = getOg(option);
+				if (matching_og_labels.has(og)) {
+					group_items.get(og)!.add(id);
+				}
+			}
+		}
+
+		// Emit flat list in group order
+		for (const og of group_order) {
+			const ids = group_items.get(og)!;
+			if (ids.size === 0) continue;
+			if (og && self.optgroups[og]) {
+				flat.push({ type: 'header', optgroup: og });
+			}
+			for (const id of ids) {
+				flat.push({ type: 'option', id, optgroup: og });
+			}
+		}
+
 		return flat;
 	};
 
@@ -123,15 +170,9 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 	};
 
 	// ─── Load N pages forward (scroll down) ──────────────────────────────
-	//
-	// pages > 1 when the user scrolled fast and we need to catch up at once.
 
 	const loadNext = (pages: number) => {
-		if (is_loading || visible_end >= flat_list.length) {
-			dbg('loadNext SKIP — is_loading:', is_loading, 'visible_end:', visible_end, 'flat:', flat_list.length);
-			return;
-		}
-		dbg('loadNext START — pages:', pages, 'visible:', visible_start, '->', visible_end, 'flat:', flat_list.length);
+		if (is_loading || visible_end >= flat_list.length) return;
 		is_loading = true;
 		if (sentinel) {
 			sentinel.remove();
@@ -156,7 +197,6 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 		}
 
 		is_loading = false;
-		dbg('loadNext DONE — visible:', visible_start, '->', visible_end);
 		updateSentinel();
 	};
 
@@ -192,18 +232,12 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 		updateSentinel();
 	};
 
-	// ─── Scroll handler with RAF debounce + multi-page math ───────────────
-	//
-	// All scroll events within the same animation frame are coalesced into
-	// one call.  We estimate how far past the window the user scrolled and
-	// load that many pages at once, so a fast scroll produces a single
-	// large jump rather than many small ones.
+	// ─── Scroll handler with RAF debounce ─────────────────────────────────
 
 	const handleScroll = () => {
 		const { scrollTop, scrollHeight, clientHeight } = dropdown_content;
 		const pct_bottom = (scrollTop + clientHeight) / scrollHeight;
 		const pct_top = scrollTop / scrollHeight;
-		dbg('handleScroll — pct_bottom:', pct_bottom.toFixed(3), 'pct_top:', pct_top.toFixed(3), 'threshold:', threshold);
 
 		// Always load exactly 1 page per RAF frame.
 		// The RAF debounce already coalesces rapid scroll events, so there is no
@@ -226,8 +260,20 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 		visible_start = 0;
 		visible_end = Math.min(flat_list.length, page_size);
 		is_loading = false;
-		if (raf_id !== null) { cancelAnimationFrame(raf_id); raf_id = null; }
-		dbg('after:refreshOptions — flat_list:', flat_list.length, 'dc defined:', !!dropdown_content);
+		if (raf_id !== null) {
+			cancelAnimationFrame(raf_id);
+			raf_id = null;
+		}
+
+		// Re-render first page from flat_list to keep DOM in sync.
+		// refreshOptions may render items in optgroup wrappers or a different
+		// order than our flat list; clearing and re-rendering ensures consistency.
+		if (dropdown_content && flat_list.length > 0) {
+			dropdown_content.innerHTML = '';
+			const first_page = renderRange(0, visible_end);
+			for (const el of first_page) dropdown_content.append(el);
+		}
+
 		updateSentinel();
 	});
 
@@ -238,7 +284,6 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 		// Disable overflow-anchor so the browser doesn't auto-compensate scrollTop
 		// when we insert/remove items — we handle the compensation manually.
 		(dropdown_content.style as any)['overflow-anchor'] = 'none';
-		dbg('initialize — dropdown_content:', !!dropdown_content);
 
 		self.settings.render = Object.assign(
 			{},
@@ -251,16 +296,12 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 
 		dropdown_content.addEventListener('scroll', () => {
 			if (skip_programmatic) {
-				dbg('scroll — skipping programmatic');
 				skip_programmatic = false;
 				return;
 			}
-			const { scrollTop, scrollHeight, clientHeight } = dropdown_content;
-			dbg('scroll — raw: scrollTop', scrollTop.toFixed(0), 'pct_bottom', ((scrollTop + clientHeight) / scrollHeight).toFixed(3));
 			if (raf_id !== null) cancelAnimationFrame(raf_id);
 			raf_id = requestAnimationFrame(() => {
 				raf_id = null;
-				dbg('RAF fired');
 				handleScroll();
 			});
 		});
