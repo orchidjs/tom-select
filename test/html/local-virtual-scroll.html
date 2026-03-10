@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8" />
+		<title>Tom Select — local_virtual_scroll demo</title>
+		<link rel="stylesheet" href="../../dist/css/tom-select.default.css" />
+		<style>
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family:
+					system-ui,
+					-apple-system,
+					sans-serif;
+				background: #f5f5f5;
+				margin: 0;
+				padding: 2rem;
+				color: #333;
+			}
+
+			h1 {
+				font-size: 1.4rem;
+				margin-bottom: 0.25rem;
+			}
+			p.subtitle {
+				color: #666;
+				margin-top: 0;
+				margin-bottom: 2rem;
+				font-size: 0.9rem;
+			}
+
+			.demo-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 2rem;
+				max-width: 900px;
+				margin: 0 auto;
+			}
+
+			@media (max-width: 640px) {
+				.demo-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			.card {
+				background: #fff;
+				border-radius: 8px;
+				padding: 1.5rem;
+				box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+			}
+
+			.card h2 {
+				font-size: 1rem;
+				margin: 0 0 0.5rem;
+			}
+
+			.card p {
+				font-size: 0.82rem;
+				color: #777;
+				margin: 0 0 1rem;
+			}
+
+			.stats {
+				margin-top: 1rem;
+				font-size: 0.78rem;
+				color: #555;
+				background: #f8f8f8;
+				border-radius: 4px;
+				padding: 0.5rem 0.75rem;
+				line-height: 1.8;
+			}
+
+			.stats span {
+				font-weight: 600;
+				color: #222;
+			}
+
+			/* sentinel styling */
+			.loading-more-results {
+				text-align: center;
+				color: #888;
+				font-size: 0.82rem;
+				padding: 8px;
+				border-top: 1px dashed #ddd;
+				font-style: italic;
+			}
+
+			/* optgroup header override for demo */
+			.ts-dropdown .optgroup-header {
+				font-size: 0.75rem;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+				background: #f0f4ff;
+				color: #446;
+				font-weight: 700;
+				padding: 6px 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="max-width: 900px; margin: 0 auto 2rem">
+			<h1>local_virtual_scroll — Demo</h1>
+			<p class="subtitle">
+				Virtual scroll com dados locais: janela deslizante no DOM (máx 3
+				× pageSize elementos). Rolar o dropdown carrega mais itens e
+				recicla os anteriores.
+			</p>
+		</div>
+
+		<div class="demo-grid">
+			<!-- ── Demo 1: lista plana ─────────────────────────────────── -->
+			<div class="card">
+				<h2>Lista plana — 2.000 clientes</h2>
+				<p>
+					Sem optGroups. Scroll ativa paginação a cada 50 itens. DOM
+					nunca excede 150 elementos.
+				</p>
+
+				<select id="demo-flat" placeholder="Buscar cliente..."></select>
+
+				<div class="stats" id="stats-flat">
+					DOM items: <span id="flat-dom">—</span> &nbsp;|&nbsp;
+					visible: <span id="flat-range">—</span> &nbsp;|&nbsp; total:
+					<span id="flat-total">2000</span>
+				</div>
+			</div>
+
+			<!-- ── Demo 2: com optGroups ───────────────────────────────── -->
+			<div class="card">
+				<h2>Com optGroups — 1.500 placas por estado</h2>
+				<p>
+					Headers de grupo aparecem e somem conforme o scroll, sem
+					criar elementos extras no DOM.
+				</p>
+
+				<select id="demo-groups" placeholder="Buscar placa..."></select>
+
+				<div class="stats" id="stats-groups">
+					DOM items: <span id="groups-dom">—</span> &nbsp;|&nbsp;
+					visible: <span id="groups-range">—</span> &nbsp;|&nbsp;
+					total: <span id="groups-total">1500</span>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../dist/js/tom-select.complete.js"></script>
+		<script>
+			// ── Data generators ────────────────────────────────────────────────────────
+
+			function generateClients(n) {
+				const firstNames = [
+					'Ana',
+					'Bruno',
+					'Carlos',
+					'Diana',
+					'Eduardo',
+					'Fernanda',
+					'Gabriel',
+					'Helena',
+					'Igor',
+					'Juliana',
+					'Kleber',
+					'Larissa',
+					'Marcos',
+					'Natália',
+					'Otávio',
+					'Patrícia',
+					'Rafael',
+					'Sandra',
+					'Tiago',
+					'Vanessa',
+					'Wellington',
+					'Ximena',
+					'Yuri',
+					'Zilda',
+				];
+				const lastNames = [
+					'Silva',
+					'Santos',
+					'Oliveira',
+					'Souza',
+					'Rodrigues',
+					'Ferreira',
+					'Alves',
+					'Pereira',
+					'Lima',
+					'Gomes',
+					'Costa',
+					'Ribeiro',
+					'Martins',
+					'Carvalho',
+					'Araújo',
+					'Melo',
+					'Barbosa',
+					'Nascimento',
+					'Vieira',
+					'Dias',
+				];
+
+				const clients = [];
+				for (let i = 1; i <= n; i++) {
+					const fn = firstNames[i % firstNames.length];
+					const ln =
+						lastNames[
+							Math.floor(i / firstNames.length) % lastNames.length
+						];
+					clients.push({
+						value: String(i),
+						text: `${fn} ${ln} #${i}`,
+					});
+				}
+				return clients;
+			}
+
+			function generatePlates(total) {
+				const states = [
+					'SP',
+					'RJ',
+					'MG',
+					'RS',
+					'PR',
+					'BA',
+					'SC',
+					'GO',
+					'PE',
+					'CE',
+					'PA',
+					'MA',
+					'MS',
+					'MT',
+					'PB',
+					'ES',
+					'RN',
+					'AL',
+					'PI',
+					'RO',
+				];
+				const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+				const plates = [];
+
+				for (let i = 0; i < total; i++) {
+					const state = states[i % states.length];
+					const L = (k) => letters[(i + k * 7) % 26];
+					const N = (k) => (i + k * 3) % 10;
+					const plate = `${L(0)}${L(1)}${L(2)}-${N(0)}${L(3)}${N(1)}${N(2)}`;
+					plates.push({ value: `plate-${i}`, text: plate, state });
+				}
+				return plates;
+			}
+
+			const clientOptions = generateClients(2000);
+
+			const stateGroups = [
+				'SP',
+				'RJ',
+				'MG',
+				'RS',
+				'PR',
+				'BA',
+				'SC',
+				'GO',
+				'PE',
+				'CE',
+				'PA',
+				'MA',
+				'MS',
+				'MT',
+				'PB',
+				'ES',
+				'RN',
+				'AL',
+				'PI',
+				'RO',
+			].map((s) => ({
+				value: s,
+				label:
+					s +
+					' — ' +
+					{
+						SP: 'São Paulo',
+						RJ: 'Rio de Janeiro',
+						MG: 'Minas Gerais',
+						RS: 'Rio Grande do Sul',
+						PR: 'Paraná',
+						BA: 'Bahia',
+						SC: 'Santa Catarina',
+						GO: 'Goiás',
+						PE: 'Pernambuco',
+						CE: 'Ceará',
+						PA: 'Pará',
+						MA: 'Maranhão',
+						MS: 'Mato Grosso do Sul',
+						MT: 'Mato Grosso',
+						PB: 'Paraíba',
+						ES: 'Espírito Santo',
+						RN: 'Rio Grande do Norte',
+						AL: 'Alagoas',
+						PI: 'Piauí',
+						RO: 'Rondônia',
+					}[s],
+			}));
+
+			const plateOptions = generatePlates(1500);
+
+			// ── Helper: update stats ────────────────────────────────────────────────────
+
+			function watchDom(tsInstance, domEl, rangeEl, totalItems) {
+				const dc = tsInstance.dropdown_content;
+				let interval = null;
+
+				const update = () => {
+					const selectable = dc.querySelectorAll('[data-selectable]');
+					domEl.textContent = selectable.length;
+					rangeEl.textContent = selectable.length + ' / ' + totalItems;
+				};
+
+				tsInstance.on('dropdown_open', () => {
+					update();
+					interval = setInterval(update, 100);
+				});
+
+				tsInstance.on('dropdown_close', () => {
+					clearInterval(interval);
+					interval = null;
+					domEl.textContent = '—';
+					rangeEl.textContent = '—';
+				});
+			}
+
+			// ── Demo 1: flat list ───────────────────────────────────────────────────────
+
+			const ts1 = new TomSelect('#demo-flat', {
+				options: clientOptions,
+				valueField: 'value',
+				labelField: 'text',
+				searchField: ['text'],
+				plugins: {
+					local_virtual_scroll: {
+						pageSize: 50,
+					},
+				},
+				render: {
+					loading_more: () =>
+						'<div class="loading-more-results">↓ Carregando mais clientes...</div>',
+				},
+			});
+
+			watchDom(ts1, document.getElementById('flat-dom'), document.getElementById('flat-range'), 2000);
+
+			// ── Demo 2: with optGroups ──────────────────────────────────────────────────
+
+			const ts2 = new TomSelect('#demo-groups', {
+				options: plateOptions,
+				optgroups: stateGroups,
+				valueField: 'value',
+				labelField: 'text',
+				searchField: ['text'],
+				optgroupField: 'state',
+				optgroupValueField: 'value',
+				optgroupLabelField: 'label',
+				plugins: {
+					local_virtual_scroll: {
+						pageSize: 50,
+					},
+				},
+				render: {
+					loading_more: () =>
+						'<div class="loading-more-results">↓ Carregando mais placas...</div>',
+				},
+			});
+
+			watchDom(ts2, document.getElementById('groups-dom'), document.getElementById('groups-range'), 1500);
+		</script>
+	</body>
+</html>

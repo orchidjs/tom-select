@@ -14,6 +14,7 @@ import optgroup_columns from './plugins/optgroup_columns/plugin.ts';
 import remove_button from './plugins/remove_button/plugin.ts';
 import restore_on_backspace from './plugins/restore_on_backspace/plugin.ts';
 import virtual_scroll from './plugins/virtual_scroll/plugin.ts';
+import local_virtual_scroll from './plugins/local_virtual_scroll/plugin.ts';
 
 TomSelect.define('change_listener', change_listener);
 TomSelect.define('checkbox_options', checkbox_options);
@@ -29,5 +30,6 @@ TomSelect.define('optgroup_columns', optgroup_columns);
 TomSelect.define('remove_button', remove_button);
 TomSelect.define('restore_on_backspace', restore_on_backspace);
 TomSelect.define('virtual_scroll', virtual_scroll);
+TomSelect.define('local_virtual_scroll', local_virtual_scroll);
 
 export default TomSelect;
