@@ -1,0 +1,118 @@
+---
+title: Local Virtual Scroll
+nav_title: Local Virtual Scroll
+tags: demo
+---
+
+
+{% from "demo.njk" import demo %}
+{% from "macro_config.njk" import config_table %}
+
+
+
+{% set label %}
+<label class="h2 mb-3">
+	Example
+</label>
+{% endset %}
+
+{% set html %}
+<input type="text" id="local-virtual-scroll-demo" placeholder="Search options..." autocomplete="off">
+{% endset %}
+
+<script>
+{% set script %}
+
+// Generate a large local dataset
+var options = [];
+var groups = ['Fruits', 'Vegetables', 'Grains', 'Dairy', 'Proteins'];
+var items = [
+	['Apple','Banana','Cherry','Date','Elderberry','Fig','Grape','Honeydew','Kiwi','Lemon','Mango','Nectarine','Orange','Papaya','Quince','Raspberry','Strawberry','Tangerine','Ugli fruit','Watermelon'],
+	['Artichoke','Broccoli','Carrot','Daikon','Edamame','Fennel','Garlic','Horseradish','Iceberg lettuce','Jalapeño','Kale','Leek','Mushroom','Napa cabbage','Okra','Parsnip','Radish','Spinach','Turnip','Zucchini'],
+	['Amaranth','Barley','Corn','Durum wheat','Einkorn','Farro','Groats','Hominy','Kamut','Lentils','Millet','Oat','Polenta','Quinoa','Rice','Sorghum','Teff','Wheat','Wild rice','Spelt'],
+	['Brie','Camembert','Cheddar','Edam','Feta','Gouda','Havarti','Jarlsberg','Manchego','Mozzarella','Parmesan','Ricotta','Roquefort','Swiss','Colby','Gruyère','Mascarpone','Provolone','Asiago','Pecorino'],
+	['Beef','Chicken','Duck','Egg','Fish','Ham','Lamb','Mackerel','Pork','Quail','Salmon','Shrimp','Tilapia','Turkey','Tuna','Veal','Venison','Sardine','Anchovy','Herring'],
+];
+
+groups.forEach(function(group, gi) {
+	items[gi].forEach(function(name, i) {
+		options.push({ value: group.toLowerCase() + '_' + i, text: name, category: group.toLowerCase() });
+	});
+});
+
+var optgroups = groups.map(function(g) {
+	return { value: g.toLowerCase(), label: g };
+});
+
+new TomSelect('#local-virtual-scroll-demo', {
+	options: options,
+	optgroups: optgroups,
+	optgroupField: 'category',
+	optgroupLabelField: 'label',
+	optgroupValueField: 'value',
+	labelField: 'text',
+	valueField: 'value',
+	searchField: ['text'],
+	plugins: {
+		local_virtual_scroll: {
+			pageSize: 20
+		}
+	},
+	render: {
+		loading_more: function(data, escape) {
+			return '<div class="loading-more-results py-2 d-flex align-items-center">Loading more results...</div>';
+		}
+	}
+});
+{% endset %}
+</script>
+
+{{ demo( label, html, script) }}
+
+
+<h2>Plugin Configuration</h2>
+
+{{ config_table([
+		{
+			name:'pageSize',
+			desc:'Number of items rendered per page. Controls how many options are added to the DOM when the dropdown opens or when scrolling triggers the next page.',
+			type:'int',
+			default:'50'
+		},
+		{
+			name:'maxDomItems',
+			desc:'Maximum number of option elements allowed in the DOM at any time. When this limit is reached, items scrolled out of view are removed from the opposite end to keep memory usage bounded.',
+			type:'int',
+			default:'pageSize × 3'
+		},
+		{
+			name:'scrollThreshold',
+			desc:'Fraction (0–1) of the scrollable area that must be reached before the next or previous page is loaded. For example, <code>0.9</code> triggers loading when the user has scrolled 90% to the bottom (or 10% from the top).',
+			type:'float',
+			default:'0.9'
+		}
+	])
+}}
+
+
+<h2>Related Tom Select Settings</h2>
+
+{{ config_table([
+		{
+			name:'render.loading_more',
+			desc:'Renders a sentinel element at the bottom of the visible list to indicate that more items exist below. Automatically removed when all items are in view.',
+			type:'callback',
+			default:'function(){\n	return `<div class="loading-more-results">Carregando mais resultados...</div>`;\n}',
+			highlight:true
+		}
+	])
+}}
+
+
+<h2>Notes</h2>
+
+<ul>
+	<li>All options are loaded into memory up front — this plugin only virtualises the <em>DOM</em>, not the data source. For remote/paginated data sources use the <a href="/plugins/virtual_scroll/">Virtual Scroll</a> plugin instead.</li>
+	<li>When the search query matches an <strong>optGroup label</strong> (case-insensitive substring match), <em>all children</em> of that group are included in results even if the individual option text does not match the query.</li>
+	<li>The plugin sets <code>maxOptions</code> to <code>pageSize</code> automatically; do not override this setting manually.</li>
+</ul>
