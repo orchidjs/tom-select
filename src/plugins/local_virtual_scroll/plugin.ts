@@ -17,6 +17,7 @@
 
 import type TomSelect from '../../tom-select.ts';
 import type { LVSOptions, FlatItem } from './types.ts';
+import { highlight, removeHighlight } from '../../contrib/highlight.ts';
 
 export default function (this: TomSelect, userOptions: LVSOptions) {
 	const self = this;
@@ -133,6 +134,19 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 		return self.getOption(item.id, true) as HTMLElement;
 	};
 
+	// ─── Re-apply search highlights to an element ─────────────────────────
+
+	const applyHighlights = (el: HTMLElement) => {
+		if (!self.settings.highlight) return;
+		removeHighlight(el);
+		const results = self.currentResults;
+		if (results && results.query.length && results.tokens.length) {
+			for (const tok of results.tokens) {
+				if (tok.regex) highlight(el, tok.regex);
+			}
+		}
+	};
+
 	// ─── Helpers ─────────────────────────────────────────────────────────
 
 	const measureHeight = (elements: HTMLElement[]): number =>
@@ -183,6 +197,7 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 		const to = Math.min(flat_list.length, visible_end + page_size * pages);
 		const new_els = renderRange(from, to);
 		for (const el of new_els) dropdown_content.append(el);
+		for (const el of new_els) applyHighlights(el);
 		visible_end = to;
 
 		// Recycle items from top to stay within max_dom
@@ -214,6 +229,7 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 		const first_child = dropdown_content.firstChild;
 		for (const el of new_els)
 			dropdown_content.insertBefore(el, first_child);
+		for (const el of new_els) applyHighlights(el);
 
 		// Compensate scrollTop so existing content stays in place
 		setScrollTop(dropdown_content.scrollTop + measureHeight(new_els));
@@ -272,6 +288,9 @@ export default function (this: TomSelect, userOptions: LVSOptions) {
 			dropdown_content.innerHTML = '';
 			const first_page = renderRange(0, visible_end);
 			for (const el of first_page) dropdown_content.append(el);
+			// Re-apply highlights: the core applied them before we cleared the DOM,
+			// and items from optgroup expansion never went through the core highlight pass.
+			applyHighlights(dropdown_content);
 		}
 
 		updateSentinel();
