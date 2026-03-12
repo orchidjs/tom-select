@@ -25,6 +25,7 @@ export type TomSettings = {
 	maxOptions				: null|number,
 	maxItems				: null|number,
 	hideSelected			: boolean,
+	clearSearchOnChange     : boolean,
 	duplicates				: boolean,
 	addPrecedence			: boolean,
 	selectOnTab				: boolean,
