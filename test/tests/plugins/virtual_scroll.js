@@ -153,6 +153,93 @@ describe('plugin: virtual_scroll', function() {
 	});
 
 
+	it_n('restore preloaded options after search is cleared',async ()=>{
+
+		var load_calls = 0;
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			preload: true,
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				load_calls++;
+				var url_params		= this.getUrl(query);
+				var data			= DataProvider(url_params[0],url_params[1]);
+				this.setNextUrl(query,[query,url_params[1]+1]);
+				callback(data.data);
+			}
+		});
+
+		// wait for preload to complete
+		await waitFor(100);
+		assert.equal( Object.keys(test.instance.options).length, 20, 'should have preloaded options');
+		assert.equal( load_calls, 1);
+
+		// search for "a"
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100);
+		assert.equal( load_calls, 2);
+
+		// clear search - preloaded options should be restored
+		await asyncType('\b');
+		await waitFor(100);
+		assert.equal( Object.keys(test.instance.options).length, 20, 'should restore preloaded options after clearing search');
+
+		// verify none of the search results leaked through
+		var option_keys = Object.keys(test.instance.options);
+		var has_search_results = option_keys.some(k => k.startsWith('a-'));
+		assert.isFalse( has_search_results, 'should not contain stale search results');
+	});
+
+
+	it_n('virtual scroll works after clearing search',async ()=>{
+
+		var load_calls = 0;
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			preload: true,
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				load_calls++;
+				var url_params		= this.getUrl(query);
+				var data			= DataProvider(url_params[0],url_params[1]);
+				this.setNextUrl(query,[query,url_params[1]+1]);
+				callback(data.data);
+			}
+		});
+
+		// wait for preload
+		await waitFor(100);
+		assert.equal( load_calls, 1);
+
+		// search and clear
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100);
+		await asyncType('\b');
+		await waitFor(100);
+
+		// scroll to bottom - should trigger loading more
+		test.instance.scroll(1000,'auto');
+		await waitFor(500);
+		assert.isAbove( Object.keys(test.instance.options).length, 20, 'should load more options after clearing search and scrolling');
+	});
+
+
 	it_n('keep default options',async ()=>{
 
 
