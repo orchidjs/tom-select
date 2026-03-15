@@ -21,8 +21,8 @@
 
   <hr/>
 
-  <h2>form-select-sm</h2>
-  <select class="form-select form-select-sm ts">
+  <h2>form-select-sm multiple with clearAfterSelect</h2>
+  <select multiple id='ts-multiple' class="form-select form-select-sm">
     <option value="1">Option 1</option>
     <option value="2">Option 2</option>
     <option value="3">Option 3</option>
@@ -46,6 +46,10 @@
         create: false,
         onInitialize: () => console.log('TomSelect is now initialized'),
       });
+    });
+    // for multiple we use clearAfterSelect: true
+    new TomSelect('#ts-multiple', {
+      clearAfterSelect: true,
     });
   </script>
   </body>
