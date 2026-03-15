@@ -193,9 +193,13 @@ export default function(this:TomSelect) {
 
 	// Restore preloaded options and pagination when clearing search
 	const restoreDefaults = ():void => {
-		if( !default_values_loaded ) return;
+		if( !default_values_loaded ) {
+			return;
+		}
 		self.clearOptions(clearFilter);
-		if( default_pagination ) pagination[''] = default_pagination;
+		if( default_pagination ) {
+			pagination[''] = default_pagination;
+		}
 	};
 
 	self.on('type',(query:string) => {
