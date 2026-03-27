@@ -73,6 +73,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	public isFocused				: boolean = false;
 	public isInputHidden			: boolean = false;
 	public isSetup					: boolean = false;
+	public isDropdownContentStale	: boolean = true;
 	public ignoreFocus				: boolean = false;
 	public ignoreHover				: boolean = false;
 	public hasOptions				: boolean = false;
@@ -546,8 +547,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.setupOptions(settings.options,settings.optgroups);
 
 		self.setValue(settings.items||[],true); // silent prevents recursion
-
-		self.lastQuery = null; // so updated options will be displayed in dropdown
 	}
 
 	/**
@@ -893,7 +892,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		} else {
 			value = option.dataset.value;
 			if (typeof value !== 'undefined') {
-				self.lastQuery = null;
+				self.isDropdownContentStale = self.settings.hideSelected;
 				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
@@ -983,7 +982,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	loadCallback( options:TomOption[], optgroups:TomOption[] ):void{
 		const self = this;
 		self.loading = Math.max(self.loading - 1, 0);
-		self.lastQuery = null;
+		self.isDropdownContentStale = true;
 
 		self.clearActiveOption(); // when new results load, focus should be on first option
 		self.setupOptions(options,optgroups);
@@ -1360,7 +1359,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		// perform search
-		if (query !== self.lastQuery) {
+		if (self.isDropdownContentStale || query !== self.lastQuery) {
 			self.lastQuery			= query;
 			// temp fix for https://github.com/orchidjs/tom-select/issues/987
 			// UI crashed when more than 30 same chars in a row, prevent search and return empt result
@@ -1547,6 +1546,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		dropdown_content.innerHTML = '';
 		append( dropdown_content, html );
+		self.isDropdownContentStale = false;
 
 		// highlight matching terms inline
 		if (self.settings.highlight) {
@@ -1666,10 +1666,10 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			return false;
 		}
 
-		data.$order			= data.$order || ++self.order;
-		data.$id			= self.inputId + '-opt-' + data.$order;
-		self.options[key]	= data;
-		self.lastQuery		= null;
+		data.$order					= data.$order || ++self.order;
+		data.$id					= self.inputId + '-opt-' + data.$order;
+		self.options[key]			= data;
+		self.isDropdownContentStale	= true;
 
 		if( user_created ){
 			self.userOptions[key] = user_created;
@@ -1810,8 +1810,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			replaceNode( item, item_new);
 		}
 
-		// invalidate last query because we might have updated the sortField
-		self.lastQuery = null;
+		// we might have updated the sortField
+		self.isDropdownContentStale = true;
 	}
 
 	/**
@@ -1826,7 +1826,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		delete self.userOptions[value];
 		delete self.options[value];
-		self.lastQuery = null;
+		self.isDropdownContentStale = true;
 		self.trigger('option_remove', value);
 		self.removeItem(value, silent);
 	}
@@ -1850,7 +1850,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		});
 
 		this.options = this.sifter.items = selected;
-		this.lastQuery = null;
+		this.isDropdownContentStale = true;
 		this.trigger('option_clear');
 	}
 
@@ -2064,7 +2064,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		self.items.splice(i, 1);
-		self.lastQuery = null;
+		self.isDropdownContentStale = true;
 		if (!self.settings.persist && self.userOptions.hasOwnProperty(value)) {
 			self.removeOption(value, silent);
 		}
@@ -2156,7 +2156,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	refreshItems() {
 		var self = this;
-		self.lastQuery = null;
+		self.isDropdownContentStale = true;
 
 		if (self.isSetup) {
 			self.addItems(self.items);
