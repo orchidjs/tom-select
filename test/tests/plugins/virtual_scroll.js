@@ -48,10 +48,16 @@ describe('plugin: virtual_scroll', function() {
 			}
 		});
 
+		let executor = (resolve) => test.instance.on('load', () => {
+			test.instance.off('load');
+			resolve();
+		});
+
 		// load first set of data for "a"
+		let dataLoaded = new Promise(executor);
 		await asyncClick(test.instance.control);
 		await asyncType('a');
-		await waitFor(100); // wait for data to load
+		await dataLoaded;
 		assert.equal( Object.keys(test.instance.options).length,20,'should load first set of data');
 		const loadingMoreIndicator = test.instance.dropdown_content.querySelector('.loading-more-results');
 		assert.isNotNull( loadingMoreIndicator, 'should have loading_more template');
@@ -63,8 +69,9 @@ describe('plugin: virtual_scroll', function() {
 		const lastOption = loadingMoreIndicator.previousElementSibling;
 
 		// load second set of data for "a"
+		dataLoaded = new Promise(executor);
 		test.instance.setActiveOption(loadingMoreIndicator); // scroll to bottom
-		await waitFor(500); // wait for scroll + more data to load
+		await dataLoaded;
 		assert.equal( Object.keys(test.instance.options).length, 40,'should load second set of data');
 		assert.equal( lastOption, test.instance.activeOption, 'previous dataset’s last option should be active')
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 0, 'should not have loading_more template');
@@ -81,8 +88,9 @@ describe('plugin: virtual_scroll', function() {
 
 
 		// load first set of data for "b"
+		dataLoaded = new Promise(executor);
 		await asyncType('\bb');
-		await waitFor(500); // wait for data to load
+		await dataLoaded;
 		assert.equal( Object.keys(test.instance.options).length,20,'should load new set of data for "b"');
 		assert.equal( load_calls, 3);
 	});
