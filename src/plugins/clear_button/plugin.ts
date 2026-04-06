@@ -20,6 +20,19 @@ import { CBOptions } from './types.ts';
 export default function(this:TomSelect, userOptions:CBOptions) {
 	const self = this;
 
+	const escape_html = (value:string) => {
+		return String(value)
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;');
+	};
+
+	const sanitize_classes = (value:string) => {
+		return String(value).replace(/[^A-Za-z0-9_\-\s]/g, '').trim();
+	};
+
 	const options = Object.assign({
 		className: 'clear-button',
 		title: 'Clear All',
@@ -27,7 +40,7 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 		tabindex: 0,
 		html: (data:CBOptions) => {
 
-		return `<div class="${data.className}" title="${data.title}" role="${data.role}" tabindex="${data.tabindex}">&times;</div>`;
+		return `<div class="${sanitize_classes(data.className)}" title="${escape_html(data.title)}" role="${escape_html(data.role)}" tabindex="${escape_html(data.tabindex)}">&times;</div>`;
 		}
 	}, userOptions);
 
