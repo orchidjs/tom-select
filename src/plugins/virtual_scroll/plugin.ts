@@ -1,5 +1,5 @@
 /**
- * Plugin: "restore_on_backspace" (Tom Select)
+ * Plugin: "virtual_scroll" (Tom Select)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -148,6 +148,18 @@ export default function(this:TomSelect) {
 		orig_loadCallback.call( self, options, optgroups);
 
 		loading_more = false;
+	});
+
+
+	// as the “loading_more” element will be removed from the dropdown,
+	// we activate the previous option if needed
+	// to avoid the dropdown being scrolled back to the first one
+	self.hook('before','refreshOptions',()=>{
+
+		if (self.activeOption && "option" !== self.activeOption.getAttribute("role")) {
+			self.setActiveOption(self.activeOption.previousElementSibling as HTMLElement);
+		}
+
 	});
 
 
