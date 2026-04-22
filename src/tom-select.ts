@@ -1297,7 +1297,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// (or anything else) has moved focus to a different element in the interim, calling
 			// onFocus() here would steal focus back and restart the cascade loop.
 			const root = focusTarget.getRootNode() as Document | ShadowRoot;
-			if (!self.isFocused || (root.activeElement !== focusTarget) {
+			if (!self.isFocused || root.activeElement !== focusTarget) {
         		return;
       		}
 
