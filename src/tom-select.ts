@@ -1296,9 +1296,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// Only proceed if this instance's element is still the active element. If Edge autofill
 			// (or anything else) has moved focus to a different element in the interim, calling
 			// onFocus() here would steal focus back and restart the cascade loop.
-			const root = focusTarget.getRootNode();
-			const activeElement = root.activeElement;
-			if (activeElement !== focusTarget) {
+			const root = focusTarget.getRootNode() as Document | ShadowRoot;
+			if (root.activeElement !== focusTarget) {
         		return;
       		}
 
