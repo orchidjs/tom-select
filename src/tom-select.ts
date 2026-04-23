@@ -1286,15 +1286,21 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.ignoreFocus = true;
 
-		if( self.control_input.offsetWidth ){
-			self.control_input.focus();
-		}else{
-			self.focus_node.focus();
-		}
+		const focusTarget = this.control_input.offsetWidth ? this.control_input : this.focus_node;
+    	focusTarget.focus();
 
 		setTimeout(() => {
 			self.ignoreFocus = false;
-			self.onFocus();
+			// Fix https://github.com/orchidjs/tom-select/issues/806
+			// Only proceed if this instance's element is still the active element. If Edge autofill
+			// (or anything else) has moved focus to a different element in the interim, calling
+			// onFocus() here would steal focus back and restart the cascade loop.
+			const root = focusTarget.getRootNode() as Document | ShadowRoot;
+			if (root.activeElement !== focusTarget) {
+        		return;
+      		}
+
+			this.onFocus();
 		}, 0);
 	}
 
