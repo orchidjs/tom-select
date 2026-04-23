@@ -420,14 +420,6 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.inputState();
 		self.isSetup = true;
 
-		if( input.disabled ){
-			self.disable();
-		}else if( input.readOnly ){
-			self.setReadOnly(true);
-		}else{
-			self.enable(); //sets tabIndex
-		}
-
 		self.on('change', this.onChange);
 
 		addClasses(input,'tomselected','ts-hidden-accessible');
@@ -547,6 +539,16 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		self.setupOptions(settings.options,settings.optgroups);
 
 		self.setValue(settings.items||[],true); // silent prevents recursion
+
+		if( self.input.disabled ){
+			self.disable();
+		}else if( self.input.readOnly ){
+			self.setReadOnly(true);
+		}else{
+			self.enable(); //sets tabIndex
+		}
+
+		self.lastQuery = null; // so updated options will be displayed in dropdown
 	}
 
 	/**
