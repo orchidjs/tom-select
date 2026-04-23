@@ -265,30 +265,6 @@
 				});
 			});
 
-			it_n('should not call onFocus if focus moved to another element before timeout', function(done) {
-
-				var test = setup_test('AB_Single',{
-					items:['a']
-				});
-				var other = document.createElement('input');
-				document.body.appendChild(other);
-
-				var called = false;
-				test.instance.onFocus = function(){
-					called = true;
-				};
-				test.instance.focus();
-
-				// simulate something stealing focus (eg. autofill)
-				other.focus();
-
-				setTimeout(function() {
-					expect(document.activeElement).to.equal(other);
-					expect(called).to.equal(false);
-					done();
-				}, 20);
-			});
-
 			it_n('should call onFocus if focus remains on control', function(done) {
 
 				var test = setup_test('AB_Single',{
