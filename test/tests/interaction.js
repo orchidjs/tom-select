@@ -265,6 +265,22 @@
 				});
 			});
 
+			it_n('should call onFocus if focus remains on control', function(done) {
+
+				var test = setup_test('AB_Single',{
+					items:['a']
+				});
+				var called = false;
+				test.instance.onFocus = function(){
+					called = true;
+				};
+				test.instance.focus();
+
+				setTimeout(function(){
+					expect(called).to.equal(true);
+					done();
+				}, 20);
+			});
 
 			it_n('should remain open but clear active item on click', function(done) {
 				var test = setup_test('AB_Multi');
