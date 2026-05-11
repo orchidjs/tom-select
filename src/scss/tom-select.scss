@@ -13,6 +13,9 @@
  *
  */
 
+@use "sass:color";
+@use "sass:math";
+
 // base styles
 $select-ns:										'ts' !default;
 $select-font-family:							inherit !default;
@@ -35,7 +38,7 @@ $select-color-dropdown-border:					$select-color-border !default;
 $select-color-dropdown-border-top:				#f0f0f0 !default;
 $select-color-dropdown-item-active:				#f5fafd !default;
 $select-color-dropdown-item-active-text:		#495c68 !default;
-$select-color-dropdown-item-create-text:		rgba(red($select-color-text), green($select-color-text), blue($select-color-text), 50%) !default;
+$select-color-dropdown-item-create-text:		color.change($select-color-text, $alpha: 0.5) !default;
 $select-color-dropdown-item-create-active-text:	$select-color-dropdown-item-active-text !default;
 $select-color-optgroup:							$select-color-dropdown !default;
 $select-color-optgroup-text:					$select-color-text !default;
@@ -118,7 +121,7 @@ $select-spinner-border-color:					$select-color-border !default;
 				display: block;
 				position: absolute;
 				top: 50%;
-				margin-top: round(-0.5 * $select-arrow-size);
+				margin-top: math.round(-0.5 * $select-arrow-size);
 				width: 0;
 				height: 0;
 				border-style: solid;
