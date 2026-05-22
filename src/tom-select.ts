@@ -2257,7 +2257,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				// don't move empty option from top of list
 				// fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293
-				if( option_el != empty_option && (!self.settings.keepOrder && self.settings.mode != 'single') ){
+				if( option_el != empty_option && ( !self.settings.keepOrder && self.settings.mode != 'single' || create ) ){
 					self.input.append(option_el);
 				}
 
