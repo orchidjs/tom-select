@@ -2255,7 +2255,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 					option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>') as HTMLOptionElement;
 				}
 
-				if( option_el == empty_option ){
+				if( !value ){
 					self.input.prepend(option_el);
 				} else {
 					self.input.append(option_el);
