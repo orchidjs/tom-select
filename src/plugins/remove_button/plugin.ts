@@ -29,7 +29,15 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 			tabindex  : -1,
 			role      : 'button',
 			html      : (data:RBOptions) => {
-				return `<div class="${data.className}" title="${data.title}" role="${data.role}" tabindex="${data.tabindex}">${data.label}</div>`;
+				const el = document.createElement('div');
+
+				el.className = data.className || '';
+				el.title = data.title || '';
+				el.setAttribute('role', data.role || 'button');
+				el.tabIndex = data.tabindex ?? -1;
+				el.textContent = data.label || '';
+
+				return el;
 			}
 		}, userOptions);
 
