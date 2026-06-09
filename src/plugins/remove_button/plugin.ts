@@ -24,18 +24,12 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 	const options = Object.assign({
 			label     : '&times;',
 			title     : 'Remove',
-			className : 'remove',
-			append    : true
+			className : 'remove'
 		}, userOptions);
 
 
 	//options.className = 'remove-single';
 	var self			= this;
-
-	// override the render method to add remove button to each item
-	if( !options.append ){
-		return;
-	}
 
 	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
