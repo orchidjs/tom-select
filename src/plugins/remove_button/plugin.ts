@@ -20,18 +20,19 @@ import { TomOption, TomItem } from '../../types/index.ts';
 import { RBOptions } from './types.ts';
 
 export default function(this:TomSelect, userOptions:RBOptions) {
+	const self = this;
 
 	const options = Object.assign({
 			label     : '&times;',
 			title     : 'Remove',
-			className : 'remove'
+			className : 'remove',
+			tabindex  : -1,
+			role      : 'button',
+			html      : (data:RBOptions) => {
+				return `<div class="${data.className}" title="${data.title}" role="${data.role}" tabindex="${data.tabindex}">${data.label}</div>`;
+			}
 		}, userOptions);
 
-
-	//options.className = 'remove-single';
-	var self			= this;
-
-	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
 	self.hook('after','setupTemplates',() => {
 
@@ -41,7 +42,7 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 
 			var item = getDom(orig_render_item.call(self, data, escape)) as TomItem;
 
-			var close_button = getDom(html);
+			var close_button = getDom(options.html(options));
 			item.appendChild(close_button);
 
 			addEvent(close_button,'mousedown',(evt) => {
