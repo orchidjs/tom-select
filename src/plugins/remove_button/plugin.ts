@@ -20,24 +20,27 @@ import { TomOption, TomItem } from '../../types/index.ts';
 import { RBOptions } from './types.ts';
 
 export default function(this:TomSelect, userOptions:RBOptions) {
+	const self = this;
 
 	const options = Object.assign({
 			label     : '&times;',
 			title     : 'Remove',
 			className : 'remove',
-			append    : true
+			tabindex  : -1,
+			role      : 'button',
+			html      : (data:RBOptions) => {
+				const el = document.createElement('div');
+
+				el.className = data.className || '';
+				el.title = data.title || '';
+				el.setAttribute('role', data.role || 'button');
+				el.tabIndex = data.tabindex ?? -1;
+				el.textContent = data.label || '';
+
+				return el;
+			}
 		}, userOptions);
 
-
-	//options.className = 'remove-single';
-	var self			= this;
-
-	// override the render method to add remove button to each item
-	if( !options.append ){
-		return;
-	}
-
-	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
 	self.hook('after','setupTemplates',() => {
 
@@ -47,7 +50,7 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 
 			var item = getDom(orig_render_item.call(self, data, escape)) as TomItem;
 
-			var close_button = getDom(html);
+			var close_button = getDom(options.html(options));
 			item.appendChild(close_button);
 
 			addEvent(close_button,'mousedown',(evt) => {
