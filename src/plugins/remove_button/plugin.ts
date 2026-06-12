@@ -23,7 +23,7 @@ export default function(this:TomSelect, userOptions:RBOptions) {
 	const self = this;
 
 	const options = Object.assign({
-			label     : '&times;',
+			label     : '×',
 			title     : 'Remove',
 			className : 'remove',
 			tabindex  : -1,
