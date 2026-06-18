@@ -21,6 +21,19 @@ import { DHOptions } from './types.ts';
 export default function(this:TomSelect, userOptions:DHOptions) {
 	const self = this;
 
+	const escape_html = (value:string) => {
+		return String(value)
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;');
+	};
+
+	const sanitize_classes = (value:string) => {
+		return String(value).replace(/[^A-Za-z0-9_\-\s]/g, '').trim();
+	};
+
 	const options = Object.assign({
 		title         : 'Untitled',
 		headerClass   : 'dropdown-header',
@@ -30,10 +43,10 @@ export default function(this:TomSelect, userOptions:DHOptions) {
 
 		html: (data:DHOptions) => {
 			return (
-				'<div class="' + data.headerClass + '">' +
-					'<div class="' + data.titleRowClass + '">' +
-						'<span class="' + data.labelClass + '">' + data.title + '</span>' +
-						'<a class="' + data.closeClass + '">&times;</a>' +
+				'<div class="' + sanitize_classes(data.headerClass) + '">' +
+					'<div class="' + sanitize_classes(data.titleRowClass) + '">' +
+						'<span class="' + sanitize_classes(data.labelClass) + '">' + escape_html(data.title) + '</span>' +
+						'<a class="' + sanitize_classes(data.closeClass) + '">&times;</a>' +
 					'</div>' +
 				'</div>'
 			);
@@ -43,7 +56,8 @@ export default function(this:TomSelect, userOptions:DHOptions) {
 	self.on('initialize',()=>{
 		var header = getDom(options.html(options));
 
-		var close_link = header.querySelector('.'+options.closeClass);
+		var close_class = sanitize_classes(options.closeClass).split(/\s+/)[0];
+		var close_link = close_class ? header.querySelector('.'+close_class) : null;
 		if( close_link ){
 			close_link.addEventListener('click',(evt)=>{
 				preventDefault(evt,true);
