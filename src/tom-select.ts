@@ -2249,7 +2249,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			const selected:HTMLOptionElement[]		= [];
 			const has_selected:number				= self.input.querySelectorAll('option:checked').length;
 
-			function AddSelected(option_el:HTMLOptionElement|null, value:string, label:string):HTMLOptionElement{
+			function AddSelected(option_el:HTMLOptionElement|null, create:boolean, value:string, label:string):HTMLOptionElement{
 
 				if( !option_el ){
 					option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>') as HTMLOptionElement;
@@ -2257,7 +2257,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				// don't move empty option from top of list
 				// fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293
-				if( option_el != empty_option ){
+				if( option_el != empty_option && ( !self.settings.keepOrder && self.settings.mode != 'single' || create ) ){
 					self.input.append(option_el);
 				}
 
@@ -2281,7 +2281,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			// nothing selected?
 			if( self.items.length == 0 && self.settings.mode == 'single' ){
 
-				AddSelected(empty_option, "", "");
+				AddSelected(empty_option, false, "", "");
 
 			// order selected <option> tags for values in self.items
 			}else{
@@ -2292,9 +2292,9 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 					if( selected.includes(option.$option) ){
 						const reuse_opt = self.input.querySelector(`option[value="${addSlashes(value)}"]:not(:checked)`) as HTMLOptionElement;
-						AddSelected(reuse_opt, value, label);
+						AddSelected(reuse_opt, false, value, label);
 					}else{
-						option.$option	= AddSelected(option.$option, value, label);
+						option.$option	= AddSelected(option.$option, true, value, label);
 					}
 				});
 
