@@ -30,6 +30,8 @@ export default function(this:TomSelect) {
 	var default_values: string[]		= [];
 	var default_values_loaded			= false;
 	var default_pagination:any;
+	var default_options: TomOption[]	= [];
+	var html_values: string[]			= [];
 
 	if( !self.settings.shouldLoadMore ){
 
@@ -139,7 +141,13 @@ export default function(this:TomSelect) {
 	self.hook('instead','loadCallback',( options:TomOption[], optgroups:TomOption[])=>{
 
 		if( !loading_more ){
-			self.clearOptions(clearFilter);
+			// When searching (non-empty query), keep selected items and HTML default options,
+			// but remove preloaded remote options so they don't bleed into search results.
+			// For empty query, use clearFilter (keeps default_values + items).
+			const activeFilter = self.lastValue !== ''
+				? (_option: TomOption, value: string) => self.items.indexOf(value) >= 0 || html_values.indexOf(value) >= 0
+				: clearFilter;
+			self.clearOptions(activeFilter);
 		}else if( load_more_opt ){
 			const first_option = options[0];
 			if( first_option !== undefined ){
@@ -149,13 +157,14 @@ export default function(this:TomSelect) {
 
 		orig_loadCallback.call( self, options, optgroups);
 
-		// After the initial preload (empty query), update default_values to include
-		// preloaded options, not just the HTML <option> elements captured on initialize
+		// After the initial preload (empty query), snapshot default_values and option objects
+		// so they can be restored when the user clears their search.
 		if( !loading_more && !default_values_loaded ){
 			default_values_loaded = true;
 			if( self.lastValue === '' ){
 				default_values = Object.keys(self.options);
 				default_pagination = pagination[''];
+				default_options = Object.values(self.options);
 			}
 		}
 
@@ -208,6 +217,9 @@ export default function(this:TomSelect) {
 		if( !default_values_loaded ) {
 			return;
 		}
+		// Re-add preloaded option objects (clearOptions can only remove, not restore)
+		self.addOptions(default_options);
+		// Remove any search results that are not part of the preloaded defaults
 		self.clearOptions(clearFilter);
 		if( default_pagination ) {
 			pagination[''] = default_pagination;
@@ -225,6 +237,7 @@ export default function(this:TomSelect) {
 
 	// add scroll listener and default templates
 	self.on('initialize',()=>{
+		html_values = Object.keys(self.options);
 		default_values = Object.keys(self.options);
 		dropdown_content = self.dropdown_content;
 
