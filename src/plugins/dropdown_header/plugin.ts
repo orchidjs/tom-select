@@ -29,14 +29,26 @@ export default function(this:TomSelect, userOptions:DHOptions) {
 		closeClass    : 'dropdown-header-close',
 
 		html: (data:DHOptions) => {
-			return (
-				'<div class="' + data.headerClass + '">' +
-					'<div class="' + data.titleRowClass + '">' +
-						'<span class="' + data.labelClass + '">' + data.title + '</span>' +
-						'<a class="' + data.closeClass + '">&times;</a>' +
-					'</div>' +
-				'</div>'
-			);
+			const header = document.createElement('div');
+			const titleRow = document.createElement('div');
+			const label = document.createElement('span');
+			const close = document.createElement('a');
+			const headerClass = (data.headerClass || '').split(/\s+/).filter(token => /^[A-Za-z0-9_-]+$/.test(token)).join(' ');
+			const titleRowClass = (data.titleRowClass || '').split(/\s+/).filter(token => /^[A-Za-z0-9_-]+$/.test(token)).join(' ');
+			const labelClass = (data.labelClass || '').split(/\s+/).filter(token => /^[A-Za-z0-9_-]+$/.test(token)).join(' ');
+			const closeClass = (data.closeClass || '').split(/\s+/).filter(token => /^[A-Za-z0-9_-]+$/.test(token)).join(' ');
+
+			header.className = headerClass || 'dropdown-header';
+			titleRow.className = titleRowClass || 'dropdown-header-title';
+			label.className = labelClass || 'dropdown-header-label';
+			close.className = closeClass || 'dropdown-header-close';
+			label.textContent = data.title || '';
+			close.textContent = '\u00d7';
+
+			titleRow.append(label, close);
+			header.appendChild(titleRow);
+
+			return header;
 		}
 	}, userOptions);
 

@@ -26,8 +26,18 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 		role: 'button',
 		tabindex: 0,
 		html: (data:CBOptions) => {
+			const div = document.createElement('div');
+			const className = (data.className || '').split(/\s+/).filter(token => /^[A-Za-z0-9_-]+$/.test(token)).join(' ');
+			const role = data.role === 'button' ? data.role : 'button';
+			const tabindex = Number.parseInt(String(data.tabindex),10);
 
-		return `<div class="${data.className}" title="${data.title}" role="${data.role}" tabindex="${data.tabindex}">&times;</div>`;
+			div.className = className || 'clear-button';
+			div.title = data.title || '';
+			div.setAttribute('role', role);
+			div.tabIndex = Number.isFinite(tabindex) ? tabindex : 0;
+			div.textContent = '\u00d7';
+
+			return div;
 		}
 	}, userOptions);
 
