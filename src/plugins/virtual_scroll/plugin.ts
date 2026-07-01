@@ -69,7 +69,10 @@ export default function(this:TomSelect) {
 	// can we load more results for given query?
 	const canLoadMore = (query:string):boolean => {
 
-		if( typeof self.settings.maxOptions === 'number' && dropdown_content.children.length >= self.settings.maxOptions ){
+		if( self.settings.maxOptions !== null
+			&& typeof self.settings.maxOptions === 'number'
+			&& dropdown_content.children.length >= self.settings.maxOptions
+		){
 			return false;
 		}
 
