@@ -2265,7 +2265,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				// marking empty option as selected can break validation
 				// fixes https://github.com/orchidjs/tom-select/issues/303
-				if( option_el != empty_option || has_selected > 0 ){
+				if( option_el != empty_option || has_selected > 0 || self.settings.mode == 'multi' ){
 					option_el.selected = true;
 				}
 
