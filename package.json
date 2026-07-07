@@ -15,6 +15,9 @@
   "module": "dist/esm/tom-select.complete.js",
   "browser": "dist/js/tom-select.complete.js",
   "style": "dist/css/tom-select.default.css",
+  "overrides": {
+    "fflate": "0.8.2"
+  },
   "exports": {
     ".": {
       "import": "./dist/esm/tom-select.complete.js",
