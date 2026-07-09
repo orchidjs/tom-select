@@ -6,6 +6,7 @@
 
 	.clear-button{
 		opacity: 0;
+		pointer-events: none;
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
@@ -30,5 +31,6 @@
 	&.focus.has-items .clear-button,
 	&:not(.disabled):hover.has-items .clear-button{
 		opacity: 1;
+		pointer-events: auto;
 	}
 }
