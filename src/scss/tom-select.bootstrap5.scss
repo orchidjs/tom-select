@@ -65,7 +65,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		}
 
 		&.single {
-			background-image: escape-svg($form-select-indicator), escape-svg($icon);
+			background-image: var(--bs-form-select-bg-img, escape-svg($form-select-indicator)), escape-svg($icon);
 			background-position: $form-select-bg-position, $form-select-feedback-icon-position;
 			background-size: $form-select-bg-size, $form-select-feedback-icon-size;
 			background-repeat: no-repeat;
