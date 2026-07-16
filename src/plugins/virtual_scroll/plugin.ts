@@ -161,14 +161,14 @@ export default function(this:TomSelect) {
 		orig_loadCallback.call( self, options, optgroups);
 
 		// After the initial preload (empty query), snapshot default_values and option objects
-		// so they can be restored when the user clears their search.
-		if( !loading_more && !default_values_loaded ){
+		// so they can be restored when the user clears their search. Only latch once a response for the
+		// empty query has actually been applied - a preload response that arrives after the user has
+		// already typed a search must not mark the (empty) defaults as loaded.
+		if( !loading_more && !default_values_loaded && self.lastValue === '' ){
 			default_values_loaded = true;
-			if( self.lastValue === '' ){
-				default_values = Object.keys(self.options);
-				default_pagination = pagination[''];
-				default_options = Object.values(self.options);
-			}
+			default_values = Object.keys(self.options);
+			default_pagination = pagination[''];
+			default_options = Object.values(self.options);
 		}
 
 		loading_more = false;
@@ -218,6 +218,12 @@ export default function(this:TomSelect) {
 	// Restore preloaded options and pagination when clearing search
 	const restoreDefaults = ():void => {
 		if( !default_values_loaded ) {
+			// The initial preload never completed (e.g. the user typed a search before it returned), so
+			// there is nothing to restore - re-arm the preload so the first page is fetched again.
+			self.wrapper.classList.remove('preloaded');
+			if( self.isFocused ){
+				self.preload();
+			}
 			return;
 		}
 		// Re-add preloaded option objects (clearOptions can only remove, not restore)

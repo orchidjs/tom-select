@@ -210,6 +210,68 @@ describe('plugin: virtual_scroll', function() {
 	});
 
 
+	it_n('recovers when a stale preload response resolves after a search has already started',async ()=>{
+
+		var load_calls = 0;
+		var resolvePreload;
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			preload: 'focus',
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				load_calls++;
+				var url_params		= this.getUrl(query);
+				var self			= this;
+
+				// Hold back the preload's response so it can be resolved later, after the user
+				// has already started (and received results for) a search - simulating a slow
+				// network response for a request fired on focus, immediately followed by typing.
+				if( query === '' ){
+					resolvePreload = function(){
+						var data = DataProvider(url_params[0],url_params[1]);
+						self.setNextUrl(query,[query,url_params[1]+1]);
+						callback(data.data);
+					};
+					return;
+				}
+
+				var data = DataProvider(url_params[0],url_params[1]);
+				this.setNextUrl(query,[query,url_params[1]+1]);
+				callback(data.data);
+			}
+		});
+
+		// Focus triggers the preload, but its response is deliberately not resolved yet.
+		await asyncClick(test.instance.control);
+		assert.equal( load_calls, 1, 'preload should have been requested');
+
+		// Type a search before the preload resolves - this fetches and displays its own results.
+		await asyncType('a');
+		await waitFor(100);
+		assert.equal( load_calls, 2, 'search should have been requested');
+		assert.equal( Object.keys(test.instance.options).length, 20, 'should show only the search results');
+
+		// The stale preload response now lands, after the query has already moved on.
+		resolvePreload();
+		await waitFor(100);
+
+		// Clearing the search must not wipe the options, even though the preload never
+		// completed while the query was actually empty.
+		await asyncType('\b');
+		await waitFor(100);
+
+		assert.isAbove( Object.keys(test.instance.options).length, 0, 'options should not be wiped out after clearing search');
+		assert.equal( load_calls, 3, 'clearing the search should re-request the preload since it never completed');
+	});
+
+
 	it_n('virtual scroll works after clearing search',async ()=>{
 
 		var load_calls = 0;
