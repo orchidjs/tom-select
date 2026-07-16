@@ -290,6 +290,13 @@ tom.inputState();
 		<td><code>boolean</td>
 		<td><code>false</code></td>
 	</tr>
+	<tr>
+		<td><code>keepOrder</code></td>
+		<td>When set to <code>true</code>, the HTML/DOM order of options will kept. (This feature isn't nessessary on single select instances.)
+		<b>Note:</b> When this option is enabled, the display order of selection get lost and users will see the order of DOM structure.</td>
+		<td><code>boolean</td>
+		<td><code>false</code></td>
+	</tr>
 </table>
 
 ## Data / Searching

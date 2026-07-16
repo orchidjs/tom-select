@@ -25,6 +25,7 @@ export default {
 	allowEmptyOption: false,
 	//closeAfterSelect: false,
 	refreshThrottle: 300,
+	keepOrder: false,
 
 
 	loadThrottle: 300,
