@@ -259,16 +259,124 @@ describe('plugin: virtual_scroll', function() {
 		assert.equal( Object.keys(test.instance.options).length, 20, 'should show only the search results');
 
 		// The stale preload response now lands, after the query has already moved on.
+		// It must be discarded without touching the options displayed for the active search.
 		resolvePreload();
 		await waitFor(100);
+		assert.deepEqual( Object.keys(test.instance.options), DataProvider('a',0).data.map(o=>o.value), 'search results should be unchanged after the stale preload response resolves');
 
-		// Clearing the search must not wipe the options, even though the preload never
-		// completed while the query was actually empty.
+		// Clearing the search re-requests the preload, since the discarded response never
+		// delivered it.
+		await asyncType('\b');
+		await waitFor(100);
+		assert.equal( load_calls, 3, 'clearing the search should re-request the preload since it never completed');
+
+		// The re-requested preload resolves; it must deliver the first page.
+		resolvePreload();
+		await waitFor(100);
+		assert.property( test.instance.options, '-0-0', 'recovery should reload the preload from the first page');
+		assert.deepEqual( Object.keys(test.instance.options), DataProvider('',0).data.map(o=>o.value), 'recovery should restore exactly the first page of preload results');
+	});
+
+
+	it_n('discards a search response that resolves after the input has been cleared',async ()=>{
+
+		var load_calls = 0;
+		var resolvers = {};
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			preload: 'focus',
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				load_calls++;
+				var url_params		= this.getUrl(query);
+				var self			= this;
+
+				// Hold back every response so they can be resolved out of order.
+				resolvers[query] = function(){
+					var data = DataProvider(url_params[0],url_params[1]);
+					self.setNextUrl(query,[query,url_params[1]+1]);
+					callback(data.data);
+				};
+			}
+		});
+
+		// Focus fires the preload; typing fires a search; both responses are still pending.
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100);
+		assert.equal( load_calls, 2, 'preload and search should have been requested');
+
+		// Clear the input while both requests are in flight.
+		await asyncType('\b');
+		await waitFor(100);
+		assert.equal( load_calls, 2, 'clearing while the preload is still in flight should not issue another request');
+
+		// The search response resolves while the input is empty - it must not be applied,
+		// and it must not be captured as the preload defaults.
+		resolvers['a']();
+		await waitFor(100);
+		assert.equal( Object.keys(test.instance.options).filter(v => v.indexOf('a-') === 0).length, 0, 'stale search results should not be applied');
+
+		// The real preload response resolves and becomes the defaults.
+		resolvers['']();
+		await waitFor(100);
+		assert.deepEqual( Object.keys(test.instance.options), DataProvider('',0).data.map(o=>o.value), 'preload results should be applied once resolved');
+
+		// Search again and clear - the restored defaults must be the preload results,
+		// not the stale search results.
+		await asyncType('b');
+		await waitFor(100);
+		resolvers['b']();
+		await waitFor(100);
 		await asyncType('\b');
 		await waitFor(100);
 
-		assert.isAbove( Object.keys(test.instance.options).length, 0, 'options should not be wiped out after clearing search');
-		assert.equal( load_calls, 3, 'clearing the search should re-request the preload since it never completed');
+		assert.property( test.instance.options, '-0-0', 'clearing the search should restore the preloaded defaults');
+		assert.equal( Object.keys(test.instance.options).filter(v => v.indexOf('b-') === 0).length, 0, 'clearing the search should remove the search results');
+	});
+
+
+	it_n('does not issue an empty-query request when preload is disabled',async ()=>{
+
+		var loaded_queries = [];
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				loaded_queries.push(query);
+				var url_params		= this.getUrl(query);
+				var data			= DataProvider(url_params[0],url_params[1]);
+				this.setNextUrl(query,[query,url_params[1]+1]);
+				callback(data.data);
+			}
+		});
+
+		// Search, then clear the input while still focused.
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100);
+		await asyncType('\b');
+		await waitFor(100);
+
+		// Close the dropdown as well - restoreDefaults() also runs on dropdown_close.
+		test.instance.close();
+		await waitFor(100);
+
+		assert.deepEqual( loaded_queries, ['a'], 'clearing the search or closing the dropdown should not request the empty query');
 	});
 
 

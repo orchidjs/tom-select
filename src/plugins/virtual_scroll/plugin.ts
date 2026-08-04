@@ -15,13 +15,14 @@
 
 import type TomSelect from '../../tom-select.ts';
 import { TomOption } from '../../types/index.ts';
-import { addClasses } from '../../vanilla.ts';
+import { addClasses, removeClasses } from '../../vanilla.ts';
 
 export default function(this:TomSelect) {
 	const self							= this;
 	const orig_canLoad					= self.canLoad;
 	const orig_clearActiveOption		= self.clearActiveOption;
 	const orig_loadCallback				= self.loadCallback;
+	const orig_load						= self.load;
 
 	var pagination:{[key:string]:any}	= {};
 	var dropdown_content:HTMLElement;
@@ -32,6 +33,7 @@ export default function(this:TomSelect) {
 	var default_pagination:any;
 	var default_options: TomOption[]	= [];
 	var html_values: string[]			= [];
+	var preload_requested				= false;
 
 	if( !self.settings.shouldLoadMore ){
 
@@ -140,14 +142,37 @@ export default function(this:TomSelect) {
 	});
 
 
-	// wrap the load
-	self.hook('instead','loadCallback',( options:TomOption[], optgroups:TomOption[])=>{
+	// handle a load() response, knowing which query the request was originally issued for
+	const loadCallbackForQuery = ( query:string, was_loading_more:boolean, options:TomOption[], optgroups:TomOption[] ):void => {
+
+		loading_more = was_loading_more;
+
+		// The response belongs to a query the user has since changed, so applying it would
+		// overwrite the options displayed for the active query. Discard it, performing only the
+		// loading bookkeeping loadCallback() would otherwise do. Reset the stored pagination for
+		// the abandoned query - the load function may have already advanced it past pages that
+		// were never applied - so a later request for the same query starts from the first page.
+		if( query !== self.lastValue ){
+			self.loading = Math.max(self.loading - 1, 0);
+			if( !self.loading ){
+				removeClasses(self.wrapper,self.settings.loadingClass);
+			}
+			pagination[query] = self.settings.firstUrl.call(self,query);
+
+			// if the discarded response was the preload, allow preload() to run again
+			if( query === '' && !default_values_loaded ){
+				self.wrapper.classList.remove('preloaded');
+			}
+
+			loading_more = false;
+			return;
+		}
 
 		if( !loading_more ){
 			// When searching (non-empty query), keep selected items and HTML default options,
 			// but remove preloaded remote options so they don't bleed into search results.
 			// For empty query, use clearFilter (keeps default_values + items).
-			const activeFilter = self.lastValue !== ''
+			const activeFilter = query !== ''
 				? (_option: TomOption, value: string) => self.items.indexOf(value) >= 0 || html_values.indexOf(value) >= 0
 				: clearFilter;
 			self.clearOptions(activeFilter);
@@ -161,10 +186,8 @@ export default function(this:TomSelect) {
 		orig_loadCallback.call( self, options, optgroups);
 
 		// After the initial preload (empty query), snapshot default_values and option objects
-		// so they can be restored when the user clears their search. Only latch once a response for the
-		// empty query has actually been applied - a preload response that arrives after the user has
-		// already typed a search must not mark the (empty) defaults as loaded.
-		if( !loading_more && !default_values_loaded && self.lastValue === '' ){
+		// so they can be restored when the user clears their search.
+		if( !loading_more && !default_values_loaded && query === '' ){
 			default_values_loaded = true;
 			default_values = Object.keys(self.options);
 			default_pagination = pagination[''];
@@ -172,6 +195,32 @@ export default function(this:TomSelect) {
 		}
 
 		loading_more = false;
+	};
+
+	// bind the query (and whether this request is loading more results) into the callback of
+	// each load() request - loadCallback() alone cannot tell which request a response answers
+	self.hook('instead','load',(query:string)=>{
+		const was_loading_more	= loading_more;
+		const outer_callback	= self.loadCallback;
+		self.loadCallback = ( options:TomOption[], optgroups:TomOption[] ):void => {
+			loadCallbackForQuery( query, was_loading_more, options, optgroups );
+		};
+		try{
+			return orig_load.call( self, query );
+		}finally{
+			self.loadCallback = outer_callback;
+		}
+	});
+
+	// fallback for loadCallback() invoked directly rather than through a load() request
+	self.hook('instead','loadCallback',( options:TomOption[], optgroups:TomOption[])=>{
+		loadCallbackForQuery( self.lastValue, loading_more, options, optgroups );
+	});
+
+	// track that a preload was requested, so recovery from a discarded preload response
+	// doesn't issue empty-query requests when preloading was never enabled
+	self.hook('before','preload',()=>{
+		preload_requested = true;
 	});
 
 
@@ -218,10 +267,11 @@ export default function(this:TomSelect) {
 	// Restore preloaded options and pagination when clearing search
 	const restoreDefaults = ():void => {
 		if( !default_values_loaded ) {
-			// The initial preload never completed (e.g. the user typed a search before it returned), so
-			// there is nothing to restore - re-arm the preload so the first page is fetched again.
-			self.wrapper.classList.remove('preloaded');
-			if( self.isFocused ){
+			// There is nothing to restore. If a preload was requested but its response was
+			// discarded as stale (which removes the 'preloaded' class), request it again so the
+			// first page is fetched; if a preload is still in flight, or was never requested at
+			// all, do nothing - clearing the search must not issue requests of its own.
+			if( preload_requested && !self.wrapper.classList.contains('preloaded') && self.isFocused ){
 				self.preload();
 			}
 			return;
