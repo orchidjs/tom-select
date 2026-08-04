@@ -57,7 +57,7 @@
 
 		<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
 		<script csp-hash> docsearch({
-			apiKey: '662e3a3a9d206ebad6d19f341b85acbd',
+			apiKey: '{{ algoliaApiKey | default("") }}',
 			indexName: 'tom-select',
 			inputSelector: '#docsearch-input',
 			debug: false // Set debug to true if you want to inspect the dropdown
