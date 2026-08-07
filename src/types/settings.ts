@@ -33,6 +33,7 @@ export type TomSettings = {
 	closeAfterSelect		: boolean,
 	clearAfterSelect		: boolean,
 	refreshThrottle			: number,
+	keepOrder				: boolean,
 
 	loadThrottle			: number,
 	loadingClass			: string,
