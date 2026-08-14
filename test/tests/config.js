@@ -102,13 +102,15 @@ describe('Configuration settings', function() {
 
 	});
 
-	it_n('allowEmptyOption', async () => {
+	it_n('allowEmptyOption should select empty option first in multi-select', async () => {
 
-		let test = setup_test(`<select multiple>
-				<option value="">None</option>
-				<option value="4">Thomas Edison</option>
-				<option value="1">Nikola</option>
-			</select>`, {allowEmptyOption:true});
+		let test = setup_test(`<form>
+				<select multiple name="project" class="setup-here">
+					<option value="">Not assigned</option>
+					<option value="a">A</option>
+					<option value="b">B</option>
+				</select>
+			</form>`, {allowEmptyOption:true});
 
 		assert.equal( Object.keys(test.instance.options).length, 3);
 		assert.equal( test.instance.items.length, 0);
@@ -118,6 +120,42 @@ describe('Configuration settings', function() {
 		var opt = test.instance.getOption('');
 		await asyncClick(opt);
 		assert.equal( test.instance.items.length, 1);
+		assert.deepEqual( test.instance.getValue(), ['']);
+		assert.isTrue( test.select.querySelector('option[value=""]').selected );
+		assert.deepEqual( Array.from(test.select.selectedOptions).map(option => option.value), ['']);
+		assert.deepEqual( new FormData(test.html).getAll('project'), ['']);
+	});
+
+	it_n('allowEmptyOption should select empty option after non-empty option in multi-select', async () => {
+
+		let test = setup_test(`<form>
+				<select multiple name="project" class="setup-here">
+					<option value="">Not assigned</option>
+					<option value="a">A</option>
+					<option value="b">B</option>
+				</select>
+			</form>`, {allowEmptyOption:true});
+
+		await asyncClick(test.instance.control);
+		await asyncClick(test.instance.getOption('a'));
+		await asyncClick(test.instance.getOption(''));
+
+		assert.deepEqual( test.instance.getValue(), ['a','']);
+		assert.sameMembers( Array.from(test.select.selectedOptions).map(option => option.value), ['a','']);
+		assert.sameMembers( new FormData(test.html).getAll('project'), ['a','']);
+	});
+
+	it_n('allowEmptyOption false should not add empty option in multi-select', () => {
+
+		let test = setup_test(`<select multiple>
+				<option value="">Not assigned</option>
+				<option value="a">A</option>
+				<option value="b">B</option>
+			</select>`);
+
+		assert.isNull( test.instance.getOption('') );
+		test.instance.addItem('');
+		assert.deepEqual( test.instance.getValue(), []);
 	});
 
 	it_n('allowEmptyOption + hideSelected should hide selected empty option', async () => {

@@ -76,10 +76,32 @@ describe('plugin: clear_button', function() {
 		);
 
 		var button			= test.instance.control.querySelector('.clear-button');
-				
+
 		await asyncClick( button );
 		assert.equal( test.instance.items.length,3);
-		
+
+	});
+
+	it_n('should not intercept clicks while hidden', function(done) {
+
+		let test = setup_test('AB_Single', {
+			plugins: ['clear_button']
+		});
+
+		test.instance.addItem('a');
+
+		var button = test.instance.control.querySelector('.clear-button');
+
+		// idle: invisible, so it shouldn't swallow clicks meant for the control underneath
+		assert.equal( getComputedStyle(button).pointerEvents, 'none', 'should not be clickable while hidden' );
+
+		test.instance.focus();
+
+		window.setTimeout(function() {
+			assert.equal( getComputedStyle(button).pointerEvents, 'auto', 'should be clickable once visible' );
+			done();
+		}, 5);
+
 	});
 
 });
