@@ -1,5 +1,6 @@
 {
   "name": "tom-select",
+  "version": "2.6.2",
   "keywords": [
     "select",
     "ui",
@@ -15,6 +16,9 @@
   "module": "dist/esm/tom-select.complete.js",
   "browser": "dist/js/tom-select.complete.js",
   "style": "dist/css/tom-select.default.css",
+  "overrides": {
+    "fflate": "0.8.2"
+  },
   "exports": {
     ".": {
       "import": "./dist/esm/tom-select.complete.js",
@@ -42,14 +46,14 @@
   },
   "description": "Tom Select is a versatile and dynamic <select> UI control. Forked from Selectize.js to provide a framework agnostic autocomplete widget with native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, etc.",
   "homepage": "https://tom-select.js.org",
-  "version": "2.4.3",
   "files": [
     "/dist",
     "/src"
   ],
   "author": "Josh Schmidt (https://github.com/oyejorge)",
   "contributors": [
-    "Brian Reavis <brian@thirdroute.com>"
+    "Brian Reavis <brian@thirdroute.com>",
+    "Nicolas CARPi @ Deltablot"
   ],
   "license": "Apache-2.0",
   "repository": {
@@ -75,7 +79,7 @@
     "bootstrap5": "npm:bootstrap@^5.3.3",
     "broken-link-checker": "^0.7.8",
     "chai": "^4.5.0",
-    "cssnano": "^7.0.6",
+    "cssnano": "^8.0.1",
     "grunt": "^1.6.1",
     "grunt-cli": "^1.5.0",
     "grunt-contrib-clean": "^2.0.1",

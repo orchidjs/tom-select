@@ -28,10 +28,10 @@ $select-color-dropdown-border-top: color-mix($input-border-color, $input-bg, 80%
 $select-color-dropdown-item-active: $dropdown-link-hover-bg !default;
 $select-color-dropdown-item-active-text: $dropdown-link-hover-color !default;
 $select-color-dropdown-item-create-active-text: $dropdown-link-hover-color !default;
-$select-opacity-disabled: 0.5 !default;
+$select-opacity-disabled: 1 !default;
 $select-border: 1px solid $input-border-color !default;
 $select-border-radius: $input-border-radius !default;
-$select-width-item-border: 0 !default;
+$select-width-item-border: 0px !default;
 $select-padding-x: $input-padding-x !default;
 $select-padding-y: $input-padding-y !default;
 $select-padding-dropdown-item-x: $input-btn-padding-x !default;
@@ -65,7 +65,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 		}
 
 		&.single {
-			background-image: escape-svg($form-select-indicator), escape-svg($icon);
+			background-image: var(--bs-form-select-bg-img, escape-svg($form-select-indicator)), escape-svg($icon);
 			background-position: $form-select-bg-position, $form-select-feedback-icon-position;
 			background-size: $form-select-bg-size, $form-select-feedback-icon-size;
 			background-repeat: no-repeat;
@@ -122,11 +122,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{$select-ns}-control {
-	@include box-shadow($input-box-shadow);
-	@include transition($input-transition);
-
 	display:flex;
 	align-items: center;
+
+	@include box-shadow($input-box-shadow);
+	@include transition($input-transition);
 
 	.focus & {
 		border-color: $input-focus-border-color;
@@ -141,6 +141,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	.item {
 		display:	flex;
 		align-items: center;
+	}
+	
+	input::placeholder {
+		color: var(--bs-secondary-color, #a7aeb8);
+		opacity: 1;
 	}
 }
 
@@ -163,7 +168,6 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 		&.has-items .#{$select-ns}-control {
 			font-size: $input-font-size-sm;
-			padding-bottom: 0;
 		}
 	}
 
@@ -254,5 +258,13 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 	& > .#{$select-ns}-wrapper:not(:last-child) > .#{$select-ns}-control {
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
+	}
+}
+
+.form-select {
+	.#{$select-ns}-dropdown,
+	.#{$select-ns}-control,
+	.#{$select-ns}-control input {
+		color: $form-select-color;
 	}
 }

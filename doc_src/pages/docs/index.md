@@ -127,7 +127,7 @@ create: function(input,callback){
 <tr>
 	<td><code>createOnBlur</code></td>
 	<td>
-		If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
+		If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled). Existing options will also be added on blur.
 	<td><code>boolean</code></td>
 	<td><code>false</code></td>
 </tr>
@@ -208,6 +208,12 @@ create: function(input,callback){
 		<td><code>300</code></td>
 	</tr>
 	<tr>
+		<td><code>refreshThrottle</code></td>
+		<td>The number of milliseconds to wait before search from options. If 0, the list will be refreshed immediately when you type in.</td>
+		<td><code>int</code></td>
+		<td><code>300</code></td>
+	</tr>
+	<tr>
 		<td><code>loadingClass</code></td>
 		<td>The class name added to the wrapper element while awaiting the fulfillment of load requests.</td>
 		<td><code>string</code></td>
@@ -254,7 +260,7 @@ tom.inputState();
 	</tr>
 	<tr>
 		<td><code>selectOnTab</code></td>
-		<td>If true, the tab key will choose the currently selected item.</td>
+		<td>If true, the tab key will choose the currently selected item. If the option <code>'create'</code> is enabled and no current Item is selectable, a new item will be created.</td>
 		<td><code>boolean</code></td>
 		<td><code>false</code></td>
 	</tr>
@@ -275,6 +281,12 @@ tom.inputState();
 	<tr>
 		<td><code>duplicates</code></td>
 		<td>Allow selecting the same option more than once. <code>hideSelected</code> should also be set to false.</td>
+		<td><code>boolean</td>
+		<td><code>false</code></td>
+	</tr>
+	<tr>
+		<td><code>clearAfterSelect</code></td>
+		<td>Clearing the value from the control input after select an option.</td>
 		<td><code>boolean</td>
 		<td><code>false</code></td>
 	</tr>
@@ -344,6 +356,32 @@ tom.inputState();
 		<td>The name of the property to group items by.</td>
 		<td><code>string</code></td>
 		<td><code>'optgroup'</code></td>
+	</tr>
+	<tr>
+		<td><code>optionGroupRegister</td>
+		<td>A function to transform and manage non existent Optgroups (f.e. for remote data)
+
+```js
+optionGroupRegister: function (optgroup) {}
+```
+
+You can style the Optgroup like normal configuration. Here for example the first letter will capitalized and used as Optgroup name.
+
+```js
+optionGroupRegister: function (optgroup) {
+        var capitalised = optgroup.charAt(0).toUpperCase() + optgroup.substring(1);
+        var group = {
+          label: capitalised
+        };
+
+        group[this.settings.optgroupValueField] = optgroup;
+
+        return group;
+      },
+```
+</td>
+		<td><code>function</code></td>
+		<td><code>null</code></td>
 	</tr>
 	<tr>
 		<td><code>disabledField</code></td>

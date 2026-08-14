@@ -1,10 +1,12 @@
 /* stylelint-disable function-name-case */
+@use "sass:meta";
 
 .plugin-clear_button {
 	--ts-pr-clear-button: 1em;
 
 	.clear-button{
 		opacity: 0;
+		pointer-events: none;
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
@@ -18,7 +20,7 @@
 	&.form-select .clear-button,
 	&.single .clear-button {
 
-		@if variable-exists(select-padding-dropdown-item-x) {
+		@if meta.variable-exists("select-padding-dropdown-item-x") {
 			right: Max(var(--ts-pr-caret), #{$select-padding-dropdown-item-x});
 		}
 		@else{
@@ -29,5 +31,6 @@
 	&.focus.has-items .clear-button,
 	&:not(.disabled):hover.has-items .clear-button{
 		opacity: 1;
+		pointer-events: auto;
 	}
 }

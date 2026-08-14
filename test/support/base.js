@@ -37,6 +37,7 @@ var teardownLast = function(){
 var test_html = {
 	AB_Multi			: '<select multiple><option value="a">a</option><option value="b">b</option><option value="c">c</option></select>',
 	AB_Single			: '<select><option value="a">a</option><option value="b">b</option><option value="c">c</option></select>',
+	AB_Single_Empty		: '<select><option value="">empty</option><option value="a">a</option><option value="b">b</option><option value="c">c</option></select>',
 	AB_Single_Long		: '<select><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option><option>h</option><option>i</option><option>j</option><option>k</option><option>l</option><option>m</option><option>n</option><option>o</option><option>p</option></select>',
 }
 

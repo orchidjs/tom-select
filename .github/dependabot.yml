@@ -2,24 +2,11 @@
 # package ecosystems to update and where the package manifests are located.
 # Please see the documentation for all configuration options:
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
-
-  # check direct dependencies daily
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: "daily"
+      interval: "monthly"
     allow:
       - dependency-type: "direct"
-
-  # check indirect dependencies weekly
-  # .. can't do this
-  # "The property '#/updates/1' is a duplicate. Update configs must have a unique combination of 'package-ecosystem', 'directory', and 'target-branch'"
-#  - package-ecosystem: "npm"
-#    directory: "/"
-#    schedule:
-#      interval: "weekly"
-#    allow:
-#      - dependency-type: "indirect"

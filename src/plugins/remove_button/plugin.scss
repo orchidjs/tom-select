@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .#{$select-ns}-wrapper.plugin-remove_button{
 	.item {
 		display: inline-flex;
@@ -46,7 +48,7 @@
 	}
 
 	&.disabled .item .remove {
-		border-left-color: lighten(desaturate($select-color-item-border, 100%), $select-lighten-disabled-item-border);
+		border-left-color: color.adjust($select-color-item-border, $saturation: -100%, $lightness: $select-lighten-disabled-item-border);
 	}
 }
 
@@ -65,6 +67,6 @@
 	}
 
 	&.disabled .item .remove {
-		border-right-color: lighten(desaturate($select-color-item-border, 100%), $select-lighten-disabled-item-border);
+		border-right-color: color.adjust($select-color-item-border, $saturation: -100%, $lightness: $select-lighten-disabled-item-border);
 	}
 }

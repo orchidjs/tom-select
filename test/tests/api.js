@@ -336,10 +336,13 @@
 				expect(test.instance.options).to.have.property('a');
 				expect(test.instance.options).to.have.property('b');
 			});
-			it_n('should not override existing options', function() {
+			it_n('should update existing option when adding new one', function() {
 				test.instance.addOption([{value: 'a'}, {value: 'b'}]);
 				test.instance.addOption({value: 'a', test: 'hello'});
-				expect(test.instance.options.a).to.not.have.property('test');
+				expect(test.instance.options.a).to.have.property('test');
+			});
+			it_n('should be false when value is missing (null)', function() {
+				expect(test.instance.addOption({value: null})).to.be.equal(false);
 			});
 		});
 
@@ -1006,6 +1009,15 @@
 				assert.equal( Object.keys(test.instance.options).length, opt_count+1);
 				assert.equal(test.instance.items.length, 1,'should have one item');
 				assert.equal(test.instance.items[0], 'new');
+			});
+
+			it_n('sync() should retain empty value',function(){
+				const test		= setup_test('AB_Single_Empty',{allowEmptyOption:true});
+				var opt_count	= Object.keys(test.instance.options).length;
+				test.instance.sync(true);
+
+				assert.equal(test.instance.items[0], '', 'empty item should remain');
+				assert.equal( Object.keys(test.instance.options).length, opt_count, 'option count remains');
 			});
 		});
 	});
