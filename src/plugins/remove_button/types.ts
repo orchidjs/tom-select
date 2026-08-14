@@ -3,5 +3,7 @@ export type RBOptions = {
 	label     ?: string,
 	title     ?: string,
 	className ?: string,
-	append    ?: boolean
+	tabindex  ?: number,
+	role      ?: string,
+	html      ?: (data: RBOptions) => string,
 };
