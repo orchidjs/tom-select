@@ -32,6 +32,9 @@
       "import": "./dist/esm/tom-select.popular.js",
       "require": "./dist/cjs/tom-select.popular.js"
     },
+    "./browser": "./dist/esm-browser/tom-select.complete.js",
+    "./browser/base": "./dist/esm-browser/tom-select.js",
+    "./browser/popular": "./dist/esm-browser/tom-select.popular.js",
     "./utils": {
       "import": "./dist/esm/utils.js",
       "require": "./dist/cjs/utils.js"
