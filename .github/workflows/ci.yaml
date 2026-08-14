@@ -3,10 +3,10 @@ name: Node.js CI
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 permissions:
   contents: read
@@ -49,6 +49,14 @@ jobs:
       - run: npm run test:types
       - run: npm run stylelint
 
+      # Setting TARGET prevents .config/karma.conf.cjs from replacing CHROME_BIN
+      # with Puppeteer's downloaded Chrome. The GitHub Ubuntu runner's installed
+      # Google Chrome is covered by Ubuntu's AppArmor policy.
+      #
       # Use `--ignore-scripts` to avoid running the `pretest` script. We already
       # built the project in a previous step, no need to build it again.
-      - run: npm run test --ignore-scripts
+      - name: Run tests
+        env:
+          TARGET: HeadlessChrome
+          CHROME_BIN: /usr/bin/google-chrome
+        run: npm run test --ignore-scripts
