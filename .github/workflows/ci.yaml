@@ -49,6 +49,18 @@ jobs:
       - run: npm run test:types
       - run: npm run stylelint
 
+      - name: Verify Chrome sandbox
+        run: test -x /opt/google/chrome/chrome && test -x /opt/google/chrome/chrome-sandbox && test -u /opt/google/chrome/chrome-sandbox
+
+      # Prefer the runner-installed Google Chrome, which has an Ubuntu AppArmor
+      # profile. If the project overrides CHROME_BIN with Puppeteer's downloaded
+      # Chrome, CHROME_DEVEL_SANDBOX lets that browser use Chrome's installed
+      # setuid sandbox instead of globally relaxing AppArmor user namespaces.
+      #
       # Use `--ignore-scripts` to avoid running the `pretest` script. We already
       # built the project in a previous step, no need to build it again.
-      - run: npm run test --ignore-scripts
+      - name: Run tests
+        env:
+          CHROME_BIN: /opt/google/chrome/chrome
+          CHROME_DEVEL_SANDBOX: /opt/google/chrome/chrome-sandbox
+        run: npm run test --ignore-scripts
