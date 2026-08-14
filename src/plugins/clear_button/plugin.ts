@@ -13,9 +13,9 @@
  *
  */
 
-import TomSelect from '../../tom-select';
-import { getDom } from '../../vanilla';
-import { CBOptions } from './types';
+import type TomSelect from '../../tom-select.ts';
+import { getDom } from '../../vanilla.ts';
+import { CBOptions } from './types.ts';
 
 export default function(this:TomSelect, userOptions:CBOptions) {
 	const self = this;
@@ -23,8 +23,11 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 	const options = Object.assign({
 		className: 'clear-button',
 		title: 'Clear All',
+		role: 'button',
+		tabindex: 0,
 		html: (data:CBOptions) => {
-			return `<div class="${data.className}" title="${data.title}">&#10799;</div>`;
+
+		return `<div class="${data.className}" title="${data.title}" role="${data.role}" tabindex="${data.tabindex}">&times;</div>`;
 		}
 	}, userOptions);
 
@@ -39,6 +42,8 @@ export default function(this:TomSelect, userOptions:CBOptions) {
 			if( self.settings.mode === 'single' && self.settings.allowEmptyOption ){
 				self.addItem('');
 			}
+			
+			self.refreshOptions(false);
 
 			evt.preventDefault();
 			evt.stopPropagation();

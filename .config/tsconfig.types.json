@@ -1,0 +1,11 @@
+{
+	// This exists for backwards compatibility. In the wild, folks are importing
+	// paths like `tom-select/dist/types/...`.
+	//
+	// Consider removing this in the next major version.
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../dist/types",
+		"emitDeclarationOnly": true
+	}
+}

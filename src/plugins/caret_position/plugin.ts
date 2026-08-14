@@ -13,8 +13,8 @@
  *
  */
 
-import TomSelect from '../../tom-select';
-import { nodeIndex, removeClasses } from '../../vanilla';
+import type TomSelect from '../../tom-select.ts';
+import { nodeIndex, removeClasses } from '../../vanilla.ts';
 
 
 export default function(this:TomSelect) {

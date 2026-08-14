@@ -5,23 +5,19 @@
 		"checkJs": true,
 		"strict": true,
 		"target": "ES6",
-		"module": "esnext",
-		"noUnusedLocals": true,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"alwaysStrict": true,
-	    "strictNullChecks": true,
-	    "noImplicitReturns": true,
-	    "noUnusedLocals": true,
-	    "allowUnreachableCode": false,
-	    "noUncheckedIndexedAccess": true,
-
-		"lib": [
-	      "ESNext",
-	      "dom"
-	    ],
-
+		"strictNullChecks": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"allowUnreachableCode": false,
+		"noUncheckedIndexedAccess": true,
 		"declaration": true,
-		"declarationDir": "../dist/types",
 		"isolatedModules": true,
-		"moduleResolution": "node"
+		"sourceMap": true,
+		"rewriteRelativeImportExtensions": true,
+
+		"lib": ["ESNext", "dom"],
 	},
 }

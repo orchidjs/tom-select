@@ -1,8 +1,7 @@
-import defaults from './defaults';
-import { hash_key } from './utils';
-import { TomOption, TomSettings, RecursivePartial } from './types/index';
-import { iterate } from '@orchidjs/sifter/lib/utils';
-import { TomInput } from './types/index';
+import defaults from './defaults.ts';
+import { hash_key, iterate } from './utils.ts';
+import { TomOption, TomSettings, RecursivePartial } from './types/index.ts';
+import { TomInput } from './types/index.ts';
 
 
 export default function getSettings( input:TomInput, settings_user:RecursivePartial<TomSettings>):TomSettings{
@@ -147,7 +146,7 @@ export default function getSettings( input:TomInput, settings_user:RecursivePart
 		const data_raw = input.getAttribute(attr_data);
 
 		if (!data_raw) {
-			var value = input.value.trim() || '';
+			var value = input?.value?.trim() ?? '';
 			if (!settings.allowEmptyOption && !value.length) return;
 			const values = value.split(settings.delimiter);
 

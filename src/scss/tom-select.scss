@@ -13,6 +13,9 @@
  *
  */
 
+@use "sass:color";
+@use "sass:math";
+
 // base styles
 $select-ns:										'ts' !default;
 $select-font-family:							inherit !default;
@@ -35,7 +38,7 @@ $select-color-dropdown-border:					$select-color-border !default;
 $select-color-dropdown-border-top:				#f0f0f0 !default;
 $select-color-dropdown-item-active:				#f5fafd !default;
 $select-color-dropdown-item-active-text:		#495c68 !default;
-$select-color-dropdown-item-create-text:		rgba(red($select-color-text), green($select-color-text), blue($select-color-text), 50%) !default;
+$select-color-dropdown-item-create-text:		color.change($select-color-text, $alpha: 0.5) !default;
 $select-color-dropdown-item-create-active-text:	$select-color-dropdown-item-active-text !default;
 $select-color-optgroup:							$select-color-dropdown !default;
 $select-color-optgroup-text:					$select-color-text !default;
@@ -49,7 +52,7 @@ $select-border-width:							1px !default;
 $select-border:									$select-border-width solid $select-color-border !default;
 $select-dropdown-border:						1px solid $select-color-dropdown-border !default;
 $select-border-radius:							3px !default;
-$select-width-item-border:						0 !default;
+$select-width-item-border:						0px !default;
 $select-max-height-dropdown:					200px !default;
 $select-padding-x:								8px !default;
 $select-padding-y:								8px !default;
@@ -62,8 +65,8 @@ $select-margin-item-y:							3px !default;
 $select-arrow-size:								5px !default;
 $select-arrow-color:							#808080 !default;
 $select-arrow-offset:							15px !default;
-$select-caret-margin:							0 4px !default;
-$select-caret-margin-rtl:						0 4px 0 -2px !default;
+$select-caret-margin:							0px 4px !default;
+$select-caret-margin-rtl:						0px 4px 0px -2px !default;
 $select-spinner-size:							30px !default;
 $select-spinner-border-size:					5px !default;
 $select-spinner-border-color:					$select-color-border !default;
@@ -81,8 +84,8 @@ $select-spinner-border-color:					$select-color-border !default;
 @import "../plugins/remove_button/plugin.scss";
 
 :root {
-	--ts-pr-clear-button: 0;
-	--ts-pr-caret: 0;
+	--ts-pr-clear-button: 0px;
+	--ts-pr-caret: 0px;
 	--ts-pr-min: .75rem;
 }
 
@@ -118,7 +121,7 @@ $select-spinner-border-color:					$select-color-border !default;
 				display: block;
 				position: absolute;
 				top: 50%;
-				margin-top: round(-0.5 * $select-arrow-size);
+				margin-top: math.round(-0.5 * $select-arrow-size);
 				width: 0;
 				height: 0;
 				border-style: solid;

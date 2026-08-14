@@ -7,7 +7,7 @@ describe('ESM Module', function(d1){
 
 	it_n('should initialize without exceptions', async () =>{
 
-		import('/base/build/esm/tom-select.complete.js').then(function(SelectModule){
+		import('/base/dist/esm/tom-select.complete.js').then(function(SelectModule){
 			var instance = new SelectModule.default('<select>');
 			assert.isTrue(true);
 
@@ -25,7 +25,7 @@ describe('ESM Module', function(d1){
 			last_keydown = evt;
 		});
 
-		const util_module = await import('/base/build/esm/utils.js');
+		const util_module = await import('/base/dist/esm/utils.js');
 
 		await asyncType('[alt]', document.body);
 		await waitFor(100);

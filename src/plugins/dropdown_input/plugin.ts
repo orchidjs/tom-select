@@ -13,10 +13,10 @@
  *
  */
 
-import TomSelect from '../../tom-select';
-import * as constants from '../../constants';
-import { getDom, addClasses } from '../../vanilla';
-import { addEvent, preventDefault } from '../../utils';
+import type TomSelect from '../../tom-select.ts';
+import * as constants from '../../constants.ts';
+import { getDom, addClasses } from '../../vanilla.ts';
+import { addEvent, preventDefault } from '../../utils.ts';
 
 
 export default function(this:TomSelect) {
@@ -37,12 +37,18 @@ export default function(this:TomSelect) {
 		const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />') as HTMLInputElement;
 		placeholder.placeholder = self.settings.placeholder ||'';
 		self.control.append(placeholder);
-
+		/**
+		 * TomSelect renders a custom control with a focusable <input class="items-placeholder">.
+		 * The source <select>'s aria-label is not automatically propagated to that input,
+		 * which triggers "Missing form label" accessibility warnings.
+		 * This helper copies the label from the <select> onto the generated input.
+		 */
+		const label = self.input?.getAttribute('aria-label');
+		if (!label) return;
+		placeholder.setAttribute('aria-label', label);
 	});
 
-
 	self.on('initialize',()=>{
-
 		// set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
 		self.control_input.addEventListener('keydown',(evt:KeyboardEvent) =>{
 		//addEvent(self.control_input,'keydown' as const,(evt:KeyboardEvent) =>{
@@ -88,5 +94,4 @@ export default function(this:TomSelect) {
 		});
 
 	});
-
 };

@@ -27,9 +27,9 @@ describe('plugin: virtual_scroll', function() {
 
 	it_n('load more data while scrolling',async ()=>{
 
-		var load_calls = 0;
+		let load_calls = 0;
 
-		var test = setup_test('<input>',{
+		const test = setup_test('<input>',{
 			plugins:['virtual_scroll'],
 			labelField: 'value',
 			valueField: 'value',
@@ -48,23 +48,33 @@ describe('plugin: virtual_scroll', function() {
 			}
 		});
 
+		let executor = (resolve) => test.instance.on('load', () => {
+			test.instance.off('load');
+			resolve();
+		});
+
 		// load first set of data for "a"
+		let dataLoaded = new Promise(executor);
 		await asyncClick(test.instance.control);
 		await asyncType('a');
-		await waitFor(100); // wait for data to load
+		await dataLoaded;
 		assert.equal( Object.keys(test.instance.options).length,20,'should load first set of data');
-		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 1, 'should have loading-more-reuslts template');
+		const loadingMoreIndicator = test.instance.dropdown_content.querySelector('.loading-more-results');
+		assert.isNotNull( loadingMoreIndicator, 'should have loading_more template');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.no-more-results').length, 0 ,'should not have no-more-results template');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 21 ,'Should display 20 options plus .loading-more-results');
 
 		assert.equal( load_calls, 1);
 
+		const lastOption = loadingMoreIndicator.previousElementSibling;
 
 		// load second set of data for "a"
-		test.instance.scroll(1000,'auto'); // scroll to bottom
-		await waitFor(500); // wait for scroll + more data to load
+		dataLoaded = new Promise(executor);
+		test.instance.setActiveOption(loadingMoreIndicator); // scroll to bottom
+		await dataLoaded;
 		assert.equal( Object.keys(test.instance.options).length, 40,'should load second set of data');
-		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 0, 'should not have loading-more-reuslts template');
+		assert.equal( lastOption, test.instance.activeOption, 'previous dataset’s last option should be active')
+		assert.equal( test.instance.dropdown_content.querySelectorAll('.loading-more-results').length, 0, 'should not have loading_more template');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.no-more-results').length, 1 ,'should have no-more-results template');
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 31 ,'Should display 30 options plus .no-more-results');
 		assert.equal( load_calls, 2);
@@ -78,8 +88,9 @@ describe('plugin: virtual_scroll', function() {
 
 
 		// load first set of data for "b"
+		dataLoaded = new Promise(executor);
 		await asyncType('\bb');
-		await waitFor(100); // wait for data to load
+		await dataLoaded;
 		assert.equal( Object.keys(test.instance.options).length,20,'should load new set of data for "b"');
 		assert.equal( load_calls, 3);
 	});
@@ -150,6 +161,263 @@ describe('plugin: virtual_scroll', function() {
 		assert.equal( test.instance.dropdown_content.querySelectorAll('.option').length, 31 ,'Should display 30 options plus .no-more-results');
 		assert.equal( load_calls, 2);
 
+	});
+
+
+	it_n('restore preloaded options after search is cleared',async ()=>{
+
+		var load_calls = 0;
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			preload: true,
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				load_calls++;
+				var url_params		= this.getUrl(query);
+				var data			= DataProvider(url_params[0],url_params[1]);
+				this.setNextUrl(query,[query,url_params[1]+1]);
+				callback(data.data);
+			}
+		});
+
+		// wait for preload to complete
+		await waitFor(100);
+		assert.equal( Object.keys(test.instance.options).length, 20, 'should have preloaded options');
+		assert.equal( load_calls, 1);
+
+		// search for "a"
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100);
+		assert.equal( load_calls, 2);
+
+		// clear search - preloaded options should be restored
+		await asyncType('\b');
+		await waitFor(100);
+		assert.equal( Object.keys(test.instance.options).length, 20, 'should restore preloaded options after clearing search');
+
+		// verify none of the search results leaked through
+		var option_keys = Object.keys(test.instance.options);
+		var has_search_results = option_keys.some(k => k.startsWith('a-'));
+		assert.isFalse( has_search_results, 'should not contain stale search results');
+	});
+
+
+	it_n('recovers when a stale preload response resolves after a search has already started',async ()=>{
+
+		var load_calls = 0;
+		var resolvePreload;
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			preload: 'focus',
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				load_calls++;
+				var url_params		= this.getUrl(query);
+				var self			= this;
+
+				// Hold back the preload's response so it can be resolved later, after the user
+				// has already started (and received results for) a search - simulating a slow
+				// network response for a request fired on focus, immediately followed by typing.
+				if( query === '' ){
+					resolvePreload = function(){
+						var data = DataProvider(url_params[0],url_params[1]);
+						self.setNextUrl(query,[query,url_params[1]+1]);
+						callback(data.data);
+					};
+					return;
+				}
+
+				var data = DataProvider(url_params[0],url_params[1]);
+				this.setNextUrl(query,[query,url_params[1]+1]);
+				callback(data.data);
+			}
+		});
+
+		// Focus triggers the preload, but its response is deliberately not resolved yet.
+		await asyncClick(test.instance.control);
+		assert.equal( load_calls, 1, 'preload should have been requested');
+
+		// Type a search before the preload resolves - this fetches and displays its own results.
+		await asyncType('a');
+		await waitFor(100);
+		assert.equal( load_calls, 2, 'search should have been requested');
+		assert.equal( Object.keys(test.instance.options).length, 20, 'should show only the search results');
+
+		// The stale preload response now lands, after the query has already moved on.
+		// It must be discarded without touching the options displayed for the active search.
+		resolvePreload();
+		await waitFor(100);
+		assert.deepEqual( Object.keys(test.instance.options), DataProvider('a',0).data.map(o=>o.value), 'search results should be unchanged after the stale preload response resolves');
+
+		// Clearing the search re-requests the preload, since the discarded response never
+		// delivered it.
+		await asyncType('\b');
+		await waitFor(100);
+		assert.equal( load_calls, 3, 'clearing the search should re-request the preload since it never completed');
+
+		// The re-requested preload resolves; it must deliver the first page.
+		resolvePreload();
+		await waitFor(100);
+		assert.property( test.instance.options, '-0-0', 'recovery should reload the preload from the first page');
+		assert.deepEqual( Object.keys(test.instance.options), DataProvider('',0).data.map(o=>o.value), 'recovery should restore exactly the first page of preload results');
+	});
+
+
+	it_n('discards a search response that resolves after the input has been cleared',async ()=>{
+
+		var load_calls = 0;
+		var resolvers = {};
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			preload: 'focus',
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				load_calls++;
+				var url_params		= this.getUrl(query);
+				var self			= this;
+
+				// Hold back every response so they can be resolved out of order.
+				resolvers[query] = function(){
+					var data = DataProvider(url_params[0],url_params[1]);
+					self.setNextUrl(query,[query,url_params[1]+1]);
+					callback(data.data);
+				};
+			}
+		});
+
+		// Focus fires the preload; typing fires a search; both responses are still pending.
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100);
+		assert.equal( load_calls, 2, 'preload and search should have been requested');
+
+		// Clear the input while both requests are in flight.
+		await asyncType('\b');
+		await waitFor(100);
+		assert.equal( load_calls, 2, 'clearing while the preload is still in flight should not issue another request');
+
+		// The search response resolves while the input is empty - it must not be applied,
+		// and it must not be captured as the preload defaults.
+		resolvers['a']();
+		await waitFor(100);
+		assert.equal( Object.keys(test.instance.options).filter(v => v.indexOf('a-') === 0).length, 0, 'stale search results should not be applied');
+
+		// The real preload response resolves and becomes the defaults.
+		resolvers['']();
+		await waitFor(100);
+		assert.deepEqual( Object.keys(test.instance.options), DataProvider('',0).data.map(o=>o.value), 'preload results should be applied once resolved');
+
+		// Search again and clear - the restored defaults must be the preload results,
+		// not the stale search results.
+		await asyncType('b');
+		await waitFor(100);
+		resolvers['b']();
+		await waitFor(100);
+		await asyncType('\b');
+		await waitFor(100);
+
+		assert.property( test.instance.options, '-0-0', 'clearing the search should restore the preloaded defaults');
+		assert.equal( Object.keys(test.instance.options).filter(v => v.indexOf('b-') === 0).length, 0, 'clearing the search should remove the search results');
+	});
+
+
+	it_n('does not issue an empty-query request when preload is disabled',async ()=>{
+
+		var loaded_queries = [];
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				loaded_queries.push(query);
+				var url_params		= this.getUrl(query);
+				var data			= DataProvider(url_params[0],url_params[1]);
+				this.setNextUrl(query,[query,url_params[1]+1]);
+				callback(data.data);
+			}
+		});
+
+		// Search, then clear the input while still focused.
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100);
+		await asyncType('\b');
+		await waitFor(100);
+
+		// Close the dropdown as well - restoreDefaults() also runs on dropdown_close.
+		test.instance.close();
+		await waitFor(100);
+
+		assert.deepEqual( loaded_queries, ['a'], 'clearing the search or closing the dropdown should not request the empty query');
+	});
+
+
+	it_n('virtual scroll works after clearing search',async ()=>{
+
+		var load_calls = 0;
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			preload: true,
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				load_calls++;
+				var url_params		= this.getUrl(query);
+				var data			= DataProvider(url_params[0],url_params[1]);
+				this.setNextUrl(query,[query,url_params[1]+1]);
+				callback(data.data);
+			}
+		});
+
+		// wait for preload
+		await waitFor(100);
+		assert.equal( load_calls, 1);
+
+		// search and clear
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100);
+		await asyncType('\b');
+		await waitFor(100);
+
+		// scroll to bottom - should trigger loading more
+		test.instance.scroll(1000,'auto');
+		await waitFor(500);
+		assert.isAbove( Object.keys(test.instance.options).length, 20, 'should load more options after clearing search and scrolling');
 	});
 
 

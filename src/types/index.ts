@@ -1,3 +1,3 @@
 
-export * from './core';
-export * from './settings';
+export * from './core.ts';
+export * from './settings.ts';
