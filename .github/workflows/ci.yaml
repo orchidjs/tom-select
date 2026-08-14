@@ -5,30 +5,50 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
 
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['18.x', '20.x', '22.x']
+        node-version: ['22.x', '24.x']
 
     steps:
-      - uses: actions/checkout@v4
+      # https://github.com/actions/checkout/releases/tag/v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        # https://github.com/actions/setup-node/releases/tag/v7.0.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: ${{ matrix.node-version }}
-      # This is needed to run headless Chrome on Ubuntu 24.04.
-      - name: Disable AppArmor
-        run: echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
+          package-manager-cache: false
+
+      # Use the Chrome binary provided by the GitHub-hosted runner instead of
+      # globally relaxing AppArmor restrictions for unprivileged user namespaces.
+      - name: Configure Chrome
+        run: echo "CHROME_BIN=$(command -v google-chrome)" >> "$GITHUB_ENV"
+
       - run: npm ci
       - run: npm run build
       - run: npm run build:docs
+      - run: npm run test:types
+      - run: npm run stylelint
+
       # Use `--ignore-scripts` to avoid running the `pretest` script. We already
       # built the project in a previous step, no need to build it again.
       - run: npm run test --ignore-scripts
-      - run: npm run test:types
-      - run: npm run stylelint
