@@ -48,7 +48,7 @@ export type TomSettings = {
 	optionGroupRegister		: TomCreateOptgroup,
 
 	sortField				: string|SifterSort[]|SifterSortFn,
-	searchField				: string[],
+	searchField				: (string | { field: string; weight?: number })[],
 	searchConjunction		: string,
 	nesting					: boolean,
 
