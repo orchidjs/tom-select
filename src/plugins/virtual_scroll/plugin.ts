@@ -119,6 +119,15 @@ export default function(this:TomSelect) {
 		pagination = {};
 	};
 
+	// clear preloaded default options and pagination state
+	self.clearDefaultOptions = ():void => {
+		default_values = [];
+		default_options = [];
+		default_pagination = null;
+		default_values_loaded = false;
+		self.clearPagination();
+	};
+
 	// don't clear the active option (and cause unwanted dropdown scroll)
 	// while loading more results
 	self.hook('instead','clearActiveOption',()=>{

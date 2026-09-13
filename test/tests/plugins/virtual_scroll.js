@@ -443,4 +443,53 @@ describe('plugin: virtual_scroll', function() {
 		await waitFor(100); // wait for data to load
 		assert.deepEqual( Object.keys(test.instance.options), values_before);
 	});
+	
+	it_n('resets cached default options using clearDefaultOptions', async () => {
+
+		var dataset = [
+			{ value: '1', text: 'Option 1' },
+			{ value: '2', text: 'Option 2' }
+		];
+
+		var test = setup_test('<input>', {
+			plugins: ['virtual_scroll'],
+			valueField: 'value',
+			labelField: 'text',
+			searchField: 'text',
+			preload: true,
+			loadThrottle: 1,
+			firstUrl: function() {
+				return 'http://example.com/search';
+			},
+			load: function(query, callback) {
+				callback(dataset);
+			}
+		});
+
+		// 1. Wait for initial preload
+		await waitFor(100);
+		assert.equal(Object.keys(test.instance.options).length, 2, 'should load initial options');
+		assert.isDefined(test.instance.options['1']);
+
+		// 2. Change dataset and reset defaults
+		dataset = [
+			{ value: '3', text: 'Option 3' },
+			{ value: '4', text: 'Option 4' }
+		];
+
+		test.instance.clearDefaultOptions();
+		test.instance.clearOptions();
+
+		// 3. Search and clear search to trigger new preload + restoreDefaults
+		await asyncClick(test.instance.control);
+		await asyncType('a');
+		await waitFor(100);
+		await asyncType('\b');
+		await waitFor(100);
+
+		// 4. Verify new default options were captured and old options purged
+		assert.equal(Object.keys(test.instance.options).length, 2, 'should restore new default options');
+		assert.isDefined(test.instance.options['3'], 'should contain new dataset option');
+		assert.isUndefined(test.instance.options['1'], 'should not contain old dataset option');
+	});
 });
