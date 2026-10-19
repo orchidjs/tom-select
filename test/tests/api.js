@@ -300,6 +300,17 @@
 
 		});
 
+		describe('addOption() with options from the <select>', function() {
+			it_n('should order added options after the existing options', function() {
+				var test = setup_test('<select><option value="a">a</option><option value="b">b</option></select>', {valueField: 'value', labelField: 'value'});
+				test.instance.addOption({value: 'c'});
+				assert.equal(test.instance.options['a'].$order, 1);
+				assert.equal(test.instance.options['b'].$order, 2);
+				assert.equal(test.instance.options['c'].$order, 3);
+				assert.notEqual(test.instance.options['c'].$id, test.instance.options['a'].$id, 'option ids should be unique');
+			});
+		});
+
 		describe('addOption()', function() {
 			var test;
 			before(function() {

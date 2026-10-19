@@ -1675,6 +1675,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		data.$order					= data.$order || ++self.order;
+		self.order					= Math.max(self.order, data.$order); // options parsed from the <select> are numbered separately
 		data.$id					= self.inputId + '-opt-' + data.$order;
 		self.options[key]			= data;
 		self.isDropdownContentStale	= true;
@@ -1715,6 +1716,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if ( key === null ) return false;
 
 		data.$order = data.$order || ++this.order;
+		this.order = Math.max(this.order, data.$order);
 		this.optgroups[key] = data;
 		return key;
 	}
