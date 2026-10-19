@@ -443,4 +443,47 @@ describe('plugin: virtual_scroll', function() {
 		await waitFor(100); // wait for data to load
 		assert.deepEqual( Object.keys(test.instance.options), values_before);
 	});
+
+	it_n('loads the next page when a page adds no new options',async ()=>{
+
+		// 25 options, served 10 per page, with the first 20 already selected in the markup
+		var options		= [];
+		for( let i = 0; i < 25; i++ ){
+			options.push({value:`option-${i}`});
+		}
+
+		var selected	= options.slice(0,20).map(o => `<option value='${o.value}' selected>${o.value}</option>`).join('');
+		var load_calls	= 0;
+
+		var test = setup_test(`<select multiple>${selected}</select>`,{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			hideSelected: false,
+			preload: true,
+			loadThrottle: 1,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				load_calls++;
+				var url_params	= this.getUrl(query);
+				var page		= url_params[1];
+				var next_page	= (page+1)*10 < options.length ? [query,page+1] : null;
+				this.setNextUrl(query,next_page);
+				callback(options.slice(page*10,(page+1)*10));
+			}
+		});
+
+		await waitFor(100); // wait for preload: the first page, all already selected
+		assert.equal( load_calls, 1 );
+
+		await asyncClick(test.instance.control);
+		test.instance.scroll(2000,'auto'); // scroll to the end of the list, once
+		await waitFor(500); // wait for scroll + more data to load
+
+		assert.equal( load_calls, 3, 'the second page adds nothing new, so the third page should load without further scrolling' );
+		assert.equal( Object.keys(test.instance.options).length, 25, 'should load every option' );
+	});
 });

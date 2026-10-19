@@ -195,6 +195,33 @@ export default function(this:TomSelect) {
 		}
 
 		loading_more = false;
+
+		// A page can add nothing new to the dropdown (e.g. when all of its options are already
+		// selected), leaving it too short to scroll. No scroll event would then request the
+		// next page, so check straight away.
+		if( self.isOpen ){
+			loadMoreIfNeeded();
+		}
+	};
+
+	// load the next page if the dropdown is scrolled near its end
+	const loadMoreIfNeeded = ():void => {
+
+		if( !self.settings.shouldLoadMore.call(self) ){
+			return;
+		}
+
+		// !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
+		if( !canLoadMore(self.lastValue) ){
+			return;
+		}
+
+		// don't call load() too much
+		if( loading_more ) return;
+
+
+		loading_more = true;
+		self.load.call(self,self.lastValue);
 	};
 
 	// bind the query (and whether this request is loading more results) into the callback of
@@ -312,24 +339,7 @@ export default function(this:TomSelect) {
 
 
 		// watch dropdown content scroll position
-		dropdown_content.addEventListener('scroll',()=>{
-
-			if( !self.settings.shouldLoadMore.call(self) ){
-				return;
-			}
-
-			// !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
-			if( !canLoadMore(self.lastValue) ){
-				return;
-			}
-
-			// don't call load() too much
-			if( loading_more ) return;
-
-
-			loading_more = true;
-			self.load.call(self,self.lastValue);
-		});
+		dropdown_content.addEventListener('scroll',loadMoreIfNeeded);
 	});
 
 };
