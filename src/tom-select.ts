@@ -1342,7 +1342,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		var sort = typeof settings.sortField === 'string'
 			? [{field: settings.sortField}]
-			: settings.sortField
+			: settings.sortField;
 
 		return {
 			fields      : fields,
