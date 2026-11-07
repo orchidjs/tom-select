@@ -208,6 +208,141 @@ describe('plugin: virtual_scroll', function() {
 		var has_search_results = option_keys.some(k => k.startsWith('a-'));
 		assert.isFalse( has_search_results, 'should not contain stale search results');
 	});
+	describe('clearDefaultOptions()',function(){
+
+		// the load() callback returns `dataset` for the empty query and a single
+		// "search-<query>" option for any other query
+		function setup_clear_defaults_test(html, settings={}){
+
+			var ctx = {
+				load_calls: 0,
+				dataset: [{value:'1',text:'Option 1'},{value:'2',text:'Option 2'}],
+				delay: 1,
+			};
+
+			ctx.test = setup_test(html,Object.assign({
+				plugins:['virtual_scroll'],
+				valueField: 'value',
+				labelField: 'text',
+				searchField: 'text',
+				preload: true,
+				loadThrottle: 1,
+				firstUrl: function(query){
+					return [query,0];
+				},
+				load: function(query, callback) {
+					ctx.load_calls++;
+					this.getUrl(query);
+					this.setNextUrl(query,null);
+					var data	= query === '' ? ctx.dataset : [{value:'search-'+query,text:'search '+query}];
+					setTimeout(() => callback(data), ctx.delay);
+				}
+			},settings));
+
+			return ctx;
+		}
+
+		it_n('replaces the preloaded options and keeps options from the markup',async ()=>{
+
+			var ctx		= setup_clear_defaults_test('<select multiple><option value="html">HTML option</option></select>');
+			var test	= ctx.test;
+
+			await waitFor(100); // wait for preload
+			assert.equal( ctx.load_calls, 1 );
+			assert.sameMembers( Object.keys(test.instance.options), ['html','1','2'] );
+
+			// the data source changes
+			ctx.dataset = [{value:'3',text:'Option 3'},{value:'4',text:'Option 4'}];
+			test.instance.clearDefaultOptions();
+
+			await waitFor(100); // wait for the new preload
+			assert.equal( ctx.load_calls, 2, 'should preload the first page again' );
+			assert.sameMembers( Object.keys(test.instance.options), ['html','3','4'] );
+
+			// search, then clear the search: the new defaults should be restored
+			await asyncClick(test.instance.control);
+			await asyncType('a');
+			await waitFor(100);
+			assert.equal( ctx.load_calls, 3 );
+			assert.isDefined( test.instance.options['search-a'] );
+
+			await asyncType('\b');
+			await waitFor(100);
+			assert.sameMembers( Object.keys(test.instance.options), ['html','3','4'], 'should restore the new default options' );
+
+			// closing the dropdown should not bring back the old defaults either
+			test.instance.close();
+			await waitFor(100);
+			assert.sameMembers( Object.keys(test.instance.options), ['html','3','4'] );
+		});
+
+		it_n('keeps selected items',async ()=>{
+
+			var ctx		= setup_clear_defaults_test('<select multiple></select>');
+			var test	= ctx.test;
+
+			await waitFor(100); // wait for preload
+			test.instance.addItem('1');
+
+			ctx.dataset = [{value:'3',text:'Option 3'}];
+			test.instance.clearDefaultOptions();
+
+			await waitFor(100); // wait for the new preload
+			assert.sameMembers( Object.keys(test.instance.options), ['1','3'] );
+			assert.deepEqual( test.instance.items, ['1'] );
+		});
+
+		it_n('ignores a preload response from before the reset',async ()=>{
+
+			var ctx		= setup_clear_defaults_test('<input>');
+			var test	= ctx.test;
+			ctx.delay	= 200; // the first preload is slow
+
+			await waitFor(50); // the first preload is still in flight
+			assert.equal( ctx.load_calls, 1 );
+
+			ctx.dataset	= [{value:'3',text:'Option 3'},{value:'4',text:'Option 4'}];
+			ctx.delay	= 1;
+			test.instance.clearDefaultOptions();
+
+			await waitFor(300); // wait for both responses
+			assert.equal( ctx.load_calls, 2 );
+			assert.sameMembers( Object.keys(test.instance.options), ['3','4'], 'the stale response should be discarded' );
+
+			// the stale response must not have been stored as the defaults
+			await asyncClick(test.instance.control);
+			await asyncType('a');
+			await waitFor(100);
+			await asyncType('\b');
+			await waitFor(100);
+			assert.sameMembers( Object.keys(test.instance.options), ['3','4'] );
+		});
+
+		it_n('with preload "focus", preloads again on the next focus',async ()=>{
+
+			var ctx		= setup_clear_defaults_test('<input>',{preload:'focus'});
+			var test	= ctx.test;
+
+			await asyncClick(test.instance.control);
+			await waitFor(100); // wait for preload
+			assert.equal( ctx.load_calls, 1 );
+
+			test.instance.blur();
+			await waitFor(100);
+
+			ctx.dataset = [{value:'3',text:'Option 3'}];
+			test.instance.clearDefaultOptions();
+			await waitFor(100);
+			assert.equal( ctx.load_calls, 1, 'should not load while the control is not focused' );
+			assert.sameMembers( Object.keys(test.instance.options), [], 'old options should be removed' );
+
+			await asyncClick(test.instance.control);
+			await waitFor(100);
+			assert.equal( ctx.load_calls, 2, 'should preload again on focus' );
+			assert.sameMembers( Object.keys(test.instance.options), ['3'] );
+		});
+	});
+
 
 
 	it_n('recovers when a stale preload response resolves after a search has already started',async ()=>{
@@ -442,54 +577,5 @@ describe('plugin: virtual_scroll', function() {
 		await asyncType('a');
 		await waitFor(100); // wait for data to load
 		assert.deepEqual( Object.keys(test.instance.options), values_before);
-	});
-	
-	it_n('resets cached default options using clearDefaultOptions', async () => {
-
-		var dataset = [
-			{ value: '1', text: 'Option 1' },
-			{ value: '2', text: 'Option 2' }
-		];
-
-		var test = setup_test('<input>', {
-			plugins: ['virtual_scroll'],
-			valueField: 'value',
-			labelField: 'text',
-			searchField: 'text',
-			preload: true,
-			loadThrottle: 1,
-			firstUrl: function() {
-				return 'http://example.com/search';
-			},
-			load: function(query, callback) {
-				callback(dataset);
-			}
-		});
-
-		// 1. Wait for initial preload
-		await waitFor(100);
-		assert.equal(Object.keys(test.instance.options).length, 2, 'should load initial options');
-		assert.isDefined(test.instance.options['1']);
-
-		// 2. Change dataset and reset defaults
-		dataset = [
-			{ value: '3', text: 'Option 3' },
-			{ value: '4', text: 'Option 4' }
-		];
-
-		test.instance.clearDefaultOptions();
-		test.instance.clearOptions();
-
-		// 3. Search and clear search to trigger new preload + restoreDefaults
-		await asyncClick(test.instance.control);
-		await asyncType('a');
-		await waitFor(100);
-		await asyncType('\b');
-		await waitFor(100);
-
-		// 4. Verify new default options were captured and old options purged
-		assert.equal(Object.keys(test.instance.options).length, 2, 'should restore new default options');
-		assert.isDefined(test.instance.options['3'], 'should contain new dataset option');
-		assert.isUndefined(test.instance.options['1'], 'should not contain old dataset option');
 	});
 });

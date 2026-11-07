@@ -34,6 +34,7 @@ export default function(this:TomSelect) {
 	var default_options: TomOption[]	= [];
 	var html_values: string[]			= [];
 	var preload_requested				= false;
+	var defaults_generation				= 0; // incremented by clearDefaultOptions()
 
 	if( !self.settings.shouldLoadMore ){
 
@@ -119,13 +120,26 @@ export default function(this:TomSelect) {
 		pagination = {};
 	};
 
-	// clear preloaded default options and pagination state
+	// Forget the preloaded (empty query) options, e.g. after the data source behind firstUrl()
+	// changed, so they are no longer restored when the search is cleared or the dropdown closes.
+	// Remote options are removed (selected items and options from the original markup are kept)
+	// and, if preloading is enabled, the first page is requested again and becomes the new default.
 	self.clearDefaultOptions = ():void => {
-		default_values = [];
-		default_options = [];
-		default_pagination = null;
-		default_values_loaded = false;
+		default_values			= [...html_values];
+		default_options			= [];
+		default_pagination		= null;
+		default_values_loaded	= false;
+		defaults_generation++;
 		self.clearPagination();
+		self.clearOptions(clearFilter);
+
+		// allow preload() to run again
+		self.wrapper.classList.remove('preloaded');
+
+		// preload: 'focus' will preload on the next focus if the control isn't focused now
+		if( preload_requested && (self.settings.preload !== 'focus' || self.isFocused) ){
+			self.preload();
+		}
 	};
 
 	// don't clear the active option (and cause unwanted dropdown scroll)
@@ -152,7 +166,7 @@ export default function(this:TomSelect) {
 
 
 	// handle a load() response, knowing which query the request was originally issued for
-	const loadCallbackForQuery = ( query:string, was_loading_more:boolean, options:TomOption[], optgroups:TomOption[] ):void => {
+	const loadCallbackForQuery = ( query:string, was_loading_more:boolean, options:TomOption[], optgroups:TomOption[], stale:boolean = false ):void => {
 
 		loading_more = was_loading_more;
 
@@ -161,15 +175,20 @@ export default function(this:TomSelect) {
 		// loading bookkeeping loadCallback() would otherwise do. Reset the stored pagination for
 		// the abandoned query - the load function may have already advanced it past pages that
 		// were never applied - so a later request for the same query starts from the first page.
-		if( query !== self.lastValue ){
+		// Responses to requests issued before clearDefaultOptions() are discarded the same way:
+		// they come from the previous data source.
+		if( query !== self.lastValue || stale ){
 			self.loading = Math.max(self.loading - 1, 0);
 			if( !self.loading ){
 				removeClasses(self.wrapper,self.settings.loadingClass);
 			}
-			pagination[query] = self.settings.firstUrl.call(self,query);
+			// (clearDefaultOptions() already reset the pagination of stale responses)
+			if( !stale ){
+				pagination[query] = self.settings.firstUrl.call(self,query);
+			}
 
 			// if the discarded response was the preload, allow preload() to run again
-			if( query === '' && !default_values_loaded ){
+			if( query === '' && !default_values_loaded && !stale ){
 				self.wrapper.classList.remove('preloaded');
 			}
 
@@ -210,9 +229,10 @@ export default function(this:TomSelect) {
 	// each load() request - loadCallback() alone cannot tell which request a response answers
 	self.hook('instead','load',(query:string)=>{
 		const was_loading_more	= loading_more;
+		const generation		= defaults_generation;
 		const outer_callback	= self.loadCallback;
 		self.loadCallback = ( options:TomOption[], optgroups:TomOption[] ):void => {
-			loadCallbackForQuery( query, was_loading_more, options, optgroups );
+			loadCallbackForQuery( query, was_loading_more, options, optgroups, generation !== defaults_generation );
 		};
 		try{
 			return orig_load.call( self, query );

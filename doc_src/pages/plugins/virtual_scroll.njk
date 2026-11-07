@@ -121,3 +121,27 @@ new TomSelect('#reddit-search',{
 <h2>Plugin Configuration</h2>
 
 <p>No additional configuration settings for this plugin</p>
+
+
+<h2>Methods</h2>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th width="120px">Method</th>
+		<th>Description</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td><code>clearDefaultOptions()</code></td>
+		<td>
+			Forgets the preloaded (empty query) options, which are otherwise restored whenever the search is cleared or the dropdown is closed.
+			Call it when the data behind <code>firstUrl()</code> changes, for example when the results depend on another field.
+			Remote options are removed (selected items and options from the original markup are kept) and, when <code>preload</code> is enabled, the first page is requested again and becomes the new default.
+			With <code>preload: 'focus'</code>, the request is made on the next focus if the control isn't focused.
+			Responses to requests made before the call are ignored.
+		</td>
+	</tr>
+	</tbody>
+</table>
