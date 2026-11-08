@@ -1335,13 +1335,17 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 */
 	getSearchOptions() {
 		var settings = this.settings;
-		var sort = settings.sortField;
-		if (typeof settings.sortField === 'string') {
-			sort = [{field: settings.sortField}];
-		}
+
+		var fields = typeof settings.searchField === 'string'
+			? [settings.searchField]
+			: settings.searchField;
+
+		var sort = typeof settings.sortField === 'string'
+			? [{field: settings.sortField}]
+			: settings.sortField;
 
 		return {
-			fields      : settings.searchField,
+			fields      : fields,
 			conjunction : settings.searchConjunction,
 			sort        : sort,
 			nesting     : settings.nesting
@@ -1675,6 +1679,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		data.$order					= data.$order || ++self.order;
+		self.order					= Math.max(self.order, data.$order); // options parsed from the <select> are numbered separately
 		data.$id					= self.inputId + '-opt-' + data.$order;
 		self.options[key]			= data;
 		self.isDropdownContentStale	= true;
@@ -1715,6 +1720,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if ( key === null ) return false;
 
 		data.$order = data.$order || ++this.order;
+		this.order = Math.max(this.order, data.$order);
 		this.optgroups[key] = data;
 		return key;
 	}
