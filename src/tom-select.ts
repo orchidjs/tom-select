@@ -789,6 +789,8 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			this.refreshTimeout = null;
 			this._onInput();
 		}, this.settings.refreshThrottle);
+
+		this.refreshBusy();
 	}
 
 	_onInput():void {
@@ -799,7 +801,19 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		this.refreshOptions();
+		this.refreshBusy();
 		this.trigger('type', value);
+	}
+
+	/**
+	 * Mark the listbox as busy while its options are about to change:
+	 * from the moment the input text changes until the dropdown
+	 * has been refreshed and every pending load() has called back
+	 *
+	 */
+	refreshBusy():void {
+		const busy = this.refreshTimeout !== null || this.loading > 0;
+		setAttr(this.dropdown_content,{'aria-busy': busy ? 'true' : null});
 	}
 
 	/**
@@ -975,6 +989,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		const callback = self.loadCallback.bind(self);
 		self.settings.load.call(self, value, callback);
+		self.refreshBusy();
 	}
 
 	/**
@@ -995,6 +1010,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			removeClasses(self.wrapper,self.settings.loadingClass);
 		}
 
+		self.refreshBusy();
 		self.trigger('load', options, optgroups);
 	}
 
