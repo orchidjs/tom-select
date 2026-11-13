@@ -172,6 +172,33 @@ describe('aria-busy', function() {
 		assert.isNull(listbox_busy(test.instance));
 	});
 
+	it_n('should not leave the listbox busy if the virtual_scroll plugin discards an outdated load()', async () => {
+		var callbacks = {};
+
+		var test = setup_test('<select>',{
+			plugins: ['virtual_scroll'],
+			loadThrottle: 0,
+			firstUrl: function(query){
+				return query;
+			},
+			load: function(query, load_cb) {
+				callbacks[query] = load_cb;
+			}
+		});
+
+		await asyncClick(test.instance.control);
+		set_input(test.instance, 'a');
+		set_input(test.instance, 'ab');
+
+		callbacks['ab']([{value: 'ab', text: 'ab'}]);
+		assert.equal(listbox_busy(test.instance), 'true');
+
+		// the plugin discards this response: the input text has moved on
+		callbacks['a']([{value: 'a', text: 'a'}]);
+		assert.isNull(listbox_busy(test.instance));
+		assert.notProperty(test.instance.options, 'a');
+	});
+
 	it_n('should keep the listbox busy if load() calls back while a newer keystroke is waiting to refresh', async () => {
 		var callbacks = {};
 
