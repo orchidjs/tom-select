@@ -157,6 +157,7 @@ export default function(this:TomSelect) {
 			if( !self.loading ){
 				removeClasses(self.wrapper,self.settings.loadingClass);
 			}
+			self.refreshBusy();
 			pagination[query] = self.settings.firstUrl.call(self,query);
 
 			// if the discarded response was the preload, allow preload() to run again
