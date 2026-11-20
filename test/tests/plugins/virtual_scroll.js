@@ -278,6 +278,67 @@ describe('plugin: virtual_scroll', function() {
 	});
 
 
+	it_n('a preload on focus does not cancel a pending search request',async ()=>{
+
+		var queries = [];
+		var resolvePreload;
+
+		var test = setup_test('<input>',{
+			plugins:['virtual_scroll'],
+			labelField: 'value',
+			valueField: 'value',
+			searchField: 'value',
+			preload: 'focus',
+			loadThrottle: 50,
+			firstUrl: function(query){
+				return [query,0];
+			},
+			load: function(query, callback) {
+				queries.push(query);
+				var url_params		= this.getUrl(query);
+				var self			= this;
+				var respond			= function(){
+					var data = DataProvider(url_params[0],url_params[1]);
+					self.setNextUrl(query,[query,url_params[1]+1]);
+					callback(data.data);
+				};
+
+				// hold back the preload's response, answer searches right away
+				if( query === '' ){
+					resolvePreload = respond;
+					return;
+				}
+				respond();
+			}
+		});
+
+		// Focus fires the preload, a search starts before its response arrives,
+		// and the preload response is then discarded as stale.
+		await asyncClick(test.instance.control);
+		await waitFor(100);
+		await asyncType('a');
+		await waitFor(100);
+		assert.deepEqual( queries, ['','a'] );
+		resolvePreload();
+		await waitFor(10);
+
+		// The next search is still waiting in loadThrottle when the control gets focus() again,
+		// as it does when the dropdown opens. The preload must not replace that search request.
+		await asyncType('b');
+		test.instance.focus();
+		await waitFor(150);
+		assert.deepEqual( queries, ['','a','ab'], 'the pending search should still be requested');
+		assert.property( test.instance.options, 'ab-0-0', 'the search results should be shown');
+
+		// Clearing the search requests the preload again.
+		await asyncType('\b\b');
+		await waitFor(150);
+		assert.deepEqual( queries, ['','a','ab',''], 'clearing the search should re-request the preload');
+		resolvePreload();
+		await waitFor(10);
+		assert.deepEqual( Object.keys(test.instance.options), DataProvider('',0).data.map(o=>o.value), 'the preload results should be shown');
+	});
+
 	it_n('discards a search response that resolves after the input has been cleared',async ()=>{
 
 		var load_calls = 0;

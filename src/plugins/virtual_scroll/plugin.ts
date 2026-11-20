@@ -23,6 +23,7 @@ export default function(this:TomSelect) {
 	const orig_clearActiveOption		= self.clearActiveOption;
 	const orig_loadCallback				= self.loadCallback;
 	const orig_load						= self.load;
+	const orig_preload					= self.preload;
 
 	var pagination:{[key:string]:any}	= {};
 	var dropdown_content:HTMLElement;
@@ -247,8 +248,13 @@ export default function(this:TomSelect) {
 
 	// track that a preload was requested, so recovery from a discarded preload response
 	// doesn't issue empty-query requests when preloading was never enabled
-	self.hook('before','preload',()=>{
+	self.hook('instead','preload',()=>{
 		preload_requested = true;
+		// While a search is active, the preload response would only be discarded as stale, and
+		// its load('') would cancel the search request still waiting in the shared loadDebounce
+		// timer. restoreDefaults() requests the preload again once the search is cleared.
+		if( self.lastValue !== '' ) return;
+		return orig_preload.call(self);
 	});
 
 
