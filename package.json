@@ -140,12 +140,12 @@
   "browserslist": [
     ">= 0.5%",
     "not dead",
-    "Chrome >= 60",
-    "Firefox >= 60",
+    "Chrome >= 88",
+    "Firefox >= 78",
     "Firefox ESR",
-    "Edge >= 17",
-    "iOS >= 12",
-    "Safari >= 12",
+    "Edge >= 88",
+    "iOS >= 14",
+    "Safari >= 14",
     "not Explorer <= 11"
   ],
   "funding": {
