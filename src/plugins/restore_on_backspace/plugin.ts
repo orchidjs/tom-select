@@ -14,6 +14,7 @@
  */
 import type TomSelect from '../../tom-select.ts';
 import { TomOption } from '../../types/index.ts';
+import { getOwn } from '../../utils.ts';
 
 type TPluginOptions = {
 	text?:(option:TomOption)=>string,
@@ -34,7 +35,7 @@ export default function(this:TomSelect, userOptions:TPluginOptions) {
 		}
 
 		if( self.control_input.value.trim() === '' ){
-			var option = self.options[value];
+			var option = getOwn(self.options, value);
 			if( option ){
 				self.setTextboxValue(options.text.call(self, option));
 			}

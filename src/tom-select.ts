@@ -21,7 +21,10 @@ import {
 	getId,
 	addSlashes,
 	append,
-	iterate
+	iterate,
+	hasOwn,
+	getOwn,
+	setOwn
 } from './utils.ts';
 
 import {
@@ -148,7 +151,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				settings.createFilter = (input: string) => (filter as RegExp).test(input);
 			}else{
 				settings.createFilter = (value: string) => {
-					return this.settings.duplicates || !this.options[value];
+					return this.settings.duplicates || !hasOwn(this.options, value);
 				};
 			}
 		}
@@ -618,7 +621,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				const hash = hash_key(piece);
 				if( hash ){
-					if( this.options[piece] ){
+					if( hasOwn(this.options, piece) ){
 						self.addItem(piece);
 					}else{
 						self.createItem(piece);
@@ -970,7 +973,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	canLoad(value:string):boolean{
 
 		if( !this.settings.load ) return false;
-		if( this.loadedSearches.hasOwnProperty(value) ) return false;
+		if( hasOwn(this.loadedSearches, value) ) return false;
 
 		return true;
 	}
@@ -1478,7 +1481,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			if( !item ) continue;
 
 			let opt_value		= item.id;
-			let option			= self.options[opt_value];
+			let option			= getOwn(self.options, opt_value);
 
 			if( option === undefined ) continue;
 
@@ -1498,14 +1501,14 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				optgroup = optgroups[j];
 
 				let order = option.$order;
-				let self_optgroup = self.optgroups[optgroup];
+				let self_optgroup = getOwn(self.optgroups, optgroup);
 				if (self_optgroup === undefined && typeof self.settings.optionGroupRegister === 'function') {
 	          		var regGroup;
 					if (regGroup = self.settings.optionGroupRegister.apply(self, [optgroup])) {
 						self.registerOptionGroup(regGroup);
 					}
 	        	}
-				self_optgroup = self.optgroups[optgroup];
+				self_optgroup = getOwn(self.optgroups, optgroup);
 				if( self_optgroup === undefined ){					
 					optgroup = '';
 				}else{
@@ -1554,7 +1557,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 			if( !group_fragment || !group_fragment.children.length ) return;
 
-			let group_heading = self.optgroups[optgroup];
+			let group_heading = getOwn(self.optgroups, optgroup);
 
 			if( group_heading !== undefined ){
 
@@ -1689,7 +1692,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		}
 
 		const key = hash_key(data[self.settings.valueField]);
-		if( key === null || self.options.hasOwnProperty(key) ){
+		if( key === null || hasOwn(self.options, key) ){
 			self.updateOption(data[self.settings.valueField], data);
 			return false;
 		}
@@ -1697,11 +1700,11 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		data.$order					= data.$order || ++self.order;
 		self.order					= Math.max(self.order, data.$order); // options parsed from the <select> are numbered separately
 		data.$id					= self.inputId + '-opt-' + data.$order;
-		self.options[key]			= data;
+		setOwn(self.options, key, data);
 		self.isDropdownContentStale	= true;
 
 		if( user_created ){
-			self.userOptions[key] = user_created;
+			setOwn(self.userOptions, key, user_created);
 			self.trigger('option_add', key, data);
 		}
 
@@ -1737,7 +1740,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		data.$order = data.$order || ++this.order;
 		this.order = Math.max(this.order, data.$order);
-		this.optgroups[key] = data;
+		setOwn(this.optgroups, key, data);
 		return key;
 	}
 
@@ -1760,7 +1763,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 	 *
 	 */
 	removeOptionGroup(id:string) {
-		if (this.optgroups.hasOwnProperty(id)) {
+		if (hasOwn(this.optgroups, id)) {
 			delete this.optgroups[id];
 			this.clearCache();
 			this.trigger('optgroup_remove', id);
@@ -1793,7 +1796,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// sanity checks
 		if( value_old === null ) return;
 
-		const data_old		= self.options[value_old];
+		const data_old		= getOwn(self.options, value_old);
 
 		if( data_old == undefined ) return;
 		if( typeof value_new !== 'string' ) throw new Error('Value must be set in option data');
@@ -1810,7 +1813,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		// don't remove existing node yet, we'll remove it after replacing it
 		self.uncacheValue(value_new);
 
-		self.options[value_new] = data;
+		setOwn(self.options, value_new, data);
 
 		// update the option if it's in the dropdown
 		if( option ){
@@ -1875,7 +1878,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		const selected:TomOptions	= {};
 		iterate(this.options,(option:TomOption,key:string)=>{
 			if( boundFilter(option,key as string) ){
-				selected[key] = option;
+				setOwn(selected, key, option);
 			}
 		});
 
@@ -1906,7 +1909,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		const hashed = hash_key(value);
 		if( hashed === null ) return null;
 
-		const option = this.options[hashed];
+		const option = getOwn(this.options, hashed);
 		if( option != undefined ){
 
 			if( option.$div ){
@@ -2013,7 +2016,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 				}
 			}
 
-			if (hashed === null || !self.options.hasOwnProperty(hashed)) return;
+			if (hashed === null || !hasOwn(self.options, hashed)) return;
 			if (inputMode === 'single') self.clear(silent);
 			if (inputMode === 'multi' && self.isFull()) return;
 
@@ -2095,7 +2098,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 		self.items.splice(i, 1);
 		self.isDropdownContentStale = true;
-		if (!self.settings.persist && self.userOptions.hasOwnProperty(value)) {
+		if (!self.settings.persist && hasOwn(self.userOptions, value)) {
 			self.removeOption(value, silent);
 		}
 
@@ -2137,7 +2140,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 		if (!self.canCreate(input)) {
 			const hash = hash_key(input);
 				if( hash ){
-					if( this.options[input] ){
+					if( hasOwn(this.options, input) ){
 						self.addItem(input);
 					}
 				}
@@ -2309,7 +2312,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 			}else{
 
 				self.items.forEach((value)=>{
-					option			= self.options[value]!;
+					option			= getOwn(self.options, value)!;
 					label			= option[self.settings.labelField] || '';
 
 					if( selected.includes(option.$option) ){
@@ -2738,7 +2741,7 @@ export default class TomSelect extends MicroPlugin(MicroEvent){
 
 				// update cache
 				data.$div = html;
-				self.options[value] = data;
+				setOwn(self.options, value, data);
 			}
 
 
