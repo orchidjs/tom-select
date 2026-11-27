@@ -300,6 +300,49 @@
 
 		});
 
+		describe('option values matching Object.prototype properties', function() {
+
+			['constructor', 'toString', 'valueOf', 'hasOwnProperty', '__proto__'].forEach(function(value) {
+
+				it_n('should create and select "' + value + '"', function() {
+					var test = setup_test('<input>', {create: true});
+
+					assert.isTrue(test.instance.canCreate(value), 'canCreate()');
+
+					test.instance.control_input.value = value;
+					test.instance.createItem();
+
+					assert.deepEqual(test.instance.items, [value]);
+					assert.isTrue(Object.prototype.hasOwnProperty.call(test.instance.options, value), 'option should be an own property');
+					assert.equal(test.instance.options[value].value, value);
+					assert.equal(Object.getPrototypeOf(test.instance.options), Object.prototype);
+					assert.equal(test.instance.input.value, value);
+				});
+
+				it_n('should not find a missing "' + value + '" option', function() {
+					var test = setup_test('<select><option value="a">a</option></select>', {});
+					assert.isNull(test.instance.getOption(value));
+					test.instance.updateOption(value, {value: 'b', text: 'b'});
+					assert.isFalse(Object.prototype.hasOwnProperty.call(test.instance.options, 'b'));
+				});
+
+				it_n('should load "' + value + '" from the <select>', function() {
+					var test = setup_test('<select><option value="' + value + '" selected>' + value + '</option></select>', {});
+					assert.deepEqual(test.instance.items, [value]);
+					assert.isTrue(Object.prototype.hasOwnProperty.call(test.instance.options, value));
+				});
+
+			});
+
+			it_n('should search options named like Object.prototype properties', function() {
+				var test = setup_test('<select><option value="constructor">constructor</option><option value="valueOf">valueOf</option><option value="toString">toString</option><option value="hasOwnProperty">hasOwnProperty</option></select>', {});
+				var results = test.instance.search('value');
+				assert.deepEqual(results.items.map(function(item) { return item.id; }), ['valueOf']);
+				results = test.instance.search('own');
+				assert.deepEqual(results.items.map(function(item) { return item.id; }), ['hasOwnProperty']);
+			});
+		});
+
 		describe('addOption() with options from the <select>', function() {
 			it_n('should order added options after the existing options', function() {
 				var test = setup_test('<select><option value="a">a</option><option value="b">b</option></select>', {valueField: 'value', labelField: 'value'});

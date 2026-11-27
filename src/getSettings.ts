@@ -1,5 +1,5 @@
 import defaults from './defaults.ts';
-import { hash_key, iterate } from './utils.ts';
+import { hash_key, iterate, hasOwn, setOwn } from './utils.ts';
 import { TomOption, TomSettings, RecursivePartial } from './types/index.ts';
 import { TomInput } from './types/index.ts';
 
@@ -74,7 +74,7 @@ export default function getSettings( input:TomInput, settings_user:RecursivePart
 			// duplicated in another optgroup. in this case, push
 			// the current group to the "optgroup" property on the
 			// existing option so that it's rendered in both places.
-			if (optionsMap.hasOwnProperty(value)) {
+			if (hasOwn(optionsMap, value)) {
 				if (group) {
 					var arr = optionsMap[value][field_optgroup];
 					if (!arr) {
@@ -96,7 +96,7 @@ export default function getSettings( input:TomInput, settings_user:RecursivePart
 				option_data.$option			= option;
 				option_data.$order			= option_data.$order || ++$order;
 
-				optionsMap[value] = option_data;
+				setOwn(optionsMap, value, option_data);
 				options.push(option_data);
 			}
 

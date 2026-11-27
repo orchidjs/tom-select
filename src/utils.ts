@@ -67,7 +67,7 @@ export const loadDebounce = (fn:(value:string,callback:TomLoadCallback) => void,
 		}
 		timeout = setTimeout(function() {
 			timeout = null;
-			self.loadedSearches[value] = true;
+			setOwn(self.loadedSearches, value, true);
 			fn.call(self, value, callback);
 
 		}, delay);
@@ -205,6 +205,34 @@ export const append = ( parent:Element|DocumentFragment, node: string|Node|null|
 };
 
 /**
+ * Check if an object has an own (non-inherited) property.
+ * Safe even if the object has a "hasOwnProperty" key of its own
+ *
+ */
+export const hasOwn = (object:{[key:string]:any}, key:string|number):boolean => {
+	return Object.prototype.hasOwnProperty.call(object, key);
+};
+
+/**
+ * Get a value from an object only if it is an own property.
+ * Prevents keys like "constructor", "toString" or "__proto__"
+ * from resolving to properties inherited from Object.prototype
+ *
+ */
+export const getOwn = <T>(object:{[key:string]:T}, key:string|number):T|undefined => {
+	return hasOwn(object, key) ? object[key] : undefined;
+};
+
+/**
+ * Set an own, enumerable property on an object.
+ * Unlike a plain assignment, this also works for the "__proto__" key
+ *
+ */
+export const setOwn = <T>(object:{[key:string]:T}, key:string|number, value:T):void => {
+	Object.defineProperty(object, key, {value, writable: true, enumerable: true, configurable: true});
+};
+
+/**
  * Iterates over arrays and hashes.
  *
  * ```
@@ -222,7 +250,7 @@ export const iterate = (object:[]|{[key:string]:any}, callback:(value:any,key:an
 	}else{
 
 		for (var key in object) {
-			if (object.hasOwnProperty(key)) {
+			if (hasOwn(object, key)) {
 				callback(object[key], key);
 			}
 		}
