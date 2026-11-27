@@ -305,10 +305,6 @@
 			['constructor', 'toString', 'valueOf', 'hasOwnProperty', '__proto__'].forEach(function(value) {
 
 				it_n('should create and select "' + value + '"', function() {
-
-					// "hasOwnProperty" still breaks searching in @orchidjs/sifter (iterate() calls object.hasOwnProperty())
-					if( value === 'hasOwnProperty' ) return;
-
 					var test = setup_test('<input>', {create: true});
 
 					assert.isTrue(test.instance.canCreate(value), 'canCreate()');
@@ -339,9 +335,11 @@
 			});
 
 			it_n('should search options named like Object.prototype properties', function() {
-				var test = setup_test('<select><option value="constructor">constructor</option><option value="valueOf">valueOf</option><option value="toString">toString</option></select>', {});
+				var test = setup_test('<select><option value="constructor">constructor</option><option value="valueOf">valueOf</option><option value="toString">toString</option><option value="hasOwnProperty">hasOwnProperty</option></select>', {});
 				var results = test.instance.search('value');
 				assert.deepEqual(results.items.map(function(item) { return item.id; }), ['valueOf']);
+				results = test.instance.search('own');
+				assert.deepEqual(results.items.map(function(item) { return item.id; }), ['hasOwnProperty']);
 			});
 		});
 
